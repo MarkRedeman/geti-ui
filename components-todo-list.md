@@ -5,7 +5,7 @@ Each component should be implemented fully before starting the next one: story, 
 
 **Status legend:**
 
-- `[ ]` Not started
+- `[ ]` Not started / Pending Review
 - `[~]` In progress
 - `[x]` Complete (impl + story + tests)
 - `[S]` Available in React Spectrum S2 — wrap only
@@ -15,231 +15,182 @@ Each component should be implemented fully before starting the next one: story, 
 
 ---
 
-## How to pick the next component
-
-Work top-to-bottom within each group. A component is ready to start when:
-
-1. All components it depends on are `[x]`
-2. The theme/token foundation is in place (see Group 0)
-
----
-
-## Group 0 — Foundation (must be done first)
-
-These are prerequisites for all components. No component work should start before Group 0 is complete.
+## Group 0 — Foundation [COMPLETE]
 
 | Status | Component            | Notes                                                         |
-| ------ | -------------------- | ------------------------------------------------------------- | ----- |
-| `[ ]`  | **Project scaffold** | rslib init, TypeScript config, linting                        |
-| `[ ]`  | **Storybook setup**  | storybook-react-rsbuild, dark theme decorator                 |
-| `[ ]`  | **Design tokens**    | CSS custom properties: colors, spacing, typography, radii     |
-| `[ ]`  | **ThemeProvider**    | Wraps `@adobe/react-spectrum` `Provider` with Geti dark theme | `[R]` |
-| `[ ]`  | **Testing setup**    | rstest + Testing Library config, Playwright config            |
+| ------ | -------------------- | ------------------------------------------------------------- |
+| `[x]`  | **Project scaffold** | rslib init, TypeScript config, linting (ESLint v10)           |
+| `[x]`  | **Storybook setup**  | storybook-react-rsbuild, dark theme decorator                 |
+| `[x]`  | **Design tokens**    | CSS custom properties: colors, spacing, typography, radii     |
+| `[x]`  | **ThemeProvider**    | Wraps `@adobe/react-spectrum` `Provider` with Geti dark theme |
+| `[x]`  | **Testing setup**    | rstest + Testing Library config, Playwright config            |
 
 ---
 
-## Group 1 — Primitive Actions
+## Group 1 — Primitive Actions [COMPLETE]
 
-Simple interactive elements with no dependencies on other components.
-
-| Status | Component        | Upstream          | Ref   | Notes                                                    |
-| ------ | ---------------- | ----------------- | ----- | -------------------------------------------------------- |
-| `[ ]`  | **Button**       | S2 `Button`       | `[R]` | Primary, secondary, accent variants; link support        |
-| `[ ]`  | **ActionButton** | S2 `ActionButton` | `[R]` | Icon-only and icon+label; dark/light/blue color variants |
-| `[ ]`  | **ToggleButton** | S2 `ToggleButton` | `[S]` | Selected state styling                                   |
-| `[ ]`  | **Link**         | S2 `Link`         | `[S]` | Internal (router) and external links                     |
-| `[ ]`  | **FileTrigger**  | S2 `FileTrigger`  | `[S]` | Headless trigger for file input                          |
+| Status | Component        | Upstream          | Notes                                                    |
+| ------ | ---------------- | ----------------- | -------------------------------------------------------- |
+| `[x]`  | **Button**       | S2 `Button`       | Primary, secondary, accent variants; link support        |
+| `[x]`  | **ActionButton** | S2 `ActionButton` | Icon-only and icon+label; dark/light/blue color variants |
+| `[x]`  | **ToggleButton** | S2 `ToggleButton` | Selected state styling                                   |
+| `[x]`  | **Link**         | S2 `Link`         | Internal (router) and external links                     |
+| `[x]`  | **FileTrigger**  | S2 `FileTrigger`  | Headless trigger for file input                          |
 
 ---
 
-## Group 2 — Form Controls
+## Group 2 — Form Controls [COMPLETE]
 
-Forms are the backbone of the product. Implement these before any complex composed components.
-
-| Status | Component           | Upstream           | Ref      | Notes                                                |
-| ------ | ------------------- | ------------------ | -------- | ---------------------------------------------------- |
-| `[ ]`  | **TextField**       | S2 `TextField`     | `[S][R]` | Label, description, error message                    |
-| `[ ]`  | **TextArea**        | S2 `TextArea`      | `[S]`    | Auto-grow option                                     |
-| `[ ]`  | **NumberField**     | S2 `NumberField`   | `[S]`    | Step, min/max, formatting                            |
-| `[ ]`  | **SearchField**     | S2 `SearchField`   | `[S][R]` | Clear button, loading state                          |
-| `[ ]`  | **PasswordField**   | Custom             | `[R]`    | TextField + show/hide toggle; no upstream equivalent |
-| `[ ]`  | **Checkbox**        | S2 `Checkbox`      | `[S][R]` | Indeterminate state                                  |
-| `[ ]`  | **CheckboxGroup**   | S2 `CheckboxGroup` | `[S][R]` | Horizontal and vertical orientations                 |
-| `[ ]`  | **RadioGroup**      | S2 `RadioGroup`    | `[S]`    | With `Radio` child component                         |
-| `[ ]`  | **Switch**          | S2 `Switch`        | `[S][R]` | On/off toggle                                        |
-| `[ ]`  | **Slider**          | S2 `Slider`        | `[S][R]` | Single value; custom thumb styling                   |
-| `[ ]`  | **RangeSlider**     | S2 `RangeSlider`   | `[S]`    | Two-handle range                                     |
-| `[ ]`  | **Picker** (Select) | S2 `Picker`        | `[S]`    | Single-select dropdown                               |
-| `[ ]`  | **ComboBox**        | S2 `ComboBox`      | `[S]`    | Filterable select with free input                    |
-| `[ ]`  | **Form**            | S2 `Form`          | `[S]`    | Layout wrapper; validation integration               |
+| Status | Component           | Upstream           | Notes                                  |
+| ------ | ------------------- | ------------------ | -------------------------------------- |
+| `[x]`  | **TextField**       | S2 `TextField`     | Label, description, error message      |
+| `[x]`  | **TextArea**        | S2 `TextArea`      | Auto-grow option                       |
+| `[x]`  | **NumberField**     | S2 `NumberField`   | Step, min/max, formatting              |
+| `[x]`  | **SearchField**     | S2 `SearchField`   | Clear button, loading state            |
+| `[x]`  | **PasswordField**   | Custom             | TextField + show/hide toggle           |
+| `[x]`  | **Checkbox**        | S2 `Checkbox`      | Indeterminate state                    |
+| `[x]`  | **CheckboxGroup**   | S2 `CheckboxGroup` | Horizontal and vertical orientations   |
+| `[x]`  | **RadioGroup**      | S2 `RadioGroup`    | With `Radio` child component           |
+| `[x]`  | **Switch**          | S2 `Switch`        | On/off toggle                          |
+| `[x]`  | **Slider**          | S2 `Slider`        | Single value; custom thumb styling     |
+| `[x]`  | **RangeSlider**     | S2 `RangeSlider`   | Two-handle range                       |
+| `[x]`  | **Picker** (Select) | S2 `Picker`        | Single-select dropdown                 |
+| `[x]`  | **ComboBox**        | S2 `ComboBox`      | Filterable select with free input      |
+| `[x]`  | **Form**            | S2 `Form`          | Layout wrapper; validation integration |
 
 ---
 
-## Group 3 — Overlay & Popover
+## Group 3 — Overlay & Popover [COMPLETE]
 
-Depends on Group 1 (buttons trigger overlays).
-
-| Status | Component           | Upstream                        | Ref   | Notes                                                      |
-| ------ | ------------------- | ------------------------------- | ----- | ---------------------------------------------------------- |
-| `[ ]`  | **Tooltip**         | S2 `Tooltip` + `TooltipTrigger` | `[S]` | Delay, placement                                           |
-| `[ ]`  | **Popover**         | S2 `Popover`                    | `[S]` | Controlled and uncontrolled                                |
-| `[ ]`  | **CustomPopover**   | Custom                          | `[R]` | Geti-specific popover with custom chrome; wraps S2 Popover |
-| `[ ]`  | **Dialog**          | S2 `Dialog` + `DialogTrigger`   | `[S]` | Sizes, dismiss on outside click                            |
-| `[ ]`  | **AlertDialog**     | S2 `AlertDialog`                | `[S]` | Confirm/cancel variants                                    |
-| `[ ]`  | **DialogContainer** | S2 `DialogContainer`            | `[S]` | Programmatic dialog opening                                |
-| `[ ]`  | **ContextualHelp**  | S2 `ContextualHelp`             | `[S]` | Info / help icon + popover                                 |
+| Status | Component           | Upstream                        | Notes                                                      |
+| ------ | ------------------- | ------------------------------- | ---------------------------------------------------------- |
+| `[x]`  | **Tooltip**         | S2 `Tooltip` + `TooltipTrigger` | Delay, placement                                           |
+| `[x]`  | **Popover**         | S2 `Popover`                    | Controlled and uncontrolled                                |
+| `[x]`  | **CustomPopover**   | Custom                          | Geti-specific popover with custom chrome; wraps S2 Popover |
+| `[x]`  | **Dialog**          | S2 `Dialog` + `DialogTrigger`   | Sizes, dismiss on outside click                            |
+| `[x]`  | **AlertDialog**     | S2 `AlertDialog`                | Confirm/cancel variants                                    |
+| `[x]`  | **DialogContainer** | S2 `DialogContainer`            | Programmatic dialog opening                                |
+| `[x]`  | **ContextualHelp**  | S2 `ContextualHelp`             | Info / help icon + popover                                 |
 
 ---
 
-## Group 4 — Navigation
+## Group 4 — Navigation [COMPLETE]
 
-| Status | Component       | Upstream                  | Ref      | Notes                          |
-| ------ | --------------- | ------------------------- | -------- | ------------------------------ |
-| `[ ]`  | **Tabs**        | S2 `Tabs`                 | `[S]`    | With `TabList` and `TabPanels` |
-| `[ ]`  | **Breadcrumbs** | S2 `Breadcrumbs`          | `[S][R]` | Router-aware breadcrumb items  |
-| `[ ]`  | **Menu**        | S2 `Menu` + `MenuTrigger` | `[S]`    | With `ActionMenu` variant      |
-| `[ ]`  | **ActionMenu**  | S2 `ActionMenu`           | `[S]`    | Icon-triggered action list     |
-
----
-
-## Group 5 — Feedback & Status
-
-| Status | Component          | Upstream            | Ref      | Notes                                                     |
-| ------ | ------------------ | ------------------- | -------- | --------------------------------------------------------- |
-| `[ ]`  | **ProgressBar**    | S2 `ProgressBar`    | `[S]`    | Determinate and indeterminate                             |
-| `[ ]`  | **ProgressCircle** | S2 `ProgressCircle` | `[S]`    | Indeterminate spinner                                     |
-| `[ ]`  | **Loading**        | Custom              | `[R]`    | Wraps ProgressCircle; inline / fullscreen / overlay modes |
-| `[ ]`  | **Meter**          | S2 `Meter`          | `[S]`    | Quantity visualization                                    |
-| `[ ]`  | **StatusLight**    | S2 `StatusLight`    | `[S]`    | Color-coded status indicators                             |
-| `[ ]`  | **InlineAlert**    | S2 `InlineAlert`    | `[S]`    | Non-modal contextual alerts                               |
-| `[ ]`  | **Toast**          | Custom              | `[R]`    | Uses `sonner` under the hood; wraps S2 toast queue        |
-| `[ ]`  | **Badge**          | S2 `Badge`          | `[S]`    | Small metadata label                                      |
-| `[ ]`  | **Skeleton**       | S2 `Skeleton`       | `[S][R]` | Loading placeholder; circle and rectangle variants        |
+| Status | Component       | Upstream                  | Notes                          |
+| ------ | --------------- | ------------------------- | ------------------------------ |
+| `[x]`  | **Tabs**        | S2 `Tabs`                 | With `TabList` and `TabPanels` |
+| `[x]`  | **Breadcrumbs** | S2 `Breadcrumbs`          | Router-aware breadcrumb items  |
+| `[x]`  | **Menu**        | S2 `Menu` + `MenuTrigger` | With `ActionMenu` variant      |
+| `[x]`  | **ActionMenu**  | S2 `ActionMenu`           | Icon-triggered action list     |
 
 ---
 
-## Group 6 — Data Display
+## Group 5 — Feedback & Status [COMPLETE]
 
-| Status | Component              | Upstream                | Ref   | Notes                                         |
-| ------ | ---------------------- | ----------------------- | ----- | --------------------------------------------- |
-| `[ ]`  | **TableView**          | S2 `TableView`          | `[S]` | Sortable, selectable; virtualized             |
-| `[ ]`  | **ListView**           | S2 `ListView`           | `[S]` | Selectable list with drag-and-drop            |
-| `[ ]`  | **ListBox**            | S2 `ListBox`            | `[S]` | Single/multi-select list                      |
-| `[ ]`  | **TagGroup**           | S2 `TagGroup`           | `[S]` | Removable tags                                |
-| `[ ]`  | **Tag**                | Custom                  | `[R]` | Standalone tag (not in a group); Geti variant |
-| `[ ]`  | **IllustratedMessage** | S2 `IllustratedMessage` | `[S]` | Empty state with SVG illustration             |
-| `[ ]`  | **Avatar**             | S2 `Avatar`             | `[S]` | User avatar with fallback                     |
-| `[ ]`  | **AvatarGroup**        | S2 `AvatarGroup`        | `[S]` | Stacked avatars                               |
-| `[ ]`  | **Image**              | S2 `Image`              | `[S]` | Skeleton loading + error state                |
-
----
-
-## Group 7 — Layout & Structure
-
-| Status | Component      | Upstream        | Ref      | Notes                                 |
-| ------ | -------------- | --------------- | -------- | ------------------------------------- |
-| `[ ]`  | **Flex**       | S2 / `Flex`     | `[S]`    | Flexbox layout helper                 |
-| `[ ]`  | **Grid**       | S2 / `Grid`     | `[S]`    | CSS grid layout helper                |
-| `[ ]`  | **View**       | S2 `View`       | `[S]`    | Styled container with Spectrum props  |
-| `[ ]`  | **Divider**    | S2 `Divider`    | `[S][R]` | Horizontal/vertical separator         |
-| `[ ]`  | **Disclosure** | S2 `Disclosure` | `[S]`    | Collapsible section with header/panel |
-| `[ ]`  | **Accordion**  | S2 `Accordion`  | `[S]`    | Multi-item disclosure container       |
-| `[ ]`  | **Well**       | S2 `Well`       | `[S]`    | Visually distinct container region    |
-| `[ ]`  | **Card**       | S2 `Card`       | `[S]`    | Selectable summary card               |
-| `[ ]`  | **CardView**   | S2 `CardView`   | `[S]`    | Collection of selectable cards        |
+| Status | Component          | Upstream            | Notes                                                     |
+| ------ | ------------------ | ------------------- | --------------------------------------------------------- |
+| `[x]`  | **ProgressBar**    | S2 `ProgressBar`    | Determinate and indeterminate                             |
+| `[x]`  | **ProgressCircle** | S2 `ProgressCircle` | Indeterminate spinner                                     |
+| `[x]`  | **Loading**        | Custom              | Wraps ProgressCircle; inline / fullscreen / overlay modes |
+| `[x]`  | **Meter**          | S2 `Meter`          | Quantity visualization                                    |
+| `[x]`  | **StatusLight**    | S2 `StatusLight`    | Color-coded status indicators                             |
+| `[x]`  | **InlineAlert**    | S2 `InlineAlert`    | Non-modal contextual alerts                               |
+| `[x]`  | **Toast**          | Custom              | Uses Spectrum toast queue; Geti dark theme styling        |
+| `[x]`  | **Badge**          | S2 `Badge`          | Small metadata label                                      |
+| `[x]`  | **Skeleton**       | S2 `Skeleton`       | Loading placeholder; circle and rectangle variants        |
 
 ---
 
-## Group 8 — Color Picker
+## Group 6 — Data Display [COMPLETE]
 
-Color picking is a complex multi-component feature; group these together.
-
-| Status | Component             | Upstream               | Ref   | Notes                                              |
-| ------ | --------------------- | ---------------------- | ----- | -------------------------------------------------- |
-| `[ ]`  | **ColorSwatch**       | S2 `ColorSwatch`       | `[S]` | Color preview chip                                 |
-| `[ ]`  | **ColorSwatchPicker** | S2 `ColorSwatchPicker` | `[S]` | List of swatches                                   |
-| `[ ]`  | **ColorSlider**       | S2 `ColorSlider`       | `[S]` | Single-channel slider                              |
-| `[ ]`  | **ColorArea**         | S2 `ColorArea`         | `[S]` | 2D gradient color selector                         |
-| `[ ]`  | **ColorWheel**        | S2 `ColorWheel`        | `[S]` | Hue wheel                                          |
-| `[ ]`  | **ColorField**        | S2 `ColorField`        | `[S]` | Hex / channel text input                           |
-| `[ ]`  | **ColorThumb**        | Custom                 | `[R]` | Draggable color thumb (used inside pickers)        |
-| `[ ]`  | **ColorPickerDialog** | Custom                 | `[R]` | Full color picker in a dialog; composed from above |
-
----
-
-## Group 9 — Date & Time
-
-| Status | Component           | Upstream             | Ref      | Notes                           |
-| ------ | ------------------- | -------------------- | -------- | ------------------------------- |
-| `[ ]`  | **DateField**       | S2 `DateField`       | `[S]`    | Keyboard-editable date segments |
-| `[ ]`  | **DatePicker**      | S2 `DatePicker`      | `[S][R]` | DateField + Calendar popover    |
-| `[ ]`  | **DateRangePicker** | S2 `DateRangePicker` | `[S][R]` | Two DateFields + RangeCalendar  |
-| `[ ]`  | **Calendar**        | S2 `Calendar`        | `[S]`    | Single-date calendar grid       |
-| `[ ]`  | **RangeCalendar**   | S2 `RangeCalendar`   | `[S]`    | Range-selection calendar        |
-| `[ ]`  | **TimeField**       | S2 `TimeField`       | `[S]`    | Time segment input              |
+| Status | Component              | Upstream                | Notes                                         |
+| ------ | ---------------------- | ----------------------- | --------------------------------------------- |
+| `[x]`  | **TableView**          | S2 `TableView`          | Sortable, selectable; virtualized             |
+| `[x]`  | **ListView**           | S2 `ListView`           | Selectable list with drag-and-drop            |
+| `[x]`  | **ListBox**            | S2 `ListBox`            | Single/multi-select list                      |
+| `[x]`  | **TagGroup**           | S2 `TagGroup`           | Removable tags                                |
+| `[x]`  | **Tag**                | Custom                  | Standalone tag (not in a group); Geti variant |
+| `[x]`  | **IllustratedMessage** | S2 `IllustratedMessage` | Empty state with SVG illustration             |
+| `[x]`  | **Avatar**             | S2 `Avatar`             | User avatar with fallback                     |
+| `[x]`  | **AvatarGroup**        | S2 `AvatarGroup`        | Stacked avatars                               |
+| `[x]`  | **Image**              | S2 `Image`              | Skeleton loading + error state                |
 
 ---
 
-## Group 10 — Advanced / Application-Specific
+## Group 7 — Layout & Structure [COMPLETE]
 
-These components are highly specific to Geti product workflows. Implement after core library is stable.
-
-| Status | Component                     | Upstream              | Ref      | Notes                                                 |
-| ------ | ----------------------------- | --------------------- | -------- | ----------------------------------------------------- |
-| `[ ]`  | **DropZone**                  | S2 `DropZone`         | `[S]`    | File and object drop target                           |
-| `[ ]`  | **PressableElement**          | Custom                | `[R]`    | Generic pressable wrapper for arbitrary elements      |
-| `[ ]`  | **CornerIndicator**           | Custom                | `[R][C]` | Small decorative indicator for corners of UI elements |
-| `[ ]`  | **PhotoPlaceholder**          | Custom                | `[R][C]` | Avatar/photo placeholder with initials                |
-| `[ ]`  | **FullscreenAction**          | Custom                | `[R][C]` | Fullscreen toggle control                             |
-| `[ ]`  | **MediaViewModes**            | Custom                | `[R][C]` | Grid/list view mode switcher                          |
-| `[ ]`  | **ToggleButtons**             | Custom                | `[R][C]` | Geti-specific toggle button group                     |
-| `[ ]`  | **VirtualizedListLayout**     | Custom                | `[R][C]` | Virtualized list layout helper                        |
-| `[ ]`  | **VirtualizedHorizontalGrid** | Custom                | `[R][C]` | Virtualized horizontal grid                           |
-| `[ ]`  | **IntelBrandedLoading**       | Custom                | `[R][C]` | Intel logo loading animation                          |
-| `[ ]`  | **TreeView**                  | S2 `TreeView`         | `[S]`    | Hierarchical navigation tree                          |
-| `[ ]`  | **SegmentedControl**          | S2 `SegmentedControl` | `[S]`    | View-switching button group                           |
-| `[ ]`  | **SelectBoxGroup**            | S2 `SelectBoxGroup`   | `[S]`    | Visual selection cards in a group                     |
-| `[ ]`  | **ActionBar**                 | S2 `ActionBar`        | `[S]`    | Bulk-selection action bar                             |
+| Status | Component      | Upstream        | Notes                                 |
+| ------ | -------------- | --------------- | ------------------------------------- |
+| `[x]`  | **Flex**       | S2 / `Flex`     | Flexbox layout helper                 |
+| `[x]`  | **Grid**       | S2 / `Grid`     | CSS grid layout helper                |
+| `[x]`  | **View**       | S2 `View`       | Styled container with Spectrum props  |
+| `[x]`  | **Divider**    | S2 `Divider`    | Horizontal/vertical separator         |
+| `[x]`  | **Disclosure** | S2 `Disclosure` | Collapsible section with header/panel |
+| `[x]`  | **Accordion**  | S2 `Accordion`  | Multi-item disclosure container       |
+| `[x]`  | **Well**       | S2 `Well`       | Visually distinct container region    |
+| `[x]`  | **Card**       | S2 `Card`       | Selectable summary card               |
+| `[x]`  | **CardView**   | S2 `CardView`   | Collection of selectable cards        |
 
 ---
 
-## Group 11 — Icons Package
+## Group 8 — Color Picker [COMPLETE]
 
-Icons should be a separate `@geti/icons` package to enable tree-shaking.
-
-| Status | Task                                                          | Notes                                   |
-| ------ | ------------------------------------------------------------- | --------------------------------------- |
-| `[ ]`  | Set up `packages/icons/` rslib package                        | ESM-only, tree-shakeable                |
-| `[ ]`  | Create SVGR pipeline                                          | Convert SVGs to typed React components  |
-| `[ ]`  | Migrate 130+ custom icons from `reference-packages/ui/icons/` | Verify license on each icon             |
-| `[ ]`  | Add Storybook icon gallery story                              | Visual index of all icons               |
-| `[ ]`  | Document icon naming conventions                              |                                         |
-| `[ ]`  | Integrate with `@spectrum-icons/workflow`                     | Re-export or alias where overlap exists |
-
----
-
-## Implementation checklist per component
-
-When implementing a component, all of the following must be done before marking `[x]`:
-
-- [ ] Component implementation (`ComponentName.tsx`)
-- [ ] TypeScript types exported from component file
-- [ ] Re-export from `packages/ui/src/index.ts`
-- [ ] Storybook story (`ComponentName.stories.tsx`) with: Default, all variants, interactive controls, accessibility notes
-- [ ] Unit/integration tests (`ComponentName.test.tsx`): renders, keyboard nav, ARIA attributes, interactions
-- [ ] JSDoc on component and non-obvious props
-- [ ] Visual snapshot baseline (created by Playwright on first run)
+| Status | Component             | Upstream               | Notes                                              |
+| ------ | --------------------- | ---------------------- | -------------------------------------------------- |
+| `[x]`  | **ColorSwatch**       | S2 `ColorSwatch`       | Color preview chip                                 |
+| `[x]`  | **ColorSwatchPicker** | S2 `ColorSwatchPicker` | List of swatches                                   |
+| `[x]`  | **ColorSlider**       | S2 `ColorSlider`       | Single-channel slider                              |
+| `[x]`  | **ColorArea**         | S2 `ColorArea`         | 2D gradient color selector                         |
+| `[x]`  | **ColorWheel**        | S2 `ColorWheel`        | Hue wheel                                          |
+| `[x]`  | **ColorField**        | S2 `ColorField`        | Hex / channel text input                           |
+| `[x]`  | **ColorThumb**        | Custom                 | Draggable color thumb (used inside pickers)        |
+| `[x]`  | **ColorPickerDialog** | Custom                 | Full color picker in a dialog; composed from above |
 
 ---
 
-## Prioritization rationale
+## Group 9 — Date & Time [COMPLETE]
 
-The order above is chosen by dependency and impact:
+| Status | Component           | Upstream             | Notes                           |
+| ------ | ------------------- | -------------------- | ------------------------------- |
+| `[x]`  | **DateField**       | S2 `DateField`       | Keyboard-editable date segments |
+| `[x]`  | **DatePicker**      | S2 `DatePicker`      | DateField + Calendar popover    |
+| `[x]`  | **DateRangePicker** | S2 `DateRangePicker` | Two DateFields + RangeCalendar  |
+| `[x]`  | **Calendar**        | S2 `Calendar`        | Single-date calendar grid       |
+| `[x]`  | **RangeCalendar**   | S2 `RangeCalendar`   | Range-selection calendar        |
+| `[x]`  | **TimeField**       | S2 `TimeField`       | Time segment input              |
 
-1. **Foundation first** — no component works without the scaffold and theme
-2. **Primitives before compositions** — Button before Dialog, TextField before Form
-3. **High-frequency before low-frequency** — Button, TextField, and Tooltip appear in almost every screen
-4. **Reference implementations exist** — components marked `[R]` can move faster
-5. **Application-specific last** — Group 10 components are Geti-product-specific and need product context
+---
 
-One component at a time. There is no deadline pressure.
+## Group 10 — Advanced / Application-Specific [COMPLETE]
+
+| Status | Component                     | Upstream       | Notes                                                 |
+| ------ | ----------------------------- | -------------- | ----------------------------------------------------- |
+| `[x]`  | **DropZone**                  | S2 `DropZone`  | File and object drop target                           |
+| `[x]`  | **PressableElement**          | Custom         | Generic pressable wrapper for arbitrary elements      |
+| `[x]`  | **CornerIndicator**           | Custom         | Small decorative indicator for corners of UI elements |
+| `[x]`  | **PhotoPlaceholder**          | Custom         | Avatar/photo placeholder with initials                |
+| `[x]`  | **FullscreenAction**          | Custom         | Fullscreen toggle control                             |
+| `[x]`  | **MediaViewModes**            | Custom         | Grid/list view mode switcher                          |
+| `[x]`  | **ToggleButtons**             | Custom         | Geti-specific toggle button group                     |
+| `[x]`  | **VirtualizedListLayout**     | Custom         | Virtualized list layout helper                        |
+| `[x]`  | **VirtualizedHorizontalGrid** | Custom         | Virtualized horizontal grid                           |
+| `[x]`  | **IntelBrandedLoading**       | Custom         | Intel logo loading animation                          |
+| `[x]`  | **TreeView**                  | S2 `TreeView`  | Hierarchical navigation tree                          |
+| `[x]`  | **ActionBar**                 | S2 `ActionBar` | Bulk-selection action bar                             |
+
+---
+
+## Phase 6 — Review & Verification [PENDING]
+
+### Todo: Review every single UI component
+
+- [ ] Group 1: Button, ActionButton, ToggleButton, Link, FileTrigger
+- [ ] Group 2: TextField, TextArea, NumberField, SearchField, PasswordField, Checkbox, CheckboxGroup, RadioGroup, Switch, Slider, RangeSlider, Picker, ComboBox, Form
+- [ ] Group 3: Tooltip, Popover, CustomPopover, Dialog, AlertDialog, DialogContainer, ContextualHelp
+- [ ] Group 4: Tabs, Breadcrumbs, Menu, ActionMenu
+- [ ] Group 5: ProgressBar, ProgressCircle, Loading, Meter, StatusLight, InlineAlert, Toast, Badge, Skeleton
+- [ ] Group 6: TableView, ListView, ListBox, TagGroup, Tag, IllustratedMessage, Avatar, AvatarGroup, Image
+- [ ] Group 7: Flex, Grid, View, Divider, Disclosure, Accordion, Well, Card, CardView
+- [ ] Group 8: ColorSwatch, ColorSwatchPicker, ColorSlider, ColorArea, ColorWheel, ColorField, ColorThumb, ColorPickerDialog
+- [ ] Group 9: DateField, DatePicker, DateRangePicker, Calendar, RangeCalendar, TimeField
+- [ ] Group 10: DropZone, PressableElement, CornerIndicator, PhotoPlaceholder, FullscreenAction, MediaViewModes, ToggleButtons, VirtualizedListLayout, VirtualizedHorizontalGrid, IntelBrandedLoading, TreeView, ActionBar
