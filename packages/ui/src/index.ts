@@ -138,3 +138,33 @@ export type { BadgeProps } from './components/Badge/Badge';
 
 export { Skeleton } from './components/Skeleton/Skeleton';
 export type { SkeletonProps } from './components/Skeleton/Skeleton';
+
+// Group 6 — Data Display
+export { TableView, TableHeader, TableBody, Column, Row, Cell } from './components/TableView/TableView';
+export type { TableViewProps } from './components/TableView/TableView';
+
+export { ListView, Item as ListItem } from './components/ListView/ListView';
+export type { ListViewProps } from './components/ListView/ListView';
+
+export { ListBox } from './components/ListBox/ListBox';
+export type { ListBoxProps } from './components/ListBox/ListBox';
+export { Item as ListBoxItem } from './components/ListBox/ListBox';
+
+export { TagGroup } from './components/TagGroup/TagGroup';
+export type { TagGroupProps } from './components/TagGroup/TagGroup';
+export { Item as TagItem } from './components/TagGroup/TagGroup';
+
+export { Tag } from './components/Tag/Tag';
+export type { TagProps } from './components/Tag/Tag';
+
+export { IllustratedMessage } from './components/IllustratedMessage/IllustratedMessage';
+export type { IllustratedMessageProps } from './components/IllustratedMessage/IllustratedMessage';
+
+export { Avatar } from './components/Avatar/Avatar';
+export type { AvatarProps } from './components/Avatar/Avatar';
+
+export { AvatarGroup } from './components/Avatar/AvatarGroup';
+export type { AvatarGroupProps } from './components/Avatar/AvatarGroup';
+
+export { Image } from './components/Image/Image';
+export type { ImageProps } from './components/Image/Image';
