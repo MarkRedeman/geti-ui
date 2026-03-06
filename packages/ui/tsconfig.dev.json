@@ -1,4 +1,7 @@
 {
-  "extends": "./tsconfig.json",
-  "include": ["src", "**/*.test.tsx", "**/*.test.ts", "**/*.stories.tsx"]
+    "extends": "./tsconfig.json",
+    "compilerOptions": {
+        "types": ["@rstest/core/globals", "@testing-library/jest-dom"]
+    },
+    "include": ["src", "**/*.test.tsx", "**/*.test.ts", "**/*.stories.tsx"]
 }
