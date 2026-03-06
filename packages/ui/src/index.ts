@@ -6,7 +6,7 @@ export { Button } from './components/Button/Button';
 export type { ButtonProps } from './components/Button/Button';
 
 export { ActionButton } from './components/ActionButton/ActionButton';
-export type { ActionButtonProps } from './components/ActionButton/ActionButton';
+export type { ActionButtonProps, ActionButtonColorVariant } from './components/ActionButton/ActionButton';
 
 export { ToggleButton } from './components/ToggleButton/ToggleButton';
 export type { ToggleButtonProps } from './components/ToggleButton/ToggleButton';

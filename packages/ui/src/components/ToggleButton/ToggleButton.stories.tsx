@@ -28,7 +28,7 @@ export const Default: Story = {
 };
 
 export const Selected: Story = {
-    args: { isSelected: true, children: 'Selected' },
+    args: { defaultSelected: true, children: 'Selected' },
 };
 
 export const Emphasized: Story = {

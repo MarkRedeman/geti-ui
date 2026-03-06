@@ -3,6 +3,10 @@
     height: 100%;
     overflow-x: auto;
     overflow-y: hidden;
-    outline: none;
     display: flex;
+}
+
+.container:focus-visible {
+    outline: 2px solid var(--energy-blue);
+    outline-offset: -2px;
 }

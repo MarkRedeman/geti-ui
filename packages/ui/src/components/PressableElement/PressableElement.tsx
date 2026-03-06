@@ -39,14 +39,7 @@ export const PressableElement = ({ id, children, isTruncated, onDoubleClick, ...
 
     return (
         <Pressable {...pressableProps}>
-            <div
-                {...styleProps}
-                id={id}
-                style={{ ...styles, ...styleProps.style }}
-                onDoubleClick={onDoubleClick}
-                role="button"
-                tabIndex={0}
-            >
+            <div {...styleProps} id={id} style={{ ...styles, ...styleProps.style }} onDoubleClick={onDoubleClick}>
                 {children}
             </div>
         </Pressable>

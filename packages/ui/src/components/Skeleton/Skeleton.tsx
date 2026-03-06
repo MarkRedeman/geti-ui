@@ -55,7 +55,7 @@ const shimmerStyle: CSSProperties = {
         rgba(88, 90, 98, 0.15) 75%
     )`,
     backgroundSize: '200% 100%',
-    animation: 'geti-skeleton-shine 2s ease infinite',
+    animation: 'shimmer 2s ease infinite',
 };
 
 /**

@@ -40,9 +40,4 @@ describe('Button', () => {
         await userEvent.click(screen.getByRole('button', { name: 'Save' }));
         expect(onPress).not.toHaveBeenCalled();
     });
-
-    it('has role button', () => {
-        renderButton({ children: 'Save' });
-        expect(screen.getByRole('button')).toBeInTheDocument();
-    });
 });

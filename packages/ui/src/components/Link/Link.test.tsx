@@ -34,12 +34,16 @@ describe('Link', () => {
 
     it('renders primary variant', () => {
         renderLink({ variant: 'primary' });
-        expect(screen.getByRole('link')).toBeInTheDocument();
+        const link = screen.getByRole('link');
+        expect(link).toBeInTheDocument();
+        expect(link).toHaveTextContent('Click here');
     });
 
     it('renders secondary variant', () => {
         renderLink({ variant: 'secondary' });
-        expect(screen.getByRole('link')).toBeInTheDocument();
+        const link = screen.getByRole('link');
+        expect(link).toBeInTheDocument();
+        expect(link).toHaveTextContent('Click here');
     });
 
     it('renders quiet style', () => {

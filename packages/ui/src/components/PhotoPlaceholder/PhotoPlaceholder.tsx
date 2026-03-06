@@ -1,5 +1,5 @@
 import { FC } from 'react';
-import { Flex, Text, View, ViewProps } from '@adobe/react-spectrum';
+import { Text, View, ViewProps } from '@adobe/react-spectrum';
 import { StyleProps } from '@react-types/shared';
 import { getDistinctColorBasedOnHash } from '../../utils/distinct-colors';
 import { getForegroundColor, hexaToRGBA } from './utils';
@@ -46,9 +46,19 @@ export const PhotoPlaceholder: FC<PhotoPlaceholderProps> = ({
             UNSAFE_style={{ backgroundColor, color, borderRadius }}
             {...viewProps}
         >
-            <Flex height="100%" width="100%" alignItems="center" justifyContent="center">
-                <Text>{letter.toUpperCase()}</Text>
-            </Flex>
+            <div
+                style={{
+                    height: '100%',
+                    width: '100%',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                }}
+                role="img"
+                aria-label={name || indicator}
+            >
+                <Text aria-hidden="true">{letter.toUpperCase()}</Text>
+            </div>
         </View>
     );
 };

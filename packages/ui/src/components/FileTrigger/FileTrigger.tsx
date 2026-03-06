@@ -8,6 +8,7 @@ import type { FileTriggerProps as AriaFileTriggerProps } from 'react-aria-compon
  * Props for the FileTrigger component.
  * Extends react-aria-components FileTriggerProps without modification.
  */
+// eslint-disable-next-line @typescript-eslint/no-empty-object-type
 export interface FileTriggerProps extends AriaFileTriggerProps {}
 
 /**

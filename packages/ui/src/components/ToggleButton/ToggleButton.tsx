@@ -7,6 +7,7 @@ import { ToggleButton as SpectrumToggleButton, SpectrumToggleButtonProps } from 
  * Props for the ToggleButton component.
  * Extends Spectrum's ToggleButtonProps without modification.
  */
+// eslint-disable-next-line @typescript-eslint/no-empty-object-type
 export interface ToggleButtonProps extends SpectrumToggleButtonProps {}
 
 /**

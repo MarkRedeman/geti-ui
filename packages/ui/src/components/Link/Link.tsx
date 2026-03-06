@@ -7,6 +7,7 @@ import { Link as SpectrumLink, SpectrumLinkProps } from '@adobe/react-spectrum';
  * Props for the Link component.
  * Extends Spectrum's LinkProps without modification.
  */
+// eslint-disable-next-line @typescript-eslint/no-empty-object-type
 export interface LinkProps extends SpectrumLinkProps {}
 
 /**

@@ -20,15 +20,25 @@ export interface PasswordFieldProps extends Omit<SpectrumTextFieldProps, 'type'>
  * Wraps Adobe React Spectrum's TextField with `type="password"` by default.
  * Optionally shows a password-rules hint (isNewPassword) or a custom error message (error).
  */
-export const PasswordField = ({ isNewPassword, error, ...rest }: PasswordFieldProps) => {
+export const PasswordField = ({ isNewPassword, error, id, ...rest }: PasswordFieldProps) => {
     const [showPassword, setShowPassword] = useState(false);
 
     const togglePassword = () => setShowPassword((prev) => !prev);
 
+    const errorId = id ? `${id}-error` : undefined;
+    const hintId = id ? `${id}-hint` : undefined;
+    const describedBy = [error ? errorId : undefined, isNewPassword ? hintId : undefined].filter(Boolean).join(' ');
+
     return (
         <div>
             <div className={styles.fieldWrapper}>
-                <SpectrumTextField {...rest} type={showPassword ? 'text' : 'password'} />
+                <SpectrumTextField
+                    {...rest}
+                    id={id}
+                    type={showPassword ? 'text' : 'password'}
+                    validationState={error ? 'invalid' : undefined}
+                    aria-describedby={describedBy || undefined}
+                />
                 <button
                     type="button"
                     className={styles.toggleButton}
@@ -39,11 +49,15 @@ export const PasswordField = ({ isNewPassword, error, ...rest }: PasswordFieldPr
                 </button>
             </div>
             {error && (
-                <span role="alert" className={styles.errorMessage}>
+                <span role="alert" id={errorId} className={styles.errorMessage}>
                     {error}
                 </span>
             )}
-            {isNewPassword && <p className={styles.hint}>Password must be at least 8 characters</p>}
+            {isNewPassword && (
+                <p id={hintId} className={styles.hint}>
+                    Password must be at least 8 characters
+                </p>
+            )}
         </div>
     );
 };

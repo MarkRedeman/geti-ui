@@ -21,8 +21,8 @@ export const IntelBrandedLoading = ({ height = '100vh' }: IntelBrandedLoadingPro
         >
             <img
                 src={IntelBrandedLoadingGif}
-                role="progressbar"
-                alt="Loading"
+                role="img"
+                aria-label="Loading"
                 width="192px" // Equivalent to size-2400 in Spectrum
                 height="192px"
             />

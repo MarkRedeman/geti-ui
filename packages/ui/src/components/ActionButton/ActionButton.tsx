@@ -37,5 +37,8 @@ const getColorVariantClass = (colorVariant?: ActionButtonColorVariant): string |
  * Adds optional `colorVariant` prop for Geti-specific visual styles.
  */
 export const ActionButton = ({ colorVariant, UNSAFE_className, ...rest }: ActionButtonProps) => (
-    <SpectrumActionButton {...rest} UNSAFE_className={clsx(getColorVariantClass(colorVariant), UNSAFE_className)} />
+    <SpectrumActionButton
+        {...rest}
+        UNSAFE_className={clsx(getColorVariantClass(colorVariant), UNSAFE_className) || undefined}
+    />
 );

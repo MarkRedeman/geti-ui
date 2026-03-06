@@ -2,8 +2,8 @@
 // LIMITED EDGE SOFTWARE DISTRIBUTION LICENSE
 
 import type { Meta, StoryObj } from '@storybook/react';
-import { Button } from '@adobe/react-spectrum';
 
+import { Button } from '../Button/Button';
 import { FileTrigger } from './FileTrigger';
 
 const meta: Meta<typeof FileTrigger> = {

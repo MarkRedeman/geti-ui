@@ -56,7 +56,9 @@ export const Card = ({
                         display: 'block',
                         width: '100%',
                         cursor: isDisabled ? 'not-allowed' : 'pointer',
+                        boxSizing: 'border-box',
                     }}
+                    className="geti-card-button"
                 >
                     {children}
                 </button>

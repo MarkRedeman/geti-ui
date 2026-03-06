@@ -64,14 +64,14 @@ See `components-todo-list.md` for the full list. **All core components (Groups 1
 
 ---
 
-## Phase 6 — Audit & Verification [NEW]
+## Phase 6 — Audit & Verification [IN PROGRESS]
 
-### 6.1 Unified Example Page
+### 6.1 Unified Example Page [COMPLETE]
 
 - Build a "Component Kitchen Sink" page that renders every exported component to verify visual consistency and runtime stability.
 - See `example-application-page-plan.md`.
 
-### 6.2 Peer Review
+### 6.2 Peer Review [IN PROGRESS]
 
 - **Review every single UI component**: Systematic check of API, accessibility, and documentation.
 - Tracked in `components-todo-list.md` under "Phase 6".

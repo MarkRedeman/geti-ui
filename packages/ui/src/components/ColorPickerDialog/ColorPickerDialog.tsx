@@ -15,8 +15,9 @@ import {
     ButtonGroup,
     Divider,
     Flex,
+    Color,
 } from '@adobe/react-spectrum';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 export interface ColorPickerDialogProps {
     /** The current color value. */
@@ -41,7 +42,13 @@ export const ColorPickerDialog = ({
     label = 'Pick Color',
     ...rest
 }: ColorPickerDialogProps) => {
-    const [color, setColor] = useState(() => (colorProp ? parseColor(colorProp) : parseColor('#ff0000')));
+    const [color, setColor] = useState<Color>(() => (colorProp ? parseColor(colorProp) : parseColor('#ff0000')));
+
+    useEffect(() => {
+        if (colorProp) {
+            setColor(parseColor(colorProp));
+        }
+    }, [colorProp]);
 
     const handleConfirm = (close: () => void) => {
         onColorChange?.(color.toString('hex'));

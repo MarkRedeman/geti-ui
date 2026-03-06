@@ -2,6 +2,7 @@
 // LIMITED EDGE SOFTWARE DISTRIBUTION LICENSE
 
 import { Button as SpectrumButton, SpectrumButtonProps } from '@adobe/react-spectrum';
+import { FocusableRef } from '@react-types/shared';
 import { clsx } from 'clsx';
 
 type VariantWithoutLegacy = Exclude<SpectrumButtonProps['variant'], 'cta' | 'overBackground'>;
@@ -18,12 +19,15 @@ export interface ButtonProps extends Omit<SpectrumButtonProps, 'variant'> {
     variant?: VariantWithoutLegacy;
     /** Optional CSS class name(s) to apply via Spectrum's UNSAFE_className escape hatch. */
     UNSAFE_className?: string;
+    /** Ref forwarded to the underlying button element via Spectrum's FocusableRef. */
+    ref?: FocusableRef<HTMLElement>;
 }
 
 /**
  * A button component that wraps Adobe React Spectrum's Button.
  * Excludes legacy variants (`cta`, `overBackground`) and defaults to `accent`.
  * Accepts `UNSAFE_className` and merges it cleanly via clsx.
+ * Supports ref forwarding via `FocusableRef<HTMLElement>` (Spectrum's ref type).
  */
 export const Button = ({ variant = 'accent', UNSAFE_className, ...rest }: ButtonProps) => (
     <SpectrumButton {...rest} variant={variant} UNSAFE_className={clsx(UNSAFE_className) || undefined} />
