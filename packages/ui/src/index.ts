@@ -168,3 +168,31 @@ export type { AvatarGroupProps } from './components/Avatar/AvatarGroup';
 
 export { Image } from './components/Image/Image';
 export type { ImageProps } from './components/Image/Image';
+
+// Group 7 — Layout & Structure
+export { Flex } from './components/Flex/Flex';
+export type { FlexComponentProps as FlexProps } from './components/Flex/Flex';
+
+export { Grid } from './components/Grid/Grid';
+export type { GridComponentProps as GridProps } from './components/Grid/Grid';
+
+export { View } from './components/View/View';
+export type { ViewProps } from './components/View/View';
+
+export { Divider } from './components/Divider/Divider';
+export type { DividerProps } from './components/Divider/Divider';
+
+export { Disclosure, DisclosurePanel, DisclosureTitle } from './components/Disclosure/Disclosure';
+export type { DisclosureProps } from './components/Disclosure/Disclosure';
+
+export { Accordion } from './components/Accordion/Accordion';
+export type { AccordionProps } from './components/Accordion/Accordion';
+
+export { Well } from './components/Well/Well';
+export type { WellProps } from './components/Well/Well';
+
+export { Card } from './components/Card/Card';
+export type { CardProps } from './components/Card/Card';
+
+export { CardView } from './components/CardView/CardView';
+export type { CardViewProps } from './components/CardView/CardView';
