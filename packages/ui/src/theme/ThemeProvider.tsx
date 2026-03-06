@@ -1,6 +1,6 @@
 import { type ComponentProps } from 'react';
 
-import { Provider, darkTheme } from '@adobe/react-spectrum';
+import { Provider } from '@adobe/react-spectrum';
 
 import getiTheme from './theme';
 

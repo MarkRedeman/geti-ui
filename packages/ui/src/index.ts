@@ -1,6 +1,7 @@
 export { ThemeProvider } from './theme/ThemeProvider';
 export type { ThemeProviderProps } from './theme/ThemeProvider';
 
+// Group 1 — Primitive Actions
 export { Button } from './components/Button/Button';
 export type { ButtonProps } from './components/Button/Button';
 
@@ -16,15 +17,7 @@ export type { LinkProps } from './components/Link/Link';
 export { FileTrigger } from './components/FileTrigger/FileTrigger';
 export type { FileTriggerProps } from './components/FileTrigger/FileTrigger';
 
-export { Slider } from './components/Slider/Slider';
-export type { SliderProps } from './components/Slider/Slider';
-
-export { Switch } from './components/Switch/Switch';
-export type { SwitchProps } from './components/Switch/Switch';
-
-export { PasswordField } from './components/PasswordField/PasswordField';
-export type { PasswordFieldProps } from './components/PasswordField/PasswordField';
-
+// Group 2 — Form Controls
 export { TextField } from './components/TextField/TextField';
 export type { TextFieldProps } from './components/TextField/TextField';
 
@@ -37,6 +30,9 @@ export type { NumberFieldProps } from './components/NumberField/NumberField';
 export { SearchField } from './components/SearchField/SearchField';
 export type { SearchFieldProps } from './components/SearchField/SearchField';
 
+export { PasswordField } from './components/PasswordField/PasswordField';
+export type { PasswordFieldProps } from './components/PasswordField/PasswordField';
+
 export { Checkbox } from './components/Checkbox/Checkbox';
 export type { CheckboxProps } from './components/Checkbox/Checkbox';
 
@@ -47,6 +43,12 @@ export { RadioGroup } from './components/RadioGroup/RadioGroup';
 export type { RadioGroupProps } from './components/RadioGroup/RadioGroup';
 export { Radio } from './components/RadioGroup/Radio';
 export type { RadioProps } from './components/RadioGroup/Radio';
+
+export { Switch } from './components/Switch/Switch';
+export type { SwitchProps } from './components/Switch/Switch';
+
+export { Slider } from './components/Slider/Slider';
+export type { SliderProps } from './components/Slider/Slider';
 
 export { RangeSlider } from './components/RangeSlider/RangeSlider';
 export type { RangeSliderProps } from './components/RangeSlider/RangeSlider';
@@ -59,3 +61,52 @@ export type { ComboBoxProps } from './components/ComboBox/ComboBox';
 
 export { Form } from './components/Form/Form';
 export type { FormProps } from './components/Form/Form';
+
+// Group 3 — Overlay & Popover
+export { Tooltip } from './components/Tooltip/Tooltip';
+export type { TooltipProps } from './components/Tooltip/Tooltip';
+export { TooltipTrigger } from './components/Tooltip/TooltipTrigger';
+export type { TooltipTriggerProps } from './components/Tooltip/TooltipTrigger';
+
+export { Popover } from './components/Popover/Popover';
+export type { PopoverProps } from './components/Popover/Popover';
+
+export { CustomPopover } from './components/CustomPopover/CustomPopover';
+export type { CustomPopoverProps } from './components/CustomPopover/CustomPopover';
+
+export { Dialog } from './components/Dialog/Dialog';
+export type { DialogProps } from './components/Dialog/Dialog';
+export { DialogTrigger } from './components/Dialog/DialogTrigger';
+export type { DialogTriggerProps } from './components/Dialog/DialogTrigger';
+
+export { AlertDialog } from './components/AlertDialog/AlertDialog';
+export type { AlertDialogProps } from './components/AlertDialog/AlertDialog';
+
+export { DialogContainer } from './components/DialogContainer/DialogContainer';
+export type { DialogContainerProps } from './components/DialogContainer/DialogContainer';
+
+export { ContextualHelp } from './components/ContextualHelp/ContextualHelp';
+export type { ContextualHelpProps } from './components/ContextualHelp/ContextualHelp';
+
+// Group 4 — Navigation
+export { Tabs } from './components/Tabs/Tabs';
+export type { TabsProps } from './components/Tabs/Tabs';
+export { TabList } from './components/Tabs/TabList';
+export type { TabListProps } from './components/Tabs/TabList';
+export { TabPanels } from './components/Tabs/TabPanels';
+export type { TabPanelsProps } from './components/Tabs/TabPanels';
+export { Item as TabItem } from './components/Tabs/Item';
+
+export { Breadcrumbs } from './components/Breadcrumbs/Breadcrumbs';
+export type { BreadcrumbsProps } from './components/Breadcrumbs/Breadcrumbs';
+export { Item as BreadcrumbItem } from './components/Breadcrumbs/Item';
+
+export { Menu } from './components/Menu/Menu';
+export type { MenuProps } from './components/Menu/Menu';
+export { MenuTrigger } from './components/Menu/MenuTrigger';
+export type { MenuTriggerProps } from './components/Menu/MenuTrigger';
+export { Item as MenuItem } from './components/Menu/Item';
+export { Section as MenuSection } from './components/Menu/Section';
+
+export { ActionMenu } from './components/ActionMenu/ActionMenu';
+export type { ActionMenuProps } from './components/ActionMenu/ActionMenu';
