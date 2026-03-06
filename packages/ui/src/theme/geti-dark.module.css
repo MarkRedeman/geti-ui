@@ -1,0 +1,87 @@
+/* Geti dark theme — CSS module for Adobe React Spectrum */
+/* Mirrors reference-packages/ui/theme/geti/geti-dark.module.css */
+
+.spectrum--dark {
+    --spectrum-global-color-status: Verified;
+    --spectrum-global-color-version: 5.1;
+
+    /* Brand grays (Geti-specific overrides) */
+    --spectrum-global-color-gray-50: #242528;
+    --spectrum-global-color-gray-75: #2e2f32;
+    --spectrum-global-color-gray-100: #313236;
+    --spectrum-global-color-gray-200: #3c3e42;
+    --spectrum-global-color-gray-300: #484a50;
+    --spectrum-global-color-gray-400: #585a62;
+    --spectrum-global-color-gray-500: #6b6e76;
+    --spectrum-global-color-gray-600: #8e9099;
+    --spectrum-global-color-gray-700: #b7b9be;
+    --spectrum-global-color-gray-800: #e3e3e5;
+    --spectrum-global-color-gray-900: #ffffff;
+
+    /* Spectrum gray aliases */
+    --spectrum-gray-900: var(--spectrum-global-color-gray-900);
+    --spectrum-gray-800: var(--spectrum-global-color-gray-800);
+    --spectrum-gray-700: var(--spectrum-global-color-gray-700);
+    --spectrum-gray-600: var(--spectrum-global-color-gray-600);
+    --spectrum-gray-500: var(--spectrum-global-color-gray-500);
+    --spectrum-gray-400: var(--spectrum-global-color-gray-400);
+    --spectrum-gray-300: var(--spectrum-global-color-gray-300);
+    --spectrum-gray-200: var(--spectrum-global-color-gray-200);
+    --spectrum-gray-100: var(--spectrum-global-color-gray-100);
+    --spectrum-gray-75: var(--spectrum-global-color-gray-75);
+    --spectrum-gray-50: var(--spectrum-global-color-gray-50);
+
+    /* Blue */
+    --spectrum-global-color-blue-200: rgb(13, 90, 188);
+    --spectrum-global-color-blue-300: rgb(20, 103, 200);
+    --spectrum-global-color-blue-400: rgb(38, 128, 235);
+    --spectrum-global-color-blue-500: rgb(55, 142, 240);
+    --spectrum-global-color-blue-600: rgb(75, 156, 245);
+    --spectrum-global-color-blue-700: rgb(90, 169, 250);
+
+    /* Red */
+    --spectrum-global-color-red-400: rgb(227, 72, 80);
+    --spectrum-global-color-red-500: rgb(236, 91, 98);
+    --spectrum-global-color-red-600: rgb(247, 109, 116);
+    --spectrum-global-color-red-700: rgb(255, 123, 130);
+
+    /* Green */
+    --spectrum-global-color-green-400: rgb(45, 157, 120);
+    --spectrum-global-color-green-500: rgb(51, 171, 132);
+    --spectrum-global-color-green-600: rgb(57, 185, 144);
+    --spectrum-global-color-green-700: rgb(63, 200, 156);
+
+    /* Orange */
+    --spectrum-global-color-orange-400: rgb(230, 134, 25);
+    --spectrum-global-color-orange-500: rgb(242, 148, 35);
+    --spectrum-global-color-orange-600: rgb(249, 164, 63);
+    --spectrum-global-color-orange-700: rgb(255, 181, 91);
+
+    /* Overlays & highlights */
+    --spectrum-alias-background-color-modal-overlay: rgba(0, 0, 0, 0.5);
+    --spectrum-alias-dropshadow-color: rgba(0, 0, 0, 0.5);
+    --spectrum-alias-background-color-hover-overlay: rgba(255, 255, 255, 0.06);
+    --spectrum-alias-highlight-hover: rgba(255, 255, 255, 0.07);
+    --spectrum-alias-highlight-active: rgba(255, 255, 255, 0.1);
+    --spectrum-alias-highlight-selected: rgba(55, 142, 240, 0.15);
+    --spectrum-alias-highlight-selected-hover: rgba(55, 142, 240, 0.25);
+    --spectrum-alias-text-highlight-color: rgba(55, 142, 240, 0.25);
+    --spectrum-alias-background-color-quickactions: rgba(50, 50, 50, 0.9);
+    --spectrum-alias-radial-reaction-color-default: rgba(227, 227, 227, 0.6);
+    --spectrum-alias-pasteboard-background-color: var(--spectrum-global-color-gray-50);
+    --spectrum-alias-appframe-border-color: var(--spectrum-global-color-gray-50);
+    --spectrum-alias-appframe-separator-color: var(--spectrum-global-color-gray-50);
+
+    /* Well */
+    --spectrum-well-background-color: var(--spectrum-global-color-gray-100);
+
+    /* Toast */
+    --spectrum-semantic-negative-color-text-small: var(--brand-coral-cobalt);
+    --spectrum-toast-negative-background-color: var(--brand-coral-coral-shade1);
+    --spectrum-toast-neutral-background-color: var(--spectrum-global-color-gray-400);
+    --spectrum-toast-info-background-color: var(--energy-blue-shade);
+    --spectrum-toast-warning-background-color: var(--brand-daisy);
+
+    /* React Spectrum additions */
+    --react-spectrum-datepicker-placeholder-color: var(--spectrum-global-color-gray-600);
+}

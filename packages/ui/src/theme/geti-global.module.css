@@ -1,0 +1,79 @@
+/* Geti global theme — CSS module for Adobe React Spectrum */
+/* Mirrors reference-packages/ui/theme/geti/geti-global.module.css */
+
+.spectrum {
+    background-color: transparent;
+    -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+
+    /* Component overrides */
+    --spectrum-actionbutton-quiet-text-font-weight: 500;
+    --spectrum-tabs-text-font-weight: 500;
+    --spectrum-alias-input-border-size: var(--spectrum-global-dimension-static-size-25);
+    --spectrum-dialog-title-text-size: var(--spectrum-global-dimension-font-size-200);
+    --spectrum-dialog-title-text-font-weight: 500;
+
+    /* Brand colors */
+    --white-down: rgba(255, 255, 255, 0.25);
+    --text-dark-default: #2b2c30;
+    --blue-steel: #41728a;
+    --blue-classic: #0068b5;
+
+    --energy-blue-lighter: #b4f0ff;
+    --energy-blue-light: #7bdeff;
+    --energy-blue: #00c7fd;
+    --energy-blue-shade: #0095ca;
+    --energy-blue-shade-darker: #005b85;
+    --energy-blue-tint2: #a0ebff;
+    --energy-blue-tint1: #6ddcff;
+
+    --brand-coral-cobalt: #ff5662;
+    --brand-coral-cobalt-hover: rgba(255, 86, 98, 0.12);
+    --brand-coral-cobalt-pressed: rgba(255, 86, 98, 0.25);
+    --brand-coral-coral-shade1: #c81326;
+    --brand-daisy: #fec91b;
+    --brand-daisy-tint: #ffe17a;
+    --brand-rust: #e96115;
+
+    --brand-moss: #8bae46;
+    --brand-moss-tint: #d7f3a2;
+    --brand-moss-darken: #7b9c3b;
+    --moss-tint-1: #b1d272;
+
+    /* Semantic color overrides */
+    --spectrum-negative-visual-color: var(--spectrum-global-color-static-red-600);
+    --spectrum-notice-visual-color: var(--brand-daisy);
+    --spectrum-semantic-negative-color-icon: var(--spectrum-negative-visual-color);
+    --spectrum-semantic-negative-color-status: var(--spectrum-negative-visual-color);
+    --spectrum-alias-icon-color: var(--spectrum-global-color-gray-900);
+    --spectrum-body-text-color: var(--spectrum-global-color-gray-900);
+    --spectrum-global-color-red-600: rgb(215, 55, 63);
+
+    --spectrum-global-color-positive: var(--brand-moss);
+    --spectrum-global-color-negative: var(--brand-coral-cobalt);
+    --spectrum-global-color-informative: var(--energy-blue);
+    --spectrum-global-color-warning: var(--brand-daisy);
+
+    --spectrum-statuslight-positive-dot-color: var(--brand-moss);
+    --spectrum-statuslight-negative-dot-color: var(--brand-coral-cobalt);
+    --spectrum-statuslight-info-dot-color: var(--energy-blue);
+
+    --spectrum-semantic-notice-color-icon: #edb200;
+    --spectrum-semantic-negative-color-icon: var(--spectrum-global-color-red-600);
+
+    --spectrum-alias-border-color-mouse-focus: var(--energy-blue);
+    --spectrum-tooltip-info-background-color: var(--spectrum-gray-400);
+
+    --spectrum-textfield-quiet-border-size: var(--spectrum-global-dimension-size-0);
+    --spectrum-toast-warning-background-color: var(--spectrum-global-color-warning);
+
+    /* Accent */
+    --spectrum-accent-color-900: var(--spectrum-global-color-blue-700);
+    --spectrum-accent-color-1000: var(--energy-blue);
+
+    /* Chart / distribution */
+    --default-chart-color: var(--brand-moss);
+    --balanced-distribution: var(--brand-moss);
+    --wide-distribution: #cc94da;
+    --tall-distribution: #86b3ca;
+    --daisy-shade: #edb200;
+}

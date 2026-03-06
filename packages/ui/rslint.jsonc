@@ -1,0 +1,10 @@
+{
+    "$schema": "https://raw.githubusercontent.com/web-infra-dev/rslint/main/packages/core/schema.json",
+    "source": {
+        "include": ["src/**/*.{ts,tsx}"],
+        "exclude": ["src/test/**", "**/*.stories.tsx"],
+    },
+    "linter": {
+        "enabled": true,
+    },
+}

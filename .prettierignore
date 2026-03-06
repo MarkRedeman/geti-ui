@@ -1,14 +1,6 @@
-.DS_Store
-.idea
-*.log
-tmp/
 node_modules
 dist
 storybook-static
 coverage
 .pnpm-store
-*.tsbuildinfo
-*.local
-.env
-
-
+reference-packages

@@ -1,0 +1,49 @@
+{
+    "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+    "extends": ["config:recommended"],
+    "packageRules": [
+        {
+            "matchManagers": ["npm"],
+            "matchUpdateTypes": ["minor", "patch"],
+            "groupName": "non-major npm updates",
+            "automerge": true
+        },
+        {
+            "matchPackageNames": [
+                "@adobe/react-spectrum",
+                "react-aria-components",
+                "@react-types/**",
+                "@react-spectrum/**",
+                "@react-aria/**",
+                "@spectrum-icons/**"
+            ],
+            "groupName": "Adobe React Spectrum",
+            "automerge": false
+        },
+        {
+            "matchPackageNames": [
+                "@rslib/core",
+                "@rsbuild/core",
+                "@rsbuild/plugin-react",
+                "@rstest/core",
+                "@rslint/core",
+                "storybook",
+                "storybook-react-rsbuild",
+                "storybook-addon-rslib",
+                "@storybook/**"
+            ],
+            "groupName": "Rstack / Storybook toolchain",
+            "automerge": false
+        },
+        {
+            "matchPackageNames": ["react", "react-dom", "@types/react", "@types/react-dom"],
+            "groupName": "React",
+            "automerge": false
+        }
+    ],
+    "schedule": ["before 5am on Monday"],
+    "labels": ["dependencies"],
+    "prCreation": "immediate",
+    "prHourlyLimit": 5,
+    "prConcurrentLimit": 10
+}
