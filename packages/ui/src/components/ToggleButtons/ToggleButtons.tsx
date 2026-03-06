@@ -3,8 +3,6 @@
 
 import { ReactNode } from 'react';
 
-import { Flex } from '@adobe/react-spectrum';
-
 import { Button } from '../Button/Button';
 import styles from './ToggleButtons.module.css';
 
@@ -63,7 +61,7 @@ export const ToggleButtons = <T extends string | number>({
     getLabel,
 }: ToggleButtonsProps<T>) => {
     return (
-        <Flex>
+        <div role="group" aria-label="Selection options" style={{ display: 'flex' }}>
             {options.map((option) => (
                 <ToggleButton
                     key={option}
@@ -75,6 +73,6 @@ export const ToggleButtons = <T extends string | number>({
                     {getLabel ? getLabel(option) : undefined}
                 </ToggleButton>
             ))}
-        </Flex>
+        </div>
     );
 };

@@ -1,0 +1,6 @@
+.slider[data-filled='true'] {
+    --spectrum-slider-fill-track-color: var(--energy-blue);
+    --spectrum-slider-handle-border-color: var(--energy-blue);
+    --spectrum-slider-handle-border-color-down: var(--energy-blue-lighter);
+    --spectrum-slider-handle-border-color-hover: var(--energy-blue-light);
+}

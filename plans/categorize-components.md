@@ -11,7 +11,9 @@ ui/navigation/ // Tabs, Breadcrumbs, Menu, Links
 ui/feedback/ // progress bar, progress circle, status light, inlinealert, badge, skeleton, meter, intel branded loading
 ui/overlays
 ui/data/ // table, listbox, listview, illustrated message, taggroup, treeview, actionbar
-ui/layouts // accordion, disclosure, view, flex, well, cardview
+ui/layouts // accordion, disclosure, view, flex, grid, well, cardview
 ```
 
 After categorizing we should make sure to update our storybook stories: both the kitchensink and categorize the individual components.
+
+I'd also like to seen an individual kitchensink per category. This one should show more differnt combinations of variants. For instance all different variants of buttons (variant, static color, style, ispending, linked button)

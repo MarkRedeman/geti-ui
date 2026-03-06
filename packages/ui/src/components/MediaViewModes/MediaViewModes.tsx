@@ -2,8 +2,8 @@ import { Dispatch, Key, ReactNode, SetStateAction } from 'react';
 import { Item, Menu, MenuTrigger, Tooltip, TooltipTrigger, ActionButton } from '@adobe/react-spectrum';
 import List from '@spectrum-icons/workflow/ViewList';
 import GridSmall from '@spectrum-icons/workflow/ViewGrid';
-import GridMedium from '@spectrum-icons/workflow/ViewGrid';
-import Grid from '@spectrum-icons/workflow/ViewGrid';
+import GridMedium from '@spectrum-icons/workflow/ModernGridView';
+import GridLarge from '@spectrum-icons/workflow/ClassicGridView';
 import { VIEW_MODE_LABEL, ViewModes } from './utils';
 
 const ITEMS = [ViewModes.LARGE, ViewModes.MEDIUM, ViewModes.SMALL, ViewModes.DETAILS];
@@ -12,7 +12,7 @@ const ICON_PER_MODE: Record<ViewModes, ReactNode> = {
     [ViewModes.DETAILS]: <List />,
     [ViewModes.SMALL]: <GridSmall />,
     [ViewModes.MEDIUM]: <GridMedium />,
-    [ViewModes.LARGE]: <Grid />,
+    [ViewModes.LARGE]: <GridLarge />,
 };
 
 export interface MediaViewModesProps {

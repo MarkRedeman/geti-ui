@@ -15,11 +15,11 @@ export const ColorThumb = ({ color, size = 10, ...rest }: ColorThumbProps) => {
     return (
         <View
             {...rest}
+            width={size}
+            height={size}
             UNSAFE_style={{
                 ...rest.UNSAFE_style,
                 backgroundColor: color,
-                width: size,
-                height: size,
             }}
         />
     );

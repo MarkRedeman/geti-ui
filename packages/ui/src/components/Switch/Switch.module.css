@@ -1,0 +1,8 @@
+.switch[data-emphasized='true'] {
+    --spectrum-switch-emphasized-track-color-selected: var(--energy-blue);
+    --spectrum-switch-emphasized-track-color-selected-hover: var(--energy-blue-light);
+    --spectrum-switch-emphasized-track-color-selected-down: var(--energy-blue-lighter);
+    --spectrum-switch-emphasized-handle-border-color-selected: var(--energy-blue);
+    --spectrum-switch-emphasized-handle-border-color-selected-hover: var(--energy-blue-light);
+    --spectrum-switch-emphasized-handle-border-color-selected-down: var(--energy-blue-lighter);
+}

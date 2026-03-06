@@ -15,16 +15,22 @@ export interface CornerIndicatorProps {
 export const CornerIndicator = ({ isActive, children }: CornerIndicatorProps) => {
     return (
         <View position="relative">
-            <View
-                position="absolute"
-                top="size-50"
-                right="size-50"
-                width="size-50"
-                height="size-50"
-                borderRadius="large"
-                backgroundColor="blue-700"
-                isHidden={!isActive}
-            />
+            {isActive && (
+                <div
+                    style={{
+                        position: 'absolute',
+                        top: 'var(--spectrum-global-dimension-size-50)',
+                        right: 'var(--spectrum-global-dimension-size-50)',
+                        width: 'var(--spectrum-global-dimension-size-50)',
+                        height: 'var(--spectrum-global-dimension-size-50)',
+                        borderRadius: 'var(--spectrum-global-dimension-size-100)',
+                        backgroundColor: 'var(--spectrum-global-color-blue-700)',
+                        zIndex: 1,
+                    }}
+                    role="status"
+                    aria-label="Pending change"
+                />
+            )}
             {children}
         </View>
     );
