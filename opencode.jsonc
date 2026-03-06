@@ -1,0 +1,22 @@
+{
+  "$schema": "https://opencode.ai/config.json",
+  "model": "anthropic/claude-sonnet-4-5",
+  "autoupdate": true,
+  "server": {
+    "port": 4096
+  },
+  "mcp": {
+    "React Spectrum (S2)": {
+      "type": "local",
+      "command": ["npx", "@react-spectrum/mcp@latest"],
+    },
+    "React Aria": {
+      "type": "local",
+      "command": ["npx", "@react-aria/mcp@latest"],
+    },
+    "playwright": {
+      "type": "local",
+      "command": ["npx", "@playwright/mcp@latest"],
+    }
+  }
+}

@@ -1,0 +1,35 @@
+{
+  "version": 1,
+  "skills": {
+    "playwright-cli": {
+      "source": "microsoft/playwright-cli",
+      "sourceType": "github",
+      "computedHash": "7075ab30f588019197a2f1518bb4c9d33d69d33352af079b5f9c60303ad3886e"
+    },
+    "react-aria": {
+      "source": "react-aria.adobe.com",
+      "sourceType": "well-known",
+      "computedHash": "88f92384476cee8ab0a588b8e6fb7e759bbf952ccdcd5080522a27a12312ed9c"
+    },
+    "react-spectrum-s2": {
+      "source": "react-spectrum.adobe.com",
+      "sourceType": "well-known",
+      "computedHash": "179ae1fa1204606dcaa9fa953ca17f290f56978007ba861dc2c69374a4ed1a6a"
+    },
+    "rslib-best-practices": {
+      "source": "rstackjs/agent-skills",
+      "sourceType": "github",
+      "computedHash": "0a8033355b0764f3827cc0cf456dd9a0ed3f0fba44dd65013e8952d1fa073597"
+    },
+    "rspack-best-practices": {
+      "source": "rstackjs/agent-skills",
+      "sourceType": "github",
+      "computedHash": "1fa1f81e135ff913271a538f995aa378649b22775a588a573c861cf7f507ebd5"
+    },
+    "storybook-rsbuild": {
+      "source": "rstackjs/agent-skills",
+      "sourceType": "github",
+      "computedHash": "6dc72721c029a943a86d56b085e23d6d3f390cd7824a5c42bfc377ca9a72c480"
+    }
+  }
+}
