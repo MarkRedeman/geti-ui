@@ -1,0 +1,57 @@
+// Copyright (C) 2022-2025 Intel Corporation
+// LIMITED EDGE SOFTWARE DISTRIBUTION LICENSE
+
+import type { Meta, StoryObj } from '@storybook/react';
+
+import { Button } from '../Button/Button';
+import { TextField } from '../TextField/TextField';
+import { Form } from './Form';
+
+const meta: Meta<typeof Form> = {
+    component: Form,
+    title: 'Components/Form',
+    argTypes: {
+        isDisabled: { control: 'boolean' },
+        validationBehavior: {
+            control: { type: 'select' },
+            options: ['aria', 'native'],
+        },
+    },
+    parameters: {
+        a11y: {},
+    },
+};
+export default meta;
+
+type Story = StoryObj<typeof Form>;
+
+export const Default: Story = {
+    render: (args) => (
+        <Form {...args}>
+            <TextField label="First Name" />
+            <TextField label="Last Name" />
+            <Button type="submit">Submit</Button>
+        </Form>
+    ),
+};
+
+export const Disabled: Story = {
+    args: { isDisabled: true },
+    render: (args) => (
+        <Form {...args}>
+            <TextField label="First Name" />
+            <TextField label="Last Name" />
+            <Button type="submit">Submit</Button>
+        </Form>
+    ),
+};
+
+export const NativeValidation: Story = {
+    args: { validationBehavior: 'native' },
+    render: (args) => (
+        <Form {...args}>
+            <TextField label="Email" type="email" isRequired />
+            <Button type="submit">Submit</Button>
+        </Form>
+    ),
+};

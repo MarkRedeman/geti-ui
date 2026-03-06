@@ -1,0 +1,10 @@
+// Copyright (C) 2022-2025 Intel Corporation
+// LIMITED EDGE SOFTWARE DISTRIBUTION LICENSE
+
+import { CheckboxGroup as SpectrumCheckboxGroup, SpectrumCheckboxGroupProps } from '@adobe/react-spectrum';
+
+/** Props for the CheckboxGroup component. Extends Spectrum's CheckboxGroupProps without modification. */
+export interface CheckboxGroupProps extends SpectrumCheckboxGroupProps {}
+
+/** A group of checkboxes that wraps Adobe React Spectrum's CheckboxGroup. */
+export const CheckboxGroup = (props: CheckboxGroupProps) => <SpectrumCheckboxGroup {...props} />;
