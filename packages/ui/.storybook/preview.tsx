@@ -1,11 +1,14 @@
 import type { Preview, Decorator } from '@storybook/react';
 import { ThemeProvider } from '../src/theme/ThemeProvider';
 
-const withThemeProvider: Decorator = (Story, context) => (
-    <ThemeProvider>
-        <Story {...context.args} />
-    </ThemeProvider>
-);
+const withThemeProvider: Decorator = (Story, context) => {
+    console.log('oh it is being wrapped!!!');
+    return (
+        <ThemeProvider>
+            <Story {...context.args} />
+        </ThemeProvider>
+    );
+};
 
 const preview: Preview = {
     decorators: [withThemeProvider],
@@ -13,8 +16,8 @@ const preview: Preview = {
         backgrounds: {
             default: 'geti-dark',
             values: [
-                { name: 'geti-dark', value: '#1b1b1b' },
-                { name: 'geti-darker', value: '#0f0f0f' },
+                { name: 'geti-dark', value: '#313236' }, // matches --spectrum-alias-background-color-default
+                { name: 'geti-darker', value: '#242528' }, // matches --spectrum-global-color-gray-50
             ],
         },
         layout: 'centered',
