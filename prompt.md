@@ -23,6 +23,9 @@ npx tiged --force --mode=git https://github.com/open-edge-platform/geti.git/web_
 npx tiged --force --mode=git https://github.com/open-edge-platform/geti.git/web_ui/packages/ui#66e564274dbc35e173b78802587060e463846060 reference-packages/ui
 ```
 
+These components are meant as a reference: we will use it to start building our own component library. On occasion we can copy over component implementation from these folder, however we should not use it as a source of truth.
+We will start from scratch, first setting up a rslib + storybook project.
+
 I'd like you to make sure we have a separate `components-todo-list.md` where we describe which component to work on next.
 Ideally we should also group these components in some form of category.
 
