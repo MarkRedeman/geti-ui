@@ -70,6 +70,7 @@ src/components/button/
 - Export the component's Props type explicitly
 - No `any` types — use generics or `unknown` when necessary
 - Prefer `interface` over `type` for component props (easier to extend)
+- Use **relative imports** — no path aliases (e.g. `../button/Button`, not `@geti/ui/button`)
 
 ```tsx
 // Good
@@ -225,7 +226,9 @@ pnpm test:watch               # Watch mode
 pnpm test:e2e                 # Run Playwright tests (requires Storybook running)
 pnpm build                    # Build library with rslib
 pnpm type-check               # TypeScript check without emit
-pnpm lint                     # ESLint
+pnpm lint                     # Rslint (rslint)
+pnpm format                   # Prettier format
+pnpm format:check             # Prettier format check (used in CI)
 
 # Storybook
 pnpm storybook:build          # Build static Storybook

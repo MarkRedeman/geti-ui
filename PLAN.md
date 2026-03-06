@@ -62,12 +62,16 @@ Steps:
 
 3. **TypeScript config**
    - Strict mode
-   - Path aliases (`@geti/ui/*` → `src/*`)
+   - No path aliases — use relative imports throughout
    - Separate `tsconfig.json` (source), `tsconfig.build.json` (build)
 
 4. **Linting & formatting**
-   - ESLint with `eslint-plugin-react`, `eslint-plugin-react-hooks`, `eslint-plugin-jsx-a11y`
-   - Prettier or dprint for formatting
+   - **Rslint** (`@rslint/core`) — the Rstack-native TypeScript-first linter built on typescript-go
+     - Config: `rslint.jsonc` at package root, pointing at `tsconfig.json`
+     - Enables `@typescript-eslint` rules by default (typed linting out of the box)
+     - Reference: https://rslint.rs/guide/
+   - **Prettier** for formatting (`.prettierrc.json`, `.prettierignore`)
+   - Rslint handles correctness; Prettier handles style — they do not overlap
 
 ### 1.3 Testing setup
 
@@ -102,7 +106,7 @@ Steps:
 
 1. Install dependencies
 2. Type-check (`tsc --noEmit`)
-3. Lint (`eslint`)
+3. Lint (`rslint`) and format check (`prettier --check`)
 4. Unit tests (`rstest run`)
 5. Build library (`rslib build`)
 6. Build Storybook (`storybook build`)
