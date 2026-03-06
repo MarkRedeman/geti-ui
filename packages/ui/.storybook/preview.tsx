@@ -4,7 +4,7 @@ import { ThemeProvider } from '../src/theme/ThemeProvider';
 const withThemeProvider: Decorator = (Story, context) => {
     console.log('oh it is being wrapped!!!');
     return (
-        <ThemeProvider>
+        <ThemeProvider width={'100%'}>
             <Story {...context.args} />
         </ThemeProvider>
     );
@@ -12,13 +12,17 @@ const withThemeProvider: Decorator = (Story, context) => {
 
 const preview: Preview = {
     decorators: [withThemeProvider],
+    initialGlobals: {
+        // 👇 Set the initial background color
+        backgrounds: { value: 'dark' },
+    },
+
     parameters: {
         backgrounds: {
-            default: 'geti-dark',
-            values: [
-                { name: 'geti-dark', value: '#313236' }, // matches --spectrum-alias-background-color-default
-                { name: 'geti-darker', value: '#242528' }, // matches --spectrum-global-color-gray-50
-            ],
+            options: {
+                dark: { name: 'Dark', value: '#242528' },
+            },
+            default: 'dark',
         },
         layout: 'centered',
         a11y: {

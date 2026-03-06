@@ -51,7 +51,6 @@ export const WithOnSelect: Story = {
             {...args}
             onSelect={(files) => {
                 if (files) {
-                    // eslint-disable-next-line no-console
                     console.log(
                         'Selected files:',
                         Array.from(files).map((f) => f.name)

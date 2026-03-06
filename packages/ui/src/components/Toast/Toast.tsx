@@ -52,6 +52,7 @@ type ToastAPI = {
  * toast.info('Processing your request…');
  * toast.neutral('No changes detected');
  */
+// eslint-disable-next-line react-refresh/only-export-components
 export const toast: ToastAPI = {
     positive: (message: string, options?: ToastOptions) => SpectrumToastQueue.positive(message, options),
     negative: (message: string, options?: ToastOptions) => SpectrumToastQueue.negative(message, options),

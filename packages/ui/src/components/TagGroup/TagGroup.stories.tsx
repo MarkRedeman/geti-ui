@@ -34,7 +34,6 @@ export const Removable: Story = {
         <TagGroup
             aria-label="Removable tags"
             onRemove={(keys) => {
-                // eslint-disable-next-line no-console
                 console.log('Removed keys:', keys);
             }}
         >

@@ -27,7 +27,7 @@ export const PasswordField = ({ isNewPassword, error, ...rest }: PasswordFieldPr
 
     return (
         <div>
-            <div style={{ display: 'flex', alignItems: 'flex-end', gap: '8px' }}>
+            <div className={styles.fieldWrapper}>
                 <SpectrumTextField {...rest} type={showPassword ? 'text' : 'password'} />
                 <button
                     type="button"

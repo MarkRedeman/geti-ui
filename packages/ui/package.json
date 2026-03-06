@@ -25,7 +25,7 @@
         "test:watch": "rstest",
         "test:e2e": "playwright test",
         "type-check": "tsc --noEmit -p tsconfig.json",
-        "lint": "rslint",
+        "lint": "eslint .",
         "format": "prettier --write .",
         "format:check": "prettier --check ."
     },
@@ -35,6 +35,10 @@
     },
     "dependencies": {
         "@adobe/react-spectrum": "^3.43.0",
+        "@react-aria/utils": "^3.33.1",
+        "@react-spectrum/utils": "^3.12.12",
+        "@react-stately/virtualizer": "^4.4.6",
+        "@react-types/shared": "^3.33.1",
         "@spectrum-icons/workflow": "^4.2.28",
         "clsx": "^2.1.1",
         "react-aria-components": "^1.11.0"

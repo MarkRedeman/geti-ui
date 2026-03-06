@@ -196,3 +196,81 @@ export type { CardProps } from './components/Card/Card';
 
 export { CardView } from './components/CardView/CardView';
 export type { CardViewProps } from './components/CardView/CardView';
+
+// Group 8 — Color Picker
+export { ColorSwatch } from './components/color-swatch/ColorSwatch';
+export type { ColorSwatchProps } from './components/color-swatch/ColorSwatch';
+
+export { ColorSwatchPicker, ColorSwatchPickerItem } from './components/color-swatch/ColorSwatchPicker';
+export type { ColorSwatchPickerProps, ColorSwatchPickerItemProps } from './components/color-swatch/ColorSwatchPicker';
+
+export { ColorSlider } from './components/ColorSlider/ColorSlider';
+export type { ColorSliderProps } from './components/ColorSlider/ColorSlider';
+
+export { ColorArea } from './components/ColorArea/ColorArea';
+export type { ColorAreaProps } from './components/ColorArea/ColorArea';
+
+export { ColorWheel } from './components/ColorWheel/ColorWheel';
+export type { ColorWheelProps } from './components/ColorWheel/ColorWheel';
+
+export { ColorField } from './components/ColorField/ColorField';
+export type { ColorFieldProps } from './components/ColorField/ColorField';
+
+export { ColorThumb } from './components/ColorThumb/ColorThumb';
+export type { ColorThumbProps } from './components/ColorThumb/ColorThumb';
+
+export { ColorPickerDialog } from './components/ColorPickerDialog/ColorPickerDialog';
+export type { ColorPickerDialogProps } from './components/ColorPickerDialog/ColorPickerDialog';
+
+// Group 9 — Date & Time
+export { DateField, TimeField } from './components/DateField/DateField';
+export type { DateFieldProps, TimeFieldProps } from './components/DateField/DateField';
+
+export { Calendar, RangeCalendar } from './components/Calendar/Calendar';
+export type { CalendarProps, RangeCalendarProps } from './components/Calendar/Calendar';
+
+export { DatePicker } from './components/DatePicker/DatePicker';
+export type { DatePickerProps } from './components/DatePicker/DatePicker';
+
+export { DateRangePicker } from './components/DateRangePicker/DateRangePicker';
+export type { DateRangePickerProps } from './components/DateRangePicker/DateRangePicker';
+
+export { ToggleButtons } from './components/ToggleButtons/ToggleButtons';
+export type { ToggleButtonsProps } from './components/ToggleButtons/ToggleButtons';
+
+export { IntelBrandedLoading } from './components/IntelBrandedLoading/IntelBrandedLoading';
+export type { IntelBrandedLoadingProps } from './components/IntelBrandedLoading/IntelBrandedLoading';
+
+export { VirtualizedListLayout } from './components/VirtualizedListLayout/VirtualizedListLayout';
+export type { VirtualizedListLayoutProps } from './components/VirtualizedListLayout/VirtualizedListLayout';
+
+export { VirtualizedHorizontalGrid } from './components/VirtualizedHorizontalGrid/VirtualizedHorizontalGrid';
+export type { VirtualizedHorizontalGridProps } from './components/VirtualizedHorizontalGrid/VirtualizedHorizontalGrid';
+export { HorizontalLayout } from './components/VirtualizedHorizontalGrid/HorizontalLayout';
+export type { HorizontalLayoutOptions } from './components/VirtualizedHorizontalGrid/HorizontalLayout';
+
+// Group 10 — Advanced / Application-Specific
+export { DropZone } from './components/DropZone/DropZone';
+export type { DropZoneProps } from './components/DropZone/DropZone';
+
+export { TreeView } from './components/TreeView/TreeView';
+export type { TreeViewProps } from './components/TreeView/TreeView';
+
+export { ActionBar, ActionBarContainer } from './components/ActionBar/ActionBar';
+export type { ActionBarProps, ActionBarContainerProps } from './components/ActionBar/ActionBar';
+
+export { PressableElement } from './components/PressableElement/PressableElement';
+export type { PressableElementProps } from './components/PressableElement/PressableElement';
+
+export { CornerIndicator } from './components/CornerIndicator/CornerIndicator';
+export type { CornerIndicatorProps } from './components/CornerIndicator/CornerIndicator';
+
+export { PhotoPlaceholder } from './components/PhotoPlaceholder/PhotoPlaceholder';
+export type { PhotoPlaceholderProps } from './components/PhotoPlaceholder/PhotoPlaceholder';
+
+export { FullscreenAction } from './components/FullscreenAction/FullscreenAction';
+export type { FullscreenActionProps } from './components/FullscreenAction/FullscreenAction';
+
+export { MediaViewModes } from './components/MediaViewModes/MediaViewModes';
+export type { MediaViewModesProps } from './components/MediaViewModes/MediaViewModes';
+export { ViewModes } from './components/MediaViewModes/utils';
