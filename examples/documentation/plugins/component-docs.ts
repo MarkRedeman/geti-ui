@@ -8,12 +8,16 @@ interface ComponentPage {
   componentName: string;
   category: string;
   title: string;
+  storiesPath?: string;  // absolute path to .stories.tsx file, or undefined
+  componentPath?: string; // absolute path to component .tsx file
 }
 
 const COMPONENT_ROOT = path.resolve(
   __dirname,
   '../../../packages/ui/src/components'
 );
+
+const STORIES_GALLERY_PATH = path.resolve(__dirname, '../theme/StoriesGallery');
 
 const CATEGORY_LABELS: Record<string, string> = {
   ui: 'Primitive Actions',
@@ -196,6 +200,34 @@ function transformContent(raw: string, componentName: string): string {
   return frontmatter + content;
 }
 
+/**
+ * Find the .stories.tsx file inside a component directory.
+ * Returns the absolute path if found, or null if not.
+ */
+function findStoriesFile(componentDir: string): string | null {
+  const files = fs.readdirSync(componentDir);
+  const storiesFile = files.find(f => f.endsWith('.stories.tsx'));
+  return storiesFile ? path.join(componentDir, storiesFile) : null;
+}
+
+/**
+ * Find the component .tsx file inside a component directory.
+ * Returns the absolute path if found, or null if not.
+ * Looks for {ComponentName}.tsx (matching the componentName from the MDX filename).
+ */
+function findComponentFile(componentDir: string, componentName: string): string | null {
+  const componentFile = path.join(componentDir, `${componentName}.tsx`);
+  return fs.existsSync(componentFile) ? componentFile : null;
+}
+
+/**
+ * Escape backticks and `${` sequences so the string can be safely embedded
+ * inside a JS/MDX template literal (backtick string).
+ */
+function escapeTemplateLiteral(s: string): string {
+  return s.replace(/`/g, '\\`').replace(/\$\{/g, '\\${');
+}
+
 function discoverComponentMdxFiles(): ComponentPage[] {
   const pages: ComponentPage[] = [];
 
@@ -227,6 +259,8 @@ function discoverComponentMdxFiles(): ComponentPage[] {
           componentName,
           category,
           title: componentName,
+          storiesPath: findStoriesFile(componentDir) ?? undefined,
+          componentPath: findComponentFile(componentDir, componentName) ?? undefined,
         });
       }
     }
@@ -284,7 +318,24 @@ export function componentDocsPlugin(): RspressPlugin {
     addPages() {
       return pages.map((page) => {
         const raw = fs.readFileSync(page.filepath, 'utf-8');
-        const content = transformContent(raw, page.componentName);
+        let content = transformContent(raw, page.componentName);
+
+        if (page.storiesPath) {
+          const storiesImportPath = page.storiesPath.replace(/\.tsx$/, '');
+          const rawStories = fs.readFileSync(page.storiesPath, 'utf-8');
+          const escapedSource = escapeTemplateLiteral(rawStories);
+
+          // Note: we're not importing the component directly because it causes bundling issues
+          // Instead, we'll handle the missing component case in StoriesGallery
+          // Import the component directly from @geti/ui package
+          // This avoids the bundling issue where meta.component gets lost
+          content +=
+            `\n\nimport StoriesGallery from '${STORIES_GALLERY_PATH}';\n` +
+            `import * as ComponentStories from '${storiesImportPath}';\n` +
+            `import { ${page.componentName} } from '@geti/ui';\n\n` +
+            `<StoriesGallery module={ComponentStories} source={\`${escapedSource}\`} component={${page.componentName}} />\n`;
+        }
+
         return {
           routePath: page.routePath,
           content,

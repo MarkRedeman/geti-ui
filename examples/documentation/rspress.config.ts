@@ -8,6 +8,39 @@ export default defineConfig({
   description: 'Component design system for Intel Geti products',
   // icon: '/favicon.png',
   // logo: '/logo.png',
+  // Disable SSG because Adobe React Spectrum uses browser APIs (e.g. `document`)
+  // at module evaluation time, which is incompatible with Node.js SSR/SSG.
+  ssg: false,
+  markdown: {
+    // Exclude Storybook-internal /docs/... links from dead-link checking.
+    // These links appear in component MDX source files (written for Storybook)
+    // and cannot be resolved in the Rspress build context.
+    link: {
+      checkDeadLinks: {
+        excludes: (url: string) => url.startsWith('/docs/') || url.includes('?path=/docs/'),
+      },
+    },
+  },
+  builderConfig: {
+    source: {
+      // Ensure the component source files from @geti/ui are compiled
+      // with the full TypeScript/JSX transform (not treated as external CJS).
+      include: [path.resolve(__dirname, '../../packages/ui/src')],
+    },
+    tools: {
+      rspack: {
+        module: {
+          parser: {
+            javascript: {
+              // Downgrade ESM linking errors to warnings so that components
+              // re-exporting from @adobe/react-spectrum (CJS) don't break the build.
+              exportsPresence: 'warn',
+            },
+          },
+        },
+      },
+    },
+  },
   themeConfig: {
     darkMode: true,
     nav: [

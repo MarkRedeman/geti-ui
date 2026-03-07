@@ -5,7 +5,7 @@ export default defineConfig({
   lib: [
     {
       format: "esm",
-      bundle: false,
+      bundle: true,
       output: {
         distPath: {
           root: "./dist/esm",
@@ -15,7 +15,7 @@ export default defineConfig({
     },
     {
       format: "cjs",
-      bundle: false,
+      bundle: true,
       output: {
         distPath: {
           root: "./dist/cjs",
