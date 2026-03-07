@@ -12,7 +12,6 @@ import { Tooltip, TooltipTrigger } from '@geti/ui';
 ```
 
 - [React Spectrum V3 Tooltip](https://react-spectrum.adobe.com/react-spectrum/Tooltip.html)
-- [Spectrum 2 Tooltip](https://react-spectrum.adobe.com/s2/Tooltip.html)
 
 <Stories />
 
@@ -41,8 +40,8 @@ Key responsibilities:
 ### Placement
 Tooltips can be placed on any side of the trigger (`top`, `bottom`, `left`, `right`). They will automatically flip if there is not enough space.
 
-### Semantic Variants (V3 only)
-React Spectrum V3 supports semantic variants (`neutral`, `positive`, `negative`, `info`) which add a colored background and optional icon. Note that these are being deprecated in Spectrum 2.
+### Semantic Variants
+React Spectrum V3 supports semantic variants (`neutral`, `positive`, `negative`, `info`) which add a colored background and optional icon.
 
 ## Props
 
@@ -50,7 +49,7 @@ React Spectrum V3 supports semantic variants (`neutral`, `positive`, `negative`,
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
 | `children` | `ReactNode` | - | The text or content of the tooltip. |
-| `variant` | `'neutral' \| 'positive' \| 'negative' \| 'info'` | `'neutral'` | The semantic variant of the tooltip (V3 only). |
+| `variant` | `'neutral' \| 'positive' \| 'negative' \| 'info'` | `'neutral'` | The semantic variant of the tooltip. |
 | `showIcon` | `boolean` | `false` | Whether to show a status icon (requires a semantic variant). |
 
 ### TooltipTrigger Props
@@ -66,31 +65,4 @@ React Spectrum V3 supports semantic variants (`neutral`, `positive`, `negative`,
 - **Keyboard Support**: Tooltips appear when the trigger element receives keyboard focus.
 - **ARIA**: `TooltipTrigger` manages the `aria-describedby` relationship automatically.
 - **Timing**: Follows standard "warmup" and "cooldown" timers to prevent multiple tooltips from flashing as the user moves their mouse.
-
-## Spectrum 2 Migration
-
-The migration to Spectrum 2 (S2) involves simplifying the Tooltip component and moving some configuration.
-
-### Key Changes
-- **Simplified Tooltip**: S2 Tooltips no longer support semantic `variant` or `showIcon`. They are strictly for plain text labels.
-- **Prop Relocation**: The `placement` prop moves exclusively to the `TooltipTrigger` in S2.
-- **Disabled State Accessibility**: S2 emphasizes that tooltips on disabled elements are not accessible. For help text on disabled buttons, `ContextualHelp` is the recommended alternative.
-
-### Migration Example
-
-**V3 Style (Current):**
-```tsx
-<TooltipTrigger placement="bottom">
-  <ActionButton aria-label="Delete"><Delete /></ActionButton>
-  <Tooltip variant="negative" showIcon>Delete this item</Tooltip>
-</TooltipTrigger>
-```
-
-**S2 Style (Future):**
-```tsx
-<TooltipTrigger placement="bottom">
-  <ActionButton aria-label="Delete"><Delete /></ActionButton>
-  <Tooltip>Delete this item</Tooltip>
-</TooltipTrigger>
-```
 
