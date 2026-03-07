@@ -3,46 +3,96 @@ import * as DocStories from './Popover.stories';
 
 <Meta of={DocStories} />
 
-<Title />
+# Popover
+
+<Subtitle>Popovers are small, anchored overlays that appear relative to a trigger element and do not block the rest of the UI.</Subtitle>
+
+```tsx
+import { Popover } from '@geti/ui';
+```
+
+- [React Spectrum V3 Popover (via DialogTrigger)](https://react-spectrum.adobe.com/react-spectrum/DialogTrigger.html#popover)
+- [Spectrum 2 Popover](https://react-spectrum.adobe.com/s2/Popover.html)
+
+<Stories />
 
 ## Responsibility
 
-Wraps `DialogTrigger` with a pre-set `type="popover"` default, providing a convenient shorthand for the common case of anchored non-modal popover overlays. Callers can override `type` to switch to modal, tray, or fullscreen when needed.
+The `Popover` component provides a convenient shorthand for creating anchored overlays. In the current Geti UI implementation, it wraps `DialogTrigger` with a default `type="popover"`.
 
-## Design
+Key responsibilities:
+- **Anchored Positioning**: Automatically calculates the best placement for the overlay relative to the trigger.
+- **Non-blocking Interaction**: Allows the user to interact with the rest of the application while the popover is open.
+- **Automatic Dismissal**: Closes when clicking outside the popover or pressing the `Esc` key.
 
-The key design point: `PopoverProps` explicitly **omits** `type` from `SpectrumDialogTriggerProps` and re-declares it as an optional prop with default value `'popover'`. This is implemented by setting `type` before spreading `...props`, so callers can still override it:
+### When to use
+- For small menus or filters that should remain visible while the user works in the main area.
+- For detail panels that provide extra context about a specific element.
+- When you need an overlay that doesn't feel as heavy or disruptive as a modal dialog.
 
-```tsx
-const Popover = ({ type = 'popover', ...props }: PopoverProps) => (
-  <SpectrumDialogTrigger type={type} {...props} />
-);
-```
+### When to avoid
+- For critical tasks that require the user's full attention (use `Dialog` instead).
+- For very simple, non-interactive text hints (use `Tooltip`).
+- When the content is too large or complex for a small anchored window.
 
-This means `<Popover>` and `<DialogTrigger type="popover">` are functionally identical, but `Popover` communicates intent more clearly at the call site.
+## Variants
 
-## Flow
+### Placement
+Popovers can be placed on any side of the trigger (`top`, `bottom`, `left`, `right`). The positioning engine will automatically flip the placement if there isn't enough space.
 
-```
-props { type = 'popover', children, isOpen, onOpenChange, ...rest }
-  → <SpectrumDialogTrigger type={type} {...rest}>
-      {children}   ← trigger element + dialog/content
-    </SpectrumDialogTrigger>
-```
-
-## Integration
-
-- Used where a small, anchored, non-blocking overlay is needed (e.g. filter panels, date pickers, colour pickers).
-- Contrast with `CustomPopover` (same category) — `Popover` uses Spectrum's full `DialogTrigger` machinery; `CustomPopover` uses `react-aria-components` directly for more layout control and an optional arrow indicator.
-- Accepts the same children pattern as `DialogTrigger`: `[TriggerElement, DialogContent]` or `[TriggerElement, (close) => DialogContent]`.
-
-
-<Stories />
----
-
-<Primary />
+### Custom Popover
+For cases requiring even more control over the overlay structure (e.g., adding an arrow or custom padding), Geti UI also provides a `CustomPopover` component based on `react-aria-components`.
 
 ## Props
 
-<Controls />
+`Popover` inherits all props from `DialogTrigger` but defaults the `type` to `'popover'`.
+
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `type` | `'modal' \| 'popover' \| 'tray' \| 'fullscreen'` | `'popover'` | The type of overlay to render. |
+| `placement` | `'top' \| 'bottom' \| 'left' \| 'right' \| ...` | `'bottom'` | The preferred placement relative to the trigger. |
+| `isOpen` | `boolean` | - | Whether the popover is open (controlled). |
+| `onOpenChange` | `(isOpen: boolean) => void` | - | Handler called when the open state changes. |
+| `hideArrow` | `boolean` | `true` | Whether to hide the arrow pointing to the trigger. |
+
+## Accessibility
+
+- **Keyboard Support**: `Esc` closes the popover. Focus is automatically managed within the popover content.
+- **Aria Roles**: The trigger and overlay are linked via `aria-haspopup` and `aria-controls`.
+- **Dismissal**: Clicking outside the popover follows the "light dismiss" pattern, which is standard for non-modal overlays.
+
+## Spectrum 2 Migration
+
+The migration to Spectrum 2 (S2) introduces a major structural change: `Popover` becomes a first-class component rather than a configuration of `DialogTrigger`.
+
+### Key Changes
+- **Standalone Component**: Instead of setting `type="popover"` on a trigger, you will use the `<Popover>` component directly as a child of `<DialogTrigger>`.
+- **Prop Relocation**: Props like `placement`, `offset`, and `hideArrow` move from the `DialogTrigger` (the wrapper) to the `Popover` (the content component).
+- **Free-form Content**: S2 Popovers do not require a `<Dialog>` wrapper inside them; they can contain any arbitrary JSX directly.
+
+### Migration Example
+
+**V3 Style (Current):**
+```tsx
+<Popover placement="bottom">
+  <Button>Info</Button>
+  <Dialog>
+    <Heading>Version Info</Heading>
+    <Content>Version 1.0.0</Content>
+  </Dialog>
+</Popover>
+```
+
+**S2 Style (Future):**
+```tsx
+<DialogTrigger>
+  <Button>Info</Button>
+  <Popover placement="bottom">
+    <div className={style({ padding: 12 })}>
+      <h3 className={style({ font: 'heading-xs' })}>Version Info</h3>
+      <p className={style({ font: 'body' })}>Version 1.0.0</p>
+    </div>
+  </Popover>
+</DialogTrigger>
+```
 
