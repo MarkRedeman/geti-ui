@@ -3,42 +3,98 @@ import * as DocStories from './TagGroup.stories';
 
 <Meta of={DocStories} />
 
-<Title />
+<Title>TagGroup</Title>
+
+<Subtitle>A focusable list of labels, categories, or keywords with support for selection and removal.</Subtitle>
+
+```tsx
+import { TagGroup, Item } from '@geti/ui';
+```
+
+- [React Spectrum V3 TagGroup](https://react-spectrum.adobe.com/react-spectrum/TagGroup.html)
+- [Spectrum 2 TagGroup](https://react-spectrum.adobe.com/s2/TagGroup.html)
+- [React Aria TagGroup (Headless)](https://react-spectrum.adobe.com/react-aria/TagGroup.html)
+
+<Stories />
 
 ## Responsibility
 
-Re-exports Adobe React Spectrum's `TagGroup` as a named Geti component, providing an interactive list of removable tags with selection and keyboard navigation. Used for editable label/tag sets where users can add or remove items.
+`TagGroup` is an interactive collection of tags used for categorizing, filtering, or labeling items. It provides a focusable list that supports keyboard navigation, single or multiple selection, and individual item removal.
 
-## Design
+### When to use TagGroup
+- **Interactive Labels**: Displaying keywords, categories, or metadata that users can interact with.
+- **Selection**: When users need to select one or more tags from a group (e.g., filtering a list).
+- **Removal**: When users need to dismiss or delete tags (e.g., removing applied filters).
+- **Dynamic Collections**: Managing a list of items that can grow or shrink based on user action.
 
-Generic thin wrapper — `TagGroupProps<T extends object> extends SpectrumTagGroupProps<T>`. The component body is `(props) => <SpectrumTagGroup {...props} />`. Also re-exports Spectrum's `Item` for tag item definition.
+### Comparison with other components
+| Scenario | Use instead |
+| :--- | :--- |
+| Static, non-interactive status label (e.g. "Beta") | `Badge` |
+| Read-only label paired with a form field | `Label` |
+| Inline status indicators (error/warning) | `StatusLight` |
 
-Key Spectrum props: `label`, `onRemove(keys)`, `selectionMode`, `maxRows` (truncates overflow to a "Show more" expander).
+### Usage Rules
+- **Always provide a label**: Use the `label` prop, or `aria-label` if no visual label is needed.
+- **Removal requires `onRemove`**: The remove button only appears when the `onRemove` handler is provided.
+- **`maxRows` for overflow**: Use `maxRows` to cap visible rows; an auto-generated "Show more" button will handle the overflow.
 
-**Important distinction**: Spectrum's `Tag` (used inside `TagGroup`) is unrelated to `Tag` in `data/Tag/`. The former is Spectrum's interactive removable chip; the latter is Geti's custom annotation label chip. They share a name but have entirely different APIs and styling.
+## Variants
 
-## Flow
+### Selection Modes
+Supports `none` (default), `single`, and `multiple` selection modes.
 
-```
-props { label, onRemove, items, children (Item nodes), maxRows, ...rest }
-  → <SpectrumTagGroup {...props} />
-```
-
-No state, no effects, no refs.
-
-## Integration
-
-- Used in label assignment UI, filter panels, and multi-select fields where the current selection is shown as removable chips.
-- Pairs with Spectrum's `Tag` component (not re-exported by Geti) for individual tag items inside the group.
-- Contrast with `data/Tag/` — that is the Geti-custom annotation label chip; this is Spectrum's interactive removable tag container.
-
-
-<Stories />
----
-
-<Primary />
+### Removable Tags
+Tags become removable when the `onRemove` prop is passed to the `TagGroup`.
 
 ## Props
 
-<Controls />
+| Prop | Type | Default | Description |
+| :--- | :--- | :--- | :--- |
+| `children` | `ItemElement \| ItemRenderer` | — | The items to display. Typically `<Item>` nodes. |
+| `label` | `ReactNode` | — | The visual label for the tag group. |
+| `onRemove` | `(keys: Set<Key>) => void` | — | Handler called when a tag is removed. |
+| `selectionMode` | `'none' \| 'single' \| 'multiple'` | `'none'` | The selection mode for the group. |
+| `maxRows` | `number` | — | The maximum number of rows to display before truncating. |
+| `items` | `Iterable<T>` | — | The list of items for dynamic collections. |
 
+## Accessibility
+
+### Roles and Navigation
+- `TagGroup` renders as a **`role="grid"`**. Each tag is a **`role="row"`** containing a **`role="gridcell"`**.
+- **Keyboard Navigation**:
+    - `Arrow keys`: Move focus between tags.
+    - `Space / Enter`: Select/deselect the focused tag.
+    - `Backspace / Delete`: Remove the focused tag (if `onRemove` is provided).
+    - `Home / End`: Jump to the first or last tag.
+
+### Requirements
+- **Accessible Name**: A `label` or `aria-label` is mandatory for the grid landmark.
+- **Text Value**: Provide `textValue` on an `<Item>` if its children are not plain text (e.g., if it contains an icon).
+
+## Spectrum 2 Migration
+
+The migration to Spectrum 2 (S2) involves a significant child component rename and API refinement:
+
+- **Import change**: `@adobe/react-spectrum` → `@react-spectrum/s2`.
+- **`Item` → `Tag`**: The generic `<Item>` is replaced by a semantically named `<Tag>` component.
+- **Labeling**: S2 promotes the visual `label` prop as primary over `aria-label`.
+- **Visuals**: S2 introduces `isEmphasized` and explicit `size` ("S", "M", "L") props.
+
+### S2 Example Preview
+```tsx
+import { TagGroup, Tag } from '@react-spectrum/s2';
+
+<TagGroup label="Categories" selectionMode="multiple">
+  <Tag id="news">News</Tag>
+  <Tag id="travel">Travel</Tag>
+</TagGroup>
+```
+
+### Prop Migration
+| V3 Prop | S2 Equivalent | Notes |
+| :--- | :--- | :--- |
+| `<Item>` | `<Tag>` | Core semantic change |
+| `actionLabel` | `groupActionLabel` | Renamed for clarity |
+| `onAction` | `onGroupAction` | Renamed for clarity |
+| `UNSAFE_className` | `styles` | S2 uses the `style()` macro |
