@@ -3,46 +3,95 @@ import * as DocStories from './Tabs.stories';
 
 <Meta of={DocStories} />
 
-<Title />
+<Title>Tabs</Title>
+
+<Subtitle>Organize content into sibling sections, visible one at a time.</Subtitle>
+
+```tsx
+import { Tabs, TabList, TabPanels, Item } from '@geti/ui';
+```
+
+- [React Spectrum V3 Tabs](https://react-spectrum.adobe.com/react-spectrum/Tabs.html)
+- [Spectrum 2 Tabs](https://react-spectrum.adobe.com/s2/Tabs.html)
+- [React Aria Tabs (Headless)](https://react-spectrum.adobe.com/react-aria/Tabs.html)
+
+<Stories />
 
 ## Responsibility
 
-Provides a tabbed navigation system that organises content into multiple sections, each accessible via a labelled tab. Exists to give the library a stable, consistently-themed API surface for tabbed UIs while delegating all accessibility, keyboard navigation, and ARIA semantics to Adobe React Spectrum.
+`Tabs` are used to organize **same-level sibling content** where only one section is visible at a time. They provide a clear visual hierarchy and allow users to switch between related content sets without leaving the current context.
 
-## Design
+### When to use
+- **Related Content**: Grouping related information that forms a coherent unit (e.g., project settings, user profile tabs).
+- **Single Visibility**: When only one panel needs to be seen at once to reduce cognitive load.
+- **Limited Sections**: Best for 2–7 sections; for larger sets, consider a vertical navigation sidebar.
 
-The folder is split into four co-located files that mirror the composable structure of Spectrum's own Tabs API:
+### Comparison with other components
+| Situation | Use instead |
+| :--- | :--- |
+| Persistent navigation across route changes | `VerticalNav` |
+| Items are actions that perform operations | `ActionGroup` |
+| Large number of sections (> 8) | `VerticalNav` |
+| Toggleable filters or multi-select states | `ToggleButtonGroup` |
 
-- **`Tabs.tsx`** — thin wrapper over `SpectrumTabs`. Declares `TabsProps<T>` extending `SpectrumTabsProps<T>` and renders `<SpectrumTabs {...props} />` with a single-line generic arrow function.
-- **`TabList.tsx`** — thin wrapper over `SpectrumTabList`. Same pattern: `TabListProps<T>` extending `SpectrumTabListProps<T>`, renders `<SpectrumTabList {...props} />`.
-- **`TabPanels.tsx`** — thin wrapper over `SpectrumTabPanels`. `TabPanelsProps<T>` extending `SpectrumTabPanelsProps<T>`, renders `<SpectrumTabPanels {...props} />`.
-- **`Item.tsx`** — a direct re-export of `Item` from `@adobe/react-spectrum`. No wrapper needed; the Spectrum primitive is consumed as-is.
+### Usage Rules
+- **Labeling**: Always provide an `aria-label` on the `TabList` (or `aria-labelledby` pointing to a heading).
+- **Nesting**: Avoid nesting `Tabs` within `Tabs` as it complicates keyboard navigation and focus flow.
+- **Orientation**: Default is horizontal; use `orientation="vertical"` for sidebar-style tabs.
 
-All three wrapper components are generic over `T extends object` (the key type for tab items) and pass every prop through unchanged via `{...props}`. No additional CSS, state, or logic is introduced.
+## Variants
 
-## Flow
+### Density
+Supports `regular` (default) and `compact` density for tighter layouts.
 
-Props in → wrapper component → Spectrum component → rendered output.
-
-1. A caller provides `TabsProps<T>` (e.g. `selectedKey`, `onSelectionChange`, `orientation`) to `<Tabs>`.
-2. `Tabs` forwards all props unchanged to `<SpectrumTabs>`.
-3. Inside `<Tabs>`, the caller composes `<TabList>` (containing `<Item>` children for each tab label) and `<TabPanels>` (containing `<Item>` children for each panel's content).
-4. `TabList` and `TabPanels` similarly forward all props to their Spectrum counterparts.
-5. Spectrum manages selection state, keyboard focus, and ARIA attributes internally.
-
-## Integration
-
-- **Dependencies:** `@adobe/react-spectrum` (`Tabs`, `TabList`, `TabPanels`, `Item`).
-- **Exported symbols:** `Tabs`, `TabsProps`, `TabList`, `TabListProps`, `TabPanels`, `TabPanelsProps`, and `Item` — all re-exported from the library's public `index.ts`.
-- **Callers** compose the four pieces together; `Tabs` is the root, `TabList` and `TabPanels` are its immediate children, and `Item` populates both.
-
-
-<Stories />
----
-
-<Primary />
+### Orientation
+Can be rendered horizontally or vertically. Vertical tabs are useful when vertical space is abundant but horizontal space is constrained.
 
 ## Props
 
-<Controls />
+### Tabs Props
+| Prop | Type | Default | Description |
+| :--- | :--- | :--- | :--- |
+| `selectedKey` | `Key` | — | The currently selected tab key. |
+| `onSelectionChange` | `(key: Key) => void` | — | Handler called when the selection changes. |
+| `orientation` | `'horizontal' \| 'vertical'` | `'horizontal'` | The orientation of the tabs. |
+| `density` | `'regular' \| 'compact'` | `'regular'` | The density of the tabs. |
+| `isDisabled` | `boolean` | `false` | Whether the entire tab group is disabled. |
 
+### TabList Props
+| Prop | Type | Default | Description |
+| :--- | :--- | :--- | :--- |
+| `aria-label` | `string` | — | **Required.** Accessible label for the tab list. |
+| `children` | `ItemElement \| ItemRenderer` | — | The tab labels (typically `<Item>` nodes). |
+
+## Accessibility
+
+### Roles and Navigation
+- `Tabs` follows the WAI-ARIA Tabs pattern: `role="tablist"` for the container, `role="tab"` for each item, and `role="tabpanel"` for the content.
+- **Keyboard Navigation**:
+    - `Tab`: Enters the tab list (focuses the active tab). Subsequent `Tab` presses move focus **into the active panel**.
+    - `Arrow Left / Right`: Moves focus and (by default) selects the next/previous tab.
+    - `Home / End`: Jump to the first or last tab.
+- **Activation Mode**: By default, moving focus with arrows selects the tab (`keyboardActivation="automatic"`). For expensive panel renders, use `keyboardActivation="manual"` to require `Enter` or `Space` to confirm.
+
+### Labelling Requirement
+Always include an `aria-label` or `aria-labelledby` on the `TabList` component to provide context to screen reader users.
+
+## Spectrum 2 Migration
+
+The Spectrum 2 (S2) migration involves significant structural changes to the JSX hierarchy:
+
+- **Remove `<TabPanels>` wrapper**: In S2, individual `<TabPanel>` elements are siblings to the `<TabList>`, and the wrapper is eliminated.
+- **Item Rename**: `<Item>` in the list becomes `<Tab>`, and in the panels, it becomes `<TabPanel>`.
+- **Dynamic Collections**: The `items` prop moves from the root `<Tabs>` component to the `<TabList>`.
+- **Automatic Overflow**: S2 automatically collapses overflowing tabs into a `Picker` dropdown menu.
+- **Style macro**: V3 dimension props (e.g., `margin`, `width`) are replaced by the `styles={style({...})}` macro.
+
+### S2 Migration Mapping
+| V3 Component | S2 Equivalent |
+| :--- | :--- |
+| `<Tabs>` | `<Tabs>` |
+| `<TabList>` | `<TabList>` |
+| `<TabPanels>` | ❌ Removed |
+| `<Item>` (in list) | `<Tab id="...">` |
+| `<Item>` (in panels) | `<TabPanel id="...">` |
