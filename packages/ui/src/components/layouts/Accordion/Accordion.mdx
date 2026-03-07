@@ -18,48 +18,313 @@ import { Accordion, Disclosure, DisclosureTitle, DisclosurePanel } from '@geti/u
 
 ## Responsibility
 
-The `Accordion` component acts as a container for multiple `Disclosure` items. It manages the expansion state across all of its items, providing a cohesive layout and consistent behavior for large sets of related information.
+`Accordion` is the coordination layer over multiple `Disclosure` components. Where a standalone `Disclosure` owns only its own expansion state, `Accordion` owns the expansion state for the entire group — enforcing single-select or multi-select behaviour, handling focus management across panel headers, and providing a consistent visual rhythm for large sets of related information.
 
 Key responsibilities:
-- **Grouped Disclosure**: Coordinates multiple collapsible sections as a single unit.
-- **State Coordination**: Supports both single-item and multi-item expansion modes.
-- **Visual Consistency**: Ensures a uniform look and feel (spacing, alignment) across all items in the accordion.
-- **Progressive Disclosure**: Keeps the UI clean by hiding non-essential content until requested.
+- **Grouped Disclosure**: Coordinates multiple collapsible sections as a single logical unit, giving users a clear mental model of what is grouped together.
+- **Selection Mode**: Supports `single` mode (default — only one panel open at a time) and `multiple` mode (`allowsMultipleExpanded` — any number of panels can be open simultaneously).
+- **State Coordination**: Manages a set of expanded keys internally (uncontrolled) or delegates to the parent via `expandedKeys` + `onExpandedChange` (controlled).
+- **Focus Management**: Arrows keys cycle focus between disclosure headers within the accordion, as required by the WAI-ARIA Accordion pattern.
+- **Visual Consistency**: Ensures uniform spacing, alignment, and divider styling across all child `Disclosure` items.
 
 ### When to use
-- For large configuration panels with many settings that can be logically grouped.
+- For large configuration panels where settings can be logically grouped into named sections (e.g., "General", "Advanced", "Notifications").
 - For FAQ sections where users need to scan many questions before reading a specific answer.
-- When vertical space is limited and content can be effectively layered or hidden.
+- When vertical space is limited and content can be effectively layered across multiple collapsible panels.
+- When there are three or more related collapsible sections — if you only have one or two, prefer standalone `Disclosure` components.
 
 ### When to avoid
-- When only a single collapsible section is needed (use `Disclosure` instead).
-- When the user needs to see all content at once to compare items (use a `Well` or a simple stack).
-- For primary site-wide navigation (use a sidebar or `Tabs`).
+- When only a single collapsible section is needed — use `Disclosure` directly for less overhead and simpler composition.
+- When the user needs to see all content at once for comparison or sequential reading — show it directly with `Flex`/`Grid` or a `Well`.
+- For primary navigation — use a sidebar, `Tabs`, or a dedicated navigation component.
+- When sections are not logically related to each other — unrelated sections should be independent `Disclosure` components, not forced into a single `Accordion`.
+
+## Design
+
+`Accordion` is a **thin wrapper** around Adobe React Spectrum's `Accordion`. The full `SpectrumAccordionProps` interface is re-exported and all props are forwarded without modification. The `Disclosure`, `DisclosureTitle`, and `DisclosurePanel` sub-components are provided by `@geti/ui` (which re-exports them from Spectrum).
+
+```tsx
+// Accordion.tsx — the complete implementation
+import { Accordion as SpectrumAccordion, SpectrumAccordionProps } from '@adobe/react-spectrum';
+
+export interface AccordionProps extends SpectrumAccordionProps {}
+
+export const Accordion = (props: AccordionProps) => <SpectrumAccordion {...props} />;
+```
+
+The thin-wrapper pattern provides namespace isolation — product code imports from `@geti/ui` — while keeping maintenance cost at zero: every Spectrum Accordion improvement (animation, ARIA, keyboard handling) flows through automatically.
+
+**How `Accordion` and `Disclosure` relate**: `Accordion` acts as a React Context provider. When `Disclosure` components are rendered as direct children, they register themselves with the accordion's state machine and surrender control of their own `isExpanded` state. The accordion drives expansion through a collection of keys — each `Disclosure` child carries a `key` prop that the accordion uses to track which panels are open.
+
+```
+Accordion (state machine, key set)
+  └─ Disclosure key="general"     ← registers with accordion context
+       ├─ DisclosureTitle          ← header button, receives aria-expanded from context
+       └─ DisclosurePanel          ← content region, receives id from context
+  └─ Disclosure key="advanced"
+       ├─ DisclosureTitle
+       └─ DisclosurePanel
+```
+
+## Flow
+
+```
+User clicks a DisclosureTitle inside Accordion
+         │
+         ▼
+   Accordion's selection handler fires
+         │
+         ├─── Single mode (default):
+         │       New key selected → previous key deselected
+         │       expandedKeys = { clickedKey }
+         │
+         └─── Multiple mode (allowsMultipleExpanded):
+                 Clicked key toggled in the set
+                 expandedKeys = previous set ± clickedKey
+         │
+         ▼
+   Controlled: onExpandedChange(newKeys) fires → parent updates expandedKeys
+   Uncontrolled: Accordion updates internal key set
+         │
+         ▼
+   Each Disclosure reads its own key from accordion context
+   → isExpanded = expandedKeys.has(myKey)
+   → DisclosurePanel animates open or closed
+```
+
+**Uncontrolled (default)**
+
+Accordion owns the expanded key set internally. Use `defaultExpandedKeys` to pre-open specific sections.
+
+```tsx
+<Accordion defaultExpandedKeys={['general']}>
+    <Disclosure key="general">
+        <DisclosureTitle>General</DisclosureTitle>
+        <DisclosurePanel>...</DisclosurePanel>
+    </Disclosure>
+    <Disclosure key="advanced">
+        <DisclosureTitle>Advanced</DisclosureTitle>
+        <DisclosurePanel>...</DisclosurePanel>
+    </Disclosure>
+</Accordion>
+```
+
+**Controlled**
+
+The parent owns `expandedKeys`. Use this when expansion state must be persisted, synchronised with a URL, or driven from external triggers (e.g., a "Expand All" button).
+
+```tsx
+const [openKeys, setOpenKeys] = useState<Selection>(new Set(['general']));
+
+<>
+    <Button onPress={() => setOpenKeys(new Set(['general', 'advanced', 'notifications']))}>
+        Expand All
+    </Button>
+    <Accordion expandedKeys={openKeys} onExpandedChange={setOpenKeys}>
+        <Disclosure key="general">
+            <DisclosureTitle>General</DisclosureTitle>
+            <DisclosurePanel>...</DisclosurePanel>
+        </Disclosure>
+        <Disclosure key="advanced">
+            <DisclosureTitle>Advanced</DisclosureTitle>
+            <DisclosurePanel>...</DisclosurePanel>
+        </Disclosure>
+        <Disclosure key="notifications">
+            <DisclosureTitle>Notifications</DisclosureTitle>
+            <DisclosurePanel>...</DisclosurePanel>
+        </Disclosure>
+    </Accordion>
+</>
+```
 
 ## Variants
 
-### Expansion Mode
-- **Single (Default)**: Only one section can be expanded at a time. Expanding a new section will automatically collapse the previously expanded one.
-- **Multiple**: Allows any number of sections to be expanded or collapsed independently. Enable this via the `allowsMultipleExpanded` prop.
+### Single Expansion (Default)
+
+Only one section is open at a time. Activating a new section collapses the previously open one. This keeps vertical content height predictable and guides users through sections sequentially.
+
+```tsx
+<Accordion>
+    <Disclosure>
+        <DisclosureTitle>Section One</DisclosureTitle>
+        <DisclosurePanel>
+            <p>Content for section one.</p>
+        </DisclosurePanel>
+    </Disclosure>
+    <Disclosure>
+        <DisclosureTitle>Section Two</DisclosureTitle>
+        <DisclosurePanel>
+            <p>Content for section two.</p>
+        </DisclosurePanel>
+    </Disclosure>
+    <Disclosure>
+        <DisclosureTitle>Section Three</DisclosureTitle>
+        <DisclosurePanel>
+            <p>Content for section three.</p>
+        </DisclosurePanel>
+    </Disclosure>
+</Accordion>
+```
+
+### Multiple Expansion
+
+`allowsMultipleExpanded` lets users open any number of sections simultaneously. Useful when sections are independent and users may need to reference two at the same time.
+
+```tsx
+<Accordion allowsMultipleExpanded>
+    <Disclosure>
+        <DisclosureTitle>Input Configuration</DisclosureTitle>
+        <DisclosurePanel>...</DisclosurePanel>
+    </Disclosure>
+    <Disclosure>
+        <DisclosureTitle>Output Configuration</DisclosureTitle>
+        <DisclosurePanel>...</DisclosurePanel>
+    </Disclosure>
+</Accordion>
+```
+
+### Quiet Style
+
+The `isQuiet` prop reduces the visual weight of all disclosure headers, suitable for inline panels or sidebars where the accordion should recede behind the primary content.
+
+```tsx
+<Accordion isQuiet>
+    <Disclosure>
+        <DisclosureTitle>Filters</DisclosureTitle>
+        <DisclosurePanel>...</DisclosurePanel>
+    </Disclosure>
+    <Disclosure>
+        <DisclosureTitle>Sort Order</DisclosureTitle>
+        <DisclosurePanel>...</DisclosurePanel>
+    </Disclosure>
+</Accordion>
+```
+
+### Pre-Opened Sections
+
+```tsx
+// Uncontrolled — open "advanced" by default
+<Accordion defaultExpandedKeys={['advanced']}>
+    <Disclosure key="general">
+        <DisclosureTitle>General</DisclosureTitle>
+        <DisclosurePanel>...</DisclosurePanel>
+    </Disclosure>
+    <Disclosure key="advanced">
+        <DisclosureTitle>Advanced</DisclosureTitle>
+        <DisclosurePanel>
+            <p>This section is open on first render.</p>
+        </DisclosurePanel>
+    </Disclosure>
+</Accordion>
+```
+
+### FAQ Pattern
+
+```tsx
+const faqs = [
+    { id: 'faq-1', question: 'How do I upload a dataset?', answer: '...' },
+    { id: 'faq-2', question: 'What annotation formats are supported?', answer: '...' },
+    { id: 'faq-3', question: 'Can I re-train a deployed model?', answer: '...' },
+];
+
+<Accordion allowsMultipleExpanded>
+    {faqs.map(faq => (
+        <Disclosure key={faq.id}>
+            <DisclosureTitle>{faq.question}</DisclosureTitle>
+            <DisclosurePanel>
+                <p>{faq.answer}</p>
+            </DisclosurePanel>
+        </Disclosure>
+    ))}
+</Accordion>
+```
 
 ## Props
 
+### Accordion Props
+
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| `children` | `DisclosureNode[]` | - | The `Disclosure` items to display. |
+| `children` | `DisclosureNode[]` | — | `Disclosure` items. Each child should carry a unique `key`. |
 | `allowsMultipleExpanded` | `boolean` | `false` | Whether multiple items can be expanded simultaneously. |
-| `expandedKeys` | `Iterable<Key>` | - | The keys of the expanded sections (controlled). |
-| `defaultExpandedKeys` | `Iterable<Key>` | `[]` | The keys of the sections expanded by default (uncontrolled). |
-| `onExpandedChange` | `(keys: Selection) => void` | - | Handler called when the expansion state changes. |
-| `isDisabled` | `boolean` | `false` | Whether the entire accordion is disabled. |
+| `expandedKeys` | `Iterable<Key>` | — | The keys of the currently expanded sections (controlled). |
+| `defaultExpandedKeys` | `Iterable<Key>` | `[]` | The keys of the sections expanded on first render (uncontrolled). |
+| `onExpandedChange` | `(keys: Selection) => void` | — | Handler called when the set of expanded keys changes. |
+| `isDisabled` | `boolean` | `false` | Whether the entire accordion is disabled (all triggers non-interactive). |
+| `isQuiet` | `boolean` | `false` | Whether to use the quiet (reduced visual weight) style for all headers. |
+
+All remaining `SpectrumAccordionProps` from `@adobe/react-spectrum` are forwarded transparently.
+
+## Integration
+
+`Accordion` depends solely on `@adobe/react-spectrum`. It has no Geti-specific theme overrides. All header and panel styling is applied by Spectrum's default tokens, which render correctly under the Geti dark theme via the `ThemeProvider` at the application root.
+
+```tsx
+import { Accordion, Disclosure, DisclosureTitle, DisclosurePanel } from '@geti/ui';
+
+// Configuration panel with grouped settings
+<Accordion defaultExpandedKeys={['model']}>
+    <Disclosure key="model">
+        <DisclosureTitle>Model Settings</DisclosureTitle>
+        <DisclosurePanel>
+            <Flex direction="column" gap="size-200">
+                <NumberField label="Confidence threshold" defaultValue={0.5} />
+                <Checkbox>Enable TTA</Checkbox>
+            </Flex>
+        </DisclosurePanel>
+    </Disclosure>
+    <Disclosure key="training">
+        <DisclosureTitle>Training Parameters</DisclosureTitle>
+        <DisclosurePanel>
+            <Flex direction="column" gap="size-200">
+                <NumberField label="Epochs" defaultValue={50} />
+                <NumberField label="Batch size" defaultValue={32} />
+            </Flex>
+        </DisclosurePanel>
+    </Disclosure>
+    <Disclosure key="export">
+        <DisclosureTitle>Export Options</DisclosureTitle>
+        <DisclosurePanel>
+            <ExportForm />
+        </DisclosurePanel>
+    </Disclosure>
+</Accordion>
+```
+
+**`Accordion` vs standalone `Disclosure`**: Use `Accordion` when you have two or more sections that are conceptually related and benefit from coordinated state (single-select or a shared visual container). Use standalone `Disclosure` components when the sections are independent of one another and should not affect each other's expansion state.
 
 ## Accessibility
 
-- **Roles**: Implements the WAI-ARIA Accordion pattern. Each trigger has `aria-expanded` and `aria-controls`, and each panel has `role="region"` or `role="group"`.
-- **Keyboard Support**:
-  - `Tab` moves focus to the header of the next/previous disclosure item.
-  - `Enter` or `Space` toggles the expansion of the focused section.
-  - `Arrow Up/Down` moves focus between disclosure headers within the accordion.
-  - `Home/End` jumps focus to the first or last disclosure header.
+- **Roles**: Implements the [WAI-ARIA Accordion pattern](https://www.w3.org/WAI/ARIA/apg/patterns/accordion/). Each `DisclosureTitle` trigger carries `aria-expanded="true|false"` and `aria-controls="{panelId}"`. Each `DisclosurePanel` carries the matching `id` and `role="region"` with `aria-labelledby="{triggerId}"` — this makes each panel a named landmark region.
+- **Keyboard interactions**:
+  - `Enter` / `Space` — toggles the expansion of the focused section.
+  - `Tab` — moves focus to the header of the next `Disclosure`, or out of the accordion when the last header is focused.
+  - `Shift+Tab` — moves focus to the header of the previous `Disclosure`.
+  - `Arrow Down` — moves focus to the next disclosure header within the accordion.
+  - `Arrow Up` — moves focus to the previous disclosure header within the accordion.
+  - `Home` — moves focus to the first disclosure header.
+  - `End` — moves focus to the last disclosure header.
+- **Focus management**: Focus stays on the header buttons; it does not automatically move into the panel when a section is opened. After pressing `Enter`/`Space` to open a panel, the user presses `Tab` to move into the panel content. This matches the WAI-ARIA recommendation and avoids surprising focus jumps.
+- **Labeling headers**: Each `DisclosureTitle` must be descriptive enough to identify the section uniquely within the page. Screen reader users may navigate by heading or by region — ambiguous labels like "More" or "Settings" are unhelpful when many sections exist.
+- **`key` prop on `Disclosure` children**: Always provide a stable `key` on each `Disclosure` child when using `expandedKeys`, `defaultExpandedKeys`, or `onExpandedChange`. Without keys, Spectrum cannot correctly map the controlled key set to the corresponding panels.
+- **`isDisabled` on the Accordion level**: Disabling the entire `Accordion` sets `aria-disabled` on all trigger buttons and removes them from the tab order. If only certain sections should be disabled, pass `isDisabled` to the individual `Disclosure` instead.
 
+```tsx
+// Good — descriptive, unique section titles
+<Accordion>
+    <Disclosure key="model-input">
+        <DisclosureTitle>Input Resolution & Preprocessing</DisclosureTitle>
+        ...
+    </Disclosure>
+    <Disclosure key="model-output">
+        <DisclosureTitle>Output Format & Post-processing</DisclosureTitle>
+        ...
+    </Disclosure>
+</Accordion>
 
+// Avoid — duplicate or generic titles that are indistinguishable to screen reader users
+<Accordion>
+    <Disclosure><DisclosureTitle>Settings</DisclosureTitle>...</Disclosure>
+    <Disclosure><DisclosureTitle>Settings</DisclosureTitle>...</Disclosure>
+</Accordion>
+```

@@ -16,48 +16,276 @@ import { Card } from '@geti/ui';
 
 ## Responsibility
 
-The `Card` component is a fundamental building block of the Geti UI. It provides a bordered, themed container that can be either static (for informational content) or interactive (acting as a large button). It is the primary way to represent assets, projects, or any item collection in a grid or list.
+`Card` is the primary surface primitive for representing discrete items in a collection — projects, datasets, models, or any entity that deserves a distinct visual boundary. It wraps Spectrum's `View` to apply themed borders, background, and padding, and automatically chooses the correct HTML element based on whether the card is interactive.
 
 Key responsibilities:
-- **Visual Containment**: Groups related content (images, text, actions) into a distinct visual unit.
-- **Selection State**: Provides built-in visual feedback for selection using theme-aware borders and background colors.
-- **Semantic Branching**: Automatically switches between `<article>` (static) and `<button>` (interactive) based on the presence of an `onPress` handler.
-- **Theme Integration**: Uses Spectrum's design tokens to ensure it looks correct in both dark and light modes.
+- **Visual Containment**: Groups related content (images, text, actions) into a distinct visual unit with a bordered, rounded surface.
+- **Semantic Branching**: Automatically renders as `<article>` for static content or `<button>` for interactive cards, based on the presence of `onPress`.
+- **Selection State**: Provides built-in visual feedback — an "informative" background and a "focus" border — when `isSelected` is `true`.
+- **Theme Integration**: All colours, borders, and spacing use Spectrum design tokens so the card adapts correctly to the Geti dark theme.
 
 ### When to use
-- To represent individual items in a collection (e.g., a project list, a dataset gallery).
+- To represent individual items in a collection (e.g., a project list, a model gallery, a dataset browser).
 - To group related information that requires a clear visual boundary and a "surface" metaphor.
-- When an entire section of content needs to be clickable or selectable.
+- When an entire area of content needs to be clickable or selectable as a single unit.
+- When you need built-in selection state visuals without writing custom CSS.
 
 ### When to avoid
-- For simple grouping without the need for a border or background (use `Flex` or `Grid` instead).
-- For secondary information that should be less prominent (use a `Well`).
-- When the content is part of a sequential flow and doesn't represent a standalone entity.
+- For simple grouping without the need for a border or background — use `Flex` or `Grid` instead.
+- For secondary or supplementary information that should recede visually — use a `Well`.
+- When the content is part of a sequential flow and does not represent a standalone entity (e.g., a wizard step).
+- When only a sub-element inside the content needs to be clickable — add a `Button` or `ActionButton` inside a static `Card` instead of making the whole card interactive.
+
+## Design
+
+`Card` is a **custom component** — unlike `Flex` or `Grid`, it is not a thin wrapper. It owns its own layout logic and branching behaviour, built on top of Spectrum's `View` for the surface layer.
+
+```tsx
+// Card.tsx — implementation overview
+import { View } from '@adobe/react-spectrum';
+
+export const Card = ({
+    children,
+    'aria-label': ariaLabel,
+    isSelected = false,
+    isDisabled = false,
+    onPress,
+    UNSAFE_className,
+}: CardProps) => {
+    const isInteractive = typeof onPress === 'function';
+
+    if (isInteractive) {
+        return (
+            <View
+                borderWidth="thin"
+                borderColor={isSelected ? 'focus' : 'mid'}
+                borderRadius="medium"
+                padding="size-200"
+                backgroundColor={isSelected ? 'informative' : 'default'}
+                UNSAFE_className={UNSAFE_className}
+            >
+                <button
+                    aria-label={ariaLabel}
+                    aria-pressed={isSelected}
+                    disabled={isDisabled}
+                    onClick={isDisabled ? undefined : onPress}
+                    style={{ all: 'unset', display: 'block', width: '100%', cursor: isDisabled ? 'not-allowed' : 'pointer' }}
+                >
+                    {children}
+                </button>
+            </View>
+        );
+    }
+
+    return (
+        <View
+            borderWidth="thin"
+            borderColor={isSelected ? 'focus' : 'mid'}
+            borderRadius="medium"
+            padding="size-200"
+            backgroundColor="default"
+            UNSAFE_className={UNSAFE_className}
+        >
+            <article aria-label={ariaLabel}>{children}</article>
+        </View>
+    );
+};
+```
+
+**Why `View` for the outer shell?** Spectrum's `View` resolves semantic colour aliases (`'focus'`, `'informative'`, `'mid'`, `'default'`) against the active theme's CSS custom properties. This means `borderColor="focus"` renders the correct focus-ring colour in dark mode without any hardcoded hex values.
+
+**Why a native `<button>` inside `View`?** Spectrum does not ship a full-surface card button primitive. Using a native `<button>` with `style={{ all: 'unset' }}` gives us full browser keyboard and pointer semantics (click, Enter, Space, disabled) without fighting Spectrum's own focus-ring or padding system. The `View` shell retains all the visual border/background token resolution.
+
+## Flow
+
+```
+<Card onPress={handleSelect} isSelected={isSelected}>
+         │
+         ▼
+   isInteractive = typeof onPress === 'function'  →  true
+         │
+         ├─── Outer: <View borderColor="focus|mid" backgroundColor="informative|default">
+         │              (token values resolved by Spectrum against active theme CSS vars)
+         │
+         └─── Inner: <button aria-pressed={isSelected} disabled={isDisabled}>
+                        │
+                        ▼
+                     onClick fires onPress (unless isDisabled)
+                        │
+                        ▼
+                     Parent updates isSelected  →  re-render  →  View tokens update
+```
+
+**Static path** (no `onPress`):
+
+```
+<Card isSelected={false}>
+         │
+         ▼
+   isInteractive = false
+         │
+         └─── <View borderColor="mid" backgroundColor="default">
+                └─── <article aria-label={ariaLabel}>
+                         {children}
+                     </article>
+```
+
+- **`onPress` is the branch switch**: The component checks `typeof onPress === 'function'` once per render. No state is involved in the branching decision.
+- **`isSelected` is always externally controlled**: `Card` holds no internal selection state. The parent owns the source of truth (typically a `Set<id>` or a single `selectedId` state variable).
+- **`isDisabled` only applies in interactive mode**: In static mode, disabling a card has no built-in effect. Pass `isDisabled` only when `onPress` is also provided.
 
 ## Variants
 
 ### Static vs. Interactive
-- **Static**: If no `onPress` prop is provided, the card renders as an `<article>`. This is used for purely informational cards.
-- **Interactive**: If an `onPress` handler is provided, the card renders as a `<button>`. This is used for cards that trigger an action or navigate to a new page.
 
-### Selection
-The `isSelected` prop applies a distinct "informative" background and a "focus" border color to the card, making it clear to the user which items are currently selected.
+```tsx
+// Static — renders <article>, no keyboard interaction
+<Card aria-label="Model summary">
+    <strong>Detection Model</strong>
+    <p>94.2% accuracy · last trained 2 days ago</p>
+</Card>
+
+// Interactive — renders <button>, responds to click / Enter / Space
+<Card aria-label="Select project" onPress={() => setSelected(id)}>
+    <strong>Project Alpha</strong>
+    <p>Classification · 3 tasks</p>
+</Card>
+```
+
+### Selection State
+
+`isSelected` applies Spectrum token-based styling: a `'focus'` border colour and an `'informative'` background. This is intentionally provided as a prop rather than managed internally, so the parent can drive it from any selection primitive (checkbox group, list selection, URL state, etc.).
+
+```tsx
+// Driving selection from a Set
+const [selectedIds, setSelectedIds] = useState<Set<string>>(new Set());
+
+{projects.map(project => (
+    <Card
+        key={project.id}
+        aria-label={project.name}
+        isSelected={selectedIds.has(project.id)}
+        onPress={() => {
+            setSelectedIds(prev => {
+                const next = new Set(prev);
+                next.has(project.id) ? next.delete(project.id) : next.add(project.id);
+                return next;
+            });
+        }}
+    >
+        <ProjectSummary project={project} />
+    </Card>
+))}
+```
+
+### Disabled
+
+```tsx
+<Card
+    aria-label="Unavailable project"
+    isDisabled
+    onPress={() => {}}  // still required to activate interactive mode
+>
+    <strong>Project Gamma</strong>
+    <p>Segmentation · processing…</p>
+</Card>
+```
+
+### Card in a Gallery Grid
+
+The most common layout pattern: combine `Card` with `Grid` for a responsive gallery.
+
+```tsx
+<Grid columns="repeat(auto-fill, minmax(260px, 1fr))" gap="size-300">
+    {models.map(model => (
+        <Card
+            key={model.id}
+            aria-label={model.name}
+            isSelected={selectedId === model.id}
+            onPress={() => setSelectedId(model.id)}
+        >
+            <ModelThumbnail src={model.thumbnail} />
+            <Flex direction="column" gap="size-50" marginTop="size-100">
+                <strong>{model.name}</strong>
+                <span>{model.type} · {model.accuracy}%</span>
+            </Flex>
+        </Card>
+    ))}
+</Grid>
+```
 
 ## Props
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| `children` | `ReactNode` | - | The content to be rendered inside the card. |
-| `onPress` | `(event: PressEvent) => void` | - | Handler called when the card is pressed. If present, the card renders as a button. |
-| `isSelected` | `boolean` | `false` | Whether the card is in a selected state. |
-| `isDisabled` | `boolean` | `false` | Whether the card (interactive mode) is disabled. |
-| `aria-label` | `string` | - | An accessible label for the card. |
+| `children` | `ReactNode` | — | The content to be rendered inside the card. |
+| `onPress` | `() => void` | — | Handler called when the card is pressed. If provided, the card renders as a `<button>`; otherwise as an `<article>`. |
+| `isSelected` | `boolean` | `false` | Whether the card is in a selected state. Applies focus-border and informative-background tokens. |
+| `isDisabled` | `boolean` | `false` | Whether the interactive card is disabled. Only applies when `onPress` is provided. |
+| `aria-label` | `string` | — | An accessible label for the card. Should always be provided. |
+| `UNSAFE_className` | `string` | — | A CSS class name applied to the outer `View`. Use only when token overrides are insufficient. |
+
+## Integration
+
+`Card` depends on `@adobe/react-spectrum` for the `View` surface layer. All visual tokens (`borderColor`, `backgroundColor`) are resolved by Spectrum against the active theme's CSS custom properties — no Geti-specific CSS variables are required.
+
+```tsx
+import { Card } from '@geti/ui';
+import { Grid } from '@geti/ui';
+
+// Typical usage: card gallery inside a Grid
+<Grid columns="repeat(auto-fill, minmax(280px, 1fr))" gap="size-300">
+    {items.map(item => (
+        <Card
+            key={item.id}
+            aria-label={item.title}
+            isSelected={selection === item.id}
+            onPress={() => setSelection(item.id)}
+        >
+            <ItemPreview item={item} />
+        </Card>
+    ))}
+</Grid>
+```
+
+**Adding inner actions**: Place a `Flex` inside the card to add secondary action buttons. Make the card static (no `onPress`) and handle interactions per element to avoid the entire card being one large focusable button.
+
+```tsx
+// Card with inner action buttons — static outer card
+<Card aria-label={dataset.name}>
+    <Flex direction="column" gap="size-100">
+        <DatasetThumbnail src={dataset.preview} />
+        <strong>{dataset.name}</strong>
+        <Flex justifyContent="end" gap="size-100">
+            <ActionButton onPress={() => openDataset(dataset.id)}>Open</ActionButton>
+            <ActionButton onPress={() => deleteDataset(dataset.id)}>Delete</ActionButton>
+        </Flex>
+    </Flex>
+</Card>
+```
 
 ## Accessibility
 
-- **Semantic HTML**: `Card` uses `<article>` for static content and `<button>` for interactive content, ensuring correct semantics for screen readers.
-- **Selection State**: In interactive mode, `isSelected` is reflected via `aria-pressed` on the underlying button.
-- **Focus Management**: Interactive cards are focusable and support standard keyboard interactions (`Enter`, `Space`).
-- **Labeling**: Always provide an `aria-label` or ensure the card contains a heading that provides a clear name for the item.
+- **Semantic HTML**: Static cards render as `<article>` — a self-contained piece of content. Interactive cards render as `<button>` — a native control with full keyboard and pointer semantics. Both choices are correct for their respective use cases; no `role` override is needed.
+- **`aria-label` is required**: The `<article>` and `<button>` elements both carry an `aria-label`. Without it, screen reader users hear the raw text content of the card with no structural context. Always pass a short, unique label that identifies the item (e.g., `"Project Alpha"`, `"Detection model v3"`).
+- **`aria-pressed` for selection**: Interactive cards set `aria-pressed={isSelected}` on the `<button>`. This communicates the current selection state to screen readers as a toggle button.
+- **Keyboard interactions** (interactive mode only):
+  - `Enter` / `Space` — activates the card (fires `onPress`).
+  - `Tab` — moves focus to the next interactive card or focusable element.
+  - `Shift+Tab` — moves focus to the previous interactive element.
+- **Disabled state**: `disabled` is set natively on the `<button>`, which removes it from the tab order and prevents activation. Additionally, `aria-disabled={isDisabled}` is set so the disabled state is announced even if the element is visually styled to look non-interactive.
+- **Avoid nesting interactive elements inside an interactive card**: If an `onPress` handler is provided, do not also place `Button` or `Link` children inside the card. Nested interactive elements create an invalid accessibility tree (buttons inside buttons) and confuse keyboard navigation.
 
+```tsx
+// Good — static card with explicit inner actions
+<Card aria-label="Project Alpha">
+    <strong>Project Alpha</strong>
+    <Button onPress={handleOpen}>Open</Button>
+</Card>
 
+// Avoid — interactive card with nested button
+<Card aria-label="Project Alpha" onPress={handleOpen}>
+    <strong>Project Alpha</strong>
+    <Button onPress={handleDelete}>Delete</Button> {/* ❌ button inside button */}
+</Card>
+```
