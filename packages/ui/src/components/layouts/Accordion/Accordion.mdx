@@ -12,7 +12,7 @@ import { Accordion, Disclosure, DisclosureTitle, DisclosurePanel } from '@geti/u
 ```
 
 - [React Spectrum V3 Accordion](https://react-spectrum.adobe.com/react-spectrum/Accordion.html)
-- [Spectrum 2 Accordion](https://react-spectrum.adobe.com/s2/Accordion.html)
+
 
 <Stories />
 
@@ -42,9 +42,6 @@ Key responsibilities:
 - **Single (Default)**: Only one section can be expanded at a time. Expanding a new section will automatically collapse the previously expanded one.
 - **Multiple**: Allows any number of sections to be expanded or collapsed independently. Enable this via the `allowsMultipleExpanded` prop.
 
-### Density
-Supports `compact`, `regular`, and `spacious` density levels (added in Spectrum 2) to control the overall visual scale and spacing.
-
 ## Props
 
 | Prop | Type | Default | Description |
@@ -65,38 +62,4 @@ Supports `compact`, `regular`, and `spacious` density levels (added in Spectrum 
   - `Arrow Up/Down` moves focus between disclosure headers within the accordion.
   - `Home/End` jumps focus to the first or last disclosure header.
 
-## Spectrum 2 Migration
-
-The migration to Spectrum 2 (S2) introduces improved visual density controls and a more modern selection system.
-
-### Structural Changes
-- **No Structural Breaks**: The relationship between `Accordion` and its `Disclosure` children remains stable.
-- **Import Changes**: Update the import from `@adobe/react-spectrum` to `@react-spectrum/s2`.
-
-### New Features
-- **Visual Scales**: New `size` and `density` props allow for better integration into different UI contexts.
-- **isQuiet**: A new variant that removes borders for a cleaner look.
-- **Styles Macro**: Layout and spacing overrides are handled via the `styles` prop and the `style()` macro.
-
-### Migration Example
-
-**V3 Style (Current):**
-```tsx
-<Accordion allowsMultipleExpanded defaultExpandedKeys={['info']}>
-  <Disclosure id="info">
-    <DisclosureTitle>Project Info</DisclosureTitle>
-    <DisclosurePanel>Project description goes here...</DisclosurePanel>
-  </Disclosure>
-</Accordion>
-```
-
-**S2 Style (Future):**
-```tsx
-<Accordion size="M" density="compact" allowsMultipleExpanded>
-  <Disclosure id="info">
-    <DisclosureTitle>Project Info</DisclosureTitle>
-    <DisclosurePanel>Project description goes here...</DisclosurePanel>
-  </Disclosure>
-</Accordion>
-```
 
