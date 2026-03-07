@@ -1,4 +1,4 @@
-import { Meta, Title, Subtitle, Description, Primary, Controls, Stories, Source } from '@storybook/blocks';
+import { Meta, Title, Subtitle, Description, Primary, Controls, Stories, Source } from '@storybook/addon-docs/blocks';
 import * as DocStories from './CheckboxGroup.stories';
 
 <Meta of={DocStories} />
@@ -12,7 +12,6 @@ import { Checkbox, CheckboxGroup } from '@geti/ui';
 ```
 
 - [React Spectrum V3 CheckboxGroup](https://react-spectrum.adobe.com/react-spectrum/CheckboxGroup.html)
-- [Spectrum 2 CheckboxGroup](https://react-spectrum.adobe.com/s2/CheckboxGroup.html)
 
 <Stories />
 
@@ -72,18 +71,5 @@ The `CheckboxGroup` component manages a collection of checkboxes, allowing users
     - **Tab** moves focus through the checkboxes.
     - **Space** toggles the focused checkbox.
 - Screen readers announce the group label, the individual checkbox label, and its checked state.
-
-## Spectrum 2 Migration
-
-When migrating to Spectrum 2 (S2), keep the following changes in mind:
-
-| V3 Prop | S2 Equivalent | Notes |
-|---|---|---|
-| `validationState="invalid"` | `isInvalid` | Boolean flag replaces the string enum. |
-| `validationState="valid"` | — | No visual "valid" state in S2. |
-| `showErrorIcon` | — | Removed in S2 for accessibility reasons. |
-| `isEmphasized` | `isEmphasized` | Remains the standard for accent-color highlights. |
-| `size` | `size` | S2 adds a `size` prop (`'S'`, `'M'`, `'L'`, `'XL'`). |
-| `validationBehavior` | `validationBehavior` | **Breaking**: Default flips from `'aria'` to `'native'`. |
 
 <Controls />
