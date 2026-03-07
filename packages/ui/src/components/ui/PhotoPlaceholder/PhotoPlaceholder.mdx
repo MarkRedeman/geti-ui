@@ -9,6 +9,7 @@ import * as DocStories from './PhotoPlaceholder.stories';
 
 `PhotoPlaceholder` renders a circular (or arbitrary-shape) coloured tile with a single uppercase initial letter, used wherever a user photo is unavailable. The background colour is **deterministically** computed from a hash of the `indicator` string, so the same entity always receives the same colour.
 
+<Stories />
 ---
 
 ## Design
@@ -84,6 +85,3 @@ Pure functional — no state, no effects. Deterministic: same `indicator` → sa
 
 <Controls />
 
-## Stories
-
-<Stories />
