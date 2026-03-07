@@ -1,0 +1,45 @@
+import { Meta, Title, Subtitle, Description, Primary, Controls, Stories } from '@storybook/addon-docs/blocks';
+import * as DocStories from './ComboBox.stories';
+
+<Meta of={DocStories} />
+
+<Title />
+
+## Responsibility
+
+`ComboBox` is a text input combined with a dropdown list of suggestions, allowing users to either pick from predefined options or enter a custom value. It wraps Spectrum's `ComboBox` and co-exports `Item` for option children.
+
+## Design
+
+Generic thin wrapper with a co-exported `Item`:
+
+```tsx
+export interface ComboBoxProps<T extends object> extends SpectrumComboBoxProps<T> {}
+export const ComboBox = <T extends object>(props: ComboBoxProps<T>) => <SpectrumComboBox {...props} />;
+export { Item } from '@adobe/react-spectrum';
+```
+
+No CSS overrides. Full Spectrum API: `label`, `items`, `inputValue`, `defaultInputValue`, `onInputChange`, `onSelectionChange`, `selectedKey`, `isDisabled`, `isRequired`, `validationState`, `menuTrigger`, `allowsCustomValue`.
+
+## Flow
+
+User types → `onInputChange` fires → caller filters `items` → dropdown re-renders → user selects → `onSelectionChange` fires with the selected key.
+
+## Integration
+
+- **Depends on**: `@adobe/react-spectrum` (`ComboBox`, `Item`, `SpectrumComboBoxProps`)
+- **Usage**: `<ComboBox><Item key="a">Option A</Item></ComboBox>` or with `items` + render function
+- **Contrast**: `Picker` (select-only, no free-form text) vs `ComboBox` (type + select)
+
+
+---
+
+<Primary />
+
+## Props
+
+<Controls />
+
+## Stories
+
+<Stories />

@@ -1,0 +1,47 @@
+import { Meta, Title, Subtitle, Description, Primary, Controls, Stories } from '@storybook/addon-docs/blocks';
+import * as DocStories from './Calendar.stories';
+
+<Meta of={DocStories} />
+
+<Title />
+
+## Responsibility
+
+Exports two standalone calendar components from a single file: `Calendar` (single-date selection) and `RangeCalendar` (date-range selection). Both are thin wrappers for use when the full picker popover is not needed.
+
+## Design
+
+Two co-located thin wrappers with type-alias exports:
+
+```tsx
+export const Calendar = (props: SpectrumCalendarProps<any>) => <SpectrumCalendar {...props} />;
+export type { SpectrumCalendarProps as CalendarProps };
+
+export const RangeCalendar = (props: SpectrumRangeCalendarProps<any>) => <SpectrumRangeCalendar {...props} />;
+export type { SpectrumRangeCalendarProps as RangeCalendarProps };
+```
+
+The generic parameter is typed as `any` at the wrapper level. Full Spectrum API: `value`, `defaultValue`, `onChange`, `minValue`, `maxValue`, `isDisabled`, `focusedValue`.
+
+## Flow
+
+`Calendar`: user clicks a day → `onChange(DateValue)`. `RangeCalendar`: user clicks start day then end day → `onChange({ start, end })`. Spectrum manages navigation (month prev/next), keyboard support, and ARIA.
+
+## Integration
+
+- **Depends on**: `@adobe/react-spectrum` (`Calendar`, `RangeCalendar`, and their props types)
+- **Relationship**: `DatePicker` and `DateRangePicker` embed these calendars inside their popovers automatically
+- **Used by**: embedded calendar views, custom date-picker overlays
+
+
+---
+
+<Primary />
+
+## Props
+
+<Controls />
+
+## Stories
+
+<Stories />

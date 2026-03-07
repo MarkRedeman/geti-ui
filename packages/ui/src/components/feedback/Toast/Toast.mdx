@@ -1,0 +1,61 @@
+import { Meta, Title, Subtitle, Description, Primary, Controls, Stories } from '@storybook/addon-docs/blocks';
+import * as DocStories from './Toast.stories';
+
+<Meta of={DocStories} />
+
+<Title />
+
+## Responsibility
+
+Provides the complete toast notification system: a mount-point component (`ToastContainer`) that renders queued toasts in the DOM, and a programmatic imperative API (`toast`) for enqueuing notifications from anywhere in the application without needing component context.
+
+## Design
+
+Two exports with different usage models:
+
+**`ToastContainer`** — thin wrapper over Spectrum's `ToastContainer`. Must be rendered once in the application tree (typically near the root). Accepts the same props as `SpectrumToastContainer`.
+
+**`toast`** — a plain object (not a component) with four methods:
+```ts
+toast.positive(message, options?)
+toast.negative(message, options?)
+toast.info(message, options?)
+toast.neutral(message, options?)
+```
+Each method calls `SpectrumToastQueue.<variant>(message, options)` directly. This gives callers a stable, variant-named API without importing Spectrum internals. The `toast` object is a pure function dispatch table — no hooks, no React lifecycle.
+
+The separation of `ToastContainer` (render tree) from `toast` (imperative API) follows the "render once, call anywhere" pattern, enabling toast creation from event handlers, async callbacks, and non-React code.
+
+## Flow
+
+**Setup (once):**
+```
+<ToastContainer /> mounted in app root
+  → renders SpectrumToastContainer (manages its own queue)
+```
+
+**Usage (anywhere):**
+```
+toast.negative('Upload failed', { timeout: 5000 })
+  → SpectrumToastQueue.negative('Upload failed', { timeout: 5000 })
+  → ToastContainer re-renders with new toast
+```
+
+## Integration
+
+- `ToastContainer` must be present in the React tree for toasts to appear.
+- `toast.*` can be called from any module — event handlers, async utilities, error boundaries — without component imports.
+- Spectrum manages toast queuing, deduplication, and auto-dismiss internally.
+
+
+---
+
+<Primary />
+
+## Props
+
+<Controls />
+
+## Stories
+
+<Stories />

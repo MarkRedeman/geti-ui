@@ -1,0 +1,48 @@
+import { Meta, Title, Subtitle, Description, Primary, Controls, Stories } from '@storybook/addon-docs/blocks';
+import * as DocStories from './DialogContainer.stories';
+
+<Meta of={DocStories} />
+
+<Title />
+
+## Responsibility
+
+Re-exports Adobe React Spectrum's `DialogContainer` as a named Geti component. Solves the specific problem of showing a dialog when the trigger element may unmount while the dialog is still open — unlike `DialogTrigger`, which requires the trigger to remain in the DOM.
+
+## Design
+
+Thin wrapper — `DialogContainerProps extends SpectrumDialogContainerProps`. The component body is `(props) => <SpectrumDialogContainer {...props} />`.
+
+The critical design difference from `DialogTrigger`: `DialogContainer` is always controlled — `isOpen` and `onDismiss` are required. It manages the overlay lifecycle independent of a trigger element, making it suitable for dialogs spawned programmatically (e.g. from a right-click context menu, a keyboard shortcut, or a list item action where the triggering row may scroll out of view).
+
+## Flow
+
+```
+// Parent manages open state
+const [isOpen, setIsOpen] = useState(false);
+
+<DialogContainer isOpen={isOpen} onDismiss={() => setIsOpen(false)}>
+  <Dialog>...</Dialog>
+</DialogContainer>
+```
+
+No state, no effects, no refs in the wrapper itself.
+
+## Integration
+
+- Used when the trigger is transient (disappears after click) or when dialogs are opened programmatically (e.g. from a context menu, keyboard shortcut, or Redux action).
+- Use `DialogTrigger` instead when a stable trigger element (button) is present and persistent.
+- Accepts the same `Dialog`, `AlertDialog` children as `DialogTrigger`.
+
+
+---
+
+<Primary />
+
+## Props
+
+<Controls />
+
+## Stories
+
+<Stories />

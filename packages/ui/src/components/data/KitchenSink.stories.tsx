@@ -5,6 +5,7 @@ import { Text } from '@adobe/react-spectrum';
 import Edit from '@spectrum-icons/workflow/Edit';
 import Delete from '@spectrum-icons/workflow/Delete';
 import type { Meta, StoryObj } from '@storybook/react';
+
 import { Item } from '@adobe/react-spectrum';
 
 import { ActionBar, ActionBarContainer } from './ActionBar/ActionBar';

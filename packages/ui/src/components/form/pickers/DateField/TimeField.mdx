@@ -1,0 +1,47 @@
+import { Meta, Title, Subtitle, Description, Primary, Controls, Stories } from '@storybook/addon-docs/blocks';
+import * as DocStories from './TimeField.stories';
+
+<Meta of={DocStories} />
+
+<Title />
+
+## Responsibility
+
+Exports two keyboard-driven segment-based inputs from a single file: `DateField` (date values typed segment by segment) and `TimeField` (time values). Both keep Geti consumers off direct Spectrum imports.
+
+## Design
+
+Two co-located thin wrappers with type-alias exports:
+
+```tsx
+export const DateField = <T extends DateValue>(props: SpectrumDateFieldProps<T>) => <SpectrumDateField {...props} />;
+export type { SpectrumDateFieldProps as DateFieldProps };
+
+export const TimeField = <T extends TimeValue>(props: SpectrumTimeFieldProps<T>) => <SpectrumTimeField {...props} />;
+export type { SpectrumTimeFieldProps as TimeFieldProps };
+```
+
+Props types are re-exported as type aliases (not `interface extends`). Generic over `T extends DateValue` / `T extends TimeValue` to support Spectrum's calendar-system types (`CalendarDate`, `ZonedDateTime`, etc.).
+
+## Flow
+
+User clicks a date/time segment → types digits or presses arrow keys → Spectrum updates the `DateValue`/`TimeValue` → `onChange` fires with the new typed value.
+
+## Integration
+
+- **Depends on**: `@adobe/react-spectrum`, `@react-types/datepicker` (`DateValue`, `TimeValue`)
+- **Contrast**: `DatePicker` adds a calendar popover; `DateField` is the inline keyboard-only variant
+- **Used by**: compact date-entry forms, inline table cell editors
+
+
+---
+
+<Primary />
+
+## Props
+
+<Controls />
+
+## Stories
+
+<Stories />

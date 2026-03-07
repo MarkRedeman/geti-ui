@@ -1,0 +1,85 @@
+import { Meta, Title, Subtitle, Description, Primary, Controls, Stories } from '@storybook/addon-docs/blocks';
+import * as DocStories from './ToggleButtons.stories';
+
+<Meta of={DocStories} />
+
+<Title />
+
+## Responsibility
+
+`ToggleButtons` renders a group of mutually exclusive buttons for view-switching or mode-selection. It is a fully custom Geti component — not a thin Spectrum wrapper — built on top of the library's own `Button` primitive.
+
+---
+
+## Design
+
+### Architecture
+
+```
+ToggleButtons (exported, generic T extends string | number)
+└── div[role="group"]
+    └── ToggleButton[] (internal, not exported)
+        └── Button (from ../Button/Button)
+```
+
+`ToggleButton` (internal) maps the group's `selectedOption` state onto individual `Button` props:
+- `variant="accent"` when `selectedOption === option` (selected = energy-blue fill)
+- `variant="secondary"` otherwise (deselected = outlined)
+- `aria-pressed={selectedOption === option}` for accessibility
+
+The outer `div` carries `role="group" aria-label="Selection options"` with `display: flex` inline.
+
+### Generic constraint
+
+```tsx
+export interface ToggleButtonsProps<T extends string | number> {
+    options: T[];
+    selectedOption: T;
+    onOptionChange: (option: T) => void;
+    isDisabled?: boolean;
+    getLabel?: (option: T) => ReactNode;
+}
+```
+
+`T extends string | number` ensures options can be used as React keys and compared by identity. The optional `getLabel` mapper lets callers render icons or rich labels instead of the raw option value.
+
+### CSS module (`ToggleButtons.module.css`)
+
+Applied via `UNSAFE_className={styles.toggleButton}` on every inner `Button`. It rounds the outer corners of the first and last buttons, and removes intermediate horizontal radius and borders to create a visually joined button-group pill:
+
+```css
+.toggleButton:first-child  { border-bottom-right-radius: 0; border-top-right-radius: 0; }
+.toggleButton:last-child   { border-bottom-left-radius: 0; border-top-left-radius: 0; }
+.toggleButton:not(:first-child):not(:last-child) {
+    border-radius: 0;
+    border-right-color: transparent !important;
+    border-left-color: transparent !important;
+}
+```
+
+---
+
+## Flow
+
+Controlled component — caller owns `selectedOption` and handles `onOptionChange`. No internal state. Renders synchronously.
+
+---
+
+## Integration
+
+- **Depends on**: `../Button/Button`, `./ToggleButtons.module.css`, React (`ReactNode`).
+- **Does NOT depend on** Spectrum directly — all Spectrum interaction goes through the `Button` primitive.
+- **Consumed by**: any UI surface needing an exclusive option group (view-mode toggles, filter switches, display selectors).
+
+
+---
+
+<Primary />
+
+## Props
+
+<Controls />
+
+## Stories
+
+<Stories />

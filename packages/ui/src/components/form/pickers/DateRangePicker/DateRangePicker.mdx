@@ -1,0 +1,45 @@
+import { Meta, Title, Subtitle, Description, Primary, Controls, Stories } from '@storybook/addon-docs/blocks';
+import * as DocStories from './DateRangePicker.stories';
+
+<Meta of={DocStories} />
+
+<Title />
+
+## Responsibility
+
+`DateRangePicker` combines two `DateField` inputs (start + end) with a `RangeCalendar` popover, letting users select a date range by typing or clicking. Applies the same Safari mobile fix as `DatePicker`.
+
+## Design
+
+Identical pattern to `DatePicker`:
+
+```tsx
+export const DateRangePicker = <T extends DateValue>(props: SpectrumDateRangePickerProps<T>) =>
+    <SpectrumDateRangePicker width="size-2400" {...props} />;
+export type { SpectrumDateRangePickerProps as DateRangePickerProps };
+```
+
+`width="size-2400"` before the props spread for the Safari mobile layout-flicker fix. No CSS module or custom styling.
+
+## Flow
+
+Props in → `width="size-2400"` set first → caller's `...props` spread (can override width) → `SpectrumDateRangePicker` renders two segment fields + range calendar → user selects start then end date → `onChange` fires with `{ start: DateValue, end: DateValue }`.
+
+## Integration
+
+- **Depends on**: `@adobe/react-spectrum`, `@react-types/datepicker` (`DateValue`)
+- **Companion**: `DatePicker` (single date, same fix) and `RangeCalendar` (standalone calendar)
+- **Used by**: filter panels, report date-range selectors
+
+
+---
+
+<Primary />
+
+## Props
+
+<Controls />
+
+## Stories
+
+<Stories />

@@ -1,0 +1,43 @@
+import { Meta, Title, Subtitle, Description, Primary, Controls, Stories } from '@storybook/addon-docs/blocks';
+import * as DocStories from './NumberField.stories';
+
+<Meta of={DocStories} />
+
+<Title />
+
+## Responsibility
+
+Provides a numeric input with stepper increment/decrement buttons. A minimal Spectrum wrapper to centralise the import of `SpectrumNumberField`.
+
+## Design
+
+Pure thin wrapper — no props are altered:
+
+```tsx
+export interface NumberFieldProps extends SpectrumNumberFieldProps {}
+export const NumberField = (props: NumberFieldProps) => <SpectrumNumberField {...props} />;
+```
+
+The full Spectrum API is available: `minValue`, `maxValue`, `step`, `formatOptions` (for locale-aware number formatting), `isDisabled`, `isReadOnly`, and validation props.
+
+## Flow
+
+Controlled or uncontrolled. `value` + `onChange` for controlled mode. Spectrum manages stepper button ARIA roles (`role="spinbutton"`) and keyboard increment/decrement interactions internally.
+
+## Integration
+
+- **Depends on**: `@adobe/react-spectrum` (`NumberField`, `SpectrumNumberFieldProps`)
+- **Used by**: any form requiring constrained numeric input (thresholds, counts, coordinates)
+
+
+---
+
+<Primary />
+
+## Props
+
+<Controls />
+
+## Stories
+
+<Stories />

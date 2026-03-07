@@ -7,7 +7,6 @@ import ViewList from '@spectrum-icons/workflow/ViewList';
 const meta: Meta<typeof ToggleButtons> = {
     title: 'UI/ToggleButtons',
     component: ToggleButtons,
-    tags: ['autodocs'],
 };
 
 export default meta;

@@ -5,7 +5,6 @@ import { Flex, Text, View } from '@adobe/react-spectrum';
 const meta: Meta<typeof FullscreenAction> = {
     title: 'Overlays/FullscreenAction',
     component: FullscreenAction,
-    tags: ['autodocs'],
 };
 
 export default meta;

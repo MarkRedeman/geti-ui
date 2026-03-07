@@ -1,0 +1,107 @@
+import { Meta, Title, Subtitle, Description, Primary, Controls, Stories } from '@storybook/addon-docs/blocks';
+import * as DocStories from './KitchenSink.stories';
+
+<Meta of={DocStories} />
+
+<Title />
+
+## Responsibility
+
+The `feedback/` category owns **every component that communicates system state back to the user** — progress, loading, errors, warnings, empty states, and status indicators. These components do not accept user input; they are purely informational surfaces that tell the user what is happening or has happened.
+
+Components in this folder:
+
+| Component | Purpose |
+|---|---|
+| `Loading` | Flexible loading spinner in `inline`, `overlay`, or `fullscreen` mode; supports `spinner` or `intel` (branded) variant |
+| `IntelBrandedLoading` | *(deprecated)* Full-page Intel-branded loading animation; use `<Loading variant="intel" />` instead |
+| `ProgressBar` | Horizontal determinate or indeterminate progress indicator |
+| `ProgressCircle` | Circular determinate or indeterminate progress indicator |
+| `Meter` | Quantity/achievement meter with threshold colouring |
+| `Skeleton` | Shimmering placeholder rectangle/circle for content-loading states |
+| `Toast` / `ToastContainer` + `toast` API | Programmatic notification toasts (positive, negative, info, neutral) |
+| `InlineAlert` | Non-modal inline contextual message, often used for form-level validation summaries |
+| `IllustratedMessage` | Empty-state display combining an SVG illustration, heading, and description |
+| `Badge` | Small colour-coded metadata chip for counts or categories |
+| `StatusLight` | Coloured dot + label for semantic status and category coding |
+
+---
+
+## Design
+
+### Thin Spectrum wrappers (most components)
+
+The majority of feedback components are thin wrappers:
+
+```tsx
+export const ProgressBar = (props: ProgressBarProps) => <SpectrumProgressBar {...props} />;
+```
+
+This is sufficient because Spectrum already handles ARIA (`aria-valuenow`, `role="progressbar"`, `aria-live` for toasts, etc.) and the Geti dark theme CSS tokens handle the visual override.
+
+### `Loading` — stateful multi-mode composite
+
+`Loading` is the most configurable feedback component. It is not a wrapper over a single Spectrum primitive; it branches on two independent axes:
+
+**`mode`** (`inline` | `overlay` | `fullscreen`):
+- Controls the CSS position/layout via one of three pre-computed `CSSProperties` objects (`INLINE_STYLE`, `OVERLAY_STYLE`, `FULLSCREEN_STYLE`).
+- The wrapping `<div>` receives this as its base style, merged with any caller-supplied `style`.
+
+**`variant`** (`spinner` | `intel`):
+- `spinner` renders `<ProgressCircle isIndeterminate />` from the `feedback/ProgressCircle` wrapper.
+- `intel` renders an `<img>` tag pointing at `intel-loading.webp`, sized via an `INTEL_SIZE_MAP` (S=24px, M=48px, L=192px).
+
+`IntelBrandedLoading` is now a thin deprecated wrapper over `<Loading variant="intel" mode="inline" />`.
+
+### `Toast` — programmatic API pattern
+
+`Toast` exports two things:
+1. `ToastContainer` — a placement-aware React component that must appear once at the app root (inside `ThemeProvider`).
+2. `toast` — a plain object with `positive`, `negative`, `info`, `neutral` methods that call into `SpectrumToastQueue` directly.
+
+This means callers never need a component reference to trigger a notification:
+```ts
+toast.negative('Upload failed', { timeout: 5000 });
+```
+
+### `Skeleton` — fully custom, no Spectrum dependency
+
+`Skeleton` is a pure CSS-in-JS component (inline `CSSProperties` only). It uses a `linear-gradient` shimmer effect animated with a `shimmer` keyframe defined in `geti-global.module.css`. It accepts `isCircle`, `isAspectRatioOne`, `width`, and `height` props, all translated directly to inline CSS. ARIA: `role="img"` + `aria-busy="true"` + `aria-label`.
+
+### `Badge` — thin Spectrum wrapper
+
+Spectrum's `Badge` already supports all required variants (positive, negative, neutral, info). Geti wraps it without modification.
+
+---
+
+## Flow
+
+- **Loading indicators** are typically rendered conditionally based on an `isLoading` boolean from a data-fetching hook.
+- **Toast** is fire-and-forget: `toast.positive('Saved')` enqueues to Spectrum's global queue; `ToastContainer` dequeues and renders.
+- **InlineAlert** is rendered in-tree alongside form fields, showing validation summaries after submission.
+- **Skeleton** replaces content slots while data is fetching, then is replaced by real content once available — no shared state is needed.
+
+---
+
+## Integration
+
+- **Depends on**:
+  - `@adobe/react-spectrum` — `ProgressBar`, `ProgressCircle`, `Meter`, `Badge`, `InlineAlert`, `IllustratedMessage`, `StatusLight`, `ToastContainer`, `ToastQueue`, `Flex`
+  - `../ProgressCircle/ProgressCircle` — `Loading` imports its own sibling
+  - `intel-loading.webp` — bundled binary asset for the Intel branded animation
+- **Does NOT depend on** any other Geti component category (feedback is consumed by, not consuming, higher-level components).
+- **`VirtualizedListLayout` in `data/`** uses `Loading` as its default `renderLoading` implementation, showing the cross-category consumption pattern.
+- **Theme**: `geti-dark.module.css` overrides `--spectrum-toast-*-background-color` tokens so toast colours match Geti's palette (coral for negative, energy-blue-shade for info, daisy for warning).
+
+
+---
+
+<Primary />
+
+## Props
+
+<Controls />
+
+## Stories
+
+<Stories />

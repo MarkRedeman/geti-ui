@@ -1,0 +1,71 @@
+import { Meta, Title, Subtitle, Description, Primary, Controls, Stories } from '@storybook/addon-docs/blocks';
+import * as DocStories from './PressableElement.stories';
+
+<Meta of={DocStories} />
+
+<Title />
+
+## Responsibility
+
+`PressableElement` is a bridge between two styling worlds: it lets any arbitrary DOM element accept **Spectrum style props** (padding, margin, backgroundColor, etc.) while remaining fully keyboard and pointer accessible via `react-aria-components`' `Pressable`. It is the go-to wrapper for custom pressable containers that need Spectrum-flavoured layout control without using a Spectrum `Button` or `ActionButton`.
+
+---
+
+## Design
+
+### Two-library bridge
+
+```
+PressableElement
+├── Pressable (react-aria-components) — handles press/keyboard/pointer events
+└── <div>                             — receives Spectrum style props via useStyleProps
+```
+
+`useStyleProps(props)` (from `@react-spectrum/utils`) translates Spectrum style props (`padding`, `margin`, `backgroundColor`, etc.) into a standard `{ style, className }` object. That result is spread onto the inner `<div>`.
+
+Props are manually split:
+- **Spectrum style props** + `UNSAFE_className` + `UNSAFE_style` + `id` → consumed by `useStyleProps` / applied to `<div>`
+- Everything else → forwarded to `<Pressable>` (`onPress`, `onPressStart`, `isDisabled`, etc.)
+
+```tsx
+const stylePropKeys = Object.keys(viewStyleProps);   // Spectrum's style prop key list
+const propsToOmit = [...stylePropKeys, 'UNSAFE_className', 'UNSAFE_style', 'id'];
+
+// pressableProps = all keys NOT in propsToOmit
+// styleProps     = result of useStyleProps(props)
+```
+
+### `isTruncated` utility
+
+When `isTruncated` is `true`, static `TruncatedTextStyles` (`overflow: hidden`, `white-space: nowrap`, `text-overflow: ellipsis`) are spread into the `<div>`'s style **before** the Spectrum `styleProps.style`, ensuring Spectrum props can still override if needed.
+
+### `onDoubleClick`
+
+Native `onDoubleClick` handler threaded directly to the `<div>` (not `Pressable`), because RAC's press model does not expose a double-press event.
+
+---
+
+## Flow
+
+Pure presentational — no state, no context. Prop routing at render time only.
+
+---
+
+## Integration
+
+- **Depends on**: `react-aria-components` (`Pressable`), `@react-spectrum/utils` (`useStyleProps`, `viewStyleProps`), `@react-types/shared` (`StyleProps`).
+- **Consumed by**: components needing pressable layout containers that don't fit a `Button` semantics — e.g. card-style click targets, list-item rows, thumbnail wrappers.
+- **Not a substitute for `Button`**: use `Button`/`ActionButton` for labelled actions; use `PressableElement` for arbitrary layout containers that happen to be interactive.
+
+
+---
+
+<Primary />
+
+## Props
+
+<Controls />
+
+## Stories
+
+<Stories />

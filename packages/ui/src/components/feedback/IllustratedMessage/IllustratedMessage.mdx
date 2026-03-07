@@ -1,0 +1,42 @@
+import { Meta, Title, Subtitle, Description, Primary, Controls, Stories } from '@storybook/addon-docs/blocks';
+import * as DocStories from './IllustratedMessage.stories';
+
+<Meta of={DocStories} />
+
+<Title />
+
+## Responsibility
+
+Re-exports Adobe React Spectrum's `IllustratedMessage` as a named Geti component, providing a structured empty-state or error-state layout that combines an illustration (SVG), a heading, and descriptive body text.
+
+## Design
+
+Pure thin wrapper — `IllustratedMessageProps extends SpectrumIllustratedMessageProps` with zero prop additions or overrides. The component body is `(props) => <SpectrumIllustratedMessage {...props} />`. Content is composed via slot children: an illustration element, `<Heading>`, and `<Content>`.
+
+## Flow
+
+```
+props (SpectrumIllustratedMessageProps passthrough)
+  → <SpectrumIllustratedMessage {...props} />
+```
+
+No state, no effects, no refs.
+
+## Integration
+
+- Used in empty list/grid views (e.g. no annotations, no datasets) and error boundary displays.
+- Pairs with Spectrum's `<Heading>` and `<Content>` slot components.
+- Themed automatically by `ThemeProvider`.
+
+
+---
+
+<Primary />
+
+## Props
+
+<Controls />
+
+## Stories
+
+<Stories />

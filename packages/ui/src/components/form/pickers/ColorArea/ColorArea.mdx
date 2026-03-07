@@ -1,0 +1,44 @@
+import { Meta, Title, Subtitle, Description, Primary, Controls, Stories } from '@storybook/addon-docs/blocks';
+import * as DocStories from './ColorArea.stories';
+
+<Meta of={DocStories} />
+
+<Title />
+
+## Responsibility
+
+`ColorArea` lets users adjust two color channels simultaneously by dragging a thumb across a 2D gradient. It wraps Spectrum's `ColorArea` for use in custom color pickers.
+
+## Design
+
+Pure thin wrapper:
+
+```tsx
+export interface ColorAreaProps extends SpectrumColorAreaProps {}
+export const ColorArea = (props: ColorAreaProps) => <SpectrumColorArea {...props} />;
+```
+
+Key props: `value` (the current `Color`), `onChange`, `xChannel` (e.g. `"saturation"`), `yChannel` (e.g. `"brightness"`). Spectrum renders the 2D gradient and thumb with full keyboard/ARIA support.
+
+## Flow
+
+Props in → forwarded to `SpectrumColorArea` → user drags thumb or uses arrow keys → `onChange` fires with updated `Color` value reflecting the new channel values.
+
+## Integration
+
+- **Depends on**: `@adobe/react-spectrum` (`ColorArea`, `SpectrumColorAreaProps`)
+- **Composed into**: `ColorPickerDialog` uses it as the main saturation/brightness 2D selector
+- **Used alongside**: `ColorWheel` (hue) and `ColorSlider` (individual channels)
+
+
+---
+
+<Primary />
+
+## Props
+
+<Controls />
+
+## Stories
+
+<Stories />

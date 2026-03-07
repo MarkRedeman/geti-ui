@@ -19,5 +19,5 @@
     "forceConsistentCasingInFileNames": true
   },
   "include": ["src"],
-  "exclude": ["node_modules", "dist", "e2e", "**/*.test.tsx", "**/*.test.ts"]
+  "exclude": ["node_modules", "dist", "e2e", "**/*.test.tsx", "**/*.test.ts", "**/*.stories.tsx", "**/*.stories.ts"]
 }

@@ -2,7 +2,7 @@ import type { StorybookConfig } from 'storybook-react-rsbuild';
 import { mergeRsbuildConfig } from '@rsbuild/core';
 
 const config: StorybookConfig = {
-    stories: ['../src/**/*.stories.@(ts|tsx)'],
+    stories: ['../src/**/*.mdx', '../src/**/*.stories.@(ts|tsx)'],
     addons: ['@storybook/addon-a11y', 'storybook-addon-rslib', '@storybook/addon-docs'],
     framework: {
         name: 'storybook-react-rsbuild',
@@ -17,6 +17,36 @@ const config: StorybookConfig = {
                             {
                                 test: /\.md$/,
                                 type: 'asset/source', // return raw string
+                            },
+                            {
+                                // storybook-addon-rslib merges rslib's source.exclude into the
+                                // rsbuild config, which causes the builtin:swc-loader to skip
+                                // *.stories.tsx files. The csf-plugin (enforce:"post") then
+                                // outputs TypeScript that Rspack's final parser can't handle.
+                                // This rule adds an explicit post-enforce SWC pass for stories
+                                // files so TypeScript is always stripped after csf-plugin runs.
+                                test: /\.stories\.[tj]sx?$/,
+                                enforce: 'post',
+                                use: [
+                                    {
+                                        loader: 'builtin:swc-loader',
+                                        options: {
+                                            jsc: {
+                                                parser: {
+                                                    syntax: 'typescript',
+                                                    tsx: true,
+                                                    decorators: true,
+                                                },
+                                                transform: {
+                                                    react: {
+                                                        runtime: 'automatic',
+                                                    },
+                                                },
+                                            },
+                                            isModule: 'unknown',
+                                        },
+                                    },
+                                ],
                             },
                         ],
                     },

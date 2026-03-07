@@ -1,0 +1,42 @@
+import { Meta, Title, Subtitle, Description, Primary, Controls, Stories } from '@storybook/addon-docs/blocks';
+import * as DocStories from './InlineAlert.stories';
+
+<Meta of={DocStories} />
+
+<Title />
+
+## Responsibility
+
+Re-exports Adobe React Spectrum's `InlineAlert` as a named Geti component, providing an inline contextual notification block for non-intrusive status messaging (info, positive, warning, negative) embedded directly within page content rather than as an overlay.
+
+## Design
+
+Pure thin wrapper — `InlineAlertProps extends SpectrumInlineAlertProps` with zero prop additions or overrides. The component body is `(props) => <SpectrumInlineAlert {...props} />`. Spectrum's `variant` and `children` (typically `<Heading>` + `<Content>`) are the primary API surface.
+
+## Flow
+
+```
+props (SpectrumInlineAlertProps passthrough)
+  → <SpectrumInlineAlert {...props} />
+```
+
+No state, no effects, no refs.
+
+## Integration
+
+- Contrast with `Toast` (transient, imperative, overlay) — `InlineAlert` is persistent, declarative, and in-flow.
+- Used in forms, settings panels, and detail views where inline status context is needed without interrupting the user flow.
+- Themed automatically by `ThemeProvider`.
+
+
+---
+
+<Primary />
+
+## Props
+
+<Controls />
+
+## Stories
+
+<Stories />

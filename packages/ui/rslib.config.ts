@@ -40,4 +40,10 @@ export default defineConfig({
     target: "web",
   },
   plugins: [pluginReact()],
+  source: {
+    entry: {
+      index: ["./src/index.ts"],
+    },
+    exclude: [/\.stories\.(ts|tsx)$/, /\.test\.(ts|tsx)$/, /\.md$/],
+  },
 });

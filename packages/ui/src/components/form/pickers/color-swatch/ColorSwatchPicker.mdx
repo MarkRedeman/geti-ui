@@ -1,0 +1,49 @@
+import { Meta, Title, Subtitle, Description, Primary, Controls, Stories } from '@storybook/addon-docs/blocks';
+import * as DocStories from './ColorSwatchPicker.stories';
+
+<Meta of={DocStories} />
+
+<Title />
+
+## Responsibility
+
+Houses three related color swatch components in two files: `ColorSwatch` (a single color preview), `ColorSwatchPicker` (a selection group of swatches), and `ColorSwatchPickerItem` (an alias for an individual swatch within the picker). All three wrap Spectrum.
+
+## Design
+
+**`ColorSwatch`** — pure thin wrapper:
+```tsx
+export interface ColorSwatchProps extends SpectrumColorSwatchProps {}
+export const ColorSwatch = (props: ColorSwatchProps) => <SpectrumColorSwatch {...props} />;
+```
+
+**`ColorSwatchPicker` + `ColorSwatchPickerItem`** — both in `ColorSwatchPicker.tsx`:
+```tsx
+export const ColorSwatchPicker = (props: ColorSwatchPickerProps) => <SpectrumColorSwatchPicker {...props} />;
+// ColorSwatchPickerItem renders SpectrumColorSwatch (not SpectrumColorSwatchPickerItem)
+// — in Spectrum v3, swatch items within a picker are just ColorSwatches
+export const ColorSwatchPickerItem = (props: ColorSwatchPickerItemProps) => <SpectrumColorSwatch {...props} />;
+```
+
+## Flow
+
+`ColorSwatchPicker`: `value` (current `Color`) + list of `ColorSwatchPickerItem` (or `ColorSwatch`) children → user clicks a swatch → `onChange(Color)` fires with the selected swatch's color.
+
+## Integration
+
+- **Depends on**: `@adobe/react-spectrum` (`ColorSwatch`, `ColorSwatchPicker`, and their props types)
+- **Composed into**: `ColorPickerDialog` uses `ColorSwatchPicker` with preset colours for quick selection
+- **`ColorSwatch`**: also used standalone in `ColorPickerDialog`'s trigger button to preview the active colour
+
+
+---
+
+<Primary />
+
+## Props
+
+<Controls />
+
+## Stories
+
+<Stories />

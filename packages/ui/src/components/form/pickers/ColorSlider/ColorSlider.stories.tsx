@@ -1,4 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react';
+
 import { ColorSlider } from './ColorSlider';
 import { Flex } from '../../../layouts/Flex/Flex';
 

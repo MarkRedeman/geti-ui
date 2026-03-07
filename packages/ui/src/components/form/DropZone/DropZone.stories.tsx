@@ -1,4 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react';
+
 import { DropZone } from './DropZone';
 
 const meta: Meta<typeof DropZone> = {

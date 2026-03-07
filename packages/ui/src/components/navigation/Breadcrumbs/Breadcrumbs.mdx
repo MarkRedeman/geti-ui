@@ -1,0 +1,44 @@
+import { Meta, Title, Subtitle, Description, Primary, Controls, Stories } from '@storybook/addon-docs/blocks';
+import * as DocStories from './Breadcrumbs.stories';
+
+<Meta of={DocStories} />
+
+<Title />
+
+## Responsibility
+
+Re-exports Adobe React Spectrum's `Breadcrumbs` as a named Geti component, providing hierarchical location navigation that shows the user's current path and allows upward traversal.
+
+## Design
+
+Generic thin wrapper — `BreadcrumbsProps<T extends object> extends SpectrumBreadcrumbsProps<T>`. The component body is `(props) => <SpectrumBreadcrumbs {...props} />`.
+
+The generic `T` allows typed item collections. Spectrum's `Breadcrumbs` handles overflow behaviour (collapsing middle items into a `…` expander on narrow widths) automatically.
+
+## Flow
+
+```
+props { children (Item nodes), onAction, isDisabled, ...rest }
+  → <SpectrumBreadcrumbs {...props} />
+```
+
+No state, no effects, no refs.
+
+## Integration
+
+- Used in page headers and navigation chrome to communicate the current location within a deep hierarchy (e.g. workspace → project → dataset → annotation).
+- `Item` from `navigation/Menu/` (or directly from Spectrum) is used to define each breadcrumb segment.
+- Themed automatically by `ThemeProvider`.
+
+
+---
+
+<Primary />
+
+## Props
+
+<Controls />
+
+## Stories
+
+<Stories />

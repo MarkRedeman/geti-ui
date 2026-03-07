@@ -1,0 +1,54 @@
+import { Meta, Title, Subtitle, Description, Primary, Controls, Stories } from '@storybook/addon-docs/blocks';
+import * as DocStories from './Image.stories';
+
+<Meta of={DocStories} />
+
+<Title />
+
+## Responsibility
+
+`Image` renders an accessible image. It is a minimal Spectrum wrapper that centralises the import of Spectrum's `Image` component so consumers never reach into `@adobe/react-spectrum` directly.
+
+---
+
+## Design
+
+```tsx
+export interface ImageProps extends SpectrumImageProps {}
+export const Image = (props: ImageProps) => <SpectrumImage {...props} />;
+```
+
+All Spectrum props pass through unchanged:
+- `src` — image URL
+- `alt` — accessible description (required for non-decorative images)
+- `objectFit` — CSS `object-fit` value (`'cover'`, `'contain'`, etc.)
+- `isHidden` — marks the image as decorative (sets `alt=""` internally)
+- Spectrum style props (`width`, `height`, `UNSAFE_className`, etc.)
+
+No CSS module, no Geti-specific props.
+
+---
+
+## Flow
+
+Pure presentational. Stateless.
+
+---
+
+## Integration
+
+- **Depends on**: `@adobe/react-spectrum` (`Image`, `SpectrumImageProps`).
+- **Consumed by**: thumbnail grids, dataset cards, annotation previews, and any surface displaying a raster image.
+
+
+---
+
+<Primary />
+
+## Props
+
+<Controls />
+
+## Stories
+
+<Stories />

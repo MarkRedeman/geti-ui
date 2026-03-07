@@ -1,0 +1,89 @@
+import { Meta, Title, Subtitle, Description, Primary, Controls, Stories } from '@storybook/addon-docs/blocks';
+import * as DocStories from './PhotoPlaceholder.stories';
+
+<Meta of={DocStories} />
+
+<Title />
+
+## Responsibility
+
+`PhotoPlaceholder` renders a circular (or arbitrary-shape) coloured tile with a single uppercase initial letter, used wherever a user photo is unavailable. The background colour is **deterministically** computed from a hash of the `indicator` string, so the same entity always receives the same colour.
+
+---
+
+## Design
+
+### Files
+
+| File | Role |
+|---|---|
+| `PhotoPlaceholder.tsx` | Component — computes colour & letter, renders `View` + inner `div` |
+| `utils.ts` | `hexaToRGBA` + `getForegroundColor` — pure colour utilities |
+| `PhotoPlaceholder.module.css` | Static flex centering for the inner `div` |
+
+### Colour computation pipeline
+
+```
+indicator string
+  → getDistinctColorBasedOnHash(indicator)   → backgroundColor (#RRGGBB or #RRGGBBAA)
+  → hexaToRGBA(backgroundColor)              → [r, g, b, a]
+  → getForegroundColor([r, g, b, a], gray50, gray900)
+      = (r*299 + g*587 + b*114) / 1000 > 128 ? gray50 : gray900
+```
+
+The perceived-luminance formula (ITU-R 601 weights) ensures text always has sufficient contrast against any background colour.
+
+### Static vs dynamic styling split
+
+| What | Where |
+|---|---|
+| `backgroundColor`, `color`, `borderRadius` | `UNSAFE_style` on `<View>` — runtime-computed values only |
+| Inner `div` centering (flex, 100% w/h) | `PhotoPlaceholder.module.css` — static, belongs in CSS |
+| Width, height, minWidth, minHeight | Spectrum style props on `<View>` — translates to Spectrum dimension tokens |
+
+This follows the library's rule: **`UNSAFE_style` only for runtime-computed values**.
+
+### Accessibility
+
+The inner `<div role="img" aria-label={name || indicator}>` makes the placeholder a labelled image region for screen readers. The visible `<Text aria-hidden="true">` prevents the letter from being announced twice.
+
+### Props
+
+```tsx
+export interface PhotoPlaceholderProps extends StyleProps {
+    name: string;          // Displayed as the letter; also aria-label
+    indicator: string;     // Hashed to pick background colour
+    width?: ViewProps['width'];    // Default: 'size-1600'
+    height?: ViewProps['height'];  // Default: 'size-1600'
+    borderRadius?: string;         // Default: '50%'
+}
+```
+
+`extends StyleProps` means callers can pass any Spectrum style prop (padding, margin, etc.) which the component spreads onto the `<View>` via `...viewProps`.
+
+---
+
+## Flow
+
+Pure functional — no state, no effects. Deterministic: same `indicator` → same colour every render.
+
+---
+
+## Integration
+
+- **Depends on**: `@adobe/react-spectrum` (`Text`, `View`, `ViewProps`), `@react-types/shared` (`StyleProps`), `../../../utils/distinct-colors` (`getDistinctColorBasedOnHash`), `./utils`, `./PhotoPlaceholder.module.css`.
+- **Consumed by**: user-facing entity displays where a photo/avatar may not exist (user lists, annotation owner chips, member tables).
+- **Complement**: `Avatar` is used when an actual image URL is available; `PhotoPlaceholder` is the fallback.
+
+
+---
+
+<Primary />
+
+## Props
+
+<Controls />
+
+## Stories
+
+<Stories />

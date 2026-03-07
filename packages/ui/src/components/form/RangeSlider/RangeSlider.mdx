@@ -1,0 +1,46 @@
+import { Meta, Title, Subtitle, Description, Primary, Controls, Stories } from '@storybook/addon-docs/blocks';
+import * as DocStories from './RangeSlider.stories';
+
+<Meta of={DocStories} />
+
+<Title />
+
+## Responsibility
+
+`RangeSlider` is a dual-handle slider for selecting a numeric range (min/max pair). It wraps Adobe React Spectrum's `RangeSlider` to keep Geti consumers decoupled from direct Spectrum imports.
+
+## Design
+
+Pure pass-through:
+
+```tsx
+export interface RangeSliderProps extends SpectrumRangeSliderProps {}
+export const RangeSlider = (props: RangeSliderProps) => <SpectrumRangeSlider {...props} />;
+```
+
+No CSS module, no styling overrides. Compare to `Slider` (single-handle, in the same `form/` folder) which *does* add a `data-filled` attribute and CSS module override for Geti's `--energy-blue` track colour — `RangeSlider` has no such customisation.
+
+Full Spectrum API preserved: `value`, `defaultValue`, `onChange`, `minValue`, `maxValue`, `step`, `label`, `isDisabled`, `formatOptions`, `getValueLabel`, `orientation`.
+
+## Flow
+
+Props in → forwarded to `SpectrumRangeSlider` → Spectrum renders two draggable thumbs with ARIA `role="slider"` on each, keyboard-accessible, with the selected range highlighted on the track.
+
+## Integration
+
+- **Depends on**: `@adobe/react-spectrum` (`RangeSlider`, `SpectrumRangeSliderProps`)
+- **Contrast**: `Slider` (single value, custom Geti styling) vs `RangeSlider` (range value, unstyled Spectrum)
+- **Used by**: filter panels (e.g. confidence score range, date range sliders)
+
+
+---
+
+<Primary />
+
+## Props
+
+<Controls />
+
+## Stories
+
+<Stories />

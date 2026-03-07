@@ -1,0 +1,45 @@
+import { Meta, Title, Subtitle, Description, Primary, Controls, Stories } from '@storybook/addon-docs/blocks';
+import * as DocStories from './ActionMenu.stories';
+
+<Meta of={DocStories} />
+
+<Title />
+
+## Responsibility
+
+Provides a pre-composed dropdown menu triggered by an icon-only action button — the standard pattern for contextual action menus attached to list rows, cards, and toolbar items. Encapsulates the `MenuTrigger` + `Menu` pairing behind a single component.
+
+## Design
+
+Generic thin wrapper — `ActionMenuProps<T extends object> extends SpectrumActionMenuProps<T>`. The component body is `(props) => <SpectrumActionMenu {...props} />`.
+
+The generic `T` carries the item type through, allowing typed `items` arrays. Spectrum's `ActionMenu` internally composes its own `ActionButton` trigger (the `⋯` icon) with `MenuTrigger` + `Menu`, so this wrapper inherits all of that behaviour for free.
+
+## Flow
+
+```
+props { items, onAction, disabledKeys, children (Item/Section), ...rest }
+  → <SpectrumActionMenu {...props} />
+      → (Spectrum internally): ActionButton trigger → MenuTrigger → Menu overlay
+```
+
+No state, no effects, no refs.
+
+## Integration
+
+- A higher-level convenience over `Menu` + `MenuTrigger` from the same navigation category.
+- Used in list/table rows and card headers where a contextual action menu is needed without a custom trigger.
+- `Item` and `Section` from `Menu/` are used to compose the menu content.
+
+
+---
+
+<Primary />
+
+## Props
+
+<Controls />
+
+## Stories
+
+<Stories />

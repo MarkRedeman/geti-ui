@@ -1,0 +1,42 @@
+import { Meta, Title, Subtitle, Description, Primary, Controls, Stories } from '@storybook/addon-docs/blocks';
+import * as DocStories from './StatusLight.stories';
+
+<Meta of={DocStories} />
+
+<Title />
+
+## Responsibility
+
+Re-exports Adobe React Spectrum's `StatusLight` as a named Geti component, providing a small coloured dot + label for indicating operational or health states (e.g. "Active", "Offline", "Error").
+
+## Design
+
+Pure thin wrapper — `StatusLightProps extends SpectrumStatusLightProps` with zero prop additions or overrides. The component body is `(props) => <SpectrumStatusLight {...props} />`. Spectrum's `variant` (`'positive' | 'negative' | 'notice' | 'info' | 'neutral' | 'celery' | ...`) drives dot colour.
+
+## Flow
+
+```
+props (SpectrumStatusLightProps passthrough)
+  → <SpectrumStatusLight {...props} />
+```
+
+No state, no effects, no refs.
+
+## Integration
+
+- Used alongside device, pipeline, or model status indicators in dashboards and list views.
+- Pairs semantically with `Badge` and `InlineAlert` in the feedback category for different intensity levels of status communication.
+- Themed automatically by `ThemeProvider`.
+
+
+---
+
+<Primary />
+
+## Props
+
+<Controls />
+
+## Stories
+
+<Stories />

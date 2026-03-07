@@ -4,7 +4,6 @@ import { IntelBrandedLoading } from './IntelBrandedLoading';
 const meta: Meta<typeof IntelBrandedLoading> = {
     title: 'Feedback/IntelBrandedLoading',
     component: IntelBrandedLoading,
-    tags: ['autodocs'],
 };
 
 export default meta;

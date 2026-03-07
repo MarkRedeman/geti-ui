@@ -2,9 +2,7 @@
 // LIMITED EDGE SOFTWARE DISTRIBUTION LICENSE
 
 import type { Meta, StoryObj } from '@storybook/react';
-import { Markdown, Canvas, Controls } from '@storybook/blocks';
 
-import readme from './readme.md';
 import { Button } from './Button';
 
 const meta: Meta<typeof Button> = {
@@ -19,15 +17,6 @@ const meta: Meta<typeof Button> = {
     },
     parameters: {
         a11y: {},
-        docs: {
-            page: () => (
-                <>
-                    <Markdown>{readme}</Markdown>
-                    <Canvas />
-                    <Controls />
-                </>
-            ),
-        },
     },
 };
 export default meta;

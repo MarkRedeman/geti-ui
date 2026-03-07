@@ -1,0 +1,54 @@
+import { Meta, Title, Subtitle, Description, Primary, Controls, Stories } from '@storybook/addon-docs/blocks';
+import * as DocStories from './CardView.stories';
+
+<Meta of={DocStories} />
+
+<Title />
+
+## Responsibility
+
+Provides a Geti-native CSS grid layout for rendering a collection of interactive or static cards. Acts as a list container (semantically `role="list"`) that maps a generic item array to `Card` components via a render-prop pattern.
+
+## Design
+
+Fully custom component — no Spectrum dependency for the grid itself. Uses native CSS grid with configurable columns and gap.
+
+Key design decisions:
+- **Generic `<T>`** — `items: T[]` + `renderCard: (item: T, index: number) => CardProps` — callers supply the data and the mapping function. The grid knows nothing about item shape.
+- **CSS grid** — `display: 'grid'`, `gridTemplateColumns: repeat(${columns}, 1fr)`, `gap`. Defaults: `columns = 3`, `gap = '16px'`. Callers override for different densities.
+- **`role="list"` + `role="listitem"`** — wrapping `<div>` and each cell `<div>` use explicit ARIA list roles because CSS grid elements are not implicitly list items.
+- **`Card` from `layouts/`** — each item is rendered as a `<Card>` with props from `renderCard`. The `CardView` has no knowledge of `Card`'s interactive/static branching; that is `Card`'s responsibility.
+
+## Flow
+
+```
+props { items, renderCard, columns = 3, gap = '16px', aria-label }
+  → <div role="list" aria-label={aria-label} style={{ display: 'grid', gridTemplateColumns: ..., gap }}>
+      {items.map((item, i) =>
+        <div role="listitem" key={i}>
+          <Card {...renderCard(item, i)} />
+        </div>
+      )}
+    </div>
+```
+
+No state, no effects, no refs.
+
+## Integration
+
+- Depends on `Card` from `layouts/Card/` for individual card rendering.
+- Used in image gallery views, media asset browsers, and model card grids.
+- Contrast with `VirtualizedHorizontalGrid` (same data/ category) — `CardView` uses native CSS grid (non-virtualised, best for small–medium counts); `VirtualizedHorizontalGrid` uses RAC virtualisation for large horizontal collections.
+
+
+---
+
+<Primary />
+
+## Props
+
+<Controls />
+
+## Stories
+
+<Stories />
