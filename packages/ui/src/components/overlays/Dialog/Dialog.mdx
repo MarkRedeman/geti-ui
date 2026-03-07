@@ -3,25 +3,96 @@ import * as DocStories from './Dialog.stories';
 
 <Meta of={DocStories} />
 
-<Title />
+# Dialog
+
+<Subtitle>Dialogs are windows containing contextual information or tasks that appear over the main UI content.</Subtitle>
+
+```tsx
+import { Dialog, DialogTrigger } from '@geti/ui';
+```
+
+- [React Spectrum V3 Dialog](https://react-spectrum.adobe.com/react-spectrum/Dialog.html)
+- [Spectrum 2 Dialog](https://react-spectrum.adobe.com/s2/Dialog.html)
+
+<Stories />
 
 ## Responsibility
 
-Provides the standard modal dialog pair: `Dialog` (the dialog container/content component) and `DialogTrigger` (the trigger + overlay manager). Together they handle all standard modal, tray, and popover dialog use cases where a persistent trigger element exists in the DOM.
+The `Dialog` component provides the content and structure for a modal window. It is typically used in conjunction with a `DialogTrigger`, which manages the overlay and associates the dialog with a trigger element (like a Button).
 
-## Design
+Together, they handle:
+- **Focus Management**: Automatically traps focus within the dialog and restores it to the trigger upon closing.
+- **Overlay Management**: Handles positioning, backdrop/underlay rendering, and dismissal logic.
+- **Accessibility**: Implements the ARIA dialog pattern, ensuring screen readers correctly identify the dialog and its purpose.
 
-Two files, both thin wrappers over `@adobe/react-spectrum`:
+### When to use
+- To prompt the user for a decision or confirmation.
+- To gather input via a form without leaving the current context.
+- To display additional information or details related to an item.
 
-- **`Dialog.tsx`** — `DialogProps extends SpectrumDialogProps`. Renders `<SpectrumDialog {...props} />`. Accepts slot-based children: `<Heading>`, `<Divider>`, `<Content>`, `<ButtonGroup>`, `<Footer>`. `isDismissable` and `size` are the key layout props.
-- **`DialogTrigger.tsx`** — `DialogTriggerProps extends SpectrumDialogTriggerProps`. Renders `<SpectrumDialogTrigger {...props} />`. Controls `type` (`'modal' | 'popover' | 'tray' | 'fullscreen' | 'fullscreenTakeover'`) and `isOpen`/`onOpenChange` for controlled usage.
+### When to avoid
+- For transient feedback or notifications (use `Toast` instead).
+- For simple tooltips or non-interactive hints (use `Tooltip` or `ContextualHelp`).
 
-## Flow
+## Variants
 
-```
+### Modal
+The default dialog type. It renders an underlay that blocks interaction with the rest of the application until the dialog is dismissed.
+
+### Popover
+A smaller dialog that appears relative to its trigger. It does not block interaction with the rest of the application and is dismissed when clicking outside. Use `type="popover"` on the `DialogTrigger`.
+
+### Fullscreen
+Occupies the entire viewport. Useful for complex tasks or mobile-first experiences. Use `type="fullscreen"` on the `DialogTrigger`.
+
+### Dismissible
+Allows the user to close the dialog by clicking an "X" button in the corner. Enabled by the `isDismissable` prop on the `Dialog` component.
+
+## Props
+
+### Dialog Props
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `children` | `ReactNode \| (close) => ReactNode` | - | The contents of the dialog. Supports slot-based children (`Heading`, `Divider`, `Content`, `ButtonGroup`, `Footer`). |
+| `size` | `'S' \| 'M' \| 'L'` | `'M'` | The width of the dialog. |
+| `isDismissable` | `boolean` | `false` | Whether the dialog can be dismissed via a close button. |
+
+### DialogTrigger Props
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `type` | `'modal' \| 'popover' \| 'tray' \| 'fullscreen' \| 'fullscreenTakeover'` | `'modal'` | The type of overlay to render. |
+| `mobileType` | `'modal' \| 'tray' \| 'fullscreen'` | `'tray'` | The type of overlay to render on mobile devices. |
+| `isOpen` | `boolean` | - | Whether the dialog is open (controlled). |
+| `defaultOpen` | `boolean` | `false` | Whether the dialog is open by default (uncontrolled). |
+| `onOpenChange` | `(isOpen: boolean) => void` | - | Handler called when the open state changes. |
+
+## Accessibility
+
+- **Keyboard Support**: `Tab` cycles focus within the dialog. `Esc` dismisses the dialog (unless `isKeyboardDismissDisabled` is set).
+- **Aria Roles**: The dialog is assigned `role="dialog"` or `role="alertdialog"`.
+- **Labeling**: The `Heading` component inside the dialog is automatically linked as the accessible label for the dialog via `aria-labelledby`.
+
+## Spectrum 2 Migration
+
+The migration from React Spectrum V3 to Spectrum 2 (S2) involves several structural and prop changes for Dialogs.
+
+### Structural Changes
+- **Heading Slot**: In S2, the `Heading` must explicitly use `slot="title"`.
+- **Divider**: The `Divider` component is no longer required inside the dialog; the new design handles visual separation automatically.
+- **Close Function**: The `close` render prop function has moved from the `DialogTrigger` children to the `Dialog` children.
+
+### Prop Changes
+- **isDismissable**: Renamed to `isDismissible` (fixed spelling) and moved from `DialogTrigger` to the `Dialog` component.
+- **isKeyboardDismissDisabled**: Moved from `DialogTrigger` to the `Dialog` component.
+- **type**: The `type` prop on `DialogTrigger` is being replaced by dedicated components like `Popover` or `FullscreenDialog`.
+
+### Migration Example
+
+**V3 Style (Current):**
+```tsx
 <DialogTrigger type="modal">
-  <TriggerElement />           ← first child
-  {(close) =>                  ← render-prop for close callback
+  <Button>Open</Button>
+  {(close) => (
     <Dialog isDismissable>
       <Heading>Title</Heading>
       <Divider />
@@ -30,27 +101,25 @@ Two files, both thin wrappers over `@adobe/react-spectrum`:
         <Button onPress={close}>Cancel</Button>
       </ButtonGroup>
     </Dialog>
-  }
+  )}
 </DialogTrigger>
 ```
 
-`DialogTrigger` manages open state (uncontrolled) or consumes `isOpen`/`onOpenChange` (controlled). It passes a `close` function to the render-prop children.
-
-## Integration
-
-- Used throughout the UI for confirmations, settings, and detail panels.
-- `AlertDialog` (same overlays/ category) is a specialised variant for destructive confirmations.
-- `DialogContainer` (same category) is the alternative when no persistent trigger element exists.
-- `FullscreenAction` (same category) uses `DialogTrigger type="fullscreenTakeover"` internally.
-- `Popover` (same category) wraps `DialogTrigger` with a defaulted `type="popover"`.
-
-
-<Stories />
----
-
-<Primary />
-
-## Props
-
-<Controls />
+**S2 Style (Future):**
+```tsx
+<DialogTrigger>
+  <Button>Open</Button>
+  <Dialog isDismissible>
+    {({ close }) => (
+      <>
+        <Heading slot="title">Title</Heading>
+        <Content>Body</Content>
+        <ButtonGroup>
+          <Button onPress={close}>Cancel</Button>
+        </ButtonGroup>
+      </>
+    )}
+  </Dialog>
+</DialogTrigger>
+```
 
