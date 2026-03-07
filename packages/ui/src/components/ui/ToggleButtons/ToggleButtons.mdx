@@ -1,4 +1,4 @@
-import { Meta, Title, Subtitle, Description, Primary, Controls, Stories, Source } from '@storybook/blocks';
+import { Meta, Title, Subtitle, Description, Primary, Controls, Stories, Source } from '@storybook/addon-docs/blocks';
 import * as DocStories from './ToggleButtons.stories';
 
 <Meta of={DocStories} />
@@ -75,18 +75,4 @@ The component uses a custom CSS module (`ToggleButtons.module.css`) to join the 
 - **Pressed State**: Individual buttons use `aria-pressed` to signal their selection status.
 - **Note**: This custom implementation does not currently support arrow-key navigation within the group (roving tab index); each button remains an independent tab stop.
 
----
 
-## Spectrum 2 Migration
-
-`ToggleButtons` predates the official `ToggleButtonGroup` and `SegmentedControl` primitives in the Spectrum ecosystem. For new implementations or during migration, the following official replacements are recommended:
-
-### Recommended Replacements
-- **`SegmentedControl`** from `@react-spectrum/s2`: The closest semantic match for mutually exclusive view switching.
-- **`ToggleButtonGroup`** from `react-aria-components` or `@react-spectrum/s2`: Best for groups that may require multi-selection or more advanced ARIA behaviors.
-
-### Why Migrate?
-Official Spectrum components provide superior accessibility:
-- **Correct ARIA Roles**: Container uses `role="radiogroup"` with `role="radio"` items for single selection.
-- **Keyboard Navigation**: Implements roving tab index (arrow keys move focus within the group; Tab moves focus in/out as a single unit).
-- **Selection Models**: Supports both `single` and `multiple` selection modes natively.
