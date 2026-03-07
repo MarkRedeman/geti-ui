@@ -1,87 +1,104 @@
-import { Meta, Title, Subtitle, Description, Primary, Controls, Stories } from '@storybook/addon-docs/blocks';
+import { Meta, Title, Subtitle, Description, Primary, Controls, Stories, Source } from '@storybook/blocks';
 import * as DocStories from './PhotoPlaceholder.stories';
 
 <Meta of={DocStories} />
 
-<Title />
+<Title>PhotoPlaceholder</Title>
+
+<Subtitle>
+  A deterministic initials-based placeholder used when a user or entity photo is unavailable.
+</Subtitle>
+
+```tsx
+import { PhotoPlaceholder } from '@geti/ui';
+```
+
+<Stories />
 
 ## Responsibility
 
-`PhotoPlaceholder` renders a circular (or arbitrary-shape) coloured tile with a single uppercase initial letter, used wherever a user photo is unavailable. The background colour is **deterministically** computed from a hash of the `indicator` string, so the same entity always receives the same colour.
+`PhotoPlaceholder` fills a functional gap in the Adobe Spectrum design system: providing a high-quality, initials-based fallback for missing images. While Spectrum's `Avatar` component is strictly image-only, `PhotoPlaceholder` ensures every entity has a distinct visual identity even without a profile photo.
 
-<Stories />
----
-
-## Design
-
-### Files
-
-| File | Role |
-|---|---|
-| `PhotoPlaceholder.tsx` | Component — computes colour & letter, renders `View` + inner `div` |
-| `utils.ts` | `hexaToRGBA` + `getForegroundColor` — pure colour utilities |
-| `PhotoPlaceholder.module.css` | Static flex centering for the inner `div` |
-
-### Colour computation pipeline
-
-```
-indicator string
-  → getDistinctColorBasedOnHash(indicator)   → backgroundColor (#RRGGBB or #RRGGBBAA)
-  → hexaToRGBA(backgroundColor)              → [r, g, b, a]
-  → getForegroundColor([r, g, b, a], gray50, gray900)
-      = (r*299 + g*587 + b*114) / 1000 > 128 ? gray50 : gray900
-```
-
-The perceived-luminance formula (ITU-R 601 weights) ensures text always has sufficient contrast against any background colour.
-
-### Static vs dynamic styling split
-
-| What | Where |
-|---|---|
-| `backgroundColor`, `color`, `borderRadius` | `UNSAFE_style` on `<View>` — runtime-computed values only |
-| Inner `div` centering (flex, 100% w/h) | `PhotoPlaceholder.module.css` — static, belongs in CSS |
-| Width, height, minWidth, minHeight | Spectrum style props on `<View>` — translates to Spectrum dimension tokens |
-
-This follows the library's rule: **`UNSAFE_style` only for runtime-computed values**.
-
-### Accessibility
-
-The inner `<div role="img" aria-label={name || indicator}>` makes the placeholder a labelled image region for screen readers. The visible `<Text aria-hidden="true">` prevents the letter from being announced twice.
-
-### Props
-
-```tsx
-export interface PhotoPlaceholderProps extends StyleProps {
-    name: string;          // Displayed as the letter; also aria-label
-    indicator: string;     // Hashed to pick background colour
-    width?: ViewProps['width'];    // Default: 'size-1600'
-    height?: ViewProps['height'];  // Default: 'size-1600'
-    borderRadius?: string;         // Default: '50%'
-}
-```
-
-`extends StyleProps` means callers can pass any Spectrum style prop (padding, margin, etc.) which the component spreads onto the `<View>` via `...viewProps`.
+### Key Capabilities
+- **Deterministic Color**: Background colors are hashed from an `indicator` string (e.g., email or ID), ensuring the same user always has the same color.
+- **Initials Rendering**: Automatically extracts and displays the first initial from the `name` prop.
+- **Smart Contrast**: Dynamically calculates whether to use light or dark text based on the background color's perceived luminance, ensuring WCAG-compliant contrast.
+- **Flexible Shape**: Defaults to a circular "avatar" style but supports custom `borderRadius` for square or rounded-rect variants.
 
 ---
 
-## Flow
+## Variants
 
-Pure functional — no state, no effects. Deterministic: same `indicator` → same colour every render.
+### Sizing
+The component supports standard Spectrum dimension tokens for `width` and `height`. The default size is `size-1600` (64px).
 
----
-
-## Integration
-
-- **Depends on**: `@adobe/react-spectrum` (`Text`, `View`, `ViewProps`), `@react-types/shared` (`StyleProps`), `../../../utils/distinct-colors` (`getDistinctColorBasedOnHash`), `./utils`, `./PhotoPlaceholder.module.css`.
-- **Consumed by**: user-facing entity displays where a photo/avatar may not exist (user lists, annotation owner chips, member tables).
-- **Complement**: `Avatar` is used when an actual image URL is available; `PhotoPlaceholder` is the fallback.
-
+### Custom Shape
+Use the `borderRadius` prop to change the shape from the default circle (`50%`) to a rounded square or other geometric form.
 
 ---
-
-<Primary />
 
 ## Props
 
-<Controls />
+<Controls of={DocStories.Default} />
 
+### Content
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `name` | `string` | **Required** | The name of the person or entity. Extracts the first letter for display. |
+| `indicator` | `string` | **Required** | A unique string (email, ID) used to deterministically pick a background color. |
+
+### Value / Style overrides
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `width` | `string \| number` | `'size-1600'` | Spectrum dimension token or numeric pixel value for width. |
+| `height` | `string \| number` | `'size-1600'` | Spectrum dimension token or numeric pixel value for height. |
+| `borderRadius` | `string` | `'50%'` | CSS border-radius value (e.g., `'8px'`, `'100%'`). |
+
+---
+
+## Implementation Details
+
+### Color Pipeline
+The component uses a perceptional luminance formula (ITU-R 601 weights) to ensure text readability:
+1. **Hash**: The `indicator` is hashed to a hex color.
+2. **Luminance**: `(r*299 + g*587 + b*114) / 1000`.
+3. **Threshold**: If luminance > 128, use dark text; otherwise, use light text.
+
+### Layout
+Static centering logic (Flexbox) is handled in `PhotoPlaceholder.module.css`, while dynamic colors and radius are applied via `UNSAFE_style` on a Spectrum `View`.
+
+---
+
+## Accessibility
+
+- **Role**: The component uses `role="img"` on the container to identify as a single visual entity.
+- **Label**: The `aria-label` is set to the full `name` (or `indicator`), ensuring screen readers announce the person's name rather than just the initial.
+- **Hiding Text**: The visible initial character is marked with `aria-hidden="true"` to prevent redundant announcements.
+
+---
+
+## Spectrum 2 Migration
+
+`PhotoPlaceholder` is a standalone Geti component and does not wrap any Spectrum logic that is changing in Spectrum 2. It is expected to remain a custom component throughout all migration phases.
+
+### Future Path
+In Phase 3 (Tailwind CSS), the component can be simplified to a pure HTML/Tailwind implementation:
+
+<Source
+  language="tsx"
+  dark
+  code={`
+<div
+  role="img"
+  aria-label={name}
+  style={{ backgroundColor, color }}
+  className="flex items-center justify-center rounded-full text-lg font-bold"
+>
+  <span aria-hidden="true">{initial}</span>
+</div>
+`}
+/>
+
+Note: Adobe's Spectrum 2 `Avatar` remains image-only and does not provide an initials fallback mechanism, so this component will continue to be a necessary supplement.
