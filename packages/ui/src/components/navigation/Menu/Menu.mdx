@@ -3,52 +3,120 @@ import * as DocStories from './Menu.stories';
 
 <Meta of={DocStories} />
 
-<Title />
+# Menu
+
+<Subtitle>Menus display a list of actions or selections that users can choose from after interacting with a trigger.</Subtitle>
+
+```tsx
+import { Menu, MenuTrigger, Item, Section } from '@geti/ui';
+```
+
+- [React Spectrum V3 Menu](https://react-spectrum.adobe.com/react-spectrum/Menu.html)
+- [Spectrum 2 Menu](https://react-spectrum.adobe.com/s2/Menu.html)
+
+<Stories />
 
 ## Responsibility
 
-Provides the complete menu component suite: a generic `Menu` for rendering a list of selectable/actionable items, a `MenuTrigger` to pair a trigger element with the menu overlay, and re-exports of `Item` and `Section` for structuring menu content. Together they cover all dropdown menu use cases in the design system.
+The `Menu` component provides a versatile way to present a list of options. It is always used in combination with a `MenuTrigger`, which associates the menu with a trigger element (like a Button or ActionButton) and manages the overlay's state.
 
-## Design
+Key responsibilities:
+- **Command Selection**: Provides a structured list of commands or navigation links.
+- **State Management**: Supports single and multiple selection modes for settings or filters.
+- **Visual Organization**: Uses sections and dividers to group related items logically.
+- **Focus Management**: Handles keyboard navigation and focus trapping within the menu overlay.
 
-Four co-located files, all thin wrappers over `@adobe/react-spectrum`:
+### When to use
+- For a list of actions associated with a specific UI element.
+- For "More" or "Overflow" menus in toolbars.
+- For choosing from a small to medium-sized list of options that shouldn't be permanently visible.
 
-- **`Menu.tsx`** — generic `MenuProps<T extends object> extends SpectrumMenuProps<T>`. Renders `<SpectrumMenu {...props} />`. Supports `selectionMode` (`'single' | 'multiple' | 'none'`), `onAction`, `disabledKeys`, etc.
-- **`MenuTrigger.tsx`** — `MenuTriggerProps extends SpectrumMenuTriggerProps`. Renders `<SpectrumMenuTrigger {...props} />`. Manages open/close state of the menu overlay and wires keyboard interaction.
-- **`Item.tsx`** — direct re-export of Spectrum's `Item`. No wrapping.
-- **`Section.tsx`** — direct re-export of Spectrum's `Section`. No wrapping.
+### When to avoid
+- When the user needs to select a value that should remain visible (use `Picker`).
+- When the list of options is very long and requires filtering (use `ComboBox`).
+- For primary site-wide navigation (use `VerticalNav` or `Tabs`).
 
-The generic `T` on `Menu` allows typed `items` arrays to be passed via Spectrum's collection API without casting.
+## Variants
 
-## Flow
+### Selection Mode
+- **None (Default)**: Items are treated as commands that perform an action when pressed.
+- **Single**: Only one item can be selected at a time (radio button behavior).
+- **Multiple**: Multiple items can be selected independently (checkbox behavior).
 
-```
+### Menu Sections
+Use the `Section` component to group related menu items. Each section can have an optional title, providing clear visual and semantic boundaries.
+
+## Props
+
+### MenuTrigger Props
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `trigger` | `'press' \| 'longPress'` | `'press'` | How the menu is triggered. |
+| `align` | `'start' \| 'end'` | `'start'` | Where the menu aligns relative to the trigger. |
+| `direction` | `'bottom' \| 'top' \| 'left' \| 'right'` | `'bottom'` | The direction the menu opens. |
+
+### Menu Props
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `children` | `ItemElement \| ItemRenderer` | - | The menu items (using the `Item` or `Section` components). |
+| `selectionMode` | `'none' \| 'single' \| 'multiple'` | `'none'` | The selection behavior of the menu. |
+| `onAction` | `(key: Key) => void` | - | Handler called when an item is pressed (in `'none'` selection mode). |
+| `onSelectionChange` | `(keys: Selection) => void` | - | Handler called when the selection changes. |
+| `disabledKeys` | `Iterable<Key>` | `[]` | The keys of the items that should be disabled. |
+
+## Accessibility
+
+- **Roles**: Implements the WAI-ARIA Menu pattern (`role="menu"`, `role="menuitem"`).
+- **Keyboard Support**:
+  - `Enter`, `Space`, or `Arrow Down` on the trigger opens the menu.
+  - `Arrow Down/Up` moves focus between menu items.
+  - `Home/End` jumps to the first or last item.
+  - `Enter` or `Space` activates the focused item and closes the menu.
+  - `Esc` closes the menu and returns focus to the trigger.
+- **Labeling**: Use `aria-label` or `aria-labelledby` on the `MenuTrigger` to provide an accessible name for the trigger button.
+
+## Spectrum 2 Migration
+
+The migration to Spectrum 2 (S2) introduces a more explicit sub-component structure and improved collection management.
+
+### Structural Changes
+- **MenuItem**: Generic `<Item>` becomes a dedicated `<MenuItem>` component.
+- **MenuSection**: Generic `<Section>` becomes `<MenuSection>`, with headers now defined using explicit `<Header>` and `<Heading>` children.
+- **ID Prop**: Use the `id` prop instead of `key` for menu items.
+
+### New Features
+- **Submenus**: S2 supports nested submenus using the `<SubmenuTrigger>` component.
+- **Section Selection**: You can now set `selectionMode` directly on a `<MenuSection>` for per-section selection behavior.
+- **Link Indicators**: Menu items with an `href` prop automatically show an external link icon.
+
+### Migration Example
+
+**V3 Style (Current):**
+```tsx
 <MenuTrigger>
-  <TriggerElement />          ← first child (e.g. ActionButton)
-  <Menu items={items} onAction={handler}>
-    <Item key="...">Label</Item>
-    <Section title="Group">
-      <Item key="...">Label</Item>
+  <Button>Actions</Button>
+  <Menu onAction={doAction}>
+    <Section title="Edit">
+      <Item key="rename">Rename</Item>
+      <Item key="copy">Make a copy</Item>
     </Section>
+    <Item key="delete">Delete</Item>
   </Menu>
 </MenuTrigger>
 ```
 
-`MenuTrigger` manages overlay open state. On trigger activation, `Menu` renders into a Spectrum overlay. `onAction(key)` fires when an item is activated.
-
-## Integration
-
-- Used by `ActionMenu` (same navigation/ category), which combines `MenuTrigger` + `Menu` into a single pre-wired component with an `ActionButton` trigger.
-- Used by `MediaViewModes` composite to render view mode selections.
-- `Item` and `Section` are also used directly by `ListBox`, `ComboBox`, `Picker`, and `TabList` elsewhere in the design system.
-
-
-<Stories />
----
-
-<Primary />
-
-## Props
-
-<Controls />
+**S2 Style (Future):**
+```tsx
+<MenuTrigger>
+  <Button>Actions</Button>
+  <Menu onAction={doAction}>
+    <MenuSection>
+      <Header><Heading>Edit</Heading></Header>
+      <MenuItem id="rename">Rename</MenuItem>
+      <MenuItem id="copy">Make a copy</MenuItem>
+    </MenuSection>
+    <MenuItem id="delete">Delete</MenuItem>
+  </Menu>
+</MenuTrigger>
+```
 
