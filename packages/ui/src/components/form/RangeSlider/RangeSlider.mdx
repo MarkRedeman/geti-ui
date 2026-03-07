@@ -1,4 +1,4 @@
-import { Meta, Title, Subtitle, Description, Primary, Controls, Stories } from '@storybook/blocks';
+import { Meta, Title, Subtitle, Description, Primary, Controls, Stories } from '@storybook/addon-docs/blocks';
 import * as DocStories from './RangeSlider.stories';
 
 <Meta of={DocStories} />
@@ -12,7 +12,6 @@ import { RangeSlider } from '@geti/ui';
 ```
 
 - [React Spectrum V3 RangeSlider](https://react-spectrum.adobe.com/react-spectrum/RangeSlider.html)
-- [Spectrum 2 RangeSlider](https://react-spectrum.adobe.com/s2/RangeSlider.html)
 
 <Stories />
 
@@ -77,18 +76,5 @@ The value labels for both handles can be formatted using `formatOptions` (e.g., 
 - **Keyboard support**: Each handle is independently focusable. Use **Arrow keys** to increment/decrement, and **Home/End** to jump to the track bounds.
 - Thumbs are dynamically constrained via `aria-valuemin` and `aria-valuemax` to prevent crossing.
 - Full support for `aria-label`, `aria-labelledby`, and `aria-valuetext` for screen reader compatibility.
-
-## Spectrum 2 Migration
-
-When migrating to Spectrum 2 (S2), keep the following changes in mind:
-
-| V3 Prop | S2 Equivalent | Notes |
-|---|---|---|
-| `orientation="vertical"` | — | Vertical orientation is removed in S2; horizontal only. |
-| `showValueLabel` | — | Value labels are always visible in S2 for accessibility. |
-| `getValueLabel` | — | Removed in S2; use `formatOptions` instead. |
-| `width="size-3000"` | `styles={style({ width: 240 })}` | Dimension props move to the `style()` macro. |
-| `isEmphasized` | `isEmphasized` | New in S2: Applies an accent-color highlight to the track. |
-| `size` | `size` | S2 adds a `size` prop (`'S'`, `'M'`, `'L'`, `'XL'`). |
 
 <Controls />
