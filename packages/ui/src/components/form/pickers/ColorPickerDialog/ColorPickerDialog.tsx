@@ -32,6 +32,25 @@ export interface ColorPickerDialogProps {
     onOpenChange?: (isOpen: boolean) => void;
 }
 
+const DEFAULT_COLOR = 'hsb(0, 100%, 100%)';
+
+/**
+ * Safely parses a color string into an HSBA Color object.
+ * HSBA is used as the internal format to prevent "Unknown color channel: alpha" 
+ * errors when rendering the alpha slider.
+ */
+const safeParseColorHSBA = (value: string | undefined): Color => {
+    if (!value) {
+        return parseColor(DEFAULT_COLOR).toFormat('hsba');
+    }
+    try {
+        return parseColor(value).toFormat('hsba');
+    } catch (e) {
+        console.warn(`[ColorPickerDialog] Invalid color value: "${value}". Falling back to default.`);
+        return parseColor(DEFAULT_COLOR).toFormat('hsba');
+    }
+};
+
 /**
  * A ColorPickerDialog provides a comprehensive UI for picking colors.
  * It combines ColorArea, ColorSlider, ColorWheel, and ColorField into a single dialog.
@@ -42,13 +61,11 @@ export const ColorPickerDialog = ({
     label = 'Pick Color',
     ...rest
 }: ColorPickerDialogProps) => {
-    const [color, setColor] = useState<Color>(() =>
-        (colorProp ? parseColor(colorProp) : parseColor('hsb(0, 100%, 100%)')).toFormat('hsb')
-    );
+    const [color, setColor] = useState<Color>(() => safeParseColorHSBA(colorProp));
 
     useEffect(() => {
         if (colorProp) {
-            setColor(parseColor(colorProp).toFormat('hsb'));
+            setColor(safeParseColorHSBA(colorProp));
         }
     }, [colorProp]);
 
@@ -57,8 +74,14 @@ export const ColorPickerDialog = ({
         close();
     };
 
-    const setColorHSB = (c: Color | null) => {
-        if (c) setColor(c.toFormat('hsb'));
+    const setColorHSBA = (c: Color | null) => {
+        if (c) {
+            try {
+                setColor(c.toFormat('hsba'));
+            } catch (e) {
+                console.error('[ColorPickerDialog] Failed to format color to HSBA:', e);
+            }
+        }
     };
 
     return (
@@ -79,22 +102,30 @@ export const ColorPickerDialog = ({
                                 <Flex direction="column" gap="size-150">
                                     <ColorArea
                                         value={color}
-                                        onChange={setColorHSB}
+                                        onChange={setColorHSBA}
                                         xChannel="saturation"
                                         yChannel="brightness"
                                     />
-                                    <ColorSlider value={color} onChange={setColorHSB} channel="hue" />
-                                    <ColorSlider value={color} onChange={setColorHSB} channel="alpha" />
+                                    <ColorSlider value={color} onChange={setColorHSBA} channel="hue" />
+                                    <ColorSlider value={color} onChange={setColorHSBA} channel="alpha" />
                                 </Flex>
                                 <Flex direction="column" gap="size-150" alignItems="center">
-                                    <ColorWheel value={color} onChange={setColorHSB} />
-                                    <ColorField label="Hex" value={color} onChange={setColorHSB} />
+                                    <ColorWheel value={color} onChange={setColorHSBA} />
+                                    {/* 
+                                        ColorField is passed a HEX string to ensure 
+                                        proper formatting and avoid HSB channel mismatches.
+                                    */}
+                                    <ColorField
+                                        label="Hex"
+                                        value={color.toFormat('rgb')}
+                                        onChange={setColorHSBA}
+                                    />
                                 </Flex>
                             </Flex>
 
                             <Flex direction="column" gap="size-100">
                                 <Heading level={4}>Presets</Heading>
-                                <ColorSwatchPicker value={color} onChange={setColorHSB}>
+                                <ColorSwatchPicker value={color} onChange={setColorHSBA}>
                                     <ColorSwatch color="#ff0000" />
                                     <ColorSwatch color="#00ff00" />
                                     <ColorSwatch color="#0000ff" />
