@@ -3,74 +3,104 @@ import * as DocStories from './Card.stories';
 
 <Meta of={DocStories} />
 
-<Title />
+# Card
+
+<Subtitle>A Card is a flexible content container used to group related information and actions into a single, cohesive unit.</Subtitle>
+
+```tsx
+import { Card } from '@geti/ui';
+```
+
+- [Spectrum 2 Migration (Styling)](https://react-spectrum.adobe.com/s2/styling.html)
+
+<Stories />
 
 ## Responsibility
 
-Provides the Geti design system's card primitive — a bordered, themed content container that supports both static (article) and interactive (button) rendering modes, with selection state reflected through Spectrum border and background tokens.
+The `Card` component is a fundamental building block of the Geti UI. It provides a bordered, themed container that can be either static (for informational content) or interactive (acting as a large button). It is the primary way to represent assets, projects, or any item collection in a grid or list.
 
-## Design
+Key responsibilities:
+- **Visual Containment**: Groups related content (images, text, actions) into a distinct visual unit.
+- **Selection State**: Provides built-in visual feedback for selection using theme-aware borders and background colors.
+- **Semantic Branching**: Automatically switches between `<article>` (static) and `<button>` (interactive) based on the presence of an `onPress` handler.
+- **Theme Integration**: Uses Spectrum's design tokens to ensure it looks correct in both dark and light modes.
 
-Custom component — not a Spectrum wrapper. Uses Spectrum's `View` as the styled outer container but composes native HTML elements inside.
+### When to use
+- To represent individual items in a collection (e.g., a project list, a dataset gallery).
+- To group related information that requires a clear visual boundary and a "surface" metaphor.
+- When an entire section of content needs to be clickable or selectable.
 
-Two rendering branches based on whether `onPress` is provided:
+### When to avoid
+- For simple grouping without the need for a border or background (use `Flex` or `Grid` instead).
+- For secondary information that should be less prominent (use a `Well`).
+- When the content is part of a sequential flow and doesn't represent a standalone entity.
 
-**Interactive mode** (`onPress` present):
-```tsx
-<View border="..." background="...">
-  <button style={{ all: 'unset' }} className="geti-card-button" aria-pressed={isSelected}>
-    {children}
-  </button>
-</View>
-```
-`style={{ all: 'unset' }}` resets all button styles so `View`'s visual treatment applies. `aria-pressed` communicates selection state to screen readers.
+## Variants
 
-**Static mode** (no `onPress`):
-```tsx
-<View border="..." background="...">
-  <article aria-label={ariaLabel}>
-    {children}
-  </article>
-</View>
-```
+### Static vs. Interactive
+- **Static**: If no `onPress` prop is provided, the card renders as an `<article>`. This is used for purely informational cards.
+- **Interactive**: If an `onPress` handler is provided, the card renders as a `<button>`. This is used for cards that trigger an action or navigate to a new page.
 
-**Selection state** — `isSelected` controls Spectrum token props on `View`:
-- `borderColor`: `'focus'` (selected) vs `'mid'` (default)
-- `backgroundColor`: `'informative'` (selected) vs `'default'` (default)
-
-This token-based selection indicator avoids custom CSS while integrating with Spectrum's dark-mode-aware colour system.
-
-## Flow
-
-```
-props { children, onPress?, isSelected?, ariaLabel? }
-  → <View borderColor={isSelected ? 'focus' : 'mid'}
-           backgroundColor={isSelected ? 'informative' : 'default'}>
-      {onPress
-        ? <button style={{all:'unset'}} className="geti-card-button"
-                  aria-pressed={isSelected} onClick={onPress}>
-            {children}
-          </button>
-        : <article aria-label={ariaLabel}>
-            {children}
-          </article>
-      }
-    </View>
-```
-
-## Integration
-
-- Used by `CardView` (data/) as the rendering target for each grid cell.
-- `View` from `ui/View/` provides the themed border and background via Spectrum style props.
-- `geti-card-button` CSS class is expected to be present in global styles for any additional hover/focus visual treatment.
-
-
-<Stories />
----
-
-<Primary />
+### Selection
+The `isSelected` prop applies a distinct "informative" background and a "focus" border color to the card, making it clear to the user which items are currently selected.
 
 ## Props
 
-<Controls />
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `children` | `ReactNode` | - | The content to be rendered inside the card. |
+| `onPress` | `(event: PressEvent) => void` | - | Handler called when the card is pressed. If present, the card renders as a button. |
+| `isSelected` | `boolean` | `false` | Whether the card is in a selected state. |
+| `isDisabled` | `boolean` | `false` | Whether the card (interactive mode) is disabled. |
+| `aria-label` | `string` | - | An accessible label for the card. |
+
+## Accessibility
+
+- **Semantic HTML**: `Card` uses `<article>` for static content and `<button>` for interactive content, ensuring correct semantics for screen readers.
+- **Selection State**: In interactive mode, `isSelected` is reflected via `aria-pressed` on the underlying button.
+- **Focus Management**: Interactive cards are focusable and support standard keyboard interactions (`Enter`, `Space`).
+- **Labeling**: Always provide an `aria-label` or ensure the card contains a heading that provides a clear name for the item.
+
+## Spectrum 2 Migration
+
+The `Card` is a Geti-native component built on top of Spectrum's layout primitives. Its migration to Spectrum 2 (S2) involves updating the underlying styling system.
+
+### The New Pattern
+In S2, the `Card`'s visual properties (borders, background, selection states) will be moved into the `style()` macro applied to the outer container.
+
+- **V3**: Uses `View` props like `borderColor` and `backgroundColor` with string tokens.
+- **S2**: Uses the `style()` macro with pixel values and S2 color tokens.
+
+### Key Changes
+- **Styling Macro**: The logic for `isSelected` will move into a conditional object within the `style()` macro.
+- **Token Mapping**: V3 tokens like `'focus'` and `'mid'` will map to S2-specific border and background tokens.
+- **Atomic CSS**: The migration will result in zero-runtime styling overhead while maintaining the same design intent.
+
+### Migration Example
+
+**V3 Style (Current):**
+```tsx
+<View 
+  borderColor={isSelected ? 'focus' : 'mid'}
+  backgroundColor={isSelected ? 'informative' : 'default'}
+>
+  {/* Card content */}
+</View>
+```
+
+**S2 Style (Future):**
+```tsx
+import { style } from '@react-spectrum/s2/style' with { type: 'macro' };
+
+<div className={style({
+  borderWidth: 1,
+  borderStyle: 'solid',
+  borderColor: isSelected ? 'blue-600' : 'gray-300',
+  backgroundColor: isSelected ? 'blue-50' : 'white',
+  borderRadius: 'lg',
+  padding: 16
+})}>
+  {/* Card content */}
+</div>
+```
 
