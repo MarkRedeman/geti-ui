@@ -5,8 +5,6 @@ import * as DocStories from './KitchenSink.stories';
 
 <Title />
 
-<Stories />
-
 ## Responsibility
 
 The `form/` category owns **all user-input primitives** — every component a user interacts with to enter or select data. This spans simple text fields through to a full multi-surface colour picker dialog. It is the primary surface for data capture, validation feedback, and file ingestion in the Geti design system.
@@ -103,6 +101,10 @@ No props are altered; the sole purpose is to centralise the import so consumers 
 - **Overlays dependency**: `ColorPickerDialog` uses `Dialog`/`DialogTrigger` from Spectrum directly (not from `overlays/`), so it is self-contained.
 - **Theme**: all inputs adopt Geti's dark-mode tokens automatically via `ThemeProvider`.
 
+
+---
+
+<Stories />
 
 ---
 

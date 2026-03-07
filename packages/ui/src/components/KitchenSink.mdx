@@ -5,21 +5,19 @@ import * as DocStories from './KitchenSink.stories';
 
 <Title />
 
-<Stories />
-
 ## Responsibility
 
 The `components/` directory contains every UI component exported by `@geti/ui`. Components are organised into 8 domain groups, each in its own subdirectory. This maps directly to the 8 export groups in `src/index.ts`.
 
-| Subdirectory | Group name | Contents |
-|---|---|---|
-| `ui/` | Primitive Actions | Buttons, Avatar, Image, View, Divider, PressableElement, CornerIndicator, PhotoPlaceholder |
-| `form/` | Form Controls | Text inputs, Checkbox, Radio, Switch, Slider, DropZone, FileTrigger, Form |
-| `form/pickers/` | Form Pickers | Picker, ComboBox, Date/Calendar components, full color picker suite |
-| `overlays/` | Overlays | Dialog, AlertDialog, DialogContainer, Popover, CustomPopover, Tooltip, ContextualHelp, FullscreenAction |
-| `navigation/` | Navigation | Tabs, Menu, ActionMenu, Breadcrumbs, Link, MediaViewModes |
-| `feedback/` | Status & Feedback | Loading, Progress, Meter, Skeleton, Toast, InlineAlert, Badge, StatusLight, IllustratedMessage |
-| `data/` | Data Display | TableView, ListView, ListBox, CardView, TagGroup, Tag, ActionBar, TreeView, VirtualizedListLayout, VirtualizedHorizontalGrid |
+| Subdirectory | Group name | Key Components |
+| :--- | :--- | :--- |
+| `ui/` | Primitive Actions | Buttons, Avatar, Image, View, Divider |
+| `form/` | Form Controls | Text inputs, Checkbox, Radio, Switch, Slider |
+| `form/pickers/` | Form Pickers | Picker, ComboBox, Date/Calendar suite, Color suite |
+| `overlays/` | Overlays | Dialog, AlertDialog, Popover, Tooltip, ContextualHelp |
+| `navigation/` | Navigation | Tabs, Menu, ActionMenu, Breadcrumbs, Link |
+| `feedback/` | Status & Feedback | Loading, Progress, Meter, Skeleton, Toast, InlineAlert |
+| `data/` | Data Display | TableView, ListView, CardView, TagGroup, ActionBar |
 | `layouts/` | Layout & Structure | Flex, Grid, Well, Card, Accordion, Disclosure |
 
 ## Design
@@ -86,6 +84,7 @@ The only cross-component wiring happens in composites:
 - **Stories** (`.stories.tsx` files) are picked up by Storybook from `.storybook/main.ts` via the glob `src/**/*.stories.tsx`.
 - **Tests** (`.test.tsx` files) are picked up by rstest from `rstest.config.ts`.
 
+<Stories />
 
 ---
 

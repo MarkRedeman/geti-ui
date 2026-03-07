@@ -5,8 +5,6 @@ import * as DocStories from './KitchenSink.stories';
 
 <Title />
 
-<Stories />
-
 ## Responsibility
 
 The `navigation/` category owns **components that move the user through the application** — switching views, traversing page hierarchies, opening contextual action sets, and changing display modes. Every component here either changes what the user is looking at or presents a set of choices about where to go next.
@@ -86,6 +84,10 @@ Icons come from `@spectrum-icons/workflow` (List, ViewGrid, ModernGridView, Clas
 - **Consumed by**: application shell (tabs for workspace switching), toolbar areas (ActionMenu, MediaViewModes), page headers (Breadcrumbs), and inline content (Link).
 - **Theme**: inherits Geti dark tokens via `ThemeProvider`; `--spectrum-tabs-*` overrides in `geti-dark.module.css` ensure the tab selection indicator uses the Geti blue.
 
+
+---
+
+<Stories />
 
 ---
 

@@ -5,8 +5,6 @@ import * as DocStories from './KitchenSink.stories';
 
 <Title />
 
-<Stories />
-
 ## Responsibility
 
 The `feedback/` category owns **every component that communicates system state back to the user** — progress, loading, errors, warnings, empty states, and status indicators. These components do not accept user input; they are purely informational surfaces that tell the user what is happening or has happened.
@@ -95,6 +93,10 @@ Spectrum's `Badge` already supports all required variants (positive, negative, n
 - **`VirtualizedListLayout` in `data/`** uses `Loading` as its default `renderLoading` implementation, showing the cross-category consumption pattern.
 - **Theme**: `geti-dark.module.css` overrides `--spectrum-toast-*-background-color` tokens so toast colours match Geti's palette (coral for negative, energy-blue-shade for info, daisy for warning).
 
+
+---
+
+<Stories />
 
 ---
 

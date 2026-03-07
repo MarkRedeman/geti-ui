@@ -5,11 +5,11 @@ import * as DocStories from './KitchenSink.stories';
 
 <Title />
 
-<Stories />
-
 ## Responsibility
 
 Houses all picker and color-input components: date/time pickers, dropdown pickers, comboboxes, and the full suite of color-selection primitives. Every component here follows the same thin-wrapper pattern over `@adobe/react-spectrum`, with two exceptions: `ColorThumb` (fully custom, built on the library's own `View`) and `ColorPickerDialog` (a stateful composite that orchestrates multiple color primitives).
+
+---
 
 ## Design
 
@@ -32,17 +32,27 @@ Does not wrap Spectrum. Uses the library's own `View` + a CSS module. Background
 **ColorPickerDialog — stateful composite:**
 Imports all color primitives directly from `@adobe/react-spectrum` (not library wrappers). Manages a `useState<Color>` draft while the dialog is open; only commits to the caller via `onColorChange` when the Confirm button is pressed. Cancel discards the draft.
 
+---
+
 ## Flow
 
 For thin wrappers: props in → forwarded to Spectrum → Spectrum renders accessible date/color/picker input.
 
 For `ColorPickerDialog`: `color` prop (string) → `parseColor()` → `useState<Color>` draft → user manipulates `ColorArea`/`ColorWheel`/`ColorSlider`/`ColorField`/`ColorSwatchPicker` → Confirm → `color.toString('hex')` → `onColorChange` callback.
 
+---
+
 ## Integration
 
 - **Depends on**: `@adobe/react-spectrum`, `@react-types/datepicker`, `@react-types/shared`, library's own `View` (for `ColorThumb`)
 - **Consumed by**: form surfaces requiring date selection, color picking, or option selection
 - **Sub-components exported**: `Item` re-exported from `ComboBox` and `Picker` for option children
+
+---
+
+<Stories />
+
+---
 
 <Primary />
 

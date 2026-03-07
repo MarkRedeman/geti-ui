@@ -5,8 +5,6 @@ import * as DocStories from './KitchenSink.stories';
 
 <Title />
 
-<Stories />
-
 ## Responsibility
 
 The `layouts/` category owns **structural containers that arrange and group other components** — the scaffolding and framing of the UI rather than interactive or data-display elements. These components define spatial relationships: how things sit side-by-side, how content is grouped, how sections collapse, and how summary panels are presented.
@@ -77,6 +75,10 @@ export { DisclosurePanel, DisclosureTitle };
 - **Consumed by**: every page-level template in Geti uses `Flex`/`Grid` for layout. `Well` is used for code/preformatted-text blocks. `Card`/`CardView` are used for project and dataset grids. `Accordion`/`Disclosure` are used for collapsible settings panels.
 - **Theme**: `--spectrum-well-background-color` and `--spectrum-well-border-color` are overridden in `geti-dark.module.css` to match the dark surface; `geti-card-button:focus-visible` outline is defined in `geti-global.module.css`.
 
+
+---
+
+<Stories />
 
 ---
 

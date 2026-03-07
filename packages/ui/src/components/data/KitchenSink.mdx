@@ -5,8 +5,6 @@ import * as DocStories from './KitchenSink.stories';
 
 <Title />
 
-<Stories />
-
 ## Responsibility
 
 The `data/` category owns **components for presenting, browsing, and acting on collections of data**. This is where lists, tables, grids, trees, and tags live — the surfaces through which Geti surfaces structured information to the user, allows selection, and enables bulk operations on those selections.
@@ -90,6 +88,10 @@ Key design choices:
 - **Consumed by**: any Geti page that lists projects, annotations, datasets, media items, labels, or any other collection.
 - **Theme**: all Spectrum-based components inherit the Geti dark theme from `ThemeProvider`; `Tag` reads Spectrum global CSS tokens directly.
 
+
+---
+
+<Stories />
 
 ---
 
