@@ -11,10 +11,6 @@ import * as DocStories from './IllustratedMessage.stories';
 import { IllustratedMessage, Heading, Content } from '@geti/ui';
 ```
 
-- [React Spectrum V3 IllustratedMessage](https://react-spectrum.adobe.com/react-spectrum/IllustratedMessage.html)
-
-<Stories />
-
 ## Responsibility
 
 `IllustratedMessage` is a specialized layout component designed to fill a large, prominent empty area. It typically consists of a decorative illustration, a heading (title), and body content (description).
@@ -36,6 +32,56 @@ import { IllustratedMessage, Heading, Content } from '@geti/ui';
 - **Always provide a Heading**: The heading acts as the accessible name of the message for screen readers.
 - **Spectrum Illustrations**: Use standard Adobe Spectrum illustrations for visual consistency.
 - **Not for inline validation**: Use field-level error messages for form validation instead of `IllustratedMessage`.
+
+## Design
+
+`IllustratedMessage` is a three-slot layout component that centers its children vertically and horizontally.
+
+1. **Illustration Slot**: The top-most element, typically an SVG or image representing the state.
+2. **Heading Slot**: A `Heading` component (renders as `<h3>` by default) that provides a clear title.
+3. **Content Slot**: A `Content` component for detailed description and optional action buttons.
+
+The layout is responsive and centers content within its parent container, making it ideal for full-page or full-section empty states.
+
+## Flow
+
+1. **State Trigger**: A collection (e.g., `ListView`) or page enters an empty or error state.
+2. **Composition**: The developer composes the message using the three semantic slots.
+3. **Rendering**: The component applies the necessary centering and spacing tokens.
+4. **Action (Optional)**: If the message includes an action (e.g., "Retry"), the user can interact with buttons placed inside the `Content` slot.
+
+## Integration
+
+### Paired with DropZone
+A common pattern for file uploads is to place an `IllustratedMessage` inside a `DropZone`.
+
+```tsx
+<DropZone onDrop={handleDrop}>
+  <IllustratedMessage>
+    <FileIcon />
+    <Heading>Drop files here</Heading>
+    <Content>Or click to browse from your computer</Content>
+  </IllustratedMessage>
+</DropZone>
+```
+
+### Empty List State
+Use `IllustratedMessage` as the `renderEmptyState` prop in collection components.
+
+```tsx
+<ListView
+  items={items}
+  renderEmptyState={() => (
+    <IllustratedMessage>
+      <NoResultsIllustration />
+      <Heading>No items found</Heading>
+      <Content>Try adjusting your search or filters.</Content>
+    </IllustratedMessage>
+  )}
+>
+  {/* List items */}
+</ListView>
+```
 
 ## Variants
 
