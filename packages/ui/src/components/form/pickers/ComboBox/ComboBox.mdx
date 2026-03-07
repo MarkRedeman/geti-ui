@@ -1,92 +1,472 @@
-import { Meta, Title, Subtitle, Description, Primary, Controls, Stories } from '@storybook/addon-docs/blocks';
+import { Meta, Title, Subtitle, Controls, Stories } from '@storybook/addon-docs/blocks';
 import * as DocStories from './ComboBox.stories';
 
 <Meta of={DocStories} />
 
-<Title />
+# ComboBox
 
-ComboBoxes combine a text entry with a picker menu, allowing users to filter longer lists to only the selections matching a query.
+<Subtitle>A ComboBox combines a text input with a filterable dropdown, letting users search through a list and select an item — or enter a custom value when free-text is permitted.</Subtitle>
 
 ```tsx
 import { ComboBox, Item } from '@geti/ui';
 ```
 
-[React Spectrum V3 ComboBox](https://react-spectrum.adobe.com/react-spectrum/ComboBox.html)
+- [React Spectrum V3 ComboBox](https://react-spectrum.adobe.com/react-spectrum/ComboBox.html)
 
 <Stories />
 
 ## Responsibility
 
-The `ComboBox` component is a combination of a text input and a listbox, allowing users to choose from a list of options or enter a custom value (when `allowsCustomValue` is enabled). It is designed for scenarios where the number of options is large, and filtering is necessary for efficiency.
+`ComboBox` bridges two interaction patterns — text entry and item selection — in a single control. It is the right choice when a `Picker` dropdown would be unwieldy because the list is too long to scan, or when the user may need to supply a value that doesn't exist in the list.
 
-### How it works
-- **Filtering**: As the user types, the list of options is filtered to show only matching items.
-- **Selection**: Users can select an item from the list using the mouse or keyboard, or by typing the full value.
-- **Custom Values**: By default, `ComboBox` reverts to the previously selected item if the input doesn't match an option on blur. Set `allowsCustomValue` to `true` to allow any text input.
+Key responsibilities:
+- **Inline Filtering**: As the user types, the list of options narrows in real time, reducing cognitive load on long datasets.
+- **Dual State**: Tracks both the selected item (`selectedKey`) and the raw text in the input field (`inputValue`) independently, giving callers precise control over each.
+- **Custom Values**: When `allowsCustomValue` is enabled, the component accepts any free-text entry — useful for taggable fields or search inputs.
+- **Async Support**: Exposes `loadingState` and `onInputChange` so the parent can drive server-side filtering, showing a spinner while results are fetched.
 
-### ComboBox vs. Picker
-- Use **Picker** for a small, static list of options where the user must choose exactly one item and does not need to filter.
-- Use **ComboBox** when the list is long enough to require filtering, or when a custom user-entered value is a valid option.
+### When to use
+- The option list has **more than ~10 items** and benefits from inline filtering (e.g., a country selector, a model name picker, a label search).
+- Users may legitimately want to enter a **custom value** not present in the list (e.g., a new tag name, a free-text dataset filter).
+- The list is **dynamic or loaded from an API** and the full set cannot be rendered upfront.
+- A user may know the value they want and prefer to **type it directly** rather than scrolling through a dropdown.
+
+### When to avoid
+- For **short, static lists** (fewer than ~8 options) where the user needs to see all choices at once — use `Picker` instead.
+- When the field must **always have one of the predefined values** and free-text entry would be confusing — use `Picker` with a required validation.
+- For **boolean or two-state choices** — use `Switch`, `Checkbox`, or `RadioGroup`.
+- When all options are already visible on screen — use an `ActionGroup` or `RadioGroup`.
+
+---
+
+## Design
+
+`ComboBox` is a **thin wrapper** around Spectrum's `SpectrumComboBox`. It extends `SpectrumComboBoxProps` directly without adding props or modifying rendering, keeping the Geti wrapper as a stable integration point for future customisation (e.g., analytics hooks, theme overrides, or migration to `react-aria-components`).
+
+```tsx
+// packages/ui/src/components/form/pickers/ComboBox/ComboBox.tsx
+
+export interface ComboBoxProps<T extends object> extends SpectrumComboBoxProps<T> {}
+
+export const ComboBox = <T extends object>(props: ComboBoxProps<T>) => <SpectrumComboBox {...props} />;
+```
+
+**Generic type `<T extends object>`**
+
+`ComboBox` is generic over `T extends object`. This type parameter is used when supplying items via the `items` prop (the [collection API](https://react-spectrum.adobe.com/react-spectrum/collections.html)) instead of static `Item` children. When you pass an array of objects to `items` and a render function as `children`, TypeScript infers `T` from the array element type, giving you full type safety inside the render function:
+
+```tsx
+type Animal = { id: string; name: string };
+
+const animals: Animal[] = [
+    { id: 'red-panda', name: 'Red Panda' },
+    { id: 'cat',       name: 'Cat' },
+    { id: 'dog',       name: 'Dog' },
+];
+
+// T is inferred as Animal — item is fully typed inside the callback
+<ComboBox<Animal> label="Favorite animal" items={animals}>
+    {(item) => <Item key={item.id}>{item.name}</Item>}
+</ComboBox>
+```
+
+For static collections the generic is not needed — you can write `<Item>` children directly without specifying `T`.
+
+**`Item` re-export**
+
+`Item` is re-exported directly from `@adobe/react-spectrum` via `ComboBox.tsx`:
+
+```tsx
+export { Item } from '@adobe/react-spectrum';
+```
+
+Import it from `@geti/ui` alongside `ComboBox` so you don't need a second import from the upstream package. `Item` is the shared collection primitive — the same component is used across `ComboBox`, `Picker`, `Tabs`, and other collection-based components.
+
+**Theme integration**
+
+`ComboBox` inherits all Spectrum design tokens (input height, border colour, focus ring, typography) from the `ThemeProvider` context. No per-component CSS overrides are needed in standard usage.
+
+---
 
 ## Variants
 
-### Collection Types
-`ComboBox` supports both static and dynamic collections:
-- **Static**: Useful for small, fixed sets of data. Options are defined as `<Item>` children.
-- **Dynamic**: Recommended for larger lists or data from an API. Use the `items` prop and a render function for better performance and automatic caching.
+### Static vs. Dynamic Collections
 
-### Selection
-Selection is handled via the `selectedKey` (controlled) or `defaultSelectedKey` (uncontrolled) props. The `onSelectionChange` event returns the key of the selected item.
+`ComboBox` supports both static and dynamic item lists:
 
-### Manual vs. Automatic Opening
-The `menuTrigger` prop controls when the menu opens:
-- `input` (default): Opens when the user edits the input text.
-- `focus`: Opens when the user focuses the input.
-- `manual`: Only opens when the user clicks the trigger button or uses arrow keys.
+- **Static**: Define `<Item>` children inline. Best for small, fixed datasets (e.g., a list of file formats, a small set of roles).
+- **Dynamic**: Pass an iterable to `items` and a render function as `children`. Required when items come from state or an API, and preferred for large lists because Spectrum virtualises the collection.
+
+```tsx
+// Static — fine for small, fixed lists
+<ComboBox label="Status">
+    <Item key="active">Active</Item>
+    <Item key="inactive">Inactive</Item>
+    <Item key="pending">Pending</Item>
+</ComboBox>
+
+// Dynamic — preferred for data-driven or large lists
+<ComboBox label="Country" items={countries}>
+    {(country) => <Item key={country.code}>{country.name}</Item>}
+</ComboBox>
+```
+
+### Menu Trigger Behaviour
+
+The `menuTrigger` prop controls when the dropdown opens:
+
+| Value | Behaviour |
+|-------|-----------|
+| `input` *(default)* | Opens when the user edits the input text. |
+| `focus` | Opens as soon as the input receives focus (mouse click or tab). |
+| `manual` | Only opens when the user presses the trigger button or `ArrowDown`. |
+
+### Custom Values
+
+By default, if the user types something that doesn't match any item and then blurs, the input **reverts** to the previously selected item's label. Set `allowsCustomValue` to `true` to accept any text as the committed value:
+
+```tsx
+<ComboBox label="Tag" allowsCustomValue>
+    <Item key="bug">Bug</Item>
+    <Item key="feature">Feature</Item>
+    <Item key="improvement">Improvement</Item>
+</ComboBox>
+```
 
 ### Validation States
-Supports `validationState="invalid"` to indicate an error, often used in conjunction with `errorMessage`.
+
+Use `validationState="invalid"` together with `errorMessage` to show an inline error. This is the standard Spectrum form-field error pattern, also used by `TextField`, `Picker`, and `NumberField`.
+
+```tsx
+<ComboBox
+    label="Dataset"
+    validationState="invalid"
+    errorMessage="A dataset must be selected before training."
+>
+    <Item key="ds-1">Dataset A</Item>
+    <Item key="ds-2">Dataset B</Item>
+</ComboBox>
+```
+
+---
+
+## Flow
+
+Understanding how `selectedKey` and `inputValue` interact is essential for correct controlled usage.
+
+```
+User types in input
+        │
+        ▼
+  onInputChange(value)       ◄── fired on every keystroke
+        │
+        ▼
+  Spectrum filters list      ◄── client-side (default) or
+  (or parent fetches items)  ◄── server-side (async pattern)
+        │
+        ▼
+  Menu opens / updates
+        │
+        ▼
+  User selects an item
+        │
+        ▼
+  onSelectionChange(key)     ◄── fired by ComboBox
+        │
+        ▼
+  selectedKey state updates  ◄── your useState / store
+        │
+        ▼
+  Input text updates to      ◄── Spectrum syncs inputValue
+  match selected item label      to the chosen item's label
+```
+
+**`selectedKey` vs. `inputValue`**
+
+These two props track fundamentally different things and can diverge:
+
+| Prop | Tracks | Type |
+|------|--------|------|
+| `selectedKey` | Which item is *selected* — the canonical committed value | `Key` (`string \| number`) |
+| `inputValue` | The *current text* in the input field | `string` |
+
+They are independent by design. A user can start typing (changing `inputValue`) without yet making a selection (leaving `selectedKey` unchanged). Once they pick an item from the list, Spectrum synchronises `inputValue` to that item's display label automatically — *unless* you are controlling `inputValue` yourself, in which case you must update it in your `onSelectionChange` handler.
+
+**Controlled pattern**
+
+```tsx
+const [selectedKey, setSelectedKey] = useState<Key | null>(null);
+
+<ComboBox
+    label="Favorite animal"
+    selectedKey={selectedKey}
+    onSelectionChange={setSelectedKey}
+>
+    <Item key="red-panda">Red Panda</Item>
+    <Item key="cat">Cat</Item>
+    <Item key="dog">Dog</Item>
+</ComboBox>
+```
+
+**Controlling both `selectedKey` and `inputValue`**
+
+You only need to control both when you want to drive the input text independently of selection — for example, to clear the field after a selection, or to pre-populate it from a URL parameter:
+
+```tsx
+const [selectedKey, setSelectedKey] = useState<Key | null>(null);
+const [inputValue, setInputValue]   = useState('');
+
+<ComboBox
+    label="Favorite animal"
+    selectedKey={selectedKey}
+    inputValue={inputValue}
+    onSelectionChange={(key) => {
+        setSelectedKey(key);
+        // Find the matching label and update the input text accordingly
+        const match = animals.find((a) => a.id === key);
+        setInputValue(match?.name ?? '');
+    }}
+    onInputChange={setInputValue}
+>
+    {(item) => <Item key={item.id}>{item.name}</Item>}
+</ComboBox>
+```
+
+### Async Filtering
+
+When the option list is large or lives on a server, you can drive filtering asynchronously using `onInputChange` to trigger API calls and `loadingState` to communicate loading status to the component.
+
+`loadingState` accepts these values:
+
+| Value | Behaviour |
+|-------|-----------|
+| `'idle'` | Normal state, no spinner. |
+| `'loading'` | A spinner appears inside the trigger button. |
+| `'filtering'` | A spinner appears inside the dropdown list. |
+| `'loadingMore'` | A spinner appears at the bottom of the list (for paginated results). |
+| `'error'` | No spinner; use `errorMessage` to surface the error in the field. |
+| `'sorting'` | A spinner appears inside the dropdown list (for sort operations). |
+
+**Full async filtering example**
+
+```tsx
+import { useCallback, useState } from 'react';
+import { Key } from '@adobe/react-spectrum';
+import { ComboBox, Item } from '@geti/ui';
+
+type Model = { id: string; name: string };
+
+function ModelPicker() {
+    const [items, setItems]           = useState<Model[]>([]);
+    const [loadingState, setLoading]  = useState<'idle' | 'filtering'>('idle');
+    const [selectedKey, setSelectedKey] = useState<Key | null>(null);
+
+    const handleInputChange = useCallback(async (value: string) => {
+        if (!value) {
+            setItems([]);
+            return;
+        }
+
+        setLoading('filtering');
+        try {
+            const response = await fetch(`/api/models?q=${encodeURIComponent(value)}`);
+            const data: Model[] = await response.json();
+            setItems(data);
+        } catch {
+            setItems([]);
+        } finally {
+            setLoading('idle');
+        }
+    }, []);
+
+    return (
+        <ComboBox<Model>
+            label="Model"
+            items={items}
+            loadingState={loadingState}
+            selectedKey={selectedKey}
+            onSelectionChange={setSelectedKey}
+            onInputChange={handleInputChange}
+            allowsCustomValue={false}
+        >
+            {(model) => <Item key={model.id}>{model.name}</Item>}
+        </ComboBox>
+    );
+}
+```
+
+Key points in the async pattern:
+- **`onInputChange`** fires on every keystroke. Debounce it (e.g., with `useDebounce` or a `setTimeout` ref) in production to avoid excessive API calls.
+- Pass `loadingState="filtering"` while the request is in flight — this renders a spinner inside the dropdown so the user knows results are loading.
+- The `items` array is owned by the parent; Spectrum will not do any client-side filtering on top of what the server returns.
+- `selectedKey` remains independent — it holds the committed selection even while `items` changes during typing.
+
+---
 
 ## Props
 
 ### Content
-| Prop | Type | Description |
-| --- | --- | --- |
-| `children` | `ReactNode \| ((item: T) => ReactNode)` | The contents of the collection (e.g., `<Item>` elements). |
-| `items` | `Iterable<T>` | The list of items for the collection (dynamic). |
-| `label` | `ReactNode` | The label for the ComboBox. |
-| `description` | `ReactNode` | A description for the field. |
-| `errorMessage` | `ReactNode` | An error message for the field. |
 
-### Value/State
+| Prop | Type | Description |
+|------|------|-------------|
+| `children` | `ReactNode \| ((item: T) => ReactNode)` | The contents of the collection. Use `<Item>` elements (static) or a render function (dynamic). |
+| `items` | `Iterable<T>` | The list of items for dynamic collections. Required when `children` is a render function. |
+| `label` | `ReactNode` | The visible label for the ComboBox. Omit only when using `aria-label`. |
+| `description` | `ReactNode` | Helper text displayed below the input. |
+| `errorMessage` | `ReactNode` | Error text shown when `validationState="invalid"`. |
+| `placeholder` | `string` | Placeholder text shown in the input when empty. |
+
+### Value / State
+
 | Prop | Type | Default | Description |
-| --- | --- | --- | --- |
-| `selectedKey` | `Key` | — | The currently selected key (controlled). |
-| `defaultSelectedKey` | `Key` | — | The initial selected key (uncontrolled). |
-| `inputValue` | `string` | — | The current value of the input field (controlled). |
-| `defaultInputValue` | `string` | — | The initial value of the input field (uncontrolled). |
-| `allowsCustomValue` | `boolean` | `false` | Whether to allow values not present in the items list. |
+|------|------|---------|-------------|
+| `selectedKey` | `Key \| null` | — | The currently selected item key (controlled). |
+| `defaultSelectedKey` | `Key` | — | The initially selected item key (uncontrolled). |
+| `inputValue` | `string` | — | The current text in the input field (controlled). |
+| `defaultInputValue` | `string` | — | The initial text in the input field (uncontrolled). |
+| `allowsCustomValue` | `boolean` | `false` | Whether to accept input values not present in the items list. |
+| `menuTrigger` | `'input' \| 'focus' \| 'manual'` | `'input'` | When the dropdown opens relative to user interaction. |
+| `loadingState` | `LoadingState` | — | Controls the loading spinner; see Async Filtering above. |
 
 ### Events
-| Prop | Type | Description |
-| --- | --- | --- |
-| `onSelectionChange` | `(key: Key) => void` | Handler called when the selection changes. |
-| `onInputChange` | `(value: string) => void` | Handler called when the input text changes. |
-| `onOpenChange` | `(isOpen: boolean) => void` | Handler called when the menu's open state changes. |
 
-### Styles
 | Prop | Type | Description |
-| --- | --- | --- |
-| `isDisabled` | `boolean` | Whether the ComboBox is disabled. |
-| `isRequired` | `boolean` | Whether user input is required. |
-| `validationState` | `'valid' \| 'invalid'` | Whether the input is valid or invalid. |
+|------|------|-------------|
+| `onSelectionChange` | `(key: Key) => void` | Handler called when the user commits a selection. |
+| `onInputChange` | `(value: string) => void` | Handler called on every input keystroke. |
+| `onOpenChange` | `(isOpen: boolean, menuTrigger?: MenuTriggerAction) => void` | Handler called when the dropdown opens or closes. |
+
+### Validation / State Modifiers
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `validationState` | `'valid' \| 'invalid'` | — | Marks the field as valid or invalid. |
+| `isDisabled` | `boolean` | `false` | Whether the ComboBox is disabled. |
+| `isReadOnly` | `boolean` | `false` | Whether the input is read-only (text not editable). |
+| `isRequired` | `boolean` | `false` | Whether a selection is required before form submission. |
+
+---
 
 ## Accessibility
 
-- **ARIA Roles**: Implements the `combobox` role with `aria-autocomplete`, `aria-haspopup`, and `aria-expanded` managed automatically.
-- **Keyboard Support**:
-    - `ArrowDown/Up`: Navigates the list of suggestions.
-    - `Enter`: Selects the focused suggestion.
-    - `Escape`: Closes the menu or clears the input.
-- **Labeling**: Always provide a `label`. If a visual label is not possible, use `aria-label` or `aria-labelledby`.
+`ComboBox` implements the full [WAI-ARIA ComboBox pattern](https://www.w3.org/WAI/ARIA/apg/patterns/combobox/) via Spectrum's underlying implementation.
 
+**ARIA roles and attributes**
+
+| Element | Role / Attribute | Notes |
+|---------|-----------------|-------|
+| Input element | `role="combobox"` | The text input that the user types into. |
+| Input element | `aria-haspopup="listbox"` | Indicates that activating the input opens a listbox. |
+| Input element | `aria-expanded` | `"true"` when the dropdown is open, `"false"` otherwise. |
+| Input element | `aria-autocomplete="list"` | Indicates that the list filters as the user types. |
+| Input element | `aria-activedescendant` | Set to the `id` of the currently keyboard-focused option in the list. |
+| Dropdown | `role="listbox"` | The popup containing the filterable options. |
+| Each option | `role="option"` | Individual selectable item in the listbox. |
+| Selected option | `aria-selected="true"` | Applied to the currently selected option. |
+
+**Focus management and `aria-activedescendant`**
+
+A key usability feature of the `combobox` pattern is that **focus never leaves the input** while the user navigates the dropdown with arrow keys. Instead of moving DOM focus to each list item, Spectrum sets `aria-activedescendant` on the input to point to the ID of the visually highlighted option. Screen readers announce the highlighted option as if it were focused, while the actual keyboard focus — and therefore text entry capability — stays in the input. This means the user can:
+
+1. Press `ArrowDown` to highlight the first suggestion without losing the cursor in the input.
+2. Continue typing to refine the filter even mid-navigation.
+3. Press `Enter` to commit the highlighted option, or `Escape` to dismiss and return to their typed text.
+
+**Keyboard interactions**
+
+| Key | Behaviour |
+|-----|-----------|
+| `ArrowDown` | Opens the menu (if closed); moves highlight to the next option. |
+| `ArrowUp` | Moves highlight to the previous option; closes the menu if already at the top. |
+| `Enter` | Selects the currently highlighted option and closes the menu. |
+| `Escape` | If menu is open: closes the menu and reverts input to the last committed value. If menu is closed: clears the input. |
+| `Tab` | Commits the highlighted option (if any) and moves focus to the next focusable element. |
+| `Shift + Tab` | Dismisses the menu and moves focus to the previous focusable element. |
+| `Home` / `End` | Moves the text cursor to the start/end of the input (standard text field behaviour). |
+
+**Labelling**
+
+Always provide a `label` prop. If a visible label is not appropriate in context (e.g., a search input inside a toolbar), use `aria-label` or `aria-labelledby` so screen readers can announce what the field is for:
+
+```tsx
+// Preferred — visible label associated automatically
+<ComboBox label="Dataset">…</ComboBox>
+
+// Acceptable — label sourced from a nearby heading
+<h3 id="model-heading">Select model</h3>
+<ComboBox aria-labelledby="model-heading">…</ComboBox>
+
+// Acceptable — invisible label for standalone search inputs
+<ComboBox aria-label="Filter annotations">…</ComboBox>
+```
+
+---
+
+## Integration
+
+- **Dependencies**: `@adobe/react-spectrum` — `SpectrumComboBox`, `SpectrumComboBoxProps`, and `Item` are all imported from this package. Users only need to import from `@geti/ui`.
+- **ThemeProvider**: Must be present in the React tree. Input styling, focus ring colour, and dropdown appearance all derive from Spectrum tokens resolved by `ThemeProvider`.
+
+**Pairing with `Form` and validation**
+
+Wrap `ComboBox` in a Spectrum `Form` to get layout, spacing, and integrated form submission handling. Use `validationState` and `errorMessage` to surface field-level errors from form validation logic:
+
+```tsx
+import { Form } from '@adobe/react-spectrum';
+import { ComboBox, Item } from '@geti/ui';
+
+function TrainingConfigForm() {
+    const [architecture, setArchitecture] = useState<Key | null>(null);
+    const [submitted, setSubmitted]       = useState(false);
+
+    const isInvalid = submitted && architecture === null;
+
+    return (
+        <Form onSubmit={(e) => { e.preventDefault(); setSubmitted(true); }}>
+            <ComboBox
+                label="Architecture"
+                isRequired
+                selectedKey={architecture}
+                onSelectionChange={setArchitecture}
+                validationState={isInvalid ? 'invalid' : undefined}
+                errorMessage={isInvalid ? 'Please select an architecture.' : undefined}
+            >
+                <Item key="resnet50">ResNet-50</Item>
+                <Item key="efficientdet">EfficientDet</Item>
+                <Item key="yolov8">YOLOv8</Item>
+            </ComboBox>
+        </Form>
+    );
+}
+```
+
+**Debouncing async input**
+
+In production, debounce `onInputChange` to avoid firing a network request on every keystroke:
+
+```tsx
+import { useRef, useCallback } from 'react';
+
+function useDebouncedInputChange(handler: (value: string) => void, delay = 300) {
+    const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+    return useCallback((value: string) => {
+        if (timerRef.current) clearTimeout(timerRef.current);
+        timerRef.current = setTimeout(() => handler(value), delay);
+    }, [handler, delay]);
+}
+
+// Usage
+const handleInputChange = useDebouncedInputChange(async (value) => {
+    const results = await fetchModels(value);
+    setItems(results);
+});
+
+<ComboBox label="Model" items={items} onInputChange={handleInputChange} loadingState={loadingState}>
+    {(item) => <Item key={item.id}>{item.name}</Item>}
+</ComboBox>
+```
+
+**Pairing with `ComboBox` and `Picker` side-by-side**
+
+When a form has both a `Picker` (short, fixed list) and a `ComboBox` (long or dynamic list), Spectrum aligns them naturally because both use the same field height and label placement tokens.
