@@ -13,6 +13,7 @@ import { Grid } from '@geti/ui';
 
 - [React Spectrum V3 Grid](https://react-spectrum.adobe.com/react-spectrum/Grid.html)
 
+
 <Stories />
 
 ## Responsibility
@@ -62,45 +63,4 @@ The `gap` prop (and `columnGap`/`rowGap`) provides a standardized way to add spa
 - **Semantic HTML**: By default, `Grid` renders as a `<div>`. Use the `elementType` prop to change it to a more semantic element if appropriate for the content (e.g., `main`, `section`).
 - **Logical Flow**: Ensure that the grid layout maintains a logical reading and tab order that matches the visual presentation.
 
-## Spectrum 2 Migration
-
-The migration to Spectrum 2 (S2) involves a fundamental shift: **dedicated layout components like `Grid` are removed.**
-
-### The New Pattern
-In S2, layout is handled by applying the `style()` macro directly to plain HTML elements.
-
-- **V3**: `<Grid columns={['1fr', '3fr']} gap="size-100">`
-- **S2**: `<div className={style({ display: 'grid', gridTemplateColumns: '1fr 3fr', gap: 8 })}>`
-
-### Key Changes
-- **No Component Wrapper**: Use standard `<div>`, `<section>`, etc.
-- **Pixel Values**: Instead of string tokens like `'size-100'`, use direct pixel numbers (e.g., `8`).
-- **Grid Syntax**: CSS property names like `gridTemplateColumns` are used inside the `style()` macro instead of the shorthand `columns`.
-
-### Migration Example
-
-**V3 Style (Current):**
-```tsx
-<Grid areas={['header header', 'sidebar content']} columns={['200px', '1fr']} gap="size-200">
-  <View gridArea="header">Header</View>
-  <View gridArea="sidebar">Sidebar</View>
-  <View gridArea="content">Content</View>
-</Grid>
-```
-
-**S2 Style (Future):**
-```tsx
-import { style } from '@react-spectrum/s2/style' with { type: 'macro' };
-
-<div className={style({ 
-  display: 'grid', 
-  gridTemplateAreas: '"header header" "sidebar content"', 
-  gridTemplateColumns: '200px 1fr', 
-  gap: 16 
-})}>
-  <div className={style({ gridArea: 'header' })}>Header</div>
-  <div className={style({ gridArea: 'sidebar' })}>Sidebar</div>
-  <div className={style({ gridArea: 'content' })}>Content</div>
-</div>
-```
 
