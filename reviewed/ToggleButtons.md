@@ -34,14 +34,14 @@
 ### 🔴 Critical
 
 | #   | Issue                                                                                                                                                                                                                                                                                      | Location               |
-| --- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ---------------------- |
-| A1  | **No group role or accessible label.** The wrapping `<Flex>` has no `role="group"` or `role="toolbar"` and no `aria-label`. Screen reader users have no context for what these toggle buttons collectively represent. Add `role="group"` and an `aria-label` prop to `ToggleButtonsProps`. | `ToggleButtons.tsx:66` |
+| --- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ---------------------- | --------------------------------------------------------------------------------------------------------------------------------------------- |
+| A1  | **No group role or accessible label.** The wrapping `<Flex>` has no `role="group"` or `role="toolbar"` and no `aria-label`. Screen reader users have no context for what these toggle buttons collectively represent. Add `role="group"` and an `aria-label` prop to `ToggleButtonsProps`. | `ToggleButtons.tsx:66` | ✅ **Fixed:** wrapping element now has `role="group"` and `aria-label="Selection options"` (label is hardcoded; not yet a configurable prop). |
 
 ### 🟡 Warnings
 
 | #   | Issue                                                                                                                                                                                                                                                                                                                                                                            | Location                  |
-| --- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------- |
-| A2  | **No keyboard navigation between buttons.** Standard toolbar/group keyboard behaviour specifies that Arrow keys should move focus between buttons within the group. Currently each button is individually Tab-focusable, which is verbose. Consider implementing `roving tabIndex` or using `react-aria`'s `useListBox` / `FocusScope` with arrow-key navigation.                | `ToggleButtons.tsx:66-79` |
+| --- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------- | ---------------- |
+| A2  | **No keyboard navigation between buttons.** Standard toolbar/group keyboard behaviour specifies that Arrow keys should move focus between buttons within the group. Currently each button is individually Tab-focusable, which is verbose. Consider implementing `roving tabIndex` or using `react-aria`'s `useListBox` / `FocusScope` with arrow-key navigation.                | `ToggleButtons.tsx:66-79` | ⏳ _Still open._ |
 | A3  | **`aria-pressed` on a Spectrum `Button`** is correct (Spectrum passes through ARIA attributes), but the test on line 31 asserts `toHaveAttribute('aria-pressed', 'true')` — this is a string comparison and works, but `aria-pressed={false}` will be `"false"` as a string. TypeScript and React handle this correctly (`false` → `"false"` attribute). Verified: this is fine. | `ToggleButtons.tsx:28`    |
 
 ---
@@ -69,17 +69,17 @@
 ### 🟡 Warnings
 
 | #   | Issue                                                                                                                                                         | Location                         |
-| --- | ------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------- |
-| T1  | **No keyboard navigation test.** Given the potential for arrow-key implementation, at minimum a test should verify Tab navigates to each button individually. | `ToggleButtons.test.tsx`         |
-| T2  | **No test for `getLabel` prop.** The custom label renderer has no coverage.                                                                                   | `ToggleButtons.test.tsx`         |
+| --- | ------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------- | ---------------- |
+| T1  | **No keyboard navigation test.** Given the potential for arrow-key implementation, at minimum a test should verify Tab navigates to each button individually. | `ToggleButtons.test.tsx`         | ⏳ _Still open._ |
+| T2  | **No test for `getLabel` prop.** The custom label renderer has no coverage.                                                                                   | `ToggleButtons.test.tsx`         | ⏳ _Still open._ |
 | T3  | **`rstest.fn()` usage** — same question as Calendar: verify this is the correct mock API for this project.                                                    | `ToggleButtons.test.tsx:5,38,50` |
 
 ---
 
 ## Specific Fixes Required
 
-1. **Add `aria-label` prop** to `ToggleButtonsProps` and apply `role="group" aria-label={ariaLabel}` to the wrapping `<Flex>`.
-2. **Review CSS first-child/last-child selectors** — verify they work with Spectrum's Button DOM output, and remove `!important`.
-3. **Fix Storybook title** to `'Advanced/ToggleButtons'`.
-4. **Add `getLabel` test** verifying custom labels render correctly.
-5. **Add keyboard navigation test** (Tab between buttons reaches each one).
+1. **Add `aria-label` prop** to `ToggleButtonsProps` and apply `role="group" aria-label={ariaLabel}` to the wrapping `<Flex>`. ✅ **Partially fixed:** `role="group"` added and `aria-label="Selection options"` hardcoded, but `ariaLabel` is not yet an exposed prop consumers can override.
+2. **Review CSS first-child/last-child selectors** — verify they work with Spectrum's Button DOM output, and remove `!important`. ⏳ _Still open._
+3. **Fix Storybook title** to `'Advanced/ToggleButtons'`. ⏳ _Still open._
+4. **Add `getLabel` test** verifying custom labels render correctly. ⏳ _Still open._
+5. **Add keyboard navigation test** (Tab between buttons reaches each one). ⏳ _Still open._

@@ -15,17 +15,17 @@
 
 ### 🔴 Critical
 
-| #   | Issue                                                                                                                                                                                                                                                                                                                                                 | Location                 |
-| --- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------ |
-| C1  | **All three grid modes use the same icon.** `GridSmall`, `GridMedium`, and `Grid` all import from `@spectrum-icons/workflow/ViewGrid`. The three modes (`SMALL`, `MEDIUM`, `LARGE`) are visually indistinguishable in the toolbar. The `SMALL` mode should likely use `ViewSingle` or a smaller grid icon, and `LARGE` should use something distinct. | `MediaViewModes.tsx:4-6` |
+| #   | Issue                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 | Location                 |
+| --- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------ |
+| C1  | **All three grid modes use the same icon.** `GridSmall`, `GridMedium`, and `Grid` all import from `@spectrum-icons/workflow/ViewGrid`. The three modes (`SMALL`, `MEDIUM`, `LARGE`) are visually indistinguishable in the toolbar. The `SMALL` mode should likely use `ViewSingle` or a smaller grid icon, and `LARGE` should use something distinct. ✅ **Fixed:** `SMALL` → `ViewGrid`, `MEDIUM` → `ModernGridView`, `LARGE` → `ClassicGridView`, `DETAILS` → `ViewList`. `ICON_PER_MODE` map used. | `MediaViewModes.tsx:4-6` |
 
 ### 🟡 Warnings
 
-| #   | Issue                                                                                                                                                                                                                                                                                                                                                                                                                                                                          | Location                               |
-| --- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | -------------------------------------- |
-| W2  | **Key comparison uses `.toLocaleLowerCase()` on enum values.** `ViewModes` enum values are full display strings (`'Large thumbnails'`, `'Details'`, etc.). The `.toLocaleLowerCase()` transformation converts them to `'large thumbnails'`, `'details'`, etc. for key matching. This is fragile: if enum values contain locale-sensitive characters, `toLocaleLowerCase()` may behave differently across locales. Use the enum value directly as the key: `<Item key={item}>`. | `MediaViewModes.tsx:36,51,53`          |
-| W3  | **`setViewMode` prop type** includes `Dispatch<SetStateAction<ViewModes>>` — this is an implementation detail of `useState` leaking into the public API. The simpler `(viewMode: ViewModes) => void` signature is sufficient and more general.                                                                                                                                                                                                                                 | `MediaViewModes.tsx:26`                |
-| W4  | **`VIEW_MODE_LABEL` constant** (`'View mode'`) is used as the tooltip text but is exported from `utils.ts` only to be used in one place. This indirection adds no value.                                                                                                                                                                                                                                                                                                       | `MediaViewModes.tsx:49`, `utils.ts:12` |
+| #   | Issue                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               | Location                               |
+| --- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------- |
+| W2  | **Key comparison uses `.toLocaleLowerCase()` on enum values.** `ViewModes` enum values are full display strings (`'Large thumbnails'`, `'Details'`, etc.). The `.toLocaleLowerCase()` transformation converts them to `'large thumbnails'`, `'details'`, etc. for key matching. This is fragile: if enum values contain locale-sensitive characters, `toLocaleLowerCase()` may behave differently across locales. Use the enum value directly as the key: `<Item key={item}>`. ⏳ _Still open — `.toLocaleLowerCase()` still used throughout `MediaViewModes.tsx`._ | `MediaViewModes.tsx:36,51,53`          |
+| W3  | **`setViewMode` prop type** includes `Dispatch<SetStateAction<ViewModes>>` — this is an implementation detail of `useState` leaking into the public API. The simpler `(viewMode: ViewModes) => void` signature is sufficient and more general. ⏳ _Still open — type is a union of `Dispatch<SetStateAction<ViewModes>>` and `(viewMode: ViewModes) => void` (union allows either, but still exposes `Dispatch`)._                                                                                                                                                  | `MediaViewModes.tsx:26`                |
+| W4  | **`VIEW_MODE_LABEL` constant** (`'View mode'`) is used as the tooltip text but is exported from `utils.ts` only to be used in one place. This indirection adds no value.                                                                                                                                                                                                                                                                                                                                                                                            | `MediaViewModes.tsx:49`, `utils.ts:12` |
 
 ---
 
@@ -45,9 +45,9 @@
 
 ### 🔴 Critical
 
-| #   | Issue                                                                                                                                                  | Location                    |
-| --- | ------------------------------------------------------------------------------------------------------------------------------------------------------ | --------------------------- |
-| D1  | **No stories file.** `MediaViewModes` has no `.stories.tsx` file. It is one of only two components in the reviewed groups without any Storybook story. | `MediaViewModes/` directory |
+| #   | Issue                                                                                                                                                                                                    | Location                    |
+| --- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------- |
+| D1  | **No stories file.** `MediaViewModes` has no `.stories.tsx` file. It is one of only two components in the reviewed groups without any Storybook story. ⏳ _Still open — no `.stories.tsx` file created._ | `MediaViewModes/` directory |
 
 ### 🟡 Warnings
 
@@ -61,17 +61,17 @@
 
 ### 🔴 Critical
 
-| #   | Issue                                                                                                                                                                                       | Location                    |
-| --- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------- |
-| T1  | **No test file.** `MediaViewModes` has no `.test.tsx` file. There is zero test coverage for: rendering, menu opening, selecting a mode, `isDisabled` behaviour, or the `items` subset prop. | `MediaViewModes/` directory |
+| #   | Issue                                                                                                                                                                                                                                      | Location                    |
+| --- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | --------------------------- |
+| T1  | **No test file.** `MediaViewModes` has no `.test.tsx` file. There is zero test coverage for: rendering, menu opening, selecting a mode, `isDisabled` behaviour, or the `items` subset prop. ⏳ _Still open — no `.test.tsx` file created._ | `MediaViewModes/` directory |
 
 ---
 
 ## Specific Fixes Required
 
-1. **Fix icon imports**: assign distinct icons for `SMALL`, `MEDIUM`, `LARGE` modes (e.g., `ViewSingle`, `ViewColumn`, `ViewGrid`).
-2. **Use enum values directly as Item keys**: remove all `.toLocaleLowerCase()` transformations from key generation and comparison.
-3. **Simplify `setViewMode` prop type** to `(viewMode: ViewModes) => void`.
-4. **Create `MediaViewModes.stories.tsx`** with `Default`, `Disabled`, and `SubsetOfModes` stories, showing `useState` wiring.
-5. **Create `MediaViewModes.test.tsx`** covering: render, menu opens on click, selecting a mode calls `setViewMode`, `isDisabled` prevents menu opening.
-6. **Verify `MenuTrigger > TooltipTrigger > ActionButton` nesting** works correctly in Spectrum and document any limitations.
+1. **Fix icon imports**: assign distinct icons for `SMALL`, `MEDIUM`, `LARGE` modes (e.g., `ViewSingle`, `ViewColumn`, `ViewGrid`). ✅ **Fixed:** `ViewGrid` (SMALL), `ModernGridView` (MEDIUM), `ClassicGridView` (LARGE), `ViewList` (DETAILS).
+2. **Use enum values directly as Item keys**: remove all `.toLocaleLowerCase()` transformations from key generation and comparison. ⏳ _Still open._
+3. **Simplify `setViewMode` prop type** to `(viewMode: ViewModes) => void`. ⏳ _Still open — currently a union type._
+4. **Create `MediaViewModes.stories.tsx`** with `Default`, `Disabled`, and `SubsetOfModes` stories, showing `useState` wiring. ⏳ _Still open._
+5. **Create `MediaViewModes.test.tsx`** covering: render, menu opens on click, selecting a mode calls `setViewMode`, `isDisabled` prevents menu opening. ⏳ _Still open._
+6. **Verify `MenuTrigger > TooltipTrigger > ActionButton` nesting** works correctly in Spectrum and document any limitations. ⏳ _Still open._

@@ -1,276 +1,274 @@
 export { ThemeProvider } from './theme/ThemeProvider';
 export type { ThemeProviderProps } from './theme/ThemeProvider';
 
-// Group 1 — Primitive Actions
-export { Button } from './components/Button/Button';
-export type { ButtonProps } from './components/Button/Button';
+// Group 1 — Primitive Actions (ui/)
+export { Button } from './components/ui/Button/Button';
+export type { ButtonProps } from './components/ui/Button/Button';
 
-export { ActionButton } from './components/ActionButton/ActionButton';
-export type { ActionButtonProps, ActionButtonColorVariant } from './components/ActionButton/ActionButton';
+export { ActionButton } from './components/ui/ActionButton/ActionButton';
+export type { ActionButtonProps, ActionButtonColorVariant } from './components/ui/ActionButton/ActionButton';
 
-export { ToggleButton } from './components/ToggleButton/ToggleButton';
-export type { ToggleButtonProps } from './components/ToggleButton/ToggleButton';
+export { ToggleButton } from './components/ui/ToggleButton/ToggleButton';
+export type { ToggleButtonProps } from './components/ui/ToggleButton/ToggleButton';
 
-export { Link } from './components/Link/Link';
-export type { LinkProps } from './components/Link/Link';
+export { ToggleButtons } from './components/ui/ToggleButtons/ToggleButtons';
+export type { ToggleButtonsProps } from './components/ui/ToggleButtons/ToggleButtons';
 
-export { FileTrigger } from './components/FileTrigger/FileTrigger';
-export type { FileTriggerProps } from './components/FileTrigger/FileTrigger';
+export { PressableElement } from './components/ui/PressableElement/PressableElement';
+export type { PressableElementProps } from './components/ui/PressableElement/PressableElement';
 
-// Group 2 — Form Controls
-export { TextField } from './components/TextField/TextField';
-export type { TextFieldProps } from './components/TextField/TextField';
+export { CornerIndicator } from './components/ui/CornerIndicator/CornerIndicator';
+export type { CornerIndicatorProps } from './components/ui/CornerIndicator/CornerIndicator';
 
-export { TextArea } from './components/TextArea/TextArea';
-export type { TextAreaProps } from './components/TextArea/TextArea';
+export { PhotoPlaceholder } from './components/ui/PhotoPlaceholder/PhotoPlaceholder';
+export type { PhotoPlaceholderProps } from './components/ui/PhotoPlaceholder/PhotoPlaceholder';
 
-export { NumberField } from './components/NumberField/NumberField';
-export type { NumberFieldProps } from './components/NumberField/NumberField';
+export { Avatar } from './components/ui/Avatar/Avatar';
+export type { AvatarProps } from './components/ui/Avatar/Avatar';
 
-export { SearchField } from './components/SearchField/SearchField';
-export type { SearchFieldProps } from './components/SearchField/SearchField';
+export { AvatarGroup } from './components/ui/Avatar/AvatarGroup';
+export type { AvatarGroupProps } from './components/ui/Avatar/AvatarGroup';
 
-export { PasswordField } from './components/PasswordField/PasswordField';
-export type { PasswordFieldProps } from './components/PasswordField/PasswordField';
+export { Image } from './components/ui/Image/Image';
+export type { ImageProps } from './components/ui/Image/Image';
 
-export { Checkbox } from './components/Checkbox/Checkbox';
-export type { CheckboxProps } from './components/Checkbox/Checkbox';
+export { Divider } from './components/ui/Divider/Divider';
+export type { DividerProps } from './components/ui/Divider/Divider';
 
-export { CheckboxGroup } from './components/CheckboxGroup/CheckboxGroup';
-export type { CheckboxGroupProps } from './components/CheckboxGroup/CheckboxGroup';
+export { View } from './components/ui/View/View';
+export type { ViewProps } from './components/ui/View/View';
 
-export { RadioGroup } from './components/RadioGroup/RadioGroup';
-export type { RadioGroupProps } from './components/RadioGroup/RadioGroup';
-export { Radio } from './components/RadioGroup/Radio';
-export type { RadioProps } from './components/RadioGroup/Radio';
+// Group 2 — Form Controls (form/)
+export { FileTrigger } from './components/form/FileTrigger/FileTrigger';
+export type { FileTriggerProps } from './components/form/FileTrigger/FileTrigger';
 
-export { Switch } from './components/Switch/Switch';
-export type { SwitchProps } from './components/Switch/Switch';
+export { TextField } from './components/form/TextField/TextField';
+export type { TextFieldProps } from './components/form/TextField/TextField';
 
-export { Slider } from './components/Slider/Slider';
-export type { SliderProps } from './components/Slider/Slider';
+export { TextArea } from './components/form/TextArea/TextArea';
+export type { TextAreaProps } from './components/form/TextArea/TextArea';
 
-export { RangeSlider } from './components/RangeSlider/RangeSlider';
-export type { RangeSliderProps } from './components/RangeSlider/RangeSlider';
+export { NumberField } from './components/form/NumberField/NumberField';
+export type { NumberFieldProps } from './components/form/NumberField/NumberField';
 
-export { Picker, Item as PickerItem } from './components/Picker/Picker';
-export type { PickerProps } from './components/Picker/Picker';
+export { SearchField } from './components/form/SearchField/SearchField';
+export type { SearchFieldProps } from './components/form/SearchField/SearchField';
 
-export { ComboBox, Item as ComboBoxItem } from './components/ComboBox/ComboBox';
-export type { ComboBoxProps } from './components/ComboBox/ComboBox';
+export { PasswordField } from './components/form/PasswordField/PasswordField';
+export type { PasswordFieldProps } from './components/form/PasswordField/PasswordField';
 
-export { Form } from './components/Form/Form';
-export type { FormProps } from './components/Form/Form';
+export { Checkbox } from './components/form/Checkbox/Checkbox';
+export type { CheckboxProps } from './components/form/Checkbox/Checkbox';
 
-// Group 3 — Overlay & Popover
-export { Tooltip } from './components/Tooltip/Tooltip';
-export type { TooltipProps } from './components/Tooltip/Tooltip';
-export { TooltipTrigger } from './components/Tooltip/TooltipTrigger';
-export type { TooltipTriggerProps } from './components/Tooltip/TooltipTrigger';
+export { CheckboxGroup } from './components/form/CheckboxGroup/CheckboxGroup';
+export type { CheckboxGroupProps } from './components/form/CheckboxGroup/CheckboxGroup';
 
-export { Popover } from './components/Popover/Popover';
-export type { PopoverProps } from './components/Popover/Popover';
+export { RadioGroup } from './components/form/RadioGroup/RadioGroup';
+export type { RadioGroupProps } from './components/form/RadioGroup/RadioGroup';
+export { Radio } from './components/form/RadioGroup/Radio';
+export type { RadioProps } from './components/form/RadioGroup/Radio';
 
-export { CustomPopover } from './components/CustomPopover/CustomPopover';
-export type { CustomPopoverProps } from './components/CustomPopover/CustomPopover';
+export { Switch } from './components/form/Switch/Switch';
+export type { SwitchProps } from './components/form/Switch/Switch';
 
-export { Dialog } from './components/Dialog/Dialog';
-export type { DialogProps } from './components/Dialog/Dialog';
-export { DialogTrigger } from './components/Dialog/DialogTrigger';
-export type { DialogTriggerProps } from './components/Dialog/DialogTrigger';
+export { Slider } from './components/form/Slider/Slider';
+export type { SliderProps } from './components/form/Slider/Slider';
 
-export { AlertDialog } from './components/AlertDialog/AlertDialog';
-export type { AlertDialogProps } from './components/AlertDialog/AlertDialog';
+export { RangeSlider } from './components/form/RangeSlider/RangeSlider';
+export type { RangeSliderProps } from './components/form/RangeSlider/RangeSlider';
 
-export { DialogContainer } from './components/DialogContainer/DialogContainer';
-export type { DialogContainerProps } from './components/DialogContainer/DialogContainer';
+export { Form } from './components/form/Form/Form';
+export type { FormProps } from './components/form/Form/Form';
 
-export { ContextualHelp } from './components/ContextualHelp/ContextualHelp';
-export type { ContextualHelpProps } from './components/ContextualHelp/ContextualHelp';
+export { DropZone } from './components/form/DropZone/DropZone';
+export type { DropZoneProps } from './components/form/DropZone/DropZone';
 
-// Group 4 — Navigation
-export { Tabs } from './components/Tabs/Tabs';
-export type { TabsProps } from './components/Tabs/Tabs';
-export { TabList } from './components/Tabs/TabList';
-export type { TabListProps } from './components/Tabs/TabList';
-export { TabPanels } from './components/Tabs/TabPanels';
-export type { TabPanelsProps } from './components/Tabs/TabPanels';
-export { Item as TabItem } from './components/Tabs/Item';
+// Group 3 — Form Pickers (form/pickers/)
+export { Picker, Item as PickerItem } from './components/form/pickers/Picker/Picker';
+export type { PickerProps } from './components/form/pickers/Picker/Picker';
 
-export { Breadcrumbs } from './components/Breadcrumbs/Breadcrumbs';
-export type { BreadcrumbsProps } from './components/Breadcrumbs/Breadcrumbs';
-export { Item as BreadcrumbItem } from './components/Breadcrumbs/Item';
+export { ComboBox, Item as ComboBoxItem } from './components/form/pickers/ComboBox/ComboBox';
+export type { ComboBoxProps } from './components/form/pickers/ComboBox/ComboBox';
 
-export { Menu } from './components/Menu/Menu';
-export type { MenuProps } from './components/Menu/Menu';
-export { MenuTrigger } from './components/Menu/MenuTrigger';
-export type { MenuTriggerProps } from './components/Menu/MenuTrigger';
-export { Item as MenuItem } from './components/Menu/Item';
-export { Section as MenuSection } from './components/Menu/Section';
+export { ColorSwatch } from './components/form/pickers/color-swatch/ColorSwatch';
+export type { ColorSwatchProps } from './components/form/pickers/color-swatch/ColorSwatch';
 
-export { ActionMenu } from './components/ActionMenu/ActionMenu';
-export type { ActionMenuProps } from './components/ActionMenu/ActionMenu';
+export { ColorSwatchPicker, ColorSwatchPickerItem } from './components/form/pickers/color-swatch/ColorSwatchPicker';
+export type { ColorSwatchPickerProps, ColorSwatchPickerItemProps } from './components/form/pickers/color-swatch/ColorSwatchPicker';
 
-// Group 5 — Status & Feedback
-export { ProgressBar } from './components/ProgressBar/ProgressBar';
-export type { ProgressBarProps } from './components/ProgressBar/ProgressBar';
+export { ColorSlider } from './components/form/pickers/ColorSlider/ColorSlider';
+export type { ColorSliderProps } from './components/form/pickers/ColorSlider/ColorSlider';
 
-export { ProgressCircle } from './components/ProgressCircle/ProgressCircle';
-export type { ProgressCircleProps } from './components/ProgressCircle/ProgressCircle';
+export { ColorArea } from './components/form/pickers/ColorArea/ColorArea';
+export type { ColorAreaProps } from './components/form/pickers/ColorArea/ColorArea';
 
-export { Loading } from './components/Loading/Loading';
-export type { LoadingProps } from './components/Loading/Loading';
+export { ColorWheel } from './components/form/pickers/ColorWheel/ColorWheel';
+export type { ColorWheelProps } from './components/form/pickers/ColorWheel/ColorWheel';
 
-export { Meter } from './components/Meter/Meter';
-export type { MeterProps } from './components/Meter/Meter';
+export { ColorField } from './components/form/pickers/ColorField/ColorField';
+export type { ColorFieldProps } from './components/form/pickers/ColorField/ColorField';
 
-export { StatusLight } from './components/StatusLight/StatusLight';
-export type { StatusLightProps } from './components/StatusLight/StatusLight';
+export { ColorThumb } from './components/form/pickers/ColorThumb/ColorThumb';
+export type { ColorThumbProps } from './components/form/pickers/ColorThumb/ColorThumb';
 
-export { InlineAlert } from './components/InlineAlert/InlineAlert';
-export type { InlineAlertProps } from './components/InlineAlert/InlineAlert';
+export { ColorPickerDialog } from './components/form/pickers/ColorPickerDialog/ColorPickerDialog';
+export type { ColorPickerDialogProps } from './components/form/pickers/ColorPickerDialog/ColorPickerDialog';
 
-export { ToastContainer, toast } from './components/Toast/Toast';
-export type { ToastContainerProps, ToastOptions } from './components/Toast/Toast';
+export { DateField, TimeField } from './components/form/pickers/DateField/DateField';
+export type { DateFieldProps, TimeFieldProps } from './components/form/pickers/DateField/DateField';
 
-export { Badge } from './components/Badge/Badge';
-export type { BadgeProps } from './components/Badge/Badge';
+export { Calendar, RangeCalendar } from './components/form/pickers/Calendar/Calendar';
+export type { CalendarProps, RangeCalendarProps } from './components/form/pickers/Calendar/Calendar';
 
-export { Skeleton } from './components/Skeleton/Skeleton';
-export type { SkeletonProps } from './components/Skeleton/Skeleton';
+export { DatePicker } from './components/form/pickers/DatePicker/DatePicker';
+export type { DatePickerProps } from './components/form/pickers/DatePicker/DatePicker';
 
-// Group 6 — Data Display
-export { TableView, TableHeader, TableBody, Column, Row, Cell } from './components/TableView/TableView';
-export type { TableViewProps } from './components/TableView/TableView';
+export { DateRangePicker } from './components/form/pickers/DateRangePicker/DateRangePicker';
+export type { DateRangePickerProps } from './components/form/pickers/DateRangePicker/DateRangePicker';
 
-export { ListView, Item as ListItem } from './components/ListView/ListView';
-export type { ListViewProps } from './components/ListView/ListView';
+// Group 4 — Overlay & Popover (overlays/)
+export { Tooltip } from './components/overlays/Tooltip/Tooltip';
+export type { TooltipProps } from './components/overlays/Tooltip/Tooltip';
+export { TooltipTrigger } from './components/overlays/Tooltip/TooltipTrigger';
+export type { TooltipTriggerProps } from './components/overlays/Tooltip/TooltipTrigger';
 
-export { ListBox } from './components/ListBox/ListBox';
-export type { ListBoxProps } from './components/ListBox/ListBox';
-export { Item as ListBoxItem } from './components/ListBox/ListBox';
+export { Popover } from './components/overlays/Popover/Popover';
+export type { PopoverProps } from './components/overlays/Popover/Popover';
 
-export { TagGroup } from './components/TagGroup/TagGroup';
-export type { TagGroupProps } from './components/TagGroup/TagGroup';
-export { Item as TagItem } from './components/TagGroup/TagGroup';
+export { CustomPopover } from './components/overlays/CustomPopover/CustomPopover';
+export type { CustomPopoverProps } from './components/overlays/CustomPopover/CustomPopover';
 
-export { Tag } from './components/Tag/Tag';
-export type { TagProps } from './components/Tag/Tag';
+export { Dialog } from './components/overlays/Dialog/Dialog';
+export type { DialogProps } from './components/overlays/Dialog/Dialog';
+export { DialogTrigger } from './components/overlays/Dialog/DialogTrigger';
+export type { DialogTriggerProps } from './components/overlays/Dialog/DialogTrigger';
 
-export { IllustratedMessage } from './components/IllustratedMessage/IllustratedMessage';
-export type { IllustratedMessageProps } from './components/IllustratedMessage/IllustratedMessage';
+export { AlertDialog } from './components/overlays/AlertDialog/AlertDialog';
+export type { AlertDialogProps } from './components/overlays/AlertDialog/AlertDialog';
 
-export { Avatar } from './components/Avatar/Avatar';
-export type { AvatarProps } from './components/Avatar/Avatar';
+export { DialogContainer } from './components/overlays/DialogContainer/DialogContainer';
+export type { DialogContainerProps } from './components/overlays/DialogContainer/DialogContainer';
 
-export { AvatarGroup } from './components/Avatar/AvatarGroup';
-export type { AvatarGroupProps } from './components/Avatar/AvatarGroup';
+export { ContextualHelp } from './components/overlays/ContextualHelp/ContextualHelp';
+export type { ContextualHelpProps } from './components/overlays/ContextualHelp/ContextualHelp';
 
-export { Image } from './components/Image/Image';
-export type { ImageProps } from './components/Image/Image';
+export { FullscreenAction } from './components/overlays/FullscreenAction/FullscreenAction';
+export type { FullscreenActionProps } from './components/overlays/FullscreenAction/FullscreenAction';
 
-// Group 7 — Layout & Structure
-export { Flex } from './components/Flex/Flex';
-export type { FlexComponentProps as FlexProps } from './components/Flex/Flex';
+// Group 5 — Navigation (navigation/)
+export { Link } from './components/navigation/Link/Link';
+export type { LinkProps } from './components/navigation/Link/Link';
 
-export { Grid } from './components/Grid/Grid';
-export type { GridComponentProps as GridProps } from './components/Grid/Grid';
+export { Tabs } from './components/navigation/Tabs/Tabs';
+export type { TabsProps } from './components/navigation/Tabs/Tabs';
+export { TabList } from './components/navigation/Tabs/TabList';
+export type { TabListProps } from './components/navigation/Tabs/TabList';
+export { TabPanels } from './components/navigation/Tabs/TabPanels';
+export type { TabPanelsProps } from './components/navigation/Tabs/TabPanels';
+export { Item as TabItem } from './components/navigation/Tabs/Item';
 
-export { View } from './components/View/View';
-export type { ViewProps } from './components/View/View';
+export { Breadcrumbs } from './components/navigation/Breadcrumbs/Breadcrumbs';
+export type { BreadcrumbsProps } from './components/navigation/Breadcrumbs/Breadcrumbs';
+export { Item as BreadcrumbItem } from './components/navigation/Breadcrumbs/Item';
 
-export { Divider } from './components/Divider/Divider';
-export type { DividerProps } from './components/Divider/Divider';
+export { Menu } from './components/navigation/Menu/Menu';
+export type { MenuProps } from './components/navigation/Menu/Menu';
+export { MenuTrigger } from './components/navigation/Menu/MenuTrigger';
+export type { MenuTriggerProps } from './components/navigation/Menu/MenuTrigger';
+export { Item as MenuItem } from './components/navigation/Menu/Item';
+export { Section as MenuSection } from './components/navigation/Menu/Section';
 
-export { Disclosure, DisclosurePanel, DisclosureTitle } from './components/Disclosure/Disclosure';
-export type { DisclosureProps } from './components/Disclosure/Disclosure';
+export { ActionMenu } from './components/navigation/ActionMenu/ActionMenu';
+export type { ActionMenuProps } from './components/navigation/ActionMenu/ActionMenu';
 
-export { Accordion } from './components/Accordion/Accordion';
-export type { AccordionProps } from './components/Accordion/Accordion';
+export { MediaViewModes } from './components/navigation/MediaViewModes/MediaViewModes';
+export type { MediaViewModesProps } from './components/navigation/MediaViewModes/MediaViewModes';
+export { ViewModes } from './components/navigation/MediaViewModes/utils';
 
-export { Well } from './components/Well/Well';
-export type { WellProps } from './components/Well/Well';
+// Group 6 — Status & Feedback (feedback/)
+export { ProgressBar } from './components/feedback/ProgressBar/ProgressBar';
+export type { ProgressBarProps } from './components/feedback/ProgressBar/ProgressBar';
 
-export { Card } from './components/Card/Card';
-export type { CardProps } from './components/Card/Card';
+export { ProgressCircle } from './components/feedback/ProgressCircle/ProgressCircle';
+export type { ProgressCircleProps } from './components/feedback/ProgressCircle/ProgressCircle';
 
-export { CardView } from './components/CardView/CardView';
-export type { CardViewProps } from './components/CardView/CardView';
+export { Loading } from './components/feedback/Loading/Loading';
+export type { LoadingProps } from './components/feedback/Loading/Loading';
 
-// Group 8 — Color Picker
-export { ColorSwatch } from './components/color-swatch/ColorSwatch';
-export type { ColorSwatchProps } from './components/color-swatch/ColorSwatch';
+export { Meter } from './components/feedback/Meter/Meter';
+export type { MeterProps } from './components/feedback/Meter/Meter';
 
-export { ColorSwatchPicker, ColorSwatchPickerItem } from './components/color-swatch/ColorSwatchPicker';
-export type { ColorSwatchPickerProps, ColorSwatchPickerItemProps } from './components/color-swatch/ColorSwatchPicker';
+export { StatusLight } from './components/feedback/StatusLight/StatusLight';
+export type { StatusLightProps } from './components/feedback/StatusLight/StatusLight';
 
-export { ColorSlider } from './components/ColorSlider/ColorSlider';
-export type { ColorSliderProps } from './components/ColorSlider/ColorSlider';
+export { InlineAlert } from './components/feedback/InlineAlert/InlineAlert';
+export type { InlineAlertProps } from './components/feedback/InlineAlert/InlineAlert';
 
-export { ColorArea } from './components/ColorArea/ColorArea';
-export type { ColorAreaProps } from './components/ColorArea/ColorArea';
+export { ToastContainer, toast } from './components/feedback/Toast/Toast';
+export type { ToastContainerProps, ToastOptions } from './components/feedback/Toast/Toast';
 
-export { ColorWheel } from './components/ColorWheel/ColorWheel';
-export type { ColorWheelProps } from './components/ColorWheel/ColorWheel';
+export { Badge } from './components/feedback/Badge/Badge';
+export type { BadgeProps } from './components/feedback/Badge/Badge';
 
-export { ColorField } from './components/ColorField/ColorField';
-export type { ColorFieldProps } from './components/ColorField/ColorField';
+export { Skeleton } from './components/feedback/Skeleton/Skeleton';
+export type { SkeletonProps } from './components/feedback/Skeleton/Skeleton';
 
-export { ColorThumb } from './components/ColorThumb/ColorThumb';
-export type { ColorThumbProps } from './components/ColorThumb/ColorThumb';
+export { IllustratedMessage } from './components/feedback/IllustratedMessage/IllustratedMessage';
+export type { IllustratedMessageProps } from './components/feedback/IllustratedMessage/IllustratedMessage';
 
-export { ColorPickerDialog } from './components/ColorPickerDialog/ColorPickerDialog';
-export type { ColorPickerDialogProps } from './components/ColorPickerDialog/ColorPickerDialog';
+export { IntelBrandedLoading } from './components/feedback/IntelBrandedLoading/IntelBrandedLoading';
+export type { IntelBrandedLoadingProps } from './components/feedback/IntelBrandedLoading/IntelBrandedLoading';
 
-// Group 9 — Date & Time
-export { DateField, TimeField } from './components/DateField/DateField';
-export type { DateFieldProps, TimeFieldProps } from './components/DateField/DateField';
+// Group 7 — Data Display (data/)
+export { TableView, TableHeader, TableBody, Column, Row, Cell } from './components/data/TableView/TableView';
+export type { TableViewProps } from './components/data/TableView/TableView';
 
-export { Calendar, RangeCalendar } from './components/Calendar/Calendar';
-export type { CalendarProps, RangeCalendarProps } from './components/Calendar/Calendar';
+export { ListView, Item as ListItem } from './components/data/ListView/ListView';
+export type { ListViewProps } from './components/data/ListView/ListView';
 
-export { DatePicker } from './components/DatePicker/DatePicker';
-export type { DatePickerProps } from './components/DatePicker/DatePicker';
+export { ListBox } from './components/data/ListBox/ListBox';
+export type { ListBoxProps } from './components/data/ListBox/ListBox';
+export { Item as ListBoxItem } from './components/data/ListBox/ListBox';
 
-export { DateRangePicker } from './components/DateRangePicker/DateRangePicker';
-export type { DateRangePickerProps } from './components/DateRangePicker/DateRangePicker';
+export { TagGroup } from './components/data/TagGroup/TagGroup';
+export type { TagGroupProps } from './components/data/TagGroup/TagGroup';
+export { Item as TagItem } from './components/data/TagGroup/TagGroup';
 
-export { ToggleButtons } from './components/ToggleButtons/ToggleButtons';
-export type { ToggleButtonsProps } from './components/ToggleButtons/ToggleButtons';
+export { Tag } from './components/data/Tag/Tag';
+export type { TagProps } from './components/data/Tag/Tag';
 
-export { IntelBrandedLoading } from './components/IntelBrandedLoading/IntelBrandedLoading';
-export type { IntelBrandedLoadingProps } from './components/IntelBrandedLoading/IntelBrandedLoading';
+export { ActionBar, ActionBarContainer } from './components/data/ActionBar/ActionBar';
+export type { ActionBarProps, ActionBarContainerProps } from './components/data/ActionBar/ActionBar';
 
-export { VirtualizedListLayout } from './components/VirtualizedListLayout/VirtualizedListLayout';
-export type { VirtualizedListLayoutProps } from './components/VirtualizedListLayout/VirtualizedListLayout';
+export { CardView } from './components/data/CardView/CardView';
+export type { CardViewProps } from './components/data/CardView/CardView';
 
-export { VirtualizedHorizontalGrid } from './components/VirtualizedHorizontalGrid/VirtualizedHorizontalGrid';
-export type { VirtualizedHorizontalGridProps } from './components/VirtualizedHorizontalGrid/VirtualizedHorizontalGrid';
-export { HorizontalLayout } from './components/VirtualizedHorizontalGrid/HorizontalLayout';
-export type { HorizontalLayoutOptions } from './components/VirtualizedHorizontalGrid/HorizontalLayout';
+export { TreeView } from './components/data/TreeView/TreeView';
+export type { TreeViewProps } from './components/data/TreeView/TreeView';
 
-// Group 10 — Advanced / Application-Specific
-export { DropZone } from './components/DropZone/DropZone';
-export type { DropZoneProps } from './components/DropZone/DropZone';
+export { VirtualizedListLayout } from './components/data/VirtualizedListLayout/VirtualizedListLayout';
+export type { VirtualizedListLayoutProps } from './components/data/VirtualizedListLayout/VirtualizedListLayout';
 
-export { TreeView } from './components/TreeView/TreeView';
-export type { TreeViewProps } from './components/TreeView/TreeView';
+export { VirtualizedHorizontalGrid } from './components/data/VirtualizedHorizontalGrid/VirtualizedHorizontalGrid';
+export type { VirtualizedHorizontalGridProps } from './components/data/VirtualizedHorizontalGrid/VirtualizedHorizontalGrid';
+export { HorizontalLayout } from './components/data/VirtualizedHorizontalGrid/HorizontalLayout';
+export type { HorizontalLayoutOptions } from './components/data/VirtualizedHorizontalGrid/HorizontalLayout';
 
-export { ActionBar, ActionBarContainer } from './components/ActionBar/ActionBar';
-export type { ActionBarProps, ActionBarContainerProps } from './components/ActionBar/ActionBar';
+// Group 8 — Layout & Structure (layouts/)
+export { Flex } from './components/layouts/Flex/Flex';
+export type { FlexComponentProps as FlexProps } from './components/layouts/Flex/Flex';
 
-export { PressableElement } from './components/PressableElement/PressableElement';
-export type { PressableElementProps } from './components/PressableElement/PressableElement';
+export { Grid } from './components/layouts/Grid/Grid';
+export type { GridComponentProps as GridProps } from './components/layouts/Grid/Grid';
 
-export { CornerIndicator } from './components/CornerIndicator/CornerIndicator';
-export type { CornerIndicatorProps } from './components/CornerIndicator/CornerIndicator';
+export { Disclosure, DisclosurePanel, DisclosureTitle } from './components/layouts/Disclosure/Disclosure';
+export type { DisclosureProps } from './components/layouts/Disclosure/Disclosure';
 
-export { PhotoPlaceholder } from './components/PhotoPlaceholder/PhotoPlaceholder';
-export type { PhotoPlaceholderProps } from './components/PhotoPlaceholder/PhotoPlaceholder';
+export { Accordion } from './components/layouts/Accordion/Accordion';
+export type { AccordionProps } from './components/layouts/Accordion/Accordion';
 
-export { FullscreenAction } from './components/FullscreenAction/FullscreenAction';
-export type { FullscreenActionProps } from './components/FullscreenAction/FullscreenAction';
+export { Well } from './components/layouts/Well/Well';
+export type { WellProps } from './components/layouts/Well/Well';
 
-export { MediaViewModes } from './components/MediaViewModes/MediaViewModes';
-export type { MediaViewModesProps } from './components/MediaViewModes/MediaViewModes';
-export { ViewModes } from './components/MediaViewModes/utils';
+export { Card } from './components/layouts/Card/Card';
+export type { CardProps } from './components/layouts/Card/Card';

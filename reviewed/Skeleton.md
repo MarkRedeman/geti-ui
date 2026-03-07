@@ -14,23 +14,23 @@
 
 ## 1. Code Quality & Type Safety
 
-| #   | Severity        | Finding                                                                                                                                                                                                                                                                                                                                                 |
-| --- | --------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| 1   | 🔴 **Critical** | **Missing `@keyframes geti-skeleton-shine` definition.** The `animation` property references `geti-skeleton-shine 2s ease infinite` but there is no `@keyframes` block anywhere in the CSS files (`src/theme/*.css` or any module). The skeleton will render as a static gradient with no shimmer. This needs a CSS module or a global style injection. |
-| 2   | 🟠 Medium       | **Inline `CSSProperties` for the shimmer gradient** — same concern as `Loading`. Should use a CSS module for maintainability and to enable `prefers-reduced-motion` media query support. The current implementation cannot respect `prefers-reduced-motion` without a CSS rule.                                                                         |
-| 3   | 🟡 Low          | `shimmerStyle` is declared at module level with `backgroundSize: '200% 100%'` — this works, but combining it with the spread (`{ ...shimmerStyle, ...style }`) means callers can accidentally override `backgroundSize` and break the animation. No defensive note exists.                                                                              |
-| 4   | ✅ —            | Width/height normalization (`typeof width === 'number' ? \`${width}px\` : width`) is correct and well-handled.                                                                                                                                                                                                                                          |
-| 5   | ✅ —            | Good use of `isCircle` and `isAspectRatioOne` flags for shape control.                                                                                                                                                                                                                                                                                  |
+| #   | Severity        | Finding                                                                                                                                                                                                                                                                                                                                                                                                                                                                     |
+| --- | --------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 1   | 🔴 **Critical** | **Missing `@keyframes geti-skeleton-shine` definition.** The `animation` property references `geti-skeleton-shine 2s ease infinite` but there is no `@keyframes` block anywhere in the CSS files (`src/theme/*.css` or any module). The skeleton will render as a static gradient with no shimmer. This needs a CSS module or a global style injection. _(Still open — inline `shimmerStyle` remains; animation name updated to `shimmer` but no `@keyframes` block added)_ |
+| 2   | 🟠 Medium       | **Inline `CSSProperties` for the shimmer gradient** — same concern as `Loading`. Should use a CSS module for maintainability and to enable `prefers-reduced-motion` media query support. The current implementation cannot respect `prefers-reduced-motion` without a CSS rule. _(Still open — no CSS module created)_                                                                                                                                                      |
+| 3   | 🟡 Low          | `shimmerStyle` is declared at module level with `backgroundSize: '200% 100%'` — this works, but combining it with the spread (`{ ...shimmerStyle, ...style }`) means callers can accidentally override `backgroundSize` and break the animation. No defensive note exists.                                                                                                                                                                                                  |
+| 4   | ✅ —            | Width/height normalization (`typeof width === 'number' ? \`${width}px\` : width`) is correct and well-handled.                                                                                                                                                                                                                                                                                                                                                              |
+| 5   | ✅ —            | Good use of `isCircle` and `isAspectRatioOne` flags for shape control.                                                                                                                                                                                                                                                                                                                                                                                                      |
 
 ---
 
 ## 2. Accessibility
 
-| #   | Severity | Finding                                                                                                                                                                                                                                                                                                                                       |
-| --- | -------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| 1   | 🔴 High  | **`role="img"` is wrong for a loading skeleton.** WCAG guidance and common practice recommend `role="status"` (with `aria-live="polite"`) or `role="progressbar"` for loading placeholders. `role="img"` announces the element as an image, which is misleading. The correct pattern is: `role="status"` + `aria-label` + `aria-busy="true"`. |
-| 2   | 🟡 Low   | The fallback `aria-label="Loading…"` hardcodes the label. This is acceptable but the ellipsis character (`…` U+2026) is different from three dots (`...`) used in `Loading.tsx`. Consistent usage should be enforced.                                                                                                                         |
-| 3   | 🟡 Low   | `aria-busy="true"` is always set — even when the skeleton is used decoratively. Consider making it a prop or removing it, since `aria-busy` is most meaningful on a container element that is actually updating.                                                                                                                              |
+| #   | Severity | Finding                                                                                                                                                                                                                                                                                                                                                                                                   |
+| --- | -------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 1   | 🔴 High  | **`role="img"` is wrong for a loading skeleton.** WCAG guidance and common practice recommend `role="status"` (with `aria-live="polite"`) or `role="progressbar"` for loading placeholders. `role="img"` announces the element as an image, which is misleading. The correct pattern is: `role="status"` + `aria-label` + `aria-busy="true"`. _(Still open — component and tests still use `role="img"`)_ |
+| 2   | 🟡 Low   | The fallback `aria-label="Loading…"` hardcodes the label. This is acceptable but the ellipsis character (`…` U+2026) is different from three dots (`...`) used in `Loading.tsx`. Consistent usage should be enforced.                                                                                                                                                                                     |
+| 3   | 🟡 Low   | `aria-busy="true"` is always set — even when the skeleton is used decoratively. Consider making it a prop or removing it, since `aria-busy` is most meaningful on a container element that is actually updating.                                                                                                                                                                                          |
 
 ---
 
@@ -47,13 +47,13 @@
 
 ## 4. Tests
 
-| #   | Severity  | Finding                                                                                                                   |
-| --- | --------- | ------------------------------------------------------------------------------------------------------------------------- |
-| 1   | ✅ —      | Tests cover: render, circle variant, rectangle, custom `aria-label`, and `aria-busy`.                                     |
-| 2   | 🔴 Medium | **Tests use `role="img"`** — if the role is corrected to `role="status"`, all tests will break. Fix role, then fix tests. |
-| 3   | 🟡 Low    | No test for `isAspectRatioOne` prop (it produces `aspectRatio: '1'` in style — should be asserted).                       |
-| 4   | 🟡 Low    | No test verifies that `width` and `height` numbers are converted to pixel strings correctly.                              |
-| 5   | 🟡 Low    | No test for `className` prop being applied to the element.                                                                |
+| #   | Severity  | Finding                                                                                                                                                                      |
+| --- | --------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 1   | ✅ —      | Tests cover: render, circle variant, rectangle, custom `aria-label`, and `aria-busy`.                                                                                        |
+| 2   | 🔴 Medium | **Tests use `role="img"`** — if the role is corrected to `role="status"`, all tests will break. Fix role, then fix tests. _(Still open — tests still query by `role="img"`)_ |
+| 3   | 🟡 Low    | No test for `isAspectRatioOne` prop (it produces `aspectRatio: '1'` in style — should be asserted).                                                                          |
+| 4   | 🟡 Low    | No test verifies that `width` and `height` numbers are converted to pixel strings correctly.                                                                                 |
+| 5   | 🟡 Low    | No test for `className` prop being applied to the element.                                                                                                                   |
 
 ---
 
@@ -115,3 +115,14 @@ it('renders without crash', () => {
 ## Overall Rating: 🔴 Needs Work
 
 The shimmer animation is silently broken (missing keyframes) and the ARIA role is semantically incorrect. Both are must-fix before shipping.
+
+---
+
+## Resolution Status (updated 2026-03-06)
+
+| Finding                                    | Status                                                                                |
+| ------------------------------------------ | ------------------------------------------------------------------------------------- |
+| Missing `@keyframes` for shimmer animation | ⏳ Still open — animation name changed to `shimmer` but no `@keyframes` block defined |
+| `role="img"` should be `role="status"`     | ⏳ Still open — `role="img"` unchanged in component and tests                         |
+| Inline styles / no CSS module              | ⏳ Still open                                                                         |
+| Tests use `role="img"`                     | ⏳ Still open                                                                         |

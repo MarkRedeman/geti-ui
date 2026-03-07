@@ -1,0 +1,16 @@
+/* ColorThumb — static layout styles */
+
+.colorThumb {
+    /*
+     * The background color is driven by the --color-thumb-bg CSS custom
+     * property, which is set inline in the component so that only the
+     * truly dynamic value lives in JavaScript.
+     */
+    background-color: var(--color-thumb-bg);
+
+    /*
+     * Spectrum's View renders a <div>; ensure it is treated as a block box
+     * so width/height from Spectrum style props are respected.
+     */
+    display: block;
+}

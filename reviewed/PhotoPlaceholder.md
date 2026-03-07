@@ -28,14 +28,14 @@
 ### 🔴 Critical
 
 | #   | Issue                                                                                                                                                                                                                                                                               | Location |
-| --- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------- | ------------------------------ | ---------------------------- |
-| A1  | **No accessible label.** The component renders a `View` with a text letter. There is no `role`, `aria-label`, or `title` indicating who this avatar represents. Screen reader users will hear the letter alone ("J") without context ("Avatar for John Doe"). Add `aria-label={name |          | indicator}`to the outer`View`. | `PhotoPlaceholder.tsx:41-53` |
+| --- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------- | -------------------------------------------------------------------------------------------------------------------- | ---------------------------- |
+| A1  | **No accessible label.** The component renders a `View` with a text letter. There is no `role`, `aria-label`, or `title` indicating who this avatar represents. Screen reader users will hear the letter alone ("J") without context ("Avatar for John Doe"). Add `aria-label={name |          | indicator}`to the outer`View`. ✅ **Fixed:** an inner `div`now has`role="img"`and`aria-label={name \|\| indicator}`. | `PhotoPlaceholder.tsx:41-53` |
 
 ### 🟡 Warnings
 
-| #   | Issue                                                                                                                                                                                                                                                                                   | Location                  |
-| --- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------- |
-| A2  | **`Text` containing the initials letter has no semantic role.** It is rendered as a generic text node. This is acceptable (the `View` should carry the accessible label), but it should be `aria-hidden` to avoid screen readers announcing both the `aria-label` and the text content. | `PhotoPlaceholder.tsx:50` |
+| #   | Issue                                                                                                                                                                                                                                                                                                                                         | Location                  |
+| --- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------- |
+| A2  | **`Text` containing the initials letter has no semantic role.** It is rendered as a generic text node. This is acceptable (the `View` should carry the accessible label), but it should be `aria-hidden` to avoid screen readers announcing both the `aria-label` and the text content. ✅ **Fixed:** `<Text aria-hidden="true">` is now set. | `PhotoPlaceholder.tsx:50` |
 
 ---
 
@@ -68,9 +68,9 @@
 
 ## Specific Fixes Required
 
-1. **Add `aria-label={name || indicator}` and `role="img"`** to the outer `View` to make the avatar accessible.
-2. **Add `aria-hidden="true"` to the inner `Text`** to prevent duplicate announcements.
-3. **Replace `ViewProps<5>`** with `DimensionValue` for `width` and `height` prop types.
-4. **Add a `FallbackIndicator` story** demonstrating the `name=""` fallback path.
-5. **Add unit tests for `hexaToRGBA`** covering empty string, 4-char, 7-char, and 9-char inputs.
-6. **Document the CSS variable limitation** in `getForegroundColor`'s JSDoc.
+1. **Add `aria-label={name || indicator}` and `role="img"`** to the outer `View` to make the avatar accessible. ✅ **Fixed:** inner `div` with `role="img"` and `aria-label={name || indicator}` added.
+2. **Add `aria-hidden="true"` to the inner `Text`** to prevent duplicate announcements. ✅ **Fixed:** `<Text aria-hidden="true">` implemented.
+3. **Replace `ViewProps<5>`** with `DimensionValue` for `width` and `height` prop types. ⏳ _Still open — `ViewProps<5>` unchanged._
+4. **Add a `FallbackIndicator` story** demonstrating the `name=""` fallback path. ⏳ _Not verified._
+5. **Add unit tests for `hexaToRGBA`** covering empty string, 4-char, 7-char, and 9-char inputs. ⏳ _Still open._
+6. **Document the CSS variable limitation** in `getForegroundColor`'s JSDoc. ⏳ _Still open._

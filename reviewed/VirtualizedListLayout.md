@@ -14,9 +14,9 @@
 
 ### 🔴 Critical
 
-| #   | Issue                                                                                                                                                                                                                                                                                                              | Location                       |
-| --- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------ |
-| C1  | **`// @ts-ignore` comment.** Line 59 suppresses a TypeScript error on `useLoadMore`. This is a code smell that should be replaced with either a proper type cast, a type override, or a comment explaining the specific incompatibility and linking to the upstream issue. Blanket `@ts-ignore` hides regressions. | `VirtualizedListLayout.tsx:59` |
+| #   | Issue                                                                                                                                                                                                                                                                                                                                                                                                    | Location                       |
+| --- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------ |
+| C1  | **`// @ts-ignore` comment.** Line 59 suppresses a TypeScript error on `useLoadMore`. This is a code smell that should be replaced with either a proper type cast, a type override, or a comment explaining the specific incompatibility and linking to the upstream issue. Blanket `@ts-ignore` hides regressions. ⏳ _Still open — `// @ts-ignore - useLoadMore types can be tricky with RAC` remains._ | `VirtualizedListLayout.tsx:59` |
 
 ### 🟡 Warnings
 
@@ -32,11 +32,11 @@
 
 ### 🟡 Warnings
 
-| #   | Issue                                                                                                                                                                                                                                                                                                                                                                                      | Location                             |
-| --- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------ |
-| A1  | **Loader `ListBoxItem` with `textValue="loading"` is announced to screen readers as a selectable list item.** A user navigating through the list will hear "loading" as if it's a selectable option. The loader should be rendered outside the list, or given `role="none"` (which ListBoxItem may not support). Consider using `renderLoading` outside the `AriaComponentsListBox` scope. | `VirtualizedListLayout.tsx:82-86`    |
-| A2  | **`ariaLabel` prop is a string** — the JSDoc correctly labels it as an accessibility label, but the prop is named `ariaLabel` rather than `aria-label`. Using the standard HTML attribute name `aria-label` would be more conventional and match how RAC components consume the prop.                                                                                                      | `VirtualizedListLayout.tsx:24,70`    |
-| A3  | **`outline: none` in CSS** removes the focus ring on the list container. This is a common accessibility regression — the `:focus-visible` ring must be preserved for keyboard users.                                                                                                                                                                                                       | `VirtualizedListLayout.module.css:9` |
+| #   | Issue                                                                                                                                                                                                                                                                                                                                                                                                                                                                            | Location                             |
+| --- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------ |
+| A1  | **Loader `ListBoxItem` with `textValue="loading"` is announced to screen readers as a selectable list item.** A user navigating through the list will hear "loading" as if it's a selectable option. The loader should be rendered outside the list, or given `role="none"` (which ListBoxItem may not support). Consider using `renderLoading` outside the `AriaComponentsListBox` scope. ⏳ _Still open — loader is still a `ListBoxItem` inside the `AriaComponentsListBox`._ | `VirtualizedListLayout.tsx:82-86`    |
+| A2  | **`ariaLabel` prop is a string** — the JSDoc correctly labels it as an accessibility label, but the prop is named `ariaLabel` rather than `aria-label`. Using the standard HTML attribute name `aria-label` would be more conventional and match how RAC components consume the prop. ⏳ _Still open — prop remains `ariaLabel`._                                                                                                                                                | `VirtualizedListLayout.tsx:24,70`    |
+| A3  | **`outline: none` in CSS** removes the focus ring on the list container. This is a common accessibility regression — the `:focus-visible` ring must be preserved for keyboard users. ⏳ _Still open — needs CSS module review._                                                                                                                                                                                                                                                  | `VirtualizedListLayout.module.css:9` |
 
 ---
 
@@ -56,19 +56,19 @@
 
 ### 🔴 Critical
 
-| #   | Issue                                                                                                                                                                                                  | Location                           |
-| --- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ---------------------------------- |
-| T1  | **No test file.** `VirtualizedListLayout` has no `.test.tsx`. This is a complex component with multiple behaviours (virtualization, infinite scroll, selection, loading state) and zero test coverage. | `VirtualizedListLayout/` directory |
+| #   | Issue                                                                                                                                                                                                                                        | Location                           |
+| --- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------- |
+| T1  | **No test file.** `VirtualizedListLayout` has no `.test.tsx`. This is a complex component with multiple behaviours (virtualization, infinite scroll, selection, loading state) and zero test coverage. ⏳ _Still open — no test file added._ | `VirtualizedListLayout/` directory |
 
 ---
 
 ## Specific Fixes Required
 
-1. **Replace `@ts-ignore`** with a proper type assertion and a `// TODO` comment referencing the upstream issue.
-2. **Add `selectionMode` prop** to allow single/multiple/none selection modes.
-3. **Fix duplicate `id="loader"`** — use a generated unique ID or a reserved symbol string.
-4. **Move loader outside `ListBox`** to prevent it appearing as a selectable list item to screen readers.
-5. **Rename `ariaLabel` to `aria-label`** for convention consistency.
-6. **Restore focus ring**: replace `outline: none` with `outline: none; :focus-visible { outline: auto; }` in the CSS module.
-7. **Create `VirtualizedListLayout.test.tsx`** covering: items render, loading state, empty state, `onLoadMore` trigger, and selection callback.
-8. **Add `InfiniteScroll` and `EmptyState` stories**.
+1. **Replace `@ts-ignore`** with a proper type assertion and a `// TODO` comment referencing the upstream issue. ⏳ _Still open._
+2. **Add `selectionMode` prop** to allow single/multiple/none selection modes. ⏳ _Still open._
+3. **Fix duplicate `id="loader"`** — use a generated unique ID or a reserved symbol string. ⏳ _Still open._
+4. **Move loader outside `ListBox`** to prevent it appearing as a selectable list item to screen readers. ⏳ _Still open._
+5. **Rename `ariaLabel` to `aria-label`** for convention consistency. ⏳ _Still open._
+6. **Restore focus ring**: replace `outline: none` with `outline: none; :focus-visible { outline: auto; }` in the CSS module. ⏳ _Still open._
+7. **Create `VirtualizedListLayout.test.tsx`** covering: items render, loading state, empty state, `onLoadMore` trigger, and selection callback. ⏳ _Still open._
+8. **Add `InfiniteScroll` and `EmptyState` stories**. ⏳ _Still open._

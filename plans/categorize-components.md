@@ -11,7 +11,7 @@ ui/navigation/ // Tabs, Breadcrumbs, Menu, Links
 ui/feedback/ // progress bar, progress circle, status light, inlinealert, badge, skeleton, meter, intel branded loading
 ui/overlays
 ui/data/ // table, listbox, listview, illustrated message, taggroup, treeview, actionbar
-ui/layouts // accordion, disclosure, view, flex, grid, well, cardview
+ui/layouts // accordion, disclosure, view, flex, grid, well, card, cardview
 ```
 
 After categorizing we should make sure to update our storybook stories: both the kitchensink and categorize the individual components.

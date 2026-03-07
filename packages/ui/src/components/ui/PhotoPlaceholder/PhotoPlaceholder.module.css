@@ -1,0 +1,15 @@
+/* PhotoPlaceholder — static layout styles */
+
+/*
+ * Inner centering container.
+ * The <div> that wraps the initial-letter <Text> needs to fill its parent
+ * View and center the letter both axes.  All of these values are static, so
+ * they belong here rather than in an inline style object.
+ */
+.inner {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+}

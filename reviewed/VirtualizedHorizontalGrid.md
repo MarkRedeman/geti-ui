@@ -33,10 +33,10 @@
 
 ### 🔴 Critical
 
-| #   | Issue                                                                                                                                                                                                                                                                                                                           | Location                                 |
-| --- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------- |
-| A1  | **`AriaComponentsListBox` has no `aria-label`.** The `VirtualizedHorizontalGrid` accepts no `ariaLabel` / `aria-label` prop and passes none to the inner `ListBox`. A list without a label is inaccessible — screen readers will announce "list" with no context. Add an `aria-label` prop to `VirtualizedHorizontalGridProps`. | `VirtualizedHorizontalGrid.tsx:41`       |
-| A2  | **`outline: none` on the container** removes the keyboard focus ring with no replacement.                                                                                                                                                                                                                                       | `VirtualizedHorizontalGrid.module.css:6` |
+| #   | Issue                                                                                                                                                                                                                                                                                                                                                                         | Location                                 |
+| --- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------- |
+| A1  | **`AriaComponentsListBox` has no `aria-label`.** The `VirtualizedHorizontalGrid` accepts no `ariaLabel` / `aria-label` prop and passes none to the inner `ListBox`. A list without a label is inaccessible — screen readers will announce "list" with no context. Add an `aria-label` prop to `VirtualizedHorizontalGridProps`. ⏳ _Still open — no `aria-label` prop added._ | `VirtualizedHorizontalGrid.tsx:41`       |
+| A2  | **`outline: none` on the container** removes the keyboard focus ring with no replacement. ⏳ _Still open._                                                                                                                                                                                                                                                                    | `VirtualizedHorizontalGrid.module.css:6` |
 
 ### 🟡 Warnings
 
@@ -63,19 +63,19 @@
 
 ### 🔴 Critical
 
-| #   | Issue                                                                                                                                                                                            | Location                               |
-| --- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | -------------------------------------- |
-| T1  | **No test file.** `VirtualizedHorizontalGrid` has no `.test.tsx`.                                                                                                                                | `VirtualizedHorizontalGrid/` directory |
-| T2  | **`HorizontalLayout.ts` has no unit tests.** The custom layout class has pure logic (`getLayoutInfo`, `getVisibleLayoutInfos`, `getContentSize`) that can be unit-tested independently of React. | `HorizontalLayout.ts`                  |
+| #   | Issue                                                                                                                                                                                                             | Location                               |
+| --- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------- |
+| T1  | **No test file.** `VirtualizedHorizontalGrid` has no `.test.tsx`. ⏳ _Still open._                                                                                                                                | `VirtualizedHorizontalGrid/` directory |
+| T2  | **`HorizontalLayout.ts` has no unit tests.** The custom layout class has pure logic (`getLayoutInfo`, `getVisibleLayoutInfos`, `getContentSize`) that can be unit-tested independently of React. ⏳ _Still open._ | `HorizontalLayout.ts`                  |
 
 ---
 
 ## Specific Fixes Required
 
-1. **Add `aria-label` prop** to `VirtualizedHorizontalGridProps` and pass it to `AriaComponentsListBox`.
-2. **Restore focus ring** in CSS: replace `outline: none` with `outline: none` only for mouse, preserving `:focus-visible`.
-3. **Fix trailing gap** in `getContentSize`: `numItems > 0 ? numItems * sizeWithGap - gap : 0`.
-4. **Increase `DEFAULT_OVERSCAN` to 1 or 2** to reduce scroll flicker.
-5. **Add `aria-label` prop to `HorizontalLayoutOptions`** JSDoc.
-6. **Create `VirtualizedHorizontalGrid.test.tsx`** and a `HorizontalLayout.test.ts` for pure layout logic.
-7. **Add `EmptyState` story**.
+1. **Add `aria-label` prop** to `VirtualizedHorizontalGridProps` and pass it to `AriaComponentsListBox`. ⏳ _Still open._
+2. **Restore focus ring** in CSS: replace `outline: none` with `outline: none` only for mouse, preserving `:focus-visible`. ⏳ _Still open._
+3. **Fix trailing gap** in `getContentSize`: `numItems > 0 ? numItems * sizeWithGap - gap : 0`. ⏳ _Still open._
+4. **Increase `DEFAULT_OVERSCAN` to 1 or 2** to reduce scroll flicker. ⏳ _Still open._
+5. **Add `aria-label` prop to `HorizontalLayoutOptions`** JSDoc. ⏳ _Still open._
+6. **Create `VirtualizedHorizontalGrid.test.tsx`** and a `HorizontalLayout.test.ts` for pure layout logic. ⏳ _Still open._
+7. **Add `EmptyState` story**. ⏳ _Still open._

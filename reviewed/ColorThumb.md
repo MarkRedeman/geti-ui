@@ -15,14 +15,14 @@
 
 ## 1. Code Quality & Type Safety
 
-| #   | Severity  | Finding                                                                                                                                                                                                                                                                                                                         |
-| --- | --------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| 1.1 | 🔴 High   | **Missing copyright header**.                                                                                                                                                                                                                                                                                                   |
-| 1.2 | 🟠 Medium | Uses `UNSAFE_style` for all visual properties (`backgroundColor`, `width`, `height`). AGENTS.md states: _"Use `UNSAFE_className` for CSS overrides (not `UNSAFE_style`)"_. This should use a CSS module class instead, both for performance (avoids inline style recalculation on every render) and for convention consistency. |
-| 1.3 | ✅        | Extends `ViewProps` correctly — consumers get all Spectrum dimension/spacing props.                                                                                                                                                                                                                                             |
-| 1.4 | ✅        | `color` and `size` props are typed with defaults.                                                                                                                                                                                                                                                                               |
-| 1.5 | 🟡 Low    | `size` is typed as `number` but `View`'s width/height expects Spectrum dimension values (e.g. `'size-100'`). Passing `10` as a raw pixel number relies on `UNSAFE_style` casting — this is intentional given the pixel-precision requirement for colour thumbs, but should be documented in the JSDoc.                          |
-| 1.6 | 🟡 Low    | Spreading `rest.UNSAFE_style` first and then overriding `backgroundColor`/`width`/`height` means consumers can't override these specific properties via `UNSAFE_style`. This is likely intentional but should be documented.                                                                                                    |
+| #   | Severity  | Finding                                                                                                                                                                                                                                                                                                                                                                                                                         |
+| --- | --------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 1.1 | 🔴 High   | **Missing copyright header**. ⏳ _Still open — no copyright header in source._                                                                                                                                                                                                                                                                                                                                                  |
+| 1.2 | 🟠 Medium | Uses `UNSAFE_style` for all visual properties (`backgroundColor`, `width`, `height`). AGENTS.md states: _"Use `UNSAFE_className` for CSS overrides (not `UNSAFE_style`)"_. This should use a CSS module class instead, both for performance (avoids inline style recalculation on every render) and for convention consistency. ⏳ _Still open — still uses `UNSAFE_style={{ ...rest.UNSAFE_style, backgroundColor: color }}`._ |
+| 1.3 | ✅        | Extends `ViewProps` correctly — consumers get all Spectrum dimension/spacing props.                                                                                                                                                                                                                                                                                                                                             |
+| 1.4 | ✅        | `color` and `size` props are typed with defaults.                                                                                                                                                                                                                                                                                                                                                                               |
+| 1.5 | 🟡 Low    | `size` is typed as `number` but `View`'s width/height expects Spectrum dimension values (e.g. `'size-100'`). Passing `10` as a raw pixel number relies on `UNSAFE_style` casting — this is intentional given the pixel-precision requirement for colour thumbs, but should be documented in the JSDoc.                                                                                                                          |
+| 1.6 | 🟡 Low    | Spreading `rest.UNSAFE_style` first and then overriding `backgroundColor`/`width`/`height` means consumers can't override these specific properties via `UNSAFE_style`. This is likely intentional but should be documented.                                                                                                                                                                                                    |
 
 **Fix (1.2) — preferred approach:**
 
@@ -58,10 +58,10 @@ export const ColorThumb = ({ color, size = 10, ...rest }: ColorThumbProps) => (
 
 ## 2. Accessibility
 
-| #   | Severity  | Finding                                                                                                                                                                                                                                                        |
-| --- | --------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| 2.1 | 🟠 Medium | `ColorThumb` has no `role` or `aria-label`. As a purely decorative element, it should be explicitly marked `aria-hidden="true"` to prevent screen readers from announcing a nameless element. The JSDoc should document this intended purely decorative usage. |
-| 2.2 | ✅        | Since `View` is a `<div>`, there is no implicit interactive role — correct for a display element.                                                                                                                                                              |
+| #   | Severity  | Finding                                                                                                                                                                                                                                                                                                      |
+| --- | --------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| 2.1 | 🟠 Medium | `ColorThumb` has no `role` or `aria-label`. As a purely decorative element, it should be explicitly marked `aria-hidden="true"` to prevent screen readers from announcing a nameless element. The JSDoc should document this intended purely decorative usage. ⏳ _Still open — no `aria-hidden` in source._ |
+| 2.2 | ✅        | Since `View` is a `<div>`, there is no implicit interactive role — correct for a display element.                                                                                                                                                                                                            |
 
 **Fix (2.1):**
 
@@ -114,10 +114,10 @@ const meta: Meta<typeof ColorThumb> = {
 
 ## Action Items
 
-- [ ] **Fix High**: Add copyright header (`High`).
-- [ ] **Fix Medium**: Replace `UNSAFE_style` with `UNSAFE_className` + CSS module, or add a comment justifying the exception (`Medium`).
-- [ ] **Fix Medium**: Add `aria-hidden="true"` as default for decorative use (`Medium`).
-- [ ] Add `title: 'Color/ColorThumb'` to story meta (`Medium`).
-- [ ] Add `parameters.a11y: {}` to stories (`Medium`).
-- [ ] Add `size` and `aria-hidden` tests (`Low`).
-- [ ] Remove unused `React` import (`Low`).
+- [ ] **Fix High**: Add copyright header (`High`). ⏳ _Still open._
+- [ ] **Fix Medium**: Replace `UNSAFE_style` with `UNSAFE_className` + CSS module, or add a comment justifying the exception (`Medium`). ⏳ _Still open._
+- [ ] **Fix Medium**: Add `aria-hidden="true"` as default for decorative use (`Medium`). ⏳ _Still open._
+- [ ] Add `title: 'Color/ColorThumb'` to story meta (`Medium`). ⏳ _Still open._
+- [ ] Add `parameters.a11y: {}` to stories (`Medium`). ⏳ _Still open._
+- [ ] Add `size` and `aria-hidden` tests (`Low`). ⏳ _Still open._
+- [ ] Remove unused `React` import (`Low`). ⏳ _Still open._
