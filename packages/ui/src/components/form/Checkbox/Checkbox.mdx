@@ -1,41 +1,94 @@
-import { Meta, Title, Subtitle, Description, Primary, Controls, Stories } from '@storybook/addon-docs/blocks';
+import { Meta, Title, Subtitle, Description, Primary, Controls, Stories, Source } from '@storybook/blocks';
 import * as DocStories from './Checkbox.stories';
 
 <Meta of={DocStories} />
 
-<Title />
+<Title>Checkbox</Title>
+
+<Subtitle>
+  Checkboxes allow users to select one or more items from a list, or to toggle a single binary setting.
+</Subtitle>
+
+```tsx
+import { Checkbox } from '@geti/ui';
+```
+
+- [React Spectrum Checkbox](https://react-spectrum.adobe.com/react-spectrum/Checkbox.html)
+- [Spectrum 2 Checkbox](https://react-spectrum.adobe.com/s2/Checkbox.html)
+
+<Stories />
 
 ## Responsibility
 
-`Checkbox` is a boolean toggle input for use in forms. It exists as a thin wrapper over Adobe React Spectrum's `Checkbox` so that the rest of the Geti UI codebase imports from a single internal package rather than depending directly on Spectrum. This keeps the public API surface stable and allows future styling or behavioural overrides without touching call sites.
+The `Checkbox` component is a lightweight wrapper around Adobe's React Spectrum `Checkbox`. It provides a consistent, accessible way to capture boolean input within the Geti UI design system.
 
-## Design
+### Key Features
+- **Binary Toggle**: Perfect for single "On/Off" or "Accept" settings.
+- **Indeterminate State**: Supports a visual "dash" state for parent checkboxes in nested selection trees.
+- **Form Integration**: Works seamlessly within Spectrum `Form` containers with built-in validation support.
+- **Accessibility**: Automatically handles labeling, focus management, and keyboard interaction (Space key).
 
-The component is a pure pass-through — all props are forwarded unchanged to `SpectrumCheckbox` via the spread operator:
-
-```tsx
-export const Checkbox = (props: CheckboxProps) => <SpectrumCheckbox {...props} />;
-```
-
-`CheckboxProps` extends `SpectrumCheckboxProps` from `@adobe/react-spectrum` without adding or removing anything. There is no CSS module, no `UNSAFE_className` injection, and no internal state.
-
-## Flow
-
-Props in → forwarded unchanged to `SpectrumCheckbox` → Spectrum renders an accessible `<label>` + `<input type="checkbox">` with full keyboard, ARIA, and validation support provided by Spectrum.
-
-## Integration
-
-- **Depends on**: `@adobe/react-spectrum` (`Checkbox`, `SpectrumCheckboxProps`).
-- **Consumed by**: anywhere a boolean form field is needed — settings panels, filter dialogs, permission editors.
-- **Companion**: `CheckboxGroup` (also in this folder) groups multiple `Checkbox` instances under a shared label and managed selection state.
-
-
-<Stories />
 ---
 
-<Primary />
+## Variants
+
+### States
+Checkboxes support several functional states:
+- **Selected**: The checked state, indicating a "true" or "active" value.
+- **Indeterminate**: A visual-only state (typically a dash) used when a group of sub-items has a partial selection.
+- **Disabled**: Prevents all interaction while remaining visible.
+- **Invalid**: Highlights the checkbox to indicate a validation error.
+
+---
 
 ## Props
 
-<Controls />
+<Controls of={DocStories.Default} />
 
+### Content
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `children` | `ReactNode` | — | The label text for the checkbox. |
+| `name` | `string` | — | The name of the input element, used during form submission. |
+| `value` | `string` | — | The value of the input element. |
+
+### Value / State
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `isSelected` | `boolean` | — | Controlled selection state. |
+| `defaultSelected` | `boolean` | — | Initial selection state (uncontrolled). |
+| `isIndeterminate` | `boolean` | `false` | Renders a dash instead of a checkmark. |
+| `isDisabled` | `boolean` | `false` | Whether the checkbox is disabled. |
+| `isReadOnly` | `boolean` | `false` | Whether the checkbox is read-only. |
+| `isRequired` | `boolean` | `false` | Whether the checkbox is required for form submission. |
+
+### Events
+
+| Prop | Type | Description |
+|------|------|-------------|
+| `onChange` | `(isSelected: boolean) => void` | Handler called when the selection state changes. |
+
+### Styles
+
+The `Checkbox` component accepts all standard [Spectrum layout and spacing props](https://react-spectrum.adobe.com/react-spectrum/styling.html).
+
+---
+
+## Accessibility
+
+- **Labeling**: Every checkbox must have a visible label (via `children`). If a visible label is not possible, an `aria-label` must be provided.
+- **Keyboard**: Use `Space` to toggle the checkbox and `Tab` to move focus.
+- **Indeterminate State**: Note that `isIndeterminate` is **purely visual**. It does not affect the underlying boolean value of the checkbox.
+
+---
+
+## Spectrum 2 Migration
+
+The `Checkbox` component is highly stable. When migrating to Spectrum 2 (`@react-spectrum/s2`), most implementations will require only an import update:
+
+- **Import Update**: Change from `@adobe/react-spectrum` to `@react-spectrum/s2`.
+- **New `size` Prop**: S2 adds a `size` prop (`'S' \| 'M' \| 'L' \| 'XL'`).
+- **Styles Macro**: Layout and spacing props migrate to the new `styles` macro system.
+- **Emphasized Standalone**: In S2, the `isEmphasized` prop (blue accent) is available on standalone checkboxes, not just groups.
