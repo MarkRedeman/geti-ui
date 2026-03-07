@@ -309,6 +309,52 @@ export function buildSidebar(pages: ComponentPage[]): SidebarGroup[] {
   return sidebar;
 }
 
+/**
+ * Insert stories imports and JSX into the MDX content so that the examples
+ * appear right after the intro section (title, subtitle blockquote, import
+ * code block, and any bullet-point links) but before the first `## ` heading
+ * (typically "## Responsibility").
+ *
+ * MDX imports are placed immediately after the frontmatter block so they are
+ * at the top-level scope. The JSX block is placed just before the first `##`.
+ *
+ * If no `## ` heading is found, the JSX is appended at the end.
+ */
+function insertStoriesAfterIntro(
+  content: string,
+  storiesImports: string,
+  storiesJsx: string
+): string {
+  // 1. Insert imports right after frontmatter (--- ... ---)
+  //    Frontmatter ends at the second `---` line.
+  const frontmatterEnd = content.indexOf('\n---\n');
+  if (frontmatterEnd !== -1) {
+    const insertPos = frontmatterEnd + '\n---\n'.length;
+    content =
+      content.slice(0, insertPos) +
+      '\n' + storiesImports + '\n' +
+      content.slice(insertPos);
+  } else {
+    // No frontmatter — put imports at the top
+    content = storiesImports + '\n' + content;
+  }
+
+  // 2. Insert JSX just before the first ## heading
+  const firstH2Match = content.match(/^## /m);
+  if (firstH2Match && firstH2Match.index !== undefined) {
+    const insertPos = firstH2Match.index;
+    content =
+      content.slice(0, insertPos) +
+      '\n' + storiesJsx + '\n' +
+      content.slice(insertPos);
+  } else {
+    // No ## heading found — append at the end
+    content += '\n\n' + storiesJsx;
+  }
+
+  return content;
+}
+
 export function componentDocsPlugin(): RspressPlugin {
   const pages = discoverComponentMdxFiles();
   const sidebar = buildSidebar(pages);
@@ -325,15 +371,19 @@ export function componentDocsPlugin(): RspressPlugin {
           const rawStories = fs.readFileSync(page.storiesPath, 'utf-8');
           const escapedSource = escapeTemplateLiteral(rawStories);
 
-          // Note: we're not importing the component directly because it causes bundling issues
-          // Instead, we'll handle the missing component case in StoriesGallery
-          // Import the component directly from @geti/ui package
-          // This avoids the bundling issue where meta.component gets lost
-          content +=
-            `\n\nimport StoriesGallery from '${STORIES_GALLERY_PATH}';\n` +
+          // Build the stories block: imports + JSX
+          const storiesImports =
+            `import StoriesGallery from '${STORIES_GALLERY_PATH}';\n` +
             `import * as ComponentStories from '${storiesImportPath}';\n` +
-            `import { ${page.componentName} } from '@geti/ui';\n\n` +
+            `import { ${page.componentName} } from '@geti/ui';\n`;
+
+          const storiesJsx =
             `<StoriesGallery module={ComponentStories} source={\`${escapedSource}\`} component={${page.componentName}} />\n`;
+
+          // Insert stories right after the intro section (title + subtitle + import
+          // code block + links) and before the first ## heading.
+          // Imports go at the top (after frontmatter), JSX goes before first ## heading.
+          content = insertStoriesAfterIntro(content, storiesImports, storiesJsx);
         }
 
         return {
