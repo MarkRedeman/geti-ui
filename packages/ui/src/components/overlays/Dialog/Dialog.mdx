@@ -12,7 +12,6 @@ import { Dialog, DialogTrigger } from '@geti/ui';
 ```
 
 - [React Spectrum V3 Dialog](https://react-spectrum.adobe.com/react-spectrum/Dialog.html)
-- [Spectrum 2 Dialog](https://react-spectrum.adobe.com/s2/Dialog.html)
 
 <Stories />
 
@@ -71,55 +70,4 @@ Allows the user to close the dialog by clicking an "X" button in the corner. Ena
 - **Keyboard Support**: `Tab` cycles focus within the dialog. `Esc` dismisses the dialog (unless `isKeyboardDismissDisabled` is set).
 - **Aria Roles**: The dialog is assigned `role="dialog"` or `role="alertdialog"`.
 - **Labeling**: The `Heading` component inside the dialog is automatically linked as the accessible label for the dialog via `aria-labelledby`.
-
-## Spectrum 2 Migration
-
-The migration from React Spectrum V3 to Spectrum 2 (S2) involves several structural and prop changes for Dialogs.
-
-### Structural Changes
-- **Heading Slot**: In S2, the `Heading` must explicitly use `slot="title"`.
-- **Divider**: The `Divider` component is no longer required inside the dialog; the new design handles visual separation automatically.
-- **Close Function**: The `close` render prop function has moved from the `DialogTrigger` children to the `Dialog` children.
-
-### Prop Changes
-- **isDismissable**: Renamed to `isDismissible` (fixed spelling) and moved from `DialogTrigger` to the `Dialog` component.
-- **isKeyboardDismissDisabled**: Moved from `DialogTrigger` to the `Dialog` component.
-- **type**: The `type` prop on `DialogTrigger` is being replaced by dedicated components like `Popover` or `FullscreenDialog`.
-
-### Migration Example
-
-**V3 Style (Current):**
-```tsx
-<DialogTrigger type="modal">
-  <Button>Open</Button>
-  {(close) => (
-    <Dialog isDismissable>
-      <Heading>Title</Heading>
-      <Divider />
-      <Content>Body</Content>
-      <ButtonGroup>
-        <Button onPress={close}>Cancel</Button>
-      </ButtonGroup>
-    </Dialog>
-  )}
-</DialogTrigger>
-```
-
-**S2 Style (Future):**
-```tsx
-<DialogTrigger>
-  <Button>Open</Button>
-  <Dialog isDismissible>
-    {({ close }) => (
-      <>
-        <Heading slot="title">Title</Heading>
-        <Content>Body</Content>
-        <ButtonGroup>
-          <Button onPress={close}>Cancel</Button>
-        </ButtonGroup>
-      </>
-    )}
-  </Dialog>
-</DialogTrigger>
-```
 
