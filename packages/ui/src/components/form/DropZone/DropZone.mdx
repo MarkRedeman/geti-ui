@@ -1,9 +1,9 @@
-import { Meta, Title, Subtitle, Description, Primary, Controls, Stories } from '@storybook/addon-docs/blocks';
+import { Meta, Title, Subtitle, Controls, Stories } from '@storybook/addon-docs/blocks';
 import * as DocStories from './DropZone.stories';
 
 <Meta of={DocStories} />
 
-<Title>DropZone</Title>
+# DropZone
 
 <Subtitle>A target area for dragging and dropping files or custom data into the application.</Subtitle>
 
@@ -17,53 +17,257 @@ import { DropZone } from '@geti/ui';
 
 ## Responsibility
 
-The `DropZone` component provides a designated region where users can drop content (files, text, or objects). It manages the drag-and-drop state, provides visual feedback during interaction, and is fully accessible to keyboard and screen reader users.
+`DropZone` is a transparent wrapper around Adobe React Spectrum's `DropZone`. It provides a designated region where users can drop content — files, text, or arbitrary data objects. It manages the full drag-and-drop lifecycle: entering, hovering, validating drop operations, and receiving dropped content. It also exposes a keyboard- and screen-reader-accessible path through a visually hidden button that assistive technology users can activate to trigger the same workflow as a drag-and-drop action.
+
+Key responsibilities:
+- **Drop target**: Declares a valid drop target area with configurable accepted drop operations (`copy`, `move`, `link`).
+- **Visual feedback**: Automatically highlights the zone when a valid drag enters it, and changes appearance when the zone is already filled (`isFilled`).
+- **Drag validation**: The `getDropOperation` callback lets you accept or reject a drop based on the dragged data types and the allowed operation set.
+- **Keyboard accessibility**: Renders a visually hidden `<button>` inside the zone so screen reader and keyboard-only users can activate the zone without dragging.
+- **Pairing with FileTrigger**: `DropZone` is designed to be used alongside [`FileTrigger`](/docs/components-form-filetrigger--docs), which provides the click-to-browse button typically displayed inside the zone.
 
 ### When to use
-- For file upload regions, image inlays, or data import workflows.
-- Typically paired with [FileTrigger](/docs/components-form-filetrigger--docs) to provide both drag-and-drop and click-to-browse capabilities.
+- For file upload regions, image inlays, or data import workflows where dragging is the primary or supplementary interaction.
+- Whenever you need both drag-and-drop **and** click-to-browse in a single component — nest a `FileTrigger`-wrapped `Button` inside `DropZone`.
+- When the zone needs to indicate a "replace" state (use `isFilled`) after content has already been uploaded.
+- When drop-type validation is required — use `getDropOperation` to accept only specific MIME types or data formats.
 
-### When to use something else
-- Use [FileTrigger](/docs/components-form-filetrigger--docs) alone if only a button-based file selection is needed.
+### When to avoid
+- **Click-to-browse only** — use [`FileTrigger`](/docs/components-form-filetrigger--docs) alone if drag-and-drop is not needed.
+- **Inline small inputs** — for compact file attachment flows (e.g., an avatar uploader in a form row), a `FileTrigger`-wrapped `Button` without a `DropZone` container is often less visually heavy.
+- When you need direct `FormData` form-submission integration — use a native `<input type="file">` or manage `FileList` manually in `onDrop`.
+
+---
+
+## Design
+
+`DropZone` follows the *transparent wrapper* pattern: it re-exports `SpectrumDropZoneProps` as `DropZoneProps` and delegates all rendering to Spectrum.
+
+```tsx
+// packages/ui/src/components/form/DropZone/DropZone.tsx
+
+export const DropZone = (props: SpectrumDropZoneProps) => (
+    <SpectrumDropZone {...props} />
+);
+
+export type { SpectrumDropZoneProps as DropZoneProps };
+```
+
+The wrapper provides the stable `@geti/ui` import path. Future Geti-specific defaults (e.g., a default `replaceMessage`, a minimum height token, or a migration to `react-aria-components`) can be introduced here without changing call sites.
+
+**Prop mapping**
+
+All props pass through to Spectrum unchanged:
+
+| Geti `DropZoneProps` | Spectrum `SpectrumDropZoneProps` | Notes |
+|----------------------|----------------------------------|-------|
+| `onDrop` | `onDrop` | Fired when content is successfully dropped |
+| `onDropEnter` | `onDropEnter` | Fired when a drag enters the zone boundary |
+| `onDropExit` | `onDropExit` | Fired when a drag leaves the zone boundary |
+| `getDropOperation` | `getDropOperation` | Validates the drop and returns the allowed operation |
+| `isFilled` | `isFilled` | Switches the zone to "replace" visual state |
+| `replaceMessage` | `replaceMessage` | Text shown when dragging over a filled zone |
+| `isDisabled` | `isDisabled` | Disables all drop and keyboard interactions |
+| `children` | `children` | Content rendered inside the zone |
+| `aria-label` | `aria-label` | Accessible name for the zone's hidden button |
+| `...rest` | all other props | Passed through without transformation |
+
+**Theme integration**
+
+`DropZone` inherits Spectrum's drop-target tokens (border style, highlight colour, fill background) from `ThemeProvider`. In Geti's dark theme these tokens are resolved via `src/theme/tokens.css` — no per-component CSS is required.
+
+---
 
 ## Variants
 
-### States
-- **Drag Over**: The zone highlights when a valid drag enters the area.
-- **Filled**: Use the `isFilled` prop when the zone already contains content. This changes the interaction to show a "Drop file to replace" message.
-- **Disabled**: The zone is non-interactive. Use `isDisabled`.
+### Default (empty zone)
+The standard drop target. Displays a dashed border and placeholder content until a drag enters.
 
-### Layout
-- **Custom Content**: `DropZone` is a container that can hold labels, icons (e.g., `IllustratedMessage`), or buttons.
+```tsx
+<DropZone onDrop={handleDrop} aria-label="Upload dataset images">
+    <IllustratedMessage>
+        <Upload />
+        <Heading>Drag and drop files here</Heading>
+        <Content>Or use the button below</Content>
+    </IllustratedMessage>
+    <FileTrigger onSelect={handleSelect}>
+        <Button variant="primary">Browse files</Button>
+    </FileTrigger>
+</DropZone>
+```
+
+### Filled state (`isFilled`)
+When the zone already contains uploaded content, set `isFilled={true}`. The zone switches to a "Drop to replace" overlay when a new drag enters.
+
+```tsx
+<DropZone
+    isFilled
+    replaceMessage="Drop image to replace"
+    onDrop={handleReplace}
+    aria-label="Replace dataset cover image"
+>
+    <img src={uploadedImageUrl} alt="Uploaded dataset cover" />
+</DropZone>
+```
+
+### Drag-type validation (`getDropOperation`)
+Use `getDropOperation` to accept only specific MIME types or to return `'cancel'` for unsupported drops.
+
+```tsx
+<DropZone
+    getDropOperation={(types) =>
+        types.has('image/png') || types.has('image/jpeg') ? 'copy' : 'cancel'
+    }
+    onDrop={handleDrop}
+>
+    {/* ... */}
+</DropZone>
+```
+
+### Disabled
+Disables all drop interactions. The visual state is dimmed and dragging over the zone has no effect.
+
+```tsx
+<DropZone isDisabled aria-label="Upload area (disabled)">
+    {/* ... */}
+</DropZone>
+```
+
+---
+
+## Flow
+
+### Drag-and-drop lifecycle
+
+```
+User drags item over the DropZone boundary
+    │
+    ▼
+onDropEnter(DropEnterEvent) fires — zone highlights
+    │
+    ▼
+getDropOperation(types, allowedOperations) called
+    ├── returns 'copy' / 'move' / 'link' → drop allowed, cursor changes
+    └── returns 'cancel'                 → drop rejected, cursor shows ✗
+    │
+    ▼ (drop allowed)
+User releases the item
+    │
+    ▼
+onDrop(DropEvent) fires
+    │    DropEvent.items contains the dropped data
+    │    For files: item.kind === 'file', item.getFile() returns a Promise<File>
+    │    For text: item.kind === 'text', item.getText(type) returns a Promise<string>
+    │
+    ▼
+Your handler reads DropEvent.items and processes files or data
+    │
+    ▼
+If isFilled, the zone transitions to "replace" appearance on the next drag
+```
+
+### Click-to-browse path (FileTrigger pair)
+
+When a `FileTrigger`-wrapped `Button` is nested inside `DropZone`, the two components provide complementary paths to the same upload workflow:
+
+```
+┌─────────────────────────────────────────────┐
+│  DropZone                                   │
+│  ┌─────────────────────────────────────┐   │
+│  │  IllustratedMessage / placeholder   │   │  ← Drag-and-drop target
+│  └─────────────────────────────────────┘   │
+│  ┌───────────────────────────────────────┐ │
+│  │  FileTrigger                          │ │
+│  │  └─ <Button>Browse files</Button>     │ │  ← Click-to-browse path
+│  └───────────────────────────────────────┘ │
+└─────────────────────────────────────────────┘
+```
+
+```tsx
+const [files, setFiles] = useState<File[]>([]);
+
+const handleDrop = async (e: DropEvent) => {
+    const dropped = await Promise.all(
+        e.items
+            .filter((item): item is FileDropItem => item.kind === 'file')
+            .map((item) => item.getFile())
+    );
+    setFiles((prev) => [...prev, ...dropped]);
+};
+
+const handleSelect = (fileList: FileList | null) => {
+    if (!fileList) return;
+    setFiles((prev) => [...prev, ...Array.from(fileList)]);
+};
+
+<DropZone onDrop={handleDrop} aria-label="Upload images">
+    <FileTrigger onSelect={handleSelect} acceptedFileTypes={['image/*']} allowsMultiple>
+        <Button variant="secondary">Browse files</Button>
+    </FileTrigger>
+</DropZone>
+```
+
+Both paths converge on the same `files` state, keeping the rest of your upload logic unified.
+
+### Keyboard path (hidden button)
+
+Spectrum renders a visually hidden `<button>` inside `DropZone` that is reachable via `Tab`. Screen reader users hear a label like *"Upload area"* (from `aria-label`) and can activate it with `Space` or `Enter`. This typically triggers the `FileTrigger` child if one is present, or can be connected to a custom action via the `onActivate` prop.
+
+---
 
 ## Props
 
-### Events
-| Prop | Type | Description |
-|---|---|---|
-| `onDrop` | `(e: DropEvent) => void` | Called when content is dropped into the zone. |
-| `onDropEnter` | `(e: DropEnterEvent) => void` | Called when a valid drag enters the zone. |
-| `onDropExit` | `(e: DropExitEvent) => void` | Called when a valid drag leaves the zone. |
-| `getDropOperation` | `(types: DragTypes, allowed: DropOperation[]) => DropOperation` | Determines if a drop is allowed and which operation (copy, move, link) to perform. |
+<Controls />
 
-### Value / State
+### Events
+
+| Prop | Type | Description |
+|------|------|-------------|
+| `onDrop` | `(e: DropEvent) => void` | Called when content is dropped into the zone. |
+| `onDropEnter` | `(e: DropEnterEvent) => void` | Called when a valid drag enters the zone boundary. |
+| `onDropExit` | `(e: DropExitEvent) => void` | Called when a valid drag leaves the zone boundary. |
+| `getDropOperation` | `(types: DragTypes, allowed: DropOperation[]) => DropOperation` | Validates the incoming drop. Return `'copy'`, `'move'`, `'link'`, or `'cancel'`. |
+
+### State
+
 | Prop | Type | Default | Description |
-|---|---|---|---|
-| `isFilled` | `boolean` | `false` | Whether the zone already contains content. |
-| `replaceMessage` | `string` | `'Drop file to replace'` | The message shown when dragging over a filled DropZone. |
-| `isDisabled` | `boolean` | `false` | Whether the drop zone is disabled. |
+|------|------|---------|-------------|
+| `isFilled` | `boolean` | `false` | Whether the zone already contains content. Switches the visual to a "replace" state on the next drag. |
+| `replaceMessage` | `string` | `'Drop file to replace'` | The overlay message shown when dragging over a filled `DropZone`. |
+| `isDisabled` | `boolean` | `false` | Disables all drop interactions and visually dims the zone. |
 
 ### Content
+
 | Prop | Type | Description |
-|---|---|---|
-| `children` | `ReactNode` | The content to display inside the drop zone. |
-| `aria-label` | `string` | An accessible label for the drop zone if no visible text is provided. |
+|------|------|-------------|
+| `children` | `ReactNode` | Content rendered inside the drop zone (labels, illustrations, `FileTrigger` buttons). |
+| `aria-label` | `string` | **Required for accessibility.** Names the visually hidden button inside the zone. |
+
+---
 
 ## Accessibility
 
-- Renders a visually hidden `<button>` that is keyboard-focusable, allowing screen reader users to activate the drop zone (e.g., to trigger a file picker).
-- Supports the ARIA drag-and-drop pattern with appropriate role and state announcements.
-- **Keyboard support**: Focus the zone via **Tab**, and activate its inner trigger via **Enter** or **Space**.
-- Automatically handles the `isDropTarget` state to provide clear visual and semantic feedback.
+- **Visually hidden button**: Spectrum renders a hidden `<button>` inside `DropZone` that is keyboard-focusable and reachable by screen readers. This is the accessible entry point for users who cannot perform a drag gesture.
+- **`aria-label` requirement**: The `aria-label` (or `aria-labelledby`) prop **must** be set on `DropZone`. It names both the drop target region and the hidden button, so screen readers can describe the purpose of the zone (e.g., *"Upload dataset images"*).
+- **Drag state announcements**: Spectrum announces `isDropTarget` state changes (entering/exiting) to screen readers via ARIA live regions, keeping assistive technology users informed of drop readiness.
+- **`getDropOperation` feedback**: When `getDropOperation` returns `'cancel'`, the cursor changes and Spectrum announces that the drop is not allowed — providing visual and semantic feedback simultaneously.
+- **Keyboard interactions**:
 
-<Controls />
+| Key | Behaviour |
+|-----|-----------|
+| `Tab` | Move focus to the hidden button inside the zone |
+| `Space` / `Enter` | Activate the hidden button (e.g., open a file picker via `FileTrigger`) |
+| `Escape` | Cancel an in-progress drag (browser / OS behaviour) |
+
+- **Disabled state**: When `isDisabled={true}`, the hidden button is also disabled and cannot be focused or activated.
+
+---
+
+## Integration
+
+- **Dependency**: `@adobe/react-spectrum` — `DropZone` and `SpectrumDropZoneProps` are imported from this package.
+- **`ThemeProvider`**: Must be present in the React tree for Spectrum tokens (drop highlight, border colour, replace overlay) to resolve correctly.
+- **`FileTrigger`**: The primary pairing. Nest a `FileTrigger`-wrapped `Button` inside `DropZone` to give users both drag-and-drop and click-to-browse paths. See the [FileTrigger docs](/docs/components-form-filetrigger--docs) for its full API.
+- **`DropEvent.items`**: Each item in the drop event is a `FileDropItem`, `TextDropItem`, or `DirectoryDropItem`. Use `item.kind` to branch. Files are retrieved asynchronously via `item.getFile()`.
+- **`useDrag`**: If you need to implement a drag *source* (as opposed to a drop target), use React Aria's `useDrag` hook. `DropZone` handles only the receiving side.
+- **`IllustratedMessage`**: Spectrum's `IllustratedMessage` component is the recommended child for the placeholder state — it provides the standard layout for an icon, heading, and body text inside the zone.

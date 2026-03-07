@@ -1,4 +1,4 @@
-import { Meta, Title, Subtitle, Description, Primary, Controls, Stories } from '@storybook/addon-docs/blocks';
+import { Meta, Title, Subtitle, Controls, Stories } from '@storybook/addon-docs/blocks';
 import * as DocStories from './Tag.stories';
 
 <Meta of={DocStories} />
@@ -15,112 +15,207 @@ import { Tag } from '@geti/ui';
 
 ## Responsibility
 
-`Tag` is a fully custom Geti primitive — it has **zero dependency on Adobe React Spectrum** (except for the optional tooltip, which borrows Spectrum's `TooltipTrigger`). Its sole job is to render a styled chip that visually communicates a categorical label to the user.
+`Tag` is a fully custom Geti primitive — it has **no dependency on Adobe React Spectrum** (except for the optional tooltip, which borrows Spectrum's `TooltipTrigger`). Its sole job is to render a styled chip that visually communicates a categorical label to the user.
 
 Key responsibilities:
 - **Visual identity**: Applies Geti's accent dot (in `--energy-blue`) as the default prefix, giving annotation labels an immediately recognizable appearance throughout the product.
 - **Flexible affixes**: Accepts optional `prefix` and `suffix` slots for custom icons, counts, or action elements without breaking the chip's internal layout.
-- **Theme awareness**: Switches background between a dark-mode and light-mode gray token via the `darkMode` prop, allowing the chip to sit correctly on both dark panels and light surfaces.
-- **Tooltip integration**: Wraps the chip in a Spectrum `TooltipTrigger` when a `tooltip` string is provided — the only point where Spectrum enters the component.
+- **Theme awareness**: Switches background between dark-mode and light-mode gray tokens via the `darkMode` prop, allowing the chip to sit correctly on both dark panels and light surfaces.
+- **Tooltip integration**: Wraps the chip in a Spectrum `TooltipTrigger` when a `tooltip` string is provided — the only point where Spectrum enters this component.
 
 ### When to use
 - To display annotation class labels alongside a model prediction or a manual annotation.
 - To render items in a label palette, taxonomy tree, or classification result list.
 - When you need a compact, non-interactive label that carries optional supplemental information via a hover tooltip.
-- When the chip needs a custom icon or action (e.g., a remove button) via `prefix` or `suffix`.
+- When the chip needs a custom icon or action element (e.g., a confidence score badge) via `prefix` or `suffix`.
+- When embedding a label chip inside a table cell, overlay, or other context where a full Spectrum `TagGroup` would be architecturally excessive.
 
 ### When to avoid
-- For **interactive, selectable, or removable** tag collections — use `TagGroup` instead, which wraps Spectrum's `TagGroup` and manages keyboard navigation and removal callbacks.
-- For status indicators (e.g., "Active", "Pending") — use `StatusLight` or `Badge`, which carry semantic color meaning.
-- When you need a full Spectrum-styled chip with built-in selection and form integration.
+- **Interactive, selectable, or removable tag collections** — use `TagGroup` instead, which wraps Spectrum's `TagGroup` and manages keyboard navigation and `onRemove` callbacks.
+- **Status indicators** (e.g., "Active", "Pending") — use `StatusLight` or `Badge`, which carry semantic colour meaning tied to a specific status.
+- **Form-integrated chips** — use `TagGroup` if users need to add, remove, or select tags as part of a form submission flow.
+- When you need a full Spectrum-styled chip with built-in selection and focus management.
+
+---
+
+## Design
+
+`Tag` does **not** follow the transparent-wrapper pattern used by most Geti UI components — it is a bespoke primitive implemented entirely in inline `CSSProperties` using global Spectrum CSS custom properties. No CSS module is imported and no Spectrum React component is rendered (aside from the optional `TooltipTrigger`).
+
+```tsx
+// packages/ui/src/components/data/Tag/Tag.tsx
+
+export interface TagProps {
+    text: string;
+    withDot?: boolean;      // default true
+    prefix?: ReactNode;
+    suffix?: ReactNode;
+    darkMode?: boolean;
+    tooltip?: string;
+    id?: string;
+    className?: string;
+    style?: CSSProperties;
+}
+
+export const Tag = ({ text, withDot = true, prefix, suffix, darkMode, tooltip, style, ...rest }: TagProps) => {
+    const hasPrefix = !!(withDot || prefix);
+    const containerStyle: CSSProperties = {
+        ...styles.tag,
+        backgroundColor: darkMode
+            ? 'var(--spectrum-global-color-gray-100)'
+            : 'var(--spectrum-global-color-gray-200)',
+        ...style,
+    };
+    // renders chip div, optionally wraps in <TooltipTrigger>
+};
+```
+
+**Styling approach**
+
+All visual properties — border-radius, font size, padding, flex layout, dot colour — are expressed as inline styles referencing Spectrum's global CSS custom properties (e.g., `var(--spectrum-global-dimension-size-75)`). This means:
+- No CSS modules to import or configure.
+- The component can render **outside `ThemeProvider`** as long as the Spectrum global token stylesheet and the Geti `--energy-blue` variable are loaded.
+- Style overrides can be applied via the `style` prop, which is merged after the computed container styles.
+
+**Prop mapping**
+
+| `TagProps` | Rendered as | Notes |
+|------------|-------------|-------|
+| `text` | `<span>{text}</span>` + `aria-label` | Both the visible text and the accessible name |
+| `withDot` | Blue `<span>` with `aria-hidden="true"` | Rendered only when `prefix` is not provided |
+| `prefix` | Leading `<span>` slot | Replaces dot when provided |
+| `suffix` | Trailing `<span>` slot | Appended after text with left margin |
+| `darkMode` | `backgroundColor` token | `gray-100` (dark) vs `gray-200` (light) |
+| `tooltip` | Spectrum `<TooltipTrigger>` + `<Tooltip>` wrapper | Also sets native `title` attribute |
+| `style` | Merged into container `style` | Applied last, can override any token |
+
+**Theme integration**
+
+`Tag` reads two categories of design tokens:
+1. **Spectrum global tokens** — spacing (`size-50`, `size-75`, `size-125`), colour (`gray-100`, `gray-200`, `gray-800`), and border-radius. These are defined by Spectrum's global stylesheet and overridden per-theme.
+2. **Geti custom property** — `--energy-blue` (`#0168b5` fallback), defined in `geti-global.module.css` and the Geti theme's `tokens.css`. This drives the accent dot colour.
+
+---
 
 ## Variants
 
 ### Default (with accent dot)
-The standard appearance: a rounded chip with a small blue dot (`--energy-blue`) before the text. The dot is rendered as `aria-hidden="true"` since it is decorative.
+The standard appearance: a rounded chip with a small blue dot (`--energy-blue`) before the text. The dot is rendered as `aria-hidden="true"` since it is purely decorative.
+
+```tsx
+<Tag text="Person" />
+```
 
 ### No dot (`withDot={false}`)
-Removes the dot and adjusts left padding. Use when the `prefix` slot provides its own icon, or when the dot would be visually redundant.
+Removes the dot and adjusts the left padding. Use when the `prefix` slot provides its own icon, or when the dot would be visually redundant (e.g., inside a legend that already uses colour coding).
+
+```tsx
+<Tag text="Vehicle" withDot={false} />
+```
 
 ### With prefix / suffix
 `prefix` replaces the dot slot entirely. `suffix` appends a node after the text with consistent spacing. Both accept any `ReactNode`.
 
+```tsx
+// Custom icon prefix
+<Tag text="Vehicle" withDot={false} prefix={<VehicleIcon aria-hidden />} />
+
+// Confidence score suffix
+<Tag text="Dog" suffix={<span>92%</span>} />
+```
+
 ### Dark / Light mode
-`darkMode={true}` uses `var(--spectrum-global-color-gray-100)` (darker background).
-`darkMode={false}` (default) uses `var(--spectrum-global-color-gray-200)` (lighter background).
-
-## Design
-
-Styling is 100% inline `CSSProperties` using global CSS custom properties. The component does not import a CSS module and does not require Spectrum's `Provider` to be active — as long as the Spectrum global token stylesheet is present in the document.
+`darkMode={true}` uses `var(--spectrum-global-color-gray-100)` (darker background), useful on lighter surface areas.
+`darkMode={false}` (default) uses `var(--spectrum-global-color-gray-200)` (lighter background), the standard dark-theme appearance.
 
 ```tsx
-// Default — accent dot, dark background
-<Tag text="Person" />
-
-// No dot, custom prefix icon
-<Tag text="Vehicle" withDot={false} prefix={<VehicleIcon />} />
-
-// With suffix (e.g., a confidence score)
-<Tag text="Dog" suffix={<span>92%</span>} />
-
-// Light surface variant with tooltip
-<Tag text="Bicycle" darkMode tooltip="Annotation class: Bicycle" />
+<Tag text="Bicycle" darkMode />
 ```
 
-## Flow
+### With tooltip
+Wraps the chip in a Spectrum `TooltipTrigger`. Useful when the label text is truncated or when additional context is helpful on hover.
 
+```tsx
+<Tag text="Bicycle" tooltip="Annotation class: Bicycle (ID: 42)" />
 ```
-props { text, prefix, suffix, withDot, darkMode, tooltip, id, className, style }
-  → hasPrefix = !!(withDot || prefix)
-  → containerStyle = { ...baseStyle, backgroundColor (dark/light), ...style }
-  → chipElement = <div style={containerStyle} aria-label={text} title={tooltip}>
-      {hasPrefix &&
-        <span style={prefixWrapper}>
-          {prefix ?? (withDot ? <span style={dot} aria-hidden /> : null)}
-        </span>}
-      <span>{text}</span>
-      {suffix && <span style={suffixWrapper}>{suffix}</span>}
-    </div>
-  → if tooltip:
-      <TooltipTrigger>
-        {chipElement}
-        <Tooltip>{tooltip}</Tooltip>
-      </TooltipTrigger>
-    else:
-      {chipElement}
-```
-
-## Integration
-
-- **`--energy-blue`** (`#0168b5` fallback) must be present in the global stylesheet for the dot to render correctly. It is defined in `geti-global.module.css` and the Geti theme tokens.
-- **`TagGroup`** (in the same `data/` category) wraps Spectrum's `TagGroup` for interactive, keyboard-navigable collections where tags can be removed. `Tag` here is a distinct, non-Spectrum primitive — do not confuse the two.
-- The component renders a `<div>` and accepts all standard HTML div attributes via `...rest`, making it composable as a list item, table cell content, or overlay label.
-- Can be used **outside `ThemeProvider`** as long as the Spectrum global color tokens and `--energy-blue` are loaded.
-
-## Props
-
-| Prop | Type | Default | Description |
-|------|------|---------|-------------|
-| `text` | `string` | — | **Required.** The label text displayed inside the chip. Also used as the accessible `aria-label`. |
-| `withDot` | `boolean` | `true` | Whether to render the blue accent dot as the default prefix. Ignored when `prefix` is provided. |
-| `prefix` | `ReactNode` | — | Custom element rendered before the text, replacing the dot. |
-| `suffix` | `ReactNode` | — | Custom element rendered after the text. |
-| `darkMode` | `boolean` | `false` | Switches the background to the darker gray token. |
-| `tooltip` | `string` | — | Text shown in a Spectrum `Tooltip` on hover. |
-| `id` | `string` | — | Sets both `id` and `data-testid` on the container div. |
-| `className` | `string` | — | Additional CSS class names. |
-| `style` | `CSSProperties` | — | Inline style overrides applied after computed styles. |
-
-## Accessibility
-
-- **`aria-label`**: The container `<div>` receives `aria-label={text}`, giving screen readers a programmatic name for the chip even when the text is accompanied by decorative elements.
-- **`title` attribute**: When `tooltip` is provided, it is also set as the `title` attribute on the container, enabling browser-native tooltip behavior for pointer users who may not trigger the Spectrum tooltip.
-- **Decorative dot**: The accent dot `<span>` is rendered with `aria-hidden="true"` to prevent it from being announced as content.
-- **Tooltip ARIA**: When `tooltip` is provided, Spectrum's `TooltipTrigger` wires `aria-describedby` between the chip element and the tooltip automatically.
-- **Keyboard**: The base chip is not focusable. If you need a keyboard-accessible chip (e.g., for removal), use `TagGroup` which provides roving `tabindex` and keyboard removal support.
 
 ---
 
-<Primary />
+## Flow
+
+### Render path
+
+```
+props { text, prefix, suffix, withDot, darkMode, tooltip, id, className, style }
+  │
+  ├── hasPrefix = !!(withDot || prefix)
+  ├── containerStyle = { ...baseStyle, backgroundColor (dark/light), ...style }
+  │
+  └── chipElement =
+        <div style={containerStyle} aria-label={text} title={tooltip} ...rest>
+          {hasPrefix &&
+            <span style={prefixWrapper}>
+              {prefix ?? (withDot ? <span style={dot} aria-hidden /> : null)}
+            </span>}
+          <span>{text}</span>
+          {suffix && <span style={suffixWrapper}>{suffix}</span>}
+        </div>
+  │
+  └── if tooltip:
+        <TooltipTrigger>
+          {chipElement}
+          <Tooltip>{tooltip}</Tooltip>
+        </TooltipTrigger>
+      else:
+        {chipElement}
+```
+
+### Interaction patterns
+
+`Tag` is **non-interactive by default** — the container `<div>` is not focusable and has no click handler. All interaction belongs to elements passed via `prefix` or `suffix` (e.g., a remove `<button>` in the suffix slot).
+
+If you need an entire tag to be clickable or removable as a first-class keyboard interaction, use `TagGroup` which manages roving `tabindex`, `Arrow` key navigation, and `Backspace`/`Delete` removal — all as built-in Spectrum behavior.
+
+---
+
+## Props
+
+<Controls />
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `text` | `string` | — | **Required.** The label text displayed inside the chip. Also used as the accessible `aria-label` on the container. |
+| `withDot` | `boolean` | `true` | Whether to render the blue accent dot as the default prefix. Ignored when `prefix` is provided. |
+| `prefix` | `ReactNode` | — | Custom element rendered before the text, replacing the dot. |
+| `suffix` | `ReactNode` | — | Custom element rendered after the text (e.g., a count badge or remove button). |
+| `darkMode` | `boolean` | `false` | Switches the background to the darker gray token (`gray-100`). |
+| `tooltip` | `string` | — | Text shown in a Spectrum `Tooltip` on hover. Also sets the native `title` attribute. |
+| `id` | `string` | — | Sets both `id` and `data-testid` on the container `<div>`. |
+| `className` | `string` | — | Additional CSS class names applied to the container. |
+| `style` | `CSSProperties` | — | Inline style overrides applied after computed container styles. |
+
+---
+
+## Accessibility
+
+- **`aria-label`**: The container `<div>` receives `aria-label={text}`, giving screen readers a programmatic name for the chip even when text is accompanied by decorative or icon elements.
+- **`title` attribute**: When `tooltip` is provided, it is also set as the native `title` attribute on the container, enabling browser-native tooltip behavior for pointer users who may not trigger the Spectrum overlay tooltip.
+- **Decorative dot**: The accent dot `<span>` is rendered with `aria-hidden="true"` to prevent it from being announced as separate content by screen readers.
+- **Tooltip ARIA**: When `tooltip` is provided, Spectrum's `TooltipTrigger` automatically wires `aria-describedby` between the chip element and the tooltip overlay.
+- **Non-focusable**: The base chip `<div>` carries no `tabindex`, `role="button"`, or interactive affordance. It is intentionally non-focusable because it is display-only. Screen reader users navigate by the chip's `aria-label`.
+- **Keyboard**: There are no keyboard interactions on `Tag` itself. If you need keyboard-accessible chips with removal support, use `TagGroup` which provides roving `tabindex` and `Backspace`/`Delete` removal.
+- **Labeling requirement**: Every `Tag` must have a meaningful `text` value — this is the accessible name. Do not pass an empty string.
+
+---
+
+## Integration
+
+- **`--energy-blue`** (`#0168b5` fallback) must be present in the global stylesheet for the dot to render with the correct brand colour. It is defined in `geti-global.module.css` and the Geti theme `tokens.css`.
+- **`TagGroup`** (in the same `data/` category) wraps Spectrum's `TagGroup` for interactive, keyboard-navigable collections where tags can be removed via `onRemove`. `Tag` is a distinct, non-Spectrum primitive — do not confuse the two.
+- The component renders a `<div>` and forwards all standard HTML div attributes via `...rest`, making it composable as a list item, table cell content, tooltip target, or overlay label.
+- Can be used **outside `ThemeProvider`** as long as the Spectrum global colour tokens and `--energy-blue` are loaded in the document.
+- **No form integration** — `Tag` does not participate in form state, validation, or submission. It is a pure display primitive.
+
+---
 
 <Controls />
