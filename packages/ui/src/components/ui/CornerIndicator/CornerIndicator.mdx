@@ -1,4 +1,4 @@
-import { Meta, Title, Subtitle, Description, Primary, Controls, Stories, Source } from '@storybook/blocks';
+import { Meta, Title, Subtitle, Description, Primary, Controls, Stories, Source } from '@storybook/addon-docs/blocks';
 import * as DocStories from './CornerIndicator.stories';
 
 <Meta of={DocStories} />
@@ -78,27 +78,4 @@ The dot's size, position, and color are driven by Spectrum global dimension and 
 - **Label**: It includes `aria-label="Pending change"` by default. Note that in a production environment, this label should ideally be localized or context-specific.
 - **Dynamic Updates**: Because it is conditionally rendered, screen readers will announce the presence of the status dot when it appears.
 
----
 
-## Spectrum 2 Migration
-
-`CornerIndicator` has no direct counterpart in Spectrum 2 (`@react-spectrum/s2`). It will remain a custom Geti component.
-
-When migrating to Phase 3 (Tailwind CSS), this component can be simplified to a standard Tailwind pattern:
-
-<Source
-  language="tsx"
-  dark
-  code={`
-<div className="relative inline-block">
-  {children}
-  {isActive && (
-    <span
-      role="status"
-      aria-label="Active"
-      className="absolute top-0 right-0 w-2 h-2 rounded-full bg-blue-500 translate-x-1/2 -translate-y-1/2"
-    />
-  )}
-</div>
-`}
-/>
