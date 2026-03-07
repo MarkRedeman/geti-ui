@@ -1,83 +1,92 @@
-import { Meta, Title, Subtitle, Description, Primary, Controls, Stories } from '@storybook/addon-docs/blocks';
+import { Meta, Title, Subtitle, Description, Primary, Controls, Stories, Source } from '@storybook/blocks';
 import * as DocStories from './ToggleButtons.stories';
 
 <Meta of={DocStories} />
 
-<Title />
+<Title>ToggleButtons</Title>
+
+<Subtitle>
+  A mutually exclusive group of buttons used for switching between views, modes, or categories.
+</Subtitle>
+
+```tsx
+import { ToggleButtons } from '@geti/ui';
+```
+
+<Stories />
 
 ## Responsibility
 
-`ToggleButtons` renders a group of mutually exclusive buttons for view-switching or mode-selection. It is a fully custom Geti component — not a thin Spectrum wrapper — built on top of the library's own `Button` primitive.
+`ToggleButtons` is a custom implementation of a selection group where exactly one option is active at a time. It is built using a collection of Geti `Button` components styled to appear as a single, cohesive "pill" or "segmented" control.
 
-<Stories />
----
+### What this component does
+- Renders an array of options as a horizontal button group.
+- Automatically handles visual selection states: the selected button uses `variant="accent"` (blue fill), while others use `variant="secondary"` (outlined).
+- Applies `aria-pressed` attributes to correctly communicate state to assistive technologies.
+- Provides a `getLabel` mapper for rendering icons or custom React nodes instead of raw text.
 
-## Design
-
-### Architecture
-
-```
-ToggleButtons (exported, generic T extends string | number)
-└── div[role="group"]
-    └── ToggleButton[] (internal, not exported)
-        └── Button (from ../Button/Button)
-```
-
-`ToggleButton` (internal) maps the group's `selectedOption` state onto individual `Button` props:
-- `variant="accent"` when `selectedOption === option` (selected = energy-blue fill)
-- `variant="secondary"` otherwise (deselected = outlined)
-- `aria-pressed={selectedOption === option}` for accessibility
-
-The outer `div` carries `role="group" aria-label="Selection options"` with `display: flex` inline.
-
-### Generic constraint
-
-```tsx
-export interface ToggleButtonsProps<T extends string | number> {
-    options: T[];
-    selectedOption: T;
-    onOptionChange: (option: T) => void;
-    isDisabled?: boolean;
-    getLabel?: (option: T) => ReactNode;
-}
-```
-
-`T extends string | number` ensures options can be used as React keys and compared by identity. The optional `getLabel` mapper lets callers render icons or rich labels instead of the raw option value.
-
-### CSS module (`ToggleButtons.module.css`)
-
-Applied via `UNSAFE_className={styles.toggleButton}` on every inner `Button`. It rounds the outer corners of the first and last buttons, and removes intermediate horizontal radius and borders to create a visually joined button-group pill:
-
-```css
-.toggleButton:first-child  { border-bottom-right-radius: 0; border-top-right-radius: 0; }
-.toggleButton:last-child   { border-bottom-left-radius: 0; border-top-left-radius: 0; }
-.toggleButton:not(:first-child):not(:last-child) {
-    border-radius: 0;
-    border-right-color: transparent !important;
-    border-left-color: transparent !important;
-}
-```
+### Key Constraints
+- **Single Selection**: This component is strictly mutually exclusive. It does not support multiple simultaneous selections.
+- **Controlled State**: The component is fully controlled. The caller must provide the `selectedOption` and handle the `onOptionChange` callback.
 
 ---
 
-## Flow
+## Variants
 
-Controlled component — caller owns `selectedOption` and handles `onOptionChange`. No internal state. Renders synchronously.
+### Text Options
+By default, the component renders the string or number values from the `options` array directly as button labels.
 
----
+### Icon Options
+Use the `getLabel` prop to map option values to icons or custom elements. This is commonly used for view-switching (e.g., Grid vs. List).
 
-## Integration
-
-- **Depends on**: `../Button/Button`, `./ToggleButtons.module.css`, React (`ReactNode`).
-- **Does NOT depend on** Spectrum directly — all Spectrum interaction goes through the `Button` primitive.
-- **Consumed by**: any UI surface needing an exclusive option group (view-mode toggles, filter switches, display selectors).
-
+### Disabled Group
+Set `isDisabled` to `true` to disable all buttons in the group simultaneously.
 
 ---
-
-<Primary />
 
 ## Props
 
-<Controls />
+<Controls of={DocStories.Default} />
 
+### Content / Value
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `options` | `T[]` | **Required** | Array of available options (`string` or `number`). |
+| `selectedOption` | `T` | **Required** | The currently selected option. |
+| `onOptionChange` | `(option: T) => void` | **Required** | Callback triggered when a new option is selected. |
+| `getLabel` | `(option: T) => ReactNode` | — | Optional mapping function to render custom labels/icons for each option. |
+
+### State
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `isDisabled` | `boolean` | `false` | Whether the entire group is disabled. |
+
+---
+
+## Implementation Details
+
+### Styling
+The component uses a custom CSS module (`ToggleButtons.module.css`) to join the buttons into a single visual unit by removing inner border radii and adjacent borders.
+
+### Accessibility
+- **Group Role**: The container uses `role="group"` and `aria-label="Selection options"` to identify the collection.
+- **Pressed State**: Individual buttons use `aria-pressed` to signal their selection status.
+- **Note**: This custom implementation does not currently support arrow-key navigation within the group (roving tab index); each button remains an independent tab stop.
+
+---
+
+## Spectrum 2 Migration
+
+`ToggleButtons` predates the official `ToggleButtonGroup` and `SegmentedControl` primitives in the Spectrum ecosystem. For new implementations or during migration, the following official replacements are recommended:
+
+### Recommended Replacements
+- **`SegmentedControl`** from `@react-spectrum/s2`: The closest semantic match for mutually exclusive view switching.
+- **`ToggleButtonGroup`** from `react-aria-components` or `@react-spectrum/s2`: Best for groups that may require multi-selection or more advanced ARIA behaviors.
+
+### Why Migrate?
+Official Spectrum components provide superior accessibility:
+- **Correct ARIA Roles**: Container uses `role="radiogroup"` with `role="radio"` items for single selection.
+- **Keyboard Navigation**: Implements roving tab index (arrow keys move focus within the group; Tab moves focus in/out as a single unit).
+- **Selection Models**: Supports both `single` and `multiple` selection modes natively.
