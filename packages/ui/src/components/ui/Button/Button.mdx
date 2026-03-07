@@ -12,6 +12,7 @@ import { Button } from '@geti/ui';
 ```
 
 - [React Spectrum Button](https://react-spectrum.adobe.com/react-spectrum/Button.html)
+- [Theming Guide (Geti UI)](?path=/docs/theme-theming--docs)
 
 <Stories />
 
@@ -56,11 +57,25 @@ export interface ButtonProps extends Omit<SpectrumButtonProps, 'variant'> {
 }
 
 export const Button = ({ variant = 'accent', UNSAFE_className, ...rest }: ButtonProps) => (
-    <SpectrumButton {...rest} variant={variant} UNSAFE_className={clsx(UNSAFE_className) || undefined} />
+    <SpectrumButton 
+        {...rest} 
+        variant={variant} 
+        UNSAFE_className={clsx(UNSAFE_className) || undefined} 
+    />
 );
 ```
 
-**Prop mapping**
+### Custom Styling with `UNSAFE_className`
+
+While we generally prefer using Spectrum's built-in props for layout and spacing, `UNSAFE_className` is used when Geti's visual designs deviate significantly from Spectrum's defaults.
+
+- **Class Merging**: We use `clsx` to merge consumer-provided classes with any internal overrides.
+- **Normalization**: The `|| undefined` pattern ensures that if no classes are present, the `class` attribute is omitted from the DOM entirely.
+- **Token Overrides**: Custom CSS should target the element via a CSS Module and override Spectrum's internal tokens (e.g., `--spectrum-button-m-background-color-accent`) to ensure the design system's theme remains consistent.
+
+For more details on our styling philosophy and available tokens, see the [Theming Guide](?path=/docs/theme-theming--docs).
+
+### Prop mapping
 
 | Geti `ButtonProps`     | Spectrum `SpectrumButtonProps` | Notes |
 |------------------------|-------------------------------|-------|
@@ -68,42 +83,6 @@ export const Button = ({ variant = 'accent', UNSAFE_className, ...rest }: Button
 | `UNSAFE_className`     | `UNSAFE_className`             | Normalised via `clsx` before forwarding |
 | `ref`                  | `ref`                          | Typed as `FocusableRef<HTMLElement>` |
 | `...rest`              | all other props                | Passed through without transformation |
-
-**Theme integration**
-
-Spectrum reads its visual tokens (colour, radius, spacing) from CSS custom properties set by `ThemeProvider`. Because `Button` delegates rendering entirely to Spectrum, it automatically inherits any token overrides defined in `src/theme/tokens.css` — no per-component CSS is needed.
-
----
-
-## Variants
-
-### Semantic variants
-
-| Variant | Use Case | Visual Weight |
-|---------|----------|---------------|
-| `accent` **(default)** | Primary CTA — the most important action on a page (e.g., "Save", "Create"). | High |
-| `primary` | Secondary important actions that should not compete with the main CTA. | Medium |
-| `secondary` | Tertiary or cancel actions. Often paired with `style="outline"`. | Low |
-| `negative` | Destructive actions (e.g., "Delete", "Remove"). Communicates risk. | High (Warning) |
-
-### Fill vs outline
-
-Buttons can be rendered with a solid `fill` background (default) or an `outline` style that shows only a border. The `outline` style is commonly paired with `secondary` to create a low-prominence "Cancel" button alongside a filled primary action.
-
-```tsx
-<Button variant="secondary" style="outline">Cancel</Button>
-<Button variant="accent">Save</Button>
-```
-
-### Pending state
-
-When `isPending` is `true`, the button displays a spinner in place of its label and becomes non-interactive. This state should be used during async operations to prevent double-submission and communicate progress.
-
-```tsx
-<Button isPending={isSaving} onPress={handleSave}>Save</Button>
-```
-
----
 
 ## Flow
 
@@ -129,6 +108,7 @@ Consumer handler (your code)
 - `PressEvent` carries a `pointerType` field (`'mouse'`, `'touch'`, `'keyboard'`, `'virtual'`) so you can distinguish gesture origins if needed.
 - When `isPending` or `isDisabled` is `true`, Spectrum suppresses all press events before they reach your handler.
 - There is no controlled "pressed" state to manage — `Button` is always stateless from the consumer's perspective.
+
 
 ---
 
