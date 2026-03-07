@@ -1,11 +1,11 @@
-import { Meta, Title, Subtitle, Description, Primary, Controls, Stories } from '@storybook/addon-docs/blocks';
+import { Meta, Title, Subtitle, Controls, Stories } from '@storybook/addon-docs/blocks';
 import * as DocStories from './TextArea.stories';
 
 <Meta of={DocStories} />
 
-<Title>TextArea</Title>
+# TextArea
 
-<Subtitle>A multi-line text input field for long-form content like comments, descriptions, or notes.</Subtitle>
+<Subtitle>A multi-line text input field for long-form content like comments, descriptions, notes, and addresses.</Subtitle>
 
 ```tsx
 import { TextArea } from '@geti/ui';
@@ -17,69 +17,284 @@ import { TextArea } from '@geti/ui';
 
 ## Responsibility
 
-The `TextArea` component is a multi-line text input primitive built on Adobe React Spectrum. It is designed for situations where the expected user input may span several lines of text.
+The `TextArea` component provides a fully accessible, multi-line text input. It is a transparent wrapper around Adobe React Spectrum's `TextArea`, which means it inherits all of Spectrum's built-in behaviour: label association, description and error message rendering, validation state styling, and keyboard handling — without requiring any additional configuration.
+
+Key responsibilities:
+- **Multi-line Input**: Renders a `<textarea>` that allows users to enter text spanning multiple lines, preserving line breaks in the value.
+- **Labeling**: Associates a visible `label` with the underlying `<textarea>` via `aria-labelledby`, eliminating the need for manual `htmlFor`/`id` wiring.
+- **Validation Feedback**: Surfaces `validationState="invalid"` with red border styling and renders an `errorMessage` below the field, ensuring validation errors are visible and announced to screen readers.
+- **Contextual Help**: Supports a `description` prop for persistent helper text, and a `contextualHelp` prop for a dismissable information popover anchored to the label.
+- **Controlled and Uncontrolled**: Supports both patterns with `value`/`onChange` (controlled) and `defaultValue` (uncontrolled).
+- **Theme Integration**: Inherits all Spectrum colour, spacing, and typography tokens from `ThemeProvider`, ensuring it looks correct in the Geti dark theme without extra CSS.
 
 ### When to use
-- For long-form text entry such as comments, descriptions, or addresses.
-- When the input should support multiple lines and preserve line breaks.
+- For long-form text entry: comments, notes, descriptions, bios, addresses, or free-form feedback.
+- When the input is expected to span multiple lines or the user may need to compose a passage of text.
+- When preserving line breaks in the submitted value matters (e.g., markdown editors, message composers).
+- Inside forms where labeling, validation messaging, and keyboard navigation need to work correctly out of the box.
+- When `TextField` feels too constraining — the expected content length genuinely warrants more vertical space.
 
-### When to use something else
-- Use [TextField](/docs/components-form-textfield--docs) for single-line inputs like names, emails, or short IDs.
-- Use [SearchField](/docs/components-form-searchfield--docs) for search-specific inputs.
+### When to avoid
+- **Single-line input** — use `TextField` instead. `TextArea` adds unnecessary vertical space for short values like names, emails, or IDs.
+- **Search inputs** — use `SearchField`, which includes a built-in clear button and communicates search intent more clearly.
+- **Numeric inputs** — use `NumberField` for values that must be a number.
+- **Rich text or formatting** — `TextArea` is a plain-text control. If users need bold, italic, or lists, reach for a purpose-built rich-text editor.
+- **When no label is feasible** — `TextArea` requires either a `label` prop or an explicit `aria-label`. Do not render a `TextArea` with neither.
+
+---
+
+## Design
+
+`TextArea` follows the *transparent wrapper* pattern: it extends `SpectrumTextAreaProps` without modification and delegates all rendering directly to Spectrum.
+
+```tsx
+// packages/ui/src/components/form/TextArea/TextArea.tsx
+
+export interface TextAreaProps extends SpectrumTextAreaProps {}
+
+export const TextArea = (props: TextAreaProps) => <SpectrumTextArea {...props} />;
+```
+
+This means `TextArea` accepts the complete Spectrum `TextArea` API. The wrapper exists as an integration boundary: future Geti-specific defaults, additional props, or migration to `react-aria-components` can be introduced here without changing the consumer import path.
+
+**Prop mapping**
+
+All props pass through to Spectrum unchanged:
+
+| Geti `TextAreaProps` | Spectrum `SpectrumTextAreaProps` | Notes |
+|----------------------|----------------------------------|-------|
+| `label` | `label` | Associates with `<textarea>` via `aria-labelledby` |
+| `value` / `defaultValue` | `value` / `defaultValue` | Controlled / uncontrolled pattern |
+| `validationState` | `validationState` | `'invalid'` triggers error styles and `aria-invalid` |
+| `errorMessage` | `errorMessage` | Rendered below the field when `validationState="invalid"` |
+| `description` | `description` | Always-visible helper text below the field |
+| `isRequired` | `isRequired` | Adds a visual indicator and `aria-required` |
+| `minLength` / `maxLength` | `minLength` / `maxLength` | Character count constraints |
+| `...rest` | all other props | Passed through without transformation |
+
+**Theme integration**
+
+`TextArea` inherits Spectrum's input tokens (border colour, focus ring, placeholder colour, error red, resize handle) from `ThemeProvider`. In Geti's dark theme, these tokens are overridden in `src/theme/tokens.css` — no per-component CSS is required.
+
+---
 
 ## Variants
 
 ### States
-- **Disabled**: The field is not focusable or interactive. Use `isDisabled`.
-- **Read-only**: The field is focusable and the text can be copied, but not edited. Use `isReadOnly`.
-- **Invalid**: Indicates a validation error. In V3, use `validationState="invalid"`.
-- **Required**: Marks the field as mandatory. Use `isRequired`.
 
-### Constraints
-- **Minimum/Maximum Length**: Use `minLength` and `maxLength` to enforce character limits.
-- **Rows**: While not a direct Spectrum prop, the underlying `<textarea>` can be influenced via `UNSAFE_*` props or native HTML pass-through in future versions.
+| State | Prop | Description |
+|-------|------|-------------|
+| Default | — | Standard interactive field. |
+| Invalid | `validationState="invalid"` | Red border, error icon. Renders `errorMessage` below the field. |
+| Valid | `validationState="valid"` | Green border, checkmark icon. Use sparingly — typically only after explicit user action. |
+| Disabled | `isDisabled={true}` | Non-focusable, visually dimmed. The value cannot be read or edited. |
+| Read-only | `isReadOnly={true}` | Focusable and copy-able, but the value cannot be changed. Use for reference content the user should see but not edit. |
+| Required | `isRequired={true}` | Adds a visual asterisk (*) next to the label and sets `aria-required="true"` on the textarea. |
+
+### Quiet style
+
+The `isQuiet` prop renders the field with an underline border instead of the default box border. Use in dense layouts or settings panels where a lighter visual treatment is appropriate.
+
+```tsx
+<TextArea label="Notes" isQuiet />
+```
+
+### Label position
+
+By default, the label appears above the textarea. Use `labelPosition="side"` to place it to the left, which is useful in aligned form layouts.
+
+```tsx
+<TextArea label="Description" labelPosition="side" />
+```
+
+---
+
+## Flow
+
+### Controlled vs uncontrolled
+
+```tsx
+// Uncontrolled — TextArea manages its own value
+<TextArea label="Comments" defaultValue="" onChange={(value) => console.log(value)} />
+
+// Controlled — you own the value state
+const [notes, setNotes] = useState('');
+<TextArea label="Notes" value={notes} onChange={setNotes} />
+```
+
+Use the **controlled** pattern when:
+- The value must be synchronised with external state (e.g., a form library, a URL parameter, or a parent component).
+- You need to programmatically reset, transform, or validate the value on each keystroke or blur.
+
+Use the **uncontrolled** pattern when:
+- The value is only needed at form submission.
+- You want simpler code and the field is self-contained.
+
+### Enter key behaviour
+
+Unlike `TextField` (where `Enter` may submit the enclosing form), pressing `Enter` inside a `TextArea` **inserts a new line**. This is standard `<textarea>` behaviour and is preserved by Spectrum. To submit a form from a `TextArea`, users must focus a submit button and press `Enter` or `Space` on it — or you can wire an explicit keyboard handler.
+
+```tsx
+// Submitting with Shift+Enter — example of an explicit handler
+<TextArea
+    label="Message"
+    value={message}
+    onChange={setMessage}
+    onKeyDown={(e) => {
+        if (e.key === 'Enter' && e.shiftKey) {
+            handleSubmit();
+        }
+    }}
+/>
+```
+
+### Validation flow
+
+```
+User types → onChange(value) → your state updates
+    │
+    ▼
+Validate (on blur, on submit, or on change)
+    │
+    ├── valid   → validationState="valid"   (optional)
+    └── invalid → validationState="invalid" + errorMessage="..."
+                      │
+                      ▼
+                  Spectrum renders red border + error text
+                  aria-invalid="true" set on <textarea>
+                  errorMessage announced by screen reader
+```
+
+```tsx
+const [value, setValue] = useState('');
+const isInvalid = value.length > 0 && value.length < 20;
+
+<TextArea
+    label="Project description"
+    value={value}
+    onChange={setValue}
+    validationState={isInvalid ? 'invalid' : undefined}
+    errorMessage="Description must be at least 20 characters."
+    description="Briefly describe the project's purpose."
+/>
+```
+
+**Key points:**
+- `validationState` controls the visual and ARIA state. Set it to `'invalid'` when validation fails.
+- `errorMessage` is only rendered when `validationState="invalid"`. It replaces `description` in the layout when shown.
+- `onChange` receives the **string value** directly (not a `ChangeEvent`), so no `.target.value` unwrapping is needed.
+- There is no built-in debounce — if you validate on every keystroke, debounce in your handler to avoid excessive re-renders.
+
+### Form integration
+
+`TextArea` integrates naturally with React form libraries using the controlled pattern. Drive `validationState` and `errorMessage` from your library's field state:
+
+```tsx
+// React Hook Form example
+const { register, formState: { errors } } = useForm<{ bio: string }>();
+
+<TextArea
+    label="Bio"
+    {...register('bio', { required: 'Bio is required', minLength: { value: 10, message: 'Too short' } })}
+    validationState={errors.bio ? 'invalid' : undefined}
+    errorMessage={errors.bio?.message}
+/>
+```
+
+When using Spectrum's built-in `Form` component, `TextArea` participates in its layout grid automatically:
+
+```tsx
+<Form>
+    <TextField label="Name" isRequired />
+    <TextArea
+        label="Description"
+        isRequired
+        validationState={descError ? 'invalid' : undefined}
+        errorMessage={descError}
+    />
+    <Button type="submit" variant="cta">Submit</Button>
+</Form>
+```
+
+---
 
 ## Props
 
+<Controls />
+
 ### Content
+
 | Prop | Type | Description |
-|---|---|---|
-| `label` | `ReactNode` | The content to display as the label. |
-| `placeholder` | `string` | Temporary text that appears when the field is empty. |
-| `description` | `ReactNode` | Help text displayed below the field. |
-| `errorMessage` | `ReactNode` | Error message displayed when the field is invalid. |
-| `contextualHelp` | `ReactNode` | A `<ContextualHelp>` element placed next to the label. |
+|------|------|-------------|
+| `label` | `ReactNode` | The label displayed above (or beside) the field. Required for accessibility unless `aria-label` is provided. |
+| `placeholder` | `string` | Placeholder text shown when the field is empty. Supplement labels — do not use as a label substitute. |
+| `description` | `ReactNode` | Persistent helper text displayed below the field. |
+| `errorMessage` | `ReactNode` | Error message displayed below the field when `validationState="invalid"`. |
+| `contextualHelp` | `ReactNode` | A `<ContextualHelp>` element rendered next to the label for supplementary guidance. |
 
 ### Value / State
+
 | Prop | Type | Default | Description |
-|---|---|---|---|
+|------|------|---------|-------------|
 | `value` | `string` | — | The current value (controlled). |
 | `defaultValue` | `string` | — | The initial value (uncontrolled). |
-| `validationState` | `'valid' \| 'invalid'` | — | Whether the input is valid or invalid. |
-| `isRequired` | `boolean` | `false` | Whether user input is required. |
-| `isReadOnly` | `boolean` | `false` | Whether the field can be edited. |
-| `isDisabled` | `boolean` | `false` | Whether the field is disabled. |
+| `validationState` | `'valid' \| 'invalid'` | — | Whether the input is in a valid or invalid state. Drives border colour and ARIA attributes. |
+| `isRequired` | `boolean` | `false` | Whether user input is required. Adds a visual asterisk and `aria-required`. |
+| `isReadOnly` | `boolean` | `false` | Whether the value can be read but not edited. |
+| `isDisabled` | `boolean` | `false` | Whether the field is non-interactive and visually dimmed. |
+| `minLength` | `number` | — | The minimum number of characters required. |
+| `maxLength` | `number` | — | The maximum number of characters allowed. |
 
 ### Events
-| Prop | Type | Description |
-|---|---|---|
-| `onChange` | `(value: string) => void` | Handler called when the value changes. |
-| `onFocus` | `(e: FocusEvent) => void` | Handler called when focus is gained. |
-| `onBlur` | `(e: FocusEvent) => void` | Handler called when focus is lost. |
 
-### Styles
 | Prop | Type | Description |
-|---|---|---|
-| `labelPosition` | `'top' \| 'side'` | Position of the label relative to the input. |
-| `labelAlign` | `'start' \| 'end'` | Horizontal alignment of the label. |
-| `width` | `DimensionValue` | Width of the component. |
-| `isQuiet` | `boolean` | Whether to display with a quiet (borderless) style. |
+|------|------|-------------|
+| `onChange` | `(value: string) => void` | Called on every value change. Receives the new string value directly — no `.target.value` unwrapping needed. |
+| `onFocus` | `(e: FocusEvent) => void` | Called when the field receives focus. |
+| `onBlur` | `(e: FocusEvent) => void` | Called when the field loses focus. Commonly used to trigger validation. |
+
+### Layout
+
+| Prop | Type | Description |
+|------|------|-------------|
+| `labelPosition` | `'top' \| 'side'` | The position of the label relative to the input. |
+| `labelAlign` | `'start' \| 'end'` | The horizontal alignment of the label when `labelPosition="side"`. |
+| `width` | `DimensionValue` | The width of the entire component (label + input). |
+| `isQuiet` | `boolean` | Whether to render the quiet (underline-only) style. |
+
+---
 
 ## Accessibility
 
-- Renders an underlying `<textarea>` element with `aria-multiline="true"`.
-- Automatically associates labels and error messages via `aria-labelledby` and `aria-describedby`.
-- **Enter key behavior**: Unlike `TextField`, pressing Enter in a `TextArea` inserts a new line rather than submitting the form.
-- Full keyboard support for navigation, selection, and editing.
+- **ARIA role**: The underlying element is a `<textarea>` with `aria-multiline="true"`. Spectrum automatically sets `aria-labelledby` to link the rendered `<label>` to the `<textarea>` — no manual `id`/`htmlFor` pairing is needed.
+- **Validation state**: When `validationState="invalid"`, Spectrum sets `aria-invalid="true"` on the `<textarea>`. The `errorMessage` is linked via `aria-describedby` and announced by screen readers when focus enters the field or the state changes.
+- **Required fields**: `isRequired` sets `aria-required="true"` and renders a visible asterisk (`*`) next to the label. Do not rely solely on the asterisk — also describe the requirement in the label or `description` text when possible.
+- **Description**: The `description` prop is rendered in an element linked to the `<textarea>` via `aria-describedby`. This provides persistent context for screen reader users beyond the label.
+- **Placeholder**: Never use `placeholder` as a substitute for a `label`. Placeholder text disappears when the user begins typing and has poor contrast in most themes, making it inaccessible for low-vision users.
+- **Enter key**: Unlike `TextField`, pressing `Enter` in a `TextArea` inserts a new line rather than submitting the form. Screen readers announce this as expected `<textarea>` behaviour.
+- **Keyboard interactions**:
 
-<Controls />
+| Key | Behaviour |
+|-----|-----------|
+| `Tab` | Move focus to the field |
+| `Shift + Tab` | Move focus away from the field |
+| `Enter` | Insert a new line (does **not** submit the form) |
+| `Home` / `End` | Move cursor to start / end of current line |
+| `Ctrl + Home` / `Ctrl + End` | Move cursor to start / end of the entire value |
+| Standard text editing | All platform-native shortcuts work (select-all, cut, copy, paste, undo) |
+
+- **Labeling requirements**: Every `TextArea` must have an accessible name. Provide one of:
+  - `label` prop — preferred, renders a visible label
+  - `aria-label` prop — for visually hidden labels (e.g., inside a table cell)
+  - `aria-labelledby` — to reference an external element
+
+---
+
+## Integration
+
+- **Dependency**: `@adobe/react-spectrum` — `TextArea` and `SpectrumTextAreaProps` are imported from this package.
+- **ThemeProvider**: Must be present in the React tree for Spectrum tokens (border, focus ring, error colour, typography) to resolve correctly.
+- **Forms**: `TextArea` works well with React form libraries such as React Hook Form and Formik. Use the controlled pattern (`value` + `onChange`) and drive `validationState` and `errorMessage` from the library's field state.
+- **Validation libraries**: Zod, Yup, and similar schema validators return error messages as strings. Pass them directly to `errorMessage` when `validationState="invalid"`.
+- **TextField**: For single-line text, use `TextField` from `@geti/ui`. It shares the same labeling, description, and validation API as `TextArea` but renders a single-line `<input>`.
+- **SearchField / NumberField**: These are purpose-built variants for search and numeric input respectively. Prefer them over `TextArea` (or `TextField`) when the semantic meaning of the input is search or a number.

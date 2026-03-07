@@ -1,11 +1,11 @@
-import { Meta, Title, Subtitle, Description, Primary, Controls, Stories } from '@storybook/addon-docs/blocks';
+import { Meta, Title, Subtitle, Controls, Stories } from '@storybook/addon-docs/blocks';
 import * as DocStories from './SearchField.stories';
 
 <Meta of={DocStories} />
 
-<Title>SearchField</Title>
+# SearchField
 
-<Subtitle>A specialized text input designed for search queries, featuring a search icon and a clear button.</Subtitle>
+<Subtitle>A specialized text input designed for search queries, featuring a built-in search icon, an automatic clear button, and search-specific keyboard interactions.</Subtitle>
 
 ```tsx
 import { SearchField } from '@geti/ui';
@@ -17,61 +17,327 @@ import { SearchField } from '@geti/ui';
 
 ## Responsibility
 
-The `SearchField` component provides a standard search input interface. It automatically handles the search icon, the "clear" button functionality, and standard search-related keyboard interactions like pressing <kbd>Enter</kbd> to submit.
+The `SearchField` component provides a fully accessible search input. It is a transparent wrapper around Adobe React Spectrum's `SearchField` with added `ref` forwarding via `TextFieldRef`. It inherits all of Spectrum's built-in behaviour: a persistent search icon, an automatic clear button, `onSubmit` and `onClear` event handlers, and correct ARIA semantics — without requiring any additional configuration.
+
+Key responsibilities:
+- **Search Semantics**: Renders with `role="searchbox"`, communicating to assistive technologies that the field is specifically for search queries rather than general data entry.
+- **Built-in Search Icon**: Displays a magnifying-glass icon on the leading edge of the input at all times, reinforcing the field's purpose visually.
+- **Clear Button**: Automatically renders a dismiss button once the user has entered text. Pressing it clears the value and fires `onClear`, so consumers do not need to wire their own reset logic.
+- **Labeling**: Associates a visible `label` with the underlying `<input>` via `aria-labelledby`, eliminating the need for manual `htmlFor`/`id` wiring.
+- **Validation Feedback**: Surfaces `validationState="invalid"` with red border styling and renders an `errorMessage` below the field.
+- **Ref Forwarding**: Forwards the component ref to Spectrum's `TextFieldRef`, enabling imperative access (`ref.current.focus()`) from parent components.
+- **Controlled and Uncontrolled**: Supports both patterns with `value`/`onChange` (controlled) and `defaultValue` (uncontrolled).
+- **Theme Integration**: Inherits all Spectrum colour, spacing, and typography tokens from `ThemeProvider`, ensuring it looks correct in the Geti dark theme without extra CSS.
 
 ### When to use
-- For search bars, filter inputs, and global search fields.
-- When you want an integrated "clear" button to quickly reset the input.
+- For search bars, filter inputs, and global search fields where the "search" affordance should be immediately visible.
+- When you want an integrated clear button so users can quickly reset the query without manually selecting and deleting text.
+- When the `onSubmit` event (triggered by `Enter`) should trigger a search action separately from `onChange` (live filtering).
+- When `onClear` needs to reset dependent state (e.g., clearing a filtered list back to its default).
 
-### When to use something else
-- Use [TextField](/docs/components-form-textfield--docs) for general data entry (names, emails, descriptions).
-- Use [ComboBox](/docs/components-form-pickers-combobox--docs) if you need a search input with a dropdown of suggestions.
+### When to avoid
+- **General data entry** — use `TextField` for names, emails, IDs, or other fields that are not conceptually search queries. `role="searchbox"` would be semantically incorrect there.
+- **Search with suggestions** — use `ComboBox` if pressing a character should reveal a dropdown of autocomplete suggestions. `SearchField` is for free-text queries without a suggestion list.
+- **Multi-line input** — use `TextArea`.
+- **Numeric input** — use `NumberField`.
+- **When no label is feasible** — `SearchField` requires either a `label` prop or an explicit `aria-label`. Do not render a `SearchField` with neither.
+
+---
+
+## Design
+
+`SearchField` follows the *transparent wrapper* pattern with added `ref` forwarding. It extends `SpectrumSearchFieldProps` (omitting the `ref` prop) and delegates all rendering directly to Spectrum:
+
+```tsx
+// packages/ui/src/components/form/SearchField/SearchField.tsx
+
+export interface SearchFieldProps extends Omit<SpectrumSearchFieldProps, 'ref'> {}
+
+export const SearchField = forwardRef<TextFieldRef, SearchFieldProps>((props, ref) => (
+    <SpectrumSearchField {...props} ref={ref} />
+));
+
+SearchField.displayName = 'SearchField';
+```
+
+The `forwardRef` wrapper and `TextFieldRef` type allow parent components to obtain a stable ref to the underlying input element, enabling imperative focus management:
+
+```tsx
+const searchRef = useRef<TextFieldRef>(null);
+
+// Focus the search field programmatically (e.g., on a keyboard shortcut)
+useEffect(() => {
+    const handler = (e: KeyboardEvent) => {
+        if (e.key === '/' && e.metaKey) searchRef.current?.focus();
+    };
+    window.addEventListener('keydown', handler);
+    return () => window.removeEventListener('keydown', handler);
+}, []);
+
+<SearchField ref={searchRef} label="Search projects" />
+```
+
+**Prop mapping**
+
+All props pass through to Spectrum unchanged:
+
+| Geti `SearchFieldProps` | Spectrum `SpectrumSearchFieldProps` | Notes |
+|-------------------------|-------------------------------------|-------|
+| `label` | `label` | Associates with `<input>` via `aria-labelledby` |
+| `value` / `defaultValue` | `value` / `defaultValue` | Controlled / uncontrolled pattern |
+| `validationState` | `validationState` | `'invalid'` triggers error styles and `aria-invalid` |
+| `errorMessage` | `errorMessage` | Rendered below the field when `validationState="invalid"` |
+| `description` | `description` | Always-visible helper text below the field |
+| `isRequired` | `isRequired` | Adds a visual indicator and `aria-required` |
+| `onSubmit` | `onSubmit` | Fired when the user presses `Enter` |
+| `onClear` | `onClear` | Fired when the clear button is pressed or `Escape` is pressed |
+| `...rest` | all other props | Passed through without transformation |
+
+**Theme integration**
+
+`SearchField` inherits Spectrum's input tokens (border colour, focus ring, search icon colour, clear button colour, error red) from `ThemeProvider`. In Geti's dark theme, these tokens are overridden in `src/theme/tokens.css` — no per-component CSS is required.
+
+---
 
 ## Variants
 
 ### States
-- **Disabled**: The field is not interactive. Use `isDisabled`.
-- **Read-only**: The text is selectable but cannot be changed. Use `isReadOnly`.
-- **Invalid**: Indicates a validation error. In V3, use `validationState="invalid"`.
-- **Required**: Marks the search as mandatory for a form. Use `isRequired`.
 
-### Visual Styles
-- **Quiet**: Use `isQuiet` for a minimal, underline-only style (V3).
-- **Clear Button**: Automatically appears once text is entered.
+| State | Prop | Description |
+|-------|------|-------------|
+| Default (empty) | — | Shows the search icon. Clear button is hidden. |
+| Active (with value) | — | Shows both the search icon and the clear button. |
+| Invalid | `validationState="invalid"` | Red border, error icon. Renders `errorMessage` below the field. |
+| Valid | `validationState="valid"` | Green border, checkmark icon. Use sparingly. |
+| Disabled | `isDisabled={true}` | Non-focusable, visually dimmed. Clear button is not shown. |
+| Read-only | `isReadOnly={true}` | Focusable and copy-able, but not editable. Clear button is hidden. |
+| Required | `isRequired={true}` | Adds a visual asterisk and `aria-required="true"`. |
+
+### Quiet style
+
+The `isQuiet` prop renders the field with an underline border instead of the default box border. Use in toolbars, navigation bars, or dense layouts where a lighter visual treatment is appropriate.
+
+```tsx
+<SearchField label="Filter" isQuiet />
+```
+
+### Label position
+
+By default, the label appears above the input. Use `labelPosition="side"` to place it to the left.
+
+```tsx
+<SearchField label="Filter by name" labelPosition="side" />
+```
+
+---
+
+## Flow
+
+### Controlled vs uncontrolled
+
+```tsx
+// Uncontrolled — SearchField manages its own value
+<SearchField label="Search" defaultValue="" onSubmit={(value) => runSearch(value)} />
+
+// Controlled — you own the value state
+const [query, setQuery] = useState('');
+<SearchField
+    label="Search"
+    value={query}
+    onChange={setQuery}
+    onSubmit={(value) => runSearch(value)}
+    onClear={() => setQuery('')}
+/>
+```
+
+Use the **controlled** pattern when:
+- You need to drive the search results list live from `onChange` (live filtering).
+- The query must be synchronised with a URL parameter (e.g., `?q=...`).
+- You need to programmatically clear or reset the search from outside the component.
+
+Use the **uncontrolled** pattern when:
+- You only care about the query when the user explicitly submits (presses `Enter`).
+- The field is self-contained and does not need to influence other UI state.
+
+### onChange vs onSubmit
+
+`SearchField` exposes two distinct action callbacks:
+
+| Callback | When it fires | Typical use |
+|----------|---------------|-------------|
+| `onChange(value)` | On every keystroke | Live filtering, debounced API calls |
+| `onSubmit(value)` | When `Enter` is pressed | Explicit search action, navigation |
+
+These can be combined: use `onChange` for live previews and `onSubmit` to commit the final search:
+
+```tsx
+<SearchField
+    label="Search projects"
+    value={query}
+    onChange={(val) => {
+        setQuery(val);
+        debouncedPreview(val); // Show suggestions inline
+    }}
+    onSubmit={(val) => {
+        commitSearch(val);     // Navigate or fire full API request
+    }}
+/>
+```
+
+### onClear event
+
+The clear button appears automatically when the field has a value. Pressing it:
+1. Clears the displayed value.
+2. Fires `onClear` (no argument).
+3. Fires `onChange('')`.
+
+In the controlled pattern, both `onClear` and `onChange` fire — handle whichever is more convenient. In the uncontrolled pattern, `onClear` is the best hook for resetting dependent state:
+
+```tsx
+<SearchField
+    label="Filter"
+    defaultValue=""
+    onChange={(val) => setFilteredItems(applyFilter(allItems, val))}
+    onClear={() => setFilteredItems(allItems)} // Reset to unfiltered list
+/>
+```
+
+### Validation flow
+
+```
+User types → onChange(value) → your state updates
+    │
+    ▼
+Validate (on blur, on submit, or on change)
+    │
+    ├── valid   → validationState="valid"   (optional)
+    └── invalid → validationState="invalid" + errorMessage="..."
+                      │
+                      ▼
+                  Spectrum renders red border + error text
+                  aria-invalid="true" set on <input>
+                  errorMessage announced by screen reader
+```
+
+```tsx
+const [query, setQuery] = useState('');
+const isInvalid = query.length > 0 && query.length < 3;
+
+<SearchField
+    label="Search"
+    value={query}
+    onChange={setQuery}
+    onSubmit={handleSearch}
+    validationState={isInvalid ? 'invalid' : undefined}
+    errorMessage="Search query must be at least 3 characters."
+    description="Press Enter to search."
+/>
+```
+
+**Key points:**
+- `validationState` controls the visual and ARIA state. Set it to `'invalid'` when validation fails.
+- `errorMessage` is only rendered when `validationState="invalid"`. It replaces `description` in the layout when shown.
+- `onChange` receives the **string value** directly — no `.target.value` unwrapping needed.
+- There is no built-in debounce — if you call an API on every keystroke, debounce in your handler.
+
+### Form integration
+
+While `SearchField` is most commonly used outside of `<form>` elements (as a filtering or navigation control), it can participate in forms when needed:
+
+```tsx
+<Form onSubmit={handleSubmit}>
+    <SearchField
+        label="Search term"
+        isRequired
+        value={query}
+        onChange={setQuery}
+        validationState={queryError ? 'invalid' : undefined}
+        errorMessage={queryError}
+    />
+    <Button type="submit" variant="cta">Search</Button>
+</Form>
+```
+
+---
 
 ## Props
 
+<Controls />
+
 ### Content
+
 | Prop | Type | Description |
-|---|---|---|
-| `label` | `ReactNode` | The label for the search field. |
-| `placeholder` | `string` | Temporary text displayed when the field is empty. |
-| `description` | `ReactNode` | Help text displayed below the field. |
-| `errorMessage` | `ReactNode` | Error message displayed when the field is invalid. |
+|------|------|-------------|
+| `label` | `ReactNode` | The label displayed above (or beside) the field. Required for accessibility unless `aria-label` is provided. |
+| `placeholder` | `string` | Placeholder text shown when the field is empty. Supplement labels — do not use as a label substitute. |
+| `description` | `ReactNode` | Persistent helper text displayed below the field. |
+| `errorMessage` | `ReactNode` | Error message displayed below the field when `validationState="invalid"`. |
+| `contextualHelp` | `ReactNode` | A `<ContextualHelp>` element rendered next to the label for supplementary guidance. |
 
 ### Value / State
+
 | Prop | Type | Default | Description |
-|---|---|---|---|
+|------|------|---------|-------------|
 | `value` | `string` | — | The current value (controlled). |
 | `defaultValue` | `string` | — | The initial value (uncontrolled). |
-| `validationState` | `'valid' \| 'invalid'` | — | Whether the input is valid or invalid. |
-| `isDisabled` | `boolean` | `false` | Whether the field is disabled. |
+| `validationState` | `'valid' \| 'invalid'` | — | Whether the input is in a valid or invalid state. Drives border colour and ARIA attributes. |
+| `isRequired` | `boolean` | `false` | Whether user input is required. Adds a visual asterisk and `aria-required`. |
+| `isReadOnly` | `boolean` | `false` | Whether the value can be read but not edited. Clear button is hidden. |
+| `isDisabled` | `boolean` | `false` | Whether the field is non-interactive and visually dimmed. |
 
 ### Events
+
 | Prop | Type | Description |
-|---|---|---|
-| `onChange` | `(value: string) => void` | Called when the value changes. |
-| `onSubmit` | `(value: string) => void` | Called when the user presses <kbd>Enter</kbd>. |
-| `onClear` | `() => void` | Called when the clear button is pressed. |
+|------|------|-------------|
+| `onChange` | `(value: string) => void` | Called on every value change. Receives the new string value directly. |
+| `onSubmit` | `(value: string) => void` | Called when the user presses `Enter`. Receives the current string value. |
+| `onClear` | `() => void` | Called when the clear button is pressed or `Escape` is pressed while the field has a value. |
+| `onFocus` | `(e: FocusEvent) => void` | Called when the field receives focus. |
+| `onBlur` | `(e: FocusEvent) => void` | Called when the field loses focus. |
+
+### Layout
+
+| Prop | Type | Description |
+|------|------|-------------|
+| `labelPosition` | `'top' \| 'side'` | The position of the label relative to the input. |
+| `labelAlign` | `'start' \| 'end'` | The horizontal alignment of the label when `labelPosition="side"`. |
+| `width` | `DimensionValue` | The width of the entire component (label + input). |
+| `isQuiet` | `boolean` | Whether to render the quiet (underline-only) style. |
+
+---
 
 ## Accessibility
 
-- **ARIA Role**: Uses `role="searchbox"` for specialized search semantics.
-- **Keyboard Support**:
-    - <kbd>Enter</kbd>: Triggers the `onSubmit` event.
-    - <kbd>Escape</kbd>: Clears the input and triggers `onClear`.
-- **Labeling**: Always provide a `label`. Use `aria-label` or `aria-labelledby` if the label is visually hidden.
-- **Ref Forwarding**: Forwards its ref to the underlying input, allowing imperative actions like `focus()` or `clear()`.
+- **ARIA role**: The underlying `<input>` renders with `role="searchbox"`, which communicates to assistive technologies that the field accepts search queries. This is semantically distinct from `role="textbox"` and enables dedicated screen reader announcements for search contexts. Spectrum sets `aria-labelledby` to link the rendered `<label>` to the `<input>` automatically — no manual `id`/`htmlFor` pairing is needed.
+- **Search icon**: The search icon is decorative (`aria-hidden="true"`) and does not interfere with the accessible name of the field.
+- **Clear button**: The dismiss button is labeled "Clear search" for screen readers and becomes focusable only when the field has a value. Pressing it clears the value and returns focus to the input.
+- **Validation state**: When `validationState="invalid"`, Spectrum sets `aria-invalid="true"` on the `<input>`. The `errorMessage` is linked via `aria-describedby` and announced by screen readers when focus enters the field or the state changes.
+- **Required fields**: `isRequired` sets `aria-required="true"` and renders a visible asterisk (`*`) next to the label. Do not rely solely on the asterisk — also describe the requirement in the `description` text when possible.
+- **Description**: The `description` prop is rendered in an element linked to the `<input>` via `aria-describedby`. Use it to communicate tips (e.g., "Press Enter to search") to screen reader users.
+- **Placeholder**: Never use `placeholder` as a substitute for a `label`. Placeholder text disappears when the user begins typing and has poor contrast in most themes, making it inaccessible for low-vision users.
+- **Keyboard interactions**:
 
-<Controls />
+| Key | Behaviour |
+|-----|-----------|
+| `Tab` | Move focus to the field |
+| `Shift + Tab` | Move focus away from the field |
+| `Enter` | Fire `onSubmit` with the current value |
+| `Escape` | Clear the field value and fire `onClear` (if the field has a value) |
+| Standard text editing | All platform-native shortcuts work (select-all, cut, copy, paste, undo) |
 
+- **Labeling requirements**: Every `SearchField` must have an accessible name. Provide one of:
+  - `label` prop — preferred, renders a visible label
+  - `aria-label` prop — for visually hidden labels (e.g., a search bar in a header with no visible label)
+  - `aria-labelledby` — to reference an external element
+
+---
+
+## Integration
+
+- **Dependency**: `@adobe/react-spectrum` — `SearchField` and `SpectrumSearchFieldProps` are imported from this package. `TextFieldRef` is imported from `@react-types/textfield`.
+- **Ref forwarding**: `SearchField` forwards its ref as `TextFieldRef`. This gives parent components access to `focus()` and other imperative methods on the underlying input.
+- **ThemeProvider**: Must be present in the React tree for Spectrum tokens (border, focus ring, search icon colour, error colour, typography) to resolve correctly.
+- **Forms**: `SearchField` can participate in `<Form>` elements. Use the controlled pattern (`value` + `onChange`) and drive `validationState` and `errorMessage` from your form library's field state.
+- **TextField**: For general data entry that is not a search query, use `TextField`. It shares the same labeling, description, and validation API but uses `role="textbox"` and has no search icon or clear button.
+- **ComboBox**: For search inputs that reveal a dropdown of suggestions as the user types, use `ComboBox`. `SearchField` is for free-text search without an inline suggestion list.
+- **TextArea / NumberField**: These are purpose-built variants for multi-line text and numeric input respectively. Prefer them over `SearchField` when the semantic meaning of the input is prose or a number.
