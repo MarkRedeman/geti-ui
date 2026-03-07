@@ -12,7 +12,6 @@ import { CardView } from '@geti/ui';
 ```
 
 - [React Aria GridList (Headless Equivalent)](https://react-aria.adobe.com/react-aria-components/GridList.html)
-- [Spectrum 2 CardView](https://react-spectrum.adobe.com/s2/CardView.html)
 
 <Stories />
 
@@ -58,24 +57,4 @@ While `CardView` manages the collection, the individual cards are typically rend
 - **Card Content**: Ensure each card has a clear accessible name (via its title or a `textValue`) and that any images have descriptive `alt` text.
 
 ### Keyboard Support
-In the current implementation, keyboard navigation follows the standard tab order of the cards. In the future Spectrum 2 migration, this will transition to a **Grid** pattern where arrow keys are used to navigate between cards in 2D space.
-
-## Spectrum 2 Migration
-
-The migration to Spectrum 2 (S2) transforms `CardView` from a simple layout wrapper into a **managed collection component** with advanced features:
-
-- **Built-in Selection**: S2 `CardView` supports `selectionMode` (single/multiple), `selectedKeys`, and `onSelectionChange` natively.
-- **Virtualization**: Large collections are automatically virtualized for performance.
-- **Layout Modes**: Supports both standard `"grid"` and masonry-style `"waterfall"` layouts.
-- **Bulk Actions**: Integrates with `ActionBar` via the `renderActionBar` prop.
-- **Loading States**: Includes `loadingState` (loading, error, idle) and support for `<SkeletonCollection>`.
-
-### S2 Migration Mapping
-| Feature | Current (Geti UI) | Spectrum 2 (S2) |
-| :--- | :--- | :--- |
-| **Mapping** | `items.map(renderCard)` | `items` prop + render function child |
-| **Sizing** | `columns` / `gap` props | `size` ("S", "M", "L") and `density` props |
-| **Selection** | Manual implementation | `selectionMode="multiple"` |
-| **Actions** | Card `onClick` | `onAction` at collection level |
-| **Bulk Actions** | ❌ Not built-in | `renderActionBar` |
-| **Empty State** | Manual conditional | `renderEmptyState` prop |
+In the current implementation, keyboard navigation follows the standard tab order of the cards.
