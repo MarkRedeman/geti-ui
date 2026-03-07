@@ -12,7 +12,7 @@ import { Disclosure, DisclosureTitle, DisclosurePanel } from '@geti/ui';
 ```
 
 - [React Spectrum V3 Disclosure](https://react-spectrum.adobe.com/react-spectrum/Disclosure.html)
-- [Spectrum 2 Disclosure](https://react-spectrum.adobe.com/s2/Disclosure.html)
+
 
 <Stories />
 
@@ -40,9 +40,6 @@ Key responsibilities:
 ### Controlled vs. Uncontrolled
 - **Uncontrolled (Default)**: The disclosure manages its own expansion state. Use `defaultExpanded` for the initial state.
 - **Controlled**: The parent component manages the expansion state via the `isExpanded` and `onExpandedChange` props.
-
-### Nested Header (S2 only)
-Spectrum 2 introduces the `DisclosureHeader` component, which allows for a more complex header layout where action buttons or icons can be co-located with the trigger.
 
 ## Props
 
@@ -72,40 +69,4 @@ Spectrum 2 introduces the `DisclosureHeader` component, which allows for a more 
   - `Enter` or `Space` toggles the expansion of the section when the header is focused.
   - `Tab` moves focus between the header and any interactive elements inside the panel.
 
-## Spectrum 2 Migration
-
-The migration to Spectrum 2 (S2) introduces structural improvements and better visual scale controls.
-
-### Structural Changes
-- **Header Wrapper**: S2 adds a `DisclosureHeader` component to wrap the `DisclosureTitle` and any extra elements (like action buttons).
-- **Sub-component Names**: Generic names like `DisclosureTitle` and `DisclosurePanel` are preserved, but the implementation is refined.
-
-### New Features
-- **Visual Scales**: New `size` and `density` props allow for better control over the disclosure's appearance.
-- **Styles Macro**: Layout and spacing overrides use the `styles` prop and the `style()` macro.
-
-### Migration Example
-
-**V3 Style (Current):**
-```tsx
-<Disclosure defaultExpanded>
-  <DisclosureTitle>Advanced Settings</DisclosureTitle>
-  <DisclosurePanel>
-    <Checkbox>Enable Beta Features</Checkbox>
-  </DisclosurePanel>
-</Disclosure>
-```
-
-**S2 Style (Future):**
-```tsx
-<Disclosure size="M" density="compact">
-  <DisclosureHeader>
-    <DisclosureTitle>Advanced Settings</DisclosureTitle>
-    <ActionButton aria-label="Settings"><SettingsIcon /></ActionButton>
-  </DisclosureHeader>
-  <DisclosurePanel>
-    <Checkbox>Enable Beta Features</Checkbox>
-  </DisclosurePanel>
-</Disclosure>
-```
 
