@@ -1,4 +1,4 @@
-import { Meta, Title, Subtitle, Description, Primary, Controls, Stories } from '@storybook/blocks';
+import { Meta, Title, Subtitle, Description, Primary, Controls, Stories } from '@storybook/addon-docs/blocks';
 import * as DocStories from './TextField.stories';
 
 <Meta of={DocStories} />
@@ -12,7 +12,6 @@ import { TextField } from '@geti/ui';
 ```
 
 - [React Spectrum V3 TextField](https://react-spectrum.adobe.com/react-spectrum/TextField.html)
-- [Spectrum 2 TextField](https://react-spectrum.adobe.com/s2/TextField.html)
 
 <Stories />
 
@@ -84,17 +83,5 @@ The `TextField` component provides a single-line input field that allows users t
 - Support for `aria-describedby` for descriptions and error messages.
 - Full keyboard support: **Tab** to focus, and standard text editing shortcuts.
 - High contrast mode support and screen reader compatibility via Adobe Spectrum.
-
-## Spectrum 2 Migration
-
-When migrating to Spectrum 2 (S2), keep the following changes in mind:
-
-| V3 Prop | S2 Equivalent | Notes |
-|---|---|---|
-| `validationState="invalid"` | `isInvalid` | Boolean flag replaces the string enum. |
-| `validationState="valid"` | — | No visual "valid" state in S2. |
-| `isQuiet` | — | The quiet variant has been removed in S2. |
-| `width="size-2000"` | `styles={style({ width: 160 })}` | Dimensional props are replaced by the `style()` macro. |
-| `size` | `size` | S2 adds a `size` prop (`'S'`, `'M'`, `'L'`, `'XL'`). |
 
 <Controls />
