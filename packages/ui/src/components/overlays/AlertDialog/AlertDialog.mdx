@@ -12,7 +12,6 @@ import { AlertDialog } from '@geti/ui';
 ```
 
 - [React Spectrum V3 AlertDialog](https://react-spectrum.adobe.com/react-spectrum/AlertDialog.html)
-- [Spectrum 2 Dialog (AlertDialog section)](https://react-spectrum.adobe.com/s2/Dialog.html#alert-dialog)
 
 <Stories />
 
@@ -65,47 +64,4 @@ Specialized variants that include a status icon in the heading to convey the nat
 - **Keyboard Support**: `Tab` cycles focus between the action buttons. `Esc` dismisses the dialog and triggers the `onCancel` handler.
 - **Aria Roles**: The dialog is assigned `role="alertdialog"`.
 - **Labeling**: The `title` prop is automatically linked as the accessible label for the dialog.
-
-## Spectrum 2 Migration
-
-`AlertDialog` is highly stable and remains largely unchanged in the migration to Spectrum 2 (S2).
-
-### Changes
-- **Import Path**: Update the import from `@adobe/react-spectrum` to `@react-spectrum/s2`.
-- **Styles Macro**: S2 adds a `styles` prop that supports the `style()` macro for fine-grained layout adjustments (though rarely needed for `AlertDialog` due to its standardized layout).
-
-### Migration Example
-
-**V3 Style (Current):**
-```tsx
-<DialogTrigger>
-  <Button>Delete</Button>
-  <AlertDialog
-    variant="destructive"
-    title="Delete Project"
-    primaryActionLabel="Delete"
-    cancelLabel="Cancel"
-    onPrimaryAction={handleDelete}
-  >
-    Are you sure you want to delete this project? This action cannot be undone.
-  </AlertDialog>
-</DialogTrigger>
-```
-
-**S2 Style (Future):**
-```tsx
-// Structure remains the same; only the internal implementation changes.
-<DialogTrigger>
-  <Button>Delete</Button>
-  <AlertDialog
-    variant="destructive"
-    title="Delete Project"
-    primaryActionLabel="Delete"
-    cancelLabel="Cancel"
-    onPrimaryAction={handleDelete}
-  >
-    Are you sure you want to delete this project? This action cannot be undone.
-  </AlertDialog>
-</DialogTrigger>
-```
 
