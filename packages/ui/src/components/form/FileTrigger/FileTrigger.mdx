@@ -1,4 +1,4 @@
-import { Meta, Title, Subtitle, Description, Primary, Controls, Stories } from '@storybook/blocks';
+import { Meta, Title, Subtitle, Description, Primary, Controls, Stories } from '@storybook/addon-docs/blocks';
 import * as DocStories from './FileTrigger.stories';
 
 <Meta of={DocStories} />
@@ -63,14 +63,5 @@ The `FileTrigger` component is a behavioral wrapper that enables any interactive
 - All keyboard and screen reader interactions are handled by the **child** element (e.g., a Button).
 - **Keyboard support**: Focus the child element via **Tab**, and trigger it via **Enter** or **Space**.
 - Screen readers announce the child element according to its role (e.g., "Button, Select file").
-
-## Spectrum 2 Migration
-
-The `FileTrigger` component in Geti UI already uses `react-aria-components` (RAC), which is the foundation for Spectrum 2.
-
-| V3 Pattern | S2 Equivalent | Notes |
-|---|---|---|
-| `react-aria-components` | `react-aria-components` | No change needed; S2 uses RAC directly for file triggers. |
-| Style props | — | Sizing and styling are controlled by the child component (e.g., `<Button size="M">`). |
 
 <Controls />
