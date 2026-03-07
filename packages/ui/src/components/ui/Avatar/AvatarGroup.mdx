@@ -1,0 +1,56 @@
+import { Meta, Subtitle, Stories, Controls } from '@storybook/addon-docs/blocks';
+import * as DocStories from './Avatar.stories';
+
+<Meta of={DocStories} name="AvatarGroup" />
+
+# AvatarGroup
+
+<Subtitle>Group of avatars with overlapping layout and overflow count.</Subtitle>
+
+```tsx
+import { AvatarGroup } from '@geti/ui';
+```
+
+<Stories include={['Group']} />
+
+## Responsibility
+
+The `AvatarGroup` component is a Geti-native layout component used to display multiple user avatars in a compact, overlapping row. It is commonly used to represent project members, annotators, commenters, or any scenario where a collection of people must be conveyed at a glance.
+
+Key responsibilities:
+- **Compact Layout**: Stacks avatars horizontally with a negative margin so they overlap, minimising the space used by a list of users.
+- **Overflow Badge**: When the number of avatars exceeds the `max` threshold, a `+N` pill is shown so the total count is always visible without rendering every avatar.
+- **Uniform Sizing**: An optional `size` prop propagates a single size token to every avatar in the group, overriding per-avatar sizes.
+- **Accessible Group Semantics**: Wraps the stack in a `role="group"` element so screen readers understand the items belong together.
+
+### When to use
+- To show project members or team participants in a toolbar or card header.
+- Alongside comment threads or annotation tasks where multiple users are involved.
+- Anywhere a compact, at-a-glance representation of a user set is needed.
+
+### When to avoid
+- When you need to display a single avatar — use `Avatar` directly.
+- When each avatar needs its own interactive control (tooltip, link, popover) — compose individual `Avatar` components manually.
+- For large, unbound lists where a count chip alone would be more appropriate than a partial stack.
+
+## Variants
+
+### Max Count
+The `max` prop (default `3`) controls how many avatars are rendered before the remainder are collapsed into a `+N` overflow badge. Setting `max` equal to or greater than the total number of avatars disables the badge entirely.
+
+### Uniform Size
+Passing a `size` prop to the group applies that size token to every `Avatar` inside it, overriding any `size` values set on the individual `AvatarProps` items.
+
+## Props
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `avatars` | `AvatarProps[]` | **Required** | Array of prop objects for each avatar to display in the group. |
+| `max` | `number` | `3` | Maximum number of avatars shown before the overflow badge appears. |
+| `size` | `string \| number` | — | Uniform size token or pixel value applied to all avatars in the group. Overrides per-avatar `size` values. |
+
+## Accessibility
+
+- **Group Role**: The wrapping `<div>` carries `role="group"` and an `aria-label` of `"N avatars"` (where N is the total count) so assistive technologies announce the size of the collection.
+- **Overflow Badge**: The `+N` pill includes its own `aria-label` (e.g. `"2 more"`) so screen readers can report the hidden count without relying on the visible text alone.
+- **Individual Labels**: Each `Avatar` inside the group should have a meaningful `alt` prop so screen readers can identify individual users.

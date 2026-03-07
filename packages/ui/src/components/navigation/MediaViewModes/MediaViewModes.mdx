@@ -1,0 +1,71 @@
+import { Meta, Subtitle, Primary, Controls } from '@storybook/addon-docs/blocks';
+import * as DocStories from '../KitchenSink.stories';
+
+<Meta of={DocStories} name="MediaViewModes" />
+
+# MediaViewModes
+
+<Subtitle>View mode switcher between Grid and List layouts.</Subtitle>
+
+```tsx
+import { MediaViewModes } from '@geti/ui';
+import { ViewModes } from '@geti/ui';
+```
+
+> **Stories**: `MediaViewModes` is demonstrated inside the **Navigation Kitchen Sink** story
+> (`navigation/KitchenSink.stories.tsx`) as the `MediaViewModesDemo` component. A dedicated
+> stories file is planned for a future iteration.
+
+## Responsibility
+
+`MediaViewModes` is a Geti-native composite component that provides a standardised icon button and drop-down menu for switching between display modes in media galleries and data browsers. It replaces ad-hoc view-switcher implementations across the application with a single, accessible, consistently-styled control.
+
+Key responsibilities:
+- **Mode Icon**: Renders the icon that corresponds to the **currently active** view mode as the visible label of the `ActionButton` trigger, giving immediate visual feedback about the current state.
+- **Mode Selection Menu**: Opens a single-selection `Menu` listing all available `ViewModes` values. Selecting an item calls `setViewMode` and closes the menu.
+- **Tooltip Discoverability**: The `ActionButton` is wrapped in a `TooltipTrigger` that shows a `"View mode"` tooltip on hover, ensuring the control is self-describing even when using a quiet/icon-only button.
+- **Disabled State**: The `isDisabled` prop propagates to the `ActionButton` and prevents the menu from opening while data is loading or unavailable.
+
+### When to use
+- In toolbar areas above image or dataset galleries where users need to switch between thumbnail grid sizes and a detailed list view.
+- Anywhere a finite set of mutually-exclusive display modes must be surfaced as an icon-based selector rather than a segmented control or tab set.
+
+### When to avoid
+- When only two modes are available — consider a `ToggleButton` pair instead.
+- When the modes relate to navigation (different pages/sections) rather than presentation — use `Tabs` or `Menu` with navigation semantics.
+- When the full label of each mode should be permanently visible — use a `Picker` or a segmented `ActionGroup`.
+
+## Variants
+
+### Subset of Modes
+By default `MediaViewModes` renders all four `ViewModes` values (`Large`, `Medium`, `Small`, `Details`). Pass a custom `items` array to expose only a subset relevant to the current context.
+
+### Disabled
+Set `isDisabled` to `true` to render the trigger button in a disabled state. The tooltip is still shown but the menu cannot be opened.
+
+## Props
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `viewMode` | `ViewModes` | **Required** | The currently active view mode. Controls which icon is shown on the trigger button and which item is marked as selected in the menu. |
+| `setViewMode` | `Dispatch<SetStateAction<ViewModes>> \| ((viewMode: ViewModes) => void)` | **Required** | Callback invoked when the user selects a different mode. Compatible with both `useState` setters and plain handler functions. |
+| `items` | `ViewModes[]` | All four modes | Ordered list of view modes to include in the menu. Defaults to `[Large, Medium, Small, Details]`. |
+| `isDisabled` | `boolean` | `false` | When `true`, disables the `ActionButton` trigger and prevents the menu from opening. |
+
+### `ViewModes` enum
+
+```ts
+export enum ViewModes {
+    LARGE   = 'Large thumbnails',
+    MEDIUM  = 'Medium thumbnails',
+    SMALL   = 'Small thumbnails',
+    DETAILS = 'Details',
+}
+```
+
+## Accessibility
+
+- **ActionButton Label**: The trigger button carries `aria-label="View mode"` so screen readers identify the control even though it has no visible text.
+- **Tooltip**: A `TooltipTrigger` wraps the button to surface a `"View mode"` tooltip on hover and focus, aiding discoverability for keyboard and pointer users alike.
+- **Single-Selection Menu**: The inner `Menu` uses `selectionMode="single"` and `selectedKeys` driven by `viewMode`, ensuring the currently active mode is reflected as `aria-selected` for assistive technologies.
+- **MenuTrigger Management**: Open/close state and focus return are handled entirely by React Spectrum's `MenuTrigger`, providing correct focus management out of the box.
