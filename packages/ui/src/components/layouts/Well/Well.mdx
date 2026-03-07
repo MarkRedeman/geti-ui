@@ -13,6 +13,7 @@ import { Well } from '@geti/ui';
 
 - [React Spectrum V3 Well](https://react-spectrum.adobe.com/react-spectrum/Well.html)
 
+
 <Stories />
 
 ## Responsibility
@@ -56,52 +57,4 @@ While the `Well` has a standard inset appearance, it accepts standard Spectrum l
 - **Roles & Landmarks**: If the `Well` represents a significant section of the page, use `role="region"` and provide an `aria-label` or `aria-labelledby` so it appears in the list of page landmarks.
 - **Reading Order**: Ensure that the logical order of elements inside the well matches the visual layout.
 
-## Spectrum 2 Migration
-
-The `Well` component is **removed** in Spectrum 2 (S2). It is no longer a first-class component and should be replaced by a styled `<div>`.
-
-### The New Pattern
-In S2, the "well" appearance is created by applying specific border, background, and padding values via the `style()` macro to a standard HTML element.
-
-- **V3**: `<Well>{children}</Well>`
-- **S2**: `<div className={style({ borderWidth: 1, borderStyle: 'solid', borderColor: 'gray-300', borderRadius: 'medium', padding: 16, backgroundColor: 'gray-50' })}>{children}</div>`
-
-### Key Changes
-- **No Component Wrapper**: Use a plain `<div>` or `<section>`.
-- **Manual Styling**: Recreate the inset look using macro tokens for borders, colors, and padding.
-- **Explicit Roles**: ARIA roles and labels must be applied directly to the HTML element.
-
-### Migration Example
-
-**V3 Style (Current):**
-```tsx
-<Well role="region" aria-label="Quick Settings">
-  <Flex direction="column" gap="size-100">
-    <Switch>Enable Notifications</Switch>
-    <Switch>Dark Mode</Switch>
-  </Flex>
-</Well>
-```
-
-**S2 Style (Future):**
-```tsx
-import { style } from '@react-spectrum/s2/style' with { type: 'macro' };
-
-<section 
-  aria-label="Quick Settings"
-  className={style({ 
-    borderWidth: 1, 
-    borderStyle: 'solid', 
-    borderColor: 'gray-300', 
-    borderRadius: 'sm', 
-    padding: 16, 
-    backgroundColor: 'gray-50' 
-  })}
->
-  <div className={style({ display: 'flex', flexDirection: 'column', gap: 8 })}>
-    <Switch>Enable Notifications</Switch>
-    <Switch>Dark Mode</Switch>
-  </div>
-</section>
-```
 
