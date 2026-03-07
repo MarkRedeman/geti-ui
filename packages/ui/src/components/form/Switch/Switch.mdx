@@ -1,4 +1,4 @@
-import { Meta, Title, Subtitle, Description, Primary, Controls, Stories } from '@storybook/blocks';
+import { Meta, Title, Subtitle, Description, Primary, Controls, Stories } from '@storybook/addon-docs/blocks';
 import * as DocStories from './Switch.stories';
 
 <Meta of={DocStories} />
@@ -12,7 +12,6 @@ import { Switch } from '@geti/ui';
 ```
 
 - [React Spectrum V3 Switch](https://react-spectrum.adobe.com/react-spectrum/Switch.html)
-- [Spectrum 2 Switch](https://react-spectrum.adobe.com/s2/Switch.html)
 
 <Stories />
 
@@ -71,16 +70,5 @@ Note that `Switch` does **not** support an invalid or error state by design. It 
 - Full keyboard support: **Space** to toggle the switch, and **Tab** to move focus.
 - Automatically handles state communication to screen readers via the `switch` role and `aria-checked` attribute.
 - High contrast mode support via Adobe Spectrum.
-
-## Spectrum 2 Migration
-
-When migrating to Spectrum 2 (S2), the `Switch` component remains largely unchanged in terms of its API surface.
-
-| V3 Prop | S2 Equivalent | Notes |
-|---|---|---|
-| `isEmphasized` | `isEmphasized` | Direct mapping; remains the standard for accent-color highlights. |
-| `isSelected` | `isSelected` | Unchanged. |
-| `size` | `size` | S2 adds a `size` prop (`'S'`, `'M'`, `'L'`, `'XL'`). |
-| Style props | `styles={style({...})}` | Layout and spacing props migrate to the `style()` macro. |
 
 <Controls />
