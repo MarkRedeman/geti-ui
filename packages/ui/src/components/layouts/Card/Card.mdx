@@ -11,7 +11,6 @@ import * as DocStories from './Card.stories';
 import { Card } from '@geti/ui';
 ```
 
-- [Spectrum 2 Migration (Styling)](https://react-spectrum.adobe.com/s2/styling.html)
 
 <Stories />
 
@@ -61,46 +60,4 @@ The `isSelected` prop applies a distinct "informative" background and a "focus" 
 - **Focus Management**: Interactive cards are focusable and support standard keyboard interactions (`Enter`, `Space`).
 - **Labeling**: Always provide an `aria-label` or ensure the card contains a heading that provides a clear name for the item.
 
-## Spectrum 2 Migration
-
-The `Card` is a Geti-native component built on top of Spectrum's layout primitives. Its migration to Spectrum 2 (S2) involves updating the underlying styling system.
-
-### The New Pattern
-In S2, the `Card`'s visual properties (borders, background, selection states) will be moved into the `style()` macro applied to the outer container.
-
-- **V3**: Uses `View` props like `borderColor` and `backgroundColor` with string tokens.
-- **S2**: Uses the `style()` macro with pixel values and S2 color tokens.
-
-### Key Changes
-- **Styling Macro**: The logic for `isSelected` will move into a conditional object within the `style()` macro.
-- **Token Mapping**: V3 tokens like `'focus'` and `'mid'` will map to S2-specific border and background tokens.
-- **Atomic CSS**: The migration will result in zero-runtime styling overhead while maintaining the same design intent.
-
-### Migration Example
-
-**V3 Style (Current):**
-```tsx
-<View 
-  borderColor={isSelected ? 'focus' : 'mid'}
-  backgroundColor={isSelected ? 'informative' : 'default'}
->
-  {/* Card content */}
-</View>
-```
-
-**S2 Style (Future):**
-```tsx
-import { style } from '@react-spectrum/s2/style' with { type: 'macro' };
-
-<div className={style({
-  borderWidth: 1,
-  borderStyle: 'solid',
-  borderColor: isSelected ? 'blue-600' : 'gray-300',
-  backgroundColor: isSelected ? 'blue-50' : 'white',
-  borderRadius: 'lg',
-  padding: 16
-})}>
-  {/* Card content */}
-</div>
-```
 
