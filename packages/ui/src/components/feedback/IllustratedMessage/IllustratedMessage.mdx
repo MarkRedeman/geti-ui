@@ -3,38 +3,87 @@ import * as DocStories from './IllustratedMessage.stories';
 
 <Meta of={DocStories} />
 
-<Title />
+<Title>IllustratedMessage</Title>
+
+<Subtitle>A layout component for empty states, error messages, or onboarding information.</Subtitle>
+
+```tsx
+import { IllustratedMessage, Heading, Content } from '@geti/ui';
+```
+
+- [React Spectrum V3 IllustratedMessage](https://react-spectrum.adobe.com/react-spectrum/IllustratedMessage.html)
+- [Spectrum 2 IllustratedMessage](https://react-spectrum.adobe.com/s2/IllustratedMessage.html)
+
+<Stories />
 
 ## Responsibility
 
-Re-exports Adobe React Spectrum's `IllustratedMessage` as a named Geti component, providing a structured empty-state or error-state layout that combines an illustration (SVG), a heading, and descriptive body text.
+`IllustratedMessage` is a specialized layout component designed to fill a large, prominent empty area. It typically consists of a decorative illustration, a heading (title), and body content (description).
 
-## Design
+### When to use IllustratedMessage
+- **Empty States**: Filling a large empty table, list, or canvas when no results are found.
+- **Section-level Errors**: Displaying full-page or section-level errors like a 404 or 500 page.
+- **First-use Onboarding**: Prompting a user to take an initial action, such as "Create your first dataset."
+- **Drag-and-Drop Targets**: Providing a visual target for file uploads.
 
-Pure thin wrapper — `IllustratedMessageProps extends SpectrumIllustratedMessageProps` with zero prop additions or overrides. The component body is `(props) => <SpectrumIllustratedMessage {...props} />`. Content is composed via slot children: an illustration element, `<Heading>`, and `<Content>`.
+### Comparison with other components
+| Scenario | Use instead |
+| :--- | :--- |
+| Brief, dismissible status message | `Toast` or `InlineAlert` |
+| Warning or error inline within a form | `InlineAlert` |
+| destructive confirmation with action | `AlertDialog` |
 
-## Flow
+### Usage Rules
+- **Always provide a Heading**: The heading acts as the accessible name of the message for screen readers.
+- **Spectrum Illustrations**: Use standard Adobe Spectrum illustrations for visual consistency.
+- **Not for inline validation**: Use field-level error messages for form validation instead of `IllustratedMessage`.
 
-```
-props (SpectrumIllustratedMessageProps passthrough)
-  → <SpectrumIllustratedMessage {...props} />
-```
+## Variants
 
-No state, no effects, no refs.
+### Standard Layout
+Combines an illustration, a heading, and content to provide a clear explanation for the current state.
 
-## Integration
-
-- Used in empty list/grid views (e.g. no annotations, no datasets) and error boundary displays.
-- Pairs with Spectrum's `<Heading>` and `<Content>` slot components.
-- Themed automatically by `ThemeProvider`.
-
-
-<Stories />
----
-
-<Primary />
+### S2 Call-to-Action (CTA)
+In the Spectrum 2 migration, `IllustratedMessage` gains a fourth zone for a `ButtonGroup`, allowing for primary actions (e.g., "Upload") to be embedded directly within the message.
 
 ## Props
 
-<Controls />
+| Prop | Type | Default | Description |
+| :--- | :--- | :--- | :--- |
+| `children` | `ReactNode` | — | The illustration, `Heading`, and `Content` elements. |
+| `UNSAFE_className` | `string` | — | CSS class name to apply to the container. |
+| Spectrum style props | — | — | Supports standard layout props like `margin`, `width`, etc. |
 
+## Accessibility
+
+### Roles and Labelling
+- `IllustratedMessage` renders as a generic container with no specific landmark role by default.
+- **Accessible Name**: The label is derived from the `Heading` child. If a `Heading` is omitted, the illustration itself must have an `aria-label`.
+- **Decorative Illustrations**: When a `Heading` is present, the illustration should be marked as decorative (`role="presentation"` and `aria-hidden="true"`) to avoid duplicate announcements.
+
+### Dynamic States
+If the message represents a live change in state (e.g., a search results list that just became empty), wrap the component in an `aria-live="polite"` region.
+
+## Spectrum 2 Migration
+
+`IllustratedMessage` retains its name and core structure in Spectrum 2, but with several enhancements:
+
+- **New Illustration Set**: S2 uses a richer **gradient illustration set** that is not compatible with the old flat V3 icons.
+- **ButtonGroup Slot**: S2 adds first-class support for a `ButtonGroup` child slot for call-to-action buttons.
+- **Size Prop**: A new `size` prop allows for smaller visual variants when used inside components like `CardView` or `TableView`.
+- **Import Change**: `@adobe/react-spectrum` → `@react-spectrum/s2`.
+
+### S2 Migration Example
+```tsx
+import { IllustratedMessage, Heading, Content, ButtonGroup, Button } from '@react-spectrum/s2';
+import Image from '@react-spectrum/s2/illustrations/gradient/generic1/Image';
+
+<IllustratedMessage size="L">
+  <Image />
+  <Heading>No datasets yet.</Heading>
+  <Content>Upload your first dataset to get started.</Content>
+  <ButtonGroup>
+    <Button variant="accent">Upload</Button>
+  </ButtonGroup>
+</IllustratedMessage>
+```
