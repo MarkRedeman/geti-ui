@@ -7,5 +7,3 @@ Consider using and setting up https://git-cliff.org/
 
 Figure out a way how we can automatically detect changes to specific components when making a PR, which we can then use to auto comment to a PR with screenshots of the changes.
 
-
-

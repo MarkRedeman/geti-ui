@@ -1,0 +1,74 @@
+name: Visual Regression
+
+on:
+  pull_request:
+
+jobs:
+  detect-changes:
+    runs-on: ubuntu-latest
+    outputs:
+      components: ${{ steps.filter.outputs.changes }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: dorny/paths-filter@v3
+        id: filter
+        with:
+          list-files: json
+          filters: |
+            ui: 'packages/ui/src/components/ui/**'
+            form: 'packages/ui/src/components/form/**'
+            pickers: 'packages/ui/src/components/form/pickers/**'
+            navigation: 'packages/ui/src/components/navigation/**'
+            feedback: 'packages/ui/src/components/feedback/**'
+            overlays: 'packages/ui/src/components/overlays/**'
+            data: 'packages/ui/src/components/data/**'
+            layouts: 'packages/ui/src/components/layouts/**'
+
+  visual-test:
+    needs: detect-changes
+    if: ${{ needs.detect-changes.outputs.components != '[]' }}
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 9
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: pnpm
+
+      - run: pnpm install --frozen-lockfile
+
+      - run: pnpm storybook:build
+        working-directory: packages/ui
+
+      - name: Install Playwright
+        run: pnpm exec playwright install --with-deps chromium
+        working-directory: packages/ui
+
+      - name: Run targeted visual tests
+        working-directory: packages/ui
+        env:
+          CHANGED: ${{ needs.detect-changes.outputs.components }}
+        run: |
+          PATTERN=$(echo "$CHANGED" | jq -r '. | join("|")')
+          pnpm exec playwright test --grep "$PATTERN"
+
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: visual-regression-report
+          path: packages/ui/playwright-report/
+
+      - uses: actions/github-script@v7
+        with:
+          script: |
+            const changed = JSON.parse(process.env.CHANGED);
+            const body = `### 🎨 Visual Regression Results\n\n**Changed categories:** ${changed.map(c => `\`${c}\``).join(', ')}\n\n[View Report](https://github.com/${context.repo.owner}/${context.repo.repo}/actions/runs/${context.runId})`;
+            github.rest.issues.createComment({ ...context.repo, issue_number: context.issue.number, body });
+        env:
+          CHANGED: ${{ needs.detect-changes.outputs.components }}

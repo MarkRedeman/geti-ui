@@ -1,0 +1,66 @@
+name: Release
+
+on:
+  push:
+    branches: [main]
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write       # create tags + GitHub Releases
+      pull-requests: write  # open "Version Packages" PR
+
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0      # git-cliff needs full history
+
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 9
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: pnpm
+          registry-url: https://registry.npmjs.org
+
+      - run: pnpm install --frozen-lockfile
+
+      - run: pnpm build
+        working-directory: packages/ui
+
+      # Either opens "Version Packages" PR, or publishes if that PR was just merged
+      - uses: changesets/action@v1
+        id: changesets
+        with:
+          publish: pnpm --filter @geti/ui publish --access public --no-git-checks
+          version: pnpm changeset version
+          commit: "chore(release): version packages"
+          title: "chore(release): version packages"
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+
+      # After publish: generate release notes with git-cliff and create GitHub Release
+      - name: Generate release notes with git-cliff
+        if: steps.changesets.outputs.published == 'true'
+        uses: orhun/git-cliff-action@v4
+        with:
+          config: cliff.toml
+          args: --latest --strip header
+        env:
+          OUTPUT: RELEASE_NOTES.md
+          GITHUB_REPO: ${{ github.repository }}
+
+      - name: Create GitHub Release
+        if: steps.changesets.outputs.published == 'true'
+        uses: softprops/action-gh-release@v2
+        with:
+          body_path: RELEASE_NOTES.md
+          tag_name: ${{ fromJson(steps.changesets.outputs.publishedPackages)[0].version }}
