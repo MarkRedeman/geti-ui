@@ -3,50 +3,79 @@ import * as DocStories from './CardView.stories';
 
 <Meta of={DocStories} />
 
-<Title />
+<Title>CardView</Title>
+
+<Subtitle>A responsive grid collection for rendering visually rich cards.</Subtitle>
+
+```tsx
+import { CardView } from '@geti/ui';
+```
+
+- [React Aria GridList (Headless Equivalent)](https://react-aria.adobe.com/react-aria-components/GridList.html)
+- [Spectrum 2 CardView](https://react-spectrum.adobe.com/s2/CardView.html)
+
+<Stories />
 
 ## Responsibility
 
-Provides a Geti-native CSS grid layout for rendering a collection of interactive or static cards. Acts as a list container (semantically `role="list"`) that maps a generic item array to `Card` components via a render-prop pattern.
+`CardView` is used to render a collection of items as a responsive grid of cards. It is ideal for **visually rich content** such as images, media assets, user profiles, or product cards where 2D spatial browsing is more effective than a linear list.
 
-## Design
+### When to use CardView
+- **Media-heavy objects**: When images or previews are the primary way users identify items.
+- **2D Spatial Layout**: When users benefit from browsing a grid rather than scanning a vertical list.
+- **Comparison at a glance**: When items have roughly equal conceptual weight and need to be compared visually.
 
-Fully custom component — no Spectrum dependency for the grid itself. Uses native CSS grid with configurable columns and gap.
+### Comparison with other collections
+- **vs. ListView**: Use `ListView` for text-heavy data where scannable density and linear order are more important.
+- **vs. TableView**: Use `TableView` when items have multiple attributes that need to be compared across columns (sorting/filtering).
 
-Key design decisions:
-- **Generic `<T>`** — `items: T[]` + `renderCard: (item: T, index: number) => CardProps` — callers supply the data and the mapping function. The grid knows nothing about item shape.
-- **CSS grid** — `display: 'grid'`, `gridTemplateColumns: repeat(${columns}, 1fr)`, `gap`. Defaults: `columns = 3`, `gap = '16px'`. Callers override for different densities.
-- **`role="list"` + `role="listitem"`** — wrapping `<div>` and each cell `<div>` use explicit ARIA list roles because CSS grid elements are not implicitly list items.
-- **`Card` from `layouts/`** — each item is rendered as a `<Card>` with props from `renderCard`. The `CardView` has no knowledge of `Card`'s interactive/static branching; that is `Card`'s responsibility.
+## Variants
 
-## Flow
+### Custom Grid Layout
+The current implementation uses a flexible CSS Grid layout. You can configure the density using the `columns` and `gap` props.
 
-```
-props { items, renderCard, columns = 3, gap = '16px', aria-label }
-  → <div role="list" aria-label={aria-label} style={{ display: 'grid', gridTemplateColumns: ..., gap }}>
-      {items.map((item, i) =>
-        <div role="listitem" key={i}>
-          <Card {...renderCard(item, i)} />
-        </div>
-      )}
-    </div>
-```
-
-No state, no effects, no refs.
-
-## Integration
-
-- Depends on `Card` from `layouts/Card/` for individual card rendering.
-- Used in image gallery views, media asset browsers, and model card grids.
-- Contrast with `VirtualizedHorizontalGrid` (same data/ category) — `CardView` uses native CSS grid (non-virtualised, best for small–medium counts); `VirtualizedHorizontalGrid` uses RAC virtualisation for large horizontal collections.
-
-
-<Stories />
----
-
-<Primary />
+### Card Types
+While `CardView` manages the collection, the individual cards are typically rendered using the `Card` component from `@geti/ui`. Depending on the use case, these can be:
+- **Asset Cards**: For files, images, or media.
+- **User Cards**: For people or profiles.
+- **Interactive Cards**: Cards that act as buttons or links.
 
 ## Props
 
-<Controls />
+| Prop | Type | Default | Description |
+| :--- | :--- | :--- | :--- |
+| `items` | `T[]` | — | **Required.** The collection of data items to render. |
+| `renderCard` | `(item: T, index: number) => CardProps` | — | **Required.** A function that maps each data item to the props for a `Card` component. |
+| `aria-label` | `string` | — | **Required.** An accessible label for the card collection. |
+| `columns` | `number` | `3` | The number of columns in the grid layout. |
+| `gap` | `string` | `'16px'` | The CSS gap between cards. |
 
+## Accessibility
+
+### Roles and Navigation
+- The container uses `role="list"` and each card is wrapped in a `role="listitem"`. 
+- **Required Labels**: Always provide an `aria-label` to the `CardView` so screen readers can identify the collection.
+- **Card Content**: Ensure each card has a clear accessible name (via its title or a `textValue`) and that any images have descriptive `alt` text.
+
+### Keyboard Support
+In the current implementation, keyboard navigation follows the standard tab order of the cards. In the future Spectrum 2 migration, this will transition to a **Grid** pattern where arrow keys are used to navigate between cards in 2D space.
+
+## Spectrum 2 Migration
+
+The migration to Spectrum 2 (S2) transforms `CardView` from a simple layout wrapper into a **managed collection component** with advanced features:
+
+- **Built-in Selection**: S2 `CardView` supports `selectionMode` (single/multiple), `selectedKeys`, and `onSelectionChange` natively.
+- **Virtualization**: Large collections are automatically virtualized for performance.
+- **Layout Modes**: Supports both standard `"grid"` and masonry-style `"waterfall"` layouts.
+- **Bulk Actions**: Integrates with `ActionBar` via the `renderActionBar` prop.
+- **Loading States**: Includes `loadingState` (loading, error, idle) and support for `<SkeletonCollection>`.
+
+### S2 Migration Mapping
+| Feature | Current (Geti UI) | Spectrum 2 (S2) |
+| :--- | :--- | :--- |
+| **Mapping** | `items.map(renderCard)` | `items` prop + render function child |
+| **Sizing** | `columns` / `gap` props | `size` ("S", "M", "L") and `density` props |
+| **Selection** | Manual implementation | `selectionMode="multiple"` |
+| **Actions** | Card `onClick` | `onAction` at collection level |
+| **Bulk Actions** | ❌ Not built-in | `renderActionBar` |
+| **Empty State** | Manual conditional | `renderEmptyState` prop |
