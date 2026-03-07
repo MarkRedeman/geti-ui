@@ -1,4 +1,4 @@
-import { Meta, Title, Subtitle, Description, Primary, Controls, Stories } from '@storybook/blocks';
+import { Meta, Title, Subtitle, Description, Primary, Controls, Stories } from '@storybook/addon-docs/blocks';
 import * as DocStories from './Form.stories';
 
 <Meta of={DocStories} />
@@ -12,7 +12,6 @@ import { Form } from '@geti/ui';
 ```
 
 - [React Spectrum V3 Form](https://react-spectrum.adobe.com/react-spectrum/Form.html)
-- [Spectrum 2 Form](https://react-spectrum.adobe.com/s2/Form.html)
 
 <Stories />
 
@@ -73,17 +72,5 @@ The `Form` component is a semantic wrapper for groups of input fields. It render
 - **Important**: To be correctly identified as a landmark by screen readers, you should provide a label using `aria-label` or `aria-labelledby`.
 - Automatically propagates accessibility-related props (like `isDisabled` or `isRequired`) to all child Spectrum components.
 - Manages focus automatically by moving it to the first invalid field upon a failed submission (when using `validationBehavior="native"`).
-
-## Spectrum 2 Migration
-
-When migrating to Spectrum 2 (S2), keep the following changes in mind:
-
-| V3 Prop | S2 Equivalent | Notes |
-|---|---|---|
-| `validationBehavior="aria"` | `validationBehavior="native"` | **Breaking**: The default behavior flips in S2. |
-| `isQuiet` | — | Quiet variant for forms is removed in S2. |
-| `maxWidth="size-3600"` | `styles={style({ width: 300 })}` | Dimension props move to the `style()` macro. |
-| `size` | `size` | S2 adds a `size` prop (`'S'`, `'M'`, `'L'`, `'XL'`) that propagates to children. |
-| `validationState` | — | Removed; set `isInvalid` on individual fields or use `validationErrors`. |
 
 <Controls />
