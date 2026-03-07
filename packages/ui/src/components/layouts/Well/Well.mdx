@@ -5,7 +5,7 @@ import * as DocStories from './Well.stories';
 
 # Well
 
-<Subtitle>A Well is a subtle content container used to visually group related information within a larger layout.</Subtitle>
+<Subtitle>A Well is a subtle, inset content container used to visually group secondary or supplementary information within a larger layout.</Subtitle>
 
 ```tsx
 import { Well } from '@geti/ui';
@@ -18,43 +18,186 @@ import { Well } from '@geti/ui';
 
 ## Responsibility
 
-The `Well` component provides a muted, inset container for secondary content. It is less prominent than a Card or Dialog, making it ideal for grouping related configuration settings, displaying read-only data, or providing a background for a specific section of a page.
+`Well` provides a muted, inset visual container for content that is related to but subordinate to the main page content. It communicates "here is additional context" without the weight of a `Card` or the structural authority of a `View` with a full border and background. It is the right choice when you need a subtle boundary around preformatted text, configuration summaries, log output, or supplementary notes.
 
 Key responsibilities:
-- **Visual Grouping**: Clearly separates a group of elements from the surrounding UI.
-- **Subtle Emphasis**: Provides a muted background and border to give a section more focus without being disruptive.
-- **Consistent Layout**: Ensures a standardized padding and border style across all inset regions.
+- **Visual Grouping**: Clearly separates a block of related elements from the surrounding UI with a muted inset border and background.
+- **Subtle Emphasis**: Draws the eye without disrupting the page hierarchy — quieter than a `Card`, more deliberate than a plain `Flex`.
+- **Semantic Flexibility**: Accepts any ARIA `role` so it can act as a `region`, `group`, `note`, or `log` depending on the content it contains.
+- **Consistent Styling**: Standardised padding, border-radius, and border colour drawn from Spectrum design tokens — no per-use inline styles needed.
 
 ### When to use
-- To group a set of related form fields or settings.
-- To display secondary or supplementary information that doesn't require a Card.
-- As a background for a code snippet, log viewer, or preformatted text block.
+- To display secondary or supplementary information alongside the main content (configuration details, hints, metadata summaries).
+- To group a set of related read-only fields or settings that belong together visually.
+- As a container for preformatted text, code snippets, log output, or markup examples.
+- When you need a visual separator that is clearly less prominent than a `Card` but more structured than raw text.
+- For "Notes", "Tips", or "Info" callout blocks that provide contextual guidance.
 
 ### When to avoid
-- For primary content that should be the main focus of the page (use a `Card` or a simple `View` instead).
-- For interactive elements that require a clear "lifted" or "surface" metaphor (use a `Card`).
-- When the content needs to be collapsible (use `Disclosure` or `Accordion`).
+- For primary content that should be the main focus of the page — use `Card` or a styled `View`.
+- For interactive elements that need a "lifted surface" affordance — use `Card`.
+- When the section needs to be collapsible or expandable — use `Disclosure` or `Accordion`.
+- When you need fine-grained control over background colour, padding, or border — use `View` directly.
+
+## Design
+
+`Well` is a **thin wrapper** around Adobe React Spectrum's `Well`. It re-exports `SpectrumWellProps` wholesale and forwards all props without modification.
+
+```tsx
+// Well.tsx — the complete implementation
+import { Well as SpectrumWell, SpectrumWellProps } from '@adobe/react-spectrum';
+
+export interface WellProps extends SpectrumWellProps {}
+
+export const Well = (props: WellProps) => <SpectrumWell {...props} />;
+```
+
+### Relationship to `View`
+
+`Well` is a stylistic specialisation of the broader `View` primitive. Where `View` is a fully configurable box (any background, any border, any padding), `Well` applies a fixed set of opinionated defaults that communicate "inset secondary content". In practice:
+
+- Use `Well` when the semantic intention is "supplementary content block".
+- Use `View` when you need full control over background, padding, or border properties.
+
+### Theme Integration
+
+`Well`'s border colour and background come from Spectrum design tokens, which means it automatically adapts to the active Geti theme (dark mode by default). No custom CSS variables or `UNSAFE_className` overrides are needed for standard usage.
+
+## Flow
+
+```
+<Well role="region" aria-label="Notes">
+        │
+        ▼
+  WellProps (geti-ui re-export of SpectrumWellProps)
+        │
+        ▼
+  <SpectrumWell> (Adobe React Spectrum)
+        │
+        ▼
+  Applies --spectrum-well-background-color, --spectrum-well-border-color tokens
+        │
+        ▼
+  Renders <div role="region" aria-label="Notes" class="spectrum-Well">
+            children
+          </div>
+```
+
+Spectrum resolves all visual tokens against the active provider's colour scheme. Because Geti runs in dark mode by default (`ThemeProvider` sets `colorScheme="dark"`), the Well's muted background will always be appropriate for the dark UI without any additional configuration.
 
 ## Variants
 
-### Role
-The `Well` can be assigned a semantic ARIA `role` (e.g., `'region'`, `'group'`) to provide more context to assistive technologies.
+### Default — Plain Content Container
 
-### Custom Styling
-While the `Well` has a standard inset appearance, it accepts standard Spectrum layout and spacing props (`margin`, `width`, `height`) for external positioning.
+```tsx
+<Well>
+    This configuration was last updated on 12 January 2025.
+    All values shown here are read-only.
+</Well>
+```
+
+### Code / Preformatted Text
+
+```tsx
+<Well>
+    <pre>
+        <code>{`import { Well } from '@geti/ui';\n\n<Well>Content goes here</Well>`}</code>
+    </pre>
+</Well>
+```
+
+### Accessible Region
+
+When the Well contains a meaningful, self-contained section of the page, promote it to a landmark with `role="region"` and `aria-label`.
+
+```tsx
+<Well role="region" aria-label="Model configuration">
+    <Flex direction="column" gap="size-100">
+        <Text>Architecture: ResNet-50</Text>
+        <Text>Precision: FP16</Text>
+        <Text>Batch size: 8</Text>
+    </Flex>
+</Well>
+```
+
+### Notes / Info Callout
+
+```tsx
+<Well role="note" aria-label="Important note">
+    <Flex gap="size-100" alignItems="start">
+        <Icon src={InfoOutline} />
+        <Text>Training will consume approximately 4 GB of GPU memory.</Text>
+    </Flex>
+</Well>
+```
+
+### Log Viewer
+
+```tsx
+<Well role="log" aria-label="Training log" aria-live="polite">
+    <pre>{logLines.join('\n')}</pre>
+</Well>
+```
 
 ## Props
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
 | `children` | `ReactNode` | - | The content to be rendered inside the well. |
-| `role` | `string` | - | The ARIA role for the container. |
-| `aria-label` | `string` | - | An accessible label for the well. |
-| `UNSAFE_className` | `string` | - | A custom CSS class to apply to the well. |
+| `role` | `string` | - | The ARIA role for the container (e.g., `'region'`, `'group'`, `'note'`, `'log'`). |
+| `aria-label` | `string` | - | An accessible label for the well. Required when `role="region"`. |
+| `aria-labelledby` | `string` | - | References the `id` of an element that labels this well. Alternative to `aria-label`. |
+| `UNSAFE_className` | `string` | - | A custom CSS class to apply. Use sparingly — prefer `View` when full style control is needed. |
+
+Additional layout and dimension props (`margin`, `width`, `height`, etc.) inherited from `SpectrumWellProps` are forwarded transparently.
+
+## Integration
+
+`Well` depends solely on `@adobe/react-spectrum`. It carries no Geti-specific override styles. Its visual appearance is defined entirely by Spectrum's `--spectrum-well-*` design tokens, which are resolved by the `ThemeProvider` that wraps every Geti application page.
+
+Typical usage inside a larger layout:
+
+```tsx
+import { Flex, Well, View } from '@geti/ui';
+
+<View padding="size-400">
+    <Heading level={2}>Project Settings</Heading>
+
+    <Flex direction="column" gap="size-300" marginTop="size-300">
+        <TextField label="Project name" />
+
+        <Well role="region" aria-label="Current configuration summary">
+            <Flex direction="column" gap="size-100">
+                <Text>Last saved: 3 minutes ago</Text>
+                <Text>Owner: mark@intel.com</Text>
+            </Flex>
+        </Well>
+
+        <Button variant="cta">Save changes</Button>
+    </Flex>
+</View>
+```
 
 ## Accessibility
 
-- **Roles & Landmarks**: If the `Well` represents a significant section of the page, use `role="region"` and provide an `aria-label` or `aria-labelledby` so it appears in the list of page landmarks.
-- **Reading Order**: Ensure that the logical order of elements inside the well matches the visual layout.
+- **Roles and Landmarks**: `Well` has no implicit ARIA role. Choose an explicit role based on the content it holds:
+  - `role="region"` — a significant, self-contained section of the page. **Must** be paired with `aria-label` or `aria-labelledby` to appear as a named landmark in assistive technology.
+  - `role="group"` — a set of related controls or fields. Useful inside forms.
+  - `role="note"` — supplementary information attached to the surrounding content (tips, warnings, annotations).
+  - `role="log"` — live output that updates over time (logs, feeds). Add `aria-live="polite"` or `aria-live="assertive"` as appropriate.
+  - Omit `role` entirely if the well is purely decorative and the landmark would add noise to the page structure.
+- **Labelling**: Whenever a role is assigned, provide a clear label:
 
+```tsx
+// Preferred — concise aria-label
+<Well role="region" aria-label="Training metrics">...</Well>
 
+// Alternative — label from a visible heading
+<Well role="region" aria-labelledby="metrics-heading">
+    <Heading id="metrics-heading" level={3}>Training metrics</Heading>
+    ...
+</Well>
+```
+
+- **Reading Order**: Elements inside the well are read in DOM order. Do not rely on visual positioning inside a `Well` to imply order — keep the DOM sequence meaningful.
+- **Non-Interactive Container**: `Well` itself is not focusable and receives no keyboard interaction. If child elements (buttons, links, inputs) are present, they remain naturally focusable in DOM order.
