@@ -1,55 +1,91 @@
-import { Meta, Title, Subtitle, Description, Primary, Controls, Stories } from '@storybook/addon-docs/blocks';
+import { Meta, Title, Subtitle, Description, Primary, Controls, Stories, Source } from '@storybook/blocks';
 import * as DocStories from './ToggleButton.stories';
 
 <Meta of={DocStories} />
 
-<Title />
+<Title>ToggleButton</Title>
+
+<Subtitle>
+  A toggle button allows users to switch between two mutually exclusive states, such as on and off.
+</Subtitle>
+
+```tsx
+import { ToggleButton } from '@geti/ui';
+```
+
+- [React Spectrum ToggleButton](https://react-spectrum.adobe.com/react-spectrum/ToggleButton.html)
+- [Spectrum 2 ToggleButton](https://react-spectrum.adobe.com/s2/ToggleButton)
+
+<Stories />
 
 ## Responsibility
 
-`ToggleButton` is a single on/off toggle control. It wraps Spectrum's `ToggleButton` with no prop changes, serving purely as the Geti-library entry point so consumers never import from `@adobe/react-spectrum` directly.
+The `ToggleButton` component is a direct wrapper around Adobe's React Spectrum `ToggleButton`. It is used for binary states where a persistent "pressed" or "selected" visual is required to indicate an active mode (e.g., toggling a "Bold" style or a "Grid view").
 
-<Stories />
----
+### ToggleButton vs. Button
+It is important to distinguish `ToggleButton` from a standard `Button`:
+- **Button**: Triggers a one-time action (e.g., "Save", "Delete"). It has no concept of selection.
+- **ToggleButton**: Represents a state that stays active until toggled off. It uses `aria-pressed` to communicate its state to assistive technologies.
 
-## Design
-
-### Minimal Spectrum wrapper
-
-```tsx
-export interface ToggleButtonProps extends SpectrumToggleButtonProps {}
-export const ToggleButton = (props: ToggleButtonProps) => <SpectrumToggleButton {...props} />;
-```
-
-All Spectrum props pass through unchanged:
-- `isSelected` / `defaultSelected` — controlled/uncontrolled selected state
-- `onChange` — fires with the new boolean selected value
-- `isEmphasized` — uses the accent colour when selected
-- `isQuiet` — minimal border/background style
-- `isDisabled`, `aria-label`, `children`, etc.
-
-No CSS module, no Geti-specific props, no prop interception.
+> **Note**: If the label or icon of the button changes based on its state (e.g., "Play" becoming "Pause"), Adobe recommends using a standard `ActionButton` with changing props instead of a `ToggleButton`.
 
 ---
 
-## Flow
+## Variants
 
-Pure presentational pass-through. Spectrum manages the toggle state internally when uncontrolled, or delegates to the caller when `isSelected` is provided.
+### Emphasis
+Use the `isEmphasized` prop to apply the Geti accent color (blue) when the button is selected. This makes the active state more visually prominent.
 
----
-
-## Integration
-
-- **Depends on**: `@adobe/react-spectrum` (`ToggleButton`, `SpectrumToggleButtonProps`).
-- **Distinct from `ToggleButtons`**: `ToggleButton` is a standalone single control with its own on/off state. `ToggleButtons` is a multi-option exclusive group built from `Button` instances.
-- **Consumed by**: individual toolbar toggles (e.g. bold/italic, show/hide panel) where a single binary state is needed.
-
+### Quiet
+The `isQuiet` prop removes the standard button background and border, rendering a minimal style that only appears on hover or selection. This is ideal for dense toolbars.
 
 ---
-
-<Primary />
 
 ## Props
 
-<Controls />
+<Controls of={DocStories.Default} />
 
+### Content
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `children` | `ReactNode` | — | The label text or icon to display. |
+| `aria-label` | `string` | — | Required for icon-only buttons to ensure accessibility. |
+
+### Value / State
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `isSelected` | `boolean` | — | Controlled selection state. |
+| `defaultSelected` | `boolean` | — | Initial selection state (uncontrolled). |
+| `isDisabled` | `boolean` | `false` | Whether the button is disabled. |
+
+### Events
+
+| Prop | Type | Description |
+|------|------|-------------|
+| `onChange` | `(isSelected: boolean) => void` | Primary handler called when the toggle state changes. |
+| `onPress` | `(e: PressEvent) => void` | Handler called when the button is pressed. |
+
+### Styles
+
+The `ToggleButton` component accepts all standard [Spectrum layout and spacing props](https://react-spectrum.adobe.com/react-spectrum/styling.html).
+
+---
+
+## Accessibility
+
+- **State Announcement**: Uses `aria-pressed` to inform screen readers of the current toggle state.
+- **Icon-Only Buttons**: If no text label is provided, an `aria-label` is strictly required.
+- **Keyboard Support**: Fully navigable and activatable via the Space and Enter keys.
+
+---
+
+## Spectrum 2 Migration
+
+When migrating to Spectrum 2 (`@react-spectrum/s2`), note the following updates:
+
+- **New `size` Prop**: S2 introduces a `size` prop (`'XS' \| 'S' \| 'M' \| 'L' \| 'XL'`).
+- **Static Color**: The `staticColor` prop now includes an `'auto'` option for adaptive coloring.
+- **Styles Macro**: Layout and spacing props are replaced by the S2 `styles` macro system.
+- **Consistent API**: Core props like `isSelected` and `onChange` remain unchanged.
