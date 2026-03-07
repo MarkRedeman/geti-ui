@@ -3,40 +3,87 @@ import * as DocStories from './TreeView.stories';
 
 <Meta of={DocStories} />
 
-<Title />
+<Title>TreeView</Title>
+
+<Subtitle>A hierarchical, expandable/collapsible tree for navigating nested data structures.</Subtitle>
+
+```tsx
+import { TreeView, Item } from '@geti/ui';
+```
+
+- [React Spectrum V3 TreeView (Alpha)](https://react-spectrum.adobe.com/v3/TreeView.html)
+- [Spectrum 2 TreeView (Stable)](https://react-spectrum.adobe.com/s2/TreeView.html)
+- [React Aria Tree (Headless)](https://react-spectrum.adobe.com/react-aria/Tree.html)
+
+<Stories />
 
 ## Responsibility
 
-Re-exports Adobe React Spectrum's `TreeView` as a named Geti component, providing a hierarchical, expandable/collapsible tree for navigating nested data structures (e.g. folder hierarchies, category trees, nested annotation labels).
+`TreeView` is used to present **nested hierarchical data** where parent-child relationships are meaningful and users need to expand and collapse branches to explore depth—for example, file directories, organizational hierarchies, or nested project structures.
 
-## Design
+### When to use
+- **Hierarchical Data**: When data has 2+ levels of true parent/child hierarchy.
+- **Expand/Collapse**: When users need to explore different depths of a tree at their own pace.
+- **Distinct Roles**: When parent nodes and leaf nodes represent different types of entities (e.g., folders vs. files).
 
-Minimal wrapper — `TreeViewProps` is a pure type alias (`export type { SpectrumTreeViewProps as TreeViewProps }`) rather than an extending interface. The component is `(props: TreeViewProps) => <SpectrumTreeView {...props} />`.
+### Comparison with other components
+| Situation | Use instead |
+| :--- | :--- |
+| Flat list of items | `ListView` |
+| Application-level navigation | `VerticalNav` |
+| Nested navigation that acts like a menu | `Menu` with submenus |
 
-This alias-only approach (rather than `extends`) is used because `SpectrumTreeViewProps` is already fully typed and no additional props are needed, making the extension ceremonially redundant.
+### Usage Rules
+- **Depth**: Limit nesting to 3–4 levels; deeper structures can be cognitively overwhelming.
+- **Accessible Labels**: Always provide `aria-label` or `aria-labelledby` on the `<TreeView>` root.
+- **Text Values**: Set `textValue` on every `<Item>` (or `<TreeViewItem>`) to a plain-text string for screen readers and type-ahead.
+- **Selection vs. Action**: Use `onAction` for opening/navigating items, and `selectionMode` for batch operations (e.g., selecting items for deletion).
 
-## Flow
+## Variants
 
-```
-props (SpectrumTreeViewProps passthrough)
-  → <SpectrumTreeView {...props} />
-```
+### Selection Modes
+Supports `none` (default), `single`, and `multiple` selection modes.
 
-`TreeView` uses Spectrum's `Item` (or a custom render prop) for child nodes, with nested `children` for sub-trees. Expansion state can be controlled or uncontrolled.
-
-## Integration
-
-- Used for nested label hierarchies, file system navigation, and any deeply nested collection display.
-- Pairs with `Item` from `ListBox/` or directly from `@adobe/react-spectrum` for node definition.
-- Themed automatically by `ThemeProvider`.
-
-
-<Stories />
----
-
-<Primary />
+### Density
+`TreeView` supports density variants to control the vertical space between items, similar to `ListView`.
 
 ## Props
 
-<Controls />
+| Prop | Type | Default | Description |
+| :--- | :--- | :--- | :--- |
+| `children` | `ItemElement \| ItemRenderer` | — | The items or branches in the tree. |
+| `selectionMode` | `'none' \| 'single' \| 'multiple'` | `'none'` | The selection mode for the tree. |
+| `onAction` | `(key: Key) => void` | — | Handler called when an item is activated. |
+| `expandedKeys` | `Iterable<Key>` | — | The set of keys for expanded branches. |
+| `onExpandedChange` | `(keys: Set<Key>) => void` | — | Handler called when the expansion state changes. |
 
+## Accessibility
+
+### Roles and Navigation
+- `TreeView` follows the [W3C ARIA Tree View pattern](https://www.w3.org/WAI/ARIA/apg/patterns/treeview/).
+- **Keyboard Navigation**:
+    - `Up/Down Arrows`: Move focus between visible items.
+    - `Right Arrow`: Expand a parent node or move focus to its first child.
+    - `Left Arrow`: Collapse an open parent node or move focus to its parent.
+    - `Home/End`: Jump to the first or last visible item.
+- **Required Attributes**: Parent nodes are marked with `aria-expanded` while leaf nodes are not.
+
+### Labelling Requirement
+An `aria-label` or `aria-labelledby` is **mandatory** on the `<TreeView>` root, as it is a landmark that provides context for the entire collection.
+
+## Spectrum 2 Migration
+
+The Spectrum 2 (S2) migration marks the transition from an unstable V3 alpha to a **formally stable** production-ready component:
+
+- **Stable Release**: S2 `TreeView` is fully stable and supports asynchronous loading, drag-and-drop, and more.
+- **Item Wrapper**: A new `<TreeViewItemContent>` wrapper is required inside each item to hold its content.
+- **Async Loading**: S2 adds the `<TreeViewLoadMoreItem>` component for infinite scroll within branches.
+- **Style Macro**: Dimension props (e.g., `height="size-4600"`) are replaced by the `styles={style({...})}` macro.
+
+### S2 Migration Mapping
+| Area | V3 (Alpha) | S2 (Stable) |
+| :--- | :--- | :--- |
+| **Import** | `@adobe/react-spectrum` | `@react-spectrum/s2` |
+| **Wrapper** | ❌ None | `<TreeViewItemContent>` (Required) |
+| **Visuals** | Basic | `isDetached`, `isEmphasized` variants |
+| **Loading** | ❌ Manual/None | `<TreeViewLoadMoreItem>` |
