@@ -19,10 +19,10 @@
    * Base row background: #1c1d1f (matches appContentBg)
    * Stripe row background: #242528 (matches appBg, very subtle)
    */
-    .sbdocs-content table tr,
-    .sbdocs-wrapper table tr,
-    .sbdocs table tr,
-    .sb-wrapper table tr,
+    .sbdocs-content > table tr,
+    .sbdocs-wrapper > table tr,
+    .sbdocs > table tr,
+    .sb-wrapper > table tr,
     .sb-argstableBlock-body tr {
         background-color: #1c1d1f !important;
         border-top: 1px solid #333333 !important;
@@ -34,10 +34,10 @@
    * Storybook default for dark mode is #454C54 (too bright)
    * Legacy Markdown default is #F6F9FC (completely broken white)
    */
-    .sbdocs-content table tr:nth-of-type(2n),
-    .sbdocs-wrapper table tr:nth-of-type(2n),
-    .sbdocs table tr:nth-of-type(2n),
-    .sb-wrapper table tr:nth-of-type(2n),
+    .sbdocs-content > table tr:nth-of-type(2n),
+    .sbdocs-wrapper > table tr:nth-of-type(2n),
+    .sbdocs > table tr:nth-of-type(2n),
+    .sb-wrapper > table tr:nth-of-type(2n),
     .sb-argstableBlock-body tr:nth-of-type(2n) {
         background-color: #242528 !important;
     }
@@ -46,10 +46,10 @@
    * 3. Table Header Styling
    * Match the Intel Geti design system's cleaner aesthetic.
    */
-    .sbdocs-content table th,
-    .sbdocs-wrapper table th,
-    .sbdocs table th,
-    .sb-wrapper table th,
+    .sbdocs-content > table th,
+    .sbdocs-wrapper > table th,
+    .sbdocs > table th,
+    .sb-wrapper > table th,
     .sb-argstableBlock th {
         background-color: #242528 !important;
         color: #e1e1e1 !important;
@@ -62,10 +62,10 @@
     }
 
     /* 4. Cell Padding & Borders */
-    .sbdocs-content table td,
-    .sbdocs-wrapper table td,
-    .sbdocs table td,
-    .sb-wrapper table td,
+    .sbdocs-content > table td,
+    .sbdocs-wrapper > table td,
+    .sbdocs > table td,
+    .sb-wrapper > table td,
     .sb-argstableBlock-body td {
         padding: 10px 12px !important;
         background-color: transparent !important;
