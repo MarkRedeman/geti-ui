@@ -1,0 +1,84 @@
+# packages/ui/src/components/data/
+
+## Responsibility
+
+The `data/` category owns **components for presenting, browsing, and acting on collections of data**. This is where lists, tables, grids, trees, and tags live — the surfaces through which Geti surfaces structured information to the user, allows selection, and enables bulk operations on those selections.
+
+Components in this folder:
+
+| Component | Purpose |
+|---|---|
+| `ListBox` | Static list of selectable options (single or multi) |
+| `ListView` | Interactive item list with selection, drag-and-drop, and density variants |
+| `TableView` + sub-components | Sortable, selectable columnar table with virtualised scrolling |
+| `TreeView` | Hierarchical expandable/collapsible tree |
+| `CardView` | Responsive CSS-grid of `Card` components driven by a data array |
+| `ActionBar` / `ActionBarContainer` | Floating contextual toolbar for bulk selection actions |
+| `Tag` | Standalone Geti-styled metadata chip with dot, prefix/suffix slots |
+| `TagGroup` | Spectrum-backed removable tag collection |
+| `VirtualizedListLayout` | High-performance windowed vertical list (react-aria-components Virtualizer) |
+| `VirtualizedHorizontalGrid` | High-performance windowed horizontal carousel (react-aria-components Virtualizer) |
+
+---
+
+## Design
+
+### Thin Spectrum wrappers with child-component re-exports
+
+The Spectrum-based collection views (`ListView`, `ListBox`, `TableView`, `TagGroup`, `TreeView`, `ActionBar`) follow the same thin-wrapper pattern as the rest of the library, but also **re-export their child primitives** to keep imports clean:
+
+```tsx
+// TableView.tsx
+export const TableHeader = SpectrumTableHeader;
+export const TableBody = SpectrumTableBody;
+export const Column = SpectrumColumn;
+export const Row = SpectrumRow;
+export const Cell = SpectrumCell;
+export const TableView = <T extends object>(props: TableViewProps<T>) => <SpectrumTableView {...props} />;
+```
+
+This means consumers can do:
+```tsx
+import { TableView, TableHeader, Column, TableBody, Row, Cell } from '@geti/ui';
+```
+…without knowing which Spectrum sub-package each piece comes from.
+
+### CardView — CSS-grid composite over layouts/Card
+
+`CardView` is a Geti-native component (no Spectrum equivalent). It accepts a generic item array and a `renderCard` function that maps each item to `CardProps`, then renders them in a CSS grid via inline styles. The `columns` and `gap` props drive `gridTemplateColumns` and the gap value respectively. Each cell has `role="listitem"` and the container has `role="list"` for correct ARIA semantics.
+
+### Tag — fully custom, no Spectrum dependency
+
+`Tag` is one of the few components in the entire library that uses **zero Spectrum dependencies**. It renders with plain inline `CSSProperties` objects referencing Spectrum global CSS tokens (`--spectrum-global-color-*`, `--spectrum-global-dimension-*`, `--energy-blue`). This makes it very lightweight but means it must manually adopt the theme via CSS variable references.
+
+### VirtualizedListLayout and VirtualizedHorizontalGrid — react-aria-components Virtualizer
+
+Both virtualized components bypass Spectrum's ListView/TableView and instead use the **`react-aria-components` `Virtualizer` + `ListBox`** pattern. This is the library's forward-looking direction (react-aria-components is the next generation after `@adobe/react-spectrum`).
+
+Key design choices:
+- `VirtualizedListLayout` uses `ListLayout` from `react-aria-components` and `useLoadMore` from `@react-aria/utils` to implement infinite-scroll load-more behaviour.
+- `VirtualizedHorizontalGrid` uses a custom `HorizontalLayout` class for the carousel layout.
+- Both use an `idFormatter` + `textValueFormatter` callback pattern to decouple rendering from identity, keeping the component generic over any `T`.
+- `VirtualizedListLayout` accepts a `renderLoading` slot for custom loading states, defaulting to `<Loading mode="inline" />` from `feedback/`.
+
+---
+
+## Flow
+
+1. **Collection data flows in via `items` prop** (array or Spectrum `AsyncListData`).
+2. **Selection flows back via `onSelectionChange`** (Spectrum's standard `Selection` type).
+3. **Bulk actions**: when `ActionBar`/`ActionBarContainer` wraps a `ListView` or `TableView`, Spectrum automatically connects the selected keys to the action bar's `selectedItemCount`.
+4. **Infinite scroll** (`VirtualizedListLayout`): `useLoadMore` monitors the scroll position via a `ref` on the container and fires `onLoadMore` when near the bottom. `isLoading` controls whether the loader sentinel `ListBoxItem` is appended to the list.
+
+---
+
+## Integration
+
+- **Depends on**:
+  - `@adobe/react-spectrum` — `ListBox`, `ListView`, `TableView`, `TreeView`, `TagGroup`, `ActionBar`
+  - `react-aria-components` — `Virtualizer`, `ListBox`, `ListBoxItem`, `ListLayout`
+  - `@react-aria/utils` — `useLoadMore`
+  - `../layouts/Card/Card` — `CardView` composes `Card` directly
+  - `../feedback/Loading/Loading` — `VirtualizedListLayout` default loading state
+- **Consumed by**: any Geti page that lists projects, annotations, datasets, media items, labels, or any other collection.
+- **Theme**: all Spectrum-based components inherit the Geti dark theme from `ThemeProvider`; `Tag` reads Spectrum global CSS tokens directly.

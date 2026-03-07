@@ -1,0 +1,71 @@
+# packages/ui/src/components/layouts/
+
+## Responsibility
+
+The `layouts/` category owns **structural containers that arrange and group other components** — the scaffolding and framing of the UI rather than interactive or data-display elements. These components define spatial relationships: how things sit side-by-side, how content is grouped, how sections collapse, and how summary panels are presented.
+
+Components in this folder:
+
+| Component | Purpose |
+|---|---|
+| `Flex` | CSS flexbox container with Spectrum dimension/spacing props |
+| `Grid` | CSS grid container with Spectrum dimension/spacing props |
+| `View` | General-purpose styled block container (re-exported from `ui/`) |
+| `Card` | Bordered, rounded content panel — static (`article`) or interactive (`button`) |
+| `Well` | Read-only content container with subtle background and border |
+| `Accordion` | Group of collapsible `Disclosure` sections |
+| `Disclosure` / `DisclosureTitle` / `DisclosurePanel` | Single collapsible section |
+
+---
+
+## Design
+
+### Thin Spectrum wrappers
+
+`Flex`, `Grid`, `Well`, `Accordion`, and `Disclosure` are thin wrappers over their Spectrum equivalents, following the standard library pattern:
+
+```tsx
+export const Flex = (props: FlexComponentProps) => <SpectrumFlex {...props} />;
+export const Grid = (props: GridComponentProps) => <SpectrumGrid {...props} />;
+```
+
+`Flex` and `Grid` accept Spectrum's typed `FlexProps` / `GridProps`, which use Spectrum's dimension token system (`size-100`, `size-200`, etc.) rather than raw CSS values. This ensures all spacing and sizing is consistent with the theme.
+
+`Disclosure` also re-exports its sub-components so callers can compose with them from a single import:
+```tsx
+export { DisclosurePanel, DisclosureTitle };
+```
+
+### `Card` — Geti-native component
+
+`Card` is one of the most design-significant custom components in the library. It has **no direct Spectrum equivalent** and is built on top of Spectrum's `View`. Its key design decisions:
+
+**Static vs interactive branching**: if `onPress` is provided the card renders a native `<button>` inside the `View` with `aria-pressed` and `aria-disabled`. If no `onPress` is provided it renders a semantic `<article>`. This ensures correct ARIA semantics regardless of usage.
+
+**Selected state via Spectrum style props**: the `View`'s `borderColor` and `backgroundColor` are toggled between Spectrum semantic values (`focus` / `mid` border, `informative` / `default` background) based on `isSelected`. This keeps selection styling in the theme's token system.
+
+**Focus ring**: `geti-global.module.css` defines `.geti-card-button:focus-visible` to apply a 2px `--energy-blue` outline, so keyboard focus is consistent with the rest of the Geti UI.
+
+**`UNSAFE_className` pass-through**: callers can apply additional CSS classes for further customisation.
+
+### `Accordion` / `Disclosure` decomposition
+
+`Accordion` wraps Spectrum's accordion which manages the exclusive/multi-expand logic. `Disclosure` wraps a single panel — it is the unit that `Accordion` composes. The sub-components `DisclosureTitle` and `DisclosurePanel` are re-exported from `Disclosure.tsx` as Spectrum originals (no wrapping needed at that level).
+
+---
+
+## Flow
+
+- **`Flex` and `Grid`** are purely structural — children are positioned by CSS; no state or events.
+- **`Card`** is the one layout component with interaction state. `isSelected` and `isDisabled` are controlled externally; `onPress` fires on click/keyboard-activation of the inner button.
+- **`Accordion`** manages expand/collapse state internally (Spectrum's `useAccordion`); callers can opt into multi-expand via `allowsMultipleExpanded`.
+- **`Disclosure`** can be used standalone for a single collapsible section; `isExpanded` / `onExpandedChange` make it controlled.
+
+---
+
+## Integration
+
+- **Depends on**: `@adobe/react-spectrum` — `Flex`, `Grid`, `View`, `Well`, `Accordion`, `Disclosure`, `DisclosurePanel`, `DisclosureTitle`.
+- **`Card` is consumed by `data/CardView`**: `CardView` renders a CSS grid of `Card` components driven by a data array. This is the primary pattern for browsing item collections in Geti.
+- **Consumed by**: every page-level template in Geti uses `Flex`/`Grid` for layout. `Well` is used for code/preformatted-text blocks. `Card`/`CardView` are used for project and dataset grids. `Accordion`/`Disclosure` are used for collapsible settings panels.
+- **Theme**: `--spectrum-well-background-color` and `--spectrum-well-border-color` are overridden in `geti-dark.module.css` to match the dark surface; `geti-card-button:focus-visible` outline is defined in `geti-global.module.css`.
