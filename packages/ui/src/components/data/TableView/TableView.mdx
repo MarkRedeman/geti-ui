@@ -5,9 +5,30 @@ import * as DocStories from './TableView.stories';
 
 <Title />
 
+```tsx
+import { TableView, TableHeader, TableBody, Column, Row, Cell } from '@geti/ui';
+```
+
+- [React Spectrum V3 TableView](https://react-spectrum.adobe.com/react-spectrum/TableView.html)
+- [React Aria Table (Headless Equivalent)](https://react-spectrum.adobe.com/react-aria/Table.html)
+
+<Stories />
+
 ## Responsibility
 
-Re-exports Adobe React Spectrum's `TableView` and all its sub-components (`TableHeader`, `TableBody`, `Column`, `Row`, `Cell`) as named Geti components from a single file, providing a complete virtualized, accessible data table with sorting, selection, and drag-and-drop support.
+`TableView` is the right choice when users need to **scan, sort, compare, and act on structured multi-column data**. It renders a fully virtualised table with built-in support for sorting, single/multi-row selection, drag-and-drop reordering, asynchronous loading, and column resizing.
+
+### When to use TableView
+- **Multi-column structured data**: When each row contains multiple comparable fields (e.g. name, type, date, status).
+- **Sorting**: When users need to sort rows by column header.
+- **Batch operations**: When users select one or many rows and act on the selection.
+- **Async / infinite scroll**: When rows are loaded from a server and more must be fetched on scroll.
+- **Resizable columns**: When users need to adjust column widths to fit their content.
+
+### Comparison with other components
+- **vs. ListView**: Use `ListView` for single-column item collections (e.g. a file browser or feed) where visual richness matters more than column comparison.
+- **vs. ListBox**: Use `ListBox` for simple selection inside a form — no interactive cells, no sorting.
+- **vs. CardView**: Use `CardView` for visual asset browsing with grid or waterfall layouts.
 
 ## Design
 
@@ -21,15 +42,15 @@ The design choice to export everything from one file ensures callers only need a
 
 ## Flow
 
-```
+```tsx
 <TableView selectionMode="multiple" onAction={handler}>
   <TableHeader>
-    <Column>Name</Column>
+    <Column isRowHeader>Name</Column>
     <Column>Status</Column>
   </TableHeader>
   <TableBody items={rows}>
     {row => (
-      <Row key={row.id}>
+      <Row key={row.id} id={row.id}>
         <Cell>{row.name}</Cell>
         <Cell>{row.status}</Cell>
       </Row>
@@ -44,9 +65,68 @@ The design choice to export everything from one file ensures callers only need a
 - Contrast with `ListView` — use `TableView` for multi-column structured data; use `ListView` for single-column item collections.
 - `Column` supports `allowsSorting` and `width`; `TableView` surfaces `sortDescriptor` and `onSortChange` for server-side sort integration.
 
+## Accessibility
 
-<Stories />
----
+### ARIA roles
+
+`TableView` uses `role="grid"` (not `role="table"`) because the table is interactive — cells are focusable and rows are selectable. The static `role="table"` does not permit interactive descendant elements per the WAI-ARIA spec.
+
+| Element | ARIA Role | Notes |
+| :--- | :--- | :--- |
+| `<TableView>` | `grid` | Interactive grid; single tab stop |
+| `<TableHeader>` row | `row` (in `rowgroup`) | Contains column headers |
+| `<Column>` | `columnheader` | Sortable columns get `aria-sort` |
+| `<TableBody>` | `rowgroup` | Contains data rows |
+| `<Row>` | `row` | `aria-selected` when selection is enabled |
+| `<Cell>` | `gridcell` | First column should use `isRowHeader` → `rowheader` role |
+
+### Keyboard interactions
+
+| Key | Action |
+| :--- | :--- |
+| `Tab` | Moves focus into the table (single tab stop via roving `tabindex`) |
+| `Arrow Up / Down` | Moves focus between rows |
+| `Arrow Left / Right` | Moves focus between cells within a row |
+| `Space` | Toggles row selection (in `toggle` selection behavior) |
+| `Enter` | Triggers `onAction` on the focused row |
+| `Escape` | Clears selection (configurable via `escapeKeyBehavior`) |
+| `Shift + Arrow Up/Down` | Extends selection range |
+| `Ctrl/Cmd + A` | Selects all rows |
+| `Home / End` | Moves focus to the first / last cell in a row |
+| `Page Up / Down` | Scrolls the table and moves focus one page |
+
+### Required labelling
+
+Always provide either `aria-label` or `aria-labelledby` on `<TableView>`:
+
+```tsx
+// Preferred: visible heading labels the table
+<h2 id="results-heading">Search Results</h2>
+<TableView aria-labelledby="results-heading">…</TableView>
+
+// Alternative: invisible label when no visible heading exists
+<TableView aria-label="Search results">…</TableView>
+```
+
+### Row header column
+
+Mark the primary identifying column with `isRowHeader` on `<Column>`. This maps the corresponding `<Cell>` to `role="rowheader"`, which screen readers announce when navigating across columns in a row.
+
+```tsx
+<TableHeader>
+  <Column isRowHeader>Name</Column>  {/* announced as row header */}
+  <Column>Type</Column>
+  <Column>Date Modified</Column>
+</TableHeader>
+```
+
+### Focus management
+
+`TableView` uses a **roving `tabindex`** strategy: the entire table is a single tab stop, and internal navigation uses arrow keys. Do not add `tabIndex` manually to rows or cells.
+
+### Screen reader cell descriptions
+
+For cells whose visual content is ambiguous (e.g. icon-only cells), provide a `textValue` prop on `<Cell>` so screen readers announce something meaningful.
 
 <Primary />
 
