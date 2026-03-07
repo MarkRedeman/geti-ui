@@ -505,7 +505,7 @@ const DataKitchenSink = () => (
 // ---------------------------------------------------------------------------
 
 const meta: Meta = {
-    title: 'Data/Kitchen Sink',
+    title: 'Kitchen sink/Data',
     parameters: {
         layout: 'fullscreen',
         a11y: {},

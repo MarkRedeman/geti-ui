@@ -311,7 +311,7 @@ const PickersKitchenSink = () => (
 
 const meta: Meta<typeof PickersKitchenSink> = {
     component: PickersKitchenSink,
-    title: 'Form/Pickers/Kitchen Sink',
+    title: 'Kitchen sink/Form/Pickers',
     parameters: {
         a11y: {},
         layout: 'fullscreen',

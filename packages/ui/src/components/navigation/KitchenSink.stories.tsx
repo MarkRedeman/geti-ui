@@ -307,7 +307,7 @@ const NavigationKitchenSink = () => (
 
 const meta: Meta<typeof NavigationKitchenSink> = {
     component: NavigationKitchenSink,
-    title: 'Navigation/Kitchen Sink',
+    title: 'Kitchen sink/Navigation',
     parameters: {
         a11y: {},
         layout: 'fullscreen',

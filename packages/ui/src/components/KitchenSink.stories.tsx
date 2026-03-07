@@ -2206,7 +2206,7 @@ const KitchenSink = () => (
 
 const meta: Meta<typeof KitchenSink> = {
     component: KitchenSink,
-    title: 'All/Kitchen Sink',
+    title: 'Kitchen sink/Overview',
     parameters: {
         a11y: {},
         layout: 'fullscreen',

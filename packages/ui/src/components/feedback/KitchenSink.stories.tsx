@@ -363,7 +363,7 @@ const FeedbackKitchenSink = () => (
 
 const meta: Meta<typeof FeedbackKitchenSink> = {
     component: FeedbackKitchenSink,
-    title: 'Feedback/Kitchen Sink',
+    title: 'Kitchen sink/Feedback',
     parameters: {
         a11y: {},
         layout: 'fullscreen',

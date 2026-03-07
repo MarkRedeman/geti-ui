@@ -298,7 +298,7 @@ const FormKitchenSink = () => (
 
 const meta: Meta<typeof FormKitchenSink> = {
     component: FormKitchenSink,
-    title: 'Form/Kitchen Sink',
+    title: 'Kitchen sink/Form',
     parameters: {
         a11y: {},
         layout: 'fullscreen',

@@ -5,3 +5,4 @@ I'd like to consolidate the `Loading` nad `IntelBrandedLoading` component into 1
 
 The progress circle should stay as is as, like the progressbar it could be used for something else.
 
+For backwards compatibility we should keep the `IntelBrandedLoading`, but have it use `<Loading variant="intel" />` internally

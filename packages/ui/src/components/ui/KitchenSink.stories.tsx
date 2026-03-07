@@ -403,7 +403,7 @@ const UIKitchenSink = () => (
 
 const meta: Meta<typeof UIKitchenSink> = {
     component: UIKitchenSink,
-    title: 'UI/Kitchen Sink',
+    title: 'Kitchen sink/UI',
     parameters: {
         a11y: {},
         layout: 'fullscreen',

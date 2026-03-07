@@ -383,7 +383,7 @@ const LayoutsKitchenSink = () => (
 // ---------------------------------------------------------------------------
 
 const meta: Meta = {
-    title: 'Layouts/Kitchen Sink',
+    title: 'Kitchen sink/Layouts',
     parameters: {
         layout: 'fullscreen',
         a11y: {},

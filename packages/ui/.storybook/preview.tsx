@@ -28,6 +28,21 @@ const preview: Preview = {
         a11y: {
             config: {},
         },
+        options: {
+            storySort: {
+                order: [
+                    'Kitchen sink',
+                    ['Overview', 'UI', 'Form', ['*', 'Pickers'], 'Data', 'Overlays', 'Feedback', 'Navigation', 'Layouts'],
+                    'UI',
+                    'Form',
+                    'Data',
+                    'Overlays',
+                    'Feedback',
+                    'Navigation',
+                    'Layouts',
+                ],
+            },
+        },
     },
 };
 

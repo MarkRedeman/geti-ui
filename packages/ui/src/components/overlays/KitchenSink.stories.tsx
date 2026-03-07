@@ -327,7 +327,7 @@ const OverlaysKitchenSink = () => (
 
 const meta: Meta<typeof OverlaysKitchenSink> = {
     component: OverlaysKitchenSink,
-    title: 'Overlays/Kitchen Sink',
+    title: 'Kitchen sink/Overlays',
     parameters: {
         a11y: {},
         layout: 'fullscreen',
