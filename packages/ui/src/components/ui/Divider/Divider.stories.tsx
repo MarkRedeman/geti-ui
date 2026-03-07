@@ -6,6 +6,7 @@ import type { Meta, StoryObj } from '@storybook/react';
 import { Divider } from './Divider';
 
 const meta: Meta<typeof Divider> = {
+    tags: ["!dev"],
     component: Divider,
     title: 'UI/Divider',
     argTypes: {

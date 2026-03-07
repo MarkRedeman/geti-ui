@@ -6,6 +6,7 @@ import type { Meta, StoryObj } from '@storybook/react';
 import { RangeSlider } from './RangeSlider';
 
 const meta: Meta<typeof RangeSlider> = {
+    tags: ["!dev"],
     component: RangeSlider,
     title: 'Form/RangeSlider',
     argTypes: {

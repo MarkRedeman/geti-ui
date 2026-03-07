@@ -6,6 +6,7 @@ import type { Meta, StoryObj } from '@storybook/react';
 import { ListView, Item } from './ListView';
 
 const meta: Meta<typeof ListView> = {
+    tags: ["!dev"],
     component: ListView,
     title: 'Data/ListView',
     argTypes: {

@@ -6,6 +6,7 @@ import type { Meta, StoryObj } from '@storybook/react';
 import { Skeleton } from './Skeleton';
 
 const meta: Meta<typeof Skeleton> = {
+    tags: ["!dev"],
     component: Skeleton,
     title: 'Feedback/Skeleton',
     argTypes: {

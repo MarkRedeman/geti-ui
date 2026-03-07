@@ -6,6 +6,7 @@ import type { Meta, StoryObj } from '@storybook/react';
 import { Image } from './Image';
 
 const meta: Meta<typeof Image> = {
+    tags: ["!dev"],
     component: Image,
     title: 'UI/Image',
     argTypes: {

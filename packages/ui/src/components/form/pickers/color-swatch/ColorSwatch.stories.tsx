@@ -4,6 +4,7 @@ import { ColorSwatch } from './ColorSwatch';
 import { Flex } from '../../../layouts/Flex/Flex';
 
 const meta: Meta<typeof ColorSwatch> = {
+    tags: ["!dev"],
     component: ColorSwatch,
     title: 'Form/Pickers/ColorSwatch',
     argTypes: {

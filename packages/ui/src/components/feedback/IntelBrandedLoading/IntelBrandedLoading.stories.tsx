@@ -2,6 +2,7 @@ import type { Meta, StoryObj } from '@storybook/react';
 import { IntelBrandedLoading } from './IntelBrandedLoading';
 
 const meta: Meta<typeof IntelBrandedLoading> = {
+    tags: ["!dev"],
     title: 'Feedback/IntelBrandedLoading',
     component: IntelBrandedLoading,
 };

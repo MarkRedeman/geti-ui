@@ -7,6 +7,7 @@ import { Breadcrumbs } from './Breadcrumbs';
 import { Item } from './Item';
 
 const meta: Meta<typeof Breadcrumbs> = {
+    tags: ["!dev"],
     component: Breadcrumbs,
     title: 'Navigation/Breadcrumbs',
     parameters: {

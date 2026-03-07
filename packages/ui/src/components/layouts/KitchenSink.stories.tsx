@@ -283,13 +283,31 @@ const LayoutsKitchenSink = () => (
                     <View>
                         <SubLabel>Centered (alignItems + justifyContent center)</SubLabel>
                         <Flex direction="row" gap="size-200" alignItems="center" justifyContent="center">
-                            <div style={{ ...cellStyle, background: 'var(--spectrum-global-color-magenta-400)', padding: '4px 12px' }}>
+                            <div
+                                style={{
+                                    ...cellStyle,
+                                    background: 'var(--spectrum-global-color-magenta-400)',
+                                    padding: '4px 12px',
+                                }}
+                            >
                                 Small
                             </div>
-                            <div style={{ ...cellStyle, background: 'var(--spectrum-global-color-magenta-400)', padding: '16px 12px' }}>
+                            <div
+                                style={{
+                                    ...cellStyle,
+                                    background: 'var(--spectrum-global-color-magenta-400)',
+                                    padding: '16px 12px',
+                                }}
+                            >
                                 Tall
                             </div>
-                            <div style={{ ...cellStyle, background: 'var(--spectrum-global-color-magenta-400)', padding: '4px 12px' }}>
+                            <div
+                                style={{
+                                    ...cellStyle,
+                                    background: 'var(--spectrum-global-color-magenta-400)',
+                                    padding: '4px 12px',
+                                }}
+                            >
                                 Small
                             </div>
                         </Flex>
@@ -328,17 +346,31 @@ const LayoutsKitchenSink = () => (
                     <View>
                         <SubLabel>2 columns</SubLabel>
                         <Grid columns="repeat(2, 1fr)" gap="size-100">
-                            <div style={{ ...cellStyle, background: 'var(--spectrum-global-color-green-400)' }}>Alpha</div>
-                            <div style={{ ...cellStyle, background: 'var(--spectrum-global-color-green-400)' }}>Beta</div>
-                            <div style={{ ...cellStyle, background: 'var(--spectrum-global-color-green-400)' }}>Gamma</div>
-                            <div style={{ ...cellStyle, background: 'var(--spectrum-global-color-green-400)' }}>Delta</div>
+                            <div style={{ ...cellStyle, background: 'var(--spectrum-global-color-green-400)' }}>
+                                Alpha
+                            </div>
+                            <div style={{ ...cellStyle, background: 'var(--spectrum-global-color-green-400)' }}>
+                                Beta
+                            </div>
+                            <div style={{ ...cellStyle, background: 'var(--spectrum-global-color-green-400)' }}>
+                                Gamma
+                            </div>
+                            <div style={{ ...cellStyle, background: 'var(--spectrum-global-color-green-400)' }}>
+                                Delta
+                            </div>
                         </Grid>
                     </View>
                     <View>
                         <SubLabel>Centered items</SubLabel>
                         <Grid columns="repeat(3, size-1600)" gap="size-200" justifyItems="center" alignItems="center">
                             <div style={{ ...cellStyle, background: 'var(--spectrum-global-color-purple-400)' }}>A</div>
-                            <div style={{ ...cellStyle, background: 'var(--spectrum-global-color-purple-400)', padding: '24px' }}>
+                            <div
+                                style={{
+                                    ...cellStyle,
+                                    background: 'var(--spectrum-global-color-purple-400)',
+                                    padding: '24px',
+                                }}
+                            >
                                 B
                             </div>
                             <div style={{ ...cellStyle, background: 'var(--spectrum-global-color-purple-400)' }}>C</div>
@@ -383,6 +415,7 @@ const LayoutsKitchenSink = () => (
 // ---------------------------------------------------------------------------
 
 const meta: Meta = {
+    tags: ['!dev'],
     title: 'Kitchen sink/Layouts',
     parameters: {
         layout: 'fullscreen',

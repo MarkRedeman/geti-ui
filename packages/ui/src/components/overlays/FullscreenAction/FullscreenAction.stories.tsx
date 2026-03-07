@@ -3,6 +3,7 @@ import { FullscreenAction } from './FullscreenAction';
 import { Flex, Text, View } from '@adobe/react-spectrum';
 
 const meta: Meta<typeof FullscreenAction> = {
+    tags: ["!dev"],
     title: 'Overlays/FullscreenAction',
     component: FullscreenAction,
 };

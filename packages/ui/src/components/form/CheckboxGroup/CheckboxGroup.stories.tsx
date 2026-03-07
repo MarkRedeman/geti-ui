@@ -7,6 +7,7 @@ import { Checkbox } from '@adobe/react-spectrum';
 import { CheckboxGroup } from './CheckboxGroup';
 
 const meta: Meta<typeof CheckboxGroup> = {
+    tags: ["!dev"],
     component: CheckboxGroup,
     title: 'Form/CheckboxGroup',
     argTypes: {

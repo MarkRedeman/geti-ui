@@ -6,6 +6,7 @@ import type { Meta, StoryObj } from '@storybook/react';
 import { ProgressBar } from './ProgressBar';
 
 const meta: Meta<typeof ProgressBar> = {
+    tags: ["!dev"],
     component: ProgressBar,
     title: 'Feedback/ProgressBar',
     argTypes: {

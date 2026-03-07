@@ -6,6 +6,7 @@ import type { Meta, StoryObj } from '@storybook/react';
 import { ToggleButton } from './ToggleButton';
 
 const meta: Meta<typeof ToggleButton> = {
+    tags: ["!dev"],
     component: ToggleButton,
     title: 'UI/ToggleButton',
     argTypes: {

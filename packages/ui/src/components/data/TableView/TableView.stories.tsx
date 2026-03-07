@@ -6,6 +6,7 @@ import type { Meta, StoryObj } from '@storybook/react';
 import { TableView, TableHeader, TableBody, Column, Row, Cell } from './TableView';
 
 const meta: Meta<typeof TableView> = {
+    tags: ["!dev"],
     component: TableView,
     title: 'Data/TableView',
     parameters: {

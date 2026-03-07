@@ -15,6 +15,7 @@ const items: MockItem[] = Array.from({ length: 500 }, (_, i) => ({
 }));
 
 const meta: Meta<typeof VirtualizedHorizontalGrid> = {
+    tags: ["!dev"],
     component: VirtualizedHorizontalGrid,
     title: 'Data/VirtualizedHorizontalGrid',
 };

@@ -6,6 +6,7 @@ import type { Meta, StoryObj } from '@storybook/react';
 import { Disclosure, DisclosurePanel, DisclosureTitle } from './Disclosure';
 
 const meta: Meta<typeof Disclosure> = {
+    tags: ["!dev"],
     component: Disclosure,
     title: 'Layouts/Disclosure',
     argTypes: {

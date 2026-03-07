@@ -7,6 +7,7 @@ import { Item } from '@adobe/react-spectrum';
 import { ActionMenu } from './ActionMenu';
 
 const meta: Meta<typeof ActionMenu> = {
+    tags: ["!dev"],
     component: ActionMenu,
     title: 'Navigation/ActionMenu',
     parameters: {

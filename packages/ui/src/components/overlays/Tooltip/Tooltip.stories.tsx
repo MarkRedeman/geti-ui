@@ -8,6 +8,7 @@ import { Tooltip } from './Tooltip';
 import { TooltipTrigger } from './TooltipTrigger';
 
 const meta: Meta<typeof Tooltip> = {
+    tags: ["!dev"],
     component: Tooltip,
     title: 'Overlays/Tooltip',
     parameters: {

@@ -4,6 +4,7 @@ import { ColorSlider } from './ColorSlider';
 import { Flex } from '../../../layouts/Flex/Flex';
 
 const meta: Meta<typeof ColorSlider> = {
+    tags: ["!dev"],
     component: ColorSlider,
     title: 'Form/Pickers/ColorSlider',
     argTypes: {

@@ -7,6 +7,7 @@ import { Button } from '../../ui/Button/Button';
 import { FileTrigger } from './FileTrigger';
 
 const meta: Meta<typeof FileTrigger> = {
+    tags: ["!dev"],
     component: FileTrigger,
     title: 'Form/FileTrigger',
     argTypes: {

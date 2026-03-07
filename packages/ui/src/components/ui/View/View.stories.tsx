@@ -6,6 +6,7 @@ import type { Meta, StoryObj } from '@storybook/react';
 import { View } from './View';
 
 const meta: Meta<typeof View> = {
+    tags: ["!dev"],
     component: View,
     title: 'UI/View',
     argTypes: {

@@ -6,6 +6,7 @@ import type { Meta, StoryObj } from '@storybook/react';
 import { Well } from './Well';
 
 const meta: Meta<typeof Well> = {
+    tags: ["!dev"],
     component: Well,
     title: 'Layouts/Well',
     argTypes: {

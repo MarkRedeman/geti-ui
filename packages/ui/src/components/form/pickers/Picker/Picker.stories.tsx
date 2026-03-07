@@ -6,6 +6,7 @@ import type { Meta, StoryObj } from '@storybook/react';
 import { Item, Picker } from './Picker';
 
 const meta: Meta<typeof Picker> = {
+    tags: ["!dev"],
     component: Picker,
     title: 'Form/Pickers/Picker',
     argTypes: {

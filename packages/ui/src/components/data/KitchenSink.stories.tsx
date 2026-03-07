@@ -151,8 +151,8 @@ const DataKitchenSink = () => (
                         color: 'var(--spectrum-global-color-gray-600)',
                     }}
                 >
-                    Showcase of all data components: action bar, card view, list box, list view, table view, tag,
-                    tag group, tree view, and virtualized layouts.
+                    Showcase of all data components: action bar, card view, list box, list view, table view, tag, tag
+                    group, tree view, and virtualized layouts.
                 </p>
             </View>
 
@@ -162,7 +162,11 @@ const DataKitchenSink = () => (
             <View padding="size-300" backgroundColor="gray-50" borderRadius="medium">
                 <SectionHeading title="ActionBar" subtitle="contextual action bar with multi-select list view" />
                 <ActionBarContainer height="size-2400">
-                    <ListView aria-label="List with Selection" selectionMode="multiple" defaultSelectedKeys={['1', '2']}>
+                    <ListView
+                        aria-label="List with Selection"
+                        selectionMode="multiple"
+                        defaultSelectedKeys={['1', '2']}
+                    >
                         <ListViewItem key="1">Item One</ListViewItem>
                         <ListViewItem key="2">Item Two</ListViewItem>
                         <ListViewItem key="3">Item Three</ListViewItem>
@@ -309,9 +313,7 @@ const DataKitchenSink = () => (
                             </TableHeader>
                             <TableBody items={tableRows}>
                                 {(item) => (
-                                    <Row>
-                                        {(columnKey) => <Cell>{item[columnKey as keyof typeof item]}</Cell>}
-                                    </Row>
+                                    <Row>{(columnKey) => <Cell>{item[columnKey as keyof typeof item]}</Cell>}</Row>
                                 )}
                             </TableBody>
                         </TableView>
@@ -330,9 +332,7 @@ const DataKitchenSink = () => (
                             </TableHeader>
                             <TableBody items={tableRows}>
                                 {(item) => (
-                                    <Row>
-                                        {(columnKey) => <Cell>{item[columnKey as keyof typeof item]}</Cell>}
-                                    </Row>
+                                    <Row>{(columnKey) => <Cell>{item[columnKey as keyof typeof item]}</Cell>}</Row>
                                 )}
                             </TableBody>
                         </TableView>
@@ -364,7 +364,17 @@ const DataKitchenSink = () => (
                         <SubLabel>With prefix</SubLabel>
                         <Tag
                             text="Prefix"
-                            prefix={<span style={{ width: 10, height: 10, background: 'currentColor', borderRadius: '50%', display: 'inline-block' }} />}
+                            prefix={
+                                <span
+                                    style={{
+                                        width: 10,
+                                        height: 10,
+                                        background: 'currentColor',
+                                        borderRadius: '50%',
+                                        display: 'inline-block',
+                                    }}
+                                />
+                            }
                         />
                     </View>
                     <View>
@@ -472,7 +482,10 @@ const DataKitchenSink = () => (
                             renderItem={(item) => (
                                 <Flex
                                     direction="column"
-                                    UNSAFE_style={{ padding: '8px 12px', borderBottom: '1px solid var(--spectrum-global-color-gray-200)' }}
+                                    UNSAFE_style={{
+                                        padding: '8px 12px',
+                                        borderBottom: '1px solid var(--spectrum-global-color-gray-200)',
+                                    }}
                                 >
                                     <Text>
                                         <strong>{item.name}</strong>
@@ -506,6 +519,7 @@ const DataKitchenSink = () => (
 // ---------------------------------------------------------------------------
 
 const meta: Meta = {
+    tags: ['!dev'],
     title: 'Kitchen sink/Data',
     parameters: {
         layout: 'fullscreen',

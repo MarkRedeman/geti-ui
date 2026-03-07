@@ -3,6 +3,7 @@ import { TreeView } from './TreeView';
 import { Item } from '@adobe/react-spectrum';
 
 const meta: Meta<typeof TreeView> = {
+    tags: ["!dev"],
     component: TreeView,
     title: 'Data/TreeView',
 };

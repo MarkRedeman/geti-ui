@@ -3,6 +3,7 @@ import type { Meta, StoryObj } from '@storybook/react';
 import { RangeCalendar } from './Calendar';
 
 const meta: Meta<typeof RangeCalendar> = {
+    tags: ["!dev"],
     component: RangeCalendar,
     title: 'Form/Pickers/RangeCalendar',
     argTypes: {

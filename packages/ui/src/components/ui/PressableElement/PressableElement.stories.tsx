@@ -3,6 +3,7 @@ import { PressableElement } from './PressableElement';
 import { View, Text } from '@adobe/react-spectrum';
 
 const meta: Meta<typeof PressableElement> = {
+    tags: ["!dev"],
     component: PressableElement,
     title: 'UI/PressableElement',
 };

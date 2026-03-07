@@ -4,6 +4,7 @@ import { ColorArea } from './ColorArea';
 import { Flex } from '../../../layouts/Flex/Flex';
 
 const meta: Meta<typeof ColorArea> = {
+    tags: ["!dev"],
     component: ColorArea,
     title: 'Form/Pickers/ColorArea',
     argTypes: {

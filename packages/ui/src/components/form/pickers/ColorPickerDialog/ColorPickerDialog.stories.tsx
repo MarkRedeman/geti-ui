@@ -3,6 +3,7 @@ import type { Meta, StoryObj } from '@storybook/react';
 import { ColorPickerDialog } from './ColorPickerDialog';
 
 const meta: Meta<typeof ColorPickerDialog> = {
+    tags: ["!dev"],
     component: ColorPickerDialog,
     title: 'Form/Pickers/ColorPickerDialog',
     argTypes: {

@@ -8,6 +8,7 @@ import { Dialog } from './Dialog';
 import { DialogTrigger } from './DialogTrigger';
 
 const meta: Meta<typeof Dialog> = {
+    tags: ["!dev"],
     component: Dialog,
     title: 'Overlays/Dialog',
     parameters: {

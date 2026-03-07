@@ -306,6 +306,7 @@ const NavigationKitchenSink = () => (
 // ---------------------------------------------------------------------------
 
 const meta: Meta<typeof NavigationKitchenSink> = {
+    tags: ["!dev"],
     component: NavigationKitchenSink,
     title: 'Kitchen sink/Navigation',
     parameters: {

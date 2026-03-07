@@ -7,6 +7,7 @@ import { Disclosure, DisclosurePanel, DisclosureTitle } from '@adobe/react-spect
 import { Accordion } from './Accordion';
 
 const meta: Meta<typeof Accordion> = {
+    tags: ["!dev"],
     component: Accordion,
     title: 'Layouts/Accordion',
     argTypes: {

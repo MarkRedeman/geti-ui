@@ -310,6 +310,7 @@ const PickersKitchenSink = () => (
 // ---------------------------------------------------------------------------
 
 const meta: Meta<typeof PickersKitchenSink> = {
+    tags: ["!dev"],
     component: PickersKitchenSink,
     title: 'Kitchen sink/Form/Pickers',
     parameters: {

@@ -7,6 +7,7 @@ import type { Meta, StoryObj } from '@storybook/react';
 import { InlineAlert } from './InlineAlert';
 
 const meta: Meta<typeof InlineAlert> = {
+    tags: ["!dev"],
     component: InlineAlert,
     title: 'Feedback/InlineAlert',
     argTypes: {

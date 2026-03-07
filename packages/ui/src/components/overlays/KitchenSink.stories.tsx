@@ -326,6 +326,7 @@ const OverlaysKitchenSink = () => (
 // ---------------------------------------------------------------------------
 
 const meta: Meta<typeof OverlaysKitchenSink> = {
+    tags: ["!dev"],
     component: OverlaysKitchenSink,
     title: 'Kitchen sink/Overlays',
     parameters: {

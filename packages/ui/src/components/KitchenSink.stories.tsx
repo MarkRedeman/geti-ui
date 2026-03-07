@@ -2205,6 +2205,7 @@ const KitchenSink = () => (
 // ---------------------------------------------------------------------------
 
 const meta: Meta<typeof KitchenSink> = {
+    tags: ["!dev"],
     component: KitchenSink,
     title: 'Kitchen sink/Overview',
     parameters: {

@@ -98,7 +98,7 @@ export const Tag = ({
     };
 
     return (
-        <div className={className} id={id} data-testid={id} style={containerStyle} title={tooltip} {...rest}>
+        <div className={className} id={id} data-testid={id} style={containerStyle} title={tooltip} aria-label={text} {...rest}>
             {hasPrefix && (
                 <span style={styles.prefixWrapper}>
                     {prefix ? prefix : withDot ? <span style={styles.dot} aria-hidden="true" /> : null}

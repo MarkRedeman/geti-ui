@@ -3,6 +3,7 @@ import type { Meta, StoryObj } from '@storybook/react';
 import { DateRangePicker } from './DateRangePicker';
 
 const meta: Meta<typeof DateRangePicker> = {
+    tags: ["!dev"],
     component: DateRangePicker,
     title: 'Form/Pickers/DateRangePicker',
     argTypes: {

@@ -6,6 +6,7 @@ import type { Meta, StoryObj } from '@storybook/react';
 import { ListBox, Item } from './ListBox';
 
 const meta: Meta<typeof ListBox> = {
+    tags: ["!dev"],
     component: ListBox,
     title: 'Data/ListBox',
     argTypes: {

@@ -2,6 +2,7 @@ import type { Meta, StoryObj } from '@storybook/react';
 import { PhotoPlaceholder } from './PhotoPlaceholder';
 
 const meta: Meta<typeof PhotoPlaceholder> = {
+    tags: ["!dev"],
     component: PhotoPlaceholder,
     title: 'UI/PhotoPlaceholder',
 };

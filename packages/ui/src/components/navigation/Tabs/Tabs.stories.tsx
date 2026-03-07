@@ -10,6 +10,7 @@ import { TabPanels } from './TabPanels';
 import { Tabs } from './Tabs';
 
 const meta: Meta<typeof Tabs> = {
+    tags: ["!dev"],
     component: Tabs,
     title: 'Navigation/Tabs',
     parameters: {

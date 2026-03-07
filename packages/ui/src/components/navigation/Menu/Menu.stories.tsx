@@ -10,6 +10,7 @@ import { MenuTrigger } from './MenuTrigger';
 import { Section } from './Section';
 
 const meta: Meta<typeof Menu> = {
+    tags: ["!dev"],
     component: Menu,
     title: 'Navigation/Menu',
     parameters: {

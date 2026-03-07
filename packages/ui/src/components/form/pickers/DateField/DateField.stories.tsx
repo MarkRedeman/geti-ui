@@ -3,6 +3,7 @@ import type { Meta, StoryObj } from '@storybook/react';
 import { DateField } from './DateField';
 
 const meta: Meta<typeof DateField> = {
+    tags: ["!dev"],
     component: DateField,
     title: 'Form/Pickers/DateField',
     argTypes: {

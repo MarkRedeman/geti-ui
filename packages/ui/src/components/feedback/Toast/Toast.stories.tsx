@@ -7,6 +7,7 @@ import { Button } from '../../ui/Button/Button';
 import { ToastContainer, toast } from './Toast';
 
 const meta: Meta<typeof ToastContainer> = {
+    tags: ["!dev"],
     component: ToastContainer,
     title: 'Feedback/Toast',
     parameters: {

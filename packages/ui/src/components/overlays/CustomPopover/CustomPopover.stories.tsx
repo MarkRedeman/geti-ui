@@ -7,6 +7,7 @@ import { Button as AriaButton } from 'react-aria-components';
 import { CustomPopover } from './CustomPopover';
 
 const meta: Meta<typeof CustomPopover> = {
+    tags: ["!dev"],
     component: CustomPopover,
     title: 'Overlays/CustomPopover',
     parameters: {

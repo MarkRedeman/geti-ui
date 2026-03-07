@@ -362,6 +362,7 @@ const FeedbackKitchenSink = () => (
 // ---------------------------------------------------------------------------
 
 const meta: Meta<typeof FeedbackKitchenSink> = {
+    tags: ["!dev"],
     component: FeedbackKitchenSink,
     title: 'Kitchen sink/Feedback',
     parameters: {

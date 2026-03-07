@@ -402,6 +402,7 @@ const UIKitchenSink = () => (
 // ---------------------------------------------------------------------------
 
 const meta: Meta<typeof UIKitchenSink> = {
+    tags: ["!dev"],
     component: UIKitchenSink,
     title: 'Kitchen sink/UI',
     parameters: {

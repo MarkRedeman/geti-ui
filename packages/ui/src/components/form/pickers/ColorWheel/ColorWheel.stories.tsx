@@ -3,6 +3,7 @@ import type { Meta, StoryObj } from '@storybook/react';
 import { ColorWheel } from './ColorWheel';
 
 const meta: Meta<typeof ColorWheel> = {
+    tags: ["!dev"],
     component: ColorWheel,
     title: 'Form/Pickers/ColorWheel',
     argTypes: {

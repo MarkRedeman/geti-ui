@@ -7,6 +7,7 @@ import { Avatar } from './Avatar';
 import { AvatarGroup } from './AvatarGroup';
 
 const avatarMeta: Meta<typeof Avatar> = {
+    tags: ['!dev'],
     component: Avatar,
     title: 'UI/Avatar',
     argTypes: {

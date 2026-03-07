@@ -6,6 +6,7 @@ import type { Meta, StoryObj } from '@storybook/react';
 import { StatusLight } from './StatusLight';
 
 const meta: Meta<typeof StatusLight> = {
+    tags: ["!dev"],
     component: StatusLight,
     title: 'Feedback/StatusLight',
     argTypes: {

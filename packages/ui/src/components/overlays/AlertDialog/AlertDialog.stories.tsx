@@ -8,6 +8,7 @@ import { AlertDialog } from './AlertDialog';
 import { DialogTrigger } from '../Dialog/DialogTrigger';
 
 const meta: Meta<typeof AlertDialog> = {
+    tags: ["!dev"],
     component: AlertDialog,
     title: 'Overlays/AlertDialog',
     parameters: {

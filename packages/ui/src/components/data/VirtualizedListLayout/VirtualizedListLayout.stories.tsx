@@ -15,6 +15,7 @@ const items: MockItem[] = Array.from({ length: 1000 }, (_, i) => ({
 }));
 
 const meta: Meta<typeof VirtualizedListLayout> = {
+    tags: ["!dev"],
     component: VirtualizedListLayout,
     title: 'Data/VirtualizedListLayout',
     argTypes: {

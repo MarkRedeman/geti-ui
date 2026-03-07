@@ -4,6 +4,7 @@ import { ColorField } from './ColorField';
 import { Flex } from '../../../layouts/Flex/Flex';
 
 const meta: Meta<typeof ColorField> = {
+    tags: ["!dev"],
     component: ColorField,
     title: 'Form/Pickers/ColorField',
     argTypes: {

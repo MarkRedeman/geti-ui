@@ -9,6 +9,7 @@ import { Dialog } from '../Dialog/Dialog';
 import { DialogContainer } from './DialogContainer';
 
 const meta: Meta<typeof DialogContainer> = {
+    tags: ["!dev"],
     component: DialogContainer,
     title: 'Overlays/DialogContainer',
     parameters: {

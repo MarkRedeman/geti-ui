@@ -6,6 +6,7 @@ import type { Meta, StoryObj } from '@storybook/react';
 import { Link } from './Link';
 
 const meta: Meta<typeof Link> = {
+    tags: ["!dev"],
     component: Link,
     title: 'Navigation/Link',
     argTypes: {

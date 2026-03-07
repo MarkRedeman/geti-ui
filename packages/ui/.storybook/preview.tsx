@@ -35,7 +35,17 @@ const preview: Preview = {
             storySort: {
                 order: [
                     'Kitchen sink',
-                    ['Overview', 'UI', 'Form', ['*', 'Pickers'], 'Data', 'Overlays', 'Feedback', 'Navigation', 'Layouts'],
+                    [
+                        'Overview',
+                        'UI',
+                        'Form',
+                        ['*', 'Pickers'],
+                        'Data',
+                        'Overlays',
+                        'Feedback',
+                        'Navigation',
+                        'Layouts',
+                    ],
                     'UI',
                     'Form',
                     'Data',

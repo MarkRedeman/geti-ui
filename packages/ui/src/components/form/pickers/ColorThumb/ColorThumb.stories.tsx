@@ -4,6 +4,7 @@ import { ColorThumb } from './ColorThumb';
 import { Flex } from '../../../layouts/Flex/Flex';
 
 const meta: Meta<typeof ColorThumb> = {
+    tags: ["!dev"],
     component: ColorThumb,
     title: 'Form/Pickers/ColorThumb',
     argTypes: {

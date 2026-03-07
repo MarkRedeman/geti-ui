@@ -21,6 +21,7 @@ const sampleItems: SampleItem[] = [
 ];
 
 const meta: Meta<typeof CardView<SampleItem>> = {
+    tags: ['!dev'],
     component: CardView,
     title: 'Data/CardView',
     argTypes: {

@@ -6,6 +6,7 @@ import type { Meta, StoryObj } from '@storybook/react';
 import { Tag } from './Tag';
 
 const meta: Meta<typeof Tag> = {
+    tags: ["!dev"],
     component: Tag,
     title: 'Data/Tag',
     argTypes: {

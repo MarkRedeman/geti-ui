@@ -6,6 +6,7 @@ import type { Meta, StoryObj } from '@storybook/react';
 import { TextArea } from './TextArea';
 
 const meta: Meta<typeof TextArea> = {
+    tags: ["!dev"],
     component: TextArea,
     title: 'Form/TextArea',
     argTypes: {

@@ -6,6 +6,7 @@ import type { Meta, StoryObj } from '@storybook/react';
 import { ProgressCircle } from './ProgressCircle';
 
 const meta: Meta<typeof ProgressCircle> = {
+    tags: ["!dev"],
     component: ProgressCircle,
     title: 'Feedback/ProgressCircle',
     argTypes: {

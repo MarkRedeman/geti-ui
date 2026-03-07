@@ -297,6 +297,7 @@ const FormKitchenSink = () => (
 // ---------------------------------------------------------------------------
 
 const meta: Meta<typeof FormKitchenSink> = {
+    tags: ["!dev"],
     component: FormKitchenSink,
     title: 'Kitchen sink/Form',
     parameters: {

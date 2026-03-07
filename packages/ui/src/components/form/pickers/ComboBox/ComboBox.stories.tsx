@@ -6,6 +6,7 @@ import type { Meta, StoryObj } from '@storybook/react';
 import { ComboBox, Item } from './ComboBox';
 
 const meta: Meta<typeof ComboBox> = {
+    tags: ["!dev"],
     component: ComboBox,
     title: 'Form/Pickers/ComboBox',
     argTypes: {
