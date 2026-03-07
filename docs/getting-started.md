@@ -8,7 +8,10 @@ Geti UI is built as a robust, accessible, and high-performance React component l
 
 ## 🏗 Architecture & Design
 
-Geti UI follows a **thin-wrapper pattern**. Instead of reinventing core UI logic, we wrap industry-standard accessible primitives (React Spectrum v3 and Spectrum 2) to provide a consistent visual language while maintaining full accessibility and keyboard support.
+Geti UI follows a **thin-wrapper pattern**. Instead of reinventing core UI logic, we wrap industry-standard accessible primitives from [React Spectrum v3](https://react-spectrum.adobe.com/v3/getting-started.html) to provide a consistent visual language while maintaining full accessibility and keyboard support.
+
+### Future Roadmap
+We are planning a gradual migration from React Spectrum v3 to a [react-aria-components](https://react-spectrum.adobe.com/react-aria/react-aria-components.html)-based implementation. This transition will be executed in phases, allowing us to maintain visual consistency while gaining more control over the DOM structure and styling.
 
 ### Component Domains
 Components are organized into logical categories to simplify discovery:
@@ -29,7 +32,6 @@ Geti UI is **dark-mode first**. The theme is driven by a custom set of CSS varia
 
 - **Design Tokens**: Located in `src/theme/tokens.css`.
 - **CSS Modules**: Used for component-specific overrides when Spectrum's standard props aren't sufficient.
-- **Spectrum 2 (S2)**: We are progressively adopting Spectrum 2, which utilizes a more modern styling macro approach.
 
 ---
 
