@@ -1,41 +1,98 @@
-import { Meta, Title, Subtitle, Description, Primary, Controls, Stories } from '@storybook/addon-docs/blocks';
+import { Meta, Title, Subtitle, Description, Primary, Controls, Stories } from '@storybook/blocks';
 import * as DocStories from './TextArea.stories';
 
 <Meta of={DocStories} />
 
-<Title />
+<Title>TextArea</Title>
+
+<Subtitle>A multi-line text input field for long-form content like comments, descriptions, or notes.</Subtitle>
+
+```tsx
+import { TextArea } from '@geti/ui';
+```
+
+- [React Spectrum V3 TextArea](https://react-spectrum.adobe.com/react-spectrum/TextArea.html)
+- [Spectrum 2 TextArea](https://react-spectrum.adobe.com/s2/TextArea.html)
+
+<Stories />
 
 ## Responsibility
 
-Provides a multi-line text input primitive. A minimal Spectrum wrapper to centralise the import of `SpectrumTextArea` so consumers never reference `@adobe/react-spectrum` directly.
+The `TextArea` component is a multi-line text input primitive built on Adobe React Spectrum. It is designed for situations where the expected user input may span several lines of text.
 
-## Design
+### When to use
+- For long-form text entry such as comments, descriptions, or addresses.
+- When the input should support multiple lines and preserve line breaks.
 
-Pure thin wrapper — no props are altered:
+### When to use something else
+- Use [TextField](/docs/components-form-textfield--docs) for single-line inputs like names, emails, or short IDs.
+- Use [SearchField](/docs/components-form-searchfield--docs) for search-specific inputs.
 
-```tsx
-export interface TextAreaProps extends SpectrumTextAreaProps {}
-export const TextArea = (props: TextAreaProps) => <SpectrumTextArea {...props} />;
-```
+## Variants
 
-`TextAreaProps` extends `SpectrumTextAreaProps` without modification, preserving the full Spectrum API surface including `autoResize`, `minHeight`, label, validation, and placeholder props.
+### States
+- **Disabled**: The field is not focusable or interactive. Use `isDisabled`.
+- **Read-only**: The field is focusable and the text can be copied, but not edited. Use `isReadOnly`.
+- **Invalid**: Indicates a validation error. In V3, use `validationState="invalid"`.
+- **Required**: Marks the field as mandatory. Use `isRequired`.
 
-## Flow
-
-Controlled or uncontrolled. Spectrum manages ARIA attributes, resize behaviour, and field labelling internally. `value` + `onChange` for controlled; omit both for uncontrolled.
-
-## Integration
-
-- **Depends on**: `@adobe/react-spectrum` (`TextArea`, `SpectrumTextAreaProps`)
-- **Used by**: any form requiring multi-line text input (notes, descriptions, free-form content)
-
-
-<Stories />
----
-
-<Primary />
+### Constraints
+- **Minimum/Maximum Length**: Use `minLength` and `maxLength` to enforce character limits.
+- **Rows**: While not a direct Spectrum prop, the underlying `<textarea>` can be influenced via `UNSAFE_*` props or native HTML pass-through in future versions.
 
 ## Props
 
-<Controls />
+### Content
+| Prop | Type | Description |
+|---|---|---|
+| `label` | `ReactNode` | The content to display as the label. |
+| `placeholder` | `string` | Temporary text that appears when the field is empty. |
+| `description` | `ReactNode` | Help text displayed below the field. |
+| `errorMessage` | `ReactNode` | Error message displayed when the field is invalid. |
+| `contextualHelp` | `ReactNode` | A `<ContextualHelp>` element placed next to the label. |
 
+### Value / State
+| Prop | Type | Default | Description |
+|---|---|---|---|
+| `value` | `string` | — | The current value (controlled). |
+| `defaultValue` | `string` | — | The initial value (uncontrolled). |
+| `validationState` | `'valid' \| 'invalid'` | — | Whether the input is valid or invalid. |
+| `isRequired` | `boolean` | `false` | Whether user input is required. |
+| `isReadOnly` | `boolean` | `false` | Whether the field can be edited. |
+| `isDisabled` | `boolean` | `false` | Whether the field is disabled. |
+
+### Events
+| Prop | Type | Description |
+|---|---|---|
+| `onChange` | `(value: string) => void` | Handler called when the value changes. |
+| `onFocus` | `(e: FocusEvent) => void` | Handler called when focus is gained. |
+| `onBlur` | `(e: FocusEvent) => void` | Handler called when focus is lost. |
+
+### Styles
+| Prop | Type | Description |
+|---|---|---|
+| `labelPosition` | `'top' \| 'side'` | Position of the label relative to the input. |
+| `labelAlign` | `'start' \| 'end'` | Horizontal alignment of the label. |
+| `width` | `DimensionValue` | Width of the component. |
+| `isQuiet` | `boolean` | Whether to display with a quiet (borderless) style. |
+
+## Accessibility
+
+- Renders an underlying `<textarea>` element with `aria-multiline="true"`.
+- Automatically associates labels and error messages via `aria-labelledby` and `aria-describedby`.
+- **Enter key behavior**: Unlike `TextField`, pressing Enter in a `TextArea` inserts a new line rather than submitting the form.
+- Full keyboard support for navigation, selection, and editing.
+
+## Spectrum 2 Migration
+
+When migrating to Spectrum 2 (S2), consider these changes:
+
+| V3 Prop | S2 Equivalent | Notes |
+|---|---|---|
+| `validationState="invalid"` | `isInvalid` | Renamed to a boolean flag. |
+| `validationState="valid"` | — | Valid visual state removed. |
+| `isQuiet` | — | Quiet variant removed in S2. |
+| `width="size-3600"` | `styles={style({ width: 288 })}` | Style props migrate to the `style()` macro. |
+| `size` | `size` | S2 adds a `size` prop (`'S'`, `'M'`, `'L'`, `'XL'`). |
+
+<Controls />
