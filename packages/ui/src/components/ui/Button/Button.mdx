@@ -1,75 +1,98 @@
-import { Meta, Title, Subtitle, Description, Primary, Controls, Stories } from '@storybook/addon-docs/blocks';
+import { Meta, Title, Subtitle, Description, Primary, Controls, Stories, Source } from '@storybook/blocks';
 import * as DocStories from './Button.stories';
 
 <Meta of={DocStories} />
 
-<Title />
+<Title>Button</Title>
+
+<Subtitle>
+  Buttons allow users to perform an action, navigate to another page, or trigger a functional workflow.
+</Subtitle>
+
+```tsx
+import { Button } from '@geti/ui';
+```
+
+- [React Spectrum Button](https://react-spectrum.adobe.com/react-spectrum/Button.html)
+- [Spectrum 2 Button](https://react-spectrum.adobe.com/s2/Button)
+
+<Stories />
 
 ## Responsibility
 
-`Button` is the primary call-to-action control. It wraps Adobe React Spectrum's `Button` and re-exports it as the Geti-flavoured entry point. Its single purpose is to:
+The `Button` component is a lightweight wrapper around Adobe's React Spectrum `Button`. It enforces Geti-specific defaults, handles ref forwarding, and ensures a clean integration with the design system.
 
-1. Strip the two legacy Spectrum variants (`cta`, `overBackground`) from the public API so they cannot be used accidentally.
-2. Default the `variant` prop to `'accent'` (Geti's energy-blue primary action colour).
-3. Merge caller-supplied `UNSAFE_className` cleanly via `clsx` rather than overwriting it.
-
-<Stories />
----
-
-## Design
-
-### Wrapping strategy
-
-```tsx
-// Button.tsx (simplified)
-type VariantWithoutLegacy = Exclude<SpectrumButtonProps['variant'], 'cta' | 'overBackground'>;
-
-export interface ButtonProps extends Omit<SpectrumButtonProps, 'variant'> {
-    variant?: VariantWithoutLegacy;
-    UNSAFE_className?: string;
-    ref?: FocusableRef<HTMLElement>;
-}
-
-export const Button = ({ variant = 'accent', UNSAFE_className, ...rest }: ButtonProps) => (
-    <SpectrumButton {...rest} variant={variant} UNSAFE_className={clsx(UNSAFE_className) || undefined} />
-);
-```
-
-**Key decisions:**
-- `Omit<SpectrumButtonProps, 'variant'>` plus the narrowed `variant?` replaces the Spectrum union with the restricted one. TypeScript will reject `variant="cta"` at call sites.
-- `clsx(UNSAFE_className) || undefined` normalises empty-string to `undefined` so Spectrum doesn't receive a blank className attribute.
-- `FocusableRef<HTMLElement>` is exposed on `ButtonProps` so callers can get a ref to the underlying element via Spectrum's ref model.
-- `Button.module.css` exists but is currently empty — reserved for future static overrides.
-
-### Allowed variants
-
-
-| Variant | Usage |
-|---|---|
-| `accent` (default) | Primary action — energy-blue fill |
-| `primary` | Neutral fill |
-| `secondary` | Outlined / ghost |
-| `negative` | Destructive action — coral-red fill |
+Key refinements include:
+- **Simplified Variants**: Legacy Spectrum variants like `cta` and `overBackground` are removed.
+- **Accent Default**: The component defaults to the `accent` variant (blue), which is the primary Geti call-to-action color.
+- **Ref Forwarding**: Supports `FocusableRef<HTMLElement>` for precise focus management.
 
 ---
 
-## Flow
+## Variants
 
-Pure presentational — props in, Spectrum `Button` out. No state, no context, no side-effects.
+### Styles
+Buttons can be rendered with a solid `fill` or an `outline` style. The default is `fill`.
+
+### Semantic Variants
+
+| Variant | Use Case | Visual Weight |
+|---------|----------|---------------|
+| `accent` (Default) | **Primary CTA**. Use for the most important action on a page (e.g., "Save", "Create"). | High |
+| `primary` | Secondary important actions that shouldn't compete with the main CTA. | Medium |
+| `secondary` | Tertiary actions or cancel buttons. Often paired with `style="outline"`. | Low |
+| `negative` | **Destructive actions**. Use for delete or remove operations. | High (Warning) |
 
 ---
-
-## Integration
-
-- **Imported by**: `ToggleButtons` (internal composition), `ColorPickerDialog`, and every consumer that needs a labelled call-to-action.
-- **Depends on**: `@adobe/react-spectrum` (`Button`, `SpectrumButtonProps`), `@react-types/shared` (`FocusableRef`), `clsx`.
-- **Theme**: variant colours (`accent` → energy-blue) resolve from `--spectrum-global-color-*` tokens set by `ThemeProvider`.
-
----
-
-<Primary />
 
 ## Props
 
-<Controls />
+<Controls of={DocStories.Default} />
 
+### Content
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `children` | `ReactNode` | — | The label text or content to display inside the button. |
+| `elementType` | `string \| ElementType` | `'button'` | The HTML element to render (e.g., `'a'`, `'button'`). |
+| `href` | `string` | — | A URL to link to if `elementType="a"`. |
+
+### Value / State
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `variant` | `'accent' \| 'primary' \| 'secondary' \| 'negative'` | `'accent'` | The visual style of the button. |
+| `style` | `'fill' \| 'outline'` | `'fill'` | The background/border style of the button. |
+| `isDisabled` | `boolean` | `false` | Whether the button is disabled. |
+| `isPending` | `boolean` | `false` | Shows a loading spinner and disables interaction. |
+
+### Events
+
+| Prop | Type | Description |
+|------|------|-------------|
+| `onPress` | `(e: PressEvent) => void` | Handler called when the button is pressed (click/touch/keyboard). |
+| `onPressStart` | `(e: PressEvent) => void` | Handler called when a press interaction starts. |
+| `onPressEnd` | `(e: PressEvent) => void` | Handler called when a press interaction ends. |
+
+### Styles
+
+The `Button` component accepts all standard [Spectrum layout and spacing props](https://react-spectrum.adobe.com/react-spectrum/styling.html), including `margin`, `position`, `flex`, `width`, and `height`.
+
+---
+
+## Accessibility
+
+- **Labels**: Ensure buttons have a clear, descriptive label. If using an icon-only button, provide an `aria-label`.
+- **Keyboard Navigation**: Buttons are fully accessible via the keyboard (Space and Enter keys).
+- **Focus Management**: Use the forwarded `ref` to manage focus programmatically when needed (e.g., returning focus after a dialog closes).
+
+---
+
+## Spectrum 2 Migration
+
+When migrating to Spectrum 2 (`@react-spectrum/s2`), be aware of the following changes:
+
+- **`style` → `fillStyle`**: The `style` prop is renamed to `fillStyle` in S2.
+- **`size` Prop**: S2 introduces a `size` prop (`'S' \| 'M' \| 'L' \| 'XL'`).
+- **Styles Macro**: Layout and spacing props are consolidated into a new `styles` macro system.
+- **New Variants**: S2 adds `premium` (gold) and `genai` (gradient) variants.
