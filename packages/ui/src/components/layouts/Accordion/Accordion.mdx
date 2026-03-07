@@ -3,41 +3,100 @@ import * as DocStories from './Accordion.stories';
 
 <Meta of={DocStories} />
 
-<Title />
+# Accordion
+
+<Subtitle>An Accordion organizes a collection of related sections into a vertically stacked list of collapsible items.</Subtitle>
+
+```tsx
+import { Accordion, Disclosure, DisclosureTitle, DisclosurePanel } from '@geti/ui';
+```
+
+- [React Spectrum V3 Accordion](https://react-spectrum.adobe.com/react-spectrum/Accordion.html)
+- [Spectrum 2 Accordion](https://react-spectrum.adobe.com/s2/Accordion.html)
+
+<Stories />
 
 ## Responsibility
 
-Re-exports Adobe React Spectrum's `Accordion` as a named Geti component, providing a container for a set of `Disclosure` items — collapsible/expandable sections grouped together. Manages which sections are open (controlled or uncontrolled) and applies consistent spacing.
+The `Accordion` component acts as a container for multiple `Disclosure` items. It manages the expansion state across all of its items, providing a cohesive layout and consistent behavior for large sets of related information.
 
-## Design
+Key responsibilities:
+- **Grouped Disclosure**: Coordinates multiple collapsible sections as a single unit.
+- **State Coordination**: Supports both single-item and multi-item expansion modes.
+- **Visual Consistency**: Ensures a uniform look and feel (spacing, alignment) across all items in the accordion.
+- **Progressive Disclosure**: Keeps the UI clean by hiding non-essential content until requested.
 
-Thin wrapper — `AccordionProps extends SpectrumAccordionProps`. The component body is `(props) => <SpectrumAccordion {...props} />`.
+### When to use
+- For large configuration panels with many settings that can be logically grouped.
+- For FAQ sections where users need to scan many questions before reading a specific answer.
+- When vertical space is limited and content can be effectively layered or hidden.
 
-`Accordion` acts as a grouping container — it does not render visible UI itself but coordinates the open/close state across its `Disclosure` children (in controlled mode via `expandedKeys`/`onExpandedChange`).
+### When to avoid
+- When only a single collapsible section is needed (use `Disclosure` instead).
+- When the user needs to see all content at once to compare items (use a `Well` or a simple stack).
+- For primary site-wide navigation (use a sidebar or `Tabs`).
 
-## Flow
+## Variants
 
-```
-props { children (Disclosure nodes), expandedKeys?, onExpandedChange?, ...rest }
-  → <SpectrumAccordion {...props} />
-      → {children}   ← Disclosure components
-```
+### Expansion Mode
+- **Single (Default)**: Only one section can be expanded at a time. Expanding a new section will automatically collapse the previously expanded one.
+- **Multiple**: Allows any number of sections to be expanded or collapsed independently. Enable this via the `allowsMultipleExpanded` prop.
 
-No state, no effects, no refs.
-
-## Integration
-
-- Always used in combination with `Disclosure` (same layouts/ category), which provides the individual collapsible section.
-- Used for settings panels, FAQ sections, and grouped navigation lists where multiple collapsible sections are needed.
-- Themed automatically by `ThemeProvider`.
-
-
-<Stories />
----
-
-<Primary />
+### Density
+Supports `compact`, `regular`, and `spacious` density levels (added in Spectrum 2) to control the overall visual scale and spacing.
 
 ## Props
 
-<Controls />
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `children` | `DisclosureNode[]` | - | The `Disclosure` items to display. |
+| `allowsMultipleExpanded` | `boolean` | `false` | Whether multiple items can be expanded simultaneously. |
+| `expandedKeys` | `Iterable<Key>` | - | The keys of the expanded sections (controlled). |
+| `defaultExpandedKeys` | `Iterable<Key>` | `[]` | The keys of the sections expanded by default (uncontrolled). |
+| `onExpandedChange` | `(keys: Selection) => void` | - | Handler called when the expansion state changes. |
+| `isDisabled` | `boolean` | `false` | Whether the entire accordion is disabled. |
+
+## Accessibility
+
+- **Roles**: Implements the WAI-ARIA Accordion pattern. Each trigger has `aria-expanded` and `aria-controls`, and each panel has `role="region"` or `role="group"`.
+- **Keyboard Support**:
+  - `Tab` moves focus to the header of the next/previous disclosure item.
+  - `Enter` or `Space` toggles the expansion of the focused section.
+  - `Arrow Up/Down` moves focus between disclosure headers within the accordion.
+  - `Home/End` jumps focus to the first or last disclosure header.
+
+## Spectrum 2 Migration
+
+The migration to Spectrum 2 (S2) introduces improved visual density controls and a more modern selection system.
+
+### Structural Changes
+- **No Structural Breaks**: The relationship between `Accordion` and its `Disclosure` children remains stable.
+- **Import Changes**: Update the import from `@adobe/react-spectrum` to `@react-spectrum/s2`.
+
+### New Features
+- **Visual Scales**: New `size` and `density` props allow for better integration into different UI contexts.
+- **isQuiet**: A new variant that removes borders for a cleaner look.
+- **Styles Macro**: Layout and spacing overrides are handled via the `styles` prop and the `style()` macro.
+
+### Migration Example
+
+**V3 Style (Current):**
+```tsx
+<Accordion allowsMultipleExpanded defaultExpandedKeys={['info']}>
+  <Disclosure id="info">
+    <DisclosureTitle>Project Info</DisclosureTitle>
+    <DisclosurePanel>Project description goes here...</DisclosurePanel>
+  </Disclosure>
+</Accordion>
+```
+
+**S2 Style (Future):**
+```tsx
+<Accordion size="M" density="compact" allowsMultipleExpanded>
+  <Disclosure id="info">
+    <DisclosureTitle>Project Info</DisclosureTitle>
+    <DisclosurePanel>Project description goes here...</DisclosurePanel>
+  </Disclosure>
+</Accordion>
+```
 
