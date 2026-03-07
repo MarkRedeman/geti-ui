@@ -13,7 +13,6 @@ import { ActionBar, ActionBarContainer } from '@geti/ui';
 
 - [React Spectrum V3 ActionBar](https://react-spectrum.adobe.com/react-spectrum/ActionBar.html)
 - [React Spectrum V3 ActionBarContainer](https://react-spectrum.adobe.com/react-spectrum/ActionBarContainer.html)
-- [Spectrum 2 ActionBar](https://react-spectrum.adobe.com/s2/ActionBar.html)
 
 <Stories />
 
@@ -69,24 +68,3 @@ Controls how labels are displayed for the action buttons:
 ### Labeling
 - Icon-only buttons must have accessible labels. Use `buttonLabelBehavior="hide"` to auto-generate tooltips from the `<Text>` child, or provide an `aria-label` directly on the item.
 
-## Spectrum 2 Migration
-
-The migration to Spectrum 2 (S2) involves a significant architectural shift:
-
-- **No more `ActionBarContainer`**: The wrapper is eliminated.
-- **Render Prop Pattern**: The `ActionBar` is now passed directly to the collection component via a new `renderActionBar` prop.
-- **Component Changes**: Children change from `<Item>` to direct `<ActionButton>` components.
-- **Event Handlers**: Instead of a single root `onAction(key)`, each `ActionButton` defines its own `onPress` handler.
-
-### S2 Example Preview
-```tsx
-<TableView
-  renderActionBar={(selectedKeys) => (
-    <ActionBar>
-      <ActionButton onPress={handleDelete}><Delete /><Text>Delete</Text></ActionButton>
-    </ActionBar>
-  )}
->
-  {/* Table content */}
-</TableView>
-```
