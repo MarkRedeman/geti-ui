@@ -3,50 +3,90 @@ import * as DocStories from './ActionBar.stories';
 
 <Meta of={DocStories} />
 
-<Title />
+<Title>ActionBar</Title>
+
+<Subtitle>A contextual toolbar for performing bulk actions on selected collection items.</Subtitle>
+
+```tsx
+import { ActionBar, ActionBarContainer } from '@geti/ui';
+```
+
+- [React Spectrum V3 ActionBar](https://react-spectrum.adobe.com/react-spectrum/ActionBar.html)
+- [React Spectrum V3 ActionBarContainer](https://react-spectrum.adobe.com/react-spectrum/ActionBarContainer.html)
+- [Spectrum 2 ActionBar](https://react-spectrum.adobe.com/s2/ActionBar.html)
+
+<Stories />
 
 ## Responsibility
 
-Re-exports Adobe React Spectrum's `ActionBar` and `ActionBarContainer` as named Geti components from a single file, providing a contextual toolbar that appears when items in a collection (typically `ListView` or `TableView`) are selected.
+`ActionBar` is a **selection-driven contextual component** used for single and bulk selection patterns. It appears in conjunction with a collection component (like `TableView` or `ListView`) when one or more items are selected, surfacing a set of available actions alongside a count of selected items and a "clear selection" button.
 
-## Design
+### Usage Rules
+- **Selection is required**: `ActionBar` must always be paired with a selectable collection (`selectionMode="multiple"` or `"single"`).
+- **Visibility driven by count**: The bar only appears when `selectedItemCount > 0` (or `'all'`). It hides automatically when the count is `0`.
+- **Contextual, not persistent**: Do not use `ActionBar` as a permanent toolbar. Use `Toolbar` or `ActionGroup` for persistent actions.
+- **Container Requirement**: In the current V3-based implementation, `ActionBar` **must** be wrapped in an `ActionBarContainer` alongside the collection it controls to coordinate layout and animations.
 
-Two exports from one file:
+## Variants
 
-- **`ActionBar`** — generic thin wrapper. `ActionBarProps<T extends object>` is a type alias of `SpectrumActionBarProps<T>`. Component body: `(props) => <SpectrumActionBar {...props} />`. Renders the action buttons that appear when items are selected. Props: `selectedItemCount`, `isEmphasized`, `onAction`, `onClearSelection`, and `children` (action `Item` nodes).
-- **`ActionBarContainer`** — thin wrapper. `ActionBarContainerProps extends SpectrumActionBarContainerProps`. Component body: `(props) => <SpectrumActionBarContainer {...props} />`. Must wrap both the collection component and the `ActionBar` to coordinate their layout (the bar slides in at the bottom of the collection).
+### ActionBarContainer
+The wrapper component that manages the layout and sliding animation. It should wrap both the collection (e.g., `ListView`) and the `ActionBar`.
 
-## Flow
+### Emphasized
+Use the `isEmphasized` prop when the bar floats over content (e.g., over a `TableView`). Omit it when the ActionBar should blend in with the surrounding UI.
 
-```
-<ActionBarContainer>
-  <ListView selectionMode="multiple" ...>
-    ...
-  </ListView>
-  <ActionBar selectedItemCount={selectedCount}
-             onAction={handleAction}
-             onClearSelection={clearSelection}>
-    <Item key="delete">Delete</Item>
-    <Item key="move">Move</Item>
-  </ActionBar>
-</ActionBarContainer>
-```
-
-`ActionBarContainer` manages the sliding reveal animation and z-index coordination.
-
-## Integration
-
-- Used wherever bulk selection actions are needed on collections: delete multiple images, move multiple annotations, assign labels to multiple items.
-- Always paired: `ActionBarContainer` wraps the collection + `ActionBar`; do not use `ActionBar` outside an `ActionBarContainer`.
-- `Item` from Spectrum (or `ListBox/Item`) defines the individual action buttons.
-
-
-<Stories />
----
-
-<Primary />
+### Button Label Behavior
+Controls how labels are displayed for the action buttons:
+- `show`: Always show text labels.
+- `hide`: Hide text labels and show them as tooltips on hover (useful for icon-only bars).
+- `collapse`: (Default) Show labels if space permits, otherwise hide them.
 
 ## Props
 
-<Controls />
+### ActionBar Props
+| Prop | Type | Default | Description |
+| :--- | :--- | :--- | :--- |
+| `children` | `ItemElement \| ItemRenderer` | — | The action items to display (typically `<Item>` nodes). |
+| `selectedItemCount` | `number \| 'all'` | — | **Required.** The number of selected items. Controls visibility. |
+| `onAction` | `(key: Key) => void` | — | Handler that is called when an action is selected. |
+| `onClearSelection` | `() => void` | — | Handler that is called when the "clear selection" button is pressed. |
+| `isEmphasized` | `boolean` | `false` | Whether the ActionBar should be emphasized. |
+| `buttonLabelBehavior` | `'show' \| 'collapse' \| 'hide'` | `'collapse'` | The behavior of the button labels. |
 
+### ActionBarContainer Props
+| Prop | Type | Default | Description |
+| :--- | :--- | :--- | :--- |
+| `children` | `ReactNode` | — | Should include a collection component and an `ActionBar`. |
+| `layout` props | `DimensionValue` | — | Supports standard layout props like `height`, `width`, `flex`, etc. |
+
+## Accessibility
+
+### Roles and Navigation
+- The action buttons are contained within a `role="toolbar"`, following the WAI-ARIA Toolbar pattern.
+- **Keyboard Navigation**: Use `Tab` to enter the bar, and `Arrow` keys to navigate between action buttons.
+- **Auto-localization**: The selected-item count and the "Clear selection" button label are automatically localized by the underlying Spectrum library.
+
+### Labeling
+- Icon-only buttons must have accessible labels. Use `buttonLabelBehavior="hide"` to auto-generate tooltips from the `<Text>` child, or provide an `aria-label` directly on the item.
+
+## Spectrum 2 Migration
+
+The migration to Spectrum 2 (S2) involves a significant architectural shift:
+
+- **No more `ActionBarContainer`**: The wrapper is eliminated.
+- **Render Prop Pattern**: The `ActionBar` is now passed directly to the collection component via a new `renderActionBar` prop.
+- **Component Changes**: Children change from `<Item>` to direct `<ActionButton>` components.
+- **Event Handlers**: Instead of a single root `onAction(key)`, each `ActionButton` defines its own `onPress` handler.
+
+### S2 Example Preview
+```tsx
+<TableView
+  renderActionBar={(selectedKeys) => (
+    <ActionBar>
+      <ActionButton onPress={handleDelete}><Delete /><Text>Delete</Text></ActionButton>
+    </ActionBar>
+  )}
+>
+  {/* Table content */}
+</TableView>
+```
