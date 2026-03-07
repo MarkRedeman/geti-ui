@@ -1,4 +1,4 @@
-import { Meta, Title, Subtitle, Description, Primary, Controls, Stories, Source } from '@storybook/blocks';
+import { Meta, Title, Subtitle, Description, Primary, Controls, Stories, Source } from '@storybook/addon-docs/blocks';
 import * as DocStories from './View.stories';
 
 <Meta of={DocStories} />
@@ -12,7 +12,7 @@ import { View } from '@geti/ui';
 ```
 
 - [React Spectrum V3 View](https://react-spectrum.adobe.com/react-spectrum/View.html)
-- [Spectrum 2 Migration (Styling)](https://react-spectrum.adobe.com/s2/styling.html)
+
 
 <Stories />
 
@@ -73,35 +73,4 @@ Use the `elementType` prop to render the `View` as a specific HTML element, such
 - **Semantic Overrides**: Use the `elementType` prop to render more descriptive HTML5 landmark elements (e.g., `elementType="section"` or `elementType="main"`) when appropriate for document structure.
 - **Roles**: Standard ARIA attributes (e.g., `role`, `aria-label`) can be passed through via DOM props.
 
-## Spectrum 2 Migration
 
-In Spectrum 2 (S2), the `View` component is **removed**. It is replaced by plain HTML elements styled with the `style()` macro.
-
-### The New Pattern
-Instead of a dedicated component with styling props, use a standard `<div>` (or other element) with the S2 `style()` macro.
-
-- **V3**: `<View padding="size-200" backgroundColor="gray-100">`
-- **S2**: `<div className={style({ padding: 16, backgroundColor: 'gray-100' })}>`
-
-### Key Changes
-- **No Component Wrapper**: Use standard `<div>`, `<section>`, etc.
-- **Pixel Values**: Replace string tokens like `'size-200'` with direct pixel numbers (e.g., `16`).
-- **Styles Macro**: All styling (including background, borders, and spacing) is consolidated into the `style()` macro.
-
-### Migration Example
-
-**V3 Style (Current):**
-```tsx
-<View padding="size-200" borderRadius="medium" backgroundColor="gray-100">
-  {children}
-</View>
-```
-
-**S2 Style (Future):**
-```tsx
-import { style } from '@react-spectrum/s2/style' with { type: 'macro' };
-
-<div className={style({ padding: 16, borderRadius: 'lg', backgroundColor: 'gray-100' })}>
-  {children}
-</div>
-```
