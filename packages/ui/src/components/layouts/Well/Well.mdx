@@ -3,40 +3,105 @@ import * as DocStories from './Well.stories';
 
 <Meta of={DocStories} />
 
-<Title />
+# Well
+
+<Subtitle>A Well is a subtle content container used to visually group related information within a larger layout.</Subtitle>
+
+```tsx
+import { Well } from '@geti/ui';
+```
+
+- [React Spectrum V3 Well](https://react-spectrum.adobe.com/react-spectrum/Well.html)
+
+<Stories />
 
 ## Responsibility
 
-Re-exports Adobe React Spectrum's `Well` as a named Geti component, providing a subtle inset content region — a muted, bordered container used to visually group related content within a larger layout without the prominence of a card or dialog.
+The `Well` component provides a muted, inset container for secondary content. It is less prominent than a Card or Dialog, making it ideal for grouping related configuration settings, displaying read-only data, or providing a background for a specific section of a page.
 
-## Design
+Key responsibilities:
+- **Visual Grouping**: Clearly separates a group of elements from the surrounding UI.
+- **Subtle Emphasis**: Provides a muted background and border to give a section more focus without being disruptive.
+- **Consistent Layout**: Ensures a standardized padding and border style across all inset regions.
 
-Thin wrapper — `WellProps extends SpectrumWellProps`. The component body is `(props) => <SpectrumWell {...props} />`. No prop additions or overrides.
+### When to use
+- To group a set of related form fields or settings.
+- To display secondary or supplementary information that doesn't require a Card.
+- As a background for a code snippet, log viewer, or preformatted text block.
 
-Spectrum's `Well` is essentially a `View` with a specific combination of border and background tokens that creates an "inset" appearance. It is semantically a `<section>` element.
+### When to avoid
+- For primary content that should be the main focus of the page (use a `Card` or a simple `View` instead).
+- For interactive elements that require a clear "lifted" or "surface" metaphor (use a `Card`).
+- When the content needs to be collapsible (use `Disclosure` or `Accordion`).
 
-## Flow
+## Variants
 
-```
-props (SpectrumWellProps passthrough — role, aria-label, children, ...)
-  → <SpectrumWell {...props} />
-```
+### Role
+The `Well` can be assigned a semantic ARIA `role` (e.g., `'region'`, `'group'`) to provide more context to assistive technologies.
 
-No state, no effects, no refs.
-
-## Integration
-
-- Used for secondary information panels, grouped configuration sections, and read-only data displays that need visual separation without modal or card prominence.
-- Pairs with `Flex` and `Grid` inside for internal layout of well content.
-- Themed automatically by `ThemeProvider`.
-
-
-<Stories />
----
-
-<Primary />
+### Custom Styling
+While the `Well` has a standard inset appearance, it accepts standard Spectrum layout and spacing props (`margin`, `width`, `height`) for external positioning.
 
 ## Props
 
-<Controls />
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `children` | `ReactNode` | - | The content to be rendered inside the well. |
+| `role` | `string` | - | The ARIA role for the container. |
+| `aria-label` | `string` | - | An accessible label for the well. |
+| `UNSAFE_className` | `string` | - | A custom CSS class to apply to the well. |
+
+## Accessibility
+
+- **Roles & Landmarks**: If the `Well` represents a significant section of the page, use `role="region"` and provide an `aria-label` or `aria-labelledby` so it appears in the list of page landmarks.
+- **Reading Order**: Ensure that the logical order of elements inside the well matches the visual layout.
+
+## Spectrum 2 Migration
+
+The `Well` component is **removed** in Spectrum 2 (S2). It is no longer a first-class component and should be replaced by a styled `<div>`.
+
+### The New Pattern
+In S2, the "well" appearance is created by applying specific border, background, and padding values via the `style()` macro to a standard HTML element.
+
+- **V3**: `<Well>{children}</Well>`
+- **S2**: `<div className={style({ borderWidth: 1, borderStyle: 'solid', borderColor: 'gray-300', borderRadius: 'medium', padding: 16, backgroundColor: 'gray-50' })}>{children}</div>`
+
+### Key Changes
+- **No Component Wrapper**: Use a plain `<div>` or `<section>`.
+- **Manual Styling**: Recreate the inset look using macro tokens for borders, colors, and padding.
+- **Explicit Roles**: ARIA roles and labels must be applied directly to the HTML element.
+
+### Migration Example
+
+**V3 Style (Current):**
+```tsx
+<Well role="region" aria-label="Quick Settings">
+  <Flex direction="column" gap="size-100">
+    <Switch>Enable Notifications</Switch>
+    <Switch>Dark Mode</Switch>
+  </Flex>
+</Well>
+```
+
+**S2 Style (Future):**
+```tsx
+import { style } from '@react-spectrum/s2/style' with { type: 'macro' };
+
+<section 
+  aria-label="Quick Settings"
+  className={style({ 
+    borderWidth: 1, 
+    borderStyle: 'solid', 
+    borderColor: 'gray-300', 
+    borderRadius: 'sm', 
+    padding: 16, 
+    backgroundColor: 'gray-50' 
+  })}
+>
+  <div className={style({ display: 'flex', flexDirection: 'column', gap: 8 })}>
+    <Switch>Enable Notifications</Switch>
+    <Switch>Dark Mode</Switch>
+  </div>
+</section>
+```
 
