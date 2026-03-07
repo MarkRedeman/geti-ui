@@ -8,13 +8,8 @@ import * as DocStories from './ActionBar.stories';
 <Subtitle>A contextual toolbar for performing bulk actions on selected collection items.</Subtitle>
 
 ```tsx
-import { ActionBar, ActionBarContainer } from '@geti/ui';
+import { ActionBar, ActionBarContainer, Item } from '@geti/ui';
 ```
-
-- [React Spectrum V3 ActionBar](https://react-spectrum.adobe.com/react-spectrum/ActionBar.html)
-- [React Spectrum V3 ActionBarContainer](https://react-spectrum.adobe.com/react-spectrum/ActionBarContainer.html)
-
-<Stories />
 
 ## Responsibility
 
@@ -25,6 +20,46 @@ import { ActionBar, ActionBarContainer } from '@geti/ui';
 - **Visibility driven by count**: The bar only appears when `selectedItemCount > 0` (or `'all'`). It hides automatically when the count is `0`.
 - **Contextual, not persistent**: Do not use `ActionBar` as a permanent toolbar. Use `Toolbar` or `ActionGroup` for persistent actions.
 - **Container Requirement**: In the current V3-based implementation, `ActionBar` **must** be wrapped in an `ActionBarContainer` alongside the collection it controls to coordinate layout and animations.
+
+## Design
+
+The `ActionBar` consists of three main anatomical sections:
+1. **Selection Info**: Displays the count of selected items (e.g., "3 selected") and a "Clear" button.
+2. **Actions**: A `role="toolbar"` containing the available `Item` elements.
+3. **Overflow**: Automatically handles collapsing actions into a "More" menu if the container width is restricted.
+
+## Flow
+
+1. **Selection State**: The application tracks the `selectedKeys` of a collection (e.g., `TableView`).
+2. **Trigger**: When `selectedKeys.size > 0`, the `selectedItemCount` prop is updated.
+3. **Appearance**: `ActionBarContainer` triggers a slide-up animation to reveal the `ActionBar`.
+4. **Action execution**: When a button is clicked, `onAction` is called with the item's key.
+5. **Reset**: Clicking the "Clear" button triggers `onClearSelection`, which should empty the `selectedKeys` in the parent state, causing the bar to hide.
+
+## Integration
+
+### Paired with TableView
+The most common integration pattern involves wrapping a `TableView` and `ActionBar` in an `ActionBarContainer`.
+
+```tsx
+<ActionBarContainer>
+  <TableView 
+    selectionMode="multiple" 
+    onSelectionChange={setSelectedKeys}
+    selectedKeys={selectedKeys}
+  >
+    {/* Table columns and rows */}
+  </TableView>
+  <ActionBar
+    selectedItemCount={selectedKeys === 'all' ? 'all' : selectedKeys.size}
+    onClearSelection={() => setSelectedKeys(new Set())}
+    onAction={(key) => handleAction(key)}
+  >
+    <Item key="edit">Edit</Item>
+    <Item key="delete">Delete</Item>
+  </ActionBar>
+</ActionBarContainer>
+```
 
 ## Variants
 
