@@ -1,83 +1,115 @@
-import { Meta, Title, Subtitle, Description, Primary, Controls, Stories } from '@storybook/addon-docs/blocks';
+import { Meta, Title, Subtitle, Description, Primary, Controls, Stories, Source } from '@storybook/blocks';
 import * as DocStories from './Avatar.stories';
 
 <Meta of={DocStories} />
 
-<Title />
+<Title>Avatar</Title>
+
+<Subtitle>
+  An avatar component that displays a thumbnail representation of an entity, such as a user or organization.
+</Subtitle>
+
+```tsx
+import { Avatar, AvatarGroup } from '@geti/ui';
+```
+
+- [React Spectrum Avatar](https://react-spectrum.adobe.com/react-spectrum/Avatar.html)
+- [Spectrum 2 Avatar](https://react-spectrum.adobe.com/s2/Avatar)
+
+<Stories />
 
 ## Responsibility
 
-This folder exports two components:
+The `Avatar` component is a lightweight wrapper around Adobe's React Spectrum `Avatar`. It ensures consistent styling and a centralized import point for the Geti UI design system.
 
-- **`Avatar`** — displays a single circular thumbnail image for a user or entity.
-- **`AvatarGroup`** — renders a row of `Avatar` instances with negative-margin overlap and an overflow count badge when the list exceeds `max`.
-
-<Stories />
----
-
-## Design
-
-### `Avatar` — minimal Spectrum wrapper
-
-```tsx
-export interface AvatarProps extends SpectrumAvatarProps {}
-export const Avatar = (props: AvatarProps) => <SpectrumAvatar {...props} />;
-```
-
-Zero prop changes — the sole purpose is to centralise the import. All Spectrum props (`src`, `alt`, `size`, `isDisabled`) pass through unchanged.
-
-### `AvatarGroup` — custom layout over `Avatar`
-
-`AvatarGroup` is not a Spectrum component. It is built in plain React with inline `CSSProperties` objects:
-
-| Style object | Applied to | Purpose |
-|---|---|---|
-| `styles.group` | outer `<div>` | `display:flex`, `flex-direction:row`, `align-items:center` |
-| `styles.item` | `<span>` wrapping each `Avatar` | `marginRight:-8px` overlap, circular border |
-| `styles.overflow` | overflow count `<span>` | Circle badge with `+N` text |
-
-**Border colour** uses `var(--spectrum-global-color-gray-800)` — adapts to the active colour scheme via the theme token.  
-**Overflow badge** background uses `var(--spectrum-global-color-gray-300)`.
-
-Props:
-
-```tsx
-interface AvatarGroupProps {
-    avatars: AvatarProps[];   // Full list — AvatarGroup slices and renders
-    max?: number;             // Default: 3
-    size?: AvatarProps['size']; // Overrides individual avatar sizes uniformly
-}
-```
-
-If `size` is provided on the group, it takes precedence over individual `avatarProps.size` via `size ?? avatarProps.size`.
-
-### Accessibility
-
-- Outer `<div role="group" aria-label="{N} avatars">` labels the group.
-- Overflow badge `<span aria-label="{N} more">` describes the hidden count.
-- Each `Avatar` requires a meaningful `alt` prop (Spectrum enforces this at the type level).
+The `AvatarGroup` is a custom layout component that manages a collection of avatars, providing an overlapping stack effect and an automatic overflow badge.
 
 ---
 
-## Flow
+## Avatar
 
-Pure presentational — no state, no effects. `visible` and `overflow` are derived synchronously from `avatars.slice(0, max)`.
+### Variants
+
+#### Sizes
+Avatars support a range of named Spectrum size tokens. The default size is `avatar-size-100` (24px).
+
+| Size Token | Pixel Value (Approx) |
+|------------|----------------------|
+| `avatar-size-50` | 16px |
+| `avatar-size-75` | 20px |
+| `avatar-size-100` | 24px (Default) |
+| `avatar-size-200` | 32px |
+| `avatar-size-300` | 40px |
+| `avatar-size-400` | 48px |
+| `avatar-size-500` | 64px |
+| `avatar-size-600` | 80px |
+| `avatar-size-700` | 96px |
+
+Custom numeric pixel values are also supported (e.g., `size={50}`).
+
+#### Disabled
+Use the `isDisabled` prop to render the avatar in a visually muted state.
+
+#### Fallback
+If the `src` URL is invalid or the image fails to load, a generic silhouette placeholder is rendered automatically.
+
+### Props
+
+<Controls of={DocStories.Default} />
+
+#### Content
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `src` | `string` | — | The image URL for the avatar. |
+| `alt` | `string` | `null` | Accessible text description. Required for standalone avatars. |
+
+#### Value
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `size` | `string \| number` | `'avatar-size-100'` | Size token or custom pixel number. |
+| `isDisabled` | `boolean` | `false` | Whether the avatar is visually disabled. |
+
+#### Styles
+
+The `Avatar` component accepts all standard [Spectrum layout and spacing props](https://react-spectrum.adobe.com/react-spectrum/styling.html), including `margin`, `position`, and `flex` properties.
 
 ---
 
-## Integration
+## AvatarGroup
 
-- **`Avatar` depends on**: `@adobe/react-spectrum`.
-- **`AvatarGroup` depends on**: `./Avatar`, React (`CSSProperties`).
-- **Consumed by**: user-assignment indicators, member lists, comment threads, and any surface showing entity ownership.
-- **Complement**: when no image URL is available, use `PhotoPlaceholder` instead of `Avatar`.
+`AvatarGroup` is a Geti-specific layout component used to display multiple users in a compact, overlapping stack.
 
+### Variants
+
+#### Max Count
+The `max` prop controls how many avatars are shown before the list is truncated with a `+N` badge.
+
+#### Uniform Sizing
+Providing a `size` prop to the `AvatarGroup` will override the sizes of all individual avatars within the group.
+
+### Props
+
+<Controls of={DocStories.Group} />
+
+#### Content
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `avatars` | `AvatarProps[]` | **Required** | Array of prop objects for each avatar in the group. |
+
+#### Value
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `max` | `number` | `3` | Maximum number of avatars to display before showing an overflow badge. |
+| `size` | `string \| number` | — | Uniform size override for all avatars in the group. |
 
 ---
 
-<Primary />
+## Accessibility
 
-## Props
-
-<Controls />
-
+- **Alt Text**: Standalone avatars must provide a meaningful `alt` description for screen readers.
+- **Group Labeling**: `AvatarGroup` uses `role="group"` and `aria-label` to identify the collection of users.
+- **Overflow Badge**: The overflow badge includes an `aria-label` (e.g., "2 more") to ensure the total count is accessible.
