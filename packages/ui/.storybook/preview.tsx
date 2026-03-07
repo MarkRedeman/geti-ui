@@ -13,19 +13,16 @@ const withThemeProvider: Decorator = (Story, context) => {
 const preview: Preview = {
     decorators: [withThemeProvider],
     initialGlobals: {
-        // 👇 Set the initial background color
-        backgrounds: { value: 'dark' },
+        backgrounds: { value: '#242528' },
+        theme: 'dark',
     },
-
     parameters: {
+        backgrounds: {
+            default: 'dark',
+            values: [{ name: 'dark', value: '#242528' }],
+        },
         docs: {
             theme: darkTheme,
-        },
-        backgrounds: {
-            options: {
-                dark: { name: 'Dark', value: '#242528' },
-            },
-            default: 'dark',
         },
         layout: 'centered',
         a11y: {

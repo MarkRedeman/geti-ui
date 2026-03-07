@@ -1,7 +1,14 @@
 <style>
+    /* 
+    * Prevent "White Splash" during story loading.
+    * Forces the preview iframe body to the Geti Dark background immediately,
+    * even before the theme or React components have hydrated.
+    */
+    html,
     body {
         background-color: #242528 !important;
     }
+
     /* 
    * Custom Markdown Table Styling for Geti UI Docs (Storybook 10)
    * Targets both Doc Block <Table> and raw Markdown table rendering.
