@@ -1,4 +1,4 @@
-import { Meta, Title, Subtitle, Description, Primary, Controls, Stories } from '@storybook/addon-docs/blocks';
+import { Meta, Title, Subtitle, Controls, Stories } from '@storybook/addon-docs/blocks';
 import * as DocStories from './Menu.stories';
 
 <Meta of={DocStories} />
@@ -17,60 +17,298 @@ import { Menu, MenuTrigger, Item, Section } from '@geti/ui';
 
 ## Responsibility
 
-The `Menu` component provides a versatile way to present a list of options. It is always used in combination with a `MenuTrigger`, which associates the menu with a trigger element (like a Button or ActionButton) and manages the overlay's state.
+`Menu` groups related commands or options into an overlay that appears on demand. It always works in tandem with a `MenuTrigger`, which owns the open/close state and wires the trigger element to the menu overlay.
 
 Key responsibilities:
-- **Command Selection**: Provides a structured list of commands or navigation links.
-- **State Management**: Supports single and multiple selection modes for settings or filters.
-- **Visual Organization**: Uses sections and dividers to group related items logically.
-- **Focus Management**: Handles keyboard navigation and focus trapping within the menu overlay.
+- **Command Dispatch**: Delivers a structured list of actions via `onAction` — fire-and-forget semantics.
+- **Stateful Selection**: Supports single and multiple selection modes via `onSelectionChange` for settings and filters.
+- **Visual Organisation**: Uses `Section` to group related items with optional titles and automatic dividers.
+- **Focus Management**: Traps focus within the overlay and returns it to the trigger on close.
 
 ### When to use
-- For a list of actions associated with a specific UI element.
-- For "More" or "Overflow" menus in toolbars.
-- For choosing from a small to medium-sized list of options that shouldn't be permanently visible.
+- For a list of contextual actions associated with a specific UI element (e.g., an "Edit" button in a toolbar).
+- For **overflow menus** — when a toolbar has more actions than can fit and the excess is collected behind a "More" trigger.
+- For choosing from a small-to-medium list of options that should not permanently occupy screen space.
+- For **filter or sort controls** where multiple settings are grouped under a single trigger.
 
 ### When to avoid
-- When the user needs to select a value that should remain visible (use `Picker`).
-- When the list of options is very long and requires filtering (use `ComboBox`).
-- For primary site-wide navigation (use `VerticalNav` or `Tabs`).
+- When the selected value must remain visible after the menu closes — use `Picker` instead.
+- When the list is long and requires search or filtering — use `ComboBox`.
+- For primary site-wide navigation — use `VerticalNav` or `Tabs`; the `menu` ARIA role implies a command list, not a navigation landmark.
+- When only two or three options are available and space permits — prefer `ActionGroup` or inline `Button`s to reduce interaction cost.
+
+---
+
+## Design
+
+`Menu` is a **thin wrapper** around Spectrum's `SpectrumMenu`. It extends `SpectrumMenuProps` directly without adding props or modifying rendering, acting as a stable integration point for future migration.
+
+```tsx
+// packages/ui/src/components/navigation/Menu/Menu.tsx
+
+export interface MenuProps<T extends object> extends SpectrumMenuProps<T> {}
+
+export const Menu = <T extends object>(props: MenuProps<T>) => <SpectrumMenu {...props} />;
+```
+
+**`MenuTrigger` + `Menu` relationship**
+
+`Menu` never manages its own visibility. Instead, `MenuTrigger` provides that context:
+- The **first child** of `MenuTrigger` is the trigger element (any pressable component, typically `ActionButton` or `Button`).
+- The **second child** is the `Menu` itself.
+
+`MenuTrigger` renders no DOM node of its own — it is a pure behaviour provider that links the trigger's press event to the overlay lifecycle.
+
+```tsx
+<MenuTrigger>
+    <ActionButton>Edit</ActionButton>     {/* first child = trigger */}
+    <Menu onAction={(key) => handle(key)}>  {/* second child = menu */}
+        <Item key="cut">Cut</Item>
+        <Item key="copy">Copy</Item>
+        <Item key="paste">Paste</Item>
+    </Menu>
+</MenuTrigger>
+```
+
+**Co-located re-exports**
+
+The following primitives are re-exported from the `Menu` folder so consumers only need a single import source:
+
+| Export | Source | Purpose |
+|--------|--------|---------|
+| `Menu` | `Menu.tsx` | The menu overlay content. |
+| `MenuTrigger` | `MenuTrigger.tsx` | Open/close state manager and trigger linker. |
+| `Item` | `Item.tsx` → `@adobe/react-spectrum` | Individual menu item (action or selectable option). |
+| `Section` | `Section.tsx` → `@adobe/react-spectrum` | Groups items with an optional title and a rendered divider. |
+
+**Theme integration**
+
+`Menu` inherits all Spectrum design tokens (background, border, typography, focus ring) from the `ThemeProvider` context. No per-component CSS overrides are needed in standard usage.
+
+---
 
 ## Variants
 
 ### Selection Mode
-- **None (Default)**: Items are treated as commands that perform an action when pressed.
-- **Single**: Only one item can be selected at a time (radio button behavior).
-- **Multiple**: Multiple items can be selected independently (checkbox behavior).
+- **None (default)**: Items are treated as commands. `onAction` fires with the item key on press; `onSelectionChange` is not used.
+- **Single** (`selectionMode="single"`): One item can be active at a time, behaving like a radio group. `onSelectionChange` delivers a `Set` with the selected key.
+- **Multiple** (`selectionMode="multiple"`): Any number of items can be selected simultaneously, behaving like a checkbox group.
 
-### Menu Sections
-Use the `Section` component to group related menu items. Each section can have an optional title, providing clear visual and semantic boundaries.
+### Sections and Dividers
+Wrap groups of items in `Section` to produce a visible title and a separator line between groups. The `title` prop is optional; omitting it creates an untitled section with just a divider.
+
+```tsx
+<MenuTrigger>
+    <ActionButton>Actions</ActionButton>
+    <Menu onAction={(key) => handle(key)}>
+        <Section title="Clipboard">
+            <Item key="cut">Cut</Item>
+            <Item key="copy">Copy</Item>
+            <Item key="paste">Paste</Item>
+        </Section>
+        <Section title="Format">
+            <Item key="bold">Bold</Item>
+            <Item key="italic">Italic</Item>
+            <Item key="underline">Underline</Item>
+        </Section>
+    </Menu>
+</MenuTrigger>
+```
+
+Each `Section` renders as a `role="group"` with an `aria-label` derived from its `title` prop, satisfying WAI-ARIA grouping requirements automatically.
+
+---
+
+## Flow
+
+Understanding the lifecycle helps wire up state correctly.
+
+```
+Trigger Click / Enter / Space / Arrow Down
+        │
+        ▼
+  MenuTrigger opens overlay
+        │
+        ▼
+  Menu renders inside overlay   ◄── focus trapped here
+        │
+        ▼
+  User navigates with Arrow keys
+        │
+        ▼
+  User presses Enter / Space on an item
+        │
+        ├── selectionMode="none"  →  onAction(key) fires
+        │
+        └── selectionMode≠"none"  →  onSelectionChange(keys) fires
+        │
+        ▼
+  Overlay closes, focus returns to trigger
+```
+
+**`onAction` vs `onSelectionChange`**
+
+These two callbacks serve fundamentally different purposes and should not be combined on the same `Menu`:
+
+| Callback | Mode | Use when… |
+|----------|------|-----------|
+| `onAction(key)` | `selectionMode="none"` | Each item is an **imperative command** — "Cut", "Delete", "Export". The menu has no persistent state. |
+| `onSelectionChange(keys)` | `selectionMode="single"` or `"multiple"` | Items represent **persistent state** — "Sort by Name", "Show hidden files". The caller stores and reflects the selection. |
+
+```tsx
+// Command pattern — onAction
+<Menu onAction={(key) => {
+    if (key === 'delete') deleteItem(id);
+    if (key === 'export') exportItem(id);
+}}>
+    <Item key="delete">Delete</Item>
+    <Item key="export">Export</Item>
+</Menu>
+
+// Stateful selection — onSelectionChange (controlled)
+const [sort, setSort] = useState<Selection>(new Set(['name']));
+
+<Menu
+    selectionMode="single"
+    selectedKeys={sort}
+    onSelectionChange={setSort}
+>
+    <Item key="name">Name</Item>
+    <Item key="date">Date Modified</Item>
+    <Item key="size">File Size</Item>
+</Menu>
+```
+
+---
 
 ## Props
 
 ### MenuTrigger Props
+
 | Prop | Type | Default | Description |
-| --- | --- | --- | --- |
+|------|------|---------|-------------|
 | `trigger` | `'press' \| 'longPress'` | `'press'` | How the menu is triggered. |
 | `align` | `'start' \| 'end'` | `'start'` | Where the menu aligns relative to the trigger. |
 | `direction` | `'bottom' \| 'top' \| 'left' \| 'right'` | `'bottom'` | The direction the menu opens. |
+| `isOpen` | `boolean` | — | Controls open state (controlled). |
+| `defaultOpen` | `boolean` | `false` | Initial open state (uncontrolled). |
+| `onOpenChange` | `(isOpen: boolean) => void` | — | Called when the overlay opens or closes. |
 
 ### Menu Props
+
 | Prop | Type | Default | Description |
-| --- | --- | --- | --- |
-| `children` | `ItemElement \| ItemRenderer` | - | The menu items (using the `Item` or `Section` components). |
-| `selectionMode` | `'none' \| 'single' \| 'multiple'` | `'none'` | The selection behavior of the menu. |
-| `onAction` | `(key: Key) => void` | - | Handler called when an item is pressed (in `'none'` selection mode). |
-| `onSelectionChange` | `(keys: Selection) => void` | - | Handler called when the selection changes. |
-| `disabledKeys` | `Iterable<Key>` | `[]` | The keys of the items that should be disabled. |
+|------|------|---------|-------------|
+| `children` | `ItemElement \| ItemRenderer<T>` | — | Menu items using `Item` or `Section`. |
+| `selectionMode` | `'none' \| 'single' \| 'multiple'` | `'none'` | The selection behaviour of the menu. |
+| `selectedKeys` | `Selection` | — | The currently selected keys (controlled). |
+| `defaultSelectedKeys` | `Selection` | — | The initially selected keys (uncontrolled). |
+| `onAction` | `(key: Key) => void` | — | Handler called when an item is pressed (command mode). |
+| `onSelectionChange` | `(keys: Selection) => void` | — | Handler called when the selection changes. |
+| `disabledKeys` | `Iterable<Key>` | `[]` | Keys of items that should be non-interactive but remain visible. |
+| `items` | `Iterable<T>` | — | Item objects for dynamic (programmatic) collections. |
+
+---
 
 ## Accessibility
 
-- **Roles**: Implements the WAI-ARIA Menu pattern (`role="menu"`, `role="menuitem"`).
-- **Keyboard Support**:
-  - `Enter`, `Space`, or `Arrow Down` on the trigger opens the menu.
-  - `Arrow Down/Up` moves focus between menu items.
-  - `Home/End` jumps to the first or last item.
-  - `Enter` or `Space` activates the focused item and closes the menu.
-  - `Esc` closes the menu and returns focus to the trigger.
-- **Labeling**: Use `aria-label` or `aria-labelledby` on the `MenuTrigger` to provide an accessible name for the trigger button.
+`Menu` implements the full [WAI-ARIA Menu pattern](https://www.w3.org/WAI/ARIA/apg/patterns/menu/) via Spectrum's underlying implementation.
 
+**ARIA roles**
+
+| Element | Role | Notes |
+|---------|------|-------|
+| Menu overlay container | `menu` | Applied automatically by Spectrum to the overlay list. |
+| Each `Item` (command mode) | `menuitem` | Default when `selectionMode="none"`. |
+| Each `Item` (single select) | `menuitemradio` | When `selectionMode="single"`. Selected item has `aria-checked="true"`. |
+| Each `Item` (multi select) | `menuitemcheckbox"` | When `selectionMode="multiple"`. Selected items have `aria-checked="true"`. |
+| `Section` group container | `group` | With `aria-label` derived from the `title` prop. |
+| Trigger element | `button` | With `aria-haspopup="menu"` and `aria-expanded` reflecting open state. |
+
+**Keyboard interactions**
+
+| Key | Behaviour |
+|-----|-----------|
+| `Enter` / `Space` (trigger focused) | Opens the menu and moves focus to the first item. |
+| `Arrow Down` (trigger focused) | Opens the menu and moves focus to the first item. |
+| `Arrow Up` (trigger focused) | Opens the menu and moves focus to the last item. |
+| `Arrow Down` / `Arrow Up` (menu open) | Moves focus between items; wraps at list boundaries. |
+| `Home` | Moves focus to the first item. |
+| `End` | Moves focus to the last item. |
+| `Enter` / `Space` (item focused) | Activates the focused item; closes the menu (command mode). |
+| `Escape` | Closes the menu and returns focus to the trigger. |
+| `Tab` | Closes the menu and moves focus to the next page element. |
+| Type-ahead | Typing a character moves focus to the next item matching that character. |
+
+**Labelling the trigger**
+
+The `MenuTrigger` component does not render a visible label itself. Ensure the trigger element has an accessible name via one of:
+- Its text content (e.g., `<ActionButton>Edit</ActionButton>`).
+- An explicit `aria-label` (e.g., `<ActionButton aria-label="More options">…</ActionButton>`).
+
+**Disabled items**
+
+Always prefer `disabledKeys` over conditionally omitting items. Removing items from the DOM can confuse screen reader users who expect certain actions to exist (even if unavailable).
+
+---
+
+## Integration
+
+- **Dependencies**: `@adobe/react-spectrum` — `Menu`, `MenuTrigger`, and their Spectrum prop types are imported from this package. `Item` and `Section` are re-exported from `@adobe/react-spectrum` via co-located shim files.
+- **ThemeProvider**: Must be present in the React tree. Overlay background, item hover state, focus ring colour, and typography all derive from Spectrum tokens resolved by `ThemeProvider`.
+
+**Pairing with `ActionButton`**
+
+The most common trigger is `ActionButton`, which provides an accessible button with optional icon and label:
+
+```tsx
+import { ActionButton } from '@adobe/react-spectrum';
+import { Menu, MenuTrigger, Item, Section } from '@geti/ui';
+
+<MenuTrigger>
+    <ActionButton aria-label="View options">
+        {/* icon can be passed as a child */}
+        More
+    </ActionButton>
+    <Menu onAction={(key) => console.log(key)}>
+        <Section title="Layout">
+            <Item key="grid">Grid view</Item>
+            <Item key="list">List view</Item>
+        </Section>
+        <Section title="Sort">
+            <Item key="name">By name</Item>
+            <Item key="date">By date</Item>
+        </Section>
+    </Menu>
+</MenuTrigger>
+```
+
+**Pairing with `DialogTrigger`**
+
+When a menu item should open a confirmation dialog, keep `MenuTrigger`/`Menu` and `DialogTrigger`/`Dialog` as separate sibling triggers. Handle the `onAction` callback to imperatively open the dialog via a controlled `isOpen` prop — do not nest `DialogTrigger` inside `Menu`.
+
+```tsx
+const [confirmOpen, setConfirmOpen] = useState(false);
+
+<>
+    <MenuTrigger>
+        <ActionButton>Actions</ActionButton>
+        <Menu onAction={(key) => {
+            if (key === 'delete') setConfirmOpen(true);
+        }}>
+            <Item key="duplicate">Duplicate</Item>
+            <Item key="delete">Delete…</Item>
+        </Menu>
+    </MenuTrigger>
+
+    <DialogTrigger isOpen={confirmOpen} onOpenChange={setConfirmOpen}>
+        {/* trigger placeholder required by Spectrum */}
+        <span />
+        <AlertDialog title="Delete item?" variant="destructive"
+            primaryActionLabel="Delete"
+            onPrimaryAction={() => deleteItem(id)}
+        >
+            This action cannot be undone.
+        </AlertDialog>
+    </DialogTrigger>
+</>
+```

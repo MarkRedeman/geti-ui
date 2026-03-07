@@ -1,11 +1,11 @@
-import { Meta, Title, Subtitle, Description, Primary, Controls, Stories } from '@storybook/addon-docs/blocks';
+import { Meta, Title, Subtitle, Controls, Stories } from '@storybook/addon-docs/blocks';
 import * as DocStories from './ActionMenu.stories';
 
 <Meta of={DocStories} />
 
 # ActionMenu
 
-<Subtitle>ActionMenus provide a consolidated list of actions or commands triggered by a single icon-only button.</Subtitle>
+<Subtitle>ActionMenus provide a consolidated list of contextual actions triggered by a single icon-only button.</Subtitle>
 
 ```tsx
 import { ActionMenu, Item, Section } from '@geti/ui';
@@ -17,91 +17,244 @@ import { ActionMenu, Item, Section } from '@geti/ui';
 
 ## Responsibility
 
-`ActionMenu` is a convenience component that combines a `MenuTrigger` and an icon-only `ActionButton` (typically with a "three dots" icon). It is the standard way to provide contextual actions for items in a list, table row, or card.
+`ActionMenu` is a **convenience composite** that bundles an `ActionButton` trigger, a `MenuTrigger` overlay manager, and a `Menu` into a single component. The caller never has to wire these three pieces together manually — the standard "three dots" (⋯) icon trigger and all open/close behaviour are provided out of the box.
 
 Key responsibilities:
-- **Contextual Command Hub**: Groups related actions that can be performed on a specific object.
-- **Space Efficiency**: Hides multiple actions behind a single trigger to reduce visual clutter.
-- **Standardized Trigger**: Uses the system-standard icon and behavior for consistency.
+- **Contextual Command Hub**: Groups related actions that can be performed on a specific object (row, card, asset).
+- **Space Efficiency**: Hides multiple secondary actions behind a single compact trigger to reduce visual clutter.
+- **Standardised Trigger**: Enforces the system-standard icon and interaction pattern for consistency across all surfaces.
 
 ### When to use
-- For actions attached to a specific row in a table or card in a grid.
-- When there are 3 or more secondary actions that would otherwise clutter the UI.
-- To provide "More Actions" in a toolbar or header.
+- For actions attached to a **specific row in a table** or a **card in a grid** — e.g., Edit, Duplicate, Delete.
+- When there are **3 or more secondary actions** that would otherwise clutter the UI if shown as individual buttons.
+- For **"More actions"** in a toolbar or page header where the trigger must be icon-only to save horizontal space.
+- In **compact list items** where a text-label button would be too wide.
 
 ### When to avoid
-- When the trigger should be a text button (use `Menu` + `MenuTrigger`).
-- For navigation between different pages (use `Link` or `Tabs`).
-- For a small number of primary actions that should always be visible (use `ActionButton` or `Button` directly).
+- When the trigger should display **text** (e.g., "Edit options") — compose `Menu` + `MenuTrigger` + `Button` manually instead.
+- For **navigation between pages** — use `Link` or `Tabs`; the `menu` ARIA role implies commands, not navigation.
+- For a **small number of primary actions** that should always be visible — use `ActionButton` or `Button` directly to reduce interaction cost.
+- When you need a **custom trigger icon** — `ActionMenu` uses the built-in Spectrum "three dots" icon and does not expose a prop to override it. Use `Menu` + `MenuTrigger` with your own trigger element in that case.
+
+---
+
+## Design
+
+`ActionMenu` is a **thin wrapper** around Spectrum's `SpectrumActionMenu`. It extends `SpectrumActionMenuProps` directly without adding props or modifying rendering, acting as a stable integration point for future migration.
+
+```tsx
+// packages/ui/src/components/navigation/ActionMenu/ActionMenu.tsx
+
+export interface ActionMenuProps<T extends object> extends SpectrumActionMenuProps<T> {}
+
+export const ActionMenu = <T extends object>(props: ActionMenuProps<T>) =>
+    <SpectrumActionMenu {...props} />;
+```
+
+**Internal composition**
+
+Although `ActionMenu` appears as a single component in consumer code, Spectrum internally composes it from the same primitives available individually from `@geti/ui`:
+
+```
+ActionMenu
+├── ActionButton  (trigger — fixed "three dots" / MoreSmall icon)
+│       aria-haspopup="menu", aria-expanded, aria-label ← your prop
+├── MenuTrigger   (overlay state manager)
+└── Menu          (the list overlay)
+        └── Item / Section children ← your children
+```
+
+The "three dots" trigger icon is fixed — it is rendered by Spectrum's `ActionMenu` internals and cannot be replaced via a prop. If you need a different trigger icon or a text trigger, use `Menu` + `MenuTrigger` with a custom `ActionButton` trigger instead.
+
+**Theme integration**
+
+`ActionMenu` inherits all Spectrum design tokens (background, border, hover state, focus ring) from the `ThemeProvider` context. No per-component CSS overrides are needed in standard usage.
+
+---
 
 ## Variants
 
 ### Selection Mode
-While most `ActionMenu` items are commands, you can also use `selectionMode="single"` or `selectionMode="multiple"` to allow users to select items from the menu (e.g., a "View Mode" setting).
+While most `ActionMenu` items are commands, you can also use `selectionMode="single"` or `selectionMode="multiple"` to allow users to select items from the menu (e.g., a "View Mode" setting on a card header).
 
 ### Size
-Supports `S`, `M`, and `L` sizes for the trigger button.
+Supports `S`, `M` (default), and `L` sizes for the trigger button via the `size` prop.
+
+### Quiet
+`isQuiet` removes the border and background from the trigger button, blending it into its container. Use in information-dense surfaces where the border would add unnecessary visual noise.
+
+---
+
+## Flow
+
+`ActionMenu` simplifies the three-component composition into a single-component API, but the underlying interaction lifecycle is identical to `Menu` + `MenuTrigger`.
+
+```
+User clicks ⋯ trigger / presses Enter / Space / Arrow Down
+        │
+        ▼
+  ActionMenu opens overlay   ◄── managed internally, no state needed
+        │
+        ▼
+  Menu renders inside overlay   ◄── focus trapped here
+        │
+        ▼
+  User navigates with Arrow keys
+        │
+        ▼
+  User presses Enter / Space on an item
+        │
+        ├── selectionMode="none"  →  onAction(key) fires
+        │
+        └── selectionMode≠"none"  →  onSelectionChange(keys) fires
+        │
+        ▼
+  Overlay closes, focus returns to ⋯ trigger
+```
+
+**Simplified single-component API**
+
+The key advantage over the manual `Menu` + `MenuTrigger` composition is that `ActionMenu` requires no wrapper or children setup for the trigger — you provide only the menu items:
+
+```tsx
+// Manual composition (3 components)
+<MenuTrigger>
+    <ActionButton aria-label="Row actions">…</ActionButton>
+    <Menu onAction={handleAction}>
+        <Item key="edit">Edit</Item>
+        <Item key="delete">Delete</Item>
+    </Menu>
+</MenuTrigger>
+
+// ActionMenu (1 component — equivalent result)
+<ActionMenu aria-label="Row actions" onAction={handleAction}>
+    <Item key="edit">Edit</Item>
+    <Item key="delete">Delete</Item>
+</ActionMenu>
+```
+
+---
 
 ## Props
 
 | Prop | Type | Default | Description |
-| --- | --- | --- | --- |
-| `children` | `ItemElement \| ItemRenderer` | - | The menu items to display (using the `Item` or `Section` components). |
-| `onAction` | `(key: Key) => void` | - | Handler called when a menu item is pressed. |
-| `aria-label` | `string` | - | **Required.** An accessible label for the icon-only trigger button. |
+|------|------|---------|-------------|
+| `children` | `ItemElement \| ItemRenderer<T>` | — | The menu items to display using `Item` or `Section`. |
+| `onAction` | `(key: Key) => void` | — | Handler called when a menu item is pressed (command mode). |
+| `onSelectionChange` | `(keys: Selection) => void` | — | Handler called when selection changes (selection modes). |
+| `aria-label` | `string` | — | **Required.** An accessible label for the icon-only trigger button. |
+| `selectionMode` | `'none' \| 'single' \| 'multiple'` | `'none'` | The selection behaviour of the menu. |
+| `selectedKeys` | `Selection` | — | The currently selected keys (controlled). |
+| `defaultSelectedKeys` | `Selection` | — | The initially selected keys (uncontrolled). |
+| `disabledKeys` | `Iterable<Key>` | `[]` | Keys of items that should be non-interactive but remain visible. |
 | `size` | `'S' \| 'M' \| 'L'` | `'M'` | The size of the trigger button. |
-| `isDisabled` | `boolean` | `false` | Whether the menu trigger is disabled. |
-| `disabledKeys` | `Iterable<Key>` | `[]` | The keys of the items that should be disabled within the menu. |
-
-## Accessibility
-
-- **Icon Labeling**: Because the trigger is icon-only, an `aria-label` is mandatory. Without it, screen readers will only announce "button" with no context.
-- **Keyboard Support**:
-  - `Enter`, `Space`, or `Arrow Down` opens the menu.
-  - `Arrow Down/Up` moves focus between menu items.
-  - `Enter` or `Space` activates the focused item and closes the menu.
-  - `Esc` closes the menu and returns focus to the trigger.
-- **ARIA Roles**: The trigger has `role="button"` with `aria-haspopup="true"`. Menu items have `role="menuitem"`, `role="menuitemradio"`, or `role="menuitemcheckbox"` depending on the selection mode.
+| `isDisabled` | `boolean` | `false` | Whether the trigger button and all menu items are disabled. |
+| `isQuiet` | `boolean` | `false` | Whether the trigger button is rendered without a border. |
+| `align` | `'start' \| 'end'` | `'start'` | Where the menu overlay aligns relative to the trigger. |
+| `direction` | `'bottom' \| 'top' \| 'left' \| 'right'` | `'bottom'` | The direction the menu opens. |
 
 ---
 
-<Primary />
-
-## Props
-
-<Controls />
-
 ## Accessibility
 
-### ARIA Roles
+`ActionMenu` implements the full [WAI-ARIA Menu Button pattern](https://www.w3.org/WAI/ARIA/apg/patterns/menu-button/) via Spectrum's underlying implementation.
+
+**ARIA roles**
 
 | Element | ARIA role | Notes |
-| :--- | :--- | :--- |
-| `ActionButton` trigger | `role="button"` | With `aria-haspopup="true"` and `aria-expanded` |
-| Menu overlay container | `role="menu"` | Applied automatically by Spectrum |
-| Each `<Item>` | `role="menuitem"` | Default when no `selectionMode` |
-| Each `<Item>` (single select) | `role="menuitemradio"` | When `selectionMode="single"` |
-| Each `<Item>` (multi select) | `role="menuitemcheckbox"` | When `selectionMode="multiple"` |
-| `<Section>` group | `role="group"` | With `aria-label` from `title` prop |
+|---------|-----------|-------|
+| `ActionButton` trigger | `button` | With `aria-haspopup="menu"` and `aria-expanded` reflecting open state. |
+| Menu overlay container | `menu` | Applied automatically by Spectrum to the overlay list. |
+| Each `Item` (command mode) | `menuitem` | Default when `selectionMode="none"`. |
+| Each `Item` (single select) | `menuitemradio` | When `selectionMode="single"`. Selected item has `aria-checked="true"`. |
+| Each `Item` (multi select) | `menuitemcheckbox` | When `selectionMode="multiple"`. Selected items have `aria-checked="true"`. |
+| `Section` group container | `group` | With `aria-label` derived from the `title` prop. |
 
-### Keyboard Interactions
+**Keyboard interactions**
 
 | Key | Behaviour |
-| :--- | :--- |
-| `Enter` / `Space` | Opens the menu when the trigger button is focused |
-| `ArrowDown` | Opens the menu and moves focus to the first item |
-| `ArrowUp` | Opens the menu and moves focus to the last item |
-| `ArrowDown` / `ArrowUp` (open) | Moves focus between items |
-| `Home` | Moves focus to the first item |
-| `End` | Moves focus to the last item |
-| `Enter` / `Space` (open) | Activates the focused item and closes the menu |
-| `Escape` | Closes the menu and returns focus to the trigger |
-| `Tab` | Closes the menu and moves focus to the next page element |
-| Type-ahead | Typing a character jumps focus to the next matching item |
+|-----|-----------|
+| `Enter` / `Space` (trigger focused) | Opens the menu and moves focus to the first item. |
+| `Arrow Down` (trigger focused) | Opens the menu and moves focus to the first item. |
+| `Arrow Up` (trigger focused) | Opens the menu and moves focus to the last item. |
+| `Arrow Down` / `Arrow Up` (menu open) | Moves focus between items; wraps at list boundaries. |
+| `Home` | Moves focus to the first item. |
+| `End` | Moves focus to the last item. |
+| `Enter` / `Space` (item focused) | Activates the focused item; closes the menu (command mode). |
+| `Escape` | Closes the menu and returns focus to the ⋯ trigger. |
+| `Tab` | Closes the menu and moves focus to the next page element. |
+| Type-ahead | Typing a character moves focus to the next item matching that character. |
 
-### Authoring Rules
+**Authoring rules**
 
-- **Always provide `aria-label`**: The built-in trigger is icon-only (typically `⋯`). Without an `aria-label`, screen readers will announce only "button" with no context. Example: `<ActionMenu aria-label="Project actions">`.
-- **Do not nest interactive elements inside `<Item>`**: The item itself is the interactive target. Any icons within an item should be decorative (`aria-hidden`).
+- **Always provide `aria-label`**: The trigger is icon-only (⋯). Without an `aria-label`, screen readers announce only "button" with no context. Use a description that reflects the **target object**, not the generic action: `<ActionMenu aria-label="Actions for project Alpha">` rather than `<ActionMenu aria-label="More actions">`.
+- **Do not nest interactive elements inside `<Item>`**: The item itself is the interactive target. Any icons within an item should be decorative and carry `aria-hidden`.
 - **Disabled items remain visible**: Prefer `disabledKeys` over omitting items to avoid confusing screen reader users who expect certain actions to be present.
 - **Mobile tray**: On touch/mobile viewports, Spectrum automatically renders the menu in a bottom tray — no code change required.
+
+---
+
+## Integration
+
+- **Dependencies**: `@adobe/react-spectrum` — `ActionMenu` and its Spectrum prop types are imported from this package. Use `Item` and `Section` from `@geti/ui` (or directly from `@adobe/react-spectrum`) for menu content.
+- **ThemeProvider**: Must be present in the React tree. Trigger button styling, overlay appearance, and item states all derive from Spectrum tokens resolved by `ThemeProvider`.
+
+**Usage in a `TableView` row**
+
+A common pattern is placing `ActionMenu` in the last column of a `TableView` to provide per-row actions:
+
+```tsx
+import { TableView, TableHeader, TableBody, Column, Row, Cell } from '@adobe/react-spectrum';
+import { ActionMenu, Item } from '@geti/ui';
+
+<TableView aria-label="Projects">
+    <TableHeader>
+        <Column>Name</Column>
+        <Column>Status</Column>
+        <Column>Actions</Column>
+    </TableHeader>
+    <TableBody>
+        {projects.map((project) => (
+            <Row key={project.id}>
+                <Cell>{project.name}</Cell>
+                <Cell>{project.status}</Cell>
+                <Cell>
+                    <ActionMenu
+                        aria-label={`Actions for ${project.name}`}
+                        onAction={(key) => handleProjectAction(key, project.id)}
+                    >
+                        <Item key="edit">Edit</Item>
+                        <Item key="duplicate">Duplicate</Item>
+                        <Item key="delete">Delete</Item>
+                    </ActionMenu>
+                </Cell>
+            </Row>
+        ))}
+    </TableBody>
+</TableView>
+```
+
+**Usage in a `Card` header**
+
+Place `ActionMenu` in the top-right corner of a `Card` to provide object-level actions without cluttering the card body:
+
+```tsx
+import { Flex, Text } from '@adobe/react-spectrum';
+import { Card, ActionMenu, Item } from '@geti/ui';
+
+<Card aria-label={dataset.name}>
+    <Flex justifyContent="space-between" alignItems="center">
+        <Text>{dataset.name}</Text>
+        <ActionMenu
+            aria-label={`Actions for ${dataset.name}`}
+            isQuiet
+            onAction={(key) => handleDatasetAction(key, dataset.id)}
+        >
+            <Item key="rename">Rename</Item>
+            <Item key="export">Export</Item>
+            <Item key="delete">Delete</Item>
+        </ActionMenu>
+    </Flex>
+    {/* card body content */}
+</Card>
+```
