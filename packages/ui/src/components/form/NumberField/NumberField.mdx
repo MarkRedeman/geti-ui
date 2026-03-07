@@ -5,37 +5,96 @@ import * as DocStories from './NumberField.stories';
 
 <Title />
 
-## Responsibility
-
-Provides a numeric input with stepper increment/decrement buttons. A minimal Spectrum wrapper to centralise the import of `SpectrumNumberField`.
-
-## Design
-
-Pure thin wrapper — no props are altered:
+NumberFields allow users to input numeric values and increment or decrement them using stepper buttons.
 
 ```tsx
-export interface NumberFieldProps extends SpectrumNumberFieldProps {}
-export const NumberField = (props: NumberFieldProps) => <SpectrumNumberField {...props} />;
+import { NumberField } from '@geti/ui';
 ```
 
-The full Spectrum API is available: `minValue`, `maxValue`, `step`, `formatOptions` (for locale-aware number formatting), `isDisabled`, `isReadOnly`, and validation props.
-
-## Flow
-
-Controlled or uncontrolled. `value` + `onChange` for controlled mode. Spectrum manages stepper button ARIA roles (`role="spinbutton"`) and keyboard increment/decrement interactions internally.
-
-## Integration
-
-- **Depends on**: `@adobe/react-spectrum` (`NumberField`, `SpectrumNumberFieldProps`)
-- **Used by**: any form requiring constrained numeric input (thresholds, counts, coordinates)
-
+[React Spectrum V3 NumberField](https://react-spectrum.adobe.com/react-spectrum/NumberField.html) | [Spectrum 2 NumberField](https://react-spectrum.adobe.com/s2/NumberField.html)
 
 <Stories />
----
 
-<Primary />
+## Responsibility
+
+The `NumberField` component is specifically designed for numeric input. It provides built-in validation for minimum and maximum values, supports localized formatting (e.g., currency, percentages), and includes stepper buttons for quick adjustments. It ensures that the input is always a valid number according to the specified constraints.
+
+### Key Features
+- **Stepper Buttons**: Provides easy increment and decrement actions, which are touch-friendly and keyboard-accessible.
+- **Localized Formatting**: Uses `Intl.NumberFormat` for locale-aware display of currencies, percentages, and units.
+- **Strict Validation**: Prevents users from entering non-numeric characters (except for locale-specific decimal and grouping separators) and enforces `minValue`/`maxValue` limits.
+- **Form Integration**: Submits the raw numeric value to forms, ensuring consistent data handling regardless of the displayed format.
+
+### NumberField vs. TextField
+- Use **NumberField** for any input that must be a number. It provides better accessibility and UX for numeric data than a generic `TextField`.
+- Use **TextField** only for general text entry where numeric constraints are not applicable.
+
+## Variants
+
+### Value Constraints
+- **Min/Max**: Use `minValue` and `maxValue` to define the allowed range.
+- **Step**: Use `step` to define the increment/decrement interval (defaults to 1).
+
+### Formatting
+The `formatOptions` prop allows for advanced formatting:
+- **Currency**: `{ style: 'currency', currency: 'USD' }`
+- **Percentage**: `{ style: 'percent' }`
+- **Decimals**: `{ minimumFractionDigits: 2, maximumFractionDigits: 2 }`
+
+### Visual Options
+- **Hide Stepper**: Set `hideStepper` to `true` to remove the increment/decrement buttons while keeping the numeric validation logic.
+- **Quiet**: Use `isQuiet` for a more minimal look.
 
 ## Props
 
-<Controls />
+### Content
+| Prop | Type | Description |
+| --- | --- | --- |
+| `label` | `ReactNode` | The label for the number field. |
+| `description` | `ReactNode` | A description for the field. |
+| `errorMessage` | `ReactNode` | An error message for the field. |
+| `placeholder` | `string` | Temporary text displayed when the field is empty. |
+
+### Value/State
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `value` | `number` | — | The current value (controlled). |
+| `defaultValue` | `number` | — | The default value (uncontrolled). |
+| `minValue` | `number` | — | The minimum allowed value. |
+| `maxValue` | `number` | — | The maximum allowed value. |
+| `step` | `number` | 1 | The amount to increment or decrement. |
+
+### Events
+| Prop | Type | Description |
+| --- | --- | --- |
+| `onChange` | `(value: number) => void` | Handler called when the value changes. |
+| `onFocus/onBlur` | `(e: FocusEvent) => void` | Handlers for focus and blur events. |
+
+### Styles
+| Prop | Type | Description |
+| --- | --- | --- |
+| `formatOptions` | `Intl.NumberFormatOptions` | Localized formatting options. |
+| `hideStepper` | `boolean` | Whether to hide the stepper buttons. |
+| `isQuiet` | `boolean` | Whether the field is quiet. |
+| `isDisabled` | `boolean` | Whether the input is disabled. |
+| `validationState` | `'valid' \| 'invalid'` | Whether the input is valid or invalid. |
+
+## Accessibility
+
+- **ARIA Role**: Implements `role="spinbutton"`.
+- **Keyboard Support**:
+    - `ArrowUp/Down`: Increments or decrements the value by the `step` amount.
+    - `PageUp/Down`: Increments or decrements the value by a larger amount (if configured).
+    - `Home/End`: Sets the value to the `minValue` or `maxValue`.
+- **Labeling**: Always provide a `label`. Stepper buttons are automatically labeled for screen readers (e.g., "Increment", "Decrement").
+
+## Spectrum 2 Migration
+
+When migrating to Spectrum 2 (`@react-spectrum/s2`), note the following changes:
+
+- **Component Name**: Remains `NumberField`.
+- **Validation**: `validationState` is replaced by the `isInvalid` boolean prop.
+- **Styling**: Switch from `UNSAFE_className` to the `style` macro and `styles` prop.
+- **Size**: S2 introduces standardized `size` props (`S`, `M`, `L`, `XL`).
+- **Wheel Support**: S2 allows disabling scroll-wheel adjustments via `isWheelDisabled`.
 
