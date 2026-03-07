@@ -1,4 +1,4 @@
-import { Meta, Title, Subtitle, Description, Primary, Controls, Stories, Source } from '@storybook/blocks';
+import { Meta, Title, Subtitle, Description, Primary, Controls, Stories, Source } from '@storybook/addon-docs/blocks';
 import * as DocStories from './Divider.stories';
 
 <Meta of={DocStories} />
@@ -12,7 +12,7 @@ import { Divider } from '@geti/ui';
 ```
 
 - [React Spectrum V3 Divider](https://react-spectrum.adobe.com/react-spectrum/Divider.html)
-- [Spectrum 2 Divider](https://react-spectrum.adobe.com/s2/Divider.html)
+
 
 <Stories />
 
@@ -60,34 +60,4 @@ The `size` prop controls the thickness of the divider line:
 - **Aria Hidden**: If the divider is purely decorative and does not represent a meaningful separation in the content structure, it should be marked with `aria-hidden="true"`.
 - **Labeling**: For complex layouts, an `aria-label` can be added to the divider to describe the nature of the separation for screen reader users.
 
-## Spectrum 2 Migration
 
-The migration to Spectrum 2 (S2) involves minor prop changes and a shift in styling methodology.
-
-### Key Changes
-- **Default Size**: In S2, the default size changes from `L` to `M`.
-- **Static Color**: A new `staticColor` prop (`'white' \| 'black' \| 'auto'`) is introduced for use over backgrounds where the theme color might not have enough contrast.
-- **Styles Macro**: Layout props (like `margin` or `flex`) are replaced by the S2 `styles` prop and `style()` macro.
-- **Dialog Redesign**: S2 Dialogs no longer require an explicit `Divider` component; the layout is handled automatically by the `Dialog` itself.
-
-### Migration Example
-
-**V3 Style (Current):**
-```tsx
-<Flex direction="column" gap="size-200">
-  <Header>Settings</Header>
-  <Divider size="L" />
-  <Content>General settings content...</Content>
-</Flex>
-```
-
-**S2 Style (Future):**
-```tsx
-import { style } from '@react-spectrum/s2/style' with { type: 'macro' };
-
-<div className={style({ display: 'flex', flexDirection: 'column', gap: 16 })}>
-  <Header>Settings</Header>
-  <Divider size="M" />
-  <Content>General settings content...</Content>
-</div>
-```
