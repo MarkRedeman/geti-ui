@@ -1,42 +1,96 @@
-import { Meta, Title, Subtitle, Description, Primary, Controls, Stories } from '@storybook/addon-docs/blocks';
+import { Meta, Title, Subtitle, Description, Primary, Controls, Stories, Source } from '@storybook/blocks';
 import * as DocStories from './CheckboxGroup.stories';
 
 <Meta of={DocStories} />
 
-<Title />
+<Title>CheckboxGroup</Title>
+
+<Subtitle>
+  A CheckboxGroup allows users to select one or more items from a list of options.
+</Subtitle>
+
+```tsx
+import { Checkbox, CheckboxGroup } from '@geti/ui';
+```
+
+- [React Spectrum CheckboxGroup](https://react-spectrum.adobe.com/react-spectrum/CheckboxGroup.html)
+- [Spectrum 2 CheckboxGroup](https://react-spectrum.adobe.com/s2/CheckboxGroup.html)
+
+<Stories />
 
 ## Responsibility
 
-`CheckboxGroup` groups multiple `Checkbox` instances under a shared label, managing their collective selection state and accessibility relationships. It exists as a thin wrapper over Adobe React Spectrum's `CheckboxGroup` so the Geti codebase never imports Spectrum directly.
+The `CheckboxGroup` component is a wrapper around Adobe's React Spectrum `CheckboxGroup`. It groups multiple `Checkbox` instances under a shared label and manages their collective selection state, validation, and accessibility relationships.
 
-## Design
+### Key Features
+- **Managed Selection**: Handles a collection of selected values as an array of strings.
+- **Orientation**: Supports both `vertical` (default) and `horizontal` layouts.
+- **Form Integration**: Provides built-in support for labels, help text, and error messages within Spectrum forms.
+- **Semantic Grouping**: Automatically handles ARIA roles (`role="group"`) and labeling for the entire set of checkboxes.
 
-Pure pass-through — all props forwarded unchanged to `SpectrumCheckboxGroup`:
-
-```tsx
-export interface CheckboxGroupProps extends SpectrumCheckboxGroupProps {}
-export const CheckboxGroup = (props: CheckboxGroupProps) => <SpectrumCheckboxGroup {...props} />;
-```
-
-No CSS module, no `UNSAFE_className`, no internal state. The full Spectrum API is preserved: `label`, `value`, `defaultValue`, `onChange`, `isDisabled`, `isRequired`, `orientation`, `validationState`, etc.
-
-## Flow
-
-Props in → forwarded unchanged to `SpectrumCheckboxGroup` → Spectrum renders an accessible `<fieldset>`-equivalent with `role="group"`, `aria-labelledby`, and manages checked state across all child `Checkbox` instances.
-
-## Integration
-
-- **Depends on**: `@adobe/react-spectrum` (`CheckboxGroup`, `SpectrumCheckboxGroupProps`)
-- **Companion**: `Checkbox` — individual items rendered as children of `CheckboxGroup`
-- **Used by**: filter panels, permission editors, multi-select form sections
-
-
-<Stories />
 ---
 
-<Primary />
+## Variants
+
+### Orientation
+Use the `orientation` prop to switch between `vertical` and `horizontal` layouts. Vertical is recommended for long lists, while horizontal is best for small sets of short labels.
+
+### Layout Options
+- **Label Position**: Labels can be placed on the `top` (default) or the `side`.
+- **Necessity Indicator**: Displays whether the field is `required` or `optional` via an icon or text label.
+
+---
 
 ## Props
 
-<Controls />
+<Controls of={DocStories.Default} />
 
+### Content
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `children` | `ReactNode` | — | The `Checkbox` elements that make up the group. |
+| `label` | `ReactNode` | — | The label for the entire group. |
+| `description` | `ReactNode` | — | Help text displayed below the group. |
+| `errorMessage` | `ReactNode` | — | Error message displayed when validation fails. |
+
+### Value / State
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `value` | `string[]` | — | Controlled array of selected values. |
+| `defaultValue` | `string[]` | — | Initial selection state (uncontrolled). |
+| `orientation` | `'vertical' \| 'horizontal'` | `'vertical'` | The layout axis of the group. |
+| `isDisabled` | `boolean` | `false` | Disables all checkboxes within the group. |
+| `isReadOnly` | `boolean` | `false` | Prevents the user from changing the selection. |
+| `isRequired` | `boolean` | `false` | Whether at least one checkbox must be selected. |
+
+### Events
+
+| Prop | Type | Description |
+|------|------|-------------|
+| `onChange` | `(value: string[]) => void` | Handler called when the selection changes. Returns the new array of selected values. |
+
+### Styles
+
+The `CheckboxGroup` component accepts all standard [Spectrum layout and spacing props](https://react-spectrum.adobe.com/react-spectrum/styling.html).
+
+---
+
+## Accessibility
+
+- **Group Labeling**: The `label` prop is used to provide an accessible name for the group. If no visible label is provided, an `aria-label` must be used.
+- **Individual Labels**: Every `Checkbox` within the group must have its own visible label.
+- **Focus Management**: Focus can be moved through the group using the `Tab` key.
+
+---
+
+## Spectrum 2 Migration
+
+When migrating to Spectrum 2 (`@react-spectrum/s2`), note the following changes:
+
+- **Import Update**: Change from `@adobe/react-spectrum` to `@react-spectrum/s2`.
+- **Breaking Change**: The `showErrorIcon` prop has been removed in S2 due to accessibility considerations.
+- **New `size` Prop**: S2 adds a `size` prop (`'S' \| 'M' \| 'L' \| 'XL'`).
+- **Styles Macro**: Layout and spacing props migrate to the new `styles` macro system.
+- **Validation Behavior**: The default `validationBehavior` changes from `'aria'` to `'native'`.
