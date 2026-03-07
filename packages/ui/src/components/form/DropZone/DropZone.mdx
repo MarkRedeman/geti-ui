@@ -1,44 +1,80 @@
-import { Meta, Title, Subtitle, Description, Primary, Controls, Stories } from '@storybook/addon-docs/blocks';
+import { Meta, Title, Subtitle, Description, Primary, Controls, Stories } from '@storybook/blocks';
 import * as DocStories from './DropZone.stories';
 
 <Meta of={DocStories} />
 
-<Title />
+<Title>DropZone</Title>
+
+<Subtitle>A target area for dragging and dropping files or custom data into the application.</Subtitle>
+
+```tsx
+import { DropZone } from '@geti/ui';
+```
+
+- [React Spectrum V3 DropZone](https://react-spectrum.adobe.com/react-spectrum/DropZone.html)
+- [Spectrum 2 DropZone](https://react-spectrum.adobe.com/s2/DropZone.html)
+
+<Stories />
 
 ## Responsibility
 
-`DropZone` is a drag-and-drop target area where users can drop files or objects. It wraps Adobe React Spectrum's `DropZone`, providing a labelled region with visual feedback during drag interactions.
+The `DropZone` component provides a designated region where users can drop content (files, text, or objects). It manages the drag-and-drop state, provides visual feedback during interaction, and is fully accessible to keyboard and screen reader users.
 
-## Design
+### When to use
+- For file upload regions, image inlays, or data import workflows.
+- Typically paired with [FileTrigger](/docs/components-form-filetrigger--docs) to provide both drag-and-drop and click-to-browse capabilities.
 
-Thin wrapper with a `SpectrumDropZoneProps` type alias exported as `DropZoneProps`:
+### When to use something else
+- Use [FileTrigger](/docs/components-form-filetrigger--docs) alone if only a button-based file selection is needed.
 
-```tsx
-export const DropZone = (props: SpectrumDropZoneProps) => <SpectrumDropZone {...props} />;
-export type { SpectrumDropZoneProps as DropZoneProps };
-```
+## Variants
 
-Note: unlike most form components, `DropZoneProps` is a type alias (`export type { ... as DropZoneProps }`) rather than a new interface — the upstream type is re-exported directly. No CSS module, no styling overrides.
+### States
+- **Drag Over**: The zone highlights when a valid drag enters the area.
+- **Filled**: Use the `isFilled` prop when the zone already contains content. This changes the interaction to show a "Drop file to replace" message.
+- **Disabled**: The zone is non-interactive. Use `isDisabled`.
 
-Full Spectrum API preserved: `onDrop`, `onDropEnter`, `onDropExit`, `isFilled`, `isDisabled`, `replaceMessage`, `children`.
-
-## Flow
-
-Props in → forwarded to `SpectrumDropZone` → Spectrum manages the drag-over state (`isDropTarget`), renders visual highlight on drag enter/exit, and fires `onDrop` with a `DropEvent` containing the dropped items when the user releases.
-
-## Integration
-
-- **Depends on**: `@adobe/react-spectrum` (`DropZone`, `SpectrumDropZoneProps`)
-- **Companion**: typically paired with `FileTrigger` (for click-to-browse) to provide both drag-and-drop and button-based file selection in one surface
-- **Used by**: file upload panels, dataset import dialogs
-
-
-<Stories />
----
-
-<Primary />
+### Layout
+- **Custom Content**: `DropZone` is a container that can hold labels, icons (e.g., `IllustratedMessage`), or buttons.
 
 ## Props
 
-<Controls />
+### Events
+| Prop | Type | Description |
+|---|---|---|
+| `onDrop` | `(e: DropEvent) => void` | Called when content is dropped into the zone. |
+| `onDropEnter` | `(e: DropEnterEvent) => void` | Called when a valid drag enters the zone. |
+| `onDropExit` | `(e: DropExitEvent) => void` | Called when a valid drag leaves the zone. |
+| `getDropOperation` | `(types: DragTypes, allowed: DropOperation[]) => DropOperation` | Determines if a drop is allowed and which operation (copy, move, link) to perform. |
 
+### Value / State
+| Prop | Type | Default | Description |
+|---|---|---|---|
+| `isFilled` | `boolean` | `false` | Whether the zone already contains content. |
+| `replaceMessage` | `string` | `'Drop file to replace'` | The message shown when dragging over a filled DropZone. |
+| `isDisabled` | `boolean` | `false` | Whether the drop zone is disabled. |
+
+### Content
+| Prop | Type | Description |
+|---|---|---|
+| `children` | `ReactNode` | The content to display inside the drop zone. |
+| `aria-label` | `string` | An accessible label for the drop zone if no visible text is provided. |
+
+## Accessibility
+
+- Renders a visually hidden `<button>` that is keyboard-focusable, allowing screen reader users to activate the drop zone (e.g., to trigger a file picker).
+- Supports the ARIA drag-and-drop pattern with appropriate role and state announcements.
+- **Keyboard support**: Focus the zone via **Tab**, and activate its inner trigger via **Enter** or **Space**.
+- Automatically handles the `isDropTarget` state to provide clear visual and semantic feedback.
+
+## Spectrum 2 Migration
+
+When migrating to Spectrum 2 (S2), keep the following changes in mind:
+
+| V3 Prop | S2 Equivalent | Notes |
+|---|---|---|
+| `maxWidth="size-3000"` | `styles={style({ maxWidth: 240 })}` | Dimension props move to the `style()` macro. |
+| `size` | `size` | S2 adds a `size` prop (`'S'`, `'M'`, `'L'`) for preset dimensions. |
+| `isDisabled` | — | Handled via surrounding logic in S2 (not a direct prop in the S2 API). |
+
+<Controls />
