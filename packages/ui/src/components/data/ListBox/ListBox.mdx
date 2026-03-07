@@ -64,21 +64,3 @@ Items can be grouped into sections using the `Section` component (re-exported fr
 ### Constraints
 - **No nested interactivity**: Do not place buttons, links, or inputs inside a `ListBoxItem`. This breaks the ARIA model and keyboard navigation for screen readers.
 
-## Spectrum 2 Migration
-
-Spectrum 2 (S2) does not feature a standalone `ListBox` component. Instead, the functionality is divided between higher-level components and headless primitives:
-
-- **Dropdowns**: For dropdown selection, use the **S2 `Picker`** or **S2 `ComboBox`**.
-- **Embedded Lists**: For standalone lists, migrate to **`react-aria-components` `ListBox`** styled with S2 tokens.
-- **Sub-component Renaming**: `Item` becomes `ListBoxItem`, and `Section` becomes `ListBoxSection`.
-- **Header Changes**: Titles in sections move from a `title` prop to a child `<Header>` component.
-- **Async Loading**: Replaces `isLoading` and `onLoadMore` props with a sentinel `<ListBoxLoadMoreItem>` child component.
-
-### S2 Migration Mapping
-| Feature | V3 (Current) | S2 / RAC |
-| :--- | :--- | :--- |
-| **Component** | `ListBox` | `ListBox` (from `react-aria-components`) |
-| **Item** | `Item` | `ListBoxItem` |
-| **Section** | `Section` | `ListBoxSection` + `<Header>` |
-| **Loading** | `isLoading` prop | `<ListBoxLoadMoreItem>` |
-| **Empty State** | Manual | `renderEmptyState` prop |
