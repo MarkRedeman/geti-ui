@@ -12,7 +12,6 @@ import { TreeView, Item } from '@geti/ui';
 ```
 
 - [React Spectrum V3 TreeView (Alpha)](https://react-spectrum.adobe.com/v3/TreeView.html)
-- [Spectrum 2 TreeView (Stable)](https://react-spectrum.adobe.com/s2/TreeView.html)
 - [React Aria Tree (Headless)](https://react-spectrum.adobe.com/react-aria/Tree.html)
 
 <Stories />
@@ -71,19 +70,3 @@ Supports `none` (default), `single`, and `multiple` selection modes.
 ### Labelling Requirement
 An `aria-label` or `aria-labelledby` is **mandatory** on the `<TreeView>` root, as it is a landmark that provides context for the entire collection.
 
-## Spectrum 2 Migration
-
-The Spectrum 2 (S2) migration marks the transition from an unstable V3 alpha to a **formally stable** production-ready component:
-
-- **Stable Release**: S2 `TreeView` is fully stable and supports asynchronous loading, drag-and-drop, and more.
-- **Item Wrapper**: A new `<TreeViewItemContent>` wrapper is required inside each item to hold its content.
-- **Async Loading**: S2 adds the `<TreeViewLoadMoreItem>` component for infinite scroll within branches.
-- **Style Macro**: Dimension props (e.g., `height="size-4600"`) are replaced by the `styles={style({...})}` macro.
-
-### S2 Migration Mapping
-| Area | V3 (Alpha) | S2 (Stable) |
-| :--- | :--- | :--- |
-| **Import** | `@adobe/react-spectrum` | `@react-spectrum/s2` |
-| **Wrapper** | ❌ None | `<TreeViewItemContent>` (Required) |
-| **Visuals** | Basic | `isDetached`, `isEmphasized` variants |
-| **Loading** | ❌ Manual/None | `<TreeViewLoadMoreItem>` |
