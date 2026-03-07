@@ -1,43 +1,76 @@
-import { Meta, Title, Subtitle, Description, Primary, Controls, Stories } from '@storybook/addon-docs/blocks';
+import { Meta, Title, Subtitle, Description, Primary, Controls, Stories } from '@storybook/blocks';
 import * as DocStories from './FileTrigger.stories';
 
 <Meta of={DocStories} />
 
-<Title />
+<Title>FileTrigger</Title>
+
+<Subtitle>A wrapper that allows any pressable component to open the system file picker.</Subtitle>
+
+```tsx
+import { FileTrigger } from '@geti/ui';
+```
+
+- [React Aria Components FileTrigger](https://react-spectrum.adobe.com/react-aria/FileTrigger.html)
+
+<Stories />
 
 ## Responsibility
 
-`FileTrigger` attaches native file-picker behaviour to any child element (typically a `Button`), opening the OS file chooser dialog when the child is activated. It is the **only form component in this library that wraps `react-aria-components`** rather than `@adobe/react-spectrum`.
+The `FileTrigger` component is a behavioral wrapper that enables any interactive element (such as a Button or Link) to trigger the native OS file selection dialog. It manages the hidden `<input type="file">` and translates the system file selection into an `onSelect` callback.
 
-## Design
+### When to use
+- When you want to trigger a file selection from a styled [Button](/docs/components-ui-primitives-button--docs) or other UI element.
+- Typically nested within a [DropZone](/docs/components-form-dropzone--docs) to provide both "browse" and "drag-and-drop" capabilities.
 
-Thin wrapper over `react-aria-components` `FileTrigger`:
+### When to use something else
+- Use [DropZone](/docs/components-form-dropzone--docs) alone if you only want to support drag-and-drop.
+- Use a native `<input type="file">` if you need direct form-submission integration with `FormData`.
 
-```tsx
-import { FileTrigger as AriaFileTrigger } from 'react-aria-components';
-export interface FileTriggerProps extends AriaFileTriggerProps {}
-export const FileTrigger = (props: FileTriggerProps) => <AriaFileTrigger {...props} />;
-```
+## Variants
 
-Uses RAC instead of Spectrum because Spectrum does not ship a `FileTrigger` component — RAC's headless primitive is the appropriate base. No CSS module, no styling. Full RAC API preserved: `onSelect`, `acceptedFileTypes`, `allowsMultipleFiles`, `defaultCamera`, `children`.
+### File Selection Options
+- **Accepted Types**: Use `acceptedFileTypes` (e.g., `['image/png', 'image/jpeg']`) to limit the picker to specific MIME types.
+- **Multiple Files**: Use `allowsMultiple` to let users select more than one file at a time.
+- **Directory Selection**: Use `acceptDirectory` to open a folder/directory picker instead of a file picker.
 
-## Flow
-
-`FileTrigger` renders a hidden `<input type="file">` and clones its child, passing an `onPress` handler that triggers the file input. When the user selects files, `onSelect` fires with a `FileList`. The child component (e.g. a `Button`) retains its own visual rendering — `FileTrigger` is purely behavioural.
-
-## Integration
-
-- **Depends on**: `react-aria-components` (`FileTrigger`, `FileTriggerProps`)
-- **Companion**: typically paired with `DropZone` (drag-and-drop) to offer both interaction modes for file selection
-- **Used by**: upload triggers, import dialogs, avatar/image pickers
-
-
-<Stories />
----
-
-<Primary />
+### Standard States
+- **Disabled**: To disable the trigger, set `isDisabled` on the **child** component (e.g., the Button), not the `FileTrigger` itself.
 
 ## Props
 
-<Controls />
+### Events
+| Prop | Type | Description |
+|---|---|---|
+| `onSelect` | `(files: FileList \| null) => void` | Called when the user selects files from the system picker. |
 
+### Value / State
+| Prop | Type | Default | Description |
+|---|---|---|---|
+| `acceptedFileTypes` | `readonly string[]` | — | The list of accepted MIME types (e.g., `['image/*']`). |
+| `allowsMultiple` | `boolean` | `false` | Whether to allow multiple file selection. |
+| `acceptDirectory` | `boolean` | `false` | Whether to open a directory picker. |
+| `defaultCamera` | `'user' \| 'environment'` | — | Mobile-only: which camera to capture from. |
+
+### Content
+| Prop | Type | Description |
+|---|---|---|
+| `children` | `ReactNode` | The interactive component (e.g., a `Button`) that will trigger the file picker. |
+
+## Accessibility
+
+- `FileTrigger` renders a visually hidden `<input type="file">` with `aria-hidden="true"`.
+- All keyboard and screen reader interactions are handled by the **child** element (e.g., a Button).
+- **Keyboard support**: Focus the child element via **Tab**, and trigger it via **Enter** or **Space**.
+- Screen readers announce the child element according to its role (e.g., "Button, Select file").
+
+## Spectrum 2 Migration
+
+The `FileTrigger` component in Geti UI already uses `react-aria-components` (RAC), which is the foundation for Spectrum 2.
+
+| V3 Pattern | S2 Equivalent | Notes |
+|---|---|---|
+| `react-aria-components` | `react-aria-components` | No change needed; S2 uses RAC directly for file triggers. |
+| Style props | — | Sizing and styling are controlled by the child component (e.g., `<Button size="M">`). |
+
+<Controls />
