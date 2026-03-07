@@ -18,7 +18,7 @@ export const Slider = ({ UNSAFE_className, ...props }: SliderProps) => {
     return (
         <SpectrumSlider
             {...props}
-            UNSAFE_className={clsx(styles.slider, UNSAFE_className)}
+            UNSAFE_className={clsx(styles.slider, UNSAFE_className) || undefined}
             data-filled={props.isFilled}
         />
     );
