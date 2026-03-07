@@ -1,19 +1,36 @@
 # packages/ui/src/components/ui/Image/
 
-<!-- Explorer: Fill in this section with architectural understanding -->
-
 ## Responsibility
 
-<!-- What is this folder's job in the system? -->
+`Image` renders an accessible image. It is a minimal Spectrum wrapper that centralises the import of Spectrum's `Image` component so consumers never reach into `@adobe/react-spectrum` directly.
+
+---
 
 ## Design
 
-<!-- Key patterns, abstractions, architectural decisions -->
+```tsx
+export interface ImageProps extends SpectrumImageProps {}
+export const Image = (props: ImageProps) => <SpectrumImage {...props} />;
+```
+
+All Spectrum props pass through unchanged:
+- `src` — image URL
+- `alt` — accessible description (required for non-decorative images)
+- `objectFit` — CSS `object-fit` value (`'cover'`, `'contain'`, etc.)
+- `isHidden` — marks the image as decorative (sets `alt=""` internally)
+- Spectrum style props (`width`, `height`, `UNSAFE_className`, etc.)
+
+No CSS module, no Geti-specific props.
+
+---
 
 ## Flow
 
-<!-- How does data/control flow through this module? -->
+Pure presentational. Stateless.
+
+---
 
 ## Integration
 
-<!-- How does it connect to other parts of the system? -->
+- **Depends on**: `@adobe/react-spectrum` (`Image`, `SpectrumImageProps`).
+- **Consumed by**: thumbnail grids, dataset cards, annotation previews, and any surface displaying a raster image.

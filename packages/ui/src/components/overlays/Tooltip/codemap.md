@@ -1,19 +1,33 @@
 # packages/ui/src/components/overlays/Tooltip/
 
-<!-- Explorer: Fill in this section with architectural understanding -->
-
 ## Responsibility
 
-<!-- What is this folder's job in the system? -->
+Re-exports Adobe React Spectrum's `Tooltip` as a named Geti component, providing brief, non-interactive label text that appears on hover/focus of a trigger element. Must always be used inside a `TooltipTrigger`.
 
 ## Design
 
-<!-- Key patterns, abstractions, architectural decisions -->
+Thin wrapper — `TooltipProps extends SpectrumTooltipProps`. The component body is `(props) => <SpectrumTooltip {...props} />`.
+
+`placement` (`'top' | 'bottom' | 'left' | 'right'`) and `showArrow` are the key layout props. The tooltip text is passed as `children`. `variant` (`'neutral' | 'positive' | 'negative' | 'info'`) is available for semantic colouring.
+
+**Important constraint**: `Tooltip` is not self-activating — it requires `TooltipTrigger` from Spectrum as a parent to wire up hover/focus events and manage show/hide state. `TooltipTrigger` is not re-exported as a Geti component; callers import it directly from `@adobe/react-spectrum`.
 
 ## Flow
 
-<!-- How does data/control flow through this module? -->
+```
+// Required usage pattern:
+<TooltipTrigger>
+  <TriggerElement />        ← any focusable element
+  <Tooltip>Label text</Tooltip>
+</TooltipTrigger>
+```
+
+No state, no effects, no refs in the wrapper itself.
 
 ## Integration
 
-<!-- How does it connect to other parts of the system? -->
+- Used extensively across the UI for icon-only buttons (e.g. `ActionButton` without visible text, toolbar icons).
+- `FullscreenAction` uses `TooltipTrigger` + `Tooltip` internally for its expand button.
+- `MediaViewModes` uses `TooltipTrigger` + `Tooltip` for the current-mode action button.
+- Contrast with `ContextualHelp` — `Tooltip` is for brief labels only; `ContextualHelp` is for explanatory help content.
+- Themed automatically by `ThemeProvider`.

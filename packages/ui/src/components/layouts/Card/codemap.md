@@ -1,19 +1,60 @@
 # packages/ui/src/components/layouts/Card/
 
-<!-- Explorer: Fill in this section with architectural understanding -->
-
 ## Responsibility
 
-<!-- What is this folder's job in the system? -->
+Provides the Geti design system's card primitive — a bordered, themed content container that supports both static (article) and interactive (button) rendering modes, with selection state reflected through Spectrum border and background tokens.
 
 ## Design
 
-<!-- Key patterns, abstractions, architectural decisions -->
+Custom component — not a Spectrum wrapper. Uses Spectrum's `View` as the styled outer container but composes native HTML elements inside.
+
+Two rendering branches based on whether `onPress` is provided:
+
+**Interactive mode** (`onPress` present):
+```tsx
+<View border="..." background="...">
+  <button style={{ all: 'unset' }} className="geti-card-button" aria-pressed={isSelected}>
+    {children}
+  </button>
+</View>
+```
+`style={{ all: 'unset' }}` resets all button styles so `View`'s visual treatment applies. `aria-pressed` communicates selection state to screen readers.
+
+**Static mode** (no `onPress`):
+```tsx
+<View border="..." background="...">
+  <article aria-label={ariaLabel}>
+    {children}
+  </article>
+</View>
+```
+
+**Selection state** — `isSelected` controls Spectrum token props on `View`:
+- `borderColor`: `'focus'` (selected) vs `'mid'` (default)
+- `backgroundColor`: `'informative'` (selected) vs `'default'` (default)
+
+This token-based selection indicator avoids custom CSS while integrating with Spectrum's dark-mode-aware colour system.
 
 ## Flow
 
-<!-- How does data/control flow through this module? -->
+```
+props { children, onPress?, isSelected?, ariaLabel? }
+  → <View borderColor={isSelected ? 'focus' : 'mid'}
+           backgroundColor={isSelected ? 'informative' : 'default'}>
+      {onPress
+        ? <button style={{all:'unset'}} className="geti-card-button"
+                  aria-pressed={isSelected} onClick={onPress}>
+            {children}
+          </button>
+        : <article aria-label={ariaLabel}>
+            {children}
+          </article>
+      }
+    </View>
+```
 
 ## Integration
 
-<!-- How does it connect to other parts of the system? -->
+- Used by `CardView` (data/) as the rendering target for each grid cell.
+- `View` from `ui/View/` provides the themed border and background via Spectrum style props.
+- `geti-card-button` CSS class is expected to be present in global styles for any additional hover/focus visual treatment.

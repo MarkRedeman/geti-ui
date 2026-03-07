@@ -1,19 +1,27 @@
 # packages/ui/src/components/layouts/Flex/
 
-<!-- Explorer: Fill in this section with architectural understanding -->
-
 ## Responsibility
 
-<!-- What is this folder's job in the system? -->
+Re-exports Adobe React Spectrum's `Flex` as a named Geti component, providing a CSS flexbox container with Spectrum's layout prop system (gap, direction, alignment, wrapping) expressed as design-token-aware props rather than raw CSS values.
 
 ## Design
 
-<!-- Key patterns, abstractions, architectural decisions -->
+Thin wrapper — `FlexComponentProps extends FlexProps` (note: interface is named `FlexComponentProps` to avoid a naming collision with the re-exported Spectrum `FlexProps` type). The component body is `(props) => <SpectrumFlex {...props} />`.
+
+Spectrum's `Flex` accepts props like `direction`, `wrap`, `justifyContent`, `alignItems`, `alignContent`, `gap`, `columnGap`, `rowGap` — all using Spectrum's design-token dimension values (`'size-100'`, `'size-200'`, etc.) in addition to standard CSS strings.
 
 ## Flow
 
-<!-- How does data/control flow through this module? -->
+```
+props (FlexProps passthrough — direction, wrap, gap, alignItems, justifyContent, ...)
+  → <SpectrumFlex {...props} />
+```
+
+No state, no effects, no refs.
 
 ## Integration
 
-<!-- How does it connect to other parts of the system? -->
+- Used throughout the design system as the primary one-dimensional layout primitive.
+- `IntelBrandedLoading` uses `Flex` for its centred loading container.
+- Pairs with `Grid` (same layouts/ category) for two-dimensional layout needs.
+- Prefer over raw `<div style={{ display: 'flex' }}>` to stay within the Spectrum design token system.

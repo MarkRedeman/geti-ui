@@ -1,19 +1,32 @@
 # packages/ui/src/components/form/SearchField/
 
-<!-- Explorer: Fill in this section with architectural understanding -->
-
 ## Responsibility
 
-<!-- What is this folder's job in the system? -->
+Provides a search input with a built-in clear button and optional programmatic ref access. Wraps `SpectrumSearchField` and adds `forwardRef` support so callers can call `.focus()` or `.clear()` on the field imperatively.
 
 ## Design
 
-<!-- Key patterns, abstractions, architectural decisions -->
+Spectrum wrapper with `forwardRef`:
+
+```tsx
+export interface SearchFieldProps extends Omit<SpectrumSearchFieldProps, 'ref'> {}
+
+export const SearchField = forwardRef<TextFieldRef, SearchFieldProps>((props, ref) => (
+    <SpectrumSearchField {...props} ref={ref} />
+));
+```
+
+`'ref'` is omitted from the props type (`Omit<SpectrumSearchFieldProps, 'ref'>`) because React handles the ref separately via `forwardRef`. The imperative handle type is `TextFieldRef` from `@react-types/textfield`, which exposes `.focus()` and `.clear()` methods.
+
+`displayName` is set manually (`SearchField.displayName = 'SearchField'`) so React DevTools identifies the component correctly despite `forwardRef` wrapping.
 
 ## Flow
 
-<!-- How does data/control flow through this module? -->
+The ref is forwarded directly to the underlying Spectrum input. The consumer can programmatically clear the field (e.g., on route change or filter reset) without re-rendering.
+
+Search queries flow: `user types → onChange → consumer state → value prop` (controlled mode).
 
 ## Integration
 
-<!-- How does it connect to other parts of the system? -->
+- **Depends on**: `@adobe/react-spectrum` (`SearchField`, `SpectrumSearchFieldProps`), `@react-types/textfield` (`TextFieldRef`)
+- **Used by**: filter/search panels that need to clear the search field programmatically

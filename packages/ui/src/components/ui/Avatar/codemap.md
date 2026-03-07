@@ -1,19 +1,67 @@
 # packages/ui/src/components/ui/Avatar/
 
-<!-- Explorer: Fill in this section with architectural understanding -->
-
 ## Responsibility
 
-<!-- What is this folder's job in the system? -->
+This folder exports two components:
+
+- **`Avatar`** — displays a single circular thumbnail image for a user or entity.
+- **`AvatarGroup`** — renders a row of `Avatar` instances with negative-margin overlap and an overflow count badge when the list exceeds `max`.
+
+---
 
 ## Design
 
-<!-- Key patterns, abstractions, architectural decisions -->
+### `Avatar` — minimal Spectrum wrapper
+
+```tsx
+export interface AvatarProps extends SpectrumAvatarProps {}
+export const Avatar = (props: AvatarProps) => <SpectrumAvatar {...props} />;
+```
+
+Zero prop changes — the sole purpose is to centralise the import. All Spectrum props (`src`, `alt`, `size`, `isDisabled`) pass through unchanged.
+
+### `AvatarGroup` — custom layout over `Avatar`
+
+`AvatarGroup` is not a Spectrum component. It is built in plain React with inline `CSSProperties` objects:
+
+| Style object | Applied to | Purpose |
+|---|---|---|
+| `styles.group` | outer `<div>` | `display:flex`, `flex-direction:row`, `align-items:center` |
+| `styles.item` | `<span>` wrapping each `Avatar` | `marginRight:-8px` overlap, circular border |
+| `styles.overflow` | overflow count `<span>` | Circle badge with `+N` text |
+
+**Border colour** uses `var(--spectrum-global-color-gray-800)` — adapts to the active colour scheme via the theme token.  
+**Overflow badge** background uses `var(--spectrum-global-color-gray-300)`.
+
+Props:
+
+```tsx
+interface AvatarGroupProps {
+    avatars: AvatarProps[];   // Full list — AvatarGroup slices and renders
+    max?: number;             // Default: 3
+    size?: AvatarProps['size']; // Overrides individual avatar sizes uniformly
+}
+```
+
+If `size` is provided on the group, it takes precedence over individual `avatarProps.size` via `size ?? avatarProps.size`.
+
+### Accessibility
+
+- Outer `<div role="group" aria-label="{N} avatars">` labels the group.
+- Overflow badge `<span aria-label="{N} more">` describes the hidden count.
+- Each `Avatar` requires a meaningful `alt` prop (Spectrum enforces this at the type level).
+
+---
 
 ## Flow
 
-<!-- How does data/control flow through this module? -->
+Pure presentational — no state, no effects. `visible` and `overflow` are derived synchronously from `avatars.slice(0, max)`.
+
+---
 
 ## Integration
 
-<!-- How does it connect to other parts of the system? -->
+- **`Avatar` depends on**: `@adobe/react-spectrum`.
+- **`AvatarGroup` depends on**: `./Avatar`, React (`CSSProperties`).
+- **Consumed by**: user-assignment indicators, member lists, comment threads, and any surface showing entity ownership.
+- **Complement**: when no image URL is available, use `PhotoPlaceholder` instead of `Avatar`.

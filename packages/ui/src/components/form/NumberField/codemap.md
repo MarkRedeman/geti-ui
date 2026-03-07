@@ -1,19 +1,25 @@
 # packages/ui/src/components/form/NumberField/
 
-<!-- Explorer: Fill in this section with architectural understanding -->
-
 ## Responsibility
 
-<!-- What is this folder's job in the system? -->
+Provides a numeric input with stepper increment/decrement buttons. A minimal Spectrum wrapper to centralise the import of `SpectrumNumberField`.
 
 ## Design
 
-<!-- Key patterns, abstractions, architectural decisions -->
+Pure thin wrapper — no props are altered:
+
+```tsx
+export interface NumberFieldProps extends SpectrumNumberFieldProps {}
+export const NumberField = (props: NumberFieldProps) => <SpectrumNumberField {...props} />;
+```
+
+The full Spectrum API is available: `minValue`, `maxValue`, `step`, `formatOptions` (for locale-aware number formatting), `isDisabled`, `isReadOnly`, and validation props.
 
 ## Flow
 
-<!-- How does data/control flow through this module? -->
+Controlled or uncontrolled. `value` + `onChange` for controlled mode. Spectrum manages stepper button ARIA roles (`role="spinbutton"`) and keyboard increment/decrement interactions internally.
 
 ## Integration
 
-<!-- How does it connect to other parts of the system? -->
+- **Depends on**: `@adobe/react-spectrum` (`NumberField`, `SpectrumNumberFieldProps`)
+- **Used by**: any form requiring constrained numeric input (thresholds, counts, coordinates)

@@ -1,0 +1,33 @@
+# packages/ui/src/components/form/pickers/ColorThumb/
+
+## Responsibility
+
+`ColorThumb` is a small square (or custom-sized) color preview element — the only color component in this library that does **not** wrap `@adobe/react-spectrum`. It is a fully custom component built on the library's own `View`, used to show the currently active color in a compact indicator.
+
+## Design
+
+Built on the library's `View` component + a CSS module + a CSS custom property:
+
+```tsx
+export const ColorThumb = ({ color, size = 10, UNSAFE_className, UNSAFE_style, ...rest }: ColorThumbProps) => (
+    <View
+        {...rest}
+        width={size}
+        height={size}
+        UNSAFE_className={clsx(styles.colorThumb, UNSAFE_className)}
+        UNSAFE_style={{ '--color-thumb-bg': color, ...UNSAFE_style } as CSSPropertiesWithVars}
+    />
+);
+```
+
+The background color is injected via `--color-thumb-bg` CSS custom property set in `UNSAFE_style`. `ColorThumb.module.css` owns the `background-color: var(--color-thumb-bg)` declaration, keeping dynamic values in CSS rather than inline JS. A `CSSPropertiesWithVars` type alias (`CSSProperties & Record<\`--\${string}\`, string>`) makes TypeScript accept `--` prefixed properties.
+
+## Flow
+
+`color` (string) + `size` (number) → `--color-thumb-bg` custom property → CSS module applies `background-color` → renders a square `View` of the given size with that background.
+
+## Integration
+
+- **Depends on**: library's own `View` (`../../ui/View/View`), `clsx`, `ColorThumb.module.css`
+- **Does NOT depend on**: `@adobe/react-spectrum` directly
+- **Used by**: any surface needing a compact color swatch indicator (e.g. color picker trigger buttons, table cells)

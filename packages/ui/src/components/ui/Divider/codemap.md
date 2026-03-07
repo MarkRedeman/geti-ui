@@ -1,19 +1,35 @@
 # packages/ui/src/components/ui/Divider/
 
-<!-- Explorer: Fill in this section with architectural understanding -->
-
 ## Responsibility
 
-<!-- What is this folder's job in the system? -->
+`Divider` renders a horizontal or vertical visual separator to group and divide content in close proximity. It is a minimal Spectrum wrapper with no Geti-specific extensions.
+
+---
 
 ## Design
 
-<!-- Key patterns, abstractions, architectural decisions -->
+```tsx
+export interface DividerProps extends SpectrumDividerProps {}
+export const Divider = (props: DividerProps) => <SpectrumDivider {...props} />;
+```
+
+All Spectrum props pass through unchanged:
+- `orientation` — `'horizontal'` (default) or `'vertical'`
+- `size` — `'S'` | `'M'` | `'L'` controls thickness
+- `UNSAFE_className`, `UNSAFE_style`
+
+No CSS module, no Geti-specific props.
+
+---
 
 ## Flow
 
-<!-- How does data/control flow through this module? -->
+Pure presentational. Stateless.
+
+---
 
 ## Integration
 
-<!-- How does it connect to other parts of the system? -->
+- **Depends on**: `@adobe/react-spectrum` (`Divider`, `SpectrumDividerProps`).
+- **Consumed by**: dialogs (between header and content), toolbars, sidebars, and any layout requiring a clear visual break between sections.
+- **Colour**: inherits from `--spectrum-alias-border-color-mid` or similar tokens set in `geti-dark.module.css`.

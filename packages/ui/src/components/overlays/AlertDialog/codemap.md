@@ -1,19 +1,27 @@
 # packages/ui/src/components/overlays/AlertDialog/
 
-<!-- Explorer: Fill in this section with architectural understanding -->
-
 ## Responsibility
 
-<!-- What is this folder's job in the system? -->
+Re-exports Adobe React Spectrum's `AlertDialog` as a named Geti component, providing a specialised confirmation dialog for destructive or critical actions (delete, overwrite, discard) with a standardised button layout (primary CTA + cancel).
 
 ## Design
 
-<!-- Key patterns, abstractions, architectural decisions -->
+Thin wrapper — `AlertDialogProps extends SpectrumAlertDialogProps`. The component body is `(props) => <SpectrumAlertDialog {...props} />`.
+
+Key props: `title`, `variant` (`'confirmation' | 'information' | 'destructive' | 'error' | 'warning'`), `primaryActionLabel`, `cancelLabel`, `onPrimaryAction`, `onCancel`. Spectrum handles the button layout, ARIA role (`alertdialog`), and focus management automatically.
 
 ## Flow
 
-<!-- How does data/control flow through this module? -->
+```
+props { title, variant, primaryActionLabel, cancelLabel,
+        onPrimaryAction, onCancel, children, ...rest }
+  → <SpectrumAlertDialog {...props} />
+```
+
+Must be used inside `DialogTrigger` or `DialogContainer` to render.
 
 ## Integration
 
-<!-- How does it connect to other parts of the system? -->
+- Used for destructive confirmations: deleting a project, removing annotations, overwriting a model.
+- Always composed inside `DialogTrigger` (or `DialogContainer` for dynamic trigger scenarios).
+- Complement to `Dialog` — use `AlertDialog` when the action requires explicit confirmation and the layout should be standardised; use `Dialog` when custom layout/content is needed.

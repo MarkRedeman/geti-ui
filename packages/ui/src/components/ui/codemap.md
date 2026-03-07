@@ -8,58 +8,67 @@ Components in this folder:
 
 | Component | Purpose |
 |---|---|
-| `Button` | Primary call-to-action button (accent/primary/secondary/negative variants) |
-| `ActionButton` | Icon-first toolbar action button with Geti `colorVariant` extension |
-| `ToggleButton` | Single on/off toggle button (selected/deselected state) |
-| `ToggleButtons` | Mutually exclusive button group for view switching or mode selection |
-| `Avatar` | Thumbnail for a user or entity |
-| `AvatarGroup` | Row of Avatars with overflow count badge |
-| `Divider` | Horizontal or vertical visual separator |
-| `Image` | Accessible image wrapper |
+| `Button` | Primary call-to-action button (`accent`/`primary`/`secondary`/`negative` variants; `cta`/`overBackground` excluded) |
+| `ActionButton` | Icon-first toolbar action button with Geti `colorVariant` extension (`dark`/`light`/`blue`) |
+| `ToggleButton` | Single on/off toggle button (selected/deselected state) — thin Spectrum wrapper |
+| `ToggleButtons` | Mutually exclusive button group for view switching; custom-built on top of `Button` |
+| `Avatar` | Circular thumbnail for a user or entity — thin Spectrum wrapper |
+| `AvatarGroup` | Row of `Avatar` instances with negative-margin overlap and `+N` overflow count badge |
+| `Divider` | Horizontal or vertical visual separator — thin Spectrum wrapper |
+| `Image` | Accessible image wrapper — thin Spectrum wrapper |
 | `View` | General-purpose styled layout container (Spectrum style props) |
-| `CornerIndicator` | Small dot overlay on a child element to signal pending state |
+| `CornerIndicator` | Small blue dot overlay on a child element to signal pending/notification state |
 | `PhotoPlaceholder` | Deterministic-colour initials avatar when no photo is available |
-| `PressableElement` | Generic Spectrum-style-prop-aware pressable `div` wrapper |
+| `PressableElement` | RAC `Pressable` + Spectrum `useStyleProps` bridge — pressable div with Spectrum style props |
 
 ---
 
 ## Design
 
-### Wrapping strategy — thin Spectrum wrappers
+### Pattern 1 — Thin Spectrum wrappers (most components)
 
-The vast majority of components here are **thin wrappers around `@adobe/react-spectrum`**. The canonical pattern is:
+`Avatar`, `Divider`, `Image`, `ToggleButton` follow the purest form:
 
 ```tsx
-export interface ButtonProps extends Omit<SpectrumButtonProps, 'variant'> {
-  variant?: VariantWithoutLegacy;
-}
-export const Button = ({ variant = 'accent', ...rest }: ButtonProps) => (
-  <SpectrumButton {...rest} variant={variant} />
-);
+export interface AvatarProps extends SpectrumAvatarProps {}
+export const Avatar = (props: AvatarProps) => <SpectrumAvatar {...props} />;
 ```
 
-This achieves three goals:
-1. Centralises the import of Spectrum — consumers never import from `@adobe/react-spectrum` directly.
-2. Restricts or replaces individual props (e.g. `Button` strips legacy `cta`/`overBackground` variants and defaults to `accent`).
-3. Exports a typed `Props` interface so consumers can extend or reference it.
+No prop changes. Goal: centralise imports so consumers never reach into `@adobe/react-spectrum` directly.
 
-### Geti-specific extensions via `colorVariant` + CSS Modules
+`View` uses `React.ComponentProps<typeof SpectrumView>` instead of a named Spectrum type, capturing the full generic signature without replication.
 
-`ActionButton` adds a `colorVariant` prop (`dark` | `light` | `blue`). The mapping to CSS classes lives in `ActionButton.module.css` and is resolved by a `COLOR_VARIANT_CLASSES` record. This pattern — Geti-specific prop → CSS module class → applied via `UNSAFE_className` + `clsx` — is the approved mechanism for style overrides that don't have a Spectrum prop equivalent.
+### Pattern 2 — Prop-restricting wrapper (`Button`)
 
-### Composite primitives built on top of `Button`/`View`
+`Button` uses `Omit<SpectrumButtonProps, 'variant'>` + a narrowed `VariantWithoutLegacy` type to exclude `'cta'` and `'overBackground'`, defaults to `'accent'`, and merges `UNSAFE_className` via `clsx`.
 
-`ToggleButtons` is custom-built from the library's own `Button` rather than wrapping a Spectrum component. It manages a generic `selectedOption` value and renders a `role="group"` div of `Button` children with `aria-pressed`. This shows the pattern for stateful Geti-specific controls built from lower-level atoms.
+### Pattern 3 — Geti-specific extension via `colorVariant` + CSS module (`ActionButton`)
 
-`PhotoPlaceholder` renders a Spectrum `View` with a computed `backgroundColor` (from a hash function), an inner centred text initial, and runtime `UNSAFE_style` for the three computed values only. Static layout CSS lives in the CSS module.
+`ActionButton` adds `colorVariant: 'dark' | 'light' | 'blue'`. A `COLOR_VARIANT_CLASSES` record maps each variant to a CSS module class. The class is prepended to `UNSAFE_className` via `clsx`. CSS selectors target Spectrum's internal `:global([class*='is-hovered'])` state classes to override hover/active colours for different surface contexts.
 
-`CornerIndicator` wraps any child in a `View position="relative"` and conditionally overlays a small `role="status"` dot using Spectrum dimension tokens (`--spectrum-global-dimension-size-*`).
+### Pattern 4 — Custom stateful composite built on library primitives (`ToggleButtons`)
 
-`AvatarGroup` wraps multiple `Avatar` instances in an inline flex row with a negative-margin overlap effect and an overflow badge, all via inline `CSSProperties` objects using Spectrum global color tokens.
+`ToggleButtons` renders a `role="group"` div of internal `ToggleButton` items (not exported), each of which renders the library's own `Button` with `variant="accent"` (selected) or `variant="secondary"` (deselected) and `aria-pressed`. `ToggleButtons.module.css` removes intermediate border-radius and hides inner borders to create a joined pill shape.
 
-`PressableElement` bridges `react-aria-components`' `Pressable` with Spectrum's `useStyleProps`/`viewStyleProps`, enabling arbitrary elements to accept Spectrum style props (padding, margin, backgroundColor, etc.) while still being keyboard/pointer accessible.
+### Pattern 5 — Custom layout with inline token-driven styles (`AvatarGroup`, `CornerIndicator`)
 
-### Key rules
+`AvatarGroup` uses a static `Record<string, CSSProperties>` object referencing `var(--spectrum-global-color-*)` tokens for border and overflow badge colours.
+
+`CornerIndicator` uses inline styles with `var(--spectrum-global-dimension-size-*)` tokens so the dot scales with Spectrum's medium/large scale settings.
+
+### Pattern 6 — Runtime-computed values via `UNSAFE_style`, static layout in CSS module (`PhotoPlaceholder`)
+
+`PhotoPlaceholder` splits styling between:
+- `UNSAFE_style`: `backgroundColor`, `color`, `borderRadius` — runtime-computed values only.
+- `PhotoPlaceholder.module.css`: inner flex centering — static, belongs in CSS.
+
+`backgroundColor` and `color` are computed from a hash-based colour algorithm using ITU-R 601 perceived-luminance for automatic contrast.
+
+### Pattern 7 — Two-library bridge (`PressableElement`)
+
+`PressableElement` composes `react-aria-components`' `Pressable` (press/keyboard events) with `@react-spectrum/utils`' `useStyleProps` (Spectrum style props → CSS). Props are manually split: Spectrum style props go to `useStyleProps`; everything else goes to `Pressable`.
+
+### Key styling rules
 
 - **No Tailwind** — all styling is via Spectrum style props, `UNSAFE_className` (CSS modules), or Spectrum CSS variable tokens in inline styles.
 - **`UNSAFE_className` merged with `clsx`** — never overwrite a caller-supplied `UNSAFE_className`; always merge.
@@ -72,13 +81,13 @@ This achieves three goals:
 
 Components here are **pure presentational** — they receive props and render. There is no context, no global state, no side-effects. Data flow is strictly prop-in → render-out.
 
-The only partial exception is `PressableElement`, which calls `useStyleProps` from `@react-spectrum/utils` to translate Spectrum-flavoured style props into a real CSS `style` object.
+The only partial exception is `PressableElement`, which calls `useStyleProps` from `@react-spectrum/utils` to translate Spectrum-flavoured style props into a real CSS `style` object at render time.
 
 ---
 
 ## Integration
 
 - **Consumed by**: every other component category (`form/`, `data/`, `navigation/`, `feedback/`, `overlays/`, `layouts/`) imports from `ui/` to compose higher-level components.
-- **Depends on**: `@adobe/react-spectrum` (Spectrum primitives), `react-aria-components` (`Pressable`), `@react-spectrum/utils` (`useStyleProps`), `@react-types/shared` (type aliases).
+- **Depends on**: `@adobe/react-spectrum` (Spectrum primitives), `react-aria-components` (`Pressable`), `@react-spectrum/utils` (`useStyleProps`, `viewStyleProps`), `@react-types/shared` (type aliases).
 - **Theme**: components automatically receive Geti's dark theme tokens because they are always rendered inside `ThemeProvider`, which sets the Spectrum `Provider` context.
 - **Exports**: all public exports flow up through `packages/ui/src/index.ts`.

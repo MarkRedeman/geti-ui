@@ -1,19 +1,27 @@
 # packages/ui/src/components/data/ListBox/
 
-<!-- Explorer: Fill in this section with architectural understanding -->
-
 ## Responsibility
 
-<!-- What is this folder's job in the system? -->
+Re-exports Adobe React Spectrum's `ListBox` as a named Geti component, providing a static scrollable list of selectable options. Used when a pre-opened selection list is needed in the UI without a trigger (as opposed to `Picker` or `ComboBox` which hide the list behind a trigger).
 
 ## Design
 
-<!-- Key patterns, abstractions, architectural decisions -->
+Generic thin wrapper — `ListBoxProps<T extends object> extends SpectrumListBoxProps<T>`. The component body is `(props) => <SpectrumListBox {...props} />`. Also re-exports `Item` from Spectrum.
+
+Supports `selectionMode` (`'single' | 'multiple'`), `selectedKeys`, `onSelectionChange`, and drag-and-drop via Spectrum's DnD hooks.
 
 ## Flow
 
-<!-- How does data/control flow through this module? -->
+```
+props { items, children (Item nodes), selectionMode, selectedKeys,
+        onSelectionChange, ...rest }
+  → <SpectrumListBox {...props} />
+```
+
+No state, no effects, no refs.
 
 ## Integration
 
-<!-- How does it connect to other parts of the system? -->
+- Used for in-page selection lists (e.g. label selectors, filter option lists) that are always visible rather than behind a trigger.
+- `Item` re-export is also used by `ComboBox`, `Picker`, `Menu`, and `TagGroup` elsewhere in the design system.
+- Contrast with `ListView` (same data/ category) — `ListBox` is for option selection; `ListView` is for actionable item collections with richer row content.

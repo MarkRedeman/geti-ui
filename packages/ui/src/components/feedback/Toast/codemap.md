@@ -1,19 +1,43 @@
 # packages/ui/src/components/feedback/Toast/
 
-<!-- Explorer: Fill in this section with architectural understanding -->
-
 ## Responsibility
 
-<!-- What is this folder's job in the system? -->
+Provides the complete toast notification system: a mount-point component (`ToastContainer`) that renders queued toasts in the DOM, and a programmatic imperative API (`toast`) for enqueuing notifications from anywhere in the application without needing component context.
 
 ## Design
 
-<!-- Key patterns, abstractions, architectural decisions -->
+Two exports with different usage models:
+
+**`ToastContainer`** — thin wrapper over Spectrum's `ToastContainer`. Must be rendered once in the application tree (typically near the root). Accepts the same props as `SpectrumToastContainer`.
+
+**`toast`** — a plain object (not a component) with four methods:
+```ts
+toast.positive(message, options?)
+toast.negative(message, options?)
+toast.info(message, options?)
+toast.neutral(message, options?)
+```
+Each method calls `SpectrumToastQueue.<variant>(message, options)` directly. This gives callers a stable, variant-named API without importing Spectrum internals. The `toast` object is a pure function dispatch table — no hooks, no React lifecycle.
+
+The separation of `ToastContainer` (render tree) from `toast` (imperative API) follows the "render once, call anywhere" pattern, enabling toast creation from event handlers, async callbacks, and non-React code.
 
 ## Flow
 
-<!-- How does data/control flow through this module? -->
+**Setup (once):**
+```
+<ToastContainer /> mounted in app root
+  → renders SpectrumToastContainer (manages its own queue)
+```
+
+**Usage (anywhere):**
+```
+toast.negative('Upload failed', { timeout: 5000 })
+  → SpectrumToastQueue.negative('Upload failed', { timeout: 5000 })
+  → ToastContainer re-renders with new toast
+```
 
 ## Integration
 
-<!-- How does it connect to other parts of the system? -->
+- `ToastContainer` must be present in the React tree for toasts to appear.
+- `toast.*` can be called from any module — event handlers, async utilities, error boundaries — without component imports.
+- Spectrum manages toast queuing, deduplication, and auto-dismiss internally.

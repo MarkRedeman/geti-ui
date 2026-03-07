@@ -1,19 +1,24 @@
 # packages/ui/src/components/feedback/IllustratedMessage/
 
-<!-- Explorer: Fill in this section with architectural understanding -->
-
 ## Responsibility
 
-<!-- What is this folder's job in the system? -->
+Re-exports Adobe React Spectrum's `IllustratedMessage` as a named Geti component, providing a structured empty-state or error-state layout that combines an illustration (SVG), a heading, and descriptive body text.
 
 ## Design
 
-<!-- Key patterns, abstractions, architectural decisions -->
+Pure thin wrapper — `IllustratedMessageProps extends SpectrumIllustratedMessageProps` with zero prop additions or overrides. The component body is `(props) => <SpectrumIllustratedMessage {...props} />`. Content is composed via slot children: an illustration element, `<Heading>`, and `<Content>`.
 
 ## Flow
 
-<!-- How does data/control flow through this module? -->
+```
+props (SpectrumIllustratedMessageProps passthrough)
+  → <SpectrumIllustratedMessage {...props} />
+```
+
+No state, no effects, no refs.
 
 ## Integration
 
-<!-- How does it connect to other parts of the system? -->
+- Used in empty list/grid views (e.g. no annotations, no datasets) and error boundary displays.
+- Pairs with Spectrum's `<Heading>` and `<Content>` slot components.
+- Themed automatically by `ThemeProvider`.

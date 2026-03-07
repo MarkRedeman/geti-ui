@@ -1,19 +1,55 @@
 # packages/ui/src/components/ui/ActionButton/
 
-<!-- Explorer: Fill in this section with architectural understanding -->
-
 ## Responsibility
 
-<!-- What is this folder's job in the system? -->
+`ActionButton` is the icon-first toolbar/tool button. It wraps Spectrum's `ActionButton` and adds a Geti-specific `colorVariant` prop (`'dark'` | `'light'` | `'blue'`) that changes hover/active colours to match different surface types (dark panels, light header bars, transparent icon-only contexts).
+
+---
 
 ## Design
 
-<!-- Key patterns, abstractions, architectural decisions -->
+### The `colorVariant` extension
+
+Spectrum's `ActionButton` does not have a built-in surface-context prop. Geti adds one via the approved `UNSAFE_className` + CSS module pattern:
+
+```tsx
+// ActionButton.tsx
+const COLOR_VARIANT_CLASSES: Record<ActionButtonColorVariant, string> = {
+    dark:  styles.actionButtonDark,
+    light: styles.actionButtonLight,
+    blue:  styles.actionButtonBlue,
+};
+
+export const ActionButton = ({ colorVariant, UNSAFE_className, ...rest }: ActionButtonProps) => (
+    <SpectrumActionButton
+        {...rest}
+        UNSAFE_className={clsx(getColorVariantClass(colorVariant), UNSAFE_className) || undefined}
+    />
+);
+```
+
+The `clsx` call always puts the Geti variant class **first**, so caller-supplied classes can still override further if needed.
+
+### CSS module details (`ActionButton.module.css`)
+
+| Class | Surface | Hover / active behaviour |
+|---|---|---|
+| `actionButtonDark` | Dark panels/toolbars | Subtle `gray-300` border + `gray-100` background on hover; `gray-400` border + `gray-50` bg on active/selected |
+| `actionButtonLight` | Light header areas | `--blue-header-option-hover` border+bg on hover; `--blue-header-option-selected` on active |
+| `actionButtonBlue` | Icon-only, transparent contexts | Transparent border + bg; `--energy-blue` text colour when not disabled |
+
+All selectors use `:global([class*='is-hovered'])` / `:global([class*='is-active'])` to target Spectrum's internal state classes without depending on their exact generated names.
+
+---
 
 ## Flow
 
-<!-- How does data/control flow through this module? -->
+Pure presentational — no state, no context. The only logic is the `COLOR_VARIANT_CLASSES` record lookup.
+
+---
 
 ## Integration
 
-<!-- How does it connect to other parts of the system? -->
+- **Imported by**: toolbar components, `ColorPickerDialog` (trigger button), and any component needing an icon/label action that isn't a primary CTA.
+- **Depends on**: `@adobe/react-spectrum` (`ActionButton`, `SpectrumActionButtonProps`), `clsx`, `./ActionButton.module.css`.
+- **Theme**: `--blue-header-option-hover`, `--blue-header-option-selected`, and `--energy-blue` are defined in `geti-global.module.css` and resolve through `ThemeProvider`.

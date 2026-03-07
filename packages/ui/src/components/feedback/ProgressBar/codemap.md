@@ -1,19 +1,24 @@
 # packages/ui/src/components/feedback/ProgressBar/
 
-<!-- Explorer: Fill in this section with architectural understanding -->
-
 ## Responsibility
 
-<!-- What is this folder's job in the system? -->
+Re-exports Adobe React Spectrum's `ProgressBar` as a named Geti component, establishing it in the design system's public API surface without modifying its behaviour. Provides determinate and indeterminate horizontal progress indication.
 
 ## Design
 
-<!-- Key patterns, abstractions, architectural decisions -->
+Pure thin wrapper — `ProgressBarProps extends SpectrumProgressBarProps` with zero prop additions or overrides. The component body is `(props) => <SpectrumProgressBar {...props} />`. This ensures the Geti token theme (applied by `ThemeProvider`) governs visual appearance without any component-level CSS.
 
 ## Flow
 
-<!-- How does data/control flow through this module? -->
+```
+props (SpectrumProgressBarProps passthrough)
+  → <SpectrumProgressBar {...props} />
+```
+
+No state, no effects, no refs.
 
 ## Integration
 
-<!-- How does it connect to other parts of the system? -->
+- Pairs with `ProgressCircle`, `Meter`, and `Loading` as the suite of Geti progress/status indicators.
+- Consumed wherever long-running determinate tasks need a linear progress track (e.g. upload progress, batch job status).
+- Themed automatically by the `ThemeProvider` wrapping the application.

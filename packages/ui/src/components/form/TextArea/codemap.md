@@ -1,19 +1,25 @@
 # packages/ui/src/components/form/TextArea/
 
-<!-- Explorer: Fill in this section with architectural understanding -->
-
 ## Responsibility
 
-<!-- What is this folder's job in the system? -->
+Provides a multi-line text input primitive. A minimal Spectrum wrapper to centralise the import of `SpectrumTextArea` so consumers never reference `@adobe/react-spectrum` directly.
 
 ## Design
 
-<!-- Key patterns, abstractions, architectural decisions -->
+Pure thin wrapper — no props are altered:
+
+```tsx
+export interface TextAreaProps extends SpectrumTextAreaProps {}
+export const TextArea = (props: TextAreaProps) => <SpectrumTextArea {...props} />;
+```
+
+`TextAreaProps` extends `SpectrumTextAreaProps` without modification, preserving the full Spectrum API surface including `autoResize`, `minHeight`, label, validation, and placeholder props.
 
 ## Flow
 
-<!-- How does data/control flow through this module? -->
+Controlled or uncontrolled. Spectrum manages ARIA attributes, resize behaviour, and field labelling internally. `value` + `onChange` for controlled; omit both for uncontrolled.
 
 ## Integration
 
-<!-- How does it connect to other parts of the system? -->
+- **Depends on**: `@adobe/react-spectrum` (`TextArea`, `SpectrumTextAreaProps`)
+- **Used by**: any form requiring multi-line text input (notes, descriptions, free-form content)

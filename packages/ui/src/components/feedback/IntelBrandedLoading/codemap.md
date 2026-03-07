@@ -1,19 +1,27 @@
 # packages/ui/src/components/feedback/IntelBrandedLoading/
 
-<!-- Explorer: Fill in this section with architectural understanding -->
-
 ## Responsibility
 
-<!-- What is this folder's job in the system? -->
+Deprecated convenience wrapper that displays the Intel-branded animated logo centred in a full-height container. Exists solely for backward compatibility with code written before `Loading` gained `variant` and `mode` props. No new code should use this component.
 
 ## Design
 
-<!-- Key patterns, abstractions, architectural decisions -->
+A thin composition: wraps `<Loading variant="intel" mode="inline" size="L">` inside `<Flex justifyContent="center" alignItems="center" height={height}>`. The only configurable prop is `height?: string` (default `'100vh'`), which is passed directly to the Spectrum `Flex` component.
+
+The deprecation is the key design fact: the component adds no new capability over `<Loading variant="intel" mode="inline">` and is retained only to avoid breaking existing consumers.
 
 ## Flow
 
-<!-- How does data/control flow through this module? -->
+```
+props { height = '100vh' }
+  → <Flex justifyContent="center" alignItems="center" height={height}>
+      → <Loading variant="intel" mode="inline" size="L" />
+```
+
+No state, no effects, no refs.
 
 ## Integration
 
-<!-- How does it connect to other parts of the system? -->
+- Delegates all rendering to `Loading` in the sibling `Loading/` folder.
+- Depends on `Flex` from `@adobe/react-spectrum` for layout.
+- Consumers should migrate to `<Loading variant="intel" mode="inline" size="L">` and handle their own centering.

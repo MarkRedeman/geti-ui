@@ -1,19 +1,26 @@
 # packages/ui/src/components/layouts/Well/
 
-<!-- Explorer: Fill in this section with architectural understanding -->
-
 ## Responsibility
 
-<!-- What is this folder's job in the system? -->
+Re-exports Adobe React Spectrum's `Well` as a named Geti component, providing a subtle inset content region — a muted, bordered container used to visually group related content within a larger layout without the prominence of a card or dialog.
 
 ## Design
 
-<!-- Key patterns, abstractions, architectural decisions -->
+Thin wrapper — `WellProps extends SpectrumWellProps`. The component body is `(props) => <SpectrumWell {...props} />`. No prop additions or overrides.
+
+Spectrum's `Well` is essentially a `View` with a specific combination of border and background tokens that creates an "inset" appearance. It is semantically a `<section>` element.
 
 ## Flow
 
-<!-- How does data/control flow through this module? -->
+```
+props (SpectrumWellProps passthrough — role, aria-label, children, ...)
+  → <SpectrumWell {...props} />
+```
+
+No state, no effects, no refs.
 
 ## Integration
 
-<!-- How does it connect to other parts of the system? -->
+- Used for secondary information panels, grouped configuration sections, and read-only data displays that need visual separation without modal or card prominence.
+- Pairs with `Flex` and `Grid` inside for internal layout of well content.
+- Themed automatically by `ThemeProvider`.

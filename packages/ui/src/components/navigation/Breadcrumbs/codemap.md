@@ -1,19 +1,26 @@
 # packages/ui/src/components/navigation/Breadcrumbs/
 
-<!-- Explorer: Fill in this section with architectural understanding -->
-
 ## Responsibility
 
-<!-- What is this folder's job in the system? -->
+Re-exports Adobe React Spectrum's `Breadcrumbs` as a named Geti component, providing hierarchical location navigation that shows the user's current path and allows upward traversal.
 
 ## Design
 
-<!-- Key patterns, abstractions, architectural decisions -->
+Generic thin wrapper — `BreadcrumbsProps<T extends object> extends SpectrumBreadcrumbsProps<T>`. The component body is `(props) => <SpectrumBreadcrumbs {...props} />`.
+
+The generic `T` allows typed item collections. Spectrum's `Breadcrumbs` handles overflow behaviour (collapsing middle items into a `…` expander on narrow widths) automatically.
 
 ## Flow
 
-<!-- How does data/control flow through this module? -->
+```
+props { children (Item nodes), onAction, isDisabled, ...rest }
+  → <SpectrumBreadcrumbs {...props} />
+```
+
+No state, no effects, no refs.
 
 ## Integration
 
-<!-- How does it connect to other parts of the system? -->
+- Used in page headers and navigation chrome to communicate the current location within a deep hierarchy (e.g. workspace → project → dataset → annotation).
+- `Item` from `navigation/Menu/` (or directly from Spectrum) is used to define each breadcrumb segment.
+- Themed automatically by `ThemeProvider`.

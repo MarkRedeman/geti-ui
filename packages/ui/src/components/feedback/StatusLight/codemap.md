@@ -1,19 +1,24 @@
 # packages/ui/src/components/feedback/StatusLight/
 
-<!-- Explorer: Fill in this section with architectural understanding -->
-
 ## Responsibility
 
-<!-- What is this folder's job in the system? -->
+Re-exports Adobe React Spectrum's `StatusLight` as a named Geti component, providing a small coloured dot + label for indicating operational or health states (e.g. "Active", "Offline", "Error").
 
 ## Design
 
-<!-- Key patterns, abstractions, architectural decisions -->
+Pure thin wrapper — `StatusLightProps extends SpectrumStatusLightProps` with zero prop additions or overrides. The component body is `(props) => <SpectrumStatusLight {...props} />`. Spectrum's `variant` (`'positive' | 'negative' | 'notice' | 'info' | 'neutral' | 'celery' | ...`) drives dot colour.
 
 ## Flow
 
-<!-- How does data/control flow through this module? -->
+```
+props (SpectrumStatusLightProps passthrough)
+  → <SpectrumStatusLight {...props} />
+```
+
+No state, no effects, no refs.
 
 ## Integration
 
-<!-- How does it connect to other parts of the system? -->
+- Used alongside device, pipeline, or model status indicators in dashboards and list views.
+- Pairs semantically with `Badge` and `InlineAlert` in the feedback category for different intensity levels of status communication.
+- Themed automatically by `ThemeProvider`.

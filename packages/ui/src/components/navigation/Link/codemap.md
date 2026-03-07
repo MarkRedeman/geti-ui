@@ -1,19 +1,26 @@
 # packages/ui/src/components/navigation/Link/
 
-<!-- Explorer: Fill in this section with architectural understanding -->
-
 ## Responsibility
 
-<!-- What is this folder's job in the system? -->
+Re-exports Adobe React Spectrum's `Link` as a named Geti component, providing an accessible hyperlink with Spectrum's visual variants and quiet mode support.
 
 ## Design
 
-<!-- Key patterns, abstractions, architectural decisions -->
+Thin wrapper — `LinkProps extends SpectrumLinkProps`. The component body is `(props) => <SpectrumLink {...props} />`.
+
+Spectrum's `variant` (`'primary' | 'secondary' | 'overBackground'`) and `isQuiet` are the key props. `isQuiet` removes the underline until hover/focus. `variant="overBackground"` renders a white link for use on coloured/image backgrounds.
 
 ## Flow
 
-<!-- How does data/control flow through this module? -->
+```
+props { variant, isQuiet, href, children, onPress, ...rest }
+  → <SpectrumLink {...props} />
+```
+
+No state, no effects, no refs.
 
 ## Integration
 
-<!-- How does it connect to other parts of the system? -->
+- Used for inline text links and navigation links throughout the UI.
+- Can be used with React Router by passing `href` and handling `onPress` — Spectrum's `Link` is not router-aware by default; callers supply routing logic.
+- Themed automatically by `ThemeProvider`.

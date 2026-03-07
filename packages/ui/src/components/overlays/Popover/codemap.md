@@ -1,19 +1,32 @@
 # packages/ui/src/components/overlays/Popover/
 
-<!-- Explorer: Fill in this section with architectural understanding -->
-
 ## Responsibility
 
-<!-- What is this folder's job in the system? -->
+Wraps `DialogTrigger` with a pre-set `type="popover"` default, providing a convenient shorthand for the common case of anchored non-modal popover overlays. Callers can override `type` to switch to modal, tray, or fullscreen when needed.
 
 ## Design
 
-<!-- Key patterns, abstractions, architectural decisions -->
+The key design point: `PopoverProps` explicitly **omits** `type` from `SpectrumDialogTriggerProps` and re-declares it as an optional prop with default value `'popover'`. This is implemented by setting `type` before spreading `...props`, so callers can still override it:
+
+```tsx
+const Popover = ({ type = 'popover', ...props }: PopoverProps) => (
+  <SpectrumDialogTrigger type={type} {...props} />
+);
+```
+
+This means `<Popover>` and `<DialogTrigger type="popover">` are functionally identical, but `Popover` communicates intent more clearly at the call site.
 
 ## Flow
 
-<!-- How does data/control flow through this module? -->
+```
+props { type = 'popover', children, isOpen, onOpenChange, ...rest }
+  → <SpectrumDialogTrigger type={type} {...rest}>
+      {children}   ← trigger element + dialog/content
+    </SpectrumDialogTrigger>
+```
 
 ## Integration
 
-<!-- How does it connect to other parts of the system? -->
+- Used where a small, anchored, non-blocking overlay is needed (e.g. filter panels, date pickers, colour pickers).
+- Contrast with `CustomPopover` (same category) — `Popover` uses Spectrum's full `DialogTrigger` machinery; `CustomPopover` uses `react-aria-components` directly for more layout control and an optional arrow indicator.
+- Accepts the same children pattern as `DialogTrigger`: `[TriggerElement, DialogContent]` or `[TriggerElement, (close) => DialogContent]`.

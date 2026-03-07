@@ -1,0 +1,26 @@
+# packages/ui/src/components/form/pickers/ColorField/
+
+## Responsibility
+
+`ColorField` is a text input for editing a color value as a hex string or individual channel value. It wraps Spectrum's `ColorField`.
+
+## Design
+
+Pure thin wrapper:
+
+```tsx
+export interface ColorFieldProps extends SpectrumColorFieldProps {}
+export const ColorField = (props: ColorFieldProps) => <SpectrumColorField {...props} />;
+```
+
+Key props: `value`, `onChange`, `label`, `isDisabled`, `validationState`. Spectrum parses the typed hex/channel string into a `Color` object and fires `onChange` when the input is committed.
+
+## Flow
+
+Props in → forwarded to `SpectrumColorField` → user types a hex value (e.g. `#ff0000`) → on blur or Enter → Spectrum parses the string → `onChange(Color)` fires.
+
+## Integration
+
+- **Depends on**: `@adobe/react-spectrum` (`ColorField`, `SpectrumColorFieldProps`)
+- **Composed into**: `ColorPickerDialog` uses it labelled `"Hex"` alongside `ColorWheel`
+- **Used alongside**: `ColorArea`, `ColorSlider`, `ColorWheel` for a full color picker

@@ -1,19 +1,26 @@
 # packages/ui/src/components/overlays/ContextualHelp/
 
-<!-- Explorer: Fill in this section with architectural understanding -->
-
 ## Responsibility
 
-<!-- What is this folder's job in the system? -->
+Re-exports Adobe React Spectrum's `ContextualHelp` as a named Geti component, providing a small `?` icon button that opens a popover with help text. Used to attach non-blocking contextual documentation to form fields, settings, and UI elements without cluttering the layout.
 
 ## Design
 
-<!-- Key patterns, abstractions, architectural decisions -->
+Thin wrapper — `ContextualHelpProps extends SpectrumContextualHelpProps`. The component body is `(props) => <SpectrumContextualHelp {...props} />`.
+
+`variant` (`'info' | 'help'`) switches the icon between an `i` (info) and `?` (help). Content is composed via slot children: `<Heading>` and `<Content>`. Optionally includes a `<Footer>` with a `Link` for "Learn more" style links.
 
 ## Flow
 
-<!-- How does data/control flow through this module? -->
+```
+props { variant, children (Heading + Content + Footer?), ...rest }
+  → <SpectrumContextualHelp {...props} />
+```
+
+No state, no effects, no refs.
 
 ## Integration
 
-<!-- How does it connect to other parts of the system? -->
+- Typically placed adjacent to form field labels, section headers, or settings controls.
+- Pairs with `Tooltip` (for brief inline hints) — use `ContextualHelp` when the explanation needs a heading, body text, or a link.
+- Themed automatically by `ThemeProvider`.

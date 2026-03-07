@@ -1,19 +1,26 @@
 # packages/ui/src/components/layouts/Grid/
 
-<!-- Explorer: Fill in this section with architectural understanding -->
-
 ## Responsibility
 
-<!-- What is this folder's job in the system? -->
+Re-exports Adobe React Spectrum's `Grid` as a named Geti component, providing a CSS grid container with Spectrum's layout prop system for two-dimensional layout composition.
 
 ## Design
 
-<!-- Key patterns, abstractions, architectural decisions -->
+Thin wrapper — `GridComponentProps extends GridProps` (named `GridComponentProps` to avoid collision with the re-exported Spectrum `GridProps` type, mirroring the same pattern as `Flex`). The component body is `(props) => <SpectrumGrid {...props} />`.
+
+Spectrum's `Grid` accepts props like `areas`, `columns`, `rows`, `gap`, `columnGap`, `rowGap`, `justifyItems`, `alignItems` — using Spectrum dimension tokens alongside standard CSS grid values.
 
 ## Flow
 
-<!-- How does data/control flow through this module? -->
+```
+props (GridProps passthrough — areas, columns, rows, gap, ...)
+  → <SpectrumGrid {...props} />
+```
+
+No state, no effects, no refs.
 
 ## Integration
 
-<!-- How does it connect to other parts of the system? -->
+- Used for two-dimensional layouts: settings forms with label/input columns, dashboard panels, split-pane layouts.
+- Pairs with `Flex` (same layouts/ category) — use `Grid` when rows and columns both matter; use `Flex` for single-axis alignment.
+- `CardView` (data/ category) uses native CSS grid directly (not this component) because it needs imperative `gridTemplateColumns` calculated from a prop.

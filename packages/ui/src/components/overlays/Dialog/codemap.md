@@ -1,19 +1,40 @@
 # packages/ui/src/components/overlays/Dialog/
 
-<!-- Explorer: Fill in this section with architectural understanding -->
-
 ## Responsibility
 
-<!-- What is this folder's job in the system? -->
+Provides the standard modal dialog pair: `Dialog` (the dialog container/content component) and `DialogTrigger` (the trigger + overlay manager). Together they handle all standard modal, tray, and popover dialog use cases where a persistent trigger element exists in the DOM.
 
 ## Design
 
-<!-- Key patterns, abstractions, architectural decisions -->
+Two files, both thin wrappers over `@adobe/react-spectrum`:
+
+- **`Dialog.tsx`** — `DialogProps extends SpectrumDialogProps`. Renders `<SpectrumDialog {...props} />`. Accepts slot-based children: `<Heading>`, `<Divider>`, `<Content>`, `<ButtonGroup>`, `<Footer>`. `isDismissable` and `size` are the key layout props.
+- **`DialogTrigger.tsx`** — `DialogTriggerProps extends SpectrumDialogTriggerProps`. Renders `<SpectrumDialogTrigger {...props} />`. Controls `type` (`'modal' | 'popover' | 'tray' | 'fullscreen' | 'fullscreenTakeover'`) and `isOpen`/`onOpenChange` for controlled usage.
 
 ## Flow
 
-<!-- How does data/control flow through this module? -->
+```
+<DialogTrigger type="modal">
+  <TriggerElement />           ← first child
+  {(close) =>                  ← render-prop for close callback
+    <Dialog isDismissable>
+      <Heading>Title</Heading>
+      <Divider />
+      <Content>Body</Content>
+      <ButtonGroup>
+        <Button onPress={close}>Cancel</Button>
+      </ButtonGroup>
+    </Dialog>
+  }
+</DialogTrigger>
+```
+
+`DialogTrigger` manages open state (uncontrolled) or consumes `isOpen`/`onOpenChange` (controlled). It passes a `close` function to the render-prop children.
 
 ## Integration
 
-<!-- How does it connect to other parts of the system? -->
+- Used throughout the UI for confirmations, settings, and detail panels.
+- `AlertDialog` (same overlays/ category) is a specialised variant for destructive confirmations.
+- `DialogContainer` (same category) is the alternative when no persistent trigger element exists.
+- `FullscreenAction` (same category) uses `DialogTrigger type="fullscreenTakeover"` internally.
+- `Popover` (same category) wraps `DialogTrigger` with a defaulted `type="popover"`.

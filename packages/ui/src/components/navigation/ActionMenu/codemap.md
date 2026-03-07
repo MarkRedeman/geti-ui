@@ -1,19 +1,27 @@
 # packages/ui/src/components/navigation/ActionMenu/
 
-<!-- Explorer: Fill in this section with architectural understanding -->
-
 ## Responsibility
 
-<!-- What is this folder's job in the system? -->
+Provides a pre-composed dropdown menu triggered by an icon-only action button — the standard pattern for contextual action menus attached to list rows, cards, and toolbar items. Encapsulates the `MenuTrigger` + `Menu` pairing behind a single component.
 
 ## Design
 
-<!-- Key patterns, abstractions, architectural decisions -->
+Generic thin wrapper — `ActionMenuProps<T extends object> extends SpectrumActionMenuProps<T>`. The component body is `(props) => <SpectrumActionMenu {...props} />`.
+
+The generic `T` carries the item type through, allowing typed `items` arrays. Spectrum's `ActionMenu` internally composes its own `ActionButton` trigger (the `⋯` icon) with `MenuTrigger` + `Menu`, so this wrapper inherits all of that behaviour for free.
 
 ## Flow
 
-<!-- How does data/control flow through this module? -->
+```
+props { items, onAction, disabledKeys, children (Item/Section), ...rest }
+  → <SpectrumActionMenu {...props} />
+      → (Spectrum internally): ActionButton trigger → MenuTrigger → Menu overlay
+```
+
+No state, no effects, no refs.
 
 ## Integration
 
-<!-- How does it connect to other parts of the system? -->
+- A higher-level convenience over `Menu` + `MenuTrigger` from the same navigation category.
+- Used in list/table rows and card headers where a contextual action menu is needed without a custom trigger.
+- `Item` and `Section` from `Menu/` are used to compose the menu content.

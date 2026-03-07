@@ -1,19 +1,25 @@
 # packages/ui/src/components/form/Checkbox/
 
-<!-- Explorer: Fill in this section with architectural understanding -->
-
 ## Responsibility
 
-<!-- What is this folder's job in the system? -->
+`Checkbox` is a boolean toggle input for use in forms. It exists as a thin wrapper over Adobe React Spectrum's `Checkbox` so that the rest of the Geti UI codebase imports from a single internal package rather than depending directly on Spectrum. This keeps the public API surface stable and allows future styling or behavioural overrides without touching call sites.
 
 ## Design
 
-<!-- Key patterns, abstractions, architectural decisions -->
+The component is a pure pass-through — all props are forwarded unchanged to `SpectrumCheckbox` via the spread operator:
+
+```tsx
+export const Checkbox = (props: CheckboxProps) => <SpectrumCheckbox {...props} />;
+```
+
+`CheckboxProps` extends `SpectrumCheckboxProps` from `@adobe/react-spectrum` without adding or removing anything. There is no CSS module, no `UNSAFE_className` injection, and no internal state.
 
 ## Flow
 
-<!-- How does data/control flow through this module? -->
+Props in → forwarded unchanged to `SpectrumCheckbox` → Spectrum renders an accessible `<label>` + `<input type="checkbox">` with full keyboard, ARIA, and validation support provided by Spectrum.
 
 ## Integration
 
-<!-- How does it connect to other parts of the system? -->
+- **Depends on**: `@adobe/react-spectrum` (`Checkbox`, `SpectrumCheckboxProps`).
+- **Consumed by**: anywhere a boolean form field is needed — settings panels, filter dialogs, permission editors.
+- **Companion**: `CheckboxGroup` (also in this folder) groups multiple `Checkbox` instances under a shared label and managed selection state.

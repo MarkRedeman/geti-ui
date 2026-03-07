@@ -1,19 +1,72 @@
 # packages/ui/src/components/form/PasswordField/
 
-<!-- Explorer: Fill in this section with architectural understanding -->
-
 ## Responsibility
 
-<!-- What is this folder's job in the system? -->
+`PasswordField` is a password text input with a show/hide toggle button, an optional custom error message, and an optional password-rules hint. It is the most behaviorally extended form component in the library — the only form input that adds its own layout DOM structure around Spectrum's `TextField`.
+
+---
 
 ## Design
 
-<!-- Key patterns, abstractions, architectural decisions -->
+### Structure
+
+```
+<div>                                    ← outer wrapper
+  <div.fieldWrapper>                     ← flex row (PasswordField.module.css)
+    <SpectrumTextField type="password|text" />
+    <button.toggleButton>Show|Hide</button>  ← native <button>, not Spectrum
+  </div>
+  {error && <span role="alert">…</span>}
+  {isNewPassword && <p>…min 8 chars…</p>}
+</div>
+```
+
+### State
+
+`useState<boolean>(false)` tracks `showPassword`. Toggling it switches `type` between `'password'` and `'text'` on the underlying `SpectrumTextField`.
+
+### Props omitted
+
+`Omit<SpectrumTextFieldProps, 'type'>` — `type` is always controlled internally (`'password'` or `'text'`). Callers cannot override it.
+
+Additional props beyond Spectrum's:
+- `isNewPassword?: boolean` — shows a "min 8 characters" hint paragraph
+- `error?: string` — shows a `role="alert"` error span and sets `validationState="invalid"` on the field
+
+### `aria-describedby` assembly
+
+```tsx
+const errorId  = id ? `${id}-error` : undefined;
+const hintId   = id ? `${id}-hint`  : undefined;
+const describedBy = [error ? errorId : undefined, isNewPassword ? hintId : undefined]
+    .filter(Boolean).join(' ');
+```
+
+Correctly associates the field with both error and hint elements simultaneously, depending on which are active.
+
+### CSS module (`PasswordField.module.css`)
+
+| Class | Applied to | Purpose |
+|---|---|---|
+| `fieldWrapper` | Outer flex div | `display:flex; align-items:flex-end; gap:8px` — places toggle button beside the field |
+| `toggleButton` | Native `<button>` | Minimal styling with `var(--spectrum-global-color-gray-700)` text, hover border |
+| `errorMessage` | Error `<span>` | `var(--spectrum-semantic-negative-color-default)` — semantic red |
+| `hint` | Hint `<p>` | `var(--spectrum-global-color-gray-600)` — muted hint text |
+
+All colour values include a fallback literal for environments where the CSS variable may not be loaded.
+
+---
 
 ## Flow
 
-<!-- How does data/control flow through this module? -->
+1. Caller renders `<PasswordField id="pwd" error={formError} isNewPassword />`.
+2. Internal `showPassword` state controls the `type` prop on Spectrum's `TextField`.
+3. Toggling the button flips the state; Spectrum re-renders with `type="text"` to reveal.
+4. `aria-describedby` is live — it updates as `error` or `isNewPassword` changes.
+
+---
 
 ## Integration
 
-<!-- How does it connect to other parts of the system? -->
+- **Depends on**: `@adobe/react-spectrum` (`TextField`, `SpectrumTextFieldProps`), `./PasswordField.module.css`, React (`useState`).
+- **Consumed by**: login forms, account settings, any form requiring a masked text input.

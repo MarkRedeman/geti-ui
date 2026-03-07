@@ -1,19 +1,27 @@
 # packages/ui/src/components/data/ListView/
 
-<!-- Explorer: Fill in this section with architectural understanding -->
-
 ## Responsibility
 
-<!-- What is this folder's job in the system? -->
+Re-exports Adobe React Spectrum's `ListView` as a named Geti component, providing a virtualized, accessible list of items with support for selection, drag-and-drop, density variants, and action callbacks. Used for actionable collections — file lists, dataset items, annotation lists — where row-level actions matter.
 
 ## Design
 
-<!-- Key patterns, abstractions, architectural decisions -->
+Generic thin wrapper — `ListViewProps<T extends object> extends SpectrumListViewProps<T>`. The component body is `(props) => <SpectrumListView {...props} />`. Also re-exports `Item` from Spectrum.
+
+Key Spectrum features exposed: `selectionMode`, `selectedKeys`, `onSelectionChange`, `onAction(key)`, drag-and-drop via `dragAndDropHooks`, `density` (`'compact' | 'regular' | 'spacious'`), `loadingState`, `onLoadMore`.
 
 ## Flow
 
-<!-- How does data/control flow through this module? -->
+```
+props { items, children/renderItem, selectionMode, onAction,
+        density, loadingState, onLoadMore, dragAndDropHooks, ...rest }
+  → <SpectrumListView {...props} />
+```
+
+No state, no effects, no refs.
 
 ## Integration
 
-<!-- How does it connect to other parts of the system? -->
+- Contrast with `VirtualizedListLayout` (same data/ category) — `ListView` uses Spectrum's built-in virtualisation; `VirtualizedListLayout` uses RAC `Virtualizer` + `ListLayout` for more customisable infinite-scroll scenarios.
+- Used in file browsers, annotation panel lists, and model/dataset selection screens.
+- `Item` re-export is shared with `ListBox`, `Menu`, `ComboBox`, and other collection components.

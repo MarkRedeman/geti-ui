@@ -1,19 +1,35 @@
 # packages/ui/src/components/feedback/Loading/
 
-<!-- Explorer: Fill in this section with architectural understanding -->
-
 ## Responsibility
 
-<!-- What is this folder's job in the system? -->
+Provides the canonical full-featured loading indicator for the Geti design system, supporting multiple display modes (inline, overlay, fullscreen) and two visual variants (spinner, intel-branded animation). It is the single source of truth for "something is loading" communication across the application.
 
 ## Design
 
-<!-- Key patterns, abstractions, architectural decisions -->
+Two orthogonal axes control the rendered output:
+
+- **`mode`** (`'inline' | 'overlay' | 'fullscreen'`) — controls layout/positioning via pre-computed `CSSProperties` objects. `inline` adds no wrapper styles; `overlay` uses `position: absolute, inset: 0, zIndex: 1`; `fullscreen` uses `position: fixed, inset: 0, zIndex: 9999`.
+- **`variant`** (`'spinner' | 'intel'`) — controls the inner visual. `spinner` renders `<ProgressCircle isIndeterminate aria-label="Loading...">` from Spectrum. `intel` renders an `<img src={IntelLoadingWebp}>` sized by `INTEL_SIZE_MAP = { S: 24, M: 48, L: 192 }` (pixels).
+
+Both axes are combined at render time without conditional component trees — the outer wrapper always receives the mode style, and the inner content switches on variant. This means all four combinations (3 modes × 2 variants, though `fullscreen` + `spinner` is the unusual case) are structurally equivalent.
+
+A semi-transparent dark `backgroundColor` is applied to `overlay` and `fullscreen` modes via the same pre-computed style object, providing a scrim without a separate overlay element.
 
 ## Flow
 
-<!-- How does data/control flow through this module? -->
+```
+props { mode, variant, size }
+  → compute modeStyle (inline | overlay | fullscreen CSSProperties)
+  → render outer <div style={modeStyle}>
+      → if variant === 'intel': <img src={IntelLoadingWebp} width/height from INTEL_SIZE_MAP[size]>
+      → if variant === 'spinner': <ProgressCircle isIndeterminate aria-label="Loading...">
+```
+
+`size` is only meaningful for the `intel` variant (maps S/M/L to 24/48/192 px). For `spinner`, `size` passes through to Spectrum's `ProgressCircle` which has its own size handling.
 
 ## Integration
 
-<!-- How does it connect to other parts of the system? -->
+- Used by `VirtualizedListLayout` as the default `renderLoading` sentinel when `isLoading` is true.
+- `IntelBrandedLoading` (deprecated) wraps this component with `variant="intel" mode="inline" size="L"`.
+- `ProgressCircle` is a peer component in the same `feedback/` category; `Loading` depends on it for the spinner variant.
+- `IntelLoadingWebp` is a static asset imported directly — the build pipeline handles the WebP reference.

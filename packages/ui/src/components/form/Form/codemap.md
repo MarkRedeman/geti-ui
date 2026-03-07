@@ -1,19 +1,26 @@
 # packages/ui/src/components/form/Form/
 
-<!-- Explorer: Fill in this section with architectural understanding -->
-
 ## Responsibility
 
-<!-- What is this folder's job in the system? -->
+`Form` is a layout container that groups related form fields and propagates shared state (disabled, read-only, validation behaviour) to all descendant inputs via React context. It is a thin wrapper over Adobe React Spectrum's `Form`.
 
 ## Design
 
-<!-- Key patterns, abstractions, architectural decisions -->
+Pure pass-through:
+
+```tsx
+export interface FormProps extends SpectrumFormProps {}
+export const Form = (props: FormProps) => <SpectrumForm {...props} />;
+```
+
+No CSS module, no `UNSAFE_className`, no internal state. Preserves the full Spectrum API: `isDisabled`, `isReadOnly`, `isRequired`, `validationBehavior` (`native` | `aria`), `action`, `method`, and layout props (`labelPosition`, `labelAlign`, `necessityIndicator`).
 
 ## Flow
 
-<!-- How does data/control flow through this module? -->
+Props in → forwarded to `SpectrumForm` → Spectrum renders a `<form>` element and provides a context that child Spectrum inputs read to inherit disabled/required/validation state. Native HTML form submission (`action`, `method`) is supported when `validationBehavior="native"`.
 
 ## Integration
 
-<!-- How does it connect to other parts of the system? -->
+- **Depends on**: `@adobe/react-spectrum` (`Form`, `SpectrumFormProps`)
+- **Used by**: any multi-field form surface — login panels, settings dialogs, create/edit wizards
+- **Children**: any Spectrum or Geti form component (`TextField`, `Checkbox`, `Picker`, etc.)

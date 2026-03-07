@@ -17,6 +17,7 @@ Regardless some most of what we will implement will be based on the following pr
 - Tell don't ask
 - Composition over inheritance
 - Pure and functional components
+- Keep state small and local
 
 ### Visual theme
 
