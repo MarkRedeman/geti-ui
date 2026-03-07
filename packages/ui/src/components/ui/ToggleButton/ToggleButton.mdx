@@ -1,4 +1,4 @@
-import { Meta, Title, Subtitle, Description, Primary, Controls, Stories, Source } from '@storybook/blocks';
+import { Meta, Title, Subtitle, Description, Primary, Controls, Stories, Source } from '@storybook/addon-docs/blocks';
 import * as DocStories from './ToggleButton.stories';
 
 <Meta of={DocStories} />
@@ -14,7 +14,7 @@ import { ToggleButton } from '@geti/ui';
 ```
 
 - [React Spectrum ToggleButton](https://react-spectrum.adobe.com/react-spectrum/ToggleButton.html)
-- [Spectrum 2 ToggleButton](https://react-spectrum.adobe.com/s2/ToggleButton)
+
 
 <Stories />
 
@@ -79,13 +79,4 @@ The `ToggleButton` component accepts all standard [Spectrum layout and spacing p
 - **Icon-Only Buttons**: If no text label is provided, an `aria-label` is strictly required.
 - **Keyboard Support**: Fully navigable and activatable via the Space and Enter keys.
 
----
 
-## Spectrum 2 Migration
-
-When migrating to Spectrum 2 (`@react-spectrum/s2`), note the following updates:
-
-- **New `size` Prop**: S2 introduces a `size` prop (`'XS' \| 'S' \| 'M' \| 'L' \| 'XL'`).
-- **Static Color**: The `staticColor` prop now includes an `'auto'` option for adaptive coloring.
-- **Styles Macro**: Layout and spacing props are replaced by the S2 `styles` macro system.
-- **Consistent API**: Core props like `isSelected` and `onChange` remain unchanged.
