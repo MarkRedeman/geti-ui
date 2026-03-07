@@ -1,42 +1,100 @@
-import { Meta, Title, Subtitle, Description, Primary, Controls, Stories } from '@storybook/addon-docs/blocks';
+import { Meta, Title, Subtitle, Description, Primary, Controls, Stories } from '@storybook/blocks';
 import * as DocStories from './TextField.stories';
 
 <Meta of={DocStories} />
 
-<Title />
+<Title>TextField</Title>
+
+<Subtitle>A single-line text input field for names, emails, and short descriptions.</Subtitle>
+
+```tsx
+import { TextField } from '@geti/ui';
+```
+
+- [React Spectrum V3 TextField](https://react-spectrum.adobe.com/react-spectrum/TextField.html)
+- [Spectrum 2 TextField](https://react-spectrum.adobe.com/s2/TextField.html)
+
+<Stories />
 
 ## Responsibility
 
-Provides a single-line text input primitive. A minimal Spectrum wrapper whose sole role is to centralise the import of `SpectrumTextField` so consumers never reference `@adobe/react-spectrum` directly.
+The `TextField` component provides a single-line input field that allows users to enter and edit text. It is built on top of Adobe's React Spectrum and ensures a consistent look and feel across the application while maintaining high accessibility standards.
 
-## Design
+### When to use
+- Use for short, bounded text inputs like names, email addresses, URLs, or passwords.
+- Use when the input is expected to be a single line.
 
-Pure thin wrapper — no props are altered, no additional logic:
+### When to use something else
+- Use [TextArea](/docs/components-form-textarea--docs) for multi-line text input.
+- Use [SearchField](/docs/components-form-searchfield--docs) for search-specific inputs which include a clear button and search icon.
+- Use [NumberField](/docs/components-form-numberfield--docs) for numeric inputs that require formatting or increment/decrement controls.
 
-```tsx
-export interface TextFieldProps extends SpectrumTextFieldProps {}
-export const TextField = (props: TextFieldProps) => <SpectrumTextField {...props} />;
-```
+## Variants
 
-`TextFieldProps` extends `SpectrumTextFieldProps` without modification, preserving the full Spectrum API surface (label, value, onChange, errorMessage, isDisabled, isRequired, validationState, width, etc.).
+### States
+- **Disabled**: The field is not focusable or interactive. Use `isDisabled`.
+- **Read-only**: The field is focusable and the text can be copied, but the value cannot be changed. Use `isReadOnly`.
+- **Invalid**: Indicates a validation error. In V3, use `validationState="invalid"`.
+- **Required**: Marks the field as mandatory for form submission. Use `isRequired`.
 
-## Flow
-
-Fully controlled or uncontrolled by the consumer. `value` + `onChange` for controlled; omit both for uncontrolled. Spectrum manages the ARIA state (`aria-invalid`, `aria-describedby`) internally.
-
-## Integration
-
-- **Depends on**: `@adobe/react-spectrum` (`TextField`, `SpectrumTextFieldProps`)
-- **Used by**: any form in the library requiring a single-line text input
-- **Composed into**: `PasswordField` uses Spectrum's `TextField` directly (not this wrapper) for its inner input
-
-
-<Stories />
----
-
-<Primary />
+### Constraints
+- **Character Limit**: Use `maxLength` to limit the number of characters.
+- **Pattern**: Use `pattern` for regex-based validation.
 
 ## Props
 
-<Controls />
+### Content
+| Prop | Type | Description |
+|---|---|---|
+| `label` | `ReactNode` | The content to display as the label. |
+| `placeholder` | `string` | Temporary text that appears in the field when it is empty. |
+| `description` | `ReactNode` | Help text displayed below the field. |
+| `errorMessage` | `ReactNode` | Error message displayed below the field when it is invalid. |
+| `contextualHelp` | `ReactNode` | A `<ContextualHelp>` element placed next to the label. |
 
+### Value / State
+| Prop | Type | Default | Description |
+|---|---|---|---|
+| `value` | `string` | — | The current value (controlled). |
+| `defaultValue` | `string` | — | The initial value (uncontrolled). |
+| `type` | `string` | `'text'` | The type of input (e.g., `'text'`, `'email'`, `'password'`). |
+| `validationState` | `'valid' \| 'invalid'` | — | Whether the input is valid or invalid. |
+| `isRequired` | `boolean` | `false` | Whether user input is required on the field. |
+| `isReadOnly` | `boolean` | `false` | Whether the field can be edited. |
+| `isDisabled` | `boolean` | `false` | Whether the field is disabled. |
+
+### Events
+| Prop | Type | Description |
+|---|---|---|
+| `onChange` | `(value: string) => void` | Handler that is called when the value changes. |
+| `onFocus` | `(e: FocusEvent) => void` | Handler that is called when the field receives focus. |
+| `onBlur` | `(e: FocusEvent) => void` | Handler that is called when the field loses focus. |
+
+### Styles
+| Prop | Type | Description |
+|---|---|---|
+| `labelPosition` | `'top' \| 'side'` | The position of the label relative to the input. |
+| `labelAlign` | `'start' \| 'end'` | The horizontal alignment of the label. |
+| `width` | `DimensionValue` | The width of the component. |
+| `isQuiet` | `boolean` | Whether the input should be displayed with a quiet style. |
+
+## Accessibility
+
+- The underlying `<input>` element is automatically labeled by the `label` prop via `aria-labelledby`.
+- Support for `aria-describedby` for descriptions and error messages.
+- Full keyboard support: **Tab** to focus, and standard text editing shortcuts.
+- High contrast mode support and screen reader compatibility via Adobe Spectrum.
+
+## Spectrum 2 Migration
+
+When migrating to Spectrum 2 (S2), keep the following changes in mind:
+
+| V3 Prop | S2 Equivalent | Notes |
+|---|---|---|
+| `validationState="invalid"` | `isInvalid` | Boolean flag replaces the string enum. |
+| `validationState="valid"` | — | No visual "valid" state in S2. |
+| `isQuiet` | — | The quiet variant has been removed in S2. |
+| `width="size-2000"` | `styles={style({ width: 160 })}` | Dimensional props are replaced by the `style()` macro. |
+| `size` | `size` | S2 adds a `size` prop (`'S'`, `'M'`, `'L'`, `'XL'`). |
+
+<Controls />
