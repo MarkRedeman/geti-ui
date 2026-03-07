@@ -3,58 +3,146 @@ import * as DocStories from './FullscreenAction.stories';
 
 <Meta of={DocStories} />
 
-<Title />
+# FullscreenAction
+
+<Subtitle>A composite trigger that promotes any content into a fullscreen takeover dialog — combining a quiet icon button, a tooltip, and a structured fullscreen dialog with a close control into a single, reusable unit.</Subtitle>
+
+```tsx
+import { FullscreenAction } from '@geti/ui';
+```
+
+<Stories />
 
 ## Responsibility
 
-Provides a Geti-native composite pattern for "expand to fullscreen" actions: an icon button with a tooltip that, when pressed, opens a `fullscreenTakeover` dialog containing the caller's content with a close control. Used throughout the UI to promote panels, editors, and media viewers to a full-screen experience.
+`FullscreenAction` is a **Geti-native composite pattern** for "expand to fullscreen" interactions. It encapsulates the entire expand/collapse workflow — trigger button, tooltip, dialog lifecycle, title header, divider, action button slot, and close button — so consuming components never need to assemble this pattern from scratch.
+
+Key responsibilities:
+- **Trigger composition**: Combines `TooltipTrigger`, `ActionButton` (with the `FullScreen` workflow icon), and a `Tooltip` into a single quiet, icon-only trigger button.
+- **Dialog structure**: Renders a `fullscreenTakeover` `Dialog` with a `Heading`, `Divider`, `Content`, and `ButtonGroup` — matching Spectrum's expected fullscreen dialog anatomy.
+- **Container ref forwarding**: Exposes a `containerRef` to the `actionButton` factory prop, enabling canvas-based or DOM-measurement scenarios where the fullscreen content needs a reference to its containing DOM node before rendering.
+- **Action button slot**: Accepts either a static `ReactNode` or a factory function `(ref) => ReactNode` in the `actionButton` prop, supporting both simple and ref-dependent action placements.
+
+### When to use
+- To promote a panel, editor, image viewer, chart, or canvas into a dedicated fullscreen experience.
+- When the fullscreen content requires additional toolbar actions alongside the close button (e.g., "Export", "Reset", "Compare") — use the `actionButton` slot.
+- When a DOM reference to the fullscreen container is needed (e.g., a canvas renderer must append to the container node) — use the `actionButton` factory form.
+
+### When to avoid
+- For standard modal dialogs that are not tied to a "fullscreen" context — use `Dialog` with `DialogTrigger` directly.
+- When the fullscreen trigger is not a `FullScreen` icon button — compose `DialogTrigger type="fullscreenTakeover"` manually with your own trigger.
+- For lightweight contextual information overlays — use `Popover` or `ContextualHelp`.
 
 ## Design
 
-Fully custom composite (not a Spectrum pass-through). Composes Spectrum primitives directly from `@adobe/react-spectrum`:
+Fully custom composite — not a Spectrum pass-through. Composes Spectrum primitives from `@adobe/react-spectrum` and workflow icons from `@spectrum-icons/workflow`:
 
-- **Outer trigger** — `DialogTrigger type="fullscreenTakeover"` wraps everything.
-- **Visible trigger element** — `TooltipTrigger` + `ActionButton` (renders `<FullScreen>` workflow icon, tooltip "Fullscreen"). `isQuiet` suppresses the button border.
-- **Dialog content** — `Dialog` contains: `Heading` (from `title` prop), `Divider`, `ButtonGroup` (action buttons + close `ActionButton` with `<FullScreenExit>` icon inside `Content`), `Content ref={containerRef}` (the `children`).
+- **`DialogTrigger type="fullscreenTakeover"`** — manages open state and applies Spectrum's fullscreen overlay animation.
+- **`TooltipTrigger` + `ActionButton`** — quiet icon button (no border at rest) with `FullScreen` icon and "Fullscreen" tooltip.
+- **`Dialog`** — receives `aria-label` from the `title` prop for screen reader announcement.
+- **`Heading`** — renders the `title` prop; wired to the dialog via `aria-labelledby` by Spectrum automatically.
+- **`Content ref={containerRef}`** — the `containerRef` (`useRef<DOMRefValue<HTMLElement>>`) is wired to the `Content` component and optionally passed to the `actionButton` factory.
+- **Close button** — `ActionButton isQuiet` with `FullScreenExit` icon inside a `TooltipTrigger`; calls Spectrum's render-prop `close()` function.
 
-**`actionButton` prop** — accepts either a `ReactNode` or a factory `(ref: RefObject<DOMRefValue<HTMLElement>>) => ReactNode`. The factory form gives callers a ref to the dialog's content container, enabling scenarios where the fullscreen content needs to measure or render into the container DOM node directly (e.g. canvas-based editors).
+```tsx
+// Simple fullscreen viewer
+<FullscreenAction title="Image Viewer">
+  <img src={imageUrl} alt="Dataset item" />
+</FullscreenAction>
 
-**`containerRef`** — `useRef<DOMRefValue<HTMLElement>>` — wired to Spectrum's `Content` component via the `ref` prop. Passed to `actionButton` factory if used.
+// With a static action button
+<FullscreenAction
+  title="Dataset Preview"
+  actionButton={
+    <Button variant="secondary" onPress={handleExport}>Export</Button>
+  }
+>
+  <DataPreviewTable items={items} />
+</FullscreenAction>
+
+// With a factory action button (needs access to the container DOM ref)
+<FullscreenAction
+  title="Canvas Editor"
+  actionButton={(containerRef) => (
+    <Button
+      variant="secondary"
+      onPress={() => canvasRenderer.mountTo(containerRef?.current)}
+    >
+      Render
+    </Button>
+  )}
+>
+  <div id="canvas-mount-point" />
+</FullscreenAction>
+```
 
 ## Flow
 
 ```
-props { title, children, actionButton, isDisabled }
-  → DialogTrigger type="fullscreenTakeover"
-      → TooltipTrigger
-          → ActionButton (FullScreen icon, tooltip "Fullscreen")
-          → Tooltip "Fullscreen"
-      → Dialog
-          → Heading {title}
-          → Divider
-          → Content ref={containerRef}
+props { title, children, actionButton, id }
+  → containerRef = useRef<DOMRefValue<HTMLElement>>(null)
+
+  → <DialogTrigger type="fullscreenTakeover">
+      → <TooltipTrigger placement="bottom">
+          → <ActionButton isQuiet id={`${id}-open-fullscreen`} aria-label="Open in fullscreen {title}">
+              <FullScreen />
+            </ActionButton>
+          → <Tooltip>Fullscreen</Tooltip>
+        </TooltipTrigger>
+
+      → {(close) => (
+          <Dialog aria-label="{title} fullscreen">
+            <Heading>{title}</Heading>
+            <Divider />
+            <Content ref={containerRef}>
               {children}
-          → ButtonGroup
+            </Content>
+            <ButtonGroup>
               {typeof actionButton === 'function'
-                ? actionButton(containerRef)
-                : actionButton}
-              ActionButton (FullScreenExit icon, close)
+                ? actionButton(containerRef.current)   // factory — passes DOM ref
+                : actionButton}                        // static node
+              <TooltipTrigger placement="bottom">
+                <ActionButton isQuiet onPress={close} aria-label="Close fullscreen">
+                  <FullScreenExit />
+                </ActionButton>
+                <Tooltip>Close fullscreen</Tooltip>
+              </TooltipTrigger>
+            </ButtonGroup>
+          </Dialog>
+        )}
+    </DialogTrigger>
 ```
 
 ## Integration
 
+- Depends on `@adobe/react-spectrum`: `ActionButton`, `ButtonGroup`, `Content`, `Dialog`, `DialogTrigger`, `Divider`, `Heading`, `Tooltip`, `TooltipTrigger`.
+- Depends on `@spectrum-icons/workflow`: `FullScreen`, `FullScreenExit`.
+- The `actionButton` factory receives `containerRef.current` at the time the dialog's `ButtonGroup` renders — which is **after** `Content` mounts. The ref value will be the `DOMRefValue<HTMLElement>` wrapping the Spectrum `Content` DOM node, or `null` on the first render pass.
+- `id` is forwarded to the trigger `ActionButton` as `${id}-open-fullscreen`. This supports automated test selectors and deep-linking to the fullscreen open action.
 - Used in canvas editors, image viewers, and detail panels throughout the Geti application to support fullscreen review mode.
-- The `actionButton` factory pattern is the mechanism for canvas-based components that need to render into the fullscreen container's DOM node.
-- `FullScreen` and `FullScreenExit` icons are from `@spectrum-icons/workflow`.
-- `DialogTrigger`, `Dialog`, `TooltipTrigger`, `ActionButton`, `Heading`, `Divider`, `Content`, `ButtonGroup` are all imported directly from `@adobe/react-spectrum`.
 
+## Props
 
-<Stories />
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `children` | `ReactNode` | — | **Required.** The content to display inside the fullscreen dialog's `Content` region. |
+| `title` | `string \| ReactNode` | — | Dialog heading text. When a `string`, also used to generate the trigger button's `aria-label` (`"Open in fullscreen {title}"`). |
+| `actionButton` | `ReactNode \| ((ref: DOMRefValue<HTMLElement> \| null) => ReactNode)` | — | Optional action(s) placed in the `ButtonGroup` before the close button. Pass a factory function to receive the `Content` container ref. |
+| `id` | `string` | — | ID prefix for the trigger button (`${id}-open-fullscreen`). |
+
+## Accessibility
+
+- **Trigger `aria-label`**: The trigger `ActionButton` is icon-only and receives `aria-label` dynamically: `"Open in fullscreen {title}"` when `title` is a string, or `"Open in fullscreen"` as a fallback. Always provide a string `title` if possible.
+- **Tooltip**: The trigger is wrapped in `TooltipTrigger`, which wires `aria-describedby` from the button to the "Fullscreen" tooltip. The tooltip supplements the `aria-label` with a human-readable label visible on hover.
+- **Dialog `aria-label`**: The `Dialog` element receives `aria-label="{title} fullscreen"` (or `"Fullscreen content"` as a fallback), independently of the `Heading` element. This ensures screen readers announce the dialog name even when the `Heading` has not yet been associated via `aria-labelledby`.
+- **Focus trap**: Spectrum's `fullscreenTakeover` dialog traps focus inside the overlay. Users cannot Tab outside the dialog while it is open.
+- **Focus restore**: When the dialog closes, Spectrum returns focus to the trigger `ActionButton` automatically.
+- **`Escape` key**: Closes the fullscreen dialog and calls Spectrum's internal `close()` render-prop function. No additional handler is required.
+- **Close button**: The close `ActionButton` carries `aria-label="Close fullscreen"` and a `TooltipTrigger` with "Close fullscreen" tooltip — providing both a keyboard-accessible label and a discoverable hover tooltip.
+- **Screen reader flow**: On open, the screen reader announces the dialog name and moves to the first focusable element inside (`Heading`). On close, it returns to the trigger button and announces nothing (standard modal dismiss behaviour).
+
 ---
 
 <Primary />
 
-## Props
-
 <Controls />
-

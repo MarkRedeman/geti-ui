@@ -3,46 +3,125 @@ import * as DocStories from './Skeleton.stories';
 
 <Meta of={DocStories} />
 
-<Title />
+# Skeleton
+
+<Subtitle>An animated shimmer placeholder that reserves layout space and communicates to users that content is on its way.</Subtitle>
+
+```tsx
+import { Skeleton } from '@geti/ui';
+```
+
+<Stories />
 
 ## Responsibility
 
-Renders an animated placeholder block during content load, communicating to users that layout is reserved and content is incoming. Supports rectangular and circular shapes, and can be constrained to a 1:1 aspect ratio for image placeholders.
+`Skeleton` is a **zero-dependency, layout-preserving** loading placeholder. Unlike `Loading` — which communicates an indeterminate waiting state with a spinner — `Skeleton` communicates the *shape* of the content that will appear, reducing perceived load time and preventing jarring layout shifts.
+
+Key responsibilities:
+- **Shape communication**: Renders a rectangle (default) or circle matching the dimensions of the content it stands in for, so the page layout is fully established before content arrives.
+- **Shimmer animation**: A `linear-gradient` sweep animation (`shimmer 2s ease infinite`) draws the eye and signals activity without a distracting spinner.
+- **Consumer-driven sizing**: The component imposes no default dimensions — callers own `width` and `height` entirely, making the skeleton pixel-accurate for any content type.
+- **Aspect ratio helper**: `isAspectRatioOne` enforces a `1:1` aspect ratio, removing the need to specify both `width` and `height` for square image placeholders.
+
+### When to use
+- As a placeholder for cards, list items, text blocks, avatars, or images during an async data fetch.
+- When the content's dimensions are known ahead of time and a layout-preserving placeholder is preferable to a spinner.
+- To compose multi-element loading skeletons that mimic the final page structure (see the `TextBlock` and `Card` stories).
+- When you need a circle placeholder for an avatar or icon — use `isCircle`.
+
+### When to avoid
+- When the content area is large and unbounded — a `Loading` spinner (overlay or fullscreen) is less misleading.
+- When load time is expected to be under ~300 ms — instantaneous transitions don't need skeletons and adding them can cause unnecessary flicker.
+- When the content shape is unknown — a centered `Loading` spinner is more honest.
+- Do not use `Skeleton` as a persistent decorative element; remove it as soon as real content is ready.
+
+## Variants
+
+### Rectangle (default)
+The standard shape for text lines, card bodies, and any rectangular content area.
+
+### Circle (`isCircle`)
+Sets `borderRadius: '50%'` for avatar, icon, or profile image placeholders. Should always be paired with equal `width` and `height` (or `isAspectRatioOne`).
+
+### Aspect ratio square (`isAspectRatioOne`)
+Sets `aspectRatio: '1'`. Use when only `width` is known (e.g., a grid cell that is always as tall as it is wide).
 
 ## Design
 
-Zero Spectrum dependency — this is a fully custom component using CSS-in-JS only.
+Zero Spectrum dependency — this is a fully custom component using inline `CSSProperties` only. No CSS module is imported; no class names are generated.
 
-Key patterns:
-- **Shimmer animation** — `background: linear-gradient(...)` with `animation: 'shimmer 2s ease infinite'`. The `shimmer` keyframe is defined externally in `geti-global.module.css` (a global stylesheet), not co-located here. The component references the animation name as a plain string.
-- **Shape control** — `isCircle?: boolean` toggles `borderRadius: '50%'` in the inline style object. Defaults to rectangular.
-- **Aspect ratio** — `isAspectRatioOne?: boolean` sets `aspectRatio: '1'`, useful for square image skeletons without needing to specify both `width` and `height`.
-- **ARIA** — renders `<span role="img" aria-label="Loading…" aria-busy="true">`, satisfying accessibility requirements without a visible text label.
-- **Sizing** — consumers control size entirely through `width`, `height`, and optional `style` props; the component does not impose dimensions.
+The `shimmer` keyframe is defined in `geti-global.module.css` (a global stylesheet loaded by the application) and referenced by name as a plain string. The Skeleton component does **not** import that stylesheet itself — the animation will silently stand still if the global sheet is absent.
+
+```tsx
+// Text line placeholder
+<Skeleton width="100%" height={16} />
+
+// Avatar placeholder
+<Skeleton isCircle width={48} height={48} aria-label="Loading avatar" />
+
+// Square image tile (height derived from width)
+<Skeleton isAspectRatioOne width={80} />
+
+// Multi-line text block
+<div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
+  <Skeleton width="100%" height={16} />
+  <Skeleton width="90%"  height={16} />
+  <Skeleton width="75%"  height={16} />
+</div>
+```
 
 ## Flow
 
 ```
-props { width, height, isCircle, isAspectRatioOne, style, ...rest }
-  → compute spanStyle { width, height, borderRadius?, aspectRatio?, shimmer animation, ... }
-  → <span role="img" aria-label="Loading…" aria-busy="true" style={spanStyle} {...rest} />
+props { width, height, isCircle, isAspectRatioOne, style, className, aria-label }
+  → computedStyle = {
+      ...shimmerStyle,            // linear-gradient + animation: 'shimmer 2s ease infinite'
+      width  = width  ?? '100%',  // string | number → CSS value
+      height = height ?? '1rem',
+      borderRadius = isCircle ? '50%' : '4px',
+      aspectRatio  = isAspectRatioOne ? '1' : undefined,
+      display: 'block',
+      ...style,                   // caller overrides applied last
+    }
+  → <span
+      role="img"
+      aria-label={aria-label ?? 'Loading…'}
+      aria-busy="true"
+      className={className}
+      style={computedStyle}
+    />
 ```
 
 No state, no effects, no refs.
 
 ## Integration
 
-- `shimmer` keyframe must be present globally (defined in `geti-global.module.css`) for the animation to work; the Skeleton component itself does not import that stylesheet.
-- Used in list/grid loading states alongside `Loading` (which handles the spinner/intel variants for indeterminate full-area loading).
-- No Spectrum peer dependency — can be used outside of `ThemeProvider` if needed.
+- The **`shimmer` keyframe** must be present globally (defined in `geti-global.module.css`) for the animation to run. The Skeleton component references `animation: 'shimmer 2s ease infinite'` as a plain string — if the keyframe is missing, the element renders correctly but without animation.
+- Used alongside `Loading` in list/grid loading states: `Skeleton` preserves layout; `Loading` communicates activity for unbounded or full-area states.
+- No Spectrum peer dependency — `Skeleton` can safely be used **outside `ThemeProvider`**.
+- `width` and `height` accept either a `number` (converted to `px`) or a CSS string (`'100%'`, `'size-2400'`, etc.).
 
+## Props
 
-<Stories />
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `width` | `string \| number` | `'100%'` | Width of the skeleton. Numbers are converted to `px`. |
+| `height` | `string \| number` | `'1rem'` | Height of the skeleton. Numbers are converted to `px`. |
+| `isCircle` | `boolean` | `false` | Renders the skeleton as a circle (`borderRadius: '50%'`). |
+| `isAspectRatioOne` | `boolean` | `false` | Enforces a `1:1` aspect ratio, deriving height from width. |
+| `className` | `string` | — | Additional CSS class names. |
+| `style` | `CSSProperties` | `{}` | Inline style overrides applied after all computed styles. |
+| `aria-label` | `string` | `'Loading…'` | Accessible label announced by screen readers. Override to be content-specific (e.g., `'Loading avatar'`). |
+
+## Accessibility
+
+- **`role="img"`**: The skeleton is declared as an image to screen readers, which prevents it from being interpreted as text content. This is the recommended ARIA pattern for animated placeholder shapes.
+- **`aria-busy="true"`**: Indicates to assistive technologies that the region is being updated. Screen readers may suppress announcements for busy regions.
+- **`aria-label`**: Defaults to `'Loading…'` but should be overridden with a context-specific label (e.g., `'Loading user name'`, `'Loading project thumbnail'`) whenever the content type is known, so screen reader users understand what they are waiting for.
+- **Animation**: The shimmer animation is driven by CSS `animation`. Users who have set `prefers-reduced-motion` in their OS will not see the animation suppressed automatically — if your product has a strict motion policy, add a `@media (prefers-reduced-motion: reduce)` override to the global `shimmer` keyframe definition to pause or remove it.
+
 ---
 
 <Primary />
 
-## Props
-
 <Controls />
-

@@ -1,0 +1,74 @@
+- generic [ref=e3]:
+  - banner "Storybook" [ref=e6]:
+    - heading "Storybook" [level=1] [ref=e7]
+    - img
+    - generic [ref=e11]:
+      - generic [ref=e13]:
+        - link "Skip to content" [ref=e14] [cursor=pointer]:
+          - /url: "#storybook-preview-wrapper"
+        - link "Geti UI" [ref=e16] [cursor=pointer]:
+          - /url: ./
+        - switch "Settings" [ref=e17] [cursor=pointer]:
+          - img [ref=e18]
+      - generic [ref=e21]: Search for components
+      - search [ref=e22]:
+        - combobox "Search for components" [ref=e23]:
+          - generic:
+            - img
+          - searchbox "Search for components" [ref=e24]
+          - code: ⌃ K
+        - button "Create a new story" [ref=e25] [cursor=pointer]:
+          - img [ref=e26]
+      - navigation "Stories" [ref=e29]:
+        - heading "Stories" [level=2] [ref=e30]
+  - generic [ref=e51]:
+    - region "Toolbar" [ref=e52]:
+      - heading "Toolbar" [level=2] [ref=e53]
+      - toolbar [ref=e54]:
+        - switch "Outline tool" [ref=e56] [cursor=pointer]:
+          - img [ref=e57]
+        - button "Enter full screen" [ref=e60] [cursor=pointer]:
+          - img [ref=e61]
+    - main "Main preview area" [ref=e63]:
+      - heading "Main preview area" [level=2] [ref=e64]
+      - generic [ref=e65]:
+        - progressbar "Content is loading..." [ref=e67]
+        - generic [ref=e68]:
+          - link "Skip to sidebar" [ref=e69] [cursor=pointer]:
+            - /url: "#ui-button--docs"
+          - iframe [ref=e73]:
+            - table [ref=f3e10]:
+              - rowgroup [ref=f3e11]:
+                - row [ref=f3e12]:
+                  - columnheader [ref=f3e13]: Name
+                  - columnheader [ref=f3e14]: Description
+                  - columnheader [ref=f3e15]: Default
+                  - columnheader [ref=f3e16]: Control
+              - rowgroup [ref=f3e17]:
+                - row [ref=f3e18]:
+                  - cell [ref=f3e19]: propertyName*
+                  - cell [ref=f3e20]:
+                    - generic [ref=f3e21]: This is a short description
+                    - generic [ref=f3e23]: summary
+                  - cell [ref=f3e24]:
+                    - generic [ref=f3e25]: defaultValue
+                  - cell [ref=f3e26]:
+                    - button [ref=f3e27]: Set string
+                - row [ref=f3e28]:
+                  - cell [ref=f3e29]: propertyName*
+                  - cell [ref=f3e30]:
+                    - generic [ref=f3e31]: This is a short description
+                    - generic [ref=f3e33]: summary
+                  - cell [ref=f3e34]:
+                    - generic [ref=f3e35]: defaultValue
+                  - cell [ref=f3e36]:
+                    - button [ref=f3e37]: Set string
+                - row [ref=f3e38]:
+                  - cell [ref=f3e39]: propertyName*
+                  - cell [ref=f3e40]:
+                    - generic [ref=f3e41]: This is a short description
+                    - generic [ref=f3e43]: summary
+                  - cell [ref=f3e44]:
+                    - generic [ref=f3e45]: defaultValue
+                  - cell [ref=f3e46]:
+                    - button [ref=f3e47]: Set string

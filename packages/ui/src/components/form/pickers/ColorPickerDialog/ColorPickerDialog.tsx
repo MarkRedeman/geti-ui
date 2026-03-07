@@ -1,22 +1,22 @@
 import {
-    ColorArea,
-    ColorField,
-    ColorSlider,
-    ColorSwatch,
-    ColorSwatchPicker,
-    ColorWheel,
     parseColor,
-    ActionButton,
-    Button,
-    Dialog,
-    DialogTrigger,
-    Heading,
-    Content,
-    ButtonGroup,
-    Divider,
-    Flex,
     Color,
+    Content,
+    Heading,
+    ButtonGroup,
 } from '@adobe/react-spectrum';
+import { ColorArea } from '../ColorArea/ColorArea';
+import { ColorField } from '../ColorField/ColorField';
+import { ColorSlider } from '../ColorSlider/ColorSlider';
+import { ColorSwatch } from '../color-swatch/ColorSwatch';
+import { ColorSwatchPicker } from '../color-swatch/ColorSwatchPicker';
+import { ColorWheel } from '../ColorWheel/ColorWheel';
+import { Flex } from '../../../layouts/Flex/Flex';
+import { Divider } from '../../../ui/Divider/Divider';
+import { Button } from '../../../ui/Button/Button';
+import { ActionButton } from '../../../ui/ActionButton/ActionButton';
+import { DialogTrigger } from '../../../overlays/Dialog/DialogTrigger';
+import { Dialog } from '../../../overlays/Dialog/Dialog';
 import { useEffect, useState } from 'react';
 
 export interface ColorPickerDialogProps {
@@ -42,7 +42,7 @@ export const ColorPickerDialog = ({
     label = 'Pick Color',
     ...rest
 }: ColorPickerDialogProps) => {
-    const [color, setColor] = useState<Color>(() => (colorProp ? parseColor(colorProp) : parseColor('#ff0000')));
+    const [color, setColor] = useState<Color>(() => (colorProp ? parseColor(colorProp) : parseColor('hsl(0, 100%, 50%)')));
 
     useEffect(() => {
         if (colorProp) {

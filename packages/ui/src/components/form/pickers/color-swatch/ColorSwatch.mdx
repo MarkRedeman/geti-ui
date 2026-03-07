@@ -3,45 +3,133 @@ import * as DocStories from './ColorSwatch.stories';
 
 <Meta of={DocStories} />
 
-<Title />
+# ColorSwatch
+
+<Subtitle>A static, decorative element that renders a filled square or circle to represent a single color value.</Subtitle>
+
+```tsx
+import { ColorSwatch } from '@geti/ui';
+```
+
+- [React Spectrum ColorSwatch](https://react-spectrum.adobe.com/react-spectrum/ColorSwatch.html)
+
+<Stories />
+
+---
 
 ## Responsibility
 
-Houses three related color swatch components in two files: `ColorSwatch` (a single color preview), `ColorSwatchPicker` (a selection group of swatches), and `ColorSwatchPickerItem` (an alias for an individual swatch within the picker). All three wrap Spectrum.
+`ColorSwatch` is a thin wrapper around Adobe React Spectrum's `ColorSwatch`. It displays a color as a small, filled visual block — it is **not interactive** on its own and carries no selection state. Its purpose is purely presentational: show what color is currently active or available.
+
+Key responsibilities:
+- **Color preview**: Renders the given color (`string`, `Color` object, or any Spectrum-parseable format) as a filled visual swatch.
+- **Static display**: Has no `onPress`, no selection ring, and no inherent interaction model. It is a display element, not a control.
+- **Size and shape variants**: `size` (`S`, `M`, `L`) and `rounding` (`none`, `default`, `full`) control its dimensions and border radius.
+- **Trigger decoration**: Used alongside interactive elements (e.g., inside an `ActionButton`) to preview the currently selected color without being the selector itself.
+
+### When to use
+- To show the currently selected or active color in a button trigger (e.g., the `ColorPickerDialog` trigger button).
+- To display a color label in a legend, tooltip, or data table cell.
+- As a non-interactive preview chip in a settings panel or color swatch list where selection is handled by a surrounding element.
+- Inside `ColorSwatchPicker` children to visually represent each selectable preset (where the picker manages selection state).
+
+### When to avoid
+- When the swatch itself needs to be clickable and selectable — use `ColorSwatchPickerItem` inside a `ColorSwatchPicker` instead.
+- When you need a full color picker UI — use `ColorPickerDialog`, which composes `ColorSwatch` with sliders, a wheel, and a hex field.
+- When the color needs a visible label or accessible name beyond the color itself — add `aria-label` to communicate the color name to screen readers.
+
+---
+
+## Variants
+
+### Sizes (`size`)
+Three sizes are available: `S` (small — inline with text), `M` (medium — default), `L` (large — standalone display).
+
+### Rounding (`rounding`)
+Controls the border radius: `none` (sharp corners), `default` (slightly rounded), `full` (circle). Use `full` for palette-style swatches; use `none` for precise rectangular color blocks.
+
+---
 
 ## Design
 
-**`ColorSwatch`** — pure thin wrapper:
+`ColorSwatch` is a pure thin wrapper with an explicit interface extension.
+
 ```tsx
 export interface ColorSwatchProps extends SpectrumColorSwatchProps {}
-export const ColorSwatch = (props: ColorSwatchProps) => <SpectrumColorSwatch {...props} />;
+
+export const ColorSwatch = (props: ColorSwatchProps) => (
+  <SpectrumColorSwatch {...props} />
+);
 ```
 
-**`ColorSwatchPicker` + `ColorSwatchPickerItem`** — both in `ColorSwatchPicker.tsx`:
+The `interface extends` (rather than a `type` alias) keeps the type open for future Geti-specific additions without a breaking change.
+
+Typical usage as a color preview in a button trigger:
+
 ```tsx
-export const ColorSwatchPicker = (props: ColorSwatchPickerProps) => <SpectrumColorSwatchPicker {...props} />;
-// ColorSwatchPickerItem renders SpectrumColorSwatch (not SpectrumColorSwatchPickerItem)
-// — in Spectrum v3, swatch items within a picker are just ColorSwatches
-export const ColorSwatchPickerItem = (props: ColorSwatchPickerItemProps) => <SpectrumColorSwatch {...props} />;
+import { ColorSwatch } from '@geti/ui';
+import { Flex } from '@geti/ui';
+
+<Flex gap="size-100" alignItems="center">
+  <ColorSwatch color={currentColor} size="S" aria-label={`Current color: ${currentColorName}`} />
+  <span>Pick color</span>
+</Flex>
 ```
+
+Standalone display in a legend or tooltip:
+
+```tsx
+<ColorSwatch
+  color="#4A90D9"
+  size="M"
+  rounding="full"
+  aria-label="Annotation color: Blue"
+/>
+```
+
+---
 
 ## Flow
 
-`ColorSwatchPicker`: `value` (current `Color`) + list of `ColorSwatchPickerItem` (or `ColorSwatch`) children → user clicks a swatch → `onChange(Color)` fires with the selected swatch's color.
+`ColorSwatch` has no interactive flow — it renders and updates reactively when its `color` prop changes.
+
+1. Parent component holds the active color in state.
+2. `ColorSwatch` receives the `color` prop.
+3. When the color changes (e.g., user picks a new color via `ColorPickerDialog`), the parent updates state.
+4. `ColorSwatch` re-renders with the new color fill.
+
+---
 
 ## Integration
 
-- **Depends on**: `@adobe/react-spectrum` (`ColorSwatch`, `ColorSwatchPicker`, and their props types)
-- **Composed into**: `ColorPickerDialog` uses `ColorSwatchPicker` with preset colours for quick selection
-- **`ColorSwatch`**: also used standalone in `ColorPickerDialog`'s trigger button to preview the active colour
+- **Depends on**: `@adobe/react-spectrum` (`ColorSwatch`, `SpectrumColorSwatchProps`)
+- **Color format**: `color` accepts a CSS color string (`'#ff0000'`, `'hsl(0, 100%, 50%)'`), or an Adobe `Color` object from `@adobe/react-spectrum`'s `parseColor()`. Spectrum normalises all formats internally.
+- **Composed into**: `ColorPickerDialog` uses `ColorSwatch size="S"` inside the trigger `ActionButton` to preview the active color. `ColorSwatchPicker` children are `ColorSwatch` elements (or `ColorSwatchPickerItem` which wraps `ColorSwatch`).
+- **Contrast with ColorSwatchPickerItem**: `ColorSwatchPickerItem` wraps `ColorSwatch` and is used as a child of `ColorSwatchPicker` to participate in its managed selection model. Use `ColorSwatch` alone for display; use `ColorSwatchPickerItem` inside a picker.
 
-
-<Stories />
 ---
-
-<Primary />
 
 ## Props
 
-<Controls />
+<Controls of={DocStories.Default} />
 
+### Key props
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `color` | `string \| Color` | **Required** | The color to display. Accepts CSS strings or a Spectrum `Color` object. |
+| `size` | `'S' \| 'M' \| 'L'` | `'M'` | The size of the swatch. |
+| `rounding` | `'none' \| 'default' \| 'full'` | `'default'` | The border radius of the swatch. |
+| `aria-label` | `string` | — | Accessible name for the swatch. Provide a color name (e.g., `"Red"`) for screen readers. |
+
+---
+
+## Accessibility
+
+`ColorSwatch` is a static, non-interactive display element with minimal ARIA requirements.
+
+- **Role**: Renders as an `<div>` (or equivalent) with `role="img"` when a `color` is present, communicating that it is a visual representation rather than a control.
+- **Labels**: `ColorSwatch` has **no visible text label**. Always provide `aria-label` with a human-readable color name (e.g., `aria-label="Red"`). Without it, screen readers will receive no useful information about what color is being displayed.
+- **Checkerboard background**: Spectrum renders a checkerboard pattern behind the color fill to communicate transparency / alpha. This is purely visual and requires no additional annotation.
+- **No keyboard interaction**: `ColorSwatch` is not focusable and is not in the tab order. It exists only as a visual cue. If you need a focusable, selectable swatch, use `ColorSwatchPickerItem` inside a `ColorSwatchPicker`.
+- **Color contrast**: The swatch itself is the content, so standard contrast requirements do not apply to its fill. However, any border or focus ring applied by the parent element must meet contrast requirements.

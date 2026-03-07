@@ -1,40 +1,120 @@
-import { Meta, Title, Subtitle, Description, Primary, Controls, Stories } from '@storybook/addon-docs/blocks';
+import { Meta, Title, Subtitle, Controls, Stories, Source } from '@storybook/addon-docs/blocks';
 import * as DocStories from './Meter.stories';
 
 <Meta of={DocStories} />
 
-<Title />
+# Meter
+
+<Subtitle>A visual gauge that represents a scalar quantity within a known range, using semantic colour to communicate severity or health.</Subtitle>
+
+```tsx
+import { Meter } from '@geti/ui';
+```
+
+- [React Spectrum Meter](https://react-spectrum.adobe.com/react-spectrum/Meter.html)
+
+<Stories />
 
 ## Responsibility
 
-Re-exports Adobe React Spectrum's `Meter` as a named Geti component, providing a visual gauge for quantities with semantic colour variants (positive, warning, critical, informative). Used to communicate the current level of a value relative to a known range.
+`Meter` registers Adobe React Spectrum's `Meter` in Geti's public API surface, providing a horizontal bar gauge suitable for representing quantities that have meaningful thresholds — storage capacity, resource utilisation, annotation coverage, or model confidence.
+
+The key distinction from `ProgressBar` is **semantic intent**: a `Meter` represents the *current level* of a quantity at a point in time, not the *progress of an ongoing operation*. It is always determinate, and its `variant` encodes how the consumer should interpret that level.
+
+Key characteristics:
+- **Semantic variants**: `positive`, `warning`, `critical`, and `informative` use colour to signal health without requiring extra text.
+- **Custom value labels**: `valueLabel` overrides the auto-generated percentage with a domain-specific string (e.g. `"7 of 10 models"`).
+- **Always determinate**: `Meter` has no `isIndeterminate` mode. If the quantity is unknown, use `ProgressBar` with `isIndeterminate`.
+- **Theme aware**: Visual tokens are resolved by `ThemeProvider`; no component-level CSS overrides are needed.
+
+### When to use
+- To show current resource consumption: storage usage, memory, CPU, GPU utilisation.
+- To visualise annotation coverage or labelling progress within a fixed quota.
+- To represent a quality score (e.g. model accuracy, data quality) against a known maximum.
+- When the numeric level itself needs a semantic colour grade (`warning` at 65%, `critical` at 90%).
+
+### When to avoid
+- For an operation that is actively running — use `ProgressBar` (determinate) or `ProgressBar isIndeterminate` instead.
+- For a compact inline spinner — use `ProgressCircle` or `Loading`.
+- When the quantity has no meaningful maximum (open-ended counters) — the bar would always appear full or near-full, which is misleading.
+- When the sole purpose is to show a simple number — use a plain text element; a meter adds visual weight that should be earned.
 
 ## Design
 
-Pure thin wrapper — `MeterProps extends SpectrumMeterProps` with zero prop additions or overrides. The component body is `(props) => <SpectrumMeter {...props} />`. Spectrum's `variant` prop (`'positive' | 'warning' | 'critical' | 'informative'`) is available as-is.
+`Meter` is a direct Spectrum pass-through. `MeterProps extends SpectrumMeterProps` with zero additions or overrides:
+
+```tsx
+import { Meter as SpectrumMeter, SpectrumMeterProps } from '@adobe/react-spectrum';
+
+export interface MeterProps extends SpectrumMeterProps {}
+
+export const Meter = (props: MeterProps) => <SpectrumMeter {...props} />;
+```
+
+No state, no effects, no refs. Spectrum manages the bar fill, label layout, and colour application internally.
 
 ## Flow
 
-```
-props (SpectrumMeterProps passthrough)
-  → <SpectrumMeter {...props} />
-```
+```tsx
+// Basic storage usage meter
+<Meter label="Storage space" value={50} />
 
-No state, no effects, no refs.
+// Semantic variant — warning level
+<Meter
+  label="Memory usage"
+  value={65}
+  variant="warning"
+/>
+
+// Critical resource consumption
+<Meter
+  label="CPU usage"
+  value={90}
+  variant="critical"
+/>
+
+// Domain-specific value label — overrides the default percentage
+<Meter
+  label="Models trained"
+  value={7}
+  maxValue={10}
+  valueLabel="7 of 10"
+/>
+
+// Visually hidden label (aria-label ensures accessibility)
+<Meter
+  aria-label="Dataset annotation coverage"
+  value={42}
+  variant="warning"
+/>
+```
 
 ## Integration
 
-- Sits alongside `ProgressBar` and `ProgressCircle` in the feedback category.
-- Used in contexts like storage usage, annotation coverage, or model confidence displays where a semantic severity level matters.
-- Themed automatically by the `ThemeProvider` wrapping the application.
+| Concern | Detail |
+|---------|--------|
+| **Package** | `@adobe/react-spectrum` — `Meter` |
+| **Theme** | Resolved automatically by `ThemeProvider`. No CSS imports required. |
+| **Related** | `ProgressBar` (in-progress operations), `ProgressCircle` (compact spinner), `Loading` (overlay spinner) |
+| **Placement** | Dashboard stat panels, resource summary rows, model or dataset detail cards |
 
+All `SpectrumMeterProps` are accepted as-is. The primary props are:
 
-<Stories />
----
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `label` | `string` | — | Visible label rendered above the bar. Recommended; omit only when using `aria-label`. |
+| `value` | `number` | `0` | The current value. Interpreted within `[minValue, maxValue]`. |
+| `minValue` | `number` | `0` | The minimum of the range. |
+| `maxValue` | `number` | `100` | The maximum of the range. |
+| `variant` | `'informative' \| 'positive' \| 'warning' \| 'critical'` | `'informative'` | Semantic colour of the bar fill. |
+| `valueLabel` | `ReactNode` | auto | Overrides the default `"X%"` label with a custom string. |
+| `aria-label` | `string` | — | Required when no visible `label` is provided. |
+| `aria-labelledby` | `string` | — | Alternative to `aria-label` when the label is a separate element. |
 
-<Primary />
+## Accessibility
 
-## Props
-
-<Controls />
-
+- **Role**: Spectrum renders `Meter` as a `<div role="meter">` with `aria-valuenow`, `aria-valuemin`, `aria-valuemax`, and `aria-valuetext` applied automatically from the `value`, `minValue`, `maxValue`, and `valueLabel` props.
+- **Labels**: Always provide either a visible `label` or an `aria-label` / `aria-labelledby`. A `Meter` without a name is announced as `"meter"` with a percentage — meaningless without context.
+- **`aria-valuetext`**: When `valueLabel` is set (e.g. `"7 of 10 models"`), Spectrum uses it as `aria-valuetext`, giving screen reader users the domain-specific reading rather than a raw percentage.
+- **Colour and variant**: The `variant` prop changes bar colour only. It does not generate additional text output. Ensure the `label` or surrounding copy explains what the level means (e.g. `"Memory usage"` at `warning` clearly implies the system is under pressure).
+- **No keyboard interaction**: `Meter` is a read-only display element. It is not focusable and does not respond to keyboard or pointer events.

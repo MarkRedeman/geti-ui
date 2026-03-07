@@ -3,77 +3,150 @@ import * as DocStories from './ActionButton.stories';
 
 <Meta of={DocStories} />
 
-<Title />
+# ActionButton
 
-ActionButtons allow users to perform an action. They’re used for similar, task-based options within a workflow, and are ideal for interfaces where buttons aren’t meant to draw a lot of attention.
-
-## Import
+<Subtitle>A compact, task-oriented button for toolbar and workspace actions — extends Spectrum's ActionButton with Geti-specific color variants for dark panels, light headers, and transparent icon contexts.</Subtitle>
 
 ```tsx
 import { ActionButton } from '@geti/ui';
 ```
 
-## Reference
-
-[Adobe React Spectrum ActionButton](https://react-spectrum.adobe.com/react-spectrum/ActionButton.html)
+- [Adobe React Spectrum ActionButton](https://react-spectrum.adobe.com/react-spectrum/ActionButton.html)
 
 <Stories />
 
+## Responsibility
+
+`ActionButton` is a lightweight wrapper around Adobe React Spectrum's `ActionButton`. Its primary job is to inject **Geti product-specific color themes** via CSS module classes mapped through the `colorVariant` prop, while transparently forwarding all other Spectrum behaviour.
+
+Key responsibilities:
+- **Color variants**: Adds three Geti-specific visual styles (`dark`, `light`, `blue`) via `UNSAFE_className` merging using `clsx`, without overriding Spectrum's interactive state management.
+- **`UNSAFE_className` safety**: Merges the caller's own `UNSAFE_className` with the internal variant class, so consumers can still apply ad-hoc overrides without losing the Geti styling.
+- **Full Spectrum compatibility**: All Spectrum `ActionButtonProps` (including `isQuiet`, `isDisabled`, `staticColor`, `type`, event handlers, and layout props) pass through unchanged.
+
+### When to use
+- For icon-only or icon+label buttons in toolbars, annotation canvases, and side panels.
+- When the action is task-based (e.g., "Delete", "Edit", "Zoom in") and should not draw as much visual weight as a primary `Button`.
+- When the button is displayed against a coloured or dark surface and the standard Spectrum default style would clash — choose the appropriate `colorVariant`.
+- For quiet, low-prominence toggle or utility controls — use `isQuiet` to suppress the background/border until hover.
+
+### When to avoid
+- For the **primary call to action** on a page (e.g., "Save", "Create") — use `Button` with `variant="accent"`, which draws full visual weight.
+- For toggle state (on/off) — use `ToggleButton`, which manages `isSelected` state and `aria-pressed`.
+- When the button is part of a mutually exclusive group (e.g., a view switcher) — use `ToggleButtons`.
+- For navigation — use `Link` or a `Button` with `elementType="a"`.
+
 ## Variants
 
-### Geti Color Variants
+### Color variants
 
-The Geti `ActionButton` extends Spectrum's base with a `colorVariant` prop for specific product themes:
+| `colorVariant` | Background | Hover/active | Typical context |
+|----------------|------------|--------------|-----------------|
+| `dark` (default) | Transparent | Subtle gray border | Dark panels, toolbars, canvas sidebars |
+| `light` | Transparent | Blue-tinted border | Light-background headers, top navigation |
+| `blue` | Transparent | Blue text/border | Icon-only, transparent overlay contexts |
 
-| Variant | Description |
-|---|---|
-| `dark` (default) | Subtle border on hover/active. Standard Geti look for dark panels/toolbars. |
-| `light` | Blue-tinted hover/active. Optimized for light header areas. |
-| `blue` | Transparent background with blue text. Ideal for icon-only, transparent contexts. |
+### Visual options (from Spectrum)
 
-### Visual Options
+- **`isQuiet`**: No background or border at rest; visible only on interaction. Best for low-prominence controls in dense interfaces.
+- **`isDisabled`**: Prevents interaction and applies disabled styling. Spectrum manages the `aria-disabled` attribute automatically.
+- **`staticColor`**: Use `"white"` or `"black"` when placing a button over a strongly coloured background where neither the `dark` nor `light` variant would provide sufficient contrast.
 
-Following Spectrum's core options:
+## Design
 
-- **Quiet**: Use `isQuiet` for a button with no background or border until hover.
-- **Disabled**: Use `isDisabled` to prevent user interaction.
-- **Static Color**: Use `staticColor="white" | "black"` when placed over colored backgrounds.
+The implementation is deliberately minimal — three lines of logic:
+
+```tsx
+// Resolve the CSS module class for the requested color variant
+const variantClass = colorVariant ? COLOR_VARIANT_CLASSES[colorVariant] : undefined;
+
+// Merge with any caller-provided UNSAFE_className; pass everything else through
+<SpectrumActionButton
+  {...rest}
+  UNSAFE_className={clsx(variantClass, UNSAFE_className) || undefined}
+/>
+```
+
+```tsx
+// Default dark variant — standard toolbar button
+<ActionButton onPress={handleDelete}>
+  <Delete />
+  <Text>Delete</Text>
+</ActionButton>
+
+// Light variant for header areas
+<ActionButton colorVariant="light" onPress={handleSettings}>
+  <Settings />
+</ActionButton>
+
+// Blue transparent variant — icon-only
+<ActionButton colorVariant="blue" isQuiet aria-label="Zoom in" onPress={handleZoom}>
+  <ZoomIn />
+</ActionButton>
+
+// Disabled state
+<ActionButton isDisabled>
+  <Download />
+  <Text>Export</Text>
+</ActionButton>
+```
+
+## Flow
+
+```
+props { colorVariant, UNSAFE_className, ...rest }
+  → variantClass = COLOR_VARIANT_CLASSES[colorVariant]  // CSS module class
+  → mergedClass = clsx(variantClass, UNSAFE_className) || undefined
+  → <SpectrumActionButton {...rest} UNSAFE_className={mergedClass} />
+```
+
+## Integration
+
+- Depends on `@adobe/react-spectrum` `ActionButton` and `clsx` for class merging.
+- CSS module (`ActionButton.module.css`) defines `.actionButtonDark`, `.actionButtonLight`, and `.actionButtonBlue`. These classes **only** adjust hover/active/focus border and background colors — they do not override Spectrum's focus ring, disabled state, or layout.
+- Accepts all Spectrum layout props (`margin`, `flex`, `width`, `height`, etc.) via `...rest`.
+- Used extensively inside `FullscreenAction`, `ActionMenu`, and canvas toolbars throughout the Geti application.
+- When composing with `TooltipTrigger`, wrap `ActionButton` as the trigger element; its `aria-label` will serve as the accessible name even when no `Tooltip` is present.
 
 ## Props
 
-### Button Props
+### Geti-specific
 
-| Name | Type | Default | Description |
-|---|---|---|---|
-| `colorVariant` | `'dark' \| 'light' \| 'blue'` | `'dark'` | Applies a Geti-specific visual style. |
-| `isQuiet` | `boolean` | `false` | Whether the button should be displayed with a quiet style. |
-| `isDisabled` | `boolean` | `false` | Whether the button is disabled. |
-| `staticColor` | `'white' \| 'black'` | — | The static color style to apply over colored backgrounds. |
-| `type` | `'button' \| 'submit' \| 'reset'` | `'button'` | The behavior of the button when used in an HTML form. |
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `colorVariant` | `'dark' \| 'light' \| 'blue'` | — | Applies a Geti-specific visual color style via CSS module class injection. |
 
-### Content
+### From Spectrum (key props)
 
-| Name | Type | Default | Description |
-|---|---|---|---|
-| `children` | `ReactNode` | — | The content to display in the button (Label, Icon, or both). |
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `children` | `ReactNode` | — | Button content: `Label`, `Icon`, or both. |
+| `isQuiet` | `boolean` | `false` | Removes background/border at rest. |
+| `isDisabled` | `boolean` | `false` | Prevents interaction and applies disabled styling. |
+| `staticColor` | `'white' \| 'black'` | — | Static color for placement on coloured backgrounds. |
+| `type` | `'button' \| 'submit' \| 'reset'` | `'button'` | HTML button type. |
+| `UNSAFE_className` | `string` | — | Additional class names merged with the variant class. |
+| `onPress` | `(e: PressEvent) => void` | — | Called when the button is pressed. |
+| `onPressStart` | `(e: PressEvent) => void` | — | Called when a press interaction starts. |
+| `onPressEnd` | `(e: PressEvent) => void` | — | Called when a press interaction ends. |
+| `onFocus` | `(e: FocusEvent) => void` | — | Called when the element receives focus. |
+| `onBlur` | `(e: FocusEvent) => void` | — | Called when the element loses focus. |
 
-### Events
+## Accessibility
 
-| Name | Type | Description |
-|---|---|---|
-| `onPress` | `(e: PressEvent) => void` | Handler that is called when the press is released over the target. |
-| `onPressStart` | `(e: PressEvent) => void` | Handler that is called when a press interaction starts. |
-| `onPressEnd` | `(e: PressEvent) => void` | Handler that is called when a press interaction ends. |
-| `onFocus` | `(e: FocusEvent) => void` | Handler that is called when the element receives focus. |
-| `onBlur` | `(e: FocusEvent) => void` | Handler that is called when the element loses focus. |
+- **Labelling**: Spectrum renders `<button>` with its text content as the accessible name. For **icon-only buttons**, always provide an explicit `aria-label` so screen readers can announce the action.
+  ```tsx
+  // Icon-only — must have aria-label
+  <ActionButton aria-label="Close panel" onPress={onClose}>
+    <Close />
+  </ActionButton>
+  ```
+- **`isDisabled`**: Spectrum sets `aria-disabled="true"` (not the HTML `disabled` attribute) so the button remains focusable and discoverable via keyboard navigation — appropriate for interfaces where users need to know a control exists even when it is not currently available.
+- **Keyboard**: Spectrum's press handling fires `onPress` on both `Enter` and `Space`, matching the ARIA button interaction pattern.
+- **Focus ring**: Spectrum manages a visible focus ring that meets WCAG 2.1 AA contrast requirements. Do not suppress or override the focus ring via CSS.
+- **`TooltipTrigger` pairing**: When wrapping `ActionButton` in a `TooltipTrigger`, Spectrum automatically wires `aria-describedby` from the button to the tooltip. This is the preferred pattern for icon-only buttons where the `aria-label` provides the name and the tooltip provides additional description.
 
 ---
-
-## Responsibility
-
-The `ActionButton` wraps Adobe React Spectrum's `ActionButton`. Its primary responsibility is to:
-1. Provide Geti-specific color variants (`dark`, `light`, `blue`) via the `colorVariant` prop.
-2. Ensure stable styling by merging `UNSAFE_className` with internal Geti CSS modules.
 
 <Primary />
 

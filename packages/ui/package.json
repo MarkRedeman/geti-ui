@@ -35,8 +35,10 @@
     },
     "dependencies": {
         "@adobe/react-spectrum": "^3.46.2",
+        "@react-aria/color": "3.1.5",
         "@react-aria/utils": "^3.33.1",
         "@react-spectrum/utils": "^3.12.12",
+        "@react-stately/color": "3.9.5",
         "@react-stately/virtualizer": "^4.4.6",
         "@react-types/shared": "^3.33.1",
         "@spectrum-icons/workflow": "^4.2.28",

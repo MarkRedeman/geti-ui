@@ -1,0 +1,612 @@
+- generic [ref=e3]:
+  - banner "Storybook" [ref=e6]:
+    - heading "Storybook" [level=1] [ref=e7]
+    - img
+    - generic [ref=e11]:
+      - generic [ref=e12]:
+        - generic [ref=e13]:
+          - link "Skip to content" [ref=e14] [cursor=pointer]:
+            - /url: "#storybook-preview-wrapper"
+          - link "Geti UI" [ref=e16] [cursor=pointer]:
+            - /url: ./
+          - switch "Settings" [ref=e17] [cursor=pointer]:
+            - img [ref=e18]
+        - generic [ref=e130]:
+          - generic [ref=e132] [cursor=pointer]:
+            - button "Open onboarding guide" [ref=e136]:
+              - img [ref=e138]
+              - strong [ref=e140]: Level up
+            - generic [ref=e141]:
+              - button "Collapse onboarding checklist" [expanded] [ref=e142]:
+                - img [ref=e143]
+              - button "53% completed" [ref=e145]:
+                - generic [ref=e146]:
+                  - img [ref=e147]
+                  - img [ref=e149]
+                - generic [ref=e152]: 53%
+          - list [ref=e154]:
+            - listitem [ref=e155]:
+              - button "Open onboarding guide for See what's new" [ref=e156] [cursor=pointer]:
+                - img [ref=e158]
+                - generic [ref=e161]: See what's new
+              - button "Go"
+            - listitem [ref=e162]:
+              - button "Open onboarding guide for Test functionality with interactions" [ref=e163] [cursor=pointer]:
+                - img [ref=e165]
+                - generic [ref=e168]: Test functionality with interactions
+            - listitem [ref=e169]:
+              - button "Open onboarding guide for Publish your Storybook to share" [ref=e170] [cursor=pointer]:
+                - img [ref=e172]
+                - generic [ref=e175]: Publish your Storybook to share
+      - generic [ref=e21]: Search for components
+      - search [ref=e22]:
+        - combobox "Search for components" [ref=e23]:
+          - generic:
+            - img
+          - searchbox "Search for components" [ref=e24]
+          - code: ⌃ K
+          - button "Tag filters" [ref=e177] [cursor=pointer]:
+            - img [ref=e178]
+        - button "Create a new story" [ref=e25] [cursor=pointer]:
+          - img [ref=e26]
+      - navigation "Stories" [ref=e29]:
+        - heading "Stories" [level=2] [ref=e30]
+        - generic [ref=e180]:
+          - generic [ref=e181]:
+            - button "Collapse" [expanded] [ref=e182] [cursor=pointer]:
+              - img [ref=e184]
+              - text: Kitchen sink
+            - button "Expand all" [ref=e186] [cursor=pointer]:
+              - img [ref=e187]
+          - link "Overview" [ref=e190] [cursor=pointer]:
+            - /url: /?path=/docs/kitchen-sink-overview--docs
+            - img [ref=e192]
+            - text: Overview
+          - link "UI" [ref=e195] [cursor=pointer]:
+            - /url: /?path=/docs/kitchen-sink-ui--docs
+            - img [ref=e197]
+            - text: UI
+          - button "Form" [ref=e200] [cursor=pointer]:
+            - generic [ref=e201]:
+              - img [ref=e203]
+              - img [ref=e205]
+            - text: Form
+          - link "Data" [ref=e208] [cursor=pointer]:
+            - /url: /?path=/docs/kitchen-sink-data--docs
+            - img [ref=e210]
+            - text: Data
+          - link "Overlays" [ref=e213] [cursor=pointer]:
+            - /url: /?path=/docs/kitchen-sink-overlays--docs
+            - img [ref=e215]
+            - text: Overlays
+          - link "Feedback" [ref=e218] [cursor=pointer]:
+            - /url: /?path=/docs/kitchen-sink-feedback--docs
+            - img [ref=e220]
+            - text: Feedback
+          - link "Navigation" [ref=e223] [cursor=pointer]:
+            - /url: /?path=/docs/kitchen-sink-navigation--docs
+            - img [ref=e225]
+            - text: Navigation
+          - link "Layouts" [ref=e228] [cursor=pointer]:
+            - /url: /?path=/docs/kitchen-sink-layouts--docs
+            - img [ref=e230]
+            - text: Layouts
+          - generic [ref=e232]:
+            - button "Collapse" [expanded] [ref=e233] [cursor=pointer]:
+              - img [ref=e235]
+              - text: UI
+            - button "Expand all" [ref=e237] [cursor=pointer]:
+              - img [ref=e238]
+          - link "ActionButton" [ref=e241] [cursor=pointer]:
+            - /url: /?path=/docs/ui-actionbutton--docs
+            - img [ref=e243]
+            - text: ActionButton
+          - link "Avatar" [ref=e246] [cursor=pointer]:
+            - /url: /?path=/docs/ui-avatar--docs
+            - img [ref=e248]
+            - text: Avatar
+          - link "Button" [ref=e251] [cursor=pointer]:
+            - /url: /?path=/docs/ui-button--docs
+            - img [ref=e253]
+            - text: Button
+          - link "CornerIndicator" [ref=e256] [cursor=pointer]:
+            - /url: /?path=/docs/ui-cornerindicator--docs
+            - img [ref=e258]
+            - text: CornerIndicator
+          - link "Divider" [ref=e261] [cursor=pointer]:
+            - /url: /?path=/docs/ui-divider--docs
+            - img [ref=e263]
+            - text: Divider
+          - link "Image" [ref=e266] [cursor=pointer]:
+            - /url: /?path=/docs/ui-image--docs
+            - img [ref=e268]
+            - text: Image
+          - link "PhotoPlaceholder" [ref=e271] [cursor=pointer]:
+            - /url: /?path=/docs/ui-photoplaceholder--docs
+            - img [ref=e273]
+            - text: PhotoPlaceholder
+          - link "PressableElement" [ref=e276] [cursor=pointer]:
+            - /url: /?path=/docs/ui-pressableelement--docs
+            - img [ref=e278]
+            - text: PressableElement
+          - link "ToggleButton" [ref=e281] [cursor=pointer]:
+            - /url: /?path=/docs/ui-togglebutton--docs
+            - img [ref=e283]
+            - text: ToggleButton
+          - link "ToggleButtons" [ref=e286] [cursor=pointer]:
+            - /url: /?path=/docs/ui-togglebuttons--docs
+            - img [ref=e288]
+            - text: ToggleButtons
+          - link "View" [ref=e291] [cursor=pointer]:
+            - /url: /?path=/docs/ui-view--docs
+            - img [ref=e293]
+            - text: View
+          - generic [ref=e295]:
+            - button "Collapse" [expanded] [ref=e296] [cursor=pointer]:
+              - img [ref=e298]
+              - text: Form
+            - button "Expand all" [ref=e300] [cursor=pointer]:
+              - img [ref=e301]
+          - link "Checkbox" [ref=e304] [cursor=pointer]:
+            - /url: /?path=/docs/form-checkbox--docs
+            - img [ref=e306]
+            - text: Checkbox
+          - link "CheckboxGroup" [ref=e309] [cursor=pointer]:
+            - /url: /?path=/docs/form-checkboxgroup--docs
+            - img [ref=e311]
+            - text: CheckboxGroup
+          - link "DropZone" [ref=e314] [cursor=pointer]:
+            - /url: /?path=/docs/form-dropzone--docs
+            - img [ref=e316]
+            - text: DropZone
+          - link "FileTrigger" [ref=e319] [cursor=pointer]:
+            - /url: /?path=/docs/form-filetrigger--docs
+            - img [ref=e321]
+            - text: FileTrigger
+          - link "Form" [ref=e324] [cursor=pointer]:
+            - /url: /?path=/docs/form-form--docs
+            - img [ref=e326]
+            - text: Form
+          - link "NumberField" [ref=e329] [cursor=pointer]:
+            - /url: /?path=/docs/form-numberfield--docs
+            - img [ref=e331]
+            - text: NumberField
+          - link "PasswordField" [ref=e334] [cursor=pointer]:
+            - /url: /?path=/docs/form-passwordfield--docs
+            - img [ref=e336]
+            - text: PasswordField
+          - link "RadioGroup" [ref=e339] [cursor=pointer]:
+            - /url: /?path=/docs/form-radiogroup--docs
+            - img [ref=e341]
+            - text: RadioGroup
+          - link "RangeSlider" [ref=e344] [cursor=pointer]:
+            - /url: /?path=/docs/form-rangeslider--docs
+            - img [ref=e346]
+            - text: RangeSlider
+          - link "SearchField" [ref=e349] [cursor=pointer]:
+            - /url: /?path=/docs/form-searchfield--docs
+            - img [ref=e351]
+            - text: SearchField
+          - link "Slider" [ref=e354] [cursor=pointer]:
+            - /url: /?path=/docs/form-slider--docs
+            - img [ref=e356]
+            - text: Slider
+          - link "Switch" [ref=e359] [cursor=pointer]:
+            - /url: /?path=/docs/form-switch--docs
+            - img [ref=e361]
+            - text: Switch
+          - link "TextArea" [ref=e364] [cursor=pointer]:
+            - /url: /?path=/docs/form-textarea--docs
+            - img [ref=e366]
+            - text: TextArea
+          - link "TextField" [ref=e369] [cursor=pointer]:
+            - /url: /?path=/docs/form-textfield--docs
+            - img [ref=e371]
+            - text: TextField
+          - button "Pickers" [ref=e374] [cursor=pointer]:
+            - generic [ref=e375]:
+              - img [ref=e377]
+              - img [ref=e379]
+            - text: Pickers
+          - generic [ref=e381]:
+            - button "Collapse" [expanded] [ref=e382] [cursor=pointer]:
+              - img [ref=e384]
+              - text: Data
+            - button "Expand all" [ref=e386] [cursor=pointer]:
+              - img [ref=e387]
+          - link "ActionBar" [ref=e390] [cursor=pointer]:
+            - /url: /?path=/docs/data-actionbar--docs
+            - img [ref=e392]
+            - text: ActionBar
+          - link "CardView" [ref=e395] [cursor=pointer]:
+            - /url: /?path=/docs/data-cardview--docs
+            - img [ref=e397]
+            - text: CardView
+          - link "ListBox" [ref=e400] [cursor=pointer]:
+            - /url: /?path=/docs/data-listbox--docs
+            - img [ref=e402]
+            - text: ListBox
+          - link "ListView" [ref=e405] [cursor=pointer]:
+            - /url: /?path=/docs/data-listview--docs
+            - img [ref=e407]
+            - text: ListView
+          - link "TableView" [ref=e410] [cursor=pointer]:
+            - /url: /?path=/docs/data-tableview--docs
+            - img [ref=e412]
+            - text: TableView
+          - link "Tag" [ref=e415] [cursor=pointer]:
+            - /url: /?path=/docs/data-tag--docs
+            - img [ref=e417]
+            - text: Tag
+          - link "TagGroup" [ref=e420] [cursor=pointer]:
+            - /url: /?path=/docs/data-taggroup--docs
+            - img [ref=e422]
+            - text: TagGroup
+          - link "TreeView" [ref=e425] [cursor=pointer]:
+            - /url: /?path=/docs/data-treeview--docs
+            - img [ref=e427]
+            - text: TreeView
+          - link "VirtualizedHorizontalGrid" [ref=e430] [cursor=pointer]:
+            - /url: /?path=/docs/data-virtualizedhorizontalgrid--docs
+            - img [ref=e432]
+            - text: VirtualizedHorizontalGrid
+          - link "VirtualizedListLayout" [ref=e435] [cursor=pointer]:
+            - /url: /?path=/docs/data-virtualizedlistlayout--docs
+            - img [ref=e437]
+            - text: VirtualizedListLayout
+          - generic [ref=e439]:
+            - button "Collapse" [expanded] [ref=e440] [cursor=pointer]:
+              - img [ref=e442]
+              - text: Overlays
+            - button "Expand all" [ref=e444] [cursor=pointer]:
+              - img [ref=e445]
+          - link "AlertDialog" [ref=e448] [cursor=pointer]:
+            - /url: /?path=/docs/overlays-alertdialog--docs
+            - img [ref=e450]
+            - text: AlertDialog
+          - link "ContextualHelp" [ref=e453] [cursor=pointer]:
+            - /url: /?path=/docs/overlays-contextualhelp--docs
+            - img [ref=e455]
+            - text: ContextualHelp
+          - link "CustomPopover" [ref=e458] [cursor=pointer]:
+            - /url: /?path=/docs/overlays-custompopover--docs
+            - img [ref=e460]
+            - text: CustomPopover
+          - link "Dialog" [ref=e463] [cursor=pointer]:
+            - /url: /?path=/docs/overlays-dialog--docs
+            - img [ref=e465]
+            - text: Dialog
+          - link "DialogContainer" [ref=e468] [cursor=pointer]:
+            - /url: /?path=/docs/overlays-dialogcontainer--docs
+            - img [ref=e470]
+            - text: DialogContainer
+          - link "FullscreenAction" [ref=e473] [cursor=pointer]:
+            - /url: /?path=/docs/overlays-fullscreenaction--docs
+            - img [ref=e475]
+            - text: FullscreenAction
+          - link "Popover" [ref=e478] [cursor=pointer]:
+            - /url: /?path=/docs/overlays-popover--docs
+            - img [ref=e480]
+            - text: Popover
+          - link "Tooltip" [ref=e483] [cursor=pointer]:
+            - /url: /?path=/docs/overlays-tooltip--docs
+            - img [ref=e485]
+            - text: Tooltip
+          - generic [ref=e487]:
+            - button "Collapse" [expanded] [ref=e488] [cursor=pointer]:
+              - img [ref=e490]
+              - text: Feedback
+            - button "Expand all" [ref=e492] [cursor=pointer]:
+              - img [ref=e493]
+          - link "Badge" [ref=e496] [cursor=pointer]:
+            - /url: /?path=/docs/feedback-badge--docs
+            - img [ref=e498]
+            - text: Badge
+          - link "IllustratedMessage" [ref=e501] [cursor=pointer]:
+            - /url: /?path=/docs/feedback-illustratedmessage--docs
+            - img [ref=e503]
+            - text: IllustratedMessage
+          - link "InlineAlert" [ref=e506] [cursor=pointer]:
+            - /url: /?path=/docs/feedback-inlinealert--docs
+            - img [ref=e508]
+            - text: InlineAlert
+          - link "IntelBrandedLoading" [ref=e511] [cursor=pointer]:
+            - /url: /?path=/docs/feedback-intelbrandedloading--docs
+            - img [ref=e513]
+            - text: IntelBrandedLoading
+          - link "Loading" [ref=e516] [cursor=pointer]:
+            - /url: /?path=/docs/feedback-loading--docs
+            - img [ref=e518]
+            - text: Loading
+          - link "Meter" [ref=e521] [cursor=pointer]:
+            - /url: /?path=/docs/feedback-meter--docs
+            - img [ref=e523]
+            - text: Meter
+          - link "ProgressBar" [ref=e526] [cursor=pointer]:
+            - /url: /?path=/docs/feedback-progressbar--docs
+            - img [ref=e528]
+            - text: ProgressBar
+          - link "ProgressCircle" [ref=e531] [cursor=pointer]:
+            - /url: /?path=/docs/feedback-progresscircle--docs
+            - img [ref=e533]
+            - text: ProgressCircle
+          - link "Skeleton" [ref=e536] [cursor=pointer]:
+            - /url: /?path=/docs/feedback-skeleton--docs
+            - img [ref=e538]
+            - text: Skeleton
+          - link "StatusLight" [ref=e541] [cursor=pointer]:
+            - /url: /?path=/docs/feedback-statuslight--docs
+            - img [ref=e543]
+            - text: StatusLight
+          - link "Toast" [ref=e546] [cursor=pointer]:
+            - /url: /?path=/docs/feedback-toast--docs
+            - img [ref=e548]
+            - text: Toast
+          - generic [ref=e550]:
+            - button "Collapse" [expanded] [ref=e551] [cursor=pointer]:
+              - img [ref=e553]
+              - text: Navigation
+            - button "Expand all" [ref=e555] [cursor=pointer]:
+              - img [ref=e556]
+          - link "ActionMenu" [ref=e559] [cursor=pointer]:
+            - /url: /?path=/docs/navigation-actionmenu--docs
+            - img [ref=e561]
+            - text: ActionMenu
+          - link "Breadcrumbs" [ref=e564] [cursor=pointer]:
+            - /url: /?path=/docs/navigation-breadcrumbs--docs
+            - img [ref=e566]
+            - text: Breadcrumbs
+          - link "Link" [ref=e569] [cursor=pointer]:
+            - /url: /?path=/docs/navigation-link--docs
+            - img [ref=e571]
+            - text: Link
+          - link "Menu" [ref=e574] [cursor=pointer]:
+            - /url: /?path=/docs/navigation-menu--docs
+            - img [ref=e576]
+            - text: Menu
+          - link "Tabs" [ref=e579] [cursor=pointer]:
+            - /url: /?path=/docs/navigation-tabs--docs
+            - img [ref=e581]
+            - text: Tabs
+          - generic [ref=e583]:
+            - button "Collapse" [expanded] [ref=e584] [cursor=pointer]:
+              - img [ref=e586]
+              - text: Layouts
+            - button "Expand all" [ref=e588] [cursor=pointer]:
+              - img [ref=e589]
+          - link "Accordion" [ref=e592] [cursor=pointer]:
+            - /url: /?path=/docs/layouts-accordion--docs
+            - img [ref=e594]
+            - text: Accordion
+          - link "Card" [ref=e597] [cursor=pointer]:
+            - /url: /?path=/docs/layouts-card--docs
+            - img [ref=e599]
+            - text: Card
+          - link "Disclosure" [ref=e602] [cursor=pointer]:
+            - /url: /?path=/docs/layouts-disclosure--docs
+            - img [ref=e604]
+            - text: Disclosure
+          - link "Flex" [ref=e607] [cursor=pointer]:
+            - /url: /?path=/docs/layouts-flex--docs
+            - img [ref=e609]
+            - text: Flex
+          - link "Grid" [ref=e612] [cursor=pointer]:
+            - /url: /?path=/docs/layouts-grid--docs
+            - img [ref=e614]
+            - text: Grid
+          - link "Well" [ref=e617] [cursor=pointer]:
+            - /url: /?path=/docs/layouts-well--docs
+            - img [ref=e619]
+            - text: Well
+  - generic [ref=e51]:
+    - region "Toolbar" [ref=e52]:
+      - heading "Toolbar" [level=2] [ref=e53]
+      - toolbar [ref=e54]:
+        - generic [ref=e55]:
+          - button "Reload story" [ref=e56] [cursor=pointer]:
+            - img [ref=e57]
+          - switch "Grid visibility" [ref=e621] [cursor=pointer]:
+            - img [ref=e622]
+          - button "Preview background" [ref=e624] [cursor=pointer]:
+            - img [ref=e625]
+          - switch "Measure tool" [ref=e59] [cursor=pointer]:
+            - img [ref=e60]
+          - switch "Outline tool" [ref=e63] [cursor=pointer]:
+            - img [ref=e64]
+          - button "Viewport size" [ref=e66] [cursor=pointer]:
+            - img [ref=e67]
+          - button "Vision filter" [ref=e71] [cursor=pointer]:
+            - img [ref=e72]
+        - generic [ref=e76]:
+          - switch "Change zoom level" [ref=e77] [cursor=pointer]: 100%
+          - button "Enter full screen" [ref=e78] [cursor=pointer]:
+            - img [ref=e79]
+          - button "Share" [ref=e81] [cursor=pointer]:
+            - img [ref=e82]
+          - button "Open in editor" [ref=e628] [cursor=pointer]:
+            - img [ref=e629]
+    - main "Main preview area" [ref=e85]:
+      - heading "Main preview area" [level=2] [ref=e86]
+      - generic [ref=e90]:
+        - link "Skip to sidebar" [ref=e91] [cursor=pointer]:
+          - /url: "#form-pickers-calendar--default"
+        - iframe [ref=e95]:
+          - application "Event date, March 2026" [ref=f1e4]:
+            - heading "Event date, March 2026" [level=2] [ref=f1e6]
+            - generic [ref=f1e8]:
+              - button "Previous" [ref=f1e9]:
+                - img
+              - heading [level=2] [ref=f1e10]: March 2026
+              - button "Next" [ref=f1e11]:
+                - img
+            - grid "Event date, March 2026" [ref=f1e13]:
+              - rowgroup [ref=f1e14]:
+                - row [ref=f1e15]:
+                  - columnheader [ref=f1e16]:
+                    - generic [ref=f1e17]: S
+                  - columnheader [ref=f1e18]:
+                    - generic [ref=f1e19]: M
+                  - columnheader [ref=f1e20]:
+                    - generic [ref=f1e21]: T
+                  - columnheader [ref=f1e22]:
+                    - generic [ref=f1e23]: W
+                  - columnheader [ref=f1e24]:
+                    - generic [ref=f1e25]: T
+                  - columnheader [ref=f1e26]:
+                    - generic [ref=f1e27]: F
+                  - columnheader [ref=f1e28]:
+                    - generic [ref=f1e29]: S
+              - rowgroup [ref=f1e30]:
+                - row "Sunday, March 1, 2026 Monday, March 2, 2026 Tuesday, March 3, 2026 Wednesday, March 4, 2026 Thursday, March 5, 2026 Friday, March 6, 2026 Today, Saturday, March 7, 2026" [ref=f1e31]:
+                  - gridcell "Sunday, March 1, 2026" [ref=f1e32]:
+                    - button "Sunday, March 1, 2026" [ref=f1e33]:
+                      - generic [ref=f1e34]: "1"
+                  - gridcell "Monday, March 2, 2026" [ref=f1e35]:
+                    - button "Monday, March 2, 2026" [ref=f1e36]:
+                      - generic [ref=f1e37]: "2"
+                  - gridcell "Tuesday, March 3, 2026" [ref=f1e38]:
+                    - button "Tuesday, March 3, 2026" [ref=f1e39]:
+                      - generic [ref=f1e40]: "3"
+                  - gridcell "Wednesday, March 4, 2026" [ref=f1e41]:
+                    - button "Wednesday, March 4, 2026" [ref=f1e42]:
+                      - generic [ref=f1e43]: "4"
+                  - gridcell "Thursday, March 5, 2026" [ref=f1e44]:
+                    - button "Thursday, March 5, 2026" [ref=f1e45]:
+                      - generic [ref=f1e46]: "5"
+                  - gridcell "Friday, March 6, 2026" [ref=f1e47]:
+                    - button "Friday, March 6, 2026" [ref=f1e48]:
+                      - generic [ref=f1e49]: "6"
+                  - gridcell "Today, Saturday, March 7, 2026" [ref=f1e50]:
+                    - button "Today, Saturday, March 7, 2026" [ref=f1e51]:
+                      - generic [ref=f1e52]: "7"
+                - row "Sunday, March 8, 2026 Monday, March 9, 2026 Tuesday, March 10, 2026 Wednesday, March 11, 2026 Thursday, March 12, 2026 Friday, March 13, 2026 Saturday, March 14, 2026" [ref=f1e53]:
+                  - gridcell "Sunday, March 8, 2026" [ref=f1e54]:
+                    - button "Sunday, March 8, 2026" [ref=f1e55]:
+                      - generic [ref=f1e56]: "8"
+                  - gridcell "Monday, March 9, 2026" [ref=f1e57]:
+                    - button "Monday, March 9, 2026" [ref=f1e58]:
+                      - generic [ref=f1e59]: "9"
+                  - gridcell "Tuesday, March 10, 2026" [ref=f1e60]:
+                    - button "Tuesday, March 10, 2026" [ref=f1e61]:
+                      - generic [ref=f1e62]: "10"
+                  - gridcell "Wednesday, March 11, 2026" [ref=f1e63]:
+                    - button "Wednesday, March 11, 2026" [ref=f1e64]:
+                      - generic [ref=f1e65]: "11"
+                  - gridcell "Thursday, March 12, 2026" [ref=f1e66]:
+                    - button "Thursday, March 12, 2026" [ref=f1e67]:
+                      - generic [ref=f1e68]: "12"
+                  - gridcell "Friday, March 13, 2026" [ref=f1e69]:
+                    - button "Friday, March 13, 2026" [ref=f1e70]:
+                      - generic [ref=f1e71]: "13"
+                  - gridcell "Saturday, March 14, 2026" [ref=f1e72]:
+                    - button "Saturday, March 14, 2026" [ref=f1e73]:
+                      - generic [ref=f1e74]: "14"
+                - row "Sunday, March 15, 2026 Monday, March 16, 2026 Tuesday, March 17, 2026 Wednesday, March 18, 2026 Thursday, March 19, 2026 Friday, March 20, 2026 Saturday, March 21, 2026" [ref=f1e75]:
+                  - gridcell "Sunday, March 15, 2026" [ref=f1e76]:
+                    - button "Sunday, March 15, 2026" [ref=f1e77]:
+                      - generic [ref=f1e78]: "15"
+                  - gridcell "Monday, March 16, 2026" [ref=f1e79]:
+                    - button "Monday, March 16, 2026" [ref=f1e80]:
+                      - generic [ref=f1e81]: "16"
+                  - gridcell "Tuesday, March 17, 2026" [ref=f1e82]:
+                    - button "Tuesday, March 17, 2026" [ref=f1e83]:
+                      - generic [ref=f1e84]: "17"
+                  - gridcell "Wednesday, March 18, 2026" [ref=f1e85]:
+                    - button "Wednesday, March 18, 2026" [ref=f1e86]:
+                      - generic [ref=f1e87]: "18"
+                  - gridcell "Thursday, March 19, 2026" [ref=f1e88]:
+                    - button "Thursday, March 19, 2026" [ref=f1e89]:
+                      - generic [ref=f1e90]: "19"
+                  - gridcell "Friday, March 20, 2026" [ref=f1e91]:
+                    - button "Friday, March 20, 2026" [ref=f1e92]:
+                      - generic [ref=f1e93]: "20"
+                  - gridcell "Saturday, March 21, 2026" [ref=f1e94]:
+                    - button "Saturday, March 21, 2026" [ref=f1e95]:
+                      - generic [ref=f1e96]: "21"
+                - row "Sunday, March 22, 2026 Monday, March 23, 2026 Tuesday, March 24, 2026 Wednesday, March 25, 2026 Thursday, March 26, 2026 Friday, March 27, 2026 Saturday, March 28, 2026" [ref=f1e97]:
+                  - gridcell "Sunday, March 22, 2026" [ref=f1e98]:
+                    - button "Sunday, March 22, 2026" [ref=f1e99]:
+                      - generic [ref=f1e100]: "22"
+                  - gridcell "Monday, March 23, 2026" [ref=f1e101]:
+                    - button "Monday, March 23, 2026" [ref=f1e102]:
+                      - generic [ref=f1e103]: "23"
+                  - gridcell "Tuesday, March 24, 2026" [ref=f1e104]:
+                    - button "Tuesday, March 24, 2026" [ref=f1e105]:
+                      - generic [ref=f1e106]: "24"
+                  - gridcell "Wednesday, March 25, 2026" [ref=f1e107]:
+                    - button "Wednesday, March 25, 2026" [ref=f1e108]:
+                      - generic [ref=f1e109]: "25"
+                  - gridcell "Thursday, March 26, 2026" [ref=f1e110]:
+                    - button "Thursday, March 26, 2026" [ref=f1e111]:
+                      - generic [ref=f1e112]: "26"
+                  - gridcell "Friday, March 27, 2026" [ref=f1e113]:
+                    - button "Friday, March 27, 2026" [ref=f1e114]:
+                      - generic [ref=f1e115]: "27"
+                  - gridcell "Saturday, March 28, 2026" [ref=f1e116]:
+                    - button "Saturday, March 28, 2026" [ref=f1e117]:
+                      - generic [ref=f1e118]: "28"
+                - row "Sunday, March 29, 2026 Monday, March 30, 2026 Tuesday, March 31, 2026" [ref=f1e119]:
+                  - gridcell "Sunday, March 29, 2026" [ref=f1e120]:
+                    - button "Sunday, March 29, 2026" [ref=f1e121]:
+                      - generic [ref=f1e122]: "29"
+                  - gridcell "Monday, March 30, 2026" [ref=f1e123]:
+                    - button "Monday, March 30, 2026" [ref=f1e124]:
+                      - generic [ref=f1e125]: "30"
+                  - gridcell "Tuesday, March 31, 2026" [ref=f1e126]:
+                    - button "Tuesday, March 31, 2026" [ref=f1e127]:
+                      - generic [ref=f1e128]: "31"
+                  - gridcell [disabled] [ref=f1e129]
+                  - gridcell [disabled] [ref=f1e130]
+                  - gridcell [disabled] [ref=f1e131]
+                  - gridcell [disabled] [ref=f1e132]
+            - button "Next" [ref=f1e134]
+  - region "Addon panel" [ref=e98]:
+    - heading "Addon panel" [level=2] [ref=e99]
+    - generic [ref=e100]:
+      - generic [ref=e101]:
+        - generic [ref=e102]:
+          - button "Move addon panel to right" [ref=e103] [cursor=pointer]:
+            - img [ref=e104]
+          - button "Hide addon panel" [ref=e107] [cursor=pointer]:
+            - img [ref=e108]
+        - tablist "Available addons" [ref=e113]:
+          - tab "Controls 4" [selected] [ref=e632] [cursor=pointer]:
+            - generic [ref=e115]:
+              - generic [ref=e116]: Controls
+              - generic [ref=e633]: "4"
+          - tab "Actions" [ref=e117] [cursor=pointer]:
+            - generic [ref=e119]: Actions
+          - tab "Interactions" [ref=e120] [cursor=pointer]:
+            - generic [ref=e122]: Interactions
+          - tab "Accessibility 1" [ref=e634] [cursor=pointer]:
+            - generic [ref=e124]:
+              - generic [ref=e125]: Accessibility
+              - generic [ref=e635]: "1"
+      - tabpanel "Controls 4" [ref=e636]:
+        - generic [ref=e643]:
+          - button "Reset controls" [ref=e645] [cursor=pointer]:
+            - img [ref=e646]
+          - table [ref=e648]:
+            - rowgroup [ref=e649]:
+              - row "Name Control" [ref=e650]:
+                - columnheader "Name" [ref=e651]
+                - columnheader "Control" [ref=e652]
+            - rowgroup [ref=e653]:
+              - row "aria-label Event date" [ref=e654]:
+                - cell "aria-label" [ref=e655]
+                - cell "Event date" [ref=e656]:
+                  - textbox [ref=e658]:
+                    - /placeholder: Edit string...
+                    - text: Event date
+              - row "isDisabled Set boolean" [ref=e659]:
+                - cell "isDisabled" [ref=e660]
+                - cell "Set boolean" [ref=e661]:
+                  - button "Set boolean" [ref=e662] [cursor=pointer]
+              - row "isReadOnly Set boolean" [ref=e663]:
+                - cell "isReadOnly" [ref=e664]
+                - cell "Set boolean" [ref=e665]:
+                  - button "Set boolean" [ref=e666] [cursor=pointer]
+              - row "visibleMonths Set number" [ref=e667]:
+                - cell "visibleMonths" [ref=e668]
+                - cell "Set number" [ref=e669]:
+                  - button "Set number" [ref=e670] [cursor=pointer]

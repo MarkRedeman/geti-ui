@@ -1,40 +1,125 @@
-import { Meta, Title, Subtitle, Description, Primary, Controls, Stories } from '@storybook/addon-docs/blocks';
+import { Meta, Title, Subtitle, Controls, Stories, Source } from '@storybook/addon-docs/blocks';
 import * as DocStories from './InlineAlert.stories';
 
 <Meta of={DocStories} />
 
-<Title />
+# InlineAlert
+
+<Subtitle>A persistent, in-flow notification block that communicates contextual status — info, success, warning, or error — without interrupting the user's workflow.</Subtitle>
+
+```tsx
+import { InlineAlert } from '@geti/ui';
+```
+
+- [React Spectrum InlineAlert](https://react-spectrum.adobe.com/react-spectrum/InlineAlert.html)
+
+<Stories />
 
 ## Responsibility
 
-Re-exports Adobe React Spectrum's `InlineAlert` as a named Geti component, providing an inline contextual notification block for non-intrusive status messaging (info, positive, warning, negative) embedded directly within page content rather than as an overlay.
+`InlineAlert` registers Adobe React Spectrum's `InlineAlert` in Geti's public API surface, providing the standard pattern for rich, in-context status messaging embedded directly within the page layout.
+
+The fundamental distinction from `Toast` is **persistence and positioning**: a `Toast` is an imperative, transient overlay triggered programmatically from anywhere in the application (typically after an async operation); an `InlineAlert` is a declarative, persistent element rendered in the normal document flow, co-located with the content it annotates. It stays visible until the condition that prompted it is resolved — a form field error, a resource limit warning, or a configuration status — and the user dismisses it or the state changes.
+
+Key characteristics:
+- **Structured content**: Accepts `<Heading>` and `<Content>` from `@adobe/react-spectrum` as children, providing a clear title + body hierarchy for messages that need more than a single line.
+- **Semantic variants**: `neutral`, `info`, `positive`, `notice`, and `negative` use colour and icon to signal severity without requiring additional explanatory text.
+- **Declarative and in-flow**: Renders in the normal document order. It does not float above content, does not require a portal, and does not auto-dismiss.
+- **Theme aware**: Visual tokens are resolved by `ThemeProvider`; no component-level CSS overrides are needed.
+
+### When to use
+- For form-level validation summaries that aggregate errors from multiple fields (e.g. `"The form contains errors — review the highlighted fields above"`).
+- For persistent warnings co-located with a setting or resource (e.g. `"Storage is nearly full — delete unused datasets to free space"`).
+- For contextual success confirmation embedded in a detail view after a destructive or significant action (e.g. `"Model deployment was successful"`).
+- When the message needs a title and body text and should remain visible until explicitly dismissed or the condition changes.
+
+### When to avoid
+- For transient, system-level notifications triggered after async operations — use `Toast` instead.
+- For a simple categorical label (e.g. `"Beta"`, `"Archived"`) — use `Badge`.
+- For a compact operational state indicator (`"Active"`, `"Offline"`) — use `StatusLight`.
+- Avoid stacking multiple `InlineAlert` components for different messages that could be consolidated; too many alerts simultaneously reduces the perceived urgency of each one.
+- Do not use `InlineAlert` for loading or progress states — use `ProgressBar` or `Loading`.
 
 ## Design
 
-Pure thin wrapper — `InlineAlertProps extends SpectrumInlineAlertProps` with zero prop additions or overrides. The component body is `(props) => <SpectrumInlineAlert {...props} />`. Spectrum's `variant` and `children` (typically `<Heading>` + `<Content>`) are the primary API surface.
+`InlineAlert` is a direct Spectrum pass-through. `InlineAlertProps extends SpectrumInlineAlertProps` with zero additions or overrides:
+
+```tsx
+import { InlineAlert as SpectrumInlineAlert, SpectrumInlineAlertProps } from '@adobe/react-spectrum';
+
+export interface InlineAlertProps extends SpectrumInlineAlertProps {}
+
+export const InlineAlert = (props: InlineAlertProps) => <SpectrumInlineAlert {...props} />;
+```
+
+No state, no effects, no refs. Spectrum manages icon selection, colour application, and layout.
 
 ## Flow
 
-```
-props (SpectrumInlineAlertProps passthrough)
-  → <SpectrumInlineAlert {...props} />
-```
+```tsx
+import { Content, Heading } from '@adobe/react-spectrum';
+import { InlineAlert } from '@geti/ui';
 
-No state, no effects, no refs.
+// Neutral — general information
+<InlineAlert variant="neutral">
+  <Heading>Note</Heading>
+  <Content>Changes to this configuration require a pipeline restart.</Content>
+</InlineAlert>
+
+// Info — informational context
+<InlineAlert variant="info">
+  <Heading>Session expiry</Heading>
+  <Content>Your session will expire in 10 minutes. Save your work.</Content>
+</InlineAlert>
+
+// Positive — confirmation of a successful action
+<InlineAlert variant="positive">
+  <Heading>Deployment successful</Heading>
+  <Content>Model v3.2 is now serving predictions on Edge Device 04.</Content>
+</InlineAlert>
+
+// Notice — cautionary warning
+<InlineAlert variant="notice">
+  <Heading>Storage warning</Heading>
+  <Content>
+    You are using 92% of your allocated storage. Delete unused datasets to
+    avoid interruptions.
+  </Content>
+</InlineAlert>
+
+// Negative — error that requires resolution
+<InlineAlert variant="negative">
+  <Heading>Training failed</Heading>
+  <Content>
+    The training job encountered an error. Review the logs for details and
+    resubmit when the issue is resolved.
+  </Content>
+</InlineAlert>
+```
 
 ## Integration
 
-- Contrast with `Toast` (transient, imperative, overlay) — `InlineAlert` is persistent, declarative, and in-flow.
-- Used in forms, settings panels, and detail views where inline status context is needed without interrupting the user flow.
-- Themed automatically by `ThemeProvider`.
+| Concern | Detail |
+|---------|--------|
+| **Package** | `@adobe/react-spectrum` — `InlineAlert` |
+| **Children** | Use `<Heading>` and `<Content>` from `@adobe/react-spectrum`. These are the only supported child types; passing arbitrary JSX may produce layout issues. |
+| **Theme** | Resolved automatically by `ThemeProvider`. No CSS imports required. |
+| **Related** | `Toast` (transient overlay notifications), `Badge` (static categorical label), `StatusLight` (operational state indicator) |
+| **Placement** | Form footers, settings panels, detail views, resource summary cards |
 
+All `SpectrumInlineAlertProps` are accepted as-is. The primary props are:
 
-<Stories />
----
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `variant` | `'neutral' \| 'info' \| 'positive' \| 'notice' \| 'negative'` | `'neutral'` | Determines the colour scheme and icon of the alert. |
+| `children` | `ReactNode` | — | The alert content. Compose with `<Heading>` (title) and `<Content>` (body) from `@adobe/react-spectrum`. |
 
-<Primary />
+## Accessibility
 
-## Props
-
-<Controls />
-
+- **Role**: Spectrum renders `InlineAlert` with `role="alert"` when `variant` is `'negative'` and `role="status"` for less urgent variants. This ensures the right level of interruption: errors are announced immediately by screen readers; informational messages are announced at the next available pause.
+- **`role="alert"` live region**: Elements with `role="alert"` are treated as `aria-live="assertive"` — screen readers interrupt the current announcement to read the alert. Use `'negative'` only for genuine errors that require immediate attention; overusing it causes announcement fatigue.
+- **`role="status"` live region**: Variants `neutral`, `info`, `positive`, and `notice` use `role="status"` (equivalent to `aria-live="polite"`), which queues the announcement until the screen reader finishes its current task.
+- **Heading structure**: The `<Heading>` child renders as an `<h3>` by default. Ensure the heading level is appropriate for the surrounding page structure. Use Spectrum's `<Heading level={n}>` to override if needed.
+- **Icon accessibility**: Spectrum renders a variant-appropriate icon inside the alert. The icon is marked `aria-hidden`; the heading and content text carry the full accessible message. Never rely on the icon alone to convey severity.
+- **Conditional rendering**: When `InlineAlert` is conditionally mounted (e.g. shown after a failed form submission), the live region fires automatically on mount. This is the correct pattern — do not programmatically focus the alert; let the live region mechanism handle announcement.
+- **Contrast**: All `InlineAlert` variants in Geti's dark theme are designed to meet WCAG AA contrast requirements through `ThemeProvider`'s token overrides. If overriding colours with `UNSAFE_className`, verify contrast independently.

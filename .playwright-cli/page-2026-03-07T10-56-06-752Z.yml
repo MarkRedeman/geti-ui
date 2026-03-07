@@ -1,0 +1,38 @@
+- generic [ref=e3]:
+  - banner "Storybook" [ref=e6]:
+    - heading "Storybook" [level=1] [ref=e7]
+    - img
+    - generic [ref=e11]:
+      - generic [ref=e13]:
+        - link "Skip to content" [ref=e14] [cursor=pointer]:
+          - /url: "#storybook-preview-wrapper"
+        - link "Geti UI" [ref=e16] [cursor=pointer]:
+          - /url: ./
+        - switch "Settings" [ref=e17] [cursor=pointer]:
+          - img [ref=e18]
+      - generic [ref=e21]: Search for components
+      - search [ref=e22]:
+        - combobox "Search for components" [ref=e23]:
+          - generic:
+            - img
+          - searchbox "Search for components" [ref=e24]
+          - code: ⌃ K
+      - navigation "Stories" [ref=e26]:
+        - heading "Stories" [level=2] [ref=e27]
+  - generic [ref=e48]:
+    - region "Toolbar" [ref=e49]:
+      - heading "Toolbar" [level=2] [ref=e50]
+      - toolbar [ref=e51]:
+        - switch "Outline tool" [ref=e53] [cursor=pointer]:
+          - img [ref=e54]
+        - button "Enter full screen" [ref=e57] [cursor=pointer]:
+          - img [ref=e58]
+    - main "Main preview area" [ref=e60]:
+      - heading "Main preview area" [level=2] [ref=e61]
+      - generic [ref=e62]:
+        - progressbar "Content is loading..." [ref=e64]
+        - generic [ref=e65]:
+          - link "Skip to sidebar" [ref=e66] [cursor=pointer]:
+            - /url: "#ui-button--docs"
+          - iframe [ref=e70]:
+            

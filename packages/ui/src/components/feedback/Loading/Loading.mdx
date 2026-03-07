@@ -3,49 +3,123 @@ import * as DocStories from './Loading.stories';
 
 <Meta of={DocStories} />
 
-<Title />
+# Loading
+
+<Subtitle>The canonical, multi-mode loading indicator for Geti — combines a Spectrum progress spinner and the Intel-branded animation into a single, placement-aware component.</Subtitle>
+
+```tsx
+import { Loading } from '@geti/ui';
+```
+
+- [React Spectrum ProgressCircle](https://react-spectrum.adobe.com/react-spectrum/ProgressCircle.html)
+
+<Stories />
 
 ## Responsibility
 
-Provides the canonical full-featured loading indicator for the Geti design system, supporting multiple display modes (inline, overlay, fullscreen) and two visual variants (spinner, intel-branded animation). It is the single source of truth for "something is loading" communication across the application.
+`Loading` is the **single source of truth** for "something is loading" communication across the Geti application. It unifies two visual styles (`spinner`, `intel`) and three layout modes (`inline`, `overlay`, `fullscreen`) into one composable API, eliminating the need for ad-hoc CSS positioning on every loading state.
+
+Key responsibilities:
+- **Mode-based positioning**: Computes a `CSSProperties` object for each mode, removing the need for consumers to add wrapper divs with `position: fixed` or `position: absolute`.
+- **Variant switching**: Renders either a Spectrum `ProgressCircle` or an Intel-branded WebP animation, keeping the outer wrapper structure identical for both.
+- **Size normalization**: The `size` prop maps to Spectrum's `S | M | L` tokens for the spinner, and to explicit pixel sizes (`24 | 48 | 192 px`) for the Intel animation via `INTEL_SIZE_MAP`.
+- **Scrim support**: For `overlay` and `fullscreen` modes, a `backgroundColor` can be passed via the `style` prop to create a dimming scrim without a separate overlay element.
+
+### When to use
+- As the primary loading indicator during data fetching, model inference, or navigation transitions.
+- Use `mode="overlay"` when loading content within a bounded container (e.g., a card, panel, or modal) that should be blocked while loading.
+- Use `mode="fullscreen"` for application-level loading states (e.g., initial app bootstrap, full-page transitions).
+- Use `mode="inline"` when the spinner should participate in document flow (e.g., inside a button group, toolbar, or list item).
+- Use `variant="intel"` for prominent, brand-forward splash screens on the Intel platform.
+
+### When to avoid
+- For skeleton-style content placeholders — use `Skeleton`, which preserves layout and communicates content shape.
+- For progress with a known completion percentage — use `ProgressBar` or `ProgressCircle` directly.
+- For tiny inline status icons — use `StatusLight`.
+- Do not use `IntelBrandedLoading` in new code; use `<Loading variant="intel" mode="inline" size="L" />` instead.
+
+## Variants
+
+### Mode
+
+| Mode | Positioning | Typical use |
+|------|-------------|-------------|
+| `inline` | `display: flex`, no positioning | Participates in document flow; inside a container |
+| `overlay` | `position: absolute; inset: 0` | Blocks a `position: relative` parent container |
+| `fullscreen` | `position: fixed; inset: 0` | Full-application blocking overlay |
+
+### Variant
+
+| Variant | Inner content | Size mapping |
+|---------|---------------|--------------|
+| `spinner` | Spectrum `ProgressCircle isIndeterminate` | Spectrum S / M / L tokens |
+| `intel` | `<img>` from Intel loading WebP asset | `S=24px`, `M=48px`, `L=192px` |
 
 ## Design
 
-Two orthogonal axes control the rendered output:
+Two orthogonal axes — `mode` and `variant` — are resolved independently at render time. The outer wrapper always receives the mode style; the inner content switches on variant. This means all combinations are structurally equivalent, simplifying testing and inspection.
 
-- **`mode`** (`'inline' | 'overlay' | 'fullscreen'`) — controls layout/positioning via pre-computed `CSSProperties` objects. `inline` adds no wrapper styles; `overlay` uses `position: absolute, inset: 0, zIndex: 1`; `fullscreen` uses `position: fixed, inset: 0, zIndex: 9999`.
-- **`variant`** (`'spinner' | 'intel'`) — controls the inner visual. `spinner` renders `<ProgressCircle isIndeterminate aria-label="Loading...">` from Spectrum. `intel` renders an `<img src={IntelLoadingWebp}>` sized by `INTEL_SIZE_MAP = { S: 24, M: 48, L: 192 }` (pixels).
+```tsx
+// Inline spinner — participates in document flow
+<Loading mode="inline" size="M" />
 
-Both axes are combined at render time without conditional component trees — the outer wrapper always receives the mode style, and the inner content switches on variant. This means all four combinations (3 modes × 2 variants, though `fullscreen` + `spinner` is the unusual case) are structurally equivalent.
+// Absolute overlay with a semi-transparent scrim
+<Loading
+  mode="overlay"
+  style={{ backgroundColor: 'rgba(0, 0, 0, 0.4)' }}
+/>
 
-A semi-transparent dark `backgroundColor` is applied to `overlay` and `fullscreen` modes via the same pre-computed style object, providing a scrim without a separate overlay element.
+// Fixed fullscreen spinner (default mode)
+<Loading />
+
+// Intel-branded large animation
+<Loading variant="intel" mode="inline" size="L" />
+```
 
 ## Flow
 
 ```
-props { mode, variant, size }
-  → compute modeStyle (inline | overlay | fullscreen CSSProperties)
-  → render outer <div style={modeStyle}>
-      → if variant === 'intel': <img src={IntelLoadingWebp} width/height from INTEL_SIZE_MAP[size]>
-      → if variant === 'spinner': <ProgressCircle isIndeterminate aria-label="Loading...">
+props { mode = 'fullscreen', variant = 'spinner', size = 'L', style, className, ...rest }
+  → baseStyle = INLINE_STYLE | OVERLAY_STYLE | FULLSCREEN_STYLE
+  → <div style={{ ...baseStyle, ...style }} className={className}>
+      → if variant === 'intel':
+          px = INTEL_SIZE_MAP[size]  // 24 | 48 | 192
+          <img src={IntelLoadingWebp} role="progressbar" alt="Loading" width={px} height={px} />
+      → if variant === 'spinner':
+          <ProgressCircle aria-label="Loading..." isIndeterminate size={size} {...rest} />
+    </div>
 ```
-
-`size` is only meaningful for the `intel` variant (maps S/M/L to 24/48/192 px). For `spinner`, `size` passes through to Spectrum's `ProgressCircle` which has its own size handling.
 
 ## Integration
 
-- Used by `VirtualizedListLayout` as the default `renderLoading` sentinel when `isLoading` is true.
-- `IntelBrandedLoading` (deprecated) wraps this component with `variant="intel" mode="inline" size="L"`.
-- `ProgressCircle` is a peer component in the same `feedback/` category; `Loading` depends on it for the spinner variant.
-- `IntelLoadingWebp` is a static asset imported directly — the build pipeline handles the WebP reference.
+- **`VirtualizedListLayout`** uses `Loading` as the default `renderLoading` sentinel when `isLoading` is true.
+- **`IntelBrandedLoading`** is a deprecated convenience wrapper that delegates to `<Loading variant="intel" mode="inline" size="L">`. New code should use `Loading` directly.
+- **`ProgressCircle`** is a peer component in the `feedback/` category. `Loading` depends on it for the spinner variant — do not replace `ProgressCircle` with a raw Spectrum import inside `Loading`.
+- The `IntelLoadingWebp` asset is a static import handled by the build pipeline. No special loader configuration is required.
+- `LoadingProps` extends `Omit<SpectrumProgressCircleProps, 'variant'>`. All Spectrum `ProgressCircle` props (e.g., `aria-label`) are forwarded in `spinner` mode; they are silently ignored in `intel` mode.
 
+## Props
 
-<Stories />
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `mode` | `'inline' \| 'overlay' \| 'fullscreen'` | `'fullscreen'` | Controls the CSS positioning strategy of the outer wrapper. |
+| `variant` | `'spinner' \| 'intel'` | `'spinner'` | Selects the visual loading indicator. |
+| `size` | `'S' \| 'M' \| 'L'` | `'L'` | Size of the indicator. Pixel values differ between variants (see table above). |
+| `style` | `CSSProperties` | `{}` | Additional inline styles merged into the outer wrapper (e.g., `backgroundColor` for a scrim). |
+| `className` | `string` | — | Additional CSS class names on the outer wrapper. |
+
+All other props from `SpectrumProgressCircleProps` are forwarded to `ProgressCircle` in `spinner` mode.
+
+## Accessibility
+
+- **Spinner variant**: `ProgressCircle` receives `aria-label="Loading..."` and `isIndeterminate`, which maps to `role="progressbar"` with `aria-valuenow` omitted (correct for indeterminate progress per WAI-ARIA).
+- **Intel variant**: The `<img>` element carries `role="progressbar"` and `alt="Loading"`, providing equivalent semantics without a Spectrum component.
+- **Overlay/fullscreen modes**: When using these modes as blocking overlays, consider setting `aria-busy="true"` on the region being loaded and using `aria-live="polite"` on a status region to announce when loading completes.
+- **Focus trapping**: `Loading` does not trap focus. For modal loading states where user interaction must be blocked, wrap the content in a `Dialog` or use the application-level state management to prevent tab navigation.
+- **Keyboard**: The loading indicator itself is not interactive and receives no focus.
+
 ---
 
 <Primary />
 
-## Props
-
 <Controls />
-

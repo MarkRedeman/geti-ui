@@ -3,40 +3,110 @@ import * as DocStories from './ColorSlider.stories';
 
 <Meta of={DocStories} />
 
-<Title />
+# ColorSlider
+
+<Subtitle>A linear gradient slider that lets users adjust a single color channel — hue, alpha, red, green, blue, saturation, brightness, or lightness.</Subtitle>
+
+```tsx
+import { ColorSlider } from '@geti/ui';
+```
+
+- [React Spectrum ColorSlider](https://react-spectrum.adobe.com/react-spectrum/ColorSlider.html)
+
+<Stories />
 
 ## Responsibility
 
-`ColorSlider` lets users adjust a single channel of a color value (e.g. hue, alpha, red) using a horizontal or vertical slider. It wraps Spectrum's `ColorSlider`.
+`ColorSlider` is a pure pass-through wrapper around Adobe React Spectrum's `ColorSlider`. It gives users precise, linear control over a single dimension of a color — the most predictable and familiar interaction pattern for channel-by-channel color editing.
+
+Key responsibilities:
+- **Single Channel Control**: The `channel` prop determines which dimension is adjusted. The slider track renders a gradient from the channel's minimum to maximum value at the current color's other channel values — so the gradient always shows what the resulting color will look like at each position.
+- **Orientation**: Supports both `"horizontal"` (default) and `"vertical"` layout for flexible composition.
+- **Label and Value Display**: Renders a visible `label` and an optional numeric value label (`showValueLabel`). Set `label={null}` to suppress the label for embedded use inside a composite.
+
+### When to use
+- For hue selection as a linear alternative to `ColorWheel` (particularly in compact layouts).
+- For alpha/opacity control — this is the canonical use case; `ColorArea` cannot represent alpha directly.
+- For per-channel RGB or HSL adjustment in settings panels where all channels should be independently visible.
+- Inside custom color picker layouts when you want more layout control than `ColorPickerDialog` provides.
+
+### When to avoid
+- When adjusting two channels simultaneously — `ColorArea` is purpose-built for that.
+- When circular hue selection is preferred — `ColorWheel` is more spatially intuitive for hue.
+- When you only need a plain numeric range (no color context) — use `Slider` instead.
 
 ## Design
 
-Pure thin wrapper:
+Pure thin wrapper — zero local state, no CSS overrides:
 
 ```tsx
 export interface ColorSliderProps extends SpectrumColorSliderProps {}
-export const ColorSlider = (props: ColorSliderProps) => <SpectrumColorSlider {...props} />;
+
+export const ColorSlider = (props: ColorSliderProps) => (
+  <SpectrumColorSlider {...props} />
+);
 ```
 
-Key props: `value`, `onChange`, `channel` (e.g. `"hue"`, `"alpha"`, `"red"`), `orientation`. Spectrum renders a gradient track that reflects the chosen channel and a draggable thumb.
+The `channel` prop is required. Spectrum's renderer draws a gradient that interpolates that channel from minimum to maximum at the current values of all other channels — giving users immediate visual feedback on the impact of each position.
 
 ## Flow
 
-Props in → forwarded to `SpectrumColorSlider` → user drags thumb → `onChange` fires with an updated `Color` value reflecting the new channel value.
+```tsx
+// Controlled — single hue slider
+const [color, setColor] = useState<Color>(parseColor('hsl(0, 100%, 50%)'));
+
+<ColorSlider
+  value={color}
+  onChange={(c) => c && setColor(c)}
+  channel="hue"
+  label="Hue"
+/>
+// → user drags thumb to 240 → onChange: Color { hue: 240, saturation: 100%, lightness: 50% }
+
+// Alpha slider (standalone opacity control)
+<ColorSlider
+  defaultValue="rgba(70, 130, 180, 1)"
+  channel="alpha"
+  label="Opacity"
+/>
+
+// Horizontal RGB set
+<Flex direction="column" gap="size-200">
+  <ColorSlider defaultValue="#7f0000" channel="red" label="Red" />
+  <ColorSlider defaultValue="#7f0000" channel="green" label="Green" />
+  <ColorSlider defaultValue="#7f0000" channel="blue" label="Blue" />
+</Flex>
+```
 
 ## Integration
 
-- **Depends on**: `@adobe/react-spectrum` (`ColorSlider`, `SpectrumColorSliderProps`)
-- **Composed into**: `ColorPickerDialog` uses two `ColorSlider` instances — one for `"hue"`, one for `"alpha"`
-- **Used alongside**: `ColorArea` (2D) and `ColorWheel` (hue ring)
+- **Depends on**: `@adobe/react-spectrum` — `ColorSlider`, `SpectrumColorSliderProps`
+- **Peer import**: `parseColor`, `Color` from `@adobe/react-spectrum` for typed state
+- **Composed into**: `ColorPickerDialog` — uses two `ColorSlider` instances: `channel="hue"` and `channel="alpha"`, both wired to the shared `Color` draft state
+- **Used alongside**: `ColorArea` (2D saturation/brightness) and `ColorWheel` (circular hue)
+- **Does not own**: color state — always controlled externally
 
+### Props
 
-<Stories />
----
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `channel` | `ColorChannel` | **Required** | The color channel to control (`"hue"`, `"red"`, `"green"`, `"blue"`, `"alpha"`, `"saturation"`, `"brightness"`, `"lightness"`). |
+| `value` | `Color` | — | The current color (controlled). |
+| `defaultValue` | `Color \| string` | — | The initial color (uncontrolled). |
+| `onChange` | `(value: Color) => void` | — | Called when the thumb is moved. |
+| `orientation` | `'horizontal' \| 'vertical'` | `'horizontal'` | Slider track direction. |
+| `label` | `string \| null` | — | The visible label. Pass `null` to suppress. |
+| `showValueLabel` | `boolean` | `true` | Whether to display the numeric value next to the label. |
+| `isDisabled` | `boolean` | `false` | Prevents interaction. |
+
+## Accessibility
+
+- **ARIA role**: Rendered as `role="slider"` with `aria-label` derived from the `label` prop and `aria-valuemin`, `aria-valuemax`, `aria-valuenow` reflecting the current channel range and value.
+- **Value text**: `aria-valuetext` announces a human-readable description (e.g. "hue: 240°") rather than a raw number, ensuring screen reader output is meaningful.
+- **Keyboard navigation**: **Left/Right** arrows (horizontal) or **Up/Down** arrows (vertical) move the thumb by one step. **Page Up/Down** moves by a larger increment. **Home**/**End** jump to the channel's minimum and maximum.
+- **Orientation**: When `orientation="vertical"`, Up/Down arrows increase/decrease value respectively, matching standard slider conventions.
+- **Labels**: If `label={null}` is used (e.g., inside `ColorPickerDialog`), always ensure the slider is identifiable from its surrounding context or supply `aria-label` directly on the `channel` channel to avoid an unlabelled control.
 
 <Primary />
 
-## Props
-
 <Controls />
-

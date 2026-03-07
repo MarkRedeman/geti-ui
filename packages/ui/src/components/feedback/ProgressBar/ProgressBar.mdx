@@ -1,40 +1,117 @@
-import { Meta, Title, Subtitle, Description, Primary, Controls, Stories } from '@storybook/addon-docs/blocks';
+import { Meta, Title, Subtitle, Controls, Stories, Source } from '@storybook/addon-docs/blocks';
 import * as DocStories from './ProgressBar.stories';
 
 <Meta of={DocStories} />
 
-<Title />
+# ProgressBar
+
+<Subtitle>A horizontal bar that communicates the progress of an ongoing operation, supporting both determinate and indeterminate states.</Subtitle>
+
+```tsx
+import { ProgressBar } from '@geti/ui';
+```
+
+- [React Spectrum ProgressBar](https://react-spectrum.adobe.com/react-spectrum/ProgressBar.html)
+
+<Stories />
 
 ## Responsibility
 
-Re-exports Adobe React Spectrum's `ProgressBar` as a named Geti component, establishing it in the design system's public API surface without modifying its behaviour. Provides determinate and indeterminate horizontal progress indication.
+`ProgressBar` registers Adobe React Spectrum's `ProgressBar` in Geti's public API surface, providing the standard linear progress pattern for operations that have a clear start and end — file uploads, batch processing jobs, training pipeline steps, and export tasks.
+
+The key distinction from `Meter` is **temporal intent**: a `ProgressBar` represents *movement toward completion of an active task*, whereas a `Meter` represents the *current level of a static quantity*. When the task duration is unknown, `isIndeterminate` replaces the fill bar with an animated sweep, communicating activity without implying a completion percentage.
+
+Key characteristics:
+- **Determinate and indeterminate**: `value` drives a precise fill; `isIndeterminate` shows an animated sweep for unknown durations.
+- **Custom value labels**: `valueLabel` overrides the auto-generated percentage with a domain-specific string (e.g. `"3 of 10 files"`).
+- **Accessible by design**: Spectrum manages all ARIA attributes automatically from the numeric props.
+- **Theme aware**: Visual tokens are resolved by `ThemeProvider`; no component-level CSS overrides are needed.
+
+### When to use
+- For file uploads, imports, or exports where the user needs to track completion percentage.
+- For batch jobs (e.g. model training steps, annotation auto-labelling) that report incremental progress.
+- For any multi-step operation with a countable total where showing elapsed vs. remaining improves perceived performance.
+- Use `isIndeterminate` when the operation is active but its duration cannot be measured (e.g. waiting for a server response, initial data load).
+
+### When to avoid
+- When representing a static level or quantity at a point in time — use `Meter` with a semantic `variant` instead.
+- When a compact inline spinner is all that's needed (no percentage context) — use `ProgressCircle` or `Loading`.
+- Do not use a `ProgressBar` for pagination or step indicators; use a dedicated stepper or `Tabs` component.
+- Avoid showing a `ProgressBar` for operations that complete in under ~1 second; the flicker creates visual noise without benefit.
 
 ## Design
 
-Pure thin wrapper — `ProgressBarProps extends SpectrumProgressBarProps` with zero prop additions or overrides. The component body is `(props) => <SpectrumProgressBar {...props} />`. This ensures the Geti token theme (applied by `ThemeProvider`) governs visual appearance without any component-level CSS.
+`ProgressBar` is a direct Spectrum pass-through. `ProgressBarProps extends SpectrumProgressBarProps` with zero additions or overrides:
+
+```tsx
+import { ProgressBar as SpectrumProgressBar, SpectrumProgressBarProps } from '@adobe/react-spectrum';
+
+export interface ProgressBarProps extends SpectrumProgressBarProps {}
+
+export const ProgressBar = (props: ProgressBarProps) => <SpectrumProgressBar {...props} />;
+```
+
+No state, no effects, no refs. Spectrum manages fill width, animation, and label layout internally.
 
 ## Flow
 
-```
-props (SpectrumProgressBarProps passthrough)
-  → <SpectrumProgressBar {...props} />
-```
+```tsx
+// Determinate — known progress
+<ProgressBar label="Uploading" value={60} />
 
-No state, no effects, no refs.
+// Determinate with a custom value label
+<ProgressBar
+  label="Uploading"
+  value={3}
+  maxValue={10}
+  valueLabel="3 of 10 files"
+/>
+
+// Indeterminate — operation in progress, duration unknown
+<ProgressBar label="Processing…" isIndeterminate />
+
+// No visible label — aria-label is mandatory
+<ProgressBar
+  aria-label="Uploading file"
+  value={40}
+/>
+
+// Scoped to a custom range
+<ProgressBar
+  label="Training epoch"
+  value={15}
+  minValue={10}
+  maxValue={20}
+/>
+```
 
 ## Integration
 
-- Pairs with `ProgressCircle`, `Meter`, and `Loading` as the suite of Geti progress/status indicators.
-- Consumed wherever long-running determinate tasks need a linear progress track (e.g. upload progress, batch job status).
-- Themed automatically by the `ThemeProvider` wrapping the application.
+| Concern | Detail |
+|---------|--------|
+| **Package** | `@adobe/react-spectrum` — `ProgressBar` |
+| **Theme** | Resolved automatically by `ThemeProvider`. No CSS imports required. |
+| **Related** | `Meter` (static quantity level), `ProgressCircle` (compact circular spinner), `Loading` (positioned overlay spinner) |
+| **Placement** | Upload panels, job status rows, training dashboards, modal footers during async operations |
 
+All `SpectrumProgressBarProps` are accepted as-is. The primary props are:
 
-<Stories />
----
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `label` | `string` | — | Visible label rendered above the bar. Recommended; omit only when using `aria-label`. |
+| `value` | `number` | `0` | Current progress value. Interpreted within `[minValue, maxValue]`. Ignored when `isIndeterminate` is `true`. |
+| `minValue` | `number` | `0` | Minimum value of the range. |
+| `maxValue` | `number` | `100` | Maximum value of the range. |
+| `isIndeterminate` | `boolean` | `false` | When `true`, renders an animated sweep instead of a static fill. `value` is ignored. |
+| `valueLabel` | `ReactNode` | auto | Overrides the default `"X%"` label with a custom string (e.g. `"3 of 10 files"`). |
+| `aria-label` | `string` | — | Required when no visible `label` is provided. |
+| `aria-labelledby` | `string` | — | Alternative to `aria-label` when the label is a separate element. |
 
-<Primary />
+## Accessibility
 
-## Props
-
-<Controls />
-
+- **Role**: Spectrum renders `ProgressBar` as a `<div role="progressbar">` with `aria-valuenow`, `aria-valuemin`, `aria-valuemax`, and `aria-valuetext` applied automatically from the numeric props.
+- **Indeterminate state**: When `isIndeterminate` is `true`, `aria-valuenow` is omitted and the element is announced as an indeterminate progress bar. Screen readers will announce the label and signal that progress is ongoing.
+- **Labels**: Always provide either a visible `label` or an `aria-label` / `aria-labelledby`. A `ProgressBar` without a name is announced as `"progressbar"` at an unknown percentage — meaningless without context. The label should describe the task, not the component (e.g. `"Uploading"` not `"Progress bar"`).
+- **`aria-valuetext`**: When `valueLabel` is set (e.g. `"3 of 10 files"`), Spectrum uses it as `aria-valuetext`, giving screen reader users a domain-specific reading rather than a raw percentage.
+- **Live regions**: Spectrum does not automatically announce progress changes. For operations with discrete milestones, consider pairing with an `aria-live` region that announces key transitions (e.g. `"Upload complete"`).
+- **No keyboard interaction**: `ProgressBar` is a read-only display element. It is not focusable and does not respond to keyboard or pointer events.

@@ -3,50 +3,117 @@ import * as DocStories from './ColorPickerDialog.stories';
 
 <Meta of={DocStories} />
 
-<Title />
+# ColorPickerDialog
+
+<Subtitle>A stateful composite dialog that assembles every color-editing primitive into a single triggered color picker.</Subtitle>
+
+```tsx
+import { ColorPickerDialog } from '@geti/ui';
+```
+
+<Stories />
 
 ## Responsibility
 
-`ColorPickerDialog` is the most complex component in the pickers folder — a stateful composite that assembles `ColorArea`, `ColorWheel`, `ColorSlider` (×2), `ColorField`, and `ColorSwatchPicker` into a single dialog triggered by an `ActionButton`. It is the primary full-featured color picker entry point in the library.
+`ColorPickerDialog` is the highest-level, opinionated color input in the library. Unlike the individual color primitives (`ColorArea`, `ColorWheel`, `ColorSlider`, `ColorField`), this component owns its own internal draft state and presents a complete color editing experience behind an `ActionButton` trigger. It is the primary color picker entry point for any surface where users need to choose or change a color value.
+
+Key responsibilities:
+- **Stateful Draft**: Maintains a local `Color` draft while the dialog is open. Changes are not committed until the user presses **Confirm**, preserving the original value if they cancel.
+- **Composite Assembly**: Combines `ColorArea` (saturation/brightness 2D), two `ColorSlider` instances (hue + alpha), `ColorWheel`, `ColorField` (hex), and `ColorSwatchPicker` (8 presets) into a single cohesive layout.
+- **Controlled Trigger**: Exposes `isOpen` / `onOpenChange` for fully controlled open state when needed.
+- **Preset Swatches**: Offers 8 built-in colour preset swatches (red, green, blue, yellow, magenta, cyan, white, black) for quick selection.
+- **Safe Cancellation**: The **Cancel** button closes the dialog without calling `onColorChange` — the caller's state is never touched on dismissal.
+
+### When to use
+- Any time users need to select or change a color value — annotation tools, theme settings, label management, chart customisation.
+- When the full color picker UI would be too large to show inline — the dialog pattern keeps it out of the way until needed.
+- When you want the safest, most complete color picking experience with minimal integration code.
+
+### When to avoid
+- When you need to build a custom color picker layout — compose the primitives (`ColorArea`, `ColorWheel`, `ColorSlider`, `ColorField`) directly instead.
+- When only a fixed palette of brand colors is allowed — `ColorSwatchPicker` alone is more constrained and appropriate.
+- When color editing is a rare or low-priority action — consider a simple `ColorField` hex input to reduce UI weight.
 
 ## Design
 
-**Stateful composite** — manages a `useState<Color>` draft internally:
+**Stateful composite** — the only color component in this library that owns its own `useState`:
 
 ```tsx
-const [color, setColor] = useState<Color>(() => colorProp ? parseColor(colorProp) : parseColor('#ff0000'));
-useEffect(() => { if (colorProp) setColor(parseColor(colorProp)); }, [colorProp]);
+const [color, setColor] = useState<Color>(() =>
+  colorProp ? parseColor(colorProp) : parseColor('hsl(0, 100%, 50%)')
+);
+
+useEffect(() => {
+  if (colorProp) setColor(parseColor(colorProp));
+}, [colorProp]);
+
+const handleConfirm = (close: () => void) => {
+  onColorChange?.(color.toString('hex'));
+  close();
+};
 ```
 
-Draft changes are made locally while the dialog is open. `onColorChange` is only called on Confirm (`color.toString('hex')`). Cancel discards the draft.
+The dialog is opened via `DialogTrigger`. The trigger itself is an `ActionButton` containing a live `ColorSwatch` preview and a text label — giving users an immediate visual indicator of the current color before they open the picker.
 
-Imports all Spectrum components directly from `@adobe/react-spectrum` — it does **not** use the library's own thin wrappers for the color sub-components. This is intentional to avoid circular imports and keep the composite self-contained.
+The dialog layout has two columns:
+- **Left**: `ColorArea` (saturation/brightness) → hue `ColorSlider` → alpha `ColorSlider`
+- **Right**: `ColorWheel` + `ColorField` (hex)
+- **Below**: `ColorSwatchPicker` with 8 preset swatches
+- **Footer**: Cancel + Confirm buttons (`ButtonGroup`)
 
-Trigger button: `ActionButton` showing a small `ColorSwatch` preview + label text.
-
-Dialog layout: `ColorArea` (saturation/brightness 2D) + hue `ColorSlider` + alpha `ColorSlider` on the left; `ColorWheel` + `ColorField` (hex) on the right; `ColorSwatchPicker` with 8 preset swatches below; Cancel + Confirm buttons.
+All sub-components share the same `color` / `setColor` pair, so every picker is always in sync.
 
 ## Flow
 
-1. `color` prop (string) → `parseColor()` → `useState<Color>` draft
-2. `useEffect` syncs external `color` prop changes into draft
-3. User interacts with any sub-component → `setColor(newColor)` updates draft
-4. **Confirm**: `onColorChange(color.toString('hex'))` + `close()`
-5. **Cancel**: `close()` — draft discarded, `onColorChange` never called
+```tsx
+// Uncontrolled (typical)
+<ColorPickerDialog
+  color="#4a90e2"
+  label="Annotation Color"
+  onColorChange={(hex) => console.log('New color:', hex)}
+/>
+// → User clicks "Annotation Color" button → dialog opens
+// → User drags ColorWheel, tweaks hex field, selects a preset
+// → Clicks Confirm → onColorChange('#1e90ff') fires
+// → Clicks Cancel → onColorChange never called, original '#4a90e2' preserved
+
+// Controlled open state
+const [isOpen, setIsOpen] = useState(false);
+<ColorPickerDialog
+  color={themeColor}
+  label="Theme Color"
+  onColorChange={setThemeColor}
+  isOpen={isOpen}
+  onOpenChange={setIsOpen}
+/>
+```
 
 ## Integration
 
-- **Depends on**: `@adobe/react-spectrum` (all color + layout + dialog components imported directly), `react` (`useState`, `useEffect`)
-- **Props**: `color?: string`, `onColorChange?: (color: string) => void`, `label?`, `isOpen?`, `onOpenChange?`
-- **Used by**: any surface where the user needs to pick or change a color value
+- **Depends on**: `@adobe/react-spectrum` — `parseColor`, `Color`, `Content`, `Heading`, `ButtonGroup`; `react` — `useState`, `useEffect`
+- **Internal dependencies** (library components): `ColorArea`, `ColorField`, `ColorSlider`, `ColorSwatch`, `ColorSwatchPicker`, `ColorWheel`, `Flex`, `Divider`, `Button`, `ActionButton`, `Dialog`, `DialogTrigger`
+- **Does not re-export sub-components** — import them directly from `@geti/ui` if needed separately
+- **onColorChange output**: always emits the confirmed color as a lowercase 6-digit hex string (e.g. `"#4a90e2"`), regardless of the color model used internally
 
+### Props
 
-<Stories />
----
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `color` | `string` | `'hsl(0, 100%, 50%)'` | The current color value as a hex or CSS color string. |
+| `onColorChange` | `(color: string) => void` | — | Called with the confirmed hex color when the user clicks Confirm. |
+| `label` | `string` | `'Pick Color'` | The label shown on the trigger button and used as the dialog heading context. |
+| `isOpen` | `boolean` | — | Controlled open state for the dialog. |
+| `onOpenChange` | `(isOpen: boolean) => void` | — | Called when the dialog open state changes. |
+
+## Accessibility
+
+- **Trigger button**: The `ActionButton` has `aria-label` set to the `label` prop. The `ColorSwatch` inside it is decorative (`aria-hidden="true"` on the label span) to prevent duplicate announcements.
+- **Dialog role**: The dialog is rendered with `role="dialog"` and `aria-modal="true"`. Focus is trapped inside the dialog while it is open and returned to the trigger button on close.
+- **Sub-component accessibility**: Each nested `ColorArea`, `ColorSlider`, `ColorWheel`, and `ColorField` provides its own ARIA labelling — see the individual component docs for details.
+- **Cancel / Confirm**: Both buttons are reachable by keyboard. Pressing **Escape** closes the dialog and discards the draft, equivalent to pressing Cancel.
+- **Keyboard navigation**: Tab cycles through all interactive controls inside the dialog. The `ColorSwatchPicker` preset swatches are navigable with arrow keys.
+- **Focus management**: On open, focus moves to the first interactive element inside the dialog (`ColorArea`). On close (either button or Escape), focus returns to the trigger `ActionButton`.
 
 <Primary />
 
-## Props
-
 <Controls />
-

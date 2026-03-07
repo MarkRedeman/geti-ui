@@ -1,40 +1,110 @@
-import { Meta, Title, Subtitle, Description, Primary, Controls, Stories } from '@storybook/addon-docs/blocks';
+import { Meta, Title, Subtitle, Controls, Stories, Source } from '@storybook/addon-docs/blocks';
 import * as DocStories from './StatusLight.stories';
 
 <Meta of={DocStories} />
 
-<Title />
+# StatusLight
+
+<Subtitle>A small coloured dot paired with a label that communicates the live operational state of a resource, device, or process.</Subtitle>
+
+```tsx
+import { StatusLight } from '@geti/ui';
+```
+
+- [React Spectrum StatusLight](https://react-spectrum.adobe.com/react-spectrum/StatusLight.html)
+
+<Stories />
 
 ## Responsibility
 
-Re-exports Adobe React Spectrum's `StatusLight` as a named Geti component, providing a small coloured dot + label for indicating operational or health states (e.g. "Active", "Offline", "Error").
+`StatusLight` registers Adobe React Spectrum's `StatusLight` in Geti's public API surface, providing the canonical visual pattern for communicating the health or operational status of a Geti resource — a device, a pipeline, a model deployment, or a background job.
+
+The key distinction from `Badge` is **temporal presence**: a `StatusLight` implies a continuous, live state that persists and may change (e.g. a device that is `"Active"` right now, or `"Offline"` since last ping). A `Badge` is a static categorical label attached to a noun (e.g. `"Beta"`, `"Archived"`). When the state can change at runtime and the user needs to understand the current health of the system, `StatusLight` is the right choice.
+
+Key characteristics:
+- **Semantic and accent variants**: Four semantic variants (`positive`, `negative`, `notice`, `info`) carry universal meaning; nine accent variants (`celery`, `chartreuse`, `yellow`, `magenta`, `fuchsia`, `purple`, `indigo`, `seafoam`, `neutral`) support categorical colour coding in data visualisation.
+- **Disabled state**: `isDisabled` renders the dot and label in a muted style, communicating that the status information is not available or the resource is inactive.
+- **Passive display**: `StatusLight` is a non-interactive display primitive. It does not receive focus or handle press events.
+- **Theme aware**: Visual tokens are resolved by `ThemeProvider`; no component-level CSS overrides are needed.
+
+### When to use
+- To represent the live operational state of a device, service, or model deployment in a list or dashboard (`"Active"`, `"Offline"`, `"Error"`, `"Training"`).
+- To colour-code categories in a legend for a data visualisation chart, using the accent variants for differentiation without semantic implication.
+- In tables and list views where a small, scannable status indicator is needed alongside row data.
+- Use semantic variants (`positive`, `negative`, `notice`, `info`) when the colour carries a health meaning; use accent variants (`celery`, `indigo`, etc.) for pure categorical differentiation.
+
+### When to avoid
+- When the state is a static classification or label, not a live condition — use `Badge` instead.
+- When the status needs a title and explanatory body text (e.g. an error message with detail) — use `InlineAlert`.
+- Do not use `StatusLight` for form validation feedback; screen readers interpret it as a status indicator, not an error message.
+- Avoid using more than ~5 different accent variants in a single legend — beyond that, differentiation becomes unreliable.
 
 ## Design
 
-Pure thin wrapper — `StatusLightProps extends SpectrumStatusLightProps` with zero prop additions or overrides. The component body is `(props) => <SpectrumStatusLight {...props} />`. Spectrum's `variant` (`'positive' | 'negative' | 'notice' | 'info' | 'neutral' | 'celery' | ...`) drives dot colour.
+`StatusLight` is a direct Spectrum pass-through. `StatusLightProps extends SpectrumStatusLightProps` with zero additions or overrides:
+
+```tsx
+import { StatusLight as SpectrumStatusLight, SpectrumStatusLightProps } from '@adobe/react-spectrum';
+
+export interface StatusLightProps extends SpectrumStatusLightProps {}
+
+export const StatusLight = (props: StatusLightProps) => <SpectrumStatusLight {...props} />;
+```
+
+No state, no effects, no refs. Spectrum handles dot colour, label alignment, and disabled rendering.
 
 ## Flow
 
-```
-props (SpectrumStatusLightProps passthrough)
-  → <SpectrumStatusLight {...props} />
-```
+```tsx
+// Operational state indicators
+<StatusLight variant="positive">Active</StatusLight>
+<StatusLight variant="negative">Error</StatusLight>
+<StatusLight variant="notice">Warning</StatusLight>
+<StatusLight variant="info">Syncing</StatusLight>
+<StatusLight variant="neutral">Unknown</StatusLight>
 
-No state, no effects, no refs.
+// Disabled — status data unavailable
+<StatusLight variant="positive" isDisabled>
+  Offline
+</StatusLight>
+
+// Accent variants for a data visualisation legend
+<Flex direction="column" gap="size-75">
+  <StatusLight variant="indigo">Category A</StatusLight>
+  <StatusLight variant="seafoam">Category B</StatusLight>
+  <StatusLight variant="magenta">Category C</StatusLight>
+</Flex>
+
+// Inline within a list row
+<Flex alignItems="center" gap="size-100">
+  <Text>Edge Device 04</Text>
+  <StatusLight variant="negative">Unreachable</StatusLight>
+</Flex>
+```
 
 ## Integration
 
-- Used alongside device, pipeline, or model status indicators in dashboards and list views.
-- Pairs semantically with `Badge` and `InlineAlert` in the feedback category for different intensity levels of status communication.
-- Themed automatically by `ThemeProvider`.
+| Concern | Detail |
+|---------|--------|
+| **Package** | `@adobe/react-spectrum` — `StatusLight` |
+| **Theme** | Resolved automatically by `ThemeProvider`. No CSS imports required. |
+| **Related** | `Badge` (static categorical label), `InlineAlert` (rich contextual message), `Meter` (quantitative level) |
+| **Placement** | Device/pipeline list rows, dashboard stat panels, data visualisation legends, model deployment cards |
 
+All `SpectrumStatusLightProps` are accepted as-is. The primary props are:
 
-<Stories />
----
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `children` | `ReactNode` | — | The visible label text. **Required** — a `StatusLight` without a label is inaccessible. |
+| `variant` | `'neutral' \| 'positive' \| 'negative' \| 'notice' \| 'info' \| 'celery' \| 'chartreuse' \| 'yellow' \| 'magenta' \| 'fuchsia' \| 'purple' \| 'indigo' \| 'seafoam'` | `'neutral'` | Determines dot colour. Semantic variants carry health meaning; accent variants are for categorical differentiation. |
+| `isDisabled` | `boolean` | `false` | Renders the dot and label muted, indicating that status is unavailable. |
 
-<Primary />
+## Accessibility
 
-## Props
-
-<Controls />
-
+- **Role**: Spectrum renders `StatusLight` as a `<span>` containing a decorative dot SVG and a text label. The dot is marked `aria-hidden`; the label text is the sole accessible name.
+- **Label is required**: A `StatusLight` without a label `children` provides no accessible information. Always include descriptive text that conveys the meaning of the state (e.g. `"Active"`, `"Offline"`, `"Error"`).
+- **Colour alone is insufficient**: The `variant` changes only the dot colour. Ensure the label text independently conveys the status — do not rely on colour alone to communicate meaning, as this excludes users with colour vision deficiencies.
+- **Semantic vs. accent variants**: Only semantic variants (`positive`, `negative`, `notice`, `info`) have a universal, culturally consistent meaning. Accent variants are neutral colours for data categories; if you use them for status, document the legend explicitly.
+- **Disabled state**: `isDisabled` applies `aria-disabled="true"` and mutes the visual style. It communicates that the status is unavailable, not that the element is inactive UI.
+- **No keyboard interaction**: `StatusLight` is not focusable and does not respond to keyboard or pointer events. If you need a clickable status indicator, combine it with a `Button` or `Link` wrapper.
+- **Live state updates**: When `StatusLight` reflects a value that changes at runtime (e.g. polling a device status), wrap it in an `aria-live="polite"` region so screen reader users are notified of changes without interruption.
