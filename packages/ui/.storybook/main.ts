@@ -1,9 +1,23 @@
 import type { StorybookConfig } from 'storybook-react-rsbuild';
 import { mergeRsbuildConfig } from '@rsbuild/core';
+import remarkGfm from 'remark-gfm';
 
 const config: StorybookConfig = {
     stories: ['../src/**/*.mdx', '../src/**/*.stories.@(ts|tsx)'],
-    addons: ['@storybook/addon-a11y', 'storybook-addon-rslib', '@storybook/addon-docs'],
+    addons: [
+        '@storybook/addon-a11y',
+        'storybook-addon-rslib',
+        {
+            name: '@storybook/addon-docs',
+            options: {
+                mdxPluginOptions: {
+                    mdxCompileOptions: {
+                        remarkPlugins: [remarkGfm],
+                    },
+                },
+            },
+        },
+    ],
     framework: {
         name: 'storybook-react-rsbuild',
         options: {},
