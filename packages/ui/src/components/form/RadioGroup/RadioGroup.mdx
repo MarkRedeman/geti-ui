@@ -1,9 +1,9 @@
-import { Meta, Title, Subtitle, Description, Primary, Controls, Stories } from '@storybook/addon-docs/blocks';
+import { Meta, Title, Subtitle, Controls, Stories } from '@storybook/addon-docs/blocks';
 import * as DocStories from './RadioGroup.stories';
 
 <Meta of={DocStories} />
 
-<Title>RadioGroup</Title>
+# RadioGroup
 
 <Subtitle>A mutually exclusive selection input for picking exactly one option from a visible list.</Subtitle>
 
@@ -17,56 +17,292 @@ import { RadioGroup, Radio } from '@geti/ui';
 
 ## Responsibility
 
-The `RadioGroup` and `Radio` components provide a way for users to select a single option from a visible set of mutually exclusive choices. They are built on top of Adobe's React Spectrum to ensure high accessibility and consistent design.
+`RadioGroup` and `Radio` are transparent wrappers around Adobe React Spectrum's `RadioGroup` and `Radio`. They provide a fully accessible, labelled group of mutually exclusive options — only one `Radio` in a group can be selected at a time.
+
+Key responsibilities:
+- **Mutual Exclusion**: Enforces the "only one selected" constraint automatically. Selecting a new `Radio` deselects all others in the same group.
+- **Group Labeling**: The `RadioGroup` container associates a single visible `label` with all child `Radio` options via `role="radiogroup"` and `aria-labelledby`, satisfying WCAG labeling requirements for the entire group.
+- **Orientation**: Supports both vertical (default) and horizontal layouts via the `orientation` prop, enabling flexible form designs.
+- **Validation Feedback**: Surfaces `validationState="invalid"` with error styling and an `errorMessage` rendered below the group, ensuring validation errors are visible and announced to screen readers.
+- **Theme Integration**: Inherits all Spectrum colour, spacing, and focus-ring tokens from `ThemeProvider`, ensuring correct rendering in Geti's dark theme without extra CSS.
 
 ### When to use
-- When the user needs to select exactly one option from a small set of choices (typically 5 or fewer).
-- When it is beneficial for the user to see all available options at once to compare them.
+- When the user must choose **exactly one** option from a small, visible set (typically 2–5 choices).
+- When it is important for the user to **see all options simultaneously** to compare them before choosing — a `Select` hides options behind a click.
+- When options are **mutually exclusive by nature**: e.g., alignment (left / center / right), notification frequency (never / daily / weekly).
+- When you have **5 or fewer options** and sufficient layout space. For longer lists or space-constrained layouts, use [`Select`](/docs/form-pickers-select--docs) or [`ComboBox`](/docs/form-pickers-combobox--docs).
 
-### When to use something else
-- Use [CheckboxGroup](/docs/components-form-checkboxgroup--docs) if the user can select multiple options.
-- Use [ComboBox](/docs/components-form-pickers-combobox--docs) or [Select](/docs/components-form-pickers-select--docs) if there are many options or if space is limited.
-- Use [Switch](/docs/components-form-switch--docs) or [Checkbox](/docs/components-form-checkbox--docs) for a single on/off toggle.
+### When to avoid
+- **Multiple selections** — use [`CheckboxGroup`](/docs/form-checkboxgroup--docs) when the user can pick more than one option.
+- **A single on/off toggle** — use [`Switch`](/docs/form-switch--docs) for an immediate toggle or [`Checkbox`](/docs/form-checkbox--docs) for a deferred form field.
+- **Many options or limited space** — use [`Select`](/docs/form-pickers-select--docs) or [`ComboBox`](/docs/form-pickers-combobox--docs) to keep the layout compact.
+- **Standalone use of `Radio`** — a `Radio` component placed outside a `RadioGroup` has no accessible group label and no mutual-exclusion behaviour. Always wrap `Radio` items in a `RadioGroup`.
+
+---
+
+## Design
+
+`RadioGroup` and `Radio` each follow the *transparent wrapper* pattern: they extend Spectrum's prop types without modification and delegate all rendering to Spectrum.
+
+```tsx
+// packages/ui/src/components/form/RadioGroup/RadioGroup.tsx
+
+import { RadioGroup as SpectrumRadioGroup, SpectrumRadioGroupProps } from '@adobe/react-spectrum';
+
+export interface RadioGroupProps extends SpectrumRadioGroupProps {}
+
+export const RadioGroup = (props: RadioGroupProps) => <SpectrumRadioGroup {...props} />;
+```
+
+```tsx
+// packages/ui/src/components/form/RadioGroup/Radio.tsx
+
+import { Radio as SpectrumRadio, SpectrumRadioProps } from '@adobe/react-spectrum';
+
+export interface RadioProps extends SpectrumRadioProps {}
+
+export const Radio = (props: RadioProps) => <SpectrumRadio {...props} />;
+```
+
+The wrappers exist as **integration boundaries**: Geti-specific defaults, additional props, or a future migration to `react-aria-components` can be introduced here without changing any consumer import path.
+
+**Prop mapping — `RadioGroup`**
+
+| Geti `RadioGroupProps` | Spectrum `SpectrumRadioGroupProps` | Notes |
+|------------------------|------------------------------------|-------|
+| `label` | `label` | Associates with the group via `aria-labelledby` |
+| `value` / `defaultValue` | `value` / `defaultValue` | Controlled / uncontrolled selected value |
+| `orientation` | `orientation` | `'vertical'` (default) or `'horizontal'` |
+| `validationState` | `validationState` | `'invalid'` triggers error styles |
+| `errorMessage` | `errorMessage` | Rendered below the group when `validationState="invalid"` |
+| `isRequired` | `isRequired` | Adds a visual asterisk and `aria-required` |
+| `isDisabled` | `isDisabled` | Disables all child `Radio` items |
+| `isReadOnly` | `isReadOnly` | Selection visible but not changeable |
+| `...rest` | all other props | Passed through without transformation |
+
+**Prop mapping — `Radio`**
+
+| Geti `RadioProps` | Spectrum `SpectrumRadioProps` | Notes |
+|-------------------|-------------------------------|-------|
+| `value` | `value` | The string submitted when this option is selected |
+| `children` | `children` | The visible label for this option |
+| `isDisabled` | `isDisabled` | Disables this specific option only |
+| `...rest` | all other props | Passed through without transformation |
+
+**Theme integration**
+
+Both components inherit Spectrum's selection colour, focus ring, and error tokens from `ThemeProvider`. In Geti's dark theme these tokens are overridden in `src/theme/tokens.css` — no per-component CSS is needed.
+
+**`RadioGroup` container requirement**
+
+`Radio` components **must** be placed inside a `RadioGroup`. The container:
+- Sets `role="radiogroup"` and `aria-labelledby` for the group label.
+- Manages the mutual-exclusion constraint (selecting one deselects all others).
+- Provides the controlled/uncontrolled `value` context consumed by each `Radio`.
+
+---
 
 ## Variants
 
 ### States
-- **Disabled**: Both the group (`isDisabled` on `RadioGroup`) and individual options (`isDisabled` on `Radio`) can be disabled.
-- **Invalid**: Indicates a validation error for the entire group. In V3, use `validationState="invalid"`.
-- **Read-only**: The current selection is visible but cannot be changed. Use `isReadOnly`.
-- **Required**: Marks the selection as mandatory for form submission. Use `isRequired`.
+
+| State | Prop | Description |
+|-------|------|-------------|
+| Default | — | No option selected. |
+| Pre-selected | `defaultValue="..."` | Uncontrolled initial selection. |
+| Controlled | `value="..."` + `onChange` | Controlled selection state. |
+| Disabled (group) | `isDisabled={true}` on `RadioGroup` | All options non-interactive and dimmed. |
+| Disabled (option) | `isDisabled={true}` on `Radio` | Single option disabled; others remain active. |
+| Invalid | `validationState="invalid"` on `RadioGroup` | Error border and icon on the group. |
+| Read-only | `isReadOnly={true}` | Current selection visible but cannot be changed. |
+| Required | `isRequired={true}` | Visual asterisk and `aria-required` on the group label. |
 
 ### Orientation
-- **Vertical** (Default): Options are stacked vertically.
-- **Horizontal**: Options are arranged side-by-side using `orientation="horizontal"`.
+
+```tsx
+// Default — options stacked vertically
+<RadioGroup label="Alignment">
+    <Radio value="left">Left</Radio>
+    <Radio value="center">Center</Radio>
+    <Radio value="right">Right</Radio>
+</RadioGroup>
+
+// Horizontal — options arranged side-by-side
+<RadioGroup label="Alignment" orientation="horizontal">
+    <Radio value="left">Left</Radio>
+    <Radio value="center">Center</Radio>
+    <Radio value="right">Right</Radio>
+</RadioGroup>
+```
+
+Use **horizontal** orientation when:
+- There are 2–3 short-label options and sufficient horizontal space.
+- The options represent a visual axis (e.g., alignment, direction).
+
+Use **vertical** orientation (default) when:
+- There are more than 3 options.
+- Labels are longer phrases.
+- You need consistent scanning behaviour in a form.
+
+---
+
+## Flow
+
+### Controlled vs uncontrolled
+
+```tsx
+// Uncontrolled — RadioGroup manages its own selected value
+<RadioGroup label="Favorite pet" defaultValue="cats">
+    <Radio value="cats">Cats</Radio>
+    <Radio value="dogs">Dogs</Radio>
+    <Radio value="other">Other</Radio>
+</RadioGroup>
+
+// Controlled — you own the state
+const [pet, setPet] = useState('cats');
+<RadioGroup label="Favorite pet" value={pet} onChange={setPet}>
+    <Radio value="cats">Cats</Radio>
+    <Radio value="dogs">Dogs</Radio>
+    <Radio value="other">Other</Radio>
+</RadioGroup>
+```
+
+Use the **controlled** pattern when:
+- The selection must be synchronised with external state (e.g., a form library, a URL parameter, or a parent component).
+- You need to programmatically reset or derive the selected value.
+
+Use the **uncontrolled** pattern when:
+- The value is only needed at form submission.
+- The group is self-contained and you want simpler code.
+
+### `onChange` value
+
+`onChange` on `RadioGroup` receives the **string `value`** of the selected `Radio` — not an event object:
+
+```tsx
+<RadioGroup
+    label="Notification frequency"
+    onChange={(value: string) => {
+        // value is one of: 'never' | 'daily' | 'weekly'
+        console.log(value);
+    }}
+>
+    <Radio value="never">Never</Radio>
+    <Radio value="daily">Daily</Radio>
+    <Radio value="weekly">Weekly</Radio>
+</RadioGroup>
+```
+
+### State flow
+
+```
+User clicks a Radio / Arrow key navigates
+    │
+    ▼
+onChange(value: string)  ← your handler fires with the selected Radio's value
+    │
+    ├── Uncontrolled: Spectrum updates internal selection state
+    └── Controlled:   you update your state → value prop changes → Spectrum re-renders
+                      previous Radio deselected, new Radio selected automatically
+```
+
+### Form integration
+
+```tsx
+import { Form, RadioGroup, Radio } from '@geti/ui';
+
+function ShippingForm() {
+    const [speed, setSpeed] = useState('');
+    const [submitted, setSubmitted] = useState(false);
+
+    const isInvalid = submitted && speed === '';
+
+    return (
+        <Form onSubmit={(e) => { e.preventDefault(); setSubmitted(true); }}>
+            <RadioGroup
+                label="Shipping speed"
+                value={speed}
+                onChange={setSpeed}
+                isRequired
+                validationState={isInvalid ? 'invalid' : undefined}
+                errorMessage="Please select a shipping speed."
+            >
+                <Radio value="standard">Standard (5–7 days)</Radio>
+                <Radio value="express">Express (2–3 days)</Radio>
+                <Radio value="overnight">Overnight</Radio>
+            </RadioGroup>
+        </Form>
+    );
+}
+```
+
+**Key points:**
+- `validationState` and `errorMessage` are set on `RadioGroup`, not on individual `Radio` items.
+- `onChange` receives the **string value** of the selected `Radio` — no `.target.value` unwrapping needed.
+- `isRequired` marks the group as a whole; it does not need to be set on each `Radio`.
+- Disabling the entire group is done via `isDisabled` on `RadioGroup`. To disable a single option, set `isDisabled` on that specific `Radio`.
+
+---
 
 ## Props
 
+<Controls />
+
 ### RadioGroup
+
 | Prop | Type | Default | Description |
-|---|---|---|---|
-| `label` | `ReactNode` | — | The label for the group. |
+|------|------|---------|-------------|
+| `label` | `ReactNode` | — | The label for the group. Required for accessibility unless `aria-label` is provided. |
 | `value` | `string` | — | The currently selected value (controlled). |
 | `defaultValue` | `string` | — | The initial selected value (uncontrolled). |
-| `orientation` | `'vertical' \| 'horizontal'` | `'vertical'` | The axis the radios should be aligned on. |
-| `validationState` | `'valid' \| 'invalid'` | — | Whether the input is valid or invalid. |
-| `isRequired` | `boolean` | `false` | Whether a selection is required. |
-| `isDisabled` | `boolean` | `false` | Whether the entire group is disabled. |
+| `orientation` | `'vertical' \| 'horizontal'` | `'vertical'` | The axis along which the radio options are arranged. |
+| `validationState` | `'valid' \| 'invalid'` | — | Visual and ARIA validation state for the group. |
+| `errorMessage` | `ReactNode` | — | Error text rendered below the group when `validationState="invalid"`. |
+| `description` | `ReactNode` | — | Persistent helper text displayed below the group label. |
+| `isRequired` | `boolean` | `false` | Whether a selection is required. Adds a visual asterisk and `aria-required`. |
+| `isDisabled` | `boolean` | `false` | Whether all options in the group are non-interactive. |
+| `isReadOnly` | `boolean` | `false` | Whether the selection is visible but cannot be changed. |
+| `onChange` | `(value: string) => void` | — | Called when the selected option changes. Receives the `value` string of the newly selected `Radio`. |
 
 ### Radio
-| Prop | Type | Description |
-|---|---|---|
-| `value` | `string` | The value to be submitted for this option. |
-| `children` | `ReactNode` | The label text or content for this radio option. |
-| `isDisabled` | `boolean` | Whether this specific radio option is disabled. |
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `value` | `string` | — | **Required.** The string value submitted when this option is selected. Must be unique within the group. |
+| `children` | `ReactNode` | — | The visible label for this radio option. |
+| `isDisabled` | `boolean` | `false` | Whether this specific option is non-interactive while others remain active. |
+
+---
 
 ## Accessibility
 
-- The `RadioGroup` uses `role="radiogroup"` and is automatically labeled by the `label` prop.
-- Individual `Radio` components use native `<input type="radio">` elements (visually hidden) for standard behavior.
-- **Keyboard support**: 
-    - **Tab** moves focus into the group (to the selected radio).
-    - **Arrow keys** navigate through and automatically select the next/previous radio in the group.
-- Screen readers correctly announce the group label, the individual option label, and the selection state.
+- **ARIA role**: `RadioGroup` renders with `role="radiogroup"`. Individual `Radio` components render as native `<input type="radio">` elements (visually hidden), each wrapped in a `<label>`. Spectrum links the group label to the container via `aria-labelledby` — no manual `id`/`htmlFor` pairing is needed.
+- **Validation state**: When `validationState="invalid"`, Spectrum sets `aria-invalid="true"` on the group container. The `errorMessage` is linked via `aria-describedby` and announced by screen readers when focus enters the group.
+- **Required**: `isRequired` sets `aria-required="true"` on the group and renders a visible asterisk. Do not rely solely on the asterisk — describe the requirement in the `label` or `errorMessage` where possible.
+- **Labeling requirements**: The `RadioGroup` must have an accessible name. Provide one of:
+  - `label` prop — preferred; renders a visible group label
+  - `aria-label` — for visually hidden labels
+  - `aria-labelledby` — to reference an external element
+- **Keyboard interactions**:
 
-<Controls />
+| Key | Behaviour |
+|-----|-----------|
+| `Tab` | Move focus into the group (onto the currently selected option, or the first option if none is selected) |
+| `Shift + Tab` | Move focus out of the group |
+| `Arrow Down` / `Arrow Right` | Move focus to and select the next radio option |
+| `Arrow Up` / `Arrow Left` | Move focus to and select the previous radio option |
+
+> **Note:** Unlike checkboxes, `Space` does not toggle a radio button — arrow keys both move focus **and** change selection. This is standard browser behaviour for `role="radiogroup"`.
+
+- **High contrast mode**: Spectrum's radio buttons render correctly in Windows High Contrast mode using forced-colour-adjusted CSS.
+
+---
+
+## Integration
+
+- **Dependency**: `@adobe/react-spectrum` — `RadioGroup`, `Radio`, `SpectrumRadioGroupProps`, and `SpectrumRadioProps` are imported from this package.
+- **ThemeProvider**: Must be present in the React tree for Spectrum tokens (selection colour, focus ring, error red) to resolve correctly. All Storybook stories are automatically wrapped in `ThemeProvider` via the global decorator in `.storybook/preview.tsx`.
+- **Forms**: `RadioGroup` integrates with React Hook Form and Formik via the controlled pattern (`value` + `onChange`). Drive `validationState` and `errorMessage` from the library's field state.
+- **`Radio` outside `RadioGroup`**: Do not render `Radio` without a `RadioGroup` parent. The mutual-exclusion logic and group ARIA semantics live in `RadioGroup`; a standalone `Radio` has neither.
+- **Checkbox vs RadioGroup**: Use `RadioGroup` when exactly one option is valid. Use `CheckboxGroup` or multiple `Checkbox` components when the user can select any combination.
+- **Select vs RadioGroup**: Use `RadioGroup` when comparing all options simultaneously is important to the decision. Use `Select` or `ComboBox` when there are many options or limited layout space.
