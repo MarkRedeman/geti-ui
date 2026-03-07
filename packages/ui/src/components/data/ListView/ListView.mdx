@@ -3,41 +3,84 @@ import * as DocStories from './ListView.stories';
 
 <Meta of={DocStories} />
 
-<Title />
+<Title>ListView</Title>
+
+<Subtitle>An interactive collection of items with support for selection and actions.</Subtitle>
+
+```tsx
+import { ListView, Item } from '@geti/ui';
+```
+
+- [React Spectrum V3 ListView](https://react-spectrum.adobe.com/react-spectrum/ListView.html)
+- [React Aria GridList (Headless Equivalent)](https://react-spectrum.adobe.com/react-aria/GridList.html)
+
+<Stories />
 
 ## Responsibility
 
-Re-exports Adobe React Spectrum's `ListView` as a named Geti component, providing a virtualized, accessible list of items with support for selection, drag-and-drop, density variants, and action callbacks. Used for actionable collections — file lists, dataset items, annotation lists — where row-level actions matter.
+`ListView` is the right choice when users need to **interact with a collection of items** as individual entities—navigating into them, selecting them, or performing actions on them. It is distinct from simpler list primitives in that it separates **row selection** from **row actions**: a row can be opened or actioned (via `onAction`) independently of whether it is selected.
 
-## Design
+### When to use ListView
+- **Rich Content**: When items have thumbnails, descriptions, metadata, or secondary actions (e.g., a file browser).
+- **Batch Operations**: When users need to select one or many items and act on the selection as a batch.
+- **Independent Actions**: When rows need an independent action (e.g., double-click to open) separate from selection.
+- **Drag and Drop**: When the list supports reordering or cross-list transfers.
 
-Generic thin wrapper — `ListViewProps<T extends object> extends SpectrumListViewProps<T>`. The component body is `(props) => <SpectrumListView {...props} />`. Also re-exports `Item` from Spectrum.
+### Comparison with other components
+- **vs. ListBox**: Use `ListBox` for simple selection inside a form where no nested interactive elements are needed.
+- **vs. TableView**: Use `TableView` for structured, multi-column data that needs sorting or comparison across fields.
+- **vs. CardView**: Use `CardView` (S2) for visual, card-style asset browsing with grid or waterfall layouts.
 
-Key Spectrum features exposed: `selectionMode`, `selectedKeys`, `onSelectionChange`, `onAction(key)`, drag-and-drop via `dragAndDropHooks`, `density` (`'compact' | 'regular' | 'spacious'`), `loadingState`, `onLoadMore`.
+## Variants
 
-## Flow
+### Density
+`ListView` supports three density variants to balance scanability and information depth:
+- `compact`: Minimizes vertical space.
+- `regular`: The default spacing.
+- `spacious`: Adds extra padding for more relaxed layouts.
 
-```
-props { items, children/renderItem, selectionMode, onAction,
-        density, loadingState, onLoadMore, dragAndDropHooks, ...rest }
-  → <SpectrumListView {...props} />
-```
-
-No state, no effects, no refs.
-
-## Integration
-
-- Contrast with `VirtualizedListLayout` (same data/ category) — `ListView` uses Spectrum's built-in virtualisation; `VirtualizedListLayout` uses RAC `Virtualizer` + `ListLayout` for more customisable infinite-scroll scenarios.
-- Used in file browsers, annotation panel lists, and model/dataset selection screens.
-- `Item` re-export is shared with `ListBox`, `Menu`, `ComboBox`, and other collection components.
-
-
-<Stories />
----
-
-<Primary />
+### Selection Modes
+- `none`: No selection allowed.
+- `single`: One item can be selected.
+- `multiple`: Multiple items can be selected using checkboxes or highlight selection.
 
 ## Props
 
-<Controls />
+| Prop | Type | Default | Description |
+| :--- | :--- | :--- | :--- |
+| `children` | `ItemElement \| ItemRenderer` | — | The items to display in the list. |
+| `selectionMode` | `'none' \| 'single' \| 'multiple'` | `'none'` | The selection mode for the list. |
+| `onAction` | `(key: Key) => void` | — | Handler that is called when an item is "activated" (e.g., clicked or pressed Enter). |
+| `density` | `'compact' \| 'regular' \| 'spacious'` | `'regular'` | The amount of vertical space each row takes up. |
+| `loadingState` | `'loading' \| 'sorting' \| 'loadingMore' \| 'error' \| 'idle'` | — | The current loading state of the list. |
+| `onLoadMore` | `() => void` | — | Handler called when the list is scrolled to the bottom. |
+| `dragAndDropHooks` | `DragAndDropHooks` | — | Hooks to enable drag and drop functionality. |
 
+## Accessibility
+
+### Roles and Navigation
+- `ListView` renders as `role="grid"`. Each row is `role="row"` with cells as `role="gridcell"`.
+- **Keyboard Navigation**: Use `Up/Down Arrows` to move focus between rows.
+- **Selection**: 
+    - In `toggle` mode (default for multiple selection), `Space` toggles selection, and `Enter` triggers `onAction`.
+    - In `replace` mode (default for single selection), `Up/Down Arrows` move both focus and selection together.
+- **Required Labels**: Always provide an `aria-label` or `aria-labelledby` on the `ListView`.
+
+### Focus Management
+`ListView` uses a roving tabindex strategy, meaning the entire list is a single tab stop. Once focus enters the list, users navigate between items using arrow keys.
+
+## Spectrum 2 Migration
+
+`ListView` **does not exist as a single component in Spectrum 2**. Its functionality is split based on the type of content:
+
+- **Structured Data**: Migrate to the **S2 `TableView`** for rows that compare values across fields.
+- **Visual Assets**: Migrate to the **S2 `CardView`** for images, files, or datasets that benefit from a grid layout.
+- **Headless / Custom**: Migrate to the **`react-aria-components` `GridList`** for full styling control with the same accessibility model.
+
+### Migration Mapping
+| V3 ListView Feature | S2 Replacement |
+| :--- | :--- |
+| **Tabular Data** | `TableView` |
+| **Asset Browsing** | `CardView` |
+| **Headless/Custom** | `GridList` (React Aria) |
+| **Drag and Drop** | `GridList` (via `useDragAndDrop`) |
