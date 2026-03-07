@@ -1,4 +1,4 @@
-import { Meta, Title, Subtitle, Description, Primary, Controls, Stories, Source } from '@storybook/blocks';
+import { Meta, Title, Subtitle, Description, Primary, Controls, Stories, Source } from '@storybook/addon-docs/blocks';
 import * as DocStories from './PhotoPlaceholder.stories';
 
 <Meta of={DocStories} />
@@ -77,28 +77,4 @@ Static centering logic (Flexbox) is handled in `PhotoPlaceholder.module.css`, wh
 - **Label**: The `aria-label` is set to the full `name` (or `indicator`), ensuring screen readers announce the person's name rather than just the initial.
 - **Hiding Text**: The visible initial character is marked with `aria-hidden="true"` to prevent redundant announcements.
 
----
 
-## Spectrum 2 Migration
-
-`PhotoPlaceholder` is a standalone Geti component and does not wrap any Spectrum logic that is changing in Spectrum 2. It is expected to remain a custom component throughout all migration phases.
-
-### Future Path
-In Phase 3 (Tailwind CSS), the component can be simplified to a pure HTML/Tailwind implementation:
-
-<Source
-  language="tsx"
-  dark
-  code={`
-<div
-  role="img"
-  aria-label={name}
-  style={{ backgroundColor, color }}
-  className="flex items-center justify-center rounded-full text-lg font-bold"
->
-  <span aria-hidden="true">{initial}</span>
-</div>
-`}
-/>
-
-Note: Adobe's Spectrum 2 `Avatar` remains image-only and does not provide an initials fallback mechanism, so this component will continue to be a necessary supplement.
