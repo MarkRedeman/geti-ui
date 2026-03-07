@@ -12,7 +12,6 @@ import { Breadcrumbs, Item } from '@geti/ui';
 ```
 
 - [React Spectrum V3 Breadcrumbs](https://react-spectrum.adobe.com/react-spectrum/Breadcrumbs.html)
-- [Spectrum 2 Breadcrumbs](https://react-spectrum.adobe.com/s2/Breadcrumbs.html)
 
 <Stories />
 
@@ -38,7 +37,7 @@ Key responsibilities:
 ## Variants
 
 ### Sizes
-Supports `S`, `M`, and `L` sizes. Note that `L` is the default in Geti UI (V3), while `M` is the preferred default in Spectrum 2.
+Supports `S`, `M`, and `L` sizes. The default size is `L`.
 
 ### Multiline
 The `isMultiline` prop allows the last item to wrap to its own line. This is useful when the current page title is exceptionally long or when it serves as the primary heading for the page.
@@ -75,36 +74,3 @@ Breadcrumbs automatically collapse intermediate items into an overflow menu (rep
 </nav>
 ```
 
-## Spectrum 2 Migration
-
-The migration to Spectrum 2 (S2) simplifies the Breadcrumbs API and automates more of the layout logic.
-
-### Structural Changes
-- **Item Component**: The generic `<Item>` is replaced by a dedicated `<Breadcrumb>` component.
-- **Key vs ID**: Use the `id` prop instead of `key` on the breadcrumb items.
-- **Automatic Overflow**: S2 handles root pinning and overflow more intelligently; the `showRoot` prop is removed as this behavior is now automatic.
-
-### Prop Changes
-- **Size**: The `S` size is removed. Default size shifts from `L` to `M`.
-- **isMultiline**: This layout variant is removed in S2 to maintain a consistent horizontal flow.
-- **Styles**: Layout overrides should use the `style()` macro via the `styles` prop.
-
-### Migration Example
-
-**V3 Style (Current):**
-```tsx
-<Breadcrumbs size="L" showRoot>
-  <Item key="home">Home</Item>
-  <Item key="folder">Documents</Item>
-  <Item>Report.pdf</Item>
-</Breadcrumbs>
-```
-
-**S2 Style (Future):**
-```tsx
-<Breadcrumbs size="M">
-  <Breadcrumb id="home">Home</Breadcrumb>
-  <Breadcrumb id="folder">Documents</Breadcrumb>
-  <Breadcrumb>Report.pdf</Breadcrumb>
-</Breadcrumbs>
-```
