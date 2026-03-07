@@ -3,13 +3,25 @@ import { mergeRsbuildConfig } from '@rsbuild/core';
 
 const config: StorybookConfig = {
     stories: ['../src/**/*.stories.@(ts|tsx)'],
-    addons: ['@storybook/addon-a11y', 'storybook-addon-rslib'],
+    addons: ['@storybook/addon-a11y', 'storybook-addon-rslib', '@storybook/addon-docs'],
     framework: {
         name: 'storybook-react-rsbuild',
         options: {},
     },
     async rsbuildFinal(config) {
         return mergeRsbuildConfig(config, {
+            tools: {
+                rspack: {
+                    module: {
+                        rules: [
+                            {
+                                test: /\.md$/,
+                                type: 'asset/source', // return raw string
+                            },
+                        ],
+                    },
+                },
+            },
             output: {
                 cssModules: {
                     // Ensure our theme CSS modules use a stable, readable localIdentName so that
