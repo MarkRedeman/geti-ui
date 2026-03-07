@@ -3,49 +3,109 @@ import * as DocStories from './Disclosure.stories';
 
 <Meta of={DocStories} />
 
-<Title />
+# Disclosure
+
+<Subtitle>A Disclosure is a collapsible section that allows users to show or hide content as needed.</Subtitle>
+
+```tsx
+import { Disclosure, DisclosureTitle, DisclosurePanel } from '@geti/ui';
+```
+
+- [React Spectrum V3 Disclosure](https://react-spectrum.adobe.com/react-spectrum/Disclosure.html)
+- [Spectrum 2 Disclosure](https://react-spectrum.adobe.com/s2/Disclosure.html)
+
+<Stories />
 
 ## Responsibility
 
-Provides the individual collapsible section primitive for accordion-style layouts. Wraps Spectrum's `Disclosure` and re-exports `DisclosurePanel` and `DisclosureTitle` directly (no wrapping needed), giving callers a complete set of parts from a single import.
+The `Disclosure` component provides a standard mechanism for progressive disclosure. It consists of a clickable header (trigger) and a collapsible panel (content). It is commonly used for individual collapsible sections or as a building block for an `Accordion`.
 
-## Design
+Key responsibilities:
+- **Progressive Disclosure**: Keeps the UI clean by hiding non-essential content until the user requests it.
+- **State Management**: Handles the expanded/collapsed state and the associated animation.
+- **Accessibility**: Implements the ARIA disclosure pattern with proper button and region roles.
 
-Three exports from one file:
+### When to use
+- For a single, independent collapsible section (e.g., "Advanced Settings").
+- Within an `Accordion` to group multiple related sections.
+- For help text or additional details that should be hidden by default.
 
-- **`Disclosure`** — thin wrapper. `DisclosureProps extends SpectrumDisclosureProps`. Component body: `(props) => <SpectrumDisclosure {...props} />`. Manages the collapsed/expanded state (uncontrolled) or accepts `isExpanded`/`onExpandedChange` (controlled).
-- **`DisclosurePanel`** — direct re-export of `SpectrumDisclosurePanel`. No wrapping — it carries no Geti-specific behaviour.
-- **`DisclosureTitle`** — direct re-export of `SpectrumDisclosureTitle`. No wrapping — renders the clickable header with the expand/collapse chevron.
+### When to avoid
+- When the user needs to see the content at all times for quick scanning.
+- To group interactive elements that shouldn't be hidden (use a `Well` or `Card`).
+- For primary site-wide navigation (use a sidebar or `Tabs`).
 
-Props type aliases (`DisclosurePanelProps`, `DisclosureTitleProps`) are also re-exported for TypeScript consumers.
+## Variants
 
-## Flow
+### Controlled vs. Uncontrolled
+- **Uncontrolled (Default)**: The disclosure manages its own expansion state. Use `defaultExpanded` for the initial state.
+- **Controlled**: The parent component manages the expansion state via the `isExpanded` and `onExpandedChange` props.
 
-```
-<Disclosure>
-  <DisclosureTitle>Section heading</DisclosureTitle>
+### Nested Header (S2 only)
+Spectrum 2 introduces the `DisclosureHeader` component, which allows for a more complex header layout where action buttons or icons can be co-located with the trigger.
+
+## Props
+
+### Disclosure Props
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `children` | `ReactNode` | - | The title and panel components. |
+| `isExpanded` | `boolean` | - | Whether the section is expanded (controlled). |
+| `defaultExpanded` | `boolean` | `false` | Whether the section is expanded by default (uncontrolled). |
+| `onExpandedChange` | `(isExpanded: boolean) => void` | - | Handler called when the expansion state changes. |
+| `isDisabled` | `boolean` | `false` | Whether the disclosure is disabled. |
+
+### DisclosureTitle Props
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `children` | `ReactNode` | - | The label or content of the clickable header. |
+
+### DisclosurePanel Props
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `children` | `ReactNode` | - | The content to be shown when expanded. |
+
+## Accessibility
+
+- **Roles**: The trigger is rendered as a `<button>` with `aria-expanded` and `aria-controls`. The panel has `role="group"` (or `role="region"` for significant content).
+- **Keyboard Support**:
+  - `Enter` or `Space` toggles the expansion of the section when the header is focused.
+  - `Tab` moves focus between the header and any interactive elements inside the panel.
+
+## Spectrum 2 Migration
+
+The migration to Spectrum 2 (S2) introduces structural improvements and better visual scale controls.
+
+### Structural Changes
+- **Header Wrapper**: S2 adds a `DisclosureHeader` component to wrap the `DisclosureTitle` and any extra elements (like action buttons).
+- **Sub-component Names**: Generic names like `DisclosureTitle` and `DisclosurePanel` are preserved, but the implementation is refined.
+
+### New Features
+- **Visual Scales**: New `size` and `density` props allow for better control over the disclosure's appearance.
+- **Styles Macro**: Layout and spacing overrides use the `styles` prop and the `style()` macro.
+
+### Migration Example
+
+**V3 Style (Current):**
+```tsx
+<Disclosure defaultExpanded>
+  <DisclosureTitle>Advanced Settings</DisclosureTitle>
   <DisclosurePanel>
-    {/* collapsible content */}
+    <Checkbox>Enable Beta Features</Checkbox>
   </DisclosurePanel>
 </Disclosure>
 ```
 
-`DisclosureTitle` is the interactive trigger (renders the chevron). `DisclosurePanel` is the collapsible content region. `Disclosure` owns the toggle state.
-
-## Integration
-
-- Used standalone for single collapsible sections.
-- Used inside `Accordion` (same layouts/ category) for grouped, coordinated multi-section layouts.
-- `DisclosureTitle` and `DisclosurePanel` must be direct children of `Disclosure` (Spectrum's slot system requires the structural relationship).
-- Themed automatically by `ThemeProvider`.
-
-
-<Stories />
----
-
-<Primary />
-
-## Props
-
-<Controls />
+**S2 Style (Future):**
+```tsx
+<Disclosure size="M" density="compact">
+  <DisclosureHeader>
+    <DisclosureTitle>Advanced Settings</DisclosureTitle>
+    <ActionButton aria-label="Settings"><SettingsIcon /></ActionButton>
+  </DisclosureHeader>
+  <DisclosurePanel>
+    <Checkbox>Enable Beta Features</Checkbox>
+  </DisclosurePanel>
+</Disclosure>
+```
 
