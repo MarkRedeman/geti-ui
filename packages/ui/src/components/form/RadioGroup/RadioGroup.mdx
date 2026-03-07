@@ -1,47 +1,85 @@
-import { Meta, Title, Subtitle, Description, Primary, Controls, Stories } from '@storybook/addon-docs/blocks';
+import { Meta, Title, Subtitle, Description, Primary, Controls, Stories } from '@storybook/blocks';
 import * as DocStories from './RadioGroup.stories';
 
 <Meta of={DocStories} />
 
-<Title />
+<Title>RadioGroup</Title>
+
+<Subtitle>A mutually exclusive selection input for picking exactly one option from a visible list.</Subtitle>
+
+```tsx
+import { RadioGroup, Radio } from '@geti/ui';
+```
+
+- [React Spectrum V3 RadioGroup](https://react-spectrum.adobe.com/react-spectrum/RadioGroup.html)
+- [Spectrum 2 RadioGroup](https://react-spectrum.adobe.com/s2/RadioGroup.html)
+
+<Stories />
 
 ## Responsibility
 
-Provides a mutually exclusive selection input composed of two co-located components: `RadioGroup` (the container managing selection state and accessibility) and `Radio` (an individual option). Both are thin wrappers over Adobe React Spectrum so Geti consumers import from one place.
+The `RadioGroup` and `Radio` components provide a way for users to select a single option from a visible set of mutually exclusive choices. They are built on top of Adobe's React Spectrum to ensure high accessibility and consistent design.
 
-## Design
+### When to use
+- When the user needs to select exactly one option from a small set of choices (typically 5 or fewer).
+- When it is beneficial for the user to see all available options at once to compare them.
 
-Both components are pure pass-throughs:
+### When to use something else
+- Use [CheckboxGroup](/docs/components-form-checkboxgroup--docs) if the user can select multiple options.
+- Use [ComboBox](/docs/components-form-pickers-combobox--docs) or [Select](/docs/components-form-pickers-select--docs) if there are many options or if space is limited.
+- Use [Switch](/docs/components-form-switch--docs) or [Checkbox](/docs/components-form-checkbox--docs) for a single on/off toggle.
 
-```tsx
-// RadioGroup.tsx
-export interface RadioGroupProps extends SpectrumRadioGroupProps {}
-export const RadioGroup = (props: RadioGroupProps) => <SpectrumRadioGroup {...props} />;
+## Variants
 
-// Radio.tsx
-export interface RadioProps extends SpectrumRadioProps {}
-export const Radio = (props: RadioProps) => <SpectrumRadio {...props} />;
-```
+### States
+- **Disabled**: Both the group (`isDisabled` on `RadioGroup`) and individual options (`isDisabled` on `Radio`) can be disabled.
+- **Invalid**: Indicates a validation error for the entire group. In V3, use `validationState="invalid"`.
+- **Read-only**: The current selection is visible but cannot be changed. Use `isReadOnly`.
+- **Required**: Marks the selection as mandatory for form submission. Use `isRequired`.
 
-No CSS module, no `UNSAFE_className`, no internal state. Full Spectrum API preserved: `label`, `value`, `defaultValue`, `onChange`, `isDisabled`, `orientation`, `validationState` on the group; `value`, `isDisabled`, `children` on each `Radio`.
-
-## Flow
-
-`RadioGroup` wraps children in an accessible `role="radiogroup"` with `aria-labelledby`. Each `Radio` child renders an `<input type="radio">` tied to the group's selection state via Spectrum's context. Selecting a `Radio` fires `RadioGroup`'s `onChange` with the new value.
-
-## Integration
-
-- **Depends on**: `@adobe/react-spectrum` (`RadioGroup`, `Radio`, `SpectrumRadioGroupProps`, `SpectrumRadioProps`)
-- **Usage pattern**: `<RadioGroup><Radio value="a">A</Radio><Radio value="b">B</Radio></RadioGroup>`
-- **Used by**: settings forms, mode selectors, any single-choice input
-
-
-<Stories />
----
-
-<Primary />
+### Orientation
+- **Vertical** (Default): Options are stacked vertically.
+- **Horizontal**: Options are arranged side-by-side using `orientation="horizontal"`.
 
 ## Props
 
-<Controls />
+### RadioGroup
+| Prop | Type | Default | Description |
+|---|---|---|---|
+| `label` | `ReactNode` | — | The label for the group. |
+| `value` | `string` | — | The currently selected value (controlled). |
+| `defaultValue` | `string` | — | The initial selected value (uncontrolled). |
+| `orientation` | `'vertical' \| 'horizontal'` | `'vertical'` | The axis the radios should be aligned on. |
+| `validationState` | `'valid' \| 'invalid'` | — | Whether the input is valid or invalid. |
+| `isRequired` | `boolean` | `false` | Whether a selection is required. |
+| `isDisabled` | `boolean` | `false` | Whether the entire group is disabled. |
 
+### Radio
+| Prop | Type | Description |
+|---|---|---|
+| `value` | `string` | The value to be submitted for this option. |
+| `children` | `ReactNode` | The label text or content for this radio option. |
+| `isDisabled` | `boolean` | Whether this specific radio option is disabled. |
+
+## Accessibility
+
+- The `RadioGroup` uses `role="radiogroup"` and is automatically labeled by the `label` prop.
+- Individual `Radio` components use native `<input type="radio">` elements (visually hidden) for standard behavior.
+- **Keyboard support**: 
+    - **Tab** moves focus into the group (to the selected radio).
+    - **Arrow keys** navigate through and automatically select the next/previous radio in the group.
+- Screen readers correctly announce the group label, the individual option label, and the selection state.
+
+## Spectrum 2 Migration
+
+When migrating to Spectrum 2 (S2), keep the following changes in mind:
+
+| V3 Prop | S2 Equivalent | Notes |
+|---|---|---|
+| `validationState="invalid"` | `isInvalid` | Boolean flag replaces the string enum. |
+| `validationState="valid"` | — | No visual "valid" state in S2. |
+| `showErrorIcon` | — | Removed in S2 for accessibility reasons. |
+| `isEmphasized` | `isEmphasized` | Remains the standard for accent-color highlights. |
+| `size` | `size` | S2 adds a `size` prop (`'S'`, `'M'`, `'L'`, `'XL'`). |
+
+<Controls />
