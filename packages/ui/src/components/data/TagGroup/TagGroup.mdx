@@ -12,7 +12,6 @@ import { TagGroup, Item } from '@geti/ui';
 ```
 
 - [React Spectrum V3 TagGroup](https://react-spectrum.adobe.com/react-spectrum/TagGroup.html)
-- [Spectrum 2 TagGroup](https://react-spectrum.adobe.com/s2/TagGroup.html)
 - [React Aria TagGroup (Headless)](https://react-spectrum.adobe.com/react-aria/TagGroup.html)
 
 <Stories />
@@ -72,29 +71,3 @@ Tags become removable when the `onRemove` prop is passed to the `TagGroup`.
 - **Accessible Name**: A `label` or `aria-label` is mandatory for the grid landmark.
 - **Text Value**: Provide `textValue` on an `<Item>` if its children are not plain text (e.g., if it contains an icon).
 
-## Spectrum 2 Migration
-
-The migration to Spectrum 2 (S2) involves a significant child component rename and API refinement:
-
-- **Import change**: `@adobe/react-spectrum` → `@react-spectrum/s2`.
-- **`Item` → `Tag`**: The generic `<Item>` is replaced by a semantically named `<Tag>` component.
-- **Labeling**: S2 promotes the visual `label` prop as primary over `aria-label`.
-- **Visuals**: S2 introduces `isEmphasized` and explicit `size` ("S", "M", "L") props.
-
-### S2 Example Preview
-```tsx
-import { TagGroup, Tag } from '@react-spectrum/s2';
-
-<TagGroup label="Categories" selectionMode="multiple">
-  <Tag id="news">News</Tag>
-  <Tag id="travel">Travel</Tag>
-</TagGroup>
-```
-
-### Prop Migration
-| V3 Prop | S2 Equivalent | Notes |
-| :--- | :--- | :--- |
-| `<Item>` | `<Tag>` | Core semantic change |
-| `actionLabel` | `groupActionLabel` | Renamed for clarity |
-| `onAction` | `onGroupAction` | Renamed for clarity |
-| `UNSAFE_className` | `styles` | S2 uses the `style()` macro |
