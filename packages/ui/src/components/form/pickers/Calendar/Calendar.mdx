@@ -83,11 +83,21 @@ const [date, setDate] = useState<CalendarDate | null>(null);
 
 ## Flow
 
-1. `Calendar` mounts and renders the current month grid.
-2. User presses the chevron buttons (or `PageUp` / `PageDown`) to navigate months.
-3. User clicks (or presses `Enter` / `Space`) on a day cell.
-4. `onChange(DateValue)` fires with the selected `CalendarDate`.
-5. The selected cell receives a filled highlight; all other cells return to their default state.
+```tsx
+import { Calendar } from '@geti/ui';
+import { today, getLocalTimeZone } from '@internationalized/date';
+
+// 1. Calendar mounts and renders the current month grid.
+// 2. User navigates months with chevron buttons (or PageUp / PageDown).
+// 3. User selects a day cell (click or Enter / Space).
+// 4. onChange(DateValue) fires; the selected cell is highlighted.
+
+<Calendar
+  aria-label="Event date"
+  minValue={today(getLocalTimeZone())}
+  onChange={(date) => console.log('Selected:', date.toString())}
+/>
+```
 
 ---
 

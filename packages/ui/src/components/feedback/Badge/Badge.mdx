@@ -76,12 +76,10 @@ No state, no effects, no refs. All layout, colour, and sizing is delegated to Sp
 
 ## Integration
 
-| Concern | Detail |
-|---------|--------|
-| **Package** | `@adobe/react-spectrum` — `Badge` |
-| **Theme** | Resolved automatically by `ThemeProvider`. No CSS imports required. |
-| **Related** | `StatusLight` (operational state), `Tag` (interactive/removable), `InlineAlert` (rich contextual message) |
-| **Placement** | Typically used inside list rows, `Card` headers, navigation labels, and data table cells |
+- **Depends on**: `@adobe/react-spectrum` (`Badge`, `SpectrumBadgeProps`)
+- **Theme**: Resolved automatically by `ThemeProvider`. No CSS imports required.
+- **Related**: `StatusLight` (operational state), `Tag` (interactive/removable), `InlineAlert` (rich contextual message)
+- **Placement**: Typically used inside list rows, `Card` headers, navigation labels, and data table cells
 
 All `SpectrumBadgeProps` are accepted as-is. The key props are:
 

@@ -42,17 +42,23 @@ export const ColorPickerDialog = ({
     label = 'Pick Color',
     ...rest
 }: ColorPickerDialogProps) => {
-    const [color, setColor] = useState<Color>(() => (colorProp ? parseColor(colorProp) : parseColor('hsl(0, 100%, 50%)')));
+    const [color, setColor] = useState<Color>(() =>
+        (colorProp ? parseColor(colorProp) : parseColor('hsb(0, 100%, 100%)')).toFormat('hsb')
+    );
 
     useEffect(() => {
         if (colorProp) {
-            setColor(parseColor(colorProp));
+            setColor(parseColor(colorProp).toFormat('hsb'));
         }
     }, [colorProp]);
 
     const handleConfirm = (close: () => void) => {
         onColorChange?.(color.toString('hex'));
         close();
+    };
+
+    const setColorHSB = (c: Color | null) => {
+        if (c) setColor(c.toFormat('hsb'));
     };
 
     return (
@@ -73,22 +79,22 @@ export const ColorPickerDialog = ({
                                 <Flex direction="column" gap="size-150">
                                     <ColorArea
                                         value={color}
-                                        onChange={(c) => c && setColor(c)}
+                                        onChange={setColorHSB}
                                         xChannel="saturation"
                                         yChannel="brightness"
                                     />
-                                    <ColorSlider value={color} onChange={(c) => c && setColor(c)} channel="hue" />
-                                    <ColorSlider value={color} onChange={(c) => c && setColor(c)} channel="alpha" />
+                                    <ColorSlider value={color} onChange={setColorHSB} channel="hue" />
+                                    <ColorSlider value={color} onChange={setColorHSB} channel="alpha" />
                                 </Flex>
                                 <Flex direction="column" gap="size-150" alignItems="center">
-                                    <ColorWheel value={color} onChange={(c) => c && setColor(c)} />
-                                    <ColorField label="Hex" value={color} onChange={(c) => c && setColor(c)} />
+                                    <ColorWheel value={color} onChange={setColorHSB} />
+                                    <ColorField label="Hex" value={color} onChange={setColorHSB} />
                                 </Flex>
                             </Flex>
 
                             <Flex direction="column" gap="size-100">
                                 <Heading level={4}>Presets</Heading>
-                                <ColorSwatchPicker value={color} onChange={(c) => c && setColor(c)}>
+                                <ColorSwatchPicker value={color} onChange={setColorHSB}>
                                     <ColorSwatch color="#ff0000" />
                                     <ColorSwatch color="#00ff00" />
                                     <ColorSwatch color="#0000ff" />
