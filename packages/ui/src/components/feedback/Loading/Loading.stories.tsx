@@ -9,6 +9,10 @@ const meta: Meta<typeof Loading> = {
     component: Loading,
     title: 'Feedback/Loading',
     argTypes: {
+        variant: {
+            control: { type: 'select' },
+            options: ['spinner', 'intel'],
+        },
         mode: {
             control: { type: 'select' },
             options: ['inline', 'fullscreen', 'overlay'],
@@ -31,6 +35,7 @@ type Story = StoryObj<typeof Loading>;
  */
 export const Inline: Story = {
     args: {
+        variant: 'spinner',
         mode: 'inline',
         size: 'M',
     },
@@ -48,6 +53,7 @@ export const Inline: Story = {
  */
 export const Overlay: Story = {
     args: {
+        variant: 'spinner',
         mode: 'overlay',
         style: { backgroundColor: 'rgba(0, 0, 0, 0.4)' },
     },
@@ -66,6 +72,7 @@ export const Overlay: Story = {
  */
 export const Small: Story = {
     args: {
+        variant: 'spinner',
         mode: 'inline',
         size: 'S',
     },
@@ -76,7 +83,58 @@ export const Small: Story = {
  */
 export const Large: Story = {
     args: {
+        variant: 'spinner',
         mode: 'inline',
         size: 'L',
+    },
+};
+
+/**
+ * Intel branded loading animation — typically used for full-page loading states.
+ * Defaults to size="L" (192px).
+ */
+export const IntelBranded: Story = {
+    args: {
+        variant: 'intel',
+        mode: 'inline',
+        size: 'L',
+    },
+    decorators: [
+        (Story) => (
+            <div
+                style={{
+                    width: 300,
+                    height: 300,
+                    border: '1px dashed gray',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                }}
+            >
+                <Story />
+            </div>
+        ),
+    ],
+};
+
+/**
+ * Intel branded loading at size S (24px) — suitable for inline/compact contexts.
+ */
+export const IntelBrandedSmall: Story = {
+    args: {
+        variant: 'intel',
+        mode: 'inline',
+        size: 'S',
+    },
+};
+
+/**
+ * Intel branded loading at size M (48px) — medium usage.
+ */
+export const IntelBrandedMedium: Story = {
+    args: {
+        variant: 'intel',
+        mode: 'inline',
+        size: 'M',
     },
 };

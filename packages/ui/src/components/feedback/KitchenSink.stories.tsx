@@ -156,40 +156,74 @@ const FeedbackKitchenSink = () => (
 
             {/* ── Loading ── */}
             <View padding="size-300" backgroundColor="gray-50" borderRadius="medium">
-                <SectionHeading title="Loading" subtitle="inline, overlay, and branded loading states" />
-                <Flex direction="column" gap="size-250">
-                    <div>
-                        <SubLabel>Loading — inline sizes</SubLabel>
-                        <Flex direction="row" gap="size-400" alignItems="center">
-                            {(['S', 'M', 'L'] as const).map((size) => (
-                                <Flex key={size} direction="column" gap="size-50" alignItems="center">
-                                    <Loading mode="inline" size={size} aria-label={`Loading ${size}`} />
-                                    <span style={{ fontSize: 'var(--spectrum-global-dimension-font-size-50)', color: 'var(--spectrum-global-color-gray-600)' }}>inline ({size})</span>
-                                </Flex>
-                            ))}
-                            <Flex direction="column" gap="size-50" alignItems="center">
-                                <View position="relative" width="size-1200" height="size-1200" backgroundColor="gray-200" borderRadius="regular" UNSAFE_style={{ overflow: 'hidden' }}>
-                                    <Loading mode="overlay" size="M" aria-label="Overlay loading" style={{ backgroundColor: 'rgba(0,0,0,0.35)' }} />
-                                </View>
-                                <span style={{ fontSize: 'var(--spectrum-global-dimension-font-size-50)', color: 'var(--spectrum-global-color-gray-600)' }}>overlay</span>
-                            </Flex>
+                <SectionHeading title="Loading" subtitle="Variant comparison: spinner (default) vs intel — inline sizes and overlay mode" />
+                <Grid
+                    columns={['max-content', '1fr', '1fr', '1fr', '1fr']}
+                    gap="size-200"
+                    UNSAFE_style={{ alignItems: 'center' }}
+                >
+                    {/* Header row */}
+                    <div />
+                    {(['S', 'M', 'L'] as const).map((size) => (
+                        <Flex key={size} justifyContent="center">
+                            <span style={{ fontSize: 'var(--spectrum-global-dimension-font-size-50)', fontWeight: 600, color: 'var(--spectrum-global-color-gray-600)', textTransform: 'uppercase', letterSpacing: '0.08em' }}>
+                                inline ({size})
+                            </span>
                         </Flex>
-                    </div>
-                    <Divider size="S" />
-                    <div>
-                        <SubLabel>IntelBrandedLoading</SubLabel>
-                        <Flex direction="row" gap="size-400" alignItems="center" wrap>
-                            {[{ label: 'Standard', size: 'size-2400' }, { label: 'Large', size: 'size-3600' }].map(({ label, size }) => (
-                                <Flex key={label} direction="column" gap="size-100" alignItems="center">
-                                    <View backgroundColor="gray-200" borderRadius="medium" UNSAFE_style={{ overflow: 'hidden' }} width={size as never} height={size as never}>
-                                        <IntelBrandedLoading height="100%" />
-                                    </View>
-                                    <span style={{ fontSize: 'var(--spectrum-global-dimension-font-size-50)', color: 'var(--spectrum-global-color-gray-600)' }}>{label}</span>
-                                </Flex>
-                            ))}
+                    ))}
+                    <Flex justifyContent="center">
+                        <span style={{ fontSize: 'var(--spectrum-global-dimension-font-size-50)', fontWeight: 600, color: 'var(--spectrum-global-color-gray-600)', textTransform: 'uppercase', letterSpacing: '0.08em' }}>
+                            overlay
+                        </span>
+                    </Flex>
+
+                    {/* Row 1 — Spinner (default) */}
+                    <span style={{ fontSize: 'var(--spectrum-global-dimension-font-size-75)', fontWeight: 600, color: 'var(--spectrum-global-color-gray-700)', whiteSpace: 'nowrap' }}>
+                        Spinner (default)
+                    </span>
+                    {(['S', 'M', 'L'] as const).map((size) => (
+                        <Flex key={size} justifyContent="center" alignItems="center">
+                            <Loading variant="spinner" mode="inline" size={size} aria-label={`Spinner loading ${size}`} />
                         </Flex>
-                    </div>
-                </Flex>
+                    ))}
+                    <Flex justifyContent="center" alignItems="center">
+                        <View position="relative" width="size-1200" height="size-1200" backgroundColor="gray-200" borderRadius="regular" UNSAFE_style={{ overflow: 'hidden' }}>
+                            <Loading variant="spinner" mode="overlay" size="M" aria-label="Spinner overlay loading" style={{ backgroundColor: 'rgba(0,0,0,0.35)' }} />
+                        </View>
+                    </Flex>
+
+                    {/* Row 2 — Intel */}
+                    <span style={{ fontSize: 'var(--spectrum-global-dimension-font-size-75)', fontWeight: 600, color: 'var(--spectrum-global-color-gray-700)', whiteSpace: 'nowrap' }}>
+                        Intel
+                    </span>
+                    {(['S', 'M', 'L'] as const).map((size) => (
+                        <Flex key={size} justifyContent="center" alignItems="center">
+                            <Loading variant="intel" mode="inline" size={size} aria-label={`Intel loading ${size}`} />
+                        </Flex>
+                    ))}
+                    <Flex justifyContent="center" alignItems="center">
+                        <View position="relative" width="size-1200" height="size-1200" backgroundColor="gray-200" borderRadius="regular" UNSAFE_style={{ overflow: 'hidden' }}>
+                            <Loading variant="intel" size='M' mode="overlay" aria-label="Intel overlay loading" style={{ backgroundColor: 'rgba(0,0,0,0.35)' }} />
+                        </View>
+                    </Flex>
+                </Grid>
+
+                <Divider size="S" marginTop="size-300" marginBottom="size-200" />
+
+                {/* Legacy IntelBrandedLoading — kept for regression verification */}
+                <div>
+                    <SubLabel>IntelBrandedLoading (legacy wrapper — deprecated)</SubLabel>
+                    <Flex direction="row" gap="size-400" alignItems="center" wrap>
+                        <Flex direction="column" gap="size-100" alignItems="center">
+                            <View backgroundColor="gray-200" borderRadius="medium" UNSAFE_style={{ overflow: 'hidden' }} width="size-2400" height="size-2400" position="relative">
+                                <IntelBrandedLoading height="100%" />
+                            </View>
+                            <span style={{ fontSize: 'var(--spectrum-global-dimension-font-size-50)', color: 'var(--spectrum-global-color-gray-600)' }}>
+                                IntelBrandedLoading (wraps Loading variant=&quot;intel&quot;)
+                            </span>
+                        </Flex>
+                    </Flex>
+                </div>
             </View>
 
             {/* ── StatusLight ── */}

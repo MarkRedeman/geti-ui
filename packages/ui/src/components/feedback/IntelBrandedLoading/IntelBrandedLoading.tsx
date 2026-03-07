@@ -1,5 +1,8 @@
+// Copyright (C) 2022-2025 Intel Corporation
+// LIMITED EDGE SOFTWARE DISTRIBUTION LICENSE
+
 import { Flex } from '@adobe/react-spectrum';
-import IntelBrandedLoadingGif from './intel-loading.webp';
+import { Loading } from '../Loading/Loading';
 
 export interface IntelBrandedLoadingProps {
     /** The height of the loading container. Defaults to 100vh. */
@@ -9,6 +12,8 @@ export interface IntelBrandedLoadingProps {
 /**
  * IntelBrandedLoading displays the Intel branded loading animation.
  * It is typically used for full-page loading states.
+ *
+ * @deprecated Use `<Loading variant="intel" />` directly.
  */
 export const IntelBrandedLoading = ({ height = '100vh' }: IntelBrandedLoadingProps) => {
     return (
@@ -19,12 +24,12 @@ export const IntelBrandedLoading = ({ height = '100vh' }: IntelBrandedLoadingPro
             direction="column"
             UNSAFE_className="geti-intel-loading-container"
         >
-            <img
-                src={IntelBrandedLoadingGif}
-                role="img"
-                aria-label="Loading"
-                width="192px" // Equivalent to size-2400 in Spectrum
-                height="192px"
+            <Loading
+                variant="intel"
+                mode="inline"
+                size="L"
+                style={{ height }}
+                className="geti-intel-loading-container"
             />
         </Flex>
     );
