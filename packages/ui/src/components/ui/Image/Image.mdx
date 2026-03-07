@@ -1,52 +1,92 @@
-import { Meta, Title, Subtitle, Description, Primary, Controls, Stories } from '@storybook/addon-docs/blocks';
+import { Meta, Title, Subtitle, Description, Primary, Controls, Stories, Source } from '@storybook/blocks';
 import * as DocStories from './Image.stories';
 
 <Meta of={DocStories} />
 
-<Title />
+<Title>Image</Title>
+
+<Subtitle>
+  The Image component provides an accessible way to render raster images with support for object-fit and decorative handling.
+</Subtitle>
+
+```tsx
+import { Image } from '@geti/ui';
+```
+
+- [React Spectrum Image](https://react-spectrum.adobe.com/react-spectrum/Image.html)
+- [Spectrum 2 Image](https://react-spectrum.adobe.com/s2/Image.html)
+
+<Stories />
 
 ## Responsibility
 
-`Image` renders an accessible image. It is a minimal Spectrum wrapper that centralises the import of Spectrum's `Image` component so consumers never reach into `@adobe/react-spectrum` directly.
+The `Image` component is a lightweight wrapper around Adobe's React Spectrum `Image`. It provides a centralized import point for images within the Geti UI design system, ensuring consistent application of accessibility rules and styling.
 
-<Stories />
----
-
-## Design
-
-```tsx
-export interface ImageProps extends SpectrumImageProps {}
-export const Image = (props: ImageProps) => <SpectrumImage {...props} />;
-```
-
-All Spectrum props pass through unchanged:
-- `src` — image URL
-- `alt` — accessible description (required for non-decorative images)
-- `objectFit` — CSS `object-fit` value (`'cover'`, `'contain'`, etc.)
-- `isHidden` — marks the image as decorative (sets `alt=""` internally)
-- Spectrum style props (`width`, `height`, `UNSAFE_className`, etc.)
-
-No CSS module, no Geti-specific props.
+### Key Usage Rules
+1. **Mandatory Alt Text**: Every image **must** have an `alt` prop.
+    - For informative images, provide a meaningful, localized description.
+    - For decorative images that should be ignored by screen readers, set `alt=""`.
+2. **Object Fit**: Use the `objectFit` prop to control how the image should be resized to fit its container (similar to the CSS `object-fit` property).
+3. **No Intrinsic Styling**: The `Image` component does not have built-in borders or shadows. It receives its visual context from parent containers like `Card` or `Flex`.
 
 ---
 
-## Flow
+## Variants
 
-Pure presentational. Stateless.
-
----
-
-## Integration
-
-- **Depends on**: `@adobe/react-spectrum` (`Image`, `SpectrumImageProps`).
-- **Consumed by**: thumbnail grids, dataset cards, annotation previews, and any surface displaying a raster image.
-
+### Object Fit
+The `objectFit` prop accepts standard CSS values to determine how the image fills its container:
+- `cover`: Fills the container, cropping the image if necessary.
+- `contain`: Shows the entire image, adding "letterboxing" if needed.
+- `fill`: Stretches the image to fill the container (may distort aspect ratio).
+- `none`: Keeps original image size.
 
 ---
-
-<Primary />
 
 ## Props
 
-<Controls />
+<Controls of={DocStories.Default} />
 
+### Content
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `src` | `string` | — | The URL of the image. |
+| `alt` | `string` | **Required** | Accessible description of the image. Use `alt=""` for decorative images. |
+
+### Value / State
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `objectFit` | `'cover' \| 'contain' \| 'fill' \| 'none' \| 'scale-down'` | — | How the image fits into its container. |
+| `crossOrigin` | `'anonymous' \| 'use-credentials'` | — | CORS request mode for the image. |
+
+### Events
+
+| Prop | Type | Description |
+|------|------|-------------|
+| `onLoad` | `ReactEventHandler` | Triggered when the image has finished loading. |
+| `onError` | `ReactEventHandler` | Triggered if the image fails to load. |
+
+### Styles
+
+The `Image` component accepts all standard [Spectrum layout and spacing props](https://react-spectrum.adobe.com/react-spectrum/styling.html), including `width`, `height`, `margin`, `position`, and `flex` properties.
+
+---
+
+## Accessibility
+
+- **Decorative Images**: Setting `alt=""` is the standard way to hide decorative images from screen readers.
+- **Informative Images**: Ensure `alt` text describes the *purpose* or *content* of the image clearly for users with visual impairments.
+- **No Omission**: Spectrum enforces the presence of the `alt` attribute at the type level; omitting it will cause a TypeScript error.
+
+---
+
+## Spectrum 2 Migration
+
+Spectrum 2 (`@react-spectrum/s2`) introduces several powerful improvements for images:
+
+- **Styles Macro**: Layout and object-fit props are replaced by the S2 `styles` macro system (e.g., `styles={style({ objectFit: 'cover' })}`).
+- **Coordinated Loading**: The `<ImageCoordinator>` component allows groups of images to be revealed simultaneously once they have all finished loading.
+- **Conditional Sources**: The `src` prop can accept an array of sources to provide different images for light and dark color schemes.
+- **Lazy Loading**: Native support for `loading="lazy"` is available as a first-class prop.
+- **Custom Error State**: A `renderError` prop allows for declarative fallback UI when an image fails to load.
