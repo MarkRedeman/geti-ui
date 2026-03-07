@@ -12,7 +12,6 @@ import { ContextualHelp, Heading, Content, Footer, Link } from '@geti/ui';
 ```
 
 - [React Spectrum V3 ContextualHelp](https://react-spectrum.adobe.com/react-spectrum/ContextualHelp.html)
-- [Spectrum 2 ContextualHelp](https://react-spectrum.adobe.com/s2/ContextualHelp.html)
 
 <Stories />
 
@@ -68,24 +67,3 @@ Renders an `ℹ` icon. Best for brief, supplemental context about a specific lab
 ### Touch Support
 Unlike tooltips, `ContextualHelp` is triggered via press/click, making it accessible on touch screens where hover-only interactions are not available.
 
-## Spectrum 2 Migration
-
-`ContextualHelp` maintains its core API and name in Spectrum 2, with the following changes:
-
-- **Simplified Placement**: S2 uses single-direction placement values (e.g., `'bottom'` instead of `'bottom start'`).
-- **Style Macro**: Layout props (margin, flex) are replaced by the `styles={style({...})}` macro.
-- **New Size Prop**: S2 adds a `size` prop (`'S' | 'XS'`) for the trigger button.
-- **ContextualHelpTrigger Rename**: The specialized trigger for unavailable menu items has been renamed to `UnavailableMenuItemTrigger`.
-
-### S2 Migration Example
-```tsx
-import { ContextualHelp, Heading, Content, Footer, Link } from '@react-spectrum/s2';
-
-<ContextualHelp variant="info">
-  <Heading>Feature details</Heading>
-  <Content>Additional context about this feature.</Content>
-  <Footer>
-    <Link href="https://docs.example.com">Learn more</Link>
-  </Footer>
-</ContextualHelp>
-```
