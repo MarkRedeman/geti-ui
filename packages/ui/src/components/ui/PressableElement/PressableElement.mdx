@@ -1,69 +1,100 @@
-import { Meta, Title, Subtitle, Description, Primary, Controls, Stories } from '@storybook/addon-docs/blocks';
+import { Meta, Title, Subtitle, Description, Primary, Controls, Stories, Source } from '@storybook/blocks';
 import * as DocStories from './PressableElement.stories';
 
 <Meta of={DocStories} />
 
-<Title />
+<Title>PressableElement</Title>
+
+<Subtitle>
+  A flexible interaction wrapper that combines react-aria-components' Pressable with Spectrum's layout and style props.
+</Subtitle>
+
+```tsx
+import { PressableElement } from '@geti/ui';
+```
+
+- [React Aria Pressable](https://react-spectrum.adobe.com/react-aria/usePress.html) (Core hook documentation)
+- [RAC Pressable](https://react-spectrum.adobe.com/react-aria/FileTrigger.html#custom-trigger) (Component pattern)
+
+<Stories />
 
 ## Responsibility
 
-`PressableElement` is a bridge between two styling worlds: it lets any arbitrary DOM element accept **Spectrum style props** (padding, margin, backgroundColor, etc.) while remaining fully keyboard and pointer accessible via `react-aria-components`' `Pressable`. It is the go-to wrapper for custom pressable containers that need Spectrum-flavoured layout control without using a Spectrum `Button` or `ActionButton`.
+`PressableElement` is an architectural bridge component. it allows any arbitrary layout or container to accept **Spectrum style props** (padding, margin, background color, etc.) while remaining fully keyboard and pointer accessible via `react-aria-components` (RAC).
 
-<Stories />
----
+It is the primary choice for creating custom interactive surfaces that do not fit the semantic model of a `Button` or `Link`, such as clickable cards, list items, or complex thumbnail wrappers.
 
-## Design
-
-### Two-library bridge
-
-```
-PressableElement
-├── Pressable (react-aria-components) — handles press/keyboard/pointer events
-└── <div>                             — receives Spectrum style props via useStyleProps
-```
-
-`useStyleProps(props)` (from `@react-spectrum/utils`) translates Spectrum style props (`padding`, `margin`, `backgroundColor`, etc.) into a standard `{ style, className }` object. That result is spread onto the inner `<div>`.
-
-Props are manually split:
-- **Spectrum style props** + `UNSAFE_className` + `UNSAFE_style` + `id` → consumed by `useStyleProps` / applied to `<div>`
-- Everything else → forwarded to `<Pressable>` (`onPress`, `onPressStart`, `isDisabled`, etc.)
-
-```tsx
-const stylePropKeys = Object.keys(viewStyleProps);   // Spectrum's style prop key list
-const propsToOmit = [...stylePropKeys, 'UNSAFE_className', 'UNSAFE_style', 'id'];
-
-// pressableProps = all keys NOT in propsToOmit
-// styleProps     = result of useStyleProps(props)
-```
-
-### `isTruncated` utility
-
-When `isTruncated` is `true`, static `TruncatedTextStyles` (`overflow: hidden`, `white-space: nowrap`, `text-overflow: ellipsis`) are spread into the `<div>`'s style **before** the Spectrum `styleProps.style`, ensuring Spectrum props can still override if needed.
-
-### `onDoubleClick`
-
-Native `onDoubleClick` handler threaded directly to the `<div>` (not `Pressable`), because RAC's press model does not expose a double-press event.
+### Key Features
+- **Hybrid Styling**: Uses the internal Spectrum `useStyleProps` hook to translate tokens like `padding="size-200"` into CSS variables.
+- **Accessible Press**: Leverages the RAC `Pressable` component to handle focus, keyboard (Enter/Space), and touch interactions uniformly.
+- **Ref Forwarding**: Ensures that interactions and focus are correctly managed on the underlying DOM element.
+- **Truncation Support**: Includes a built-in `isTruncated` utility for handling text overflow in interactive containers.
 
 ---
 
-## Flow
+## Variants
 
-Pure presentational — no state, no context. Prop routing at render time only.
+### Truncation
+When `isTruncated` is `true`, the wrapper applies CSS ellipsis styles to ensure content fits within the specified `width`.
 
----
-
-## Integration
-
-- **Depends on**: `react-aria-components` (`Pressable`), `@react-spectrum/utils` (`useStyleProps`, `viewStyleProps`), `@react-types/shared` (`StyleProps`).
-- **Consumed by**: components needing pressable layout containers that don't fit a `Button` semantics — e.g. card-style click targets, list-item rows, thumbnail wrappers.
-- **Not a substitute for `Button`**: use `Button`/`ActionButton` for labelled actions; use `PressableElement` for arbitrary layout containers that happen to be interactive.
-
+### Double Click
+In addition to standard press events, `PressableElement` supports a native `onDoubleClick` handler, which is useful for specialized workflows like "double-click to rename" or "double-click to open."
 
 ---
-
-<Primary />
 
 ## Props
 
-<Controls />
+<Controls of={DocStories.Default} />
 
+### Content
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `children` | `ReactNode` | — | The content to be wrapped and made interactive. |
+
+### Interaction
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `onPress` | `(e: PressEvent) => void` | — | Handler called when the element is pressed. |
+| `onDoubleClick` | `() => void` | — | Native double-click event handler. |
+| `isDisabled` | `boolean` | `false` | Whether the element should ignore interactions. |
+
+### Styles
+
+`PressableElement` accepts all standard [Spectrum layout and spacing props](https://react-spectrum.adobe.com/react-spectrum/styling.html).
+
+---
+
+## Implementation Details
+
+The component manually splits its props between the RAC `Pressable` wrapper and an inner `div` that receives the visual styles:
+
+```tsx
+<Pressable {...pressableProps}>
+  <div {...styleProps} onDoubleClick={onDoubleClick}>
+    {children}
+  </div>
+</Pressable>
+```
+
+- **Outer Wrapper**: `Pressable` (from RAC) manages the interaction state and ARIA attributes.
+- **Inner Element**: A `div` that uses Spectrum's `useStyleProps` to apply layout, spacing, and custom `UNSAFE_style` / `UNSAFE_className` overrides.
+
+---
+
+## Accessibility
+
+- **Keyboard Support**: Automatically handles `tabIndex` and keyboard activation (Enter/Space).
+- **Focus Indicator**: Inherits Spectrum-compliant focus ring behavior when focused via keyboard.
+- **Roles**: When wrapping non-semantic elements, ensure the child has an appropriate `role` (e.g., `role="button"`, `role="link"`, or `role="gridcell"`) if it is not inherently interactive.
+
+---
+
+## Spectrum 2 Migration
+
+When migrating to Spectrum 2 (`@react-spectrum/s2`), the bridging logic will change:
+
+1. **Drop `useStyleProps`**: S2 replaces individual style props with a `styles` macro. `PressableElement` will eventually migrate its layout props into the S2 `style()` macro.
+2. **Retain `Pressable`**: The `Pressable` component from `react-aria-components` remains a stable primitive in the S2 era.
+3. **Tailwind Transition**: In Phase 3, this component will likely transition to a pure Tailwind implementation using RAC's headless `Pressable` as the logic layer.
