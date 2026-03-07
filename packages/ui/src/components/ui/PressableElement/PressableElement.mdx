@@ -1,4 +1,4 @@
-import { Meta, Title, Subtitle, Description, Primary, Controls, Stories, Source } from '@storybook/blocks';
+import { Meta, Title, Subtitle, Description, Primary, Controls, Stories, Source } from '@storybook/addon-docs/blocks';
 import * as DocStories from './PressableElement.stories';
 
 <Meta of={DocStories} />
@@ -89,12 +89,4 @@ The component manually splits its props between the RAC `Pressable` wrapper and 
 - **Focus Indicator**: Inherits Spectrum-compliant focus ring behavior when focused via keyboard.
 - **Roles**: When wrapping non-semantic elements, ensure the child has an appropriate `role` (e.g., `role="button"`, `role="link"`, or `role="gridcell"`) if it is not inherently interactive.
 
----
 
-## Spectrum 2 Migration
-
-When migrating to Spectrum 2 (`@react-spectrum/s2`), the bridging logic will change:
-
-1. **Drop `useStyleProps`**: S2 replaces individual style props with a `styles` macro. `PressableElement` will eventually migrate its layout props into the S2 `style()` macro.
-2. **Retain `Pressable`**: The `Pressable` component from `react-aria-components` remains a stable primitive in the S2 era.
-3. **Tailwind Transition**: In Phase 3, this component will likely transition to a pure Tailwind implementation using RAC's headless `Pressable` as the logic layer.
