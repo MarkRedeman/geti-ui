@@ -1,68 +1,97 @@
-import { Meta, Title, Subtitle, Description, Primary, Controls, Stories } from '@storybook/addon-docs/blocks';
+import { Meta, Title, Subtitle, Description, Primary, Controls, Stories } from '@storybook/blocks';
 import * as DocStories from './Slider.stories';
 
 <Meta of={DocStories} />
 
-<Title />
+<Title>Slider</Title>
+
+<Subtitle>A numeric input that allows users to select a single value within a fixed range.</Subtitle>
+
+```tsx
+import { Slider } from '@geti/ui';
+```
+
+- [React Spectrum V3 Slider](https://react-spectrum.adobe.com/react-spectrum/Slider.html)
+- [Spectrum 2 Slider](https://react-spectrum.adobe.com/s2/Slider.html)
+
+<Stories />
 
 ## Responsibility
 
-`Slider` is a single-handle range slider. It wraps Spectrum's `Slider` and adds Geti's energy-blue track/thumb override when `isFilled` is `true`. This is the primary slider for settings panels and filter controls where the filled-track visual is desired.
+The `Slider` component allows users to select a single numeric value by dragging a handle along a track. It is ideal for adjusting settings like volume, opacity, or exposure where the range of possible values is known and invariable.
 
-<Stories />
----
+### When to use
+- To select a single value from a fixed range.
+- When the relative value is more important than the exact numeric precision (though labels can provide precision).
 
-## Design
+### When to use something else
+- Use [RangeSlider](/docs/components-form-rangeslider--docs) to select a range of values (e.g., a price range with two handles).
+- Use [ProgressBar](/docs/components-status-progressbar--docs) for read-only status indication.
+- Use [NumberField](/docs/components-form-numberfield--docs) if the user needs to type a precise number.
 
-### The `isFilled` → `data-filled` pattern
+## Variants
 
-Spectrum's `Slider` supports `isFilled` but uses its own accent colour for the fill track. To override with `--energy-blue`, Geti:
+### States
+- **Disabled**: The slider is not interactive and the track/handle appear dimmed. Use `isDisabled`.
+- **Filled**: In Geti UI, the `isFilled` prop applies an energy-blue design token to the fill track and handle, overriding the default Spectrum accent color.
 
-1. Passes `isFilled` through to Spectrum (unchanged — `props.isFilled` is in `...props`).
-2. Mirrors the value as `data-filled={props.isFilled}` on the Spectrum component.
-3. Uses a CSS module selector `[data-filled='true']` to override the Spectrum component-level tokens:
+### Orientation
+- **Horizontal** (Default): The standard horizontal track.
+- **Vertical**: Use `orientation="vertical"` for vertical layouts.
 
-```css
-/* Slider.module.css */
-.slider[data-filled='true'] {
-    --spectrum-slider-fill-track-color:              var(--energy-blue);
-    --spectrum-slider-handle-border-color:           var(--energy-blue);
-    --spectrum-slider-handle-border-color-down:      var(--energy-blue-lighter);
-    --spectrum-slider-handle-border-color-hover:     var(--energy-blue-light);
-}
-```
-
-The `.slider` class is applied unconditionally via `UNSAFE_className={clsx(styles.slider, UNSAFE_className)}`, so a caller's own class is always merged after.
-
-### Props
-
-```tsx
-export interface SliderProps extends SpectrumSliderProps {}
-```
-
-No props are added or removed. All Spectrum props (`minValue`, `maxValue`, `step`, `value`, `onChange`, `label`, `isDisabled`, `isFilled`, etc.) pass through.
-
----
-
-## Flow
-
-Pure presentational. No internal state. `isFilled` controls the CSS override via `data-filled` attribute — no JavaScript logic is involved in the visual switch.
-
----
-
-## Integration
-
-- **Depends on**: `@adobe/react-spectrum` (`Slider`, `SpectrumSliderProps`), `clsx`, `./Slider.module.css`.
-- **Tokens**: `--energy-blue`, `--energy-blue-light`, `--energy-blue-lighter` defined in `geti-global.module.css`.
-- **Consumed by**: settings panels, annotation opacity controls, confidence threshold sliders.
-- **Distinct from `RangeSlider`**: `Slider` has one handle (single value); `RangeSlider` has two handles (start + end range).
-
-
----
-
-<Primary />
+### Formatting
+The value label can be formatted using `formatOptions` (e.g., for percentages, currency, or decimals) using the `Intl.NumberFormat` API.
 
 ## Props
 
-<Controls />
+### Content
+| Prop | Type | Description |
+|---|---|---|
+| `label` | `ReactNode` | The label for the slider. |
+| `showValueLabel` | `boolean` | Whether to display the current value as a label. |
+| `getValueLabel` | `(value: number) => string` | A function to generate a custom value label. |
+| `contextualHelp` | `ReactNode` | A `<ContextualHelp>` element placed next to the label. |
 
+### Value
+| Prop | Type | Default | Description |
+|---|---|---|---|
+| `value` | `number` | — | The current value (controlled). |
+| `defaultValue` | `number` | — | The initial value (uncontrolled). |
+| `minValue` | `number` | `0` | The minimum allowed value. |
+| `maxValue` | `number` | `100` | The maximum allowed value. |
+| `step` | `number` | `1` | The increment between values. |
+
+### Events
+| Prop | Type | Description |
+|---|---|---|
+| `onChange` | `(value: number) => void` | Called continuously while the user drags the slider. |
+| `onChangeEnd` | `(value: number) => void` | Called only when the user releases the slider handle. |
+
+### Styles
+| Prop | Type | Description |
+|---|---|---|
+| `isFilled` | `boolean` | Whether to show a filled track from the start to the handle. |
+| `fillOffset` | `number` | The value from which the track fill should start. |
+| `width` | `DimensionValue` | The width of the slider component. |
+| `labelPosition` | `'top' \| 'side'` | The position of the label relative to the slider. |
+
+## Accessibility
+
+- Uses an underlying `<input type="range">` for native semantics.
+- Full keyboard support: **Arrow keys** increment/decrement by `step`, **PageUp/PageDown** for larger steps, and **Home/End** to jump to bounds.
+- Automatically handles ARIA attributes like `aria-valuemin`, `aria-valuemax`, and `aria-valuenow`.
+- Supports screen readers by providing formatted value text via `aria-valuetext`.
+
+## Spectrum 2 Migration
+
+When migrating to Spectrum 2 (S2), note the following changes:
+
+| V3 Prop | S2 Equivalent | Notes |
+|---|---|---|
+| `isFilled` | — | S2 Sliders are always filled by default; this prop is removed. |
+| `showValueLabel` | — | Removed in S2 for accessibility reasons. |
+| `width="size-2400"` | `styles={style({ width: 192 })}` | Dimension props move to the `style()` macro. |
+| `trackStyle` | `trackStyle` | New in S2: `'thin' \| 'thick'` (default `'thin'`). |
+| `isEmphasized` | `isEmphasized` | New in S2: Applies an accent-color highlight. |
+
+<Controls />
