@@ -12,7 +12,6 @@ import { Tabs, TabList, TabPanels, Item } from '@geti/ui';
 ```
 
 - [React Spectrum V3 Tabs](https://react-spectrum.adobe.com/react-spectrum/Tabs.html)
-- [Spectrum 2 Tabs](https://react-spectrum.adobe.com/s2/Tabs.html)
 
 <Stories />
 
@@ -77,42 +76,3 @@ Supports `regular` (default) and `compact` density. `compact` is ideal for infor
   - Subsequent `Tab` press moves focus **into the active tab panel**.
 - **Labeling**: The `TabList` must always have an `aria-label` or `aria-labelledby` to provide context.
 
-## Spectrum 2 Migration
-
-The migration to Spectrum 2 (S2) introduces significant structural improvements and a more flexible layout model.
-
-### Structural Changes
-- **Flat Hierarchy**: The `<TabPanels>` wrapper is removed. Individual `<TabPanel>` elements are now direct siblings of the `<TabList>`.
-- **Component Renaming**: Generic `<Item>` tags are replaced by `<Tab>` in the list and `<TabPanel>` for the content.
-- **Collection Management**: The `items` prop moves from the root `<Tabs>` component down to the `<TabList>`.
-
-### Key Improvements
-- **Automatic Overflow**: Horizontal tabs in S2 automatically collapse into a `Picker` (dropdown) if they exceed the container's width.
-- **Selection Visuals**: The selection indicator and focus states are refined for better visibility and modern aesthetics.
-- **Styles**: Visual variants like `isQuiet` and `isEmphasized` are replaced by design tokens or the `styles` macro.
-
-### Migration Example
-
-**V3 Style (Current):**
-```tsx
-<Tabs items={tabs}>
-  <TabList aria-label="Settings">
-    {(item) => <Item key={item.id}>{item.name}</Item>}
-  </TabList>
-  <TabPanels>
-    {(item) => <Item key={item.id}>{item.content}</Item>}
-  </TabPanels>
-</Tabs>
-```
-
-**S2 Style (Future):**
-```tsx
-<Tabs aria-label="Settings">
-  <TabList items={tabs}>
-    {(item) => <Tab id={item.id}>{item.name}</Tab>}
-  </TabList>
-  <Collection items={tabs}>
-    {(item) => <TabPanel id={item.id}>{item.content}</TabPanel>}
-  </Collection>
-</Tabs>
-```
