@@ -5,67 +5,76 @@ import * as DocStories from './ActionButton.stories';
 
 <Title />
 
-## Responsibility
+ActionButtons allow users to perform an action. They’re used for similar, task-based options within a workflow, and are ideal for interfaces where buttons aren’t meant to draw a lot of attention.
 
-`ActionButton` is the icon-first toolbar/tool button. It wraps Spectrum's `ActionButton` and adds a Geti-specific `colorVariant` prop (`'dark'` | `'light'` | `'blue'`) that changes hover/active colours to match different surface types (dark panels, light header bars, transparent icon-only contexts).
-
-<Stories />
----
-
-## Design
-
-### The `colorVariant` extension
-
-Spectrum's `ActionButton` does not have a built-in surface-context prop. Geti adds one via the approved `UNSAFE_className` + CSS module pattern:
+## Import
 
 ```tsx
-// ActionButton.tsx
-const COLOR_VARIANT_CLASSES: Record<ActionButtonColorVariant, string> = {
-    dark:  styles.actionButtonDark,
-    light: styles.actionButtonLight,
-    blue:  styles.actionButtonBlue,
-};
-
-export const ActionButton = ({ colorVariant, UNSAFE_className, ...rest }: ActionButtonProps) => (
-    <SpectrumActionButton
-        {...rest}
-        UNSAFE_className={clsx(getColorVariantClass(colorVariant), UNSAFE_className) || undefined}
-    />
-);
+import { ActionButton } from '@geti/ui';
 ```
 
-The `clsx` call always puts the Geti variant class **first**, so caller-supplied classes can still override further if needed.
+## Reference
 
-### CSS module details (`ActionButton.module.css`)
+[Adobe React Spectrum ActionButton](https://react-spectrum.adobe.com/react-spectrum/ActionButton.html)
 
-| Class | Surface | Hover / active behaviour |
-|---|---|---|
-| `actionButtonDark` | Dark panels/toolbars | Subtle `gray-300` border + `gray-100` background on hover; `gray-400` border + `gray-50` bg on active/selected |
-| `actionButtonLight` | Light header areas | `--blue-header-option-hover` border+bg on hover; `--blue-header-option-selected` on active |
-| `actionButtonBlue` | Icon-only, transparent contexts | Transparent border + bg; `--energy-blue` text colour when not disabled |
+<Stories />
 
-All selectors use `:global([class*='is-hovered'])` / `:global([class*='is-active'])` to target Spectrum's internal state classes without depending on their exact generated names.
+## Variants
 
----
+### Geti Color Variants
 
-## Flow
+The Geti `ActionButton` extends Spectrum's base with a `colorVariant` prop for specific product themes:
 
-Pure presentational — no state, no context. The only logic is the `COLOR_VARIANT_CLASSES` record lookup.
+| Variant | Description |
+|---|---|
+| `dark` (default) | Subtle border on hover/active. Standard Geti look for dark panels/toolbars. |
+| `light` | Blue-tinted hover/active. Optimized for light header areas. |
+| `blue` | Transparent background with blue text. Ideal for icon-only, transparent contexts. |
 
----
+### Visual Options
 
-## Integration
+Following Spectrum's core options:
 
-- **Imported by**: toolbar components, `ColorPickerDialog` (trigger button), and any component needing an icon/label action that isn't a primary CTA.
-- **Depends on**: `@adobe/react-spectrum` (`ActionButton`, `SpectrumActionButtonProps`), `clsx`, `./ActionButton.module.css`.
-- **Theme**: `--blue-header-option-hover`, `--blue-header-option-selected`, and `--energy-blue` are defined in `geti-global.module.css` and resolve through `ThemeProvider`.
-
-
----
-
-<Primary />
+- **Quiet**: Use `isQuiet` for a button with no background or border until hover.
+- **Disabled**: Use `isDisabled` to prevent user interaction.
+- **Static Color**: Use `staticColor="white" | "black"` when placed over colored backgrounds.
 
 ## Props
 
-<Controls />
+### Button Props
 
+| Name | Type | Default | Description |
+|---|---|---|---|
+| `colorVariant` | `'dark' \| 'light' \| 'blue'` | `'dark'` | Applies a Geti-specific visual style. |
+| `isQuiet` | `boolean` | `false` | Whether the button should be displayed with a quiet style. |
+| `isDisabled` | `boolean` | `false` | Whether the button is disabled. |
+| `staticColor` | `'white' \| 'black'` | — | The static color style to apply over colored backgrounds. |
+| `type` | `'button' \| 'submit' \| 'reset'` | `'button'` | The behavior of the button when used in an HTML form. |
+
+### Content
+
+| Name | Type | Default | Description |
+|---|---|---|---|
+| `children` | `ReactNode` | — | The content to display in the button (Label, Icon, or both). |
+
+### Events
+
+| Name | Type | Description |
+|---|---|---|
+| `onPress` | `(e: PressEvent) => void` | Handler that is called when the press is released over the target. |
+| `onPressStart` | `(e: PressEvent) => void` | Handler that is called when a press interaction starts. |
+| `onPressEnd` | `(e: PressEvent) => void` | Handler that is called when a press interaction ends. |
+| `onFocus` | `(e: FocusEvent) => void` | Handler that is called when the element receives focus. |
+| `onBlur` | `(e: FocusEvent) => void` | Handler that is called when the element loses focus. |
+
+---
+
+## Responsibility
+
+The `ActionButton` wraps Adobe React Spectrum's `ActionButton`. Its primary responsibility is to:
+1. Provide Geti-specific color variants (`dark`, `light`, `blue`) via the `colorVariant` prop.
+2. Ensure stable styling by merging `UNSAFE_className` with internal Geti CSS modules.
+
+<Primary />
+
+<Controls />
