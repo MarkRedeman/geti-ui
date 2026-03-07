@@ -1,10 +1,10 @@
-import { Dispatch, Key, ReactNode, SetStateAction } from 'react';
+import { Key, ReactNode } from 'react';
 import { Item, Menu, MenuTrigger, Tooltip, TooltipTrigger, ActionButton } from '@adobe/react-spectrum';
 import List from '@spectrum-icons/workflow/ViewList';
 import GridSmall from '@spectrum-icons/workflow/ViewGrid';
 import GridMedium from '@spectrum-icons/workflow/ModernGridView';
 import GridLarge from '@spectrum-icons/workflow/ClassicGridView';
-import { VIEW_MODE_LABEL, ViewModes } from './utils';
+import { ViewModes } from './utils';
 
 const ITEMS = [ViewModes.LARGE, ViewModes.MEDIUM, ViewModes.SMALL, ViewModes.DETAILS];
 
@@ -23,7 +23,7 @@ export interface MediaViewModesProps {
     /** The current view mode. */
     viewMode: ViewModes;
     /** Function called when the view mode is changed. */
-    setViewMode: Dispatch<SetStateAction<ViewModes>> | ((viewMode: ViewModes) => void);
+    setViewMode: (viewMode: ViewModes) => void;
 }
 
 /**
@@ -32,11 +32,10 @@ export interface MediaViewModesProps {
  */
 export const MediaViewModes = ({ items = ITEMS, isDisabled = false, viewMode, setViewMode }: MediaViewModesProps) => {
     const handleAction = (key: Key): void => {
-        // Find the view mode that matches the key (case-insensitive for safety)
-        const selectedMode = items.find((item) => item.toLocaleLowerCase() === String(key).toLocaleLowerCase());
+        const selectedMode = items.find((item) => item === key);
 
         if (selectedMode && selectedMode !== viewMode) {
-            setViewMode(selectedMode as ViewModes);
+            setViewMode(selectedMode);
         }
     };
 
@@ -46,11 +45,11 @@ export const MediaViewModes = ({ items = ITEMS, isDisabled = false, viewMode, se
                 <ActionButton isQuiet isDisabled={isDisabled} aria-label="View mode">
                     {ICON_PER_MODE[viewMode]}
                 </ActionButton>
-                <Tooltip>{VIEW_MODE_LABEL}</Tooltip>
+                <Tooltip>View mode</Tooltip>
             </TooltipTrigger>
-            <Menu selectionMode="single" onAction={handleAction} selectedKeys={[viewMode.toLocaleLowerCase()]}>
+            <Menu selectionMode="single" onAction={handleAction} selectedKeys={[viewMode]}>
                 {items.map((item: ViewModes) => (
-                    <Item key={item.toLocaleLowerCase()} textValue={item}>
+                    <Item key={item} textValue={item}>
                         {item}
                     </Item>
                 ))}

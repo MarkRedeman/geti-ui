@@ -9,5 +9,3 @@ export enum ViewModes {
 }
 
 export const INITIAL_VIEW_MODE = ViewModes.MEDIUM;
-export const VIEW_MODE_LABEL = 'View mode';
-export const VIEW_MODE_KEY = 'view-mode';
