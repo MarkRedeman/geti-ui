@@ -11,7 +11,7 @@ ComboBoxes combine a text entry with a picker menu, allowing users to filter lon
 import { ComboBox, Item } from '@geti/ui';
 ```
 
-[React Spectrum V3 ComboBox](https://react-spectrum.adobe.com/react-spectrum/ComboBox.html) | [Spectrum 2 ComboBox](https://react-spectrum.adobe.com/s2/ComboBox.html)
+[React Spectrum V3 ComboBox](https://react-spectrum.adobe.com/react-spectrum/ComboBox.html)
 
 <Stories />
 
@@ -89,15 +89,4 @@ Supports `validationState="invalid"` to indicate an error, often used in conjunc
     - `Enter`: Selects the focused suggestion.
     - `Escape`: Closes the menu or clears the input.
 - **Labeling**: Always provide a `label`. If a visual label is not possible, use `aria-label` or `aria-labelledby`.
-
-## Spectrum 2 Migration
-
-When migrating to Spectrum 2 (`@react-spectrum/s2`), note the following changes:
-
-- **Component Name**: Remains `ComboBox`.
-- **Items**: Use `ComboBoxItem` instead of `Item`.
-- **Sections**: Use `ComboBoxSection` and `Header` for grouping.
-- **Styling**: Switch from `UNSAFE_className` to the `style` macro and `styles` prop.
-- **Slots**: `ComboBoxItem` in S2 supports rich content via slots (e.g., `<Text slot="label">`, `<Text slot="description">`, `<Avatar slot="avatar">`).
-- **Form Integration**: S2 `ComboBox` has improved `name` and `formValue` support for native HTML form submission.
 
