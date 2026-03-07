@@ -12,7 +12,6 @@ import { IllustratedMessage, Heading, Content } from '@geti/ui';
 ```
 
 - [React Spectrum V3 IllustratedMessage](https://react-spectrum.adobe.com/react-spectrum/IllustratedMessage.html)
-- [Spectrum 2 IllustratedMessage](https://react-spectrum.adobe.com/s2/IllustratedMessage.html)
 
 <Stories />
 
@@ -43,9 +42,6 @@ import { IllustratedMessage, Heading, Content } from '@geti/ui';
 ### Standard Layout
 Combines an illustration, a heading, and content to provide a clear explanation for the current state.
 
-### S2 Call-to-Action (CTA)
-In the Spectrum 2 migration, `IllustratedMessage` gains a fourth zone for a `ButtonGroup`, allowing for primary actions (e.g., "Upload") to be embedded directly within the message.
-
 ## Props
 
 | Prop | Type | Default | Description |
@@ -64,26 +60,3 @@ In the Spectrum 2 migration, `IllustratedMessage` gains a fourth zone for a `But
 ### Dynamic States
 If the message represents a live change in state (e.g., a search results list that just became empty), wrap the component in an `aria-live="polite"` region.
 
-## Spectrum 2 Migration
-
-`IllustratedMessage` retains its name and core structure in Spectrum 2, but with several enhancements:
-
-- **New Illustration Set**: S2 uses a richer **gradient illustration set** that is not compatible with the old flat V3 icons.
-- **ButtonGroup Slot**: S2 adds first-class support for a `ButtonGroup` child slot for call-to-action buttons.
-- **Size Prop**: A new `size` prop allows for smaller visual variants when used inside components like `CardView` or `TableView`.
-- **Import Change**: `@adobe/react-spectrum` → `@react-spectrum/s2`.
-
-### S2 Migration Example
-```tsx
-import { IllustratedMessage, Heading, Content, ButtonGroup, Button } from '@react-spectrum/s2';
-import Image from '@react-spectrum/s2/illustrations/gradient/generic1/Image';
-
-<IllustratedMessage size="L">
-  <Image />
-  <Heading>No datasets yet.</Heading>
-  <Content>Upload your first dataset to get started.</Content>
-  <ButtonGroup>
-    <Button variant="accent">Upload</Button>
-  </ButtonGroup>
-</IllustratedMessage>
-```
