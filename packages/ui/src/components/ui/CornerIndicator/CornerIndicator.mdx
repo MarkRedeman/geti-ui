@@ -1,71 +1,104 @@
-import { Meta, Title, Subtitle, Description, Primary, Controls, Stories } from '@storybook/addon-docs/blocks';
+import { Meta, Title, Subtitle, Description, Primary, Controls, Stories, Source } from '@storybook/blocks';
 import * as DocStories from './CornerIndicator.stories';
 
 <Meta of={DocStories} />
 
-<Title />
+<Title>CornerIndicator</Title>
+
+<Subtitle>
+  A decorative wrapper that overlays a small indicator dot in the corner of a UI element.
+</Subtitle>
+
+```tsx
+import { CornerIndicator } from '@geti/ui';
+```
+
+<Stories />
 
 ## Responsibility
 
-`CornerIndicator` overlays a small coloured dot in the top-right corner of any child element to signal a pending state or notification. It is a **decorator** — it wraps arbitrary content and conditionally renders the dot without modifying the child.
+`CornerIndicator` is a Geti-specific layout wrapper that overlays a small blue dot in the top-right corner of its children when `isActive={true}`. It is a **decorator**—it wraps arbitrary content and conditionally renders the dot without modifying the child.
 
-<Stories />
----
+### How it differs from Spectrum
+There is no direct equivalent to a positioned notification dot in Adobe React Spectrum. While Spectrum provides `Badge` and `StatusLight`, they differ from `CornerIndicator` in key ways:
 
-## Design
+1. **Overlay Behavior**: `CornerIndicator` wraps children and overlays them, whereas Spectrum indicators render inline beside content.
+2. **Visual-Only Dot**: It renders a purely visual dot without a text label, whereas Spectrum components typically require or recommend visible text.
+3. **Presence Signal**: Its purpose is a compact activity signal (e.g., indicating a tool is active or a change is pending) rather than a semantic status or category label.
 
-### Structure
-
-```tsx
-<View position="relative">        // Spectrum View — establishes positioning context
-    {isActive && (
-        <div                       // The indicator dot
-            style={{ position: 'absolute', top: ..., right: ..., ... }}
-            role="status"
-            aria-label="Pending change"
-        />
-    )}
-    {children}
-</View>
-```
-
-### Sizing via Spectrum dimension tokens
-
-The dot's position and size use Spectrum global dimension tokens in inline styles:
-
-| Property | Token | Value at medium scale |
-|---|---|---|
-| `top`, `right` | `--spectrum-global-dimension-size-50` | 4 px |
-| `width`, `height` | `--spectrum-global-dimension-size-50` | 4 px |
-| `borderRadius` | `--spectrum-global-dimension-size-100` | 8 px (full round) |
-| `backgroundColor` | `--spectrum-global-color-blue-700` | Geti energy-blue |
-
-Using tokens ensures the dot scales with Spectrum's medium/large scale settings.
-
-### Accessibility
-
-`role="status"` and `aria-label="Pending change"` make the indicator a live region that screen readers can announce. The dot is only rendered (and thus announced) when `isActive` is `true`.
+Use `CornerIndicator` for non-intrusive activity signals on icons, thumbnails, or controls. For status labels visible alongside content, prefer `StatusLight`. For categorization metadata, prefer `Badge`.
 
 ---
 
-## Flow
+## Variants
 
-Pure presentational — no state. Toggle is entirely controlled by the `isActive` prop.
-
----
-
-## Integration
-
-- **Depends on**: `@adobe/react-spectrum` (`View`), React (`ReactNode`).
-- **Consumed by**: toolbar buttons, list items, thumbnail cells — any widget that needs a pending/notification badge without structural changes to the underlying component.
-- **Note**: imports `View` from `@adobe/react-spectrum` directly (not from `../View/View`). This is an exception to the centralised-import rule; both resolve identically at runtime.
-
+### Active State
+When `isActive` is `true`, a small blue dot is rendered in the top-right corner. When `false`, the indicator is completely removed from the DOM.
 
 ---
-
-<Primary />
 
 ## Props
 
-<Controls />
+<Controls of={DocStories.Default} />
 
+### Content
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `children` | `ReactNode` | — | The element to which the indicator is attached. |
+
+### Value / State
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `isActive` | `boolean` | — | Whether the indicator dot is visible. |
+
+---
+
+## Implementation Details
+
+### Structure
+The component uses a Spectrum `View` with `position="relative"` to establish a coordinate system, and a `div` with `position="absolute"` for the dot.
+
+### Styling with Tokens
+The dot's size, position, and color are driven by Spectrum global dimension and color tokens:
+
+| Property | Token | Purpose |
+|----------|-------|---------|
+| `top` / `right` | `--spectrum-global-dimension-size-50` | 4px offset from the corner. |
+| `width` / `height` | `--spectrum-global-dimension-size-50` | 4px diameter dot. |
+| `borderRadius` | `--spectrum-global-dimension-size-100` | Ensures the dot remains perfectly circular. |
+| `backgroundColor` | `--spectrum-global-color-blue-700` | The Geti "Energy Blue" color. |
+
+---
+
+## Accessibility
+
+- **Role**: The dot uses `role="status"` to identify itself as a status indicator to assistive technologies.
+- **Label**: It includes `aria-label="Pending change"` by default. Note that in a production environment, this label should ideally be localized or context-specific.
+- **Dynamic Updates**: Because it is conditionally rendered, screen readers will announce the presence of the status dot when it appears.
+
+---
+
+## Spectrum 2 Migration
+
+`CornerIndicator` has no direct counterpart in Spectrum 2 (`@react-spectrum/s2`). It will remain a custom Geti component.
+
+When migrating to Phase 3 (Tailwind CSS), this component can be simplified to a standard Tailwind pattern:
+
+<Source
+  language="tsx"
+  dark
+  code={`
+<div className="relative inline-block">
+  {children}
+  {isActive && (
+    <span
+      role="status"
+      aria-label="Active"
+      className="absolute top-0 right-0 w-2 h-2 rounded-full bg-blue-500 translate-x-1/2 -translate-y-1/2"
+    />
+  )}
+</div>
+`}
+/>
