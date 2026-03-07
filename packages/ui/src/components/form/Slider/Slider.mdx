@@ -1,9 +1,9 @@
-import { Meta, Title, Subtitle, Description, Primary, Controls, Stories } from '@storybook/addon-docs/blocks';
+import { Meta, Subtitle, Controls, Stories } from '@storybook/addon-docs/blocks';
 import * as DocStories from './Slider.stories';
 
 <Meta of={DocStories} />
 
-<Title>Slider</Title>
+# Slider
 
 <Subtitle>A numeric input that allows users to select a single value within a fixed range.</Subtitle>
 
@@ -12,6 +12,7 @@ import { Slider } from '@geti/ui';
 ```
 
 - [React Spectrum V3 Slider](https://react-spectrum.adobe.com/react-spectrum/Slider.html)
+- [Theming Guide (Geti UI)](?path=/docs/theme-theming--docs)
 
 <Stories />
 
@@ -27,6 +28,58 @@ The `Slider` component allows users to select a single numeric value by dragging
 - Use [RangeSlider](/docs/components-form-rangeslider--docs) to select a range of values (e.g., a price range with two handles).
 - Use [ProgressBar](/docs/components-status-progressbar--docs) for read-only status indication.
 - Use [NumberField](/docs/components-form-numberfield--docs) if the user needs to type a precise number.
+
+---
+
+## Design
+
+`Slider` extends `SpectrumSliderProps` and adds a single Geti customisation: the `isFilled` CSS token override.
+
+```tsx
+// packages/ui/src/components/form/Slider/Slider.tsx
+
+export interface SliderProps extends SpectrumSliderProps {}
+
+export const Slider = ({ UNSAFE_className, ...props }: SliderProps) => {
+    return (
+        <SpectrumSlider
+            {...props}
+            UNSAFE_className={clsx(styles.slider, UNSAFE_className)}
+            data-filled={props.isFilled}
+        />
+    );
+};
+```
+
+The wrapper intercepts `UNSAFE_className` to merge it with the Geti-specific CSS Module class. All other props pass through to Spectrum unchanged.
+
+**`isFilled` token override**
+
+When `isFilled={true}`, the `data-filled="true"` attribute is set on the root element. The CSS Module targets this attribute to replace Spectrum's default accent colour with Geti's energy-blue tokens:
+
+```css
+/* Slider.module.css */
+.slider[data-filled='true'] {
+    --spectrum-slider-fill-track-color: var(--energy-blue);
+    --spectrum-slider-handle-border-color: var(--energy-blue);
+    --spectrum-slider-handle-border-color-down: var(--energy-blue-lighter);
+    --spectrum-slider-handle-border-color-hover: var(--energy-blue-light);
+}
+```
+
+This approach uses only Spectrum's own CSS custom properties as override targets — no internal Spectrum class selectors are used, keeping the customisation upgrade-safe. The `--energy-blue` variables are defined in `src/theme/tokens.css` and resolved by `ThemeProvider`.
+
+**Prop mapping**
+
+| Geti `SliderProps` | Spectrum `SpectrumSliderProps` | Notes |
+|--------------------|-------------------------------|-------|
+| `value` / `defaultValue` | `value` / `defaultValue` | Controlled / uncontrolled numeric value |
+| `isFilled` | `isFilled` | Passes through to Spectrum; also sets `data-filled` for CSS override |
+| `isDisabled` | `isDisabled` | Non-interactive, visually dimmed |
+| `UNSAFE_className` | `UNSAFE_className` | Merged with Geti's CSS Module class via `clsx` |
+| `...rest` | all other props | Passed through without transformation |
+
+---
 
 ## Variants
 
