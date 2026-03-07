@@ -69,11 +69,11 @@ The top-level `KitchenSink.mdx` has an additional issue: the table in the Respon
 
 Three exported components have no dedicated documentation page:
 
-| Component | Location | Priority |
-|---|---|---|
-| `AvatarGroup` | `packages/ui/src/components/ui/Avatar/AvatarGroup.tsx` | **High** — exported in index.ts, documented only as a table row in `ui/KitchenSink.mdx` |
-| `MediaViewModes` | `packages/ui/src/components/navigation/MediaViewModes/` | **Medium** — listed in the plan's inventory |
-| `SelectBoxGroup` | `packages/ui/src/components/form/SelectBoxGroup/` | **Medium** — listed in the plan's inventory |
+| Component | Location | Priority | Status |
+|---|---|---|---|
+| `AvatarGroup` | `packages/ui/src/components/ui/Avatar/AvatarGroup.tsx` | **High** | ✅ Created |
+| `MediaViewModes` | `packages/ui/src/components/navigation/MediaViewModes/` | **Medium** | ✅ Created |
+| `SelectBoxGroup` | `packages/ui/src/components/form/SelectBoxGroup/` | **Medium** | ⚠️ Not Implemented |
 
 `AvatarGroup` should be co-located in `packages/ui/src/components/ui/Avatar/AvatarGroup.mdx` (not a separate directory, since `AvatarGroup.tsx` already lives there).
 
@@ -87,6 +87,10 @@ These files meet or nearly meet the full High Quality standard. Use them as exem
 
 | Component | Lines | Standout strength |
 |---|---|---|
+| `Toast` | 134 | Complete imperative API docs; accessibility live-region table |
+| `ActionBar` | 130 | Solid Flow + Design sections; TableView integration code snippet |
+| `CardView` | 125 | Clear Design + Flow; ActionBar integration example |
+| `IllustratedMessage` | 115 | Slot-based Design section; DropZone/Empty state integration |
 | `TableView` | 209 | Comprehensive: variants, loading states, drag & drop, accessibility deep-dive |
 | `CustomPopover` | 173 | Excellent Design + Flow sections; RAC composition explained clearly |
 | `TimeField` | 183 | Strong Integration section linking DateField/DateRangePicker family |
