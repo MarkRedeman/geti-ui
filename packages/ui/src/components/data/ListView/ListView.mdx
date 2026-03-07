@@ -29,7 +29,7 @@ import { ListView, Item } from '@geti/ui';
 ### Comparison with other components
 - **vs. ListBox**: Use `ListBox` for simple selection inside a form where no nested interactive elements are needed.
 - **vs. TableView**: Use `TableView` for structured, multi-column data that needs sorting or comparison across fields.
-- **vs. CardView**: Use `CardView` (S2) for visual, card-style asset browsing with grid or waterfall layouts.
+- **vs. CardView**: Use `CardView` for visual, card-style asset browsing with grid or waterfall layouts.
 
 ## Variants
 
@@ -69,18 +69,3 @@ import { ListView, Item } from '@geti/ui';
 ### Focus Management
 `ListView` uses a roving tabindex strategy, meaning the entire list is a single tab stop. Once focus enters the list, users navigate between items using arrow keys.
 
-## Spectrum 2 Migration
-
-`ListView` **does not exist as a single component in Spectrum 2**. Its functionality is split based on the type of content:
-
-- **Structured Data**: Migrate to the **S2 `TableView`** for rows that compare values across fields.
-- **Visual Assets**: Migrate to the **S2 `CardView`** for images, files, or datasets that benefit from a grid layout.
-- **Headless / Custom**: Migrate to the **`react-aria-components` `GridList`** for full styling control with the same accessibility model.
-
-### Migration Mapping
-| V3 ListView Feature | S2 Replacement |
-| :--- | :--- |
-| **Tabular Data** | `TableView` |
-| **Asset Browsing** | `CardView` |
-| **Headless/Custom** | `GridList` (React Aria) |
-| **Drag and Drop** | `GridList` (via `useDragAndDrop`) |
