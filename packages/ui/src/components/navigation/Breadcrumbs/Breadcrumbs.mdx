@@ -1,4 +1,4 @@
-import { Meta, Title, Subtitle, Description, Primary, Controls, Stories } from '@storybook/addon-docs/blocks';
+import { Meta, Title, Subtitle, Controls, Stories } from '@storybook/addon-docs/blocks';
 import * as DocStories from './Breadcrumbs.stories';
 
 <Meta of={DocStories} />
@@ -17,60 +17,358 @@ import { Breadcrumbs, Item } from '@geti/ui';
 
 ## Responsibility
 
-Breadcrumbs provide a secondary navigation system that reveals the user's location in a website or web application. They are essential for deep hierarchical structures, such as project folders or multi-level settings.
+`Breadcrumbs` provide a secondary navigation system that reveals the user's location within a website or web application. They are essential for deep hierarchical structures — such as project folders, nested settings pages, or multi-level dataset views — where users need both positional context and a quick way to move up the tree.
 
 Key responsibilities:
-- **Hierarchical Context**: Clearly shows the path from the root to the current page.
-- **Efficient Navigation**: Allows users to jump back multiple levels with a single click.
-- **Consistency**: Provides a standard exit point (the root item) across different sections of the application.
+- **Hierarchical Context**: Clearly shows the path from the root to the current page, orienting users who may have arrived via deep-link or search.
+- **Efficient Navigation**: Allows users to jump back multiple levels with a single click, rather than pressing "Back" repeatedly.
+- **Structural Consistency**: Provides a standard exit point (the root item) across different sections of the application, reinforcing the information architecture.
 
 ### When to use
-- When content is organized in a hierarchy of **two or more levels**.
-- In applications where users can arrive at a page from multiple entry points and need to understand the structural context.
-- To supplement primary navigation (like a sidebar or top nav).
+- When content is organized in a hierarchy of **two or more levels deep** — a single-level hierarchy adds noise without value.
+- In applications where users can arrive at a page from multiple entry points (e.g., search results, notifications) and need structural context to understand *where* they are.
+- To supplement primary navigation (sidebar or top nav) — not to replace it.
+- When the hierarchy has **3–6 levels** and intermediate steps are meaningful to users (e.g., Workspace → Project → Dataset → Image).
+- When navigating away from the current page is a frequent task and users should not need to reach for the browser back button.
 
 ### When to avoid
-- For flat navigation structures with only one level.
-- To replace the primary navigation system.
-- To replace "Back" buttons in a sequential/linear wizard flow.
+- For **flat navigation structures** with only one level — a single item trail provides no context.
+- To **replace the primary navigation system** — breadcrumbs are a supplemental wayfinding aid.
+- In **sequential wizard flows** — use a `Stepper` or "Back / Next" button pattern; breadcrumbs imply a tree, not a sequence.
+- When the hierarchy is **deeper than 6 levels** — instead, consider flattening the information architecture or showing only the nearest 2–3 ancestors.
+- In **modals, drawers, or other contained overlays** — the user cannot independently navigate away, so positional context is irrelevant.
+- For **multi-root structures** (e.g., a flat tag system) — breadcrumbs assume a single path from root to current location.
+
+---
+
+## Design
+
+`Breadcrumbs` is a **thin wrapper** around Spectrum's `SpectrumBreadcrumbs`. It extends `SpectrumBreadcrumbsProps<T>` directly without adding props or modifying rendering, keeping the Geti wrapper as a stable integration point for future customisation (e.g., analytics instrumentation, migration to `react-aria-components`).
+
+```tsx
+// packages/ui/src/components/navigation/Breadcrumbs/Breadcrumbs.tsx
+
+export interface BreadcrumbsProps<T extends object> extends SpectrumBreadcrumbsProps<T> {}
+
+export const Breadcrumbs = <T extends object>(props: BreadcrumbsProps<T>) => (
+    <SpectrumBreadcrumbs {...props} />
+);
+```
+
+**`Item` re-export**
+
+`Item` is re-exported from `@adobe/react-spectrum` via a co-located `Item.tsx` file. This means you import both `Breadcrumbs` and `Item` from `@geti/ui` without needing a direct dependency on `@adobe/react-spectrum` in your consuming package:
+
+```tsx
+// Item.tsx — co-located re-export
+export { Item } from '@adobe/react-spectrum';
+```
+
+`Item` is the shared data primitive for Spectrum collection components. Each `Item` requires a unique `key` prop, which is what `onAction` receives when an item is pressed.
+
+**Automatic overflow / collapse**
+
+Spectrum's `Breadcrumbs` implementation automatically manages overflow. When the rendered trail is too wide for its container — or when there are more than **4 items** — intermediate items collapse into an ellipsis (`…`) button. Clicking that button opens an overlay menu listing the hidden ancestors.
+
+Two props control this behavior:
+- `showRoot` (`boolean`, default `false`) — when `true`, the root item is always visible even when intermediate items are collapsed. Useful when the root label is a meaningful anchor (e.g., the workspace name).
+- The collapse threshold is determined by Spectrum internally based on available container width, not a fixed item count.
+
+**Generic type `<T extends object>`**
+
+`Breadcrumbs` is generic over `T extends object`. This type parameter is used when supplying items via the `items` prop (dynamic collection API) instead of static `Item` children:
+
+```tsx
+const crumbs = [
+    { id: 'home',     label: 'Home' },
+    { id: 'projects', label: 'Projects' },
+    { id: 'current',  label: 'My Project' },
+];
+
+<Breadcrumbs<typeof crumbs[number]>
+    items={crumbs}
+    onAction={(key) => navigate(`/${key}`)}
+>
+    {(item) => <Item key={item.id}>{item.label}</Item>}
+</Breadcrumbs>
+```
+
+**Theme integration**
+
+`Breadcrumbs` inherits all Spectrum design tokens (typography, link colour, separator colour, spacing) from the `ThemeProvider` context. No per-component CSS overrides are needed in standard usage.
+
+---
 
 ## Variants
 
 ### Sizes
-Supports `S`, `M`, and `L` sizes. The default size is `L`.
+Supports `S`, `M`, and `L` sizes via the `size` prop. The default is `L`. Use `S` or `M` inside compact toolbars or page headers where vertical space is constrained.
 
 ### Multiline
-The `isMultiline` prop allows the last item to wrap to its own line. This is useful when the current page title is exceptionally long or when it serves as the primary heading for the page.
+The `isMultiline` prop allows the last item (the current page title) to wrap to its own line. This is useful when the current page title is exceptionally long or when it serves as the primary heading for the page — the multiline layout gives the title more visual weight.
 
 ### Overflow behavior
-Breadcrumbs automatically collapse intermediate items into an overflow menu (represented by a `...` button) when there are more than 4 items or when space is constrained.
+Breadcrumbs automatically collapse intermediate items into an overflow menu (represented by a `…` button) when available width is insufficient. The overflow button is fully accessible: keyboard users can open the menu with `Enter` or `Space` and navigate its items with arrow keys.
+
+Set `showRoot={true}` to keep the first item pinned in the visible portion of the trail regardless of collapse state, ensuring users always have a quick route back to the top level.
+
+---
+
+## Flow
+
+`Breadcrumbs` fires `onAction(key)` when a breadcrumb item is pressed. The component itself does **not** perform navigation — routing is entirely the consumer's responsibility.
+
+```
+User clicks a breadcrumb item
+        │
+        ▼
+  onAction(key)        ◄── fired by Breadcrumbs
+        │
+        ▼
+  Consumer handler     ◄── your routing logic
+        │
+        ▼
+  Router.push(path)    ◄── React Router / Next.js / etc.
+        │
+        ▼
+  New page renders
+```
+
+**Basic navigation example**
+
+```tsx
+import { useNavigate } from 'react-router-dom';
+import { Breadcrumbs, Item } from '@geti/ui';
+
+const pathMap: Record<string, string> = {
+    home:     '/',
+    projects: '/projects',
+    dataset:  '/projects/my-project/dataset',
+};
+
+export const PageBreadcrumbs = () => {
+    const navigate = useNavigate();
+
+    return (
+        <Breadcrumbs onAction={(key) => navigate(pathMap[key as string])}>
+            <Item key="home">Home</Item>
+            <Item key="projects">Projects</Item>
+            <Item key="dataset">My Dataset</Item>
+        </Breadcrumbs>
+    );
+};
+```
+
+### Router integration
+
+Modern routers (React Router v6, Next.js App Router) expose a programmatic navigation function. Wire it to `onAction` and maintain a lookup from breadcrumb key to route path. Avoid using `href` on `Item` when you also provide `onAction` — Spectrum will follow the `href` before your handler fires, causing a full page reload in SPA setups.
+
+**React Router v6**
+
+```tsx
+import { useNavigate } from 'react-router-dom';
+import { Breadcrumbs, Item } from '@geti/ui';
+import type { Key } from '@adobe/react-spectrum';
+
+interface Crumb {
+    key: string;
+    label: string;
+    path: string;
+}
+
+interface AppBreadcrumbsProps {
+    crumbs: Crumb[];
+}
+
+export const AppBreadcrumbs = ({ crumbs }: AppBreadcrumbsProps) => {
+    const navigate = useNavigate();
+
+    const handleAction = (key: Key) => {
+        const crumb = crumbs.find((c) => c.key === key);
+        // Last item has no path — it represents the current page and is non-interactive.
+        if (crumb?.path) {
+            navigate(crumb.path);
+        }
+    };
+
+    return (
+        <nav aria-label="Breadcrumb">
+            <Breadcrumbs onAction={handleAction}>
+                {crumbs.map((crumb) => (
+                    <Item key={crumb.key}>{crumb.label}</Item>
+                ))}
+            </Breadcrumbs>
+        </nav>
+    );
+};
+```
+
+**Next.js App Router**
+
+```tsx
+'use client';
+
+import { useRouter } from 'next/navigation';
+import { Breadcrumbs, Item } from '@geti/ui';
+import type { Key } from '@adobe/react-spectrum';
+
+const crumbs = [
+    { key: 'home',    label: 'Home',    path: '/' },
+    { key: 'models',  label: 'Models',  path: '/models' },
+    { key: 'current', label: 'ResNet50' },  // no path — current page
+];
+
+export const ModelBreadcrumbs = () => {
+    const router = useRouter();
+
+    return (
+        <nav aria-label="Breadcrumb">
+            <Breadcrumbs onAction={(key: Key) => {
+                const crumb = crumbs.find((c) => c.key === key);
+                if (crumb?.path) router.push(crumb.path);
+            }}>
+                {crumbs.map((crumb) => (
+                    <Item key={crumb.key}>{crumb.label}</Item>
+                ))}
+            </Breadcrumbs>
+        </nav>
+    );
+};
+```
+
+---
 
 ## Props
 
 | Prop | Type | Default | Description |
-| --- | --- | --- | --- |
-| `children` | `ItemElement \| ItemRenderer` | - | The breadcrumb items to display (using the `Item` component). |
-| `onAction` | `(key: Key) => void` | - | Handler called when a breadcrumb item is pressed. |
+|------|------|---------|-------------|
+| `children` | `ItemElement \| ItemRenderer<T>` | — | The breadcrumb items to display. Each must be an `Item` with a unique `key`. |
+| `onAction` | `(key: Key) => void` | — | Handler called when a breadcrumb item is pressed. Use this to drive router navigation. |
 | `size` | `'S' \| 'M' \| 'L'` | `'L'` | The size of the breadcrumbs. |
-| `isDisabled` | `boolean` | `false` | Whether the breadcrumbs are disabled. |
-| `showRoot` | `boolean` | `false` | Whether the root item should always be visible in the collapsed state. |
-| `isMultiline` | `boolean` | `false` | Whether the last item should wrap to a new line. |
+| `isDisabled` | `boolean` | `false` | Whether all breadcrumb items are disabled. |
+| `showRoot` | `boolean` | `false` | Whether the root item should remain visible when intermediate items are collapsed. |
+| `isMultiline` | `boolean` | `false` | Whether the last item wraps to a new line, giving it more visual prominence. |
+| `items` | `Iterable<T>` | — | Item objects for dynamic (render-function) collections. |
+
+---
 
 ## Accessibility
 
-- **Landmarks**: Wrap `<Breadcrumbs>` in a `<nav>` element with an `aria-label="Breadcrumb"` to provide a navigation landmark for screen readers.
-- **Current Page**: The last item is automatically marked with `aria-current="page"` and is non-interactive (excluded from the tab order).
-- **Keyboard Support**: Users can navigate between interactive breadcrumb links using the `Tab` key.
-- **Menu Interaction**: The overflow menu is fully accessible via keyboard (Enter/Space to open, Arrow keys to navigate).
+`Breadcrumbs` implements the [WAI-ARIA Breadcrumb pattern](https://www.w3.org/WAI/ARIA/apg/patterns/breadcrumb/) via Spectrum's underlying implementation.
 
-### Example
+**`<nav>` wrapper and `aria-label`**
+
+Always wrap `<Breadcrumbs>` in a `<nav>` element with `aria-label="Breadcrumb"`. This creates a named navigation landmark that screen readers surface in their landmark listing, making it easy for users to jump directly to the breadcrumb trail.
+
 ```tsx
+// Good — creates a "Breadcrumb" navigation landmark
 <nav aria-label="Breadcrumb">
-  <Breadcrumbs>
-    <Item key="home">Home</Item>
-    <Item key="projects">Projects</Item>
-    <Item>Current Project</Item>
-  </Breadcrumbs>
+    <Breadcrumbs onAction={handleAction}>
+        <Item key="home">Home</Item>
+        <Item key="projects">Projects</Item>
+        <Item key="current">My Project</Item>
+    </Breadcrumbs>
+</nav>
+
+// Avoid — the nav landmark has no name, making it indistinguishable from others
+<nav>
+    <Breadcrumbs>…</Breadcrumbs>
 </nav>
 ```
 
+**`aria-current="page"` on the last item**
+
+Spectrum automatically applies `aria-current="page"` to the **last `Item`** in the trail. This signals to screen readers that this item represents the user's current location. The last item is also rendered as non-interactive (it has no link role and is excluded from the tab order) — pressing it would navigate "to the page you're already on", which is meaningless.
+
+Do not provide an `href` or route for the last item. If you are using `onAction`, the handler will still be called for the last item's key — guard against this by checking whether the item has a destination before navigating (see the router integration examples above).
+
+**ARIA roles**
+
+| Element | Role / Attribute | Notes |
+|---------|-----------------|-------|
+| Wrapping `<nav>` | `navigation` landmark | Provide `aria-label="Breadcrumb"`. |
+| Each ancestor item | `link` | Interactive; announces the label and signals it is navigable. |
+| Last item (current page) | Static text | Non-interactive; receives `aria-current="page"`. |
+| Overflow `…` button | `button` | Announces "…" — consider pairing with `showRoot` to keep the root label always visible for context. |
+| Overflow menu | `menu` with `menuitem` children | Lists all hidden intermediate ancestors. |
+
+**Keyboard navigation**
+
+| Key | Behaviour |
+|-----|-----------|
+| `Tab` | Moves focus to the next interactive breadcrumb link. The last item (current page) is skipped. |
+| `Shift + Tab` | Moves focus to the previous interactive breadcrumb link. |
+| `Enter` / `Space` | Activates the focused link, firing `onAction(key)`. |
+| `Tab` (on `…` button) | Moves focus to the overflow button when intermediate items are collapsed. |
+| `Enter` / `Space` (on `…`) | Opens the overflow menu. |
+| `Arrow Down` / `Arrow Up` | Navigates within the open overflow menu. |
+| `Escape` (in overflow menu) | Closes the menu and returns focus to the `…` button. |
+| `Enter` (on menu item) | Activates the menu item, firing `onAction(key)`, and closes the menu. |
+
+**Focus management and the overflow menu**
+
+When items are collapsed into the overflow menu, keyboard users navigate to the `…` button with `Tab` and open the menu with `Enter` or `Space`. Focus moves into the menu and the user can navigate with arrow keys. On selection or `Escape`, focus is cleanly returned to the overflow button. Spectrum manages all of this focus lifecycle internally.
+
+---
+
+## Integration
+
+- **Dependencies**: `@adobe/react-spectrum` — `Breadcrumbs` (as `SpectrumBreadcrumbs`) and `SpectrumBreadcrumbsProps` are imported from this package. `Item` is re-exported from `@adobe/react-spectrum` via the co-located `Item.tsx`.
+- **ThemeProvider**: Must be present in the React tree. Link colour, separator colour, typography, and spacing all derive from Spectrum design tokens resolved by `ThemeProvider`.
+
+**Pairing with a page header**
+
+Breadcrumbs are most commonly placed directly above the page title, giving users both positional context and the page heading in a single glance.
+
+```tsx
+import { Flex, Heading } from '@adobe/react-spectrum';
+import { Breadcrumbs, Item } from '@geti/ui';
+
+export const ProjectPageHeader = () => {
+    const navigate = useNavigate();
+
+    return (
+        <Flex direction="column" gap="size-50">
+            <nav aria-label="Breadcrumb">
+                <Breadcrumbs
+                    size="S"
+                    onAction={(key) => {
+                        if (key === 'home') navigate('/');
+                        if (key === 'projects') navigate('/projects');
+                    }}
+                >
+                    <Item key="home">Home</Item>
+                    <Item key="projects">Projects</Item>
+                    <Item key="current">ResNet50 Classifier</Item>
+                </Breadcrumbs>
+            </nav>
+            <Heading level={1}>ResNet50 Classifier</Heading>
+        </Flex>
+    );
+};
+```
+
+**Pairing with a toolbar**
+
+In dense UIs (e.g., a dataset view with action buttons), place `Breadcrumbs` on the left side of a flex row alongside a toolbar on the right.
+
+```tsx
+import { Flex } from '@adobe/react-spectrum';
+import { Breadcrumbs, Item, ActionButton } from '@geti/ui';
+
+export const DatasetToolbar = () => (
+    <Flex direction="row" alignItems="center" justifyContent="space-between">
+        <nav aria-label="Breadcrumb">
+            <Breadcrumbs size="M" onAction={handleNav}>
+                <Item key="workspace">Workspace</Item>
+                <Item key="project">My Project</Item>
+                <Item key="dataset">Training Set</Item>
+            </Breadcrumbs>
+        </nav>
+        <Flex gap="size-100">
+            <ActionButton>Filter</ActionButton>
+            <ActionButton>Export</ActionButton>
+        </Flex>
+    </Flex>
+);
+```
