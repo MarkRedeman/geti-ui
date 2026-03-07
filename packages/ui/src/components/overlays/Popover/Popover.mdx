@@ -12,7 +12,6 @@ import { Popover } from '@geti/ui';
 ```
 
 - [React Spectrum V3 Popover (via DialogTrigger)](https://react-spectrum.adobe.com/react-spectrum/DialogTrigger.html#popover)
-- [Spectrum 2 Popover](https://react-spectrum.adobe.com/s2/Popover.html)
 
 <Stories />
 
@@ -60,39 +59,4 @@ For cases requiring even more control over the overlay structure (e.g., adding a
 - **Keyboard Support**: `Esc` closes the popover. Focus is automatically managed within the popover content.
 - **Aria Roles**: The trigger and overlay are linked via `aria-haspopup` and `aria-controls`.
 - **Dismissal**: Clicking outside the popover follows the "light dismiss" pattern, which is standard for non-modal overlays.
-
-## Spectrum 2 Migration
-
-The migration to Spectrum 2 (S2) introduces a major structural change: `Popover` becomes a first-class component rather than a configuration of `DialogTrigger`.
-
-### Key Changes
-- **Standalone Component**: Instead of setting `type="popover"` on a trigger, you will use the `<Popover>` component directly as a child of `<DialogTrigger>`.
-- **Prop Relocation**: Props like `placement`, `offset`, and `hideArrow` move from the `DialogTrigger` (the wrapper) to the `Popover` (the content component).
-- **Free-form Content**: S2 Popovers do not require a `<Dialog>` wrapper inside them; they can contain any arbitrary JSX directly.
-
-### Migration Example
-
-**V3 Style (Current):**
-```tsx
-<Popover placement="bottom">
-  <Button>Info</Button>
-  <Dialog>
-    <Heading>Version Info</Heading>
-    <Content>Version 1.0.0</Content>
-  </Dialog>
-</Popover>
-```
-
-**S2 Style (Future):**
-```tsx
-<DialogTrigger>
-  <Button>Info</Button>
-  <Popover placement="bottom">
-    <div className={style({ padding: 12 })}>
-      <h3 className={style({ font: 'heading-xs' })}>Version Info</h3>
-      <p className={style({ font: 'body' })}>Version 1.0.0</p>
-    </div>
-  </Popover>
-</DialogTrigger>
-```
 
