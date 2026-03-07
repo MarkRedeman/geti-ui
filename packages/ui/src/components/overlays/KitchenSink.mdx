@@ -6,6 +6,12 @@ import * as DocStories from './KitchenSink.stories';
 <Title />
 
 ## Responsibility
+<Stories />
+
+---
+
+
+
 
 The `overlays/` category owns **every component that renders content above the main UI plane** — modals, popovers, tooltips, and fullscreen takeovers. These components always involve a trigger + floating-panel relationship and manage focus trapping, scroll locking, and portal rendering internally (via Spectrum or react-aria-components).
 
@@ -106,4 +112,3 @@ The `actionButton` prop can be a static `ReactNode` or a factory function `(ref)
 
 ## Stories
 
-<Stories />
