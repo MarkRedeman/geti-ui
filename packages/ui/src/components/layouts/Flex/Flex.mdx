@@ -3,41 +3,96 @@ import * as DocStories from './Flex.stories';
 
 <Meta of={DocStories} />
 
-<Title />
+# Flex
+
+<Subtitle>Flex is a layout container that uses CSS Flexbox to position and align its children in a single dimension.</Subtitle>
+
+```tsx
+import { Flex } from '@geti/ui';
+```
+
+- [React Spectrum V3 Flex](https://react-spectrum.adobe.com/react-spectrum/Flex.html)
+
+<Stories />
 
 ## Responsibility
 
-Re-exports Adobe React Spectrum's `Flex` as a named Geti component, providing a CSS flexbox container with Spectrum's layout prop system (gap, direction, alignment, wrapping) expressed as design-token-aware props rather than raw CSS values.
+The `Flex` component is the primary layout primitive for one-dimensional layouts (rows or columns). It abstracts CSS Flexbox properties into a set of design-token-aware props, ensuring consistent spacing and alignment across the application.
 
-## Design
+Key responsibilities:
+- **Directional Layout**: Easily switch between `row` and `column` layouts.
+- **Alignment & Distribution**: Provides props like `justifyContent` and `alignItems` for precise control over child placement.
+- **Consistent Spacing**: Uses Spectrum's dimension token system (e.g., `'size-100'`, `'size-200'`) for the `gap` prop.
+- **Responsive Design**: Supports object-based props for different breakpoints (e.g., `direction={{base: 'column', L: 'row'}}`).
 
-Thin wrapper — `FlexComponentProps extends FlexProps` (note: interface is named `FlexComponentProps` to avoid a naming collision with the re-exported Spectrum `FlexProps` type). The component body is `(props) => <SpectrumFlex {...props} />`.
+### When to use
+- To align items in a single horizontal or vertical line.
+- To create flexible layouts where items grow or shrink to fill space.
+- To distribute space evenly between items in a toolbar or header.
 
-Spectrum's `Flex` accepts props like `direction`, `wrap`, `justifyContent`, `alignItems`, `alignContent`, `gap`, `columnGap`, `rowGap` — all using Spectrum's design-token dimension values (`'size-100'`, `'size-200'`, etc.) in addition to standard CSS strings.
+### When to avoid
+- For complex two-dimensional grid layouts (use `Grid` instead).
+- For simple vertical stacks with no complex alignment (a plain `div` or `Flex direction="column"` is fine).
+- When the container needs specific background colors, borders, or padding (use `View` as a wrapper).
 
-## Flow
+## Variants
 
-```
-props (FlexProps passthrough — direction, wrap, gap, alignItems, justifyContent, ...)
-  → <SpectrumFlex {...props} />
-```
+### Direction
+Use the `direction` prop to set the flex axis (`row`, `column`, `row-reverse`, `column-reverse`).
 
-No state, no effects, no refs.
+### Wrapping
+The `wrap` prop controls whether items wrap to multiple lines when they exceed the container's width.
 
-## Integration
-
-- Used throughout the design system as the primary one-dimensional layout primitive.
-- `IntelBrandedLoading` uses `Flex` for its centred loading container.
-- Pairs with `Grid` (same layouts/ category) for two-dimensional layout needs.
-- Prefer over raw `<div style={{ display: 'flex' }}>` to stay within the Spectrum design token system.
-
-
-<Stories />
----
-
-<Primary />
+### Gap
+The `gap` prop (and `columnGap`/`rowGap`) provides a standardized way to add space between flex items using Spectrum's size tokens.
 
 ## Props
 
-<Controls />
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `direction` | `Responsive<'row' \| 'column' \| ...>` | `'row'` | The direction of the flex items. |
+| `justifyContent` | `Responsive<JustifyContent>` | `'start'` | How to distribute space along the main axis. |
+| `alignItems` | `Responsive<AlignItems>` | `'stretch'` | How to align items along the cross axis. |
+| `gap` | `Responsive<DimensionValue>` | - | The space between flex items. |
+| `wrap` | `Responsive<boolean \| 'wrap' \| ...>` | `false` | Whether items should wrap to multiple lines. |
+
+## Accessibility
+
+- **Semantic HTML**: By default, `Flex` renders as a `<div>`. Use the `elementType` prop to change it to a more semantic element like `nav`, `section`, or `ul` if appropriate for the layout.
+- **Reading Order**: Ensure that the visual order of flex items matches the DOM order to maintain a logical tab sequence for keyboard and screen reader users.
+
+## Spectrum 2 Migration
+
+The migration to Spectrum 2 (S2) involves a fundamental shift: **dedicated layout components like `Flex` are removed.**
+
+### The New Pattern
+In S2, layout is handled by applying the `style()` macro directly to plain HTML elements.
+
+- **V3**: `<Flex direction="column" gap="size-100">`
+- **S2**: `<div className={style({ display: 'flex', flexDirection: 'column', gap: 8 })}>`
+
+### Key Changes
+- **No Component Wrapper**: Use standard `<div>`, `<section>`, etc.
+- **Pixel Values**: Instead of string tokens like `'size-100'`, use direct pixel numbers (e.g., `8`).
+- **Responsive Syntax**: Breakpoints change from `{base, S, M, L}` to `{default, sm, md, lg}` inside the `style()` macro.
+
+### Migration Example
+
+**V3 Style (Current):**
+```tsx
+<Flex direction="row" gap="size-200" alignItems="center">
+  <View>Item 1</View>
+  <View>Item 2</View>
+</Flex>
+```
+
+**S2 Style (Future):**
+```tsx
+import { style } from '@react-spectrum/s2/style' with { type: 'macro' };
+
+<div className={style({ display: 'flex', flexDirection: 'row', gap: 16, alignItems: 'center' })}>
+  <div>Item 1</div>
+  <div>Item 2</div>
+</div>
+```
 
