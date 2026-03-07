@@ -1,0 +1,2284 @@
+- generic [ref=e3]:
+  - banner "Storybook" [ref=e7]:
+    - heading "Storybook" [level=1] [ref=e8]
+    - img
+    - generic [ref=e12]:
+      - generic [ref=e14]:
+        - link "Skip to content" [ref=e15] [cursor=pointer]:
+          - /url: "#storybook-preview-wrapper"
+        - link "Geti UI" [ref=e17] [cursor=pointer]:
+          - /url: ./
+        - switch "Settings" [ref=e18] [cursor=pointer]:
+          - img [ref=e19]
+      - generic [ref=e22]: Search for components
+      - search [ref=e23]:
+        - combobox "Search for components" [ref=e24]:
+          - generic:
+            - img
+          - searchbox "Search for components" [ref=e25]
+          - code: ⌃ K
+          - button "Tag filters" [ref=e64] [cursor=pointer]:
+            - img [ref=e65]
+      - navigation "Stories" [ref=e27]:
+        - heading "Stories" [level=2] [ref=e28]
+        - generic [ref=e67]:
+          - generic [ref=e68]:
+            - button "Collapse" [expanded] [ref=e69] [cursor=pointer]:
+              - img [ref=e71]
+              - text: Kitchen sink
+            - button "Expand all" [ref=e73] [cursor=pointer]:
+              - img [ref=e74]
+          - button "Overview" [expanded] [ref=e77] [cursor=pointer]:
+            - generic [ref=e78]:
+              - img [ref=e80]
+              - img [ref=e82]
+            - text: Overview
+          - generic [ref=e84]:
+            - link "Docs" [ref=e85] [cursor=pointer]:
+              - /url: /?path=/docs/kitchen-sink-overview--docs
+              - img [ref=e87]
+              - text: Docs
+            - link "Skip to content" [ref=e89] [cursor=pointer]:
+              - /url: "#storybook-preview-wrapper"
+          - link "Default" [ref=e91] [cursor=pointer]:
+            - /url: /?path=/story/kitchen-sink-overview--default
+            - img [ref=e93]
+            - text: Default
+          - button "UI" [ref=e96] [cursor=pointer]:
+            - generic [ref=e97]:
+              - img [ref=e99]
+              - img [ref=e101]
+            - text: UI
+          - button "Form" [ref=e104] [cursor=pointer]:
+            - generic [ref=e105]:
+              - img [ref=e107]
+              - img [ref=e109]
+            - text: Form
+          - button "Data" [ref=e112] [cursor=pointer]:
+            - generic [ref=e113]:
+              - img [ref=e115]
+              - img [ref=e117]
+            - text: Data
+          - button "Overlays" [ref=e120] [cursor=pointer]:
+            - generic [ref=e121]:
+              - img [ref=e123]
+              - img [ref=e125]
+            - text: Overlays
+          - button "Feedback" [ref=e128] [cursor=pointer]:
+            - generic [ref=e129]:
+              - img [ref=e131]
+              - img [ref=e133]
+            - text: Feedback
+          - button "Navigation" [ref=e136] [cursor=pointer]:
+            - generic [ref=e137]:
+              - img [ref=e139]
+              - img [ref=e141]
+            - text: Navigation
+          - button "Layouts" [ref=e144] [cursor=pointer]:
+            - generic [ref=e145]:
+              - img [ref=e147]
+              - img [ref=e149]
+            - text: Layouts
+          - generic [ref=e151]:
+            - button "Collapse" [expanded] [ref=e152] [cursor=pointer]:
+              - img [ref=e154]
+              - text: UI
+            - button "Expand all" [ref=e156] [cursor=pointer]:
+              - img [ref=e157]
+          - button "ActionButton" [ref=e160] [cursor=pointer]:
+            - generic [ref=e161]:
+              - img [ref=e163]
+              - img [ref=e165]
+            - text: ActionButton
+          - button "Avatar" [ref=e168] [cursor=pointer]:
+            - generic [ref=e169]:
+              - img [ref=e171]
+              - img [ref=e173]
+            - text: Avatar
+          - button "Button" [ref=e176] [cursor=pointer]:
+            - generic [ref=e177]:
+              - img [ref=e179]
+              - img [ref=e181]
+            - text: Button
+          - button "CornerIndicator" [ref=e184] [cursor=pointer]:
+            - generic [ref=e185]:
+              - img [ref=e187]
+              - img [ref=e189]
+            - text: CornerIndicator
+          - button "Divider" [ref=e192] [cursor=pointer]:
+            - generic [ref=e193]:
+              - img [ref=e195]
+              - img [ref=e197]
+            - text: Divider
+          - button "Image" [ref=e200] [cursor=pointer]:
+            - generic [ref=e201]:
+              - img [ref=e203]
+              - img [ref=e205]
+            - text: Image
+          - button "PhotoPlaceholder" [ref=e208] [cursor=pointer]:
+            - generic [ref=e209]:
+              - img [ref=e211]
+              - img [ref=e213]
+            - text: PhotoPlaceholder
+          - button "PressableElement" [ref=e216] [cursor=pointer]:
+            - generic [ref=e217]:
+              - img [ref=e219]
+              - img [ref=e221]
+            - text: PressableElement
+          - button "ToggleButton" [ref=e224] [cursor=pointer]:
+            - generic [ref=e225]:
+              - img [ref=e227]
+              - img [ref=e229]
+            - text: ToggleButton
+          - button "ToggleButtons" [ref=e232] [cursor=pointer]:
+            - generic [ref=e233]:
+              - img [ref=e235]
+              - img [ref=e237]
+            - text: ToggleButtons
+          - button "View" [ref=e240] [cursor=pointer]:
+            - generic [ref=e241]:
+              - img [ref=e243]
+              - img [ref=e245]
+            - text: View
+          - generic [ref=e247]:
+            - button "Collapse" [expanded] [ref=e248] [cursor=pointer]:
+              - img [ref=e250]
+              - text: Form
+            - button "Expand all" [ref=e252] [cursor=pointer]:
+              - img [ref=e253]
+          - button "Checkbox" [ref=e256] [cursor=pointer]:
+            - generic [ref=e257]:
+              - img [ref=e259]
+              - img [ref=e261]
+            - text: Checkbox
+          - button "CheckboxGroup" [ref=e264] [cursor=pointer]:
+            - generic [ref=e265]:
+              - img [ref=e267]
+              - img [ref=e269]
+            - text: CheckboxGroup
+          - button "DropZone" [ref=e272] [cursor=pointer]:
+            - generic [ref=e273]:
+              - img [ref=e275]
+              - img [ref=e277]
+            - text: DropZone
+          - button "FileTrigger" [ref=e280] [cursor=pointer]:
+            - generic [ref=e281]:
+              - img [ref=e283]
+              - img [ref=e285]
+            - text: FileTrigger
+          - button "Form" [ref=e288] [cursor=pointer]:
+            - generic [ref=e289]:
+              - img [ref=e291]
+              - img [ref=e293]
+            - text: Form
+          - button "NumberField" [ref=e296] [cursor=pointer]:
+            - generic [ref=e297]:
+              - img [ref=e299]
+              - img [ref=e301]
+            - text: NumberField
+          - button "PasswordField" [ref=e304] [cursor=pointer]:
+            - generic [ref=e305]:
+              - img [ref=e307]
+              - img [ref=e309]
+            - text: PasswordField
+          - button "RadioGroup" [ref=e312] [cursor=pointer]:
+            - generic [ref=e313]:
+              - img [ref=e315]
+              - img [ref=e317]
+            - text: RadioGroup
+          - button "RangeSlider" [ref=e320] [cursor=pointer]:
+            - generic [ref=e321]:
+              - img [ref=e323]
+              - img [ref=e325]
+            - text: RangeSlider
+          - button "SearchField" [ref=e328] [cursor=pointer]:
+            - generic [ref=e329]:
+              - img [ref=e331]
+              - img [ref=e333]
+            - text: SearchField
+          - button "Slider" [ref=e336] [cursor=pointer]:
+            - generic [ref=e337]:
+              - img [ref=e339]
+              - img [ref=e341]
+            - text: Slider
+          - button "Switch" [ref=e344] [cursor=pointer]:
+            - generic [ref=e345]:
+              - img [ref=e347]
+              - img [ref=e349]
+            - text: Switch
+          - button "TextArea" [ref=e352] [cursor=pointer]:
+            - generic [ref=e353]:
+              - img [ref=e355]
+              - img [ref=e357]
+            - text: TextArea
+          - button "TextField" [ref=e360] [cursor=pointer]:
+            - generic [ref=e361]:
+              - img [ref=e363]
+              - img [ref=e365]
+            - text: TextField
+          - button "Pickers" [ref=e368] [cursor=pointer]:
+            - generic [ref=e369]:
+              - img [ref=e371]
+              - img [ref=e373]
+            - text: Pickers
+          - generic [ref=e375]:
+            - button "Collapse" [expanded] [ref=e376] [cursor=pointer]:
+              - img [ref=e378]
+              - text: Data
+            - button "Expand all" [ref=e380] [cursor=pointer]:
+              - img [ref=e381]
+          - button "ActionBar" [ref=e384] [cursor=pointer]:
+            - generic [ref=e385]:
+              - img [ref=e387]
+              - img [ref=e389]
+            - text: ActionBar
+          - button "CardView" [ref=e392] [cursor=pointer]:
+            - generic [ref=e393]:
+              - img [ref=e395]
+              - img [ref=e397]
+            - text: CardView
+          - button "ListBox" [ref=e400] [cursor=pointer]:
+            - generic [ref=e401]:
+              - img [ref=e403]
+              - img [ref=e405]
+            - text: ListBox
+          - button "ListView" [ref=e408] [cursor=pointer]:
+            - generic [ref=e409]:
+              - img [ref=e411]
+              - img [ref=e413]
+            - text: ListView
+          - button "TableView" [ref=e416] [cursor=pointer]:
+            - generic [ref=e417]:
+              - img [ref=e419]
+              - img [ref=e421]
+            - text: TableView
+          - button "Tag" [ref=e424] [cursor=pointer]:
+            - generic [ref=e425]:
+              - img [ref=e427]
+              - img [ref=e429]
+            - text: Tag
+          - button "TagGroup" [ref=e432] [cursor=pointer]:
+            - generic [ref=e433]:
+              - img [ref=e435]
+              - img [ref=e437]
+            - text: TagGroup
+          - button "TreeView" [ref=e440] [cursor=pointer]:
+            - generic [ref=e441]:
+              - img [ref=e443]
+              - img [ref=e445]
+            - text: TreeView
+          - button "VirtualizedHorizontalGrid" [ref=e448] [cursor=pointer]:
+            - generic [ref=e449]:
+              - img [ref=e451]
+              - img [ref=e453]
+            - text: VirtualizedHorizontalGrid
+          - button "VirtualizedListLayout" [ref=e456] [cursor=pointer]:
+            - generic [ref=e457]:
+              - img [ref=e459]
+              - img [ref=e461]
+            - text: VirtualizedListLayout
+          - generic [ref=e463]:
+            - button "Collapse" [expanded] [ref=e464] [cursor=pointer]:
+              - img [ref=e466]
+              - text: Overlays
+            - button "Expand all" [ref=e468] [cursor=pointer]:
+              - img [ref=e469]
+          - button "AlertDialog" [ref=e472] [cursor=pointer]:
+            - generic [ref=e473]:
+              - img [ref=e475]
+              - img [ref=e477]
+            - text: AlertDialog
+          - button "ContextualHelp" [ref=e480] [cursor=pointer]:
+            - generic [ref=e481]:
+              - img [ref=e483]
+              - img [ref=e485]
+            - text: ContextualHelp
+          - button "CustomPopover" [ref=e488] [cursor=pointer]:
+            - generic [ref=e489]:
+              - img [ref=e491]
+              - img [ref=e493]
+            - text: CustomPopover
+          - button "Dialog" [ref=e496] [cursor=pointer]:
+            - generic [ref=e497]:
+              - img [ref=e499]
+              - img [ref=e501]
+            - text: Dialog
+          - button "DialogContainer" [ref=e504] [cursor=pointer]:
+            - generic [ref=e505]:
+              - img [ref=e507]
+              - img [ref=e509]
+            - text: DialogContainer
+          - button "FullscreenAction" [ref=e512] [cursor=pointer]:
+            - generic [ref=e513]:
+              - img [ref=e515]
+              - img [ref=e517]
+            - text: FullscreenAction
+          - button "Popover" [ref=e520] [cursor=pointer]:
+            - generic [ref=e521]:
+              - img [ref=e523]
+              - img [ref=e525]
+            - text: Popover
+          - button "Tooltip" [ref=e528] [cursor=pointer]:
+            - generic [ref=e529]:
+              - img [ref=e531]
+              - img [ref=e533]
+            - text: Tooltip
+          - generic [ref=e535]:
+            - button "Collapse" [expanded] [ref=e536] [cursor=pointer]:
+              - img [ref=e538]
+              - text: Feedback
+            - button "Expand all" [ref=e540] [cursor=pointer]:
+              - img [ref=e541]
+          - button "Badge" [ref=e544] [cursor=pointer]:
+            - generic [ref=e545]:
+              - img [ref=e547]
+              - img [ref=e549]
+            - text: Badge
+          - button "IllustratedMessage" [ref=e552] [cursor=pointer]:
+            - generic [ref=e553]:
+              - img [ref=e555]
+              - img [ref=e557]
+            - text: IllustratedMessage
+          - button "InlineAlert" [ref=e560] [cursor=pointer]:
+            - generic [ref=e561]:
+              - img [ref=e563]
+              - img [ref=e565]
+            - text: InlineAlert
+          - button "IntelBrandedLoading" [ref=e568] [cursor=pointer]:
+            - generic [ref=e569]:
+              - img [ref=e571]
+              - img [ref=e573]
+            - text: IntelBrandedLoading
+          - button "Loading" [ref=e576] [cursor=pointer]:
+            - generic [ref=e577]:
+              - img [ref=e579]
+              - img [ref=e581]
+            - text: Loading
+          - button "Meter" [ref=e584] [cursor=pointer]:
+            - generic [ref=e585]:
+              - img [ref=e587]
+              - img [ref=e589]
+            - text: Meter
+          - button "ProgressBar" [ref=e592] [cursor=pointer]:
+            - generic [ref=e593]:
+              - img [ref=e595]
+              - img [ref=e597]
+            - text: ProgressBar
+          - button "ProgressCircle" [ref=e600] [cursor=pointer]:
+            - generic [ref=e601]:
+              - img [ref=e603]
+              - img [ref=e605]
+            - text: ProgressCircle
+          - button "Skeleton" [ref=e608] [cursor=pointer]:
+            - generic [ref=e609]:
+              - img [ref=e611]
+              - img [ref=e613]
+            - text: Skeleton
+          - button "StatusLight" [ref=e616] [cursor=pointer]:
+            - generic [ref=e617]:
+              - img [ref=e619]
+              - img [ref=e621]
+            - text: StatusLight
+          - button "Toast" [ref=e624] [cursor=pointer]:
+            - generic [ref=e625]:
+              - img [ref=e627]
+              - img [ref=e629]
+            - text: Toast
+          - generic [ref=e631]:
+            - button "Collapse" [expanded] [ref=e632] [cursor=pointer]:
+              - img [ref=e634]
+              - text: Navigation
+            - button "Expand all" [ref=e636] [cursor=pointer]:
+              - img [ref=e637]
+          - button "ActionMenu" [ref=e640] [cursor=pointer]:
+            - generic [ref=e641]:
+              - img [ref=e643]
+              - img [ref=e645]
+            - text: ActionMenu
+          - button "Breadcrumbs" [ref=e648] [cursor=pointer]:
+            - generic [ref=e649]:
+              - img [ref=e651]
+              - img [ref=e653]
+            - text: Breadcrumbs
+          - button "Link" [ref=e656] [cursor=pointer]:
+            - generic [ref=e657]:
+              - img [ref=e659]
+              - img [ref=e661]
+            - text: Link
+          - button "Menu" [ref=e664] [cursor=pointer]:
+            - generic [ref=e665]:
+              - img [ref=e667]
+              - img [ref=e669]
+            - text: Menu
+          - button "Tabs" [ref=e672] [cursor=pointer]:
+            - generic [ref=e673]:
+              - img [ref=e675]
+              - img [ref=e677]
+            - text: Tabs
+          - generic [ref=e679]:
+            - button "Collapse" [expanded] [ref=e680] [cursor=pointer]:
+              - img [ref=e682]
+              - text: Layouts
+            - button "Expand all" [ref=e684] [cursor=pointer]:
+              - img [ref=e685]
+          - button "Accordion" [ref=e688] [cursor=pointer]:
+            - generic [ref=e689]:
+              - img [ref=e691]
+              - img [ref=e693]
+            - text: Accordion
+          - button "Card" [ref=e696] [cursor=pointer]:
+            - generic [ref=e697]:
+              - img [ref=e699]
+              - img [ref=e701]
+            - text: Card
+          - button "Disclosure" [ref=e704] [cursor=pointer]:
+            - generic [ref=e705]:
+              - img [ref=e707]
+              - img [ref=e709]
+            - text: Disclosure
+          - button "Flex" [ref=e712] [cursor=pointer]:
+            - generic [ref=e713]:
+              - img [ref=e715]
+              - img [ref=e717]
+            - text: Flex
+          - button "Grid" [ref=e720] [cursor=pointer]:
+            - generic [ref=e721]:
+              - img [ref=e723]
+              - img [ref=e725]
+            - text: Grid
+          - button "Well" [ref=e728] [cursor=pointer]:
+            - generic [ref=e729]:
+              - img [ref=e731]
+              - img [ref=e733]
+            - text: Well
+  - generic [ref=e49]:
+    - region "Toolbar" [ref=e50]:
+      - heading "Toolbar" [level=2] [ref=e51]
+      - toolbar [ref=e52]:
+        - generic [ref=e735]:
+          - switch "Grid visibility" [ref=e736] [cursor=pointer]:
+            - img [ref=e737]
+          - button "Preview background Dark" [ref=e739] [cursor=pointer]:
+            - img [ref=e740]
+            - text: Dark
+          - switch "Outline tool" [ref=e743] [cursor=pointer]:
+            - img [ref=e744]
+        - button "Enter full screen" [ref=e747] [cursor=pointer]:
+          - img [ref=e748]
+    - main "Main preview area" [ref=e53]:
+      - heading "Main preview area" [level=2] [ref=e54]
+      - generic [ref=e58]:
+        - link "Skip to sidebar" [ref=e750] [cursor=pointer]:
+          - /url: "#kitchen-sink-overview--docs"
+        - iframe [ref=e62]:
+          - generic [active] [ref=f1e1]:
+            - generic [ref=f1e2]:
+              - log
+              - log
+            - generic [ref=f1e5]:
+              - heading "Overview" [level=1] [ref=f1e6]
+              - heading "Responsibility" [level=2] [ref=f1e7]:
+                - link [ref=f1e8] [cursor=pointer]:
+                  - /url: "#responsibility"
+                - text: Responsibility
+              - paragraph [ref=f1e9]:
+                - text: The
+                - code [ref=f1e10]: components/
+                - text: directory contains every UI component exported by
+                - code [ref=f1e11]: "@geti/ui"
+                - text: . Components are organised into 8 domain groups, each in its own subdirectory. This maps directly to the 8 export groups in
+                - code [ref=f1e12]: src/index.ts
+                - text: .
+              - paragraph [ref=f1e13]:
+                - text: "| Subdirectory | Group name | Contents | |---|---|---| |"
+                - code [ref=f1e14]: ui/
+                - text: "| Primitive Actions | Buttons, Avatar, Image, View, Divider, PressableElement, CornerIndicator, PhotoPlaceholder | |"
+                - code [ref=f1e15]: form/
+                - text: "| Form Controls | Text inputs, Checkbox, Radio, Switch, Slider, DropZone, FileTrigger, Form | |"
+                - code [ref=f1e16]: form/pickers/
+                - text: "| Form Pickers | Picker, ComboBox, Date/Calendar components, full color picker suite | |"
+                - code [ref=f1e17]: overlays/
+                - text: "| Overlays | Dialog, AlertDialog, DialogContainer, Popover, CustomPopover, Tooltip, ContextualHelp, FullscreenAction | |"
+                - code [ref=f1e18]: navigation/
+                - text: "| Navigation | Tabs, Menu, ActionMenu, Breadcrumbs, Link, MediaViewModes | |"
+                - code [ref=f1e19]: feedback/
+                - text: "| Status & Feedback | Loading, Progress, Meter, Skeleton, Toast, InlineAlert, Badge, StatusLight, IllustratedMessage | |"
+                - code [ref=f1e20]: data/
+                - text: "| Data Display | TableView, ListView, ListBox, CardView, TagGroup, Tag, ActionBar, TreeView, VirtualizedListLayout, VirtualizedHorizontalGrid | |"
+                - code [ref=f1e21]: layouts/
+                - text: "| Layout & Structure | Flex, Grid, Well, Card, Accordion, Disclosure |"
+              - heading "Design" [level=2] [ref=f1e22]:
+                - link [ref=f1e23] [cursor=pointer]:
+                  - /url: "#design"
+                - text: Design
+              - paragraph [ref=f1e24]:
+                - strong [ref=f1e25]: "Dominant pattern — thin Spectrum wrapper:"
+                - text: "Every component follows the same structure:"
+              - list [ref=f1e26]:
+                - listitem [ref=f1e27]:
+                  - text: Define a local
+                  - code [ref=f1e28]: Props
+                  - text: interface extending the equivalent
+                  - code [ref=f1e29]: "@adobe/react-spectrum"
+                  - text: or
+                  - code [ref=f1e30]: react-aria-components
+                  - text: type.
+                - listitem [ref=f1e31]: Add any Geti-specific props (rarely more than 1–2).
+                - listitem [ref=f1e32]:
+                  - text: Render the upstream component, spreading
+                  - code [ref=f1e33]: ...rest
+                  - text: to pass all props through.
+                - listitem [ref=f1e34]:
+                  - text: Override only what Geti needs to change (usually
+                  - code [ref=f1e35]: variant
+                  - text: ","
+                  - code [ref=f1e36]: colorScheme
+                  - text: ", or an"
+                  - code [ref=f1e37]: UNSAFE_className
+                  - text: ).
+              - generic [ref=f1e39]:
+                - generic [ref=f1e44]:
+                  - text: // canonical pattern
+                  - text: "export interface ButtonProps extends SpectrumButtonProps { /* Geti additions */ }"
+                  - text: "export const Button = ({ variant = 'accent', ...rest }: ButtonProps) => ( <SpectrumButton {...rest} variant={variant} />"
+                  - text: );
+                - button "Copy" [ref=f1e46] [cursor=pointer]
+              - paragraph [ref=f1e47]:
+                - strong [ref=f1e48]: "File structure per component:"
+              - generic [ref=f1e50]:
+                - generic [ref=f1e55]: "ComponentName/ ├── ComponentName.tsx # Implementation + type exports ├── ComponentName.stories.tsx # Storybook CSF3 stories ├── ComponentName.test.tsx # rstest unit tests └── index.ts # Optional re-export"
+                - button "Copy" [ref=f1e57] [cursor=pointer]
+              - paragraph [ref=f1e58]:
+                - strong [ref=f1e59]: CSS override strategy
+                - text: "(in priority order):"
+              - list [ref=f1e60]:
+                - listitem [ref=f1e61]:
+                  - text: Spectrum style props (
+                  - code [ref=f1e62]: padding
+                  - text: ","
+                  - code [ref=f1e63]: margin
+                  - text: ", etc.) — preferred"
+                - listitem [ref=f1e64]:
+                  - code [ref=f1e65]: UNSAFE_className
+                  - text: + CSS Modules — for structural overrides
+                - listitem [ref=f1e66]:
+                  - code [ref=f1e67]: CSSProperties
+                  - text: with
+                  - code [ref=f1e68]: var(--spectrum-*)
+                  - text: tokens — for runtime-computed values only
+              - paragraph [ref=f1e69]:
+                - strong [ref=f1e70]:
+                  - code [ref=f1e71]: clsx
+                  - text: for className merging
+                - text: ": whenever a component accepts an"
+                - code [ref=f1e72]: UNSAFE_className
+                - text: prop from the consumer and also applies its own,
+                - code [ref=f1e73]: clsx
+                - text: is used to merge them safely.
+              - paragraph [ref=f1e74]:
+                - strong [ref=f1e75]:
+                  - code [ref=f1e76]: react-aria-components
+                  - text: (RAC) usage
+                - text: ": a small set of components use RAC instead of Spectrum v3:"
+              - list [ref=f1e77]:
+                - listitem [ref=f1e78]:
+                  - code [ref=f1e79]: FileTrigger
+                  - text: — RAC
+                  - code [ref=f1e80]: FileTrigger
+                  - text: (Spectrum v3 has no equivalent)
+                - listitem [ref=f1e81]:
+                  - code [ref=f1e82]: CustomPopover
+                  - text: — RAC
+                  - code [ref=f1e83]: Popover
+                  - text: (needed for unstyled/custom-positioned overlays)
+                - listitem [ref=f1e84]:
+                  - code [ref=f1e85]: VirtualizedListLayout
+                  - text: /
+                  - code [ref=f1e86]: VirtualizedHorizontalGrid
+                  - text: — RAC
+                  - code [ref=f1e87]: Virtualizer
+                  - text: with custom layouts
+                - listitem [ref=f1e88]:
+                  - code [ref=f1e89]: PressableElement
+                  - text: — RAC
+                  - code [ref=f1e90]: PressResponder
+                  - text: / press interaction primitive
+              - paragraph [ref=f1e91]:
+                - strong [ref=f1e92]: Pure CSS / no-Spectrum components
+                - text: ": a few components have zero Spectrum dependency:"
+              - list [ref=f1e93]:
+                - listitem [ref=f1e94]:
+                  - code [ref=f1e95]: Tag
+                  - text: — pure inline CSS with CSS variable tokens
+                - listitem [ref=f1e96]:
+                  - code [ref=f1e97]: Skeleton
+                  - text: — CSS-in-JS shimmer animation
+                - listitem [ref=f1e98]:
+                  - code [ref=f1e99]: Card
+                  - text: (layouts/) — built on Spectrum
+                  - code [ref=f1e100]: View
+                  - text: but with custom interactive/static branching
+              - heading "Flow" [level=2] [ref=f1e101]:
+                - link [ref=f1e102] [cursor=pointer]:
+                  - /url: "#flow"
+                - text: Flow
+              - paragraph [ref=f1e103]:
+                - text: There is no runtime flow within
+                - code [ref=f1e104]: components/
+                - text: itself. Each component is stateless (or lightly stateful) and delegates all state management upward to the consumer or to Spectrum/RAC internals.
+              - paragraph [ref=f1e105]:
+                - text: "Data flows:"
+                - code [ref=f1e106]: consumer props → component → Spectrum/RAC primitive → DOM
+              - paragraph [ref=f1e107]: "The only cross-component wiring happens in composites:"
+              - list [ref=f1e108]:
+                - listitem [ref=f1e109]:
+                  - code [ref=f1e110]: ColorPickerDialog
+                  - text: assembles
+                  - code [ref=f1e111]: ColorWheel
+                  - text: ","
+                  - code [ref=f1e112]: ColorArea
+                  - text: ","
+                  - code [ref=f1e113]: ColorSlider
+                  - text: ","
+                  - code [ref=f1e114]: ColorField
+                  - text: ","
+                  - code [ref=f1e115]: ColorSwatch
+                  - text: ","
+                  - code [ref=f1e116]: Dialog
+                - listitem [ref=f1e117]:
+                  - code [ref=f1e118]: FullscreenAction
+                  - text: combines
+                  - code [ref=f1e119]: ActionButton
+                  - text: +
+                  - code [ref=f1e120]: DialogTrigger
+                  - text: + fullscreen
+                  - code [ref=f1e121]: Dialog
+                - listitem [ref=f1e122]:
+                  - code [ref=f1e123]: MediaViewModes
+                  - text: composes
+                  - code [ref=f1e124]: ToggleButtons
+                  - text: + Spectrum workflow icons
+                - listitem [ref=f1e125]:
+                  - code [ref=f1e126]: Accordion
+                  - text: renders a collection of
+                  - code [ref=f1e127]: Disclosure
+                  - text: panels
+              - heading "Integration" [level=2] [ref=f1e128]:
+                - link [ref=f1e129] [cursor=pointer]:
+                  - /url: "#integration"
+                - text: Integration
+              - list [ref=f1e130]:
+                - listitem [ref=f1e131]:
+                  - strong [ref=f1e132]:
+                    - code [ref=f1e133]: src/index.ts
+                  - text: is the sole consumer of
+                  - code [ref=f1e134]: components/
+                  - text: — it re-exports every public symbol.
+                - listitem [ref=f1e135]:
+                  - strong [ref=f1e136]:
+                    - code [ref=f1e137]: ThemeProvider
+                  - text: (in
+                  - code [ref=f1e138]: src/theme/
+                  - text: ) wraps the entire app and injects Spectrum's React context. All Spectrum-based components require this context to function.
+                - listitem [ref=f1e139]:
+                  - strong [ref=f1e140]:
+                    - code [ref=f1e141]: src/utils/distinct-colors.ts
+                  - text: is used internally by
+                  - code [ref=f1e142]: PhotoPlaceholder
+                  - text: for hash-based avatar colours.
+                - listitem [ref=f1e143]:
+                  - strong [ref=f1e144]: Stories
+                  - text: (
+                  - code [ref=f1e145]: .stories.tsx
+                  - text: files) are picked up by Storybook from
+                  - code [ref=f1e146]: .storybook/main.ts
+                  - text: via the glob
+                  - code [ref=f1e147]: src/**/*.stories.tsx
+                  - text: .
+                - listitem [ref=f1e148]:
+                  - strong [ref=f1e149]: Tests
+                  - text: (
+                  - code [ref=f1e150]: .test.tsx
+                  - text: files) are picked up by rstest from
+                  - code [ref=f1e151]: rstest.config.ts
+                  - text: .
+              - separator [ref=f1e152]
+              - heading "Props" [level=2] [ref=f1e153]:
+                - link [ref=f1e154] [cursor=pointer]:
+                  - /url: "#props"
+                - text: Props
+              - heading "Stories" [level=2] [ref=f1e155]:
+                - link [ref=f1e156] [cursor=pointer]:
+                  - /url: "#stories"
+                - text: Stories
+              - heading "Stories" [level=2] [ref=f1e157]:
+                - link [ref=f1e158] [cursor=pointer]:
+                  - /url: "#stories"
+                - text: Stories
+              - generic [ref=f1e159]:
+                - heading "Default" [level=3] [ref=f1e160]:
+                  - link [ref=f1e161] [cursor=pointer]:
+                    - /url: "#default"
+                  - text: Default
+                - generic [ref=f1e163]:
+                  - generic [ref=f1e172]:
+                    - generic [ref=f1e173]:
+                      - heading "Kitchen Sink" [level=1] [ref=f1e174]
+                      - paragraph [ref=f1e175]: A single-page showcase of all Geti UI components. Use this story to spot visual regressions and inspect component behaviour side-by-side.
+                    - separator [ref=f1e176]
+                    - generic [ref=f1e177]:
+                      - generic [ref=f1e178]:
+                        - heading "Section 1 — Actions & Primitives" [level=2] [ref=f1e179]
+                        - paragraph [ref=f1e180]: Button, ActionButton, ToggleButton, Link, FileTrigger
+                        - separator [ref=f1e181]
+                      - generic [ref=f1e182]:
+                        - generic [ref=f1e183]:
+                          - paragraph [ref=f1e184]: Button — variants
+                          - generic [ref=f1e185]:
+                            - button "Accent" [ref=f1e186]
+                            - button "Primary" [ref=f1e187]
+                            - button "Secondary" [ref=f1e188]
+                            - button "Negative" [ref=f1e189]
+                            - button "Disabled" [disabled] [ref=f1e190]
+                        - separator [ref=f1e191]
+                        - generic [ref=f1e192]:
+                          - paragraph [ref=f1e193]: ActionButton — color variants
+                          - generic [ref=f1e194]:
+                            - button "Default" [ref=f1e195]
+                            - button "Dark" [ref=f1e196]
+                            - button "Light" [ref=f1e197]
+                            - button "Blue" [ref=f1e198]
+                            - button "Quiet" [ref=f1e199]
+                            - button "Disabled" [disabled] [ref=f1e200]
+                        - separator [ref=f1e201]
+                        - generic [ref=f1e202]:
+                          - paragraph [ref=f1e203]: ToggleButton — states
+                          - generic [ref=f1e204]:
+                            - button "Unselected" [ref=f1e205]
+                            - button "Pre-selected" [pressed] [ref=f1e206]
+                            - button "Emphasized" [pressed] [ref=f1e207]
+                            - button "Quiet" [ref=f1e208]
+                            - button "Disabled" [disabled] [ref=f1e209]
+                        - separator [ref=f1e210]
+                        - generic [ref=f1e211]:
+                          - paragraph [ref=f1e212]: Link — variants
+                          - generic [ref=f1e213]:
+                            - link "Default link" [ref=f1e214] [cursor=pointer]:
+                              - /url: https://example.com
+                            - link "Primary" [ref=f1e215] [cursor=pointer]:
+                              - /url: https://example.com
+                            - link "Secondary" [ref=f1e216] [cursor=pointer]:
+                              - /url: https://example.com
+                            - link "Quiet" [ref=f1e217] [cursor=pointer]:
+                              - /url: https://example.com
+                        - separator [ref=f1e218]
+                        - generic [ref=f1e219]:
+                          - paragraph [ref=f1e220]: FileTrigger — file upload triggers
+                          - generic [ref=f1e221]:
+                            - button "Upload file" [ref=f1e222]
+                            - button "Images only" [ref=f1e223]
+                            - button "Multiple files" [ref=f1e224]
+                    - generic [ref=f1e225]:
+                      - generic [ref=f1e226]:
+                        - heading "Section 2 — Form Controls" [level=2] [ref=f1e227]
+                        - paragraph [ref=f1e228]: TextField, TextArea, NumberField, SearchField, PasswordField, CheckboxGroup, RadioGroup, Switch, Slider, RangeSlider, Picker, ComboBox
+                        - separator [ref=f1e229]
+                      - generic [ref=f1e230]:
+                        - generic [ref=f1e231]:
+                          - generic [ref=f1e232]:
+                            - paragraph [ref=f1e233]: TextField
+                            - generic [ref=f1e234]:
+                              - generic [ref=f1e235]:
+                                - generic [ref=f1e236]: Username
+                                - textbox "Username" [ref=f1e238]:
+                                  - /placeholder: Enter username
+                              - generic [ref=f1e239]:
+                                - generic [ref=f1e240]: Email
+                                - textbox "Email" [ref=f1e242]:
+                                  - /placeholder: user@example.com
+                                - generic [ref=f1e244]: We'll never share your email.
+                              - generic [ref=f1e245]:
+                                - generic [ref=f1e246]: Disabled field
+                                - textbox "Disabled field" [disabled] [ref=f1e248]: Read-only content
+                              - generic [ref=f1e249]:
+                                - generic [ref=f1e250]: Invalid field
+                                - generic [ref=f1e251]:
+                                  - textbox "Invalid field" [ref=f1e252]: bad@
+                                  - img [ref=f1e253]
+                                - generic [ref=f1e256]: Enter a valid email address.
+                          - separator [ref=f1e257]
+                          - generic [ref=f1e258]:
+                            - paragraph [ref=f1e259]: TextArea
+                            - generic [ref=f1e260]:
+                              - generic [ref=f1e261]: Description
+                              - textbox "Description" [ref=f1e263]:
+                                - /placeholder: Describe your project…
+                          - separator [ref=f1e264]
+                          - generic [ref=f1e265]:
+                            - paragraph [ref=f1e266]: NumberField
+                            - generic [ref=f1e267]:
+                              - generic [ref=f1e268]:
+                                - generic [ref=f1e269]: Quantity
+                                - group [ref=f1e270]:
+                                  - textbox "Quantity" [ref=f1e273]: "5"
+                                  - button "Increase Quantity" [ref=f1e274]:
+                                    - img
+                                  - button "Decrease Quantity" [ref=f1e275]:
+                                    - img
+                              - generic [ref=f1e276]:
+                                - generic [ref=f1e277]: Price ($)
+                                - group [ref=f1e278]:
+                                  - textbox "Price ($)" [ref=f1e281]: $9.99
+                                  - button "Increase Price ($)" [ref=f1e282]:
+                                    - img
+                                  - button "Decrease Price ($)" [ref=f1e283]:
+                                    - img
+                          - separator [ref=f1e284]
+                          - generic [ref=f1e285]:
+                            - paragraph [ref=f1e286]: SearchField
+                            - generic [ref=f1e287]:
+                              - generic [ref=f1e288]: Search projects
+                              - generic [ref=f1e289]:
+                                - searchbox "Search projects" [ref=f1e290]
+                                - img
+                          - separator [ref=f1e291]
+                          - generic [ref=f1e292]:
+                            - paragraph [ref=f1e293]: PasswordField
+                            - generic [ref=f1e295]:
+                              - generic [ref=f1e296]:
+                                - generic [ref=f1e297]: Password
+                                - textbox "Password" [ref=f1e299]:
+                                  - /placeholder: Enter password
+                              - button "Show password" [ref=f1e300] [cursor=pointer]: Show
+                        - generic [ref=f1e301]:
+                          - generic [ref=f1e302]:
+                            - paragraph [ref=f1e303]: CheckboxGroup
+                            - generic [ref=f1e304]:
+                              - generic [ref=f1e305]:
+                                - generic [ref=f1e306]: Preferred frameworks
+                                - group "Preferred frameworks" [ref=f1e307]:
+                                  - generic [ref=f1e308]:
+                                    - checkbox "React" [checked] [ref=f1e309]
+                                    - generic [ref=f1e310]:
+                                      - img
+                                    - generic [ref=f1e311]: React
+                                  - generic [ref=f1e312]:
+                                    - checkbox "Vue" [ref=f1e313]
+                                    - generic [ref=f1e315]: Vue
+                                  - generic [ref=f1e316]:
+                                    - checkbox "Angular" [ref=f1e317]
+                                    - generic [ref=f1e319]: Angular
+                                  - generic [ref=f1e320]:
+                                    - checkbox "Svelte" [checked] [ref=f1e321]
+                                    - generic [ref=f1e322]:
+                                      - img
+                                    - generic [ref=f1e323]: Svelte
+                              - generic [ref=f1e324]:
+                                - generic [ref=f1e325]: Horizontal group
+                                - group "Horizontal group" [ref=f1e326]:
+                                  - generic [ref=f1e327]:
+                                    - checkbox "Option A" [ref=f1e328]
+                                    - generic [ref=f1e330]: Option A
+                                  - generic [ref=f1e331]:
+                                    - checkbox "Option B" [ref=f1e332]
+                                    - generic [ref=f1e334]: Option B
+                                  - generic [ref=f1e335]:
+                                    - checkbox "Option C" [ref=f1e336]
+                                    - generic [ref=f1e338]: Option C
+                          - separator [ref=f1e339]
+                          - generic [ref=f1e340]:
+                            - paragraph [ref=f1e341]: RadioGroup
+                            - generic [ref=f1e342]:
+                              - generic [ref=f1e343]:
+                                - generic [ref=f1e344]: Deployment target
+                                - radiogroup "Deployment target" [ref=f1e345]:
+                                  - generic [ref=f1e346]:
+                                    - radio "Cloud" [checked] [ref=f1e347]
+                                    - generic [ref=f1e349]: Cloud
+                                  - generic [ref=f1e350]:
+                                    - radio "On-premises" [ref=f1e351]
+                                    - generic [ref=f1e353]: On-premises
+                                  - generic [ref=f1e354]:
+                                    - radio "Edge device" [ref=f1e355]
+                                    - generic [ref=f1e357]: Edge device
+                              - generic [ref=f1e358]:
+                                - generic [ref=f1e359]: Alignment
+                                - radiogroup "Alignment" [ref=f1e360]:
+                                  - generic [ref=f1e361]:
+                                    - radio "Left" [ref=f1e362]
+                                    - generic [ref=f1e364]: Left
+                                  - generic [ref=f1e365]:
+                                    - radio "Center" [ref=f1e366]
+                                    - generic [ref=f1e368]: Center
+                                  - generic [ref=f1e369]:
+                                    - radio "Right" [ref=f1e370]
+                                    - generic [ref=f1e372]: Right
+                          - separator [ref=f1e373]
+                          - generic [ref=f1e374]:
+                            - paragraph [ref=f1e375]: Switch
+                            - generic [ref=f1e376]:
+                              - generic [ref=f1e377]:
+                                - switch "Dark mode" [ref=f1e378]
+                                - generic [ref=f1e380]: Dark mode
+                              - generic [ref=f1e381]:
+                                - switch "Notifications (on)" [checked] [ref=f1e382]
+                                - generic [ref=f1e384]: Notifications (on)
+                              - generic [ref=f1e385]:
+                                - switch "Disabled option" [disabled] [ref=f1e386]
+                                - generic [ref=f1e388]: Disabled option
+                          - separator [ref=f1e389]
+                          - generic [ref=f1e390]:
+                            - paragraph [ref=f1e391]: Slider
+                            - generic [ref=f1e392]:
+                              - group "Opacity" [ref=f1e393]:
+                                - generic [ref=f1e394]: Opacity
+                                - status [ref=f1e395]: "60"
+                                - generic [ref=f1e396]:
+                                  - slider "Opacity": "60"
+                              - group "Volume" [ref=f1e397]:
+                                - generic [ref=f1e398]: Volume
+                                - status [ref=f1e399]: "30"
+                                - generic [ref=f1e400]:
+                                  - slider "Volume": "30"
+                          - separator [ref=f1e401]
+                          - generic [ref=f1e402]:
+                            - paragraph [ref=f1e403]: RangeSlider
+                            - group "Confidence threshold" [ref=f1e404]:
+                              - generic [ref=f1e405]: Confidence threshold
+                              - status [ref=f1e406]: 20 – 80
+                              - generic [ref=f1e407]:
+                                - slider "Minimum Confidence threshold": "20"
+                              - generic [ref=f1e408]:
+                                - slider "Maximum Confidence threshold": "80"
+                          - separator [ref=f1e409]
+                          - generic [ref=f1e410]:
+                            - paragraph [ref=f1e411]: Picker
+                            - generic [ref=f1e412]:
+                              - generic [ref=f1e413]:
+                                - generic [ref=f1e414]: Framework
+                                - generic [ref=f1e415]:
+                                  - generic [ref=f1e417]:
+                                    - text: Framework
+                                    - combobox [ref=f1e418]
+                                  - button "React Framework" [ref=f1e419]:
+                                    - text: React
+                                    - img
+                              - generic [ref=f1e420]:
+                                - generic [ref=f1e421]: Disabled picker
+                                - generic [ref=f1e422]:
+                                  - generic [ref=f1e424]:
+                                    - text: Disabled picker
+                                    - combobox [disabled] [ref=f1e425]
+                                  - button "Select… Disabled picker" [disabled] [ref=f1e426]:
+                                    - text: Select…
+                                    - img
+                          - separator [ref=f1e427]
+                          - generic [ref=f1e428]:
+                            - paragraph [ref=f1e429]: ComboBox
+                            - generic [ref=f1e430]:
+                              - generic [ref=f1e431]:
+                                - generic [ref=f1e432]: Favorite animal
+                                - generic [ref=f1e433]:
+                                  - combobox "Favorite animal" [ref=f1e436]: Cat
+                                  - button "Show suggestions Favorite animal" [ref=f1e437]:
+                                    - img
+                              - generic [ref=f1e438]:
+                                - generic [ref=f1e439]: Search animals
+                                - generic [ref=f1e440]:
+                                  - combobox "Search animals" [ref=f1e443]: Cap
+                                  - button "Show suggestions Search animals" [ref=f1e444]:
+                                    - img
+                    - generic [ref=f1e445]:
+                      - generic [ref=f1e446]:
+                        - heading "Section 3 — Navigation" [level=2] [ref=f1e447]
+                        - paragraph [ref=f1e448]: Tabs, Breadcrumbs, MenuTrigger / Menu, ActionMenu
+                        - separator [ref=f1e449]
+                      - generic [ref=f1e450]:
+                        - generic [ref=f1e451]:
+                          - paragraph [ref=f1e452]: Tabs — horizontal
+                          - generic [ref=f1e453]:
+                            - tablist "Project sections" [ref=f1e455]:
+                              - tab "Overview" [selected] [ref=f1e456]
+                              - tab "Datasets" [ref=f1e457]
+                              - tab "Models" [ref=f1e458]
+                            - tabpanel [ref=f1e459]
+                        - separator [ref=f1e460]
+                        - generic [ref=f1e461]:
+                          - paragraph [ref=f1e462]: Breadcrumbs — 3-level hierarchy
+                          - generic [ref=f1e463]:
+                            - navigation "Breadcrumbs" [ref=f1e464]:
+                              - list [ref=f1e465]:
+                                - listitem [ref=f1e466]:
+                                  - link "Home" [ref=f1e467] [cursor=pointer]
+                                  - img
+                                - listitem [ref=f1e468]:
+                                  - link "Projects" [ref=f1e469] [cursor=pointer]
+                                  - img
+                                - listitem [ref=f1e470]:
+                                  - link "Detection Project" [disabled] [ref=f1e471]
+                            - navigation "Breadcrumbs" [ref=f1e472]:
+                              - list [ref=f1e473]:
+                                - listitem [ref=f1e474]:
+                                  - link "Home" [disabled] [ref=f1e475]
+                                  - img
+                                - listitem [ref=f1e476]:
+                                  - link "Projects" [disabled] [ref=f1e477]
+                                  - img
+                                - listitem [ref=f1e478]:
+                                  - link "Detection Project" [disabled] [ref=f1e479]
+                        - separator [ref=f1e480]
+                        - generic [ref=f1e481]:
+                          - paragraph [ref=f1e482]: MenuTrigger / Menu — with sections
+                          - generic [ref=f1e483]:
+                            - button "Open menu" [ref=f1e484]
+                            - button "Sort by" [ref=f1e485]
+                        - separator [ref=f1e486]
+                        - generic [ref=f1e487]:
+                          - paragraph [ref=f1e488]: ActionMenu — icon-triggered variant
+                          - generic [ref=f1e489]:
+                            - button "More actions" [ref=f1e490]:
+                              - img
+                            - button "Quiet action menu" [ref=f1e491]:
+                              - img
+                            - button "Disabled action menu" [disabled] [ref=f1e492]:
+                              - img
+                    - generic [ref=f1e493]:
+                      - generic [ref=f1e494]:
+                        - heading "Section 4 — Feedback & Status" [level=2] [ref=f1e495]
+                        - paragraph [ref=f1e496]: ProgressBar, ProgressCircle, Loading, StatusLight, InlineAlert, Badge, Skeleton, Meter
+                        - separator [ref=f1e497]
+                      - generic [ref=f1e498]:
+                        - generic [ref=f1e499]:
+                          - generic [ref=f1e500]:
+                            - paragraph [ref=f1e501]: ProgressBar
+                            - generic [ref=f1e502]:
+                              - progressbar "Upload progress" [ref=f1e503]:
+                                - generic [ref=f1e504]: Upload progress
+                                - generic [ref=f1e505]: 65%
+                              - progressbar "Processing…" [ref=f1e508]:
+                                - generic [ref=f1e509]: Processing…
+                              - progressbar "Storage used" [ref=f1e512]:
+                                - generic [ref=f1e513]: Storage used
+                                - generic [ref=f1e514]: 82%
+                              - progressbar "Over-background" [ref=f1e517]:
+                                - generic [ref=f1e518]: Over-background
+                                - generic [ref=f1e519]: 95%
+                          - separator [ref=f1e522]
+                          - generic [ref=f1e523]:
+                            - paragraph [ref=f1e524]: ProgressCircle
+                            - generic [ref=f1e525]:
+                              - generic [ref=f1e526]:
+                                - progressbar "Determinate — 40%" [ref=f1e527]
+                                - generic [ref=f1e536]: 40% (S)
+                              - generic [ref=f1e537]:
+                                - progressbar "Indeterminate" [ref=f1e538]
+                                - generic [ref=f1e547]: Indeterminate (M)
+                              - generic [ref=f1e548]:
+                                - progressbar "Large determinate — 75%" [ref=f1e549]
+                                - generic [ref=f1e558]: 75% (L)
+                          - separator [ref=f1e559]
+                          - generic [ref=f1e560]:
+                            - paragraph [ref=f1e561]: Loading — inline & overlay wrappers
+                            - generic [ref=f1e562]:
+                              - generic [ref=f1e563]:
+                                - progressbar "Inline loading" [ref=f1e565]
+                                - generic [ref=f1e574]: inline (S)
+                              - generic [ref=f1e575]:
+                                - progressbar "Inline loading M" [ref=f1e577]
+                                - generic [ref=f1e586]: inline (M)
+                              - generic [ref=f1e587]:
+                                - progressbar "Overlay loading" [ref=f1e589]
+                                - generic [ref=f1e598]: overlay
+                          - separator [ref=f1e599]
+                          - generic [ref=f1e600]:
+                            - paragraph [ref=f1e601]: Meter
+                            - generic [ref=f1e602]:
+                              - meter "Storage" [ref=f1e603]:
+                                - generic [ref=f1e604]: Storage
+                                - generic [ref=f1e605]: 35%
+                              - meter "Bandwidth" [ref=f1e608]:
+                                - generic [ref=f1e609]: Bandwidth
+                                - generic [ref=f1e610]: 68%
+                              - meter "CPU load" [ref=f1e613]:
+                                - generic [ref=f1e614]: CPU load
+                                - generic [ref=f1e615]: 91%
+                        - generic [ref=f1e618]:
+                          - generic [ref=f1e619]:
+                            - paragraph [ref=f1e620]: StatusLight — semantic variants
+                            - generic [ref=f1e621]:
+                              - generic [ref=f1e622]: Model training complete
+                              - generic [ref=f1e623]: Inference error detected
+                              - generic [ref=f1e624]: Annotation in progress
+                              - generic [ref=f1e625]: Pipeline queued
+                              - generic [ref=f1e626]: Dataset idle
+                              - generic [ref=f1e627]: Custom — celery
+                              - generic [ref=f1e628]: Custom — fuchsia
+                              - generic [ref=f1e629]: Custom — indigo
+                          - separator [ref=f1e630]
+                          - generic [ref=f1e631]:
+                            - paragraph [ref=f1e632]: InlineAlert — variants
+                            - generic [ref=f1e633]:
+                              - alert [ref=f1e634]:
+                                - generic [ref=f1e635]:
+                                  - heading "Note" [level=3] [ref=f1e636]
+                                  - generic [ref=f1e637]: This is a neutral inline alert providing helpful context about the current state.
+                              - alert [ref=f1e638]:
+                                - generic [ref=f1e639]:
+                                  - img "Information"
+                                  - heading "Did you know?" [level=3] [ref=f1e640]
+                                  - generic [ref=f1e641]: Your session will expire in 10 minutes. Save your work to avoid data loss.
+                              - alert [ref=f1e642]:
+                                - generic [ref=f1e643]:
+                                  - img "Success"
+                                  - heading "Training complete" [level=3] [ref=f1e644]
+                                  - generic [ref=f1e645]: Your model achieved 94.2% mAP on the validation set.
+                              - alert [ref=f1e646]:
+                                - generic [ref=f1e647]:
+                                  - img "Warning"
+                                  - heading "Warning" [level=3] [ref=f1e648]
+                                  - generic [ref=f1e649]: Dataset annotations are missing for 12 images. This may affect accuracy.
+                              - alert [ref=f1e650]:
+                                - generic [ref=f1e651]:
+                                  - img "Error"
+                                  - heading "Inference failed" [level=3] [ref=f1e652]
+                                  - generic [ref=f1e653]: The pipeline encountered an error. Check logs for details.
+                          - separator [ref=f1e654]
+                          - generic [ref=f1e655]:
+                            - paragraph [ref=f1e656]: Badge — semantic colors
+                            - generic [ref=f1e657]: Neutral Info Positive Yellow Negative Seafoam Indigo Purple Fuchsia Magenta Yellow
+                          - separator [ref=f1e658]
+                          - generic [ref=f1e659]:
+                            - paragraph [ref=f1e660]: Skeleton — rectangle & circle
+                            - generic [ref=f1e661]:
+                              - generic [ref=f1e662]:
+                                - img "Loading title" [ref=f1e663]
+                                - img "Loading subtitle" [ref=f1e664]
+                                - img "Loading body line 1" [ref=f1e665]
+                                - img "Loading body line 2" [ref=f1e666]
+                              - generic [ref=f1e667]:
+                                - img "Loading avatar" [ref=f1e668]
+                                - generic [ref=f1e669]:
+                                  - img "Loading name" [ref=f1e670]
+                                  - img "Loading role" [ref=f1e671]
+                              - img "Loading card" [ref=f1e672]
+                    - generic [ref=f1e673]:
+                      - generic [ref=f1e674]:
+                        - heading "Section 5 — Overlays" [level=2] [ref=f1e675]
+                        - paragraph [ref=f1e676]: TooltipTrigger/Tooltip, Popover, CustomPopover, DialogTrigger/Dialog, AlertDialog, ContextualHelp
+                        - separator [ref=f1e677]
+                      - generic [ref=f1e678]:
+                        - generic [ref=f1e679]:
+                          - paragraph [ref=f1e680]: TooltipTrigger / Tooltip — placements
+                          - generic [ref=f1e681]:
+                            - button "Hover (default)" [ref=f1e682]
+                            - button "Top" [ref=f1e683]
+                            - button "Bottom" [ref=f1e684]
+                            - button "End" [ref=f1e685]
+                            - button "Disabled" [disabled] [ref=f1e686]
+                        - separator [ref=f1e687]
+                        - generic [ref=f1e688]:
+                          - paragraph [ref=f1e689]: Popover — anchored floating dialog
+                          - generic [ref=f1e690]:
+                            - button "Open popover" [ref=f1e691]
+                            - button "Bottom popover" [ref=f1e692]
+                        - separator [ref=f1e693]
+                        - generic [ref=f1e694]:
+                          - paragraph [ref=f1e695]: CustomPopover — react-aria-components variant with arrow
+                          - generic [ref=f1e696]:
+                            - button "Open custom popover" [ref=f1e697]
+                            - button "With arrow" [ref=f1e698]
+                        - separator [ref=f1e699]
+                        - generic [ref=f1e700]:
+                          - paragraph [ref=f1e701]: DialogTrigger / Dialog — modal & popover variants
+                          - generic [ref=f1e702]:
+                            - button "Open modal" [ref=f1e703]
+                            - button "Dismissable dialog" [ref=f1e704]
+                            - button "Popover dialog" [ref=f1e705]
+                        - separator [ref=f1e706]
+                        - generic [ref=f1e707]:
+                          - paragraph [ref=f1e708]: AlertDialog — confirmation, destructive, warning
+                          - generic [ref=f1e709]:
+                            - button "Confirm action" [ref=f1e710]
+                            - button "Delete model" [ref=f1e711]
+                            - button "Warning" [ref=f1e712]
+                        - separator [ref=f1e713]
+                        - generic [ref=f1e714]:
+                          - paragraph [ref=f1e715]: ContextualHelp — help & info variants
+                          - generic [ref=f1e716]:
+                            - generic [ref=f1e717]:
+                              - text: Model name
+                              - button "Help" [ref=f1e718]:
+                                - img
+                            - generic [ref=f1e719]:
+                              - text: Confidence threshold
+                              - button "Information" [ref=f1e720]:
+                                - img
+                    - generic [ref=f1e721]:
+                      - generic [ref=f1e722]:
+                        - heading "Section 6 — Data Display" [level=2] [ref=f1e723]
+                        - paragraph [ref=f1e724]: TableView, ListView, ListBox, TagGroup, AvatarGroup, IllustratedMessage, Image
+                        - separator [ref=f1e725]
+                      - generic [ref=f1e726]:
+                        - generic [ref=f1e727]:
+                          - paragraph [ref=f1e728]: TableView — sortable columns, selectable rows
+                          - grid "Team members" [ref=f1e729]:
+                            - rowgroup [ref=f1e730]:
+                              - row "Select All ID Name Status Role" [ref=f1e731]:
+                                - columnheader "Select All" [ref=f1e732]:
+                                  - checkbox "Select All" [ref=f1e734]
+                                - columnheader "ID" [ref=f1e736]:
+                                  - generic [ref=f1e737]: ID
+                                - columnheader "Name" [ref=f1e738]:
+                                  - generic [ref=f1e739]: Name
+                                - columnheader "Status" [ref=f1e740]:
+                                  - generic [ref=f1e741]: Status
+                                - columnheader "Role" [ref=f1e742]:
+                                  - generic [ref=f1e743]: Role
+                            - rowgroup [ref=f1e744]:
+                              - row "1" [ref=f1e745]:
+                                - gridcell "Select 1" [ref=f1e746]:
+                                  - checkbox "Select 1" [ref=f1e748]
+                                - rowheader "1" [ref=f1e750]:
+                                  - generic [ref=f1e751]: "1"
+                                - gridcell "Alice Nguyen" [ref=f1e752]:
+                                  - generic [ref=f1e753]: Alice Nguyen
+                                - gridcell "Active" [ref=f1e754]:
+                                  - generic [ref=f1e755]: Active
+                                - gridcell "Annotator" [ref=f1e756]:
+                                  - generic [ref=f1e757]: Annotator
+                              - row "2" [ref=f1e758]:
+                                - gridcell "Select 2" [ref=f1e759]:
+                                  - checkbox "Select 2" [ref=f1e761]
+                                - rowheader "2" [ref=f1e763]:
+                                  - generic [ref=f1e764]: "2"
+                                - gridcell "Bob Müller" [ref=f1e765]:
+                                  - generic [ref=f1e766]: Bob Müller
+                                - gridcell "Idle" [ref=f1e767]:
+                                  - generic [ref=f1e768]: Idle
+                                - gridcell "Reviewer" [ref=f1e769]:
+                                  - generic [ref=f1e770]: Reviewer
+                              - row "3" [ref=f1e771]:
+                                - gridcell "Select 3" [ref=f1e772]:
+                                  - checkbox "Select 3" [ref=f1e774]
+                                - rowheader "3" [ref=f1e776]:
+                                  - generic [ref=f1e777]: "3"
+                                - gridcell "Carol Smith" [ref=f1e778]:
+                                  - generic [ref=f1e779]: Carol Smith
+                                - gridcell "Offline" [ref=f1e780]:
+                                  - generic [ref=f1e781]: Offline
+                                - gridcell "Admin" [ref=f1e782]:
+                                  - generic [ref=f1e783]: Admin
+                        - separator [ref=f1e784]
+                        - generic [ref=f1e785]:
+                          - generic [ref=f1e786]:
+                            - generic [ref=f1e787]:
+                              - paragraph [ref=f1e788]: ListView — single selection
+                              - grid "Recent models" [ref=f1e789]:
+                                - row "Detection Model v3" [ref=f1e790]:
+                                  - gridcell "Select Detection Model v3 Detection Model v3" [ref=f1e791]:
+                                    - generic [ref=f1e792]:
+                                      - checkbox "Select Detection Model v3" [ref=f1e795]
+                                      - text: Detection Model v3
+                                - row "Segmentation Model v2" [ref=f1e797]:
+                                  - gridcell "Select Segmentation Model v2 Segmentation Model v2" [ref=f1e798]:
+                                    - generic [ref=f1e799]:
+                                      - checkbox "Select Segmentation Model v2" [ref=f1e802]
+                                      - text: Segmentation Model v2
+                                - row "Classification Model v4" [ref=f1e804]:
+                                  - gridcell "Select Classification Model v4 Classification Model v4" [ref=f1e805]:
+                                    - generic [ref=f1e806]:
+                                      - checkbox "Select Classification Model v4" [ref=f1e809]
+                                      - text: Classification Model v4
+                                - row "Anomaly Detector v1" [ref=f1e811]:
+                                  - gridcell "Select Anomaly Detector v1 Anomaly Detector v1" [ref=f1e812]:
+                                    - generic [ref=f1e813]:
+                                      - checkbox "Select Anomaly Detector v1" [ref=f1e816]
+                                      - text: Anomaly Detector v1
+                            - separator [ref=f1e818]
+                            - generic [ref=f1e819]:
+                              - paragraph [ref=f1e820]: ListBox — multi-selection
+                              - listbox "Select label categories" [ref=f1e821]:
+                                - option "Person" [selected] [ref=f1e822]:
+                                  - generic [ref=f1e823]:
+                                    - text: Person
+                                    - img
+                                - option "Vehicle" [selected] [ref=f1e824]:
+                                  - generic [ref=f1e825]:
+                                    - text: Vehicle
+                                    - img
+                                - option "Animal" [ref=f1e826]:
+                                  - generic [ref=f1e827]: Animal
+                                - option "Object" [ref=f1e828]:
+                                  - generic [ref=f1e829]: Object
+                                - option "Background" [ref=f1e830]:
+                                  - generic [ref=f1e831]: Background
+                            - separator [ref=f1e832]
+                            - generic [ref=f1e833]:
+                              - paragraph [ref=f1e834]: TagGroup — removable tags
+                              - generic [ref=f1e835]:
+                                - generic [ref=f1e836]: Active labels
+                                - grid "Dataset labels Active labels" [ref=f1e838]:
+                                  - row "Person" [ref=f1e839]:
+                                    - gridcell "Person Remove Person" [ref=f1e840]:
+                                      - text: Person
+                                      - button "Remove Person" [ref=f1e842]:
+                                        - img
+                                  - row "Car" [ref=f1e843]:
+                                    - gridcell "Car Remove Car" [ref=f1e844]:
+                                      - text: Car
+                                      - button "Remove Car" [ref=f1e846]:
+                                        - img
+                                  - row "Bicycle" [ref=f1e847]:
+                                    - gridcell "Bicycle Remove Bicycle" [ref=f1e848]:
+                                      - text: Bicycle
+                                      - button "Remove Bicycle" [ref=f1e850]:
+                                        - img
+                                  - row "Truck" [ref=f1e851]:
+                                    - gridcell "Truck Remove Truck" [ref=f1e852]:
+                                      - text: Truck
+                                      - button "Remove Truck" [ref=f1e854]:
+                                        - img
+                                  - row "Traffic light" [ref=f1e855]:
+                                    - gridcell "Traffic light Remove Traffic light" [ref=f1e856]:
+                                      - text: Traffic light
+                                      - button "Remove Traffic light" [ref=f1e858]:
+                                        - img
+                          - generic [ref=f1e859]:
+                            - generic [ref=f1e860]:
+                              - paragraph [ref=f1e861]: AvatarGroup — stacked avatars with overflow badge
+                              - generic [ref=f1e862]:
+                                - group "5 avatars" [ref=f1e863]:
+                                  - img "Alice Nguyen" [ref=f1e865]
+                                  - img "Bob Müller" [ref=f1e867]
+                                  - img "Carol Smith" [ref=f1e869]
+                                  - generic "2 more" [ref=f1e870]: "+2"
+                                - group "5 avatars" [ref=f1e871]:
+                                  - img "Alice Nguyen" [ref=f1e873]
+                                  - img "Bob Müller" [ref=f1e875]
+                                  - img "Carol Smith" [ref=f1e877]
+                                  - img "David Park" [ref=f1e879]
+                                  - generic "1 more" [ref=f1e880]: "+1"
+                            - separator [ref=f1e881]
+                            - generic [ref=f1e882]:
+                              - paragraph [ref=f1e883]: IllustratedMessage — empty state
+                              - generic [ref=f1e885]:
+                                - img
+                                - heading "No results found" [level=3] [ref=f1e886]
+                                - generic [ref=f1e887]: No models match your current filters. Try adjusting your search criteria or clearing active filters.
+                            - separator [ref=f1e888]
+                            - generic [ref=f1e889]:
+                              - paragraph [ref=f1e890]: Image — placeholder with cover fit
+                              - img "Sample dataset thumbnail" [ref=f1e892]
+                    - generic [ref=f1e893]:
+                      - generic [ref=f1e894]:
+                        - heading "Section 7 — Layout & Structure" [level=2] [ref=f1e895]
+                        - paragraph [ref=f1e896]: Accordion, Disclosure, Well, CardView, Divider
+                        - separator [ref=f1e897]
+                      - generic [ref=f1e898]:
+                        - generic [ref=f1e899]:
+                          - paragraph [ref=f1e900]: Accordion — collapsible sections
+                          - generic [ref=f1e901]:
+                            - generic [ref=f1e902]:
+                              - paragraph [ref=f1e903]: Default (single-expand)
+                              - generic [ref=f1e904]:
+                                - heading "Dataset Overview" [level=3] [ref=f1e906]:
+                                  - button "Dataset Overview" [ref=f1e907]:
+                                    - img
+                                    - text: Dataset Overview
+                                - heading "Training Configuration" [level=3] [ref=f1e909]:
+                                  - button "Training Configuration" [ref=f1e910]:
+                                    - img
+                                    - text: Training Configuration
+                                - heading "Evaluation Metrics" [level=3] [ref=f1e912]:
+                                  - button "Evaluation Metrics" [ref=f1e913]:
+                                    - img
+                                    - text: Evaluation Metrics
+                            - generic [ref=f1e914]:
+                              - paragraph [ref=f1e915]: Quiet + allowsMultipleExpanded
+                              - generic [ref=f1e916]:
+                                - heading "Advanced Settings" [level=3] [ref=f1e918]:
+                                  - button "Advanced Settings" [ref=f1e919]:
+                                    - img
+                                    - text: Advanced Settings
+                                - heading "Export Options" [level=3] [ref=f1e921]:
+                                  - button "Export Options" [ref=f1e922]:
+                                    - img
+                                    - text: Export Options
+                        - separator [ref=f1e923]
+                        - generic [ref=f1e924]:
+                          - paragraph [ref=f1e925]: Disclosure — standalone collapsible
+                          - generic [ref=f1e926]:
+                            - heading "What is a confidence threshold?" [level=3] [ref=f1e928]:
+                              - button "What is a confidence threshold?" [ref=f1e929]:
+                                - img
+                                - text: What is a confidence threshold?
+                            - generic [ref=f1e930]:
+                              - heading "Pre-expanded disclosure" [level=3] [ref=f1e931]:
+                                - button "Pre-expanded disclosure" [expanded] [ref=f1e932]:
+                                  - img
+                                  - text: Pre-expanded disclosure
+                              - group "Pre-expanded disclosure" [ref=f1e933]:
+                                - paragraph [ref=f1e934]:
+                                  - text: This panel is open by default via
+                                  - code [ref=f1e935]: isExpanded
+                                  - text: . It is useful for surfacing critical information that should be visible on first render.
+                            - heading "Disabled disclosure" [level=3] [ref=f1e937]:
+                              - button "Disabled disclosure" [disabled] [ref=f1e938]:
+                                - img
+                                - text: Disabled disclosure
+                        - separator [ref=f1e939]
+                        - generic [ref=f1e940]:
+                          - paragraph [ref=f1e941]: Well — non-editable content container
+                          - generic [ref=f1e942]:
+                            - generic [ref=f1e943]:
+                              - strong [ref=f1e944]: Training complete.
+                              - text: Your model achieved a mean average precision (mAP) of 87.3% on the validation set. Review the evaluation metrics above before deploying to production.
+                            - region "API endpoint" [ref=f1e945]:
+                              - code [ref=f1e946]: "POST https://api.geti.intel.com/v2/projects/{id}/deployments"
+                        - separator [ref=f1e947]
+                        - generic [ref=f1e948]:
+                          - paragraph [ref=f1e949]: CardView — selectable task cards
+                          - list "Available task types" [ref=f1e950]:
+                            - listitem [ref=f1e951]:
+                              - button "Object Detection" [ref=f1e953] [cursor=pointer]:
+                                - generic [ref=f1e954]:
+                                  - strong [ref=f1e955]: Object Detection
+                                  - generic [ref=f1e956]: Locate and classify objects in images using bounding boxes.
+                            - listitem [ref=f1e957]:
+                              - button "Instance Segmentation" [ref=f1e959] [cursor=pointer]:
+                                - generic [ref=f1e960]:
+                                  - strong [ref=f1e961]: Instance Segmentation
+                                  - generic [ref=f1e962]: Produce pixel-level masks for each detected object instance.
+                            - listitem [ref=f1e963]:
+                              - button "Image Classification" [ref=f1e965] [cursor=pointer]:
+                                - generic [ref=f1e966]:
+                                  - strong [ref=f1e967]: Image Classification
+                                  - generic [ref=f1e968]: Assign one or more class labels to the entire input image.
+                          - list "Selected card example" [ref=f1e970]:
+                            - listitem [ref=f1e971]:
+                              - button "Instance Segmentation (selected)" [pressed] [ref=f1e973] [cursor=pointer]:
+                                - generic [ref=f1e974]:
+                                  - strong [ref=f1e975]: Instance Segmentation ✓
+                                  - generic [ref=f1e976]: Produce pixel-level masks for each detected object instance.
+                        - separator [ref=f1e977]
+                        - generic [ref=f1e978]:
+                          - paragraph [ref=f1e979]: Divider — sizes and orientations
+                          - generic [ref=f1e980]:
+                            - generic [ref=f1e981]:
+                              - generic [ref=f1e982]: Horizontal — S / M / L
+                              - separator [ref=f1e983]
+                              - separator [ref=f1e984]
+                              - separator [ref=f1e985]
+                            - generic [ref=f1e986]:
+                              - generic [ref=f1e987]: Vertical S
+                              - separator [ref=f1e988]
+                              - generic [ref=f1e989]: Vertical M
+                              - separator [ref=f1e990]
+                              - generic [ref=f1e991]: Vertical L
+                              - separator [ref=f1e992]
+                    - generic [ref=f1e993]:
+                      - generic [ref=f1e994]:
+                        - heading "Section 8 — Pickers" [level=2] [ref=f1e995]
+                        - paragraph [ref=f1e996]: ColorArea, ColorSlider, ColorWheel, ColorField, ColorSwatchPicker, ColorPickerDialog, DateField, TimeField, DatePicker, DateRangePicker, Calendar, RangeCalendar
+                        - separator [ref=f1e997]
+                      - generic [ref=f1e998]:
+                        - generic [ref=f1e999]:
+                          - generic [ref=f1e1000]:
+                            - paragraph [ref=f1e1001]: ColorArea — 2-D saturation/brightness picker
+                            - group [ref=f1e1003]:
+                              - slider "Color picker": "80"
+                              - slider: "90"
+                          - separator [ref=f1e1005]
+                          - generic [ref=f1e1006]:
+                            - paragraph [ref=f1e1007]: ColorSlider — single-channel sliders
+                            - generic [ref=f1e1008]:
+                              - generic [ref=f1e1009]:
+                                - generic [ref=f1e1010]:
+                                  - generic [ref=f1e1011]: Hue
+                                  - status [ref=f1e1013]: 0°
+                                - group "Hue" [ref=f1e1014]:
+                                  - generic [ref=f1e1015]:
+                                    - slider "Hue": "0"
+                              - generic [ref=f1e1017]:
+                                - generic [ref=f1e1018]:
+                                  - generic [ref=f1e1019]: Alpha
+                                  - status [ref=f1e1021]: 50%
+                                - group "Alpha" [ref=f1e1022]:
+                                  - generic [ref=f1e1023]:
+                                    - slider "Alpha": "0.5"
+                              - generic [ref=f1e1025]:
+                                - generic [ref=f1e1026]:
+                                  - generic [ref=f1e1027]: Red channel
+                                  - status [ref=f1e1029]: "192"
+                                - group "Red channel" [ref=f1e1030]:
+                                  - generic [ref=f1e1031]:
+                                    - slider "Red channel": "192"
+                          - separator [ref=f1e1033]
+                          - generic [ref=f1e1034]:
+                            - paragraph [ref=f1e1035]: ColorWheel — circular hue picker
+                            - generic [ref=f1e1036]:
+                              - generic [ref=f1e1039]:
+                                - slider "Hue": "220"
+                              - generic:
+                                - generic:
+                                  - slider "Hue" [disabled]: "0"
+                          - separator [ref=f1e1041]
+                          - generic [ref=f1e1042]:
+                            - paragraph [ref=f1e1043]: ColorField — hex input
+                            - generic [ref=f1e1044]:
+                              - generic [ref=f1e1045]:
+                                - generic [ref=f1e1046]: Brand colour
+                                - textbox "Brand colour" [ref=f1e1048]: "#0071E3"
+                              - generic [ref=f1e1049]:
+                                - generic [ref=f1e1050]: Invalid hex
+                                - generic [ref=f1e1051]:
+                                  - textbox "Invalid hex" [ref=f1e1052]
+                                  - img [ref=f1e1053]
+                                - generic [ref=f1e1056]: Enter a valid hex colour.
+                              - generic [ref=f1e1057]:
+                                - generic [ref=f1e1058]: Disabled
+                                - textbox "Disabled" [disabled] [ref=f1e1060]: "#888888"
+                          - separator [ref=f1e1061]
+                          - generic [ref=f1e1062]:
+                            - paragraph [ref=f1e1063]: ColorSwatchPicker — preset swatches
+                            - listbox "Label colours" [ref=f1e1065]:
+                              - option "vibrant red, Red" [selected] [ref=f1e1066]:
+                                - img "vibrant red, Red" [ref=f1e1067]
+                              - option "vibrant orange, Orange" [ref=f1e1068]:
+                                - img "vibrant orange, Orange" [ref=f1e1069]
+                              - option "very light vibrant yellow, Yellow" [ref=f1e1070]:
+                                - img "very light vibrant yellow, Yellow" [ref=f1e1071]
+                              - option "light vibrant green, Green" [ref=f1e1072]:
+                                - img "light vibrant green, Green" [ref=f1e1073]
+                              - option "vibrant cyan blue, Blue" [ref=f1e1074]:
+                                - img "vibrant cyan blue, Blue" [ref=f1e1075]
+                              - option "vibrant purple, Purple" [ref=f1e1076]:
+                                - img "vibrant purple, Purple" [ref=f1e1077]
+                              - option "vibrant pink, Pink" [ref=f1e1078]:
+                                - img "vibrant pink, Pink" [ref=f1e1079]
+                              - option "gray, Grey" [ref=f1e1080]:
+                                - img "gray, Grey" [ref=f1e1081]
+                          - separator [ref=f1e1082]
+                          - generic [ref=f1e1083]:
+                            - paragraph [ref=f1e1084]: ColorPickerDialog — full color picker in a dialog
+                            - generic [ref=f1e1085]:
+                              - button "Pick annotation colour" [ref=f1e1086]:
+                                - generic [ref=f1e1087]:
+                                  - img "vibrant cyan blue" [ref=f1e1088]
+                                  - generic [ref=f1e1089]: Pick annotation colour
+                              - button "Background fill" [ref=f1e1090]:
+                                - generic [ref=f1e1091]:
+                                  - img "light vibrant green" [ref=f1e1092]
+                                  - generic [ref=f1e1093]: Background fill
+                          - separator [ref=f1e1094]
+                          - generic [ref=f1e1095]:
+                            - paragraph [ref=f1e1096]: ColorSwatch — inline swatches at multiple sizes
+                            - generic [ref=f1e1097]:
+                              - img "vibrant red, Red XS" [ref=f1e1098]
+                              - img "vibrant orange, Orange S" [ref=f1e1099]
+                              - img "vibrant cyan blue, Blue M" [ref=f1e1100]
+                              - img "vibrant purple, Purple L" [ref=f1e1101]
+                              - img "light vibrant green, Green round" [ref=f1e1102]
+                              - img "gray, Grey square" [ref=f1e1103]
+                        - generic [ref=f1e1104]:
+                          - generic [ref=f1e1105]:
+                            - paragraph [ref=f1e1106]: DateField — keyboard date entry
+                            - generic [ref=f1e1107]:
+                              - generic [ref=f1e1108]:
+                                - generic [ref=f1e1109]: Start date
+                                - group "Start date" [ref=f1e1110]:
+                                  - spinbutton "month, Start date" [ref=f1e1111]: mm
+                                  - text: /
+                                  - spinbutton "day, Start date" [ref=f1e1112]: dd
+                                  - text: /
+                                  - spinbutton "year, Start date" [ref=f1e1113]: yyyy
+                              - generic [ref=f1e1114]:
+                                - generic [ref=f1e1115]: With time
+                                - group "With time" [ref=f1e1116]:
+                                  - spinbutton "month, With time" [ref=f1e1117]: mm
+                                  - text: /
+                                  - spinbutton "day, With time" [ref=f1e1118]: dd
+                                  - text: /
+                                  - spinbutton "year, With time" [ref=f1e1119]: yyyy
+                                  - text: ","
+                                  - spinbutton "hour, With time" [ref=f1e1120]: ––
+                                  - text: ":"
+                                  - spinbutton "minute, With time" [ref=f1e1121]: ––
+                                  - spinbutton "AM/PM, With time" [ref=f1e1122]: AM
+                              - generic [ref=f1e1123]:
+                                - generic [ref=f1e1124]: Invalid date
+                                - group "Invalid date" [ref=f1e1125]:
+                                  - spinbutton "month, Invalid date" [ref=f1e1126]: mm
+                                  - text: /
+                                  - spinbutton "day, Invalid date" [ref=f1e1127]: dd
+                                  - text: /
+                                  - spinbutton "year, Invalid date" [ref=f1e1128]: yyyy
+                                  - img [ref=f1e1129]
+                                - generic [ref=f1e1132]: Please enter a valid date.
+                              - generic [ref=f1e1133]:
+                                - generic [ref=f1e1134]: Disabled
+                                - group "Disabled" [disabled] [ref=f1e1135]:
+                                  - spinbutton "month, Disabled" [disabled] [ref=f1e1136]: mm
+                                  - text: /
+                                  - spinbutton "day, Disabled" [disabled] [ref=f1e1137]: dd
+                                  - text: /
+                                  - spinbutton "year, Disabled" [disabled] [ref=f1e1138]: yyyy
+                          - separator [ref=f1e1139]
+                          - generic [ref=f1e1140]:
+                            - paragraph [ref=f1e1141]: TimeField — keyboard time entry
+                            - generic [ref=f1e1142]:
+                              - generic [ref=f1e1143]:
+                                - generic [ref=f1e1144]: Start time
+                                - group "Start time" [ref=f1e1145]:
+                                  - spinbutton "hour, Start time" [ref=f1e1146]: ––
+                                  - text: ":"
+                                  - spinbutton "minute, Start time" [ref=f1e1147]: ––
+                                  - spinbutton "AM/PM, Start time" [ref=f1e1148]: AM
+                              - generic [ref=f1e1149]:
+                                - generic [ref=f1e1150]: With seconds
+                                - group "With seconds" [ref=f1e1151]:
+                                  - spinbutton "hour, With seconds" [ref=f1e1152]: ––
+                                  - text: ":"
+                                  - spinbutton "minute, With seconds" [ref=f1e1153]: ––
+                                  - text: ":"
+                                  - spinbutton "second, With seconds" [ref=f1e1154]: ––
+                                  - spinbutton "AM/PM, With seconds" [ref=f1e1155]: AM
+                              - generic [ref=f1e1156]:
+                                - generic [ref=f1e1157]: Disabled
+                                - group "Disabled" [disabled] [ref=f1e1158]:
+                                  - spinbutton "hour, Disabled" [disabled] [ref=f1e1159]: ––
+                                  - text: ":"
+                                  - spinbutton "minute, Disabled" [disabled] [ref=f1e1160]: ––
+                                  - spinbutton "AM/PM, Disabled" [disabled] [ref=f1e1161]: AM
+                          - separator [ref=f1e1162]
+                          - generic [ref=f1e1163]:
+                            - paragraph [ref=f1e1164]: DatePicker — calendar popover picker
+                            - generic [ref=f1e1165]:
+                              - generic [ref=f1e1166]:
+                                - generic [ref=f1e1167]: Event date
+                                - group "Event date" [ref=f1e1168]:
+                                  - spinbutton "month, Event date" [ref=f1e1169]: mm
+                                  - text: /
+                                  - spinbutton "day, Event date" [ref=f1e1170]: dd
+                                  - text: /
+                                  - spinbutton "year, Event date" [ref=f1e1171]: yyyy
+                                  - button "Calendar Event date" [ref=f1e1172]:
+                                    - img
+                              - generic [ref=f1e1173]:
+                                - generic [ref=f1e1174]: With time
+                                - group "With time" [ref=f1e1175]:
+                                  - spinbutton "month, With time" [ref=f1e1176]: mm
+                                  - text: /
+                                  - spinbutton "day, With time" [ref=f1e1177]: dd
+                                  - text: /
+                                  - spinbutton "year, With time" [ref=f1e1178]: yyyy
+                                  - text: ","
+                                  - spinbutton "hour, With time" [ref=f1e1179]: ––
+                                  - text: ":"
+                                  - spinbutton "minute, With time" [ref=f1e1180]: ––
+                                  - spinbutton "AM/PM, With time" [ref=f1e1181]: AM
+                                  - button "Calendar With time" [ref=f1e1182]:
+                                    - img
+                              - generic [ref=f1e1183]:
+                                - generic [ref=f1e1184]: Disabled
+                                - group "Disabled" [disabled] [ref=f1e1185]:
+                                  - spinbutton "month, Disabled" [disabled] [ref=f1e1186]: mm
+                                  - text: /
+                                  - spinbutton "day, Disabled" [disabled] [ref=f1e1187]: dd
+                                  - text: /
+                                  - spinbutton "year, Disabled" [disabled] [ref=f1e1188]: yyyy
+                                  - button "Calendar Disabled" [disabled] [ref=f1e1189]:
+                                    - img
+                          - separator [ref=f1e1190]
+                          - generic [ref=f1e1191]:
+                            - paragraph [ref=f1e1192]: DateRangePicker — start & end date range
+                            - generic [ref=f1e1193]:
+                              - generic [ref=f1e1194]:
+                                - generic [ref=f1e1195]: Training window
+                                - group "Training window" [ref=f1e1196]:
+                                  - generic [ref=f1e1197]:
+                                    - spinbutton "month, Start Date, Training window" [ref=f1e1198]: mm
+                                    - text: /
+                                    - spinbutton "day, Start Date, Training window" [ref=f1e1199]: dd
+                                    - text: /
+                                    - spinbutton "year, Start Date, Training window" [ref=f1e1200]: yyyy
+                                    - generic [ref=f1e1201]: –
+                                    - spinbutton "month, End Date, Training window" [ref=f1e1202]: mm
+                                    - text: /
+                                    - spinbutton "day, End Date, Training window" [ref=f1e1203]: dd
+                                    - text: /
+                                    - spinbutton "year, End Date, Training window" [ref=f1e1204]: yyyy
+                                  - button "Calendar Training window" [ref=f1e1205]:
+                                    - img
+                              - generic [ref=f1e1206]:
+                                - generic [ref=f1e1207]: Disabled range
+                                - group "Disabled range" [disabled] [ref=f1e1208]:
+                                  - generic [ref=f1e1209]:
+                                    - spinbutton "month, Start Date, Disabled range" [disabled] [ref=f1e1210]: mm
+                                    - text: /
+                                    - spinbutton "day, Start Date, Disabled range" [disabled] [ref=f1e1211]: dd
+                                    - text: /
+                                    - spinbutton "year, Start Date, Disabled range" [disabled] [ref=f1e1212]: yyyy
+                                    - generic [ref=f1e1213]: –
+                                    - spinbutton "month, End Date, Disabled range" [disabled] [ref=f1e1214]: mm
+                                    - text: /
+                                    - spinbutton "day, End Date, Disabled range" [disabled] [ref=f1e1215]: dd
+                                    - text: /
+                                    - spinbutton "year, End Date, Disabled range" [disabled] [ref=f1e1216]: yyyy
+                                  - button "Calendar Disabled range" [disabled] [ref=f1e1217]:
+                                    - img
+                          - separator [ref=f1e1218]
+                          - generic [ref=f1e1219]:
+                            - paragraph [ref=f1e1220]: Calendar — inline single-date picker
+                            - generic [ref=f1e1221]:
+                              - generic [ref=f1e1222]:
+                                - application "Select annotation date, March 2026" [ref=f1e1223]:
+                                  - heading "Select annotation date, March 2026" [level=2] [ref=f1e1225]
+                                  - generic [ref=f1e1227]:
+                                    - button "Previous" [ref=f1e1228]:
+                                      - img
+                                    - heading [level=2] [ref=f1e1229]: March 2026
+                                    - button "Next" [ref=f1e1230]:
+                                      - img
+                                  - grid "Select annotation date, March 2026" [ref=f1e1232]:
+                                    - rowgroup [ref=f1e1233]:
+                                      - row [ref=f1e1234]:
+                                        - columnheader [ref=f1e1235]:
+                                          - generic [ref=f1e1236]: S
+                                        - columnheader [ref=f1e1237]:
+                                          - generic [ref=f1e1238]: M
+                                        - columnheader [ref=f1e1239]:
+                                          - generic [ref=f1e1240]: T
+                                        - columnheader [ref=f1e1241]:
+                                          - generic [ref=f1e1242]: W
+                                        - columnheader [ref=f1e1243]:
+                                          - generic [ref=f1e1244]: T
+                                        - columnheader [ref=f1e1245]:
+                                          - generic [ref=f1e1246]: F
+                                        - columnheader [ref=f1e1247]:
+                                          - generic [ref=f1e1248]: S
+                                    - rowgroup [ref=f1e1249]:
+                                      - row "Sunday, March 1, 2026 Monday, March 2, 2026 Tuesday, March 3, 2026 Wednesday, March 4, 2026 Thursday, March 5, 2026 Friday, March 6, 2026 Today, Saturday, March 7, 2026" [ref=f1e1250]:
+                                        - gridcell "Sunday, March 1, 2026" [ref=f1e1251]:
+                                          - button "Sunday, March 1, 2026" [ref=f1e1252]:
+                                            - generic [ref=f1e1253]: "1"
+                                        - gridcell "Monday, March 2, 2026" [ref=f1e1254]:
+                                          - button "Monday, March 2, 2026" [ref=f1e1255]:
+                                            - generic [ref=f1e1256]: "2"
+                                        - gridcell "Tuesday, March 3, 2026" [ref=f1e1257]:
+                                          - button "Tuesday, March 3, 2026" [ref=f1e1258]:
+                                            - generic [ref=f1e1259]: "3"
+                                        - gridcell "Wednesday, March 4, 2026" [ref=f1e1260]:
+                                          - button "Wednesday, March 4, 2026" [ref=f1e1261]:
+                                            - generic [ref=f1e1262]: "4"
+                                        - gridcell "Thursday, March 5, 2026" [ref=f1e1263]:
+                                          - button "Thursday, March 5, 2026" [ref=f1e1264]:
+                                            - generic [ref=f1e1265]: "5"
+                                        - gridcell "Friday, March 6, 2026" [ref=f1e1266]:
+                                          - button "Friday, March 6, 2026" [ref=f1e1267]:
+                                            - generic [ref=f1e1268]: "6"
+                                        - gridcell "Today, Saturday, March 7, 2026" [ref=f1e1269]:
+                                          - button "Today, Saturday, March 7, 2026" [ref=f1e1270]:
+                                            - generic [ref=f1e1271]: "7"
+                                      - row "Sunday, March 8, 2026 Monday, March 9, 2026 Tuesday, March 10, 2026 Wednesday, March 11, 2026 Thursday, March 12, 2026 Friday, March 13, 2026 Saturday, March 14, 2026" [ref=f1e1272]:
+                                        - gridcell "Sunday, March 8, 2026" [ref=f1e1273]:
+                                          - button "Sunday, March 8, 2026" [ref=f1e1274]:
+                                            - generic [ref=f1e1275]: "8"
+                                        - gridcell "Monday, March 9, 2026" [ref=f1e1276]:
+                                          - button "Monday, March 9, 2026" [ref=f1e1277]:
+                                            - generic [ref=f1e1278]: "9"
+                                        - gridcell "Tuesday, March 10, 2026" [ref=f1e1279]:
+                                          - button "Tuesday, March 10, 2026" [ref=f1e1280]:
+                                            - generic [ref=f1e1281]: "10"
+                                        - gridcell "Wednesday, March 11, 2026" [ref=f1e1282]:
+                                          - button "Wednesday, March 11, 2026" [ref=f1e1283]:
+                                            - generic [ref=f1e1284]: "11"
+                                        - gridcell "Thursday, March 12, 2026" [ref=f1e1285]:
+                                          - button "Thursday, March 12, 2026" [ref=f1e1286]:
+                                            - generic [ref=f1e1287]: "12"
+                                        - gridcell "Friday, March 13, 2026" [ref=f1e1288]:
+                                          - button "Friday, March 13, 2026" [ref=f1e1289]:
+                                            - generic [ref=f1e1290]: "13"
+                                        - gridcell "Saturday, March 14, 2026" [ref=f1e1291]:
+                                          - button "Saturday, March 14, 2026" [ref=f1e1292]:
+                                            - generic [ref=f1e1293]: "14"
+                                      - row "Sunday, March 15, 2026 Monday, March 16, 2026 Tuesday, March 17, 2026 Wednesday, March 18, 2026 Thursday, March 19, 2026 Friday, March 20, 2026 Saturday, March 21, 2026" [ref=f1e1294]:
+                                        - gridcell "Sunday, March 15, 2026" [ref=f1e1295]:
+                                          - button "Sunday, March 15, 2026" [ref=f1e1296]:
+                                            - generic [ref=f1e1297]: "15"
+                                        - gridcell "Monday, March 16, 2026" [ref=f1e1298]:
+                                          - button "Monday, March 16, 2026" [ref=f1e1299]:
+                                            - generic [ref=f1e1300]: "16"
+                                        - gridcell "Tuesday, March 17, 2026" [ref=f1e1301]:
+                                          - button "Tuesday, March 17, 2026" [ref=f1e1302]:
+                                            - generic [ref=f1e1303]: "17"
+                                        - gridcell "Wednesday, March 18, 2026" [ref=f1e1304]:
+                                          - button "Wednesday, March 18, 2026" [ref=f1e1305]:
+                                            - generic [ref=f1e1306]: "18"
+                                        - gridcell "Thursday, March 19, 2026" [ref=f1e1307]:
+                                          - button "Thursday, March 19, 2026" [ref=f1e1308]:
+                                            - generic [ref=f1e1309]: "19"
+                                        - gridcell "Friday, March 20, 2026" [ref=f1e1310]:
+                                          - button "Friday, March 20, 2026" [ref=f1e1311]:
+                                            - generic [ref=f1e1312]: "20"
+                                        - gridcell "Saturday, March 21, 2026" [ref=f1e1313]:
+                                          - button "Saturday, March 21, 2026" [ref=f1e1314]:
+                                            - generic [ref=f1e1315]: "21"
+                                      - row "Sunday, March 22, 2026 Monday, March 23, 2026 Tuesday, March 24, 2026 Wednesday, March 25, 2026 Thursday, March 26, 2026 Friday, March 27, 2026 Saturday, March 28, 2026" [ref=f1e1316]:
+                                        - gridcell "Sunday, March 22, 2026" [ref=f1e1317]:
+                                          - button "Sunday, March 22, 2026" [ref=f1e1318]:
+                                            - generic [ref=f1e1319]: "22"
+                                        - gridcell "Monday, March 23, 2026" [ref=f1e1320]:
+                                          - button "Monday, March 23, 2026" [ref=f1e1321]:
+                                            - generic [ref=f1e1322]: "23"
+                                        - gridcell "Tuesday, March 24, 2026" [ref=f1e1323]:
+                                          - button "Tuesday, March 24, 2026" [ref=f1e1324]:
+                                            - generic [ref=f1e1325]: "24"
+                                        - gridcell "Wednesday, March 25, 2026" [ref=f1e1326]:
+                                          - button "Wednesday, March 25, 2026" [ref=f1e1327]:
+                                            - generic [ref=f1e1328]: "25"
+                                        - gridcell "Thursday, March 26, 2026" [ref=f1e1329]:
+                                          - button "Thursday, March 26, 2026" [ref=f1e1330]:
+                                            - generic [ref=f1e1331]: "26"
+                                        - gridcell "Friday, March 27, 2026" [ref=f1e1332]:
+                                          - button "Friday, March 27, 2026" [ref=f1e1333]:
+                                            - generic [ref=f1e1334]: "27"
+                                        - gridcell "Saturday, March 28, 2026" [ref=f1e1335]:
+                                          - button "Saturday, March 28, 2026" [ref=f1e1336]:
+                                            - generic [ref=f1e1337]: "28"
+                                      - row "Sunday, March 29, 2026 Monday, March 30, 2026 Tuesday, March 31, 2026" [ref=f1e1338]:
+                                        - gridcell "Sunday, March 29, 2026" [ref=f1e1339]:
+                                          - button "Sunday, March 29, 2026" [ref=f1e1340]:
+                                            - generic [ref=f1e1341]: "29"
+                                        - gridcell "Monday, March 30, 2026" [ref=f1e1342]:
+                                          - button "Monday, March 30, 2026" [ref=f1e1343]:
+                                            - generic [ref=f1e1344]: "30"
+                                        - gridcell "Tuesday, March 31, 2026" [ref=f1e1345]:
+                                          - button "Tuesday, March 31, 2026" [ref=f1e1346]:
+                                            - generic [ref=f1e1347]: "31"
+                                        - gridcell [disabled] [ref=f1e1348]
+                                        - gridcell [disabled] [ref=f1e1349]
+                                        - gridcell [disabled] [ref=f1e1350]
+                                        - gridcell [disabled] [ref=f1e1351]
+                                  - button "Next" [ref=f1e1353]
+                                - generic [ref=f1e1354]: Default
+                              - generic [ref=f1e1355]:
+                                - application "Disabled calendar, March 2026" [ref=f1e1356]:
+                                  - heading "Disabled calendar, March 2026" [level=2] [ref=f1e1358]
+                                  - generic [ref=f1e1360]:
+                                    - button "Previous" [disabled] [ref=f1e1361]:
+                                      - img
+                                    - heading [level=2] [ref=f1e1362]: March 2026
+                                    - button "Next" [disabled] [ref=f1e1363]:
+                                      - img
+                                  - grid "Disabled calendar, March 2026" [disabled] [ref=f1e1365]:
+                                    - rowgroup [ref=f1e1366]:
+                                      - row [disabled] [ref=f1e1367]:
+                                        - columnheader [disabled] [ref=f1e1368]:
+                                          - generic [ref=f1e1369]: S
+                                        - columnheader [disabled] [ref=f1e1370]:
+                                          - generic [ref=f1e1371]: M
+                                        - columnheader [disabled] [ref=f1e1372]:
+                                          - generic [ref=f1e1373]: T
+                                        - columnheader [disabled] [ref=f1e1374]:
+                                          - generic [ref=f1e1375]: W
+                                        - columnheader [disabled] [ref=f1e1376]:
+                                          - generic [ref=f1e1377]: T
+                                        - columnheader [disabled] [ref=f1e1378]:
+                                          - generic [ref=f1e1379]: F
+                                        - columnheader [disabled] [ref=f1e1380]:
+                                          - generic [ref=f1e1381]: S
+                                    - rowgroup [ref=f1e1382]:
+                                      - row "Sunday, March 1, 2026 Monday, March 2, 2026 Tuesday, March 3, 2026 Wednesday, March 4, 2026 Thursday, March 5, 2026 Friday, March 6, 2026 Today, Saturday, March 7, 2026" [disabled] [ref=f1e1383]:
+                                        - gridcell "Sunday, March 1, 2026" [disabled] [ref=f1e1384]:
+                                          - button "Sunday, March 1, 2026" [disabled]:
+                                            - generic: "1"
+                                        - gridcell "Monday, March 2, 2026" [disabled] [ref=f1e1385]:
+                                          - button "Monday, March 2, 2026" [disabled]:
+                                            - generic: "2"
+                                        - gridcell "Tuesday, March 3, 2026" [disabled] [ref=f1e1386]:
+                                          - button "Tuesday, March 3, 2026" [disabled]:
+                                            - generic: "3"
+                                        - gridcell "Wednesday, March 4, 2026" [disabled] [ref=f1e1387]:
+                                          - button "Wednesday, March 4, 2026" [disabled]:
+                                            - generic: "4"
+                                        - gridcell "Thursday, March 5, 2026" [disabled] [ref=f1e1388]:
+                                          - button "Thursday, March 5, 2026" [disabled]:
+                                            - generic: "5"
+                                        - gridcell "Friday, March 6, 2026" [disabled] [ref=f1e1389]:
+                                          - button "Friday, March 6, 2026" [disabled]:
+                                            - generic: "6"
+                                        - gridcell "Today, Saturday, March 7, 2026" [disabled] [ref=f1e1390]:
+                                          - button "Today, Saturday, March 7, 2026" [disabled]:
+                                            - generic: "7"
+                                      - row "Sunday, March 8, 2026 Monday, March 9, 2026 Tuesday, March 10, 2026 Wednesday, March 11, 2026 Thursday, March 12, 2026 Friday, March 13, 2026 Saturday, March 14, 2026" [disabled] [ref=f1e1391]:
+                                        - gridcell "Sunday, March 8, 2026" [disabled] [ref=f1e1392]:
+                                          - button "Sunday, March 8, 2026" [disabled]:
+                                            - generic: "8"
+                                        - gridcell "Monday, March 9, 2026" [disabled] [ref=f1e1393]:
+                                          - button "Monday, March 9, 2026" [disabled]:
+                                            - generic: "9"
+                                        - gridcell "Tuesday, March 10, 2026" [disabled] [ref=f1e1394]:
+                                          - button "Tuesday, March 10, 2026" [disabled]:
+                                            - generic: "10"
+                                        - gridcell "Wednesday, March 11, 2026" [disabled] [ref=f1e1395]:
+                                          - button "Wednesday, March 11, 2026" [disabled]:
+                                            - generic: "11"
+                                        - gridcell "Thursday, March 12, 2026" [disabled] [ref=f1e1396]:
+                                          - button "Thursday, March 12, 2026" [disabled]:
+                                            - generic: "12"
+                                        - gridcell "Friday, March 13, 2026" [disabled] [ref=f1e1397]:
+                                          - button "Friday, March 13, 2026" [disabled]:
+                                            - generic: "13"
+                                        - gridcell "Saturday, March 14, 2026" [disabled] [ref=f1e1398]:
+                                          - button "Saturday, March 14, 2026" [disabled]:
+                                            - generic: "14"
+                                      - row "Sunday, March 15, 2026 Monday, March 16, 2026 Tuesday, March 17, 2026 Wednesday, March 18, 2026 Thursday, March 19, 2026 Friday, March 20, 2026 Saturday, March 21, 2026" [disabled] [ref=f1e1399]:
+                                        - gridcell "Sunday, March 15, 2026" [disabled] [ref=f1e1400]:
+                                          - button "Sunday, March 15, 2026" [disabled]:
+                                            - generic: "15"
+                                        - gridcell "Monday, March 16, 2026" [disabled] [ref=f1e1401]:
+                                          - button "Monday, March 16, 2026" [disabled]:
+                                            - generic: "16"
+                                        - gridcell "Tuesday, March 17, 2026" [disabled] [ref=f1e1402]:
+                                          - button "Tuesday, March 17, 2026" [disabled]:
+                                            - generic: "17"
+                                        - gridcell "Wednesday, March 18, 2026" [disabled] [ref=f1e1403]:
+                                          - button "Wednesday, March 18, 2026" [disabled]:
+                                            - generic: "18"
+                                        - gridcell "Thursday, March 19, 2026" [disabled] [ref=f1e1404]:
+                                          - button "Thursday, March 19, 2026" [disabled]:
+                                            - generic: "19"
+                                        - gridcell "Friday, March 20, 2026" [disabled] [ref=f1e1405]:
+                                          - button "Friday, March 20, 2026" [disabled]:
+                                            - generic: "20"
+                                        - gridcell "Saturday, March 21, 2026" [disabled] [ref=f1e1406]:
+                                          - button "Saturday, March 21, 2026" [disabled]:
+                                            - generic: "21"
+                                      - row "Sunday, March 22, 2026 Monday, March 23, 2026 Tuesday, March 24, 2026 Wednesday, March 25, 2026 Thursday, March 26, 2026 Friday, March 27, 2026 Saturday, March 28, 2026" [disabled] [ref=f1e1407]:
+                                        - gridcell "Sunday, March 22, 2026" [disabled] [ref=f1e1408]:
+                                          - button "Sunday, March 22, 2026" [disabled]:
+                                            - generic: "22"
+                                        - gridcell "Monday, March 23, 2026" [disabled] [ref=f1e1409]:
+                                          - button "Monday, March 23, 2026" [disabled]:
+                                            - generic: "23"
+                                        - gridcell "Tuesday, March 24, 2026" [disabled] [ref=f1e1410]:
+                                          - button "Tuesday, March 24, 2026" [disabled]:
+                                            - generic: "24"
+                                        - gridcell "Wednesday, March 25, 2026" [disabled] [ref=f1e1411]:
+                                          - button "Wednesday, March 25, 2026" [disabled]:
+                                            - generic: "25"
+                                        - gridcell "Thursday, March 26, 2026" [disabled] [ref=f1e1412]:
+                                          - button "Thursday, March 26, 2026" [disabled]:
+                                            - generic: "26"
+                                        - gridcell "Friday, March 27, 2026" [disabled] [ref=f1e1413]:
+                                          - button "Friday, March 27, 2026" [disabled]:
+                                            - generic: "27"
+                                        - gridcell "Saturday, March 28, 2026" [disabled] [ref=f1e1414]:
+                                          - button "Saturday, March 28, 2026" [disabled]:
+                                            - generic: "28"
+                                      - row "Sunday, March 29, 2026 Monday, March 30, 2026 Tuesday, March 31, 2026" [disabled] [ref=f1e1415]:
+                                        - gridcell "Sunday, March 29, 2026" [disabled] [ref=f1e1416]:
+                                          - button "Sunday, March 29, 2026" [disabled]:
+                                            - generic: "29"
+                                        - gridcell "Monday, March 30, 2026" [disabled] [ref=f1e1417]:
+                                          - button "Monday, March 30, 2026" [disabled]:
+                                            - generic: "30"
+                                        - gridcell "Tuesday, March 31, 2026" [disabled] [ref=f1e1418]:
+                                          - button "Tuesday, March 31, 2026" [disabled]:
+                                            - generic: "31"
+                                        - gridcell [disabled] [ref=f1e1419]
+                                        - gridcell [disabled] [ref=f1e1420]
+                                        - gridcell [disabled] [ref=f1e1421]
+                                        - gridcell [disabled] [ref=f1e1422]
+                                  - button "Next" [disabled] [ref=f1e1424]
+                                - generic [ref=f1e1425]: Disabled
+                          - separator [ref=f1e1426]
+                          - generic [ref=f1e1427]:
+                            - paragraph [ref=f1e1428]: RangeCalendar — inline date-range picker
+                            - application "Select data export range, March 2026" [ref=f1e1430]:
+                              - heading "Select data export range, March 2026" [level=2] [ref=f1e1432]
+                              - generic [ref=f1e1434]:
+                                - button "Previous" [ref=f1e1435]:
+                                  - img
+                                - heading [level=2] [ref=f1e1436]: March 2026
+                                - button "Next" [ref=f1e1437]:
+                                  - img
+                              - grid "Select data export range, March 2026" [ref=f1e1439]:
+                                - rowgroup [ref=f1e1440]:
+                                  - row [ref=f1e1441]:
+                                    - columnheader [ref=f1e1442]:
+                                      - generic [ref=f1e1443]: S
+                                    - columnheader [ref=f1e1444]:
+                                      - generic [ref=f1e1445]: M
+                                    - columnheader [ref=f1e1446]:
+                                      - generic [ref=f1e1447]: T
+                                    - columnheader [ref=f1e1448]:
+                                      - generic [ref=f1e1449]: W
+                                    - columnheader [ref=f1e1450]:
+                                      - generic [ref=f1e1451]: T
+                                    - columnheader [ref=f1e1452]:
+                                      - generic [ref=f1e1453]: F
+                                    - columnheader [ref=f1e1454]:
+                                      - generic [ref=f1e1455]: S
+                                - rowgroup [ref=f1e1456]:
+                                  - row "Sunday, March 1, 2026 Monday, March 2, 2026 Tuesday, March 3, 2026 Wednesday, March 4, 2026 Thursday, March 5, 2026 Friday, March 6, 2026 Today, Saturday, March 7, 2026" [ref=f1e1457]:
+                                    - gridcell "Sunday, March 1, 2026" [ref=f1e1458]:
+                                      - button "Sunday, March 1, 2026" [ref=f1e1459]:
+                                        - generic [ref=f1e1460]: "1"
+                                    - gridcell "Monday, March 2, 2026" [ref=f1e1461]:
+                                      - button "Monday, March 2, 2026" [ref=f1e1462]:
+                                        - generic [ref=f1e1463]: "2"
+                                    - gridcell "Tuesday, March 3, 2026" [ref=f1e1464]:
+                                      - button "Tuesday, March 3, 2026" [ref=f1e1465]:
+                                        - generic [ref=f1e1466]: "3"
+                                    - gridcell "Wednesday, March 4, 2026" [ref=f1e1467]:
+                                      - button "Wednesday, March 4, 2026" [ref=f1e1468]:
+                                        - generic [ref=f1e1469]: "4"
+                                    - gridcell "Thursday, March 5, 2026" [ref=f1e1470]:
+                                      - button "Thursday, March 5, 2026" [ref=f1e1471]:
+                                        - generic [ref=f1e1472]: "5"
+                                    - gridcell "Friday, March 6, 2026" [ref=f1e1473]:
+                                      - button "Friday, March 6, 2026" [ref=f1e1474]:
+                                        - generic [ref=f1e1475]: "6"
+                                    - gridcell "Today, Saturday, March 7, 2026" [ref=f1e1476]:
+                                      - button "Today, Saturday, March 7, 2026" [ref=f1e1477]:
+                                        - generic [ref=f1e1478]: "7"
+                                  - row "Sunday, March 8, 2026 Monday, March 9, 2026 Tuesday, March 10, 2026 Wednesday, March 11, 2026 Thursday, March 12, 2026 Friday, March 13, 2026 Saturday, March 14, 2026" [ref=f1e1479]:
+                                    - gridcell "Sunday, March 8, 2026" [ref=f1e1480]:
+                                      - button "Sunday, March 8, 2026" [ref=f1e1481]:
+                                        - generic [ref=f1e1482]: "8"
+                                    - gridcell "Monday, March 9, 2026" [ref=f1e1483]:
+                                      - button "Monday, March 9, 2026" [ref=f1e1484]:
+                                        - generic [ref=f1e1485]: "9"
+                                    - gridcell "Tuesday, March 10, 2026" [ref=f1e1486]:
+                                      - button "Tuesday, March 10, 2026" [ref=f1e1487]:
+                                        - generic [ref=f1e1488]: "10"
+                                    - gridcell "Wednesday, March 11, 2026" [ref=f1e1489]:
+                                      - button "Wednesday, March 11, 2026" [ref=f1e1490]:
+                                        - generic [ref=f1e1491]: "11"
+                                    - gridcell "Thursday, March 12, 2026" [ref=f1e1492]:
+                                      - button "Thursday, March 12, 2026" [ref=f1e1493]:
+                                        - generic [ref=f1e1494]: "12"
+                                    - gridcell "Friday, March 13, 2026" [ref=f1e1495]:
+                                      - button "Friday, March 13, 2026" [ref=f1e1496]:
+                                        - generic [ref=f1e1497]: "13"
+                                    - gridcell "Saturday, March 14, 2026" [ref=f1e1498]:
+                                      - button "Saturday, March 14, 2026" [ref=f1e1499]:
+                                        - generic [ref=f1e1500]: "14"
+                                  - row "Sunday, March 15, 2026 Monday, March 16, 2026 Tuesday, March 17, 2026 Wednesday, March 18, 2026 Thursday, March 19, 2026 Friday, March 20, 2026 Saturday, March 21, 2026" [ref=f1e1501]:
+                                    - gridcell "Sunday, March 15, 2026" [ref=f1e1502]:
+                                      - button "Sunday, March 15, 2026" [ref=f1e1503]:
+                                        - generic [ref=f1e1504]: "15"
+                                    - gridcell "Monday, March 16, 2026" [ref=f1e1505]:
+                                      - button "Monday, March 16, 2026" [ref=f1e1506]:
+                                        - generic [ref=f1e1507]: "16"
+                                    - gridcell "Tuesday, March 17, 2026" [ref=f1e1508]:
+                                      - button "Tuesday, March 17, 2026" [ref=f1e1509]:
+                                        - generic [ref=f1e1510]: "17"
+                                    - gridcell "Wednesday, March 18, 2026" [ref=f1e1511]:
+                                      - button "Wednesday, March 18, 2026" [ref=f1e1512]:
+                                        - generic [ref=f1e1513]: "18"
+                                    - gridcell "Thursday, March 19, 2026" [ref=f1e1514]:
+                                      - button "Thursday, March 19, 2026" [ref=f1e1515]:
+                                        - generic [ref=f1e1516]: "19"
+                                    - gridcell "Friday, March 20, 2026" [ref=f1e1517]:
+                                      - button "Friday, March 20, 2026" [ref=f1e1518]:
+                                        - generic [ref=f1e1519]: "20"
+                                    - gridcell "Saturday, March 21, 2026" [ref=f1e1520]:
+                                      - button "Saturday, March 21, 2026" [ref=f1e1521]:
+                                        - generic [ref=f1e1522]: "21"
+                                  - row "Sunday, March 22, 2026 Monday, March 23, 2026 Tuesday, March 24, 2026 Wednesday, March 25, 2026 Thursday, March 26, 2026 Friday, March 27, 2026 Saturday, March 28, 2026" [ref=f1e1523]:
+                                    - gridcell "Sunday, March 22, 2026" [ref=f1e1524]:
+                                      - button "Sunday, March 22, 2026" [ref=f1e1525]:
+                                        - generic [ref=f1e1526]: "22"
+                                    - gridcell "Monday, March 23, 2026" [ref=f1e1527]:
+                                      - button "Monday, March 23, 2026" [ref=f1e1528]:
+                                        - generic [ref=f1e1529]: "23"
+                                    - gridcell "Tuesday, March 24, 2026" [ref=f1e1530]:
+                                      - button "Tuesday, March 24, 2026" [ref=f1e1531]:
+                                        - generic [ref=f1e1532]: "24"
+                                    - gridcell "Wednesday, March 25, 2026" [ref=f1e1533]:
+                                      - button "Wednesday, March 25, 2026" [ref=f1e1534]:
+                                        - generic [ref=f1e1535]: "25"
+                                    - gridcell "Thursday, March 26, 2026" [ref=f1e1536]:
+                                      - button "Thursday, March 26, 2026" [ref=f1e1537]:
+                                        - generic [ref=f1e1538]: "26"
+                                    - gridcell "Friday, March 27, 2026" [ref=f1e1539]:
+                                      - button "Friday, March 27, 2026" [ref=f1e1540]:
+                                        - generic [ref=f1e1541]: "27"
+                                    - gridcell "Saturday, March 28, 2026" [ref=f1e1542]:
+                                      - button "Saturday, March 28, 2026" [ref=f1e1543]:
+                                        - generic [ref=f1e1544]: "28"
+                                  - row "Sunday, March 29, 2026 Monday, March 30, 2026 Tuesday, March 31, 2026" [ref=f1e1545]:
+                                    - gridcell "Sunday, March 29, 2026" [ref=f1e1546]:
+                                      - button "Sunday, March 29, 2026" [ref=f1e1547]:
+                                        - generic [ref=f1e1548]: "29"
+                                    - gridcell "Monday, March 30, 2026" [ref=f1e1549]:
+                                      - button "Monday, March 30, 2026" [ref=f1e1550]:
+                                        - generic [ref=f1e1551]: "30"
+                                    - gridcell "Tuesday, March 31, 2026" [ref=f1e1552]:
+                                      - button "Tuesday, March 31, 2026" [ref=f1e1553]:
+                                        - generic [ref=f1e1554]: "31"
+                                    - gridcell [disabled] [ref=f1e1555]
+                                    - gridcell [disabled] [ref=f1e1556]
+                                    - gridcell [disabled] [ref=f1e1557]
+                                    - gridcell [disabled] [ref=f1e1558]
+                              - button "Next" [ref=f1e1560]
+                    - generic [ref=f1e1561]:
+                      - generic [ref=f1e1562]:
+                        - heading "Section 9 — Advanced / Application-Specific" [level=2] [ref=f1e1563]
+                        - paragraph [ref=f1e1564]: DropZone, ToggleButtons, MediaViewModes, IntelBrandedLoading, TreeView, ActionBar, PressableElement, CornerIndicator, PhotoPlaceholder, FullscreenAction
+                        - separator [ref=f1e1565]
+                      - generic [ref=f1e1566]:
+                        - generic [ref=f1e1567]:
+                          - paragraph [ref=f1e1568]: DropZone — drop target with button trigger
+                          - generic [ref=f1e1569]:
+                            - generic [ref=f1e1570]:
+                              - button "DropZone" [ref=f1e1572]
+                              - generic [ref=f1e1573]:
+                                - img "Upload icon"
+                                - text: Drop files here
+                                - button "Browse files" [ref=f1e1574]
+                            - generic [ref=f1e1575]:
+                              - button "DropZone Drop file to replace" [ref=f1e1577]
+                              - generic [ref=f1e1578]:
+                                - img "Upload icon"
+                                - text: Filled state
+                        - separator [ref=f1e1579]
+                        - generic [ref=f1e1580]:
+                          - paragraph [ref=f1e1581]: ToggleButtons — segmented control with icons
+                          - generic [ref=f1e1582]:
+                            - group "Selection options" [ref=f1e1583]:
+                              - button "Grid view" [pressed] [ref=f1e1584]:
+                                - img "Grid view"
+                              - button "List view" [ref=f1e1585]:
+                                - img "List view"
+                              - button "table" [ref=f1e1586]:
+                                - generic [ref=f1e1587]: table
+                            - group "Selection options" [ref=f1e1588]:
+                              - button "Day" [ref=f1e1589]
+                              - button "Week" [pressed] [ref=f1e1590]
+                              - button "Month" [ref=f1e1591]
+                            - group "Selection options" [ref=f1e1592]:
+                              - button "A" [disabled] [ref=f1e1593]
+                              - button "B" [disabled] [pressed] [ref=f1e1594]
+                              - button "C" [disabled] [ref=f1e1595]
+                        - separator [ref=f1e1596]
+                        - generic [ref=f1e1597]:
+                          - paragraph [ref=f1e1598]: MediaViewModes — view mode switcher (grid/list/table)
+                          - generic [ref=f1e1599]:
+                            - button "View mode" [ref=f1e1600]:
+                              - img
+                            - text: Click the icon to cycle between Large, Medium, Small, and Details views
+                        - separator [ref=f1e1601]
+                        - generic [ref=f1e1602]:
+                          - paragraph [ref=f1e1603]: IntelBrandedLoading — Intel branded animation
+                          - generic [ref=f1e1604]:
+                            - generic [ref=f1e1605]:
+                              - progressbar "Loading" [ref=f1e1609]
+                              - generic [ref=f1e1610]: Standard (192 px)
+                            - generic [ref=f1e1611]:
+                              - progressbar "Loading" [ref=f1e1615]
+                              - generic [ref=f1e1616]: Large container
+                        - separator [ref=f1e1617]
+                        - generic [ref=f1e1618]:
+                          - paragraph [ref=f1e1619]: TreeView — 3-level hierarchy (folders and files)
+                          - treegrid "Project files" [ref=f1e1620]
+                        - separator [ref=f1e1621]
+                        - generic [ref=f1e1622]:
+                          - paragraph [ref=f1e1623]: ActionBar / ActionBarContainer — selection actions
+                          - generic [ref=f1e1624]:
+                            - grid "Dataset images" [ref=f1e1625]:
+                              - row "dataset_image_001.jpg" [selected] [ref=f1e1626]:
+                                - gridcell "Select dataset_image_001.jpg dataset_image_001.jpg" [ref=f1e1627]:
+                                  - generic [ref=f1e1628]:
+                                    - generic [ref=f1e1630]:
+                                      - checkbox "Select dataset_image_001.jpg" [checked] [ref=f1e1631]
+                                      - generic [ref=f1e1632]:
+                                        - img
+                                    - text: dataset_image_001.jpg
+                              - row "dataset_image_002.jpg" [selected] [ref=f1e1633]:
+                                - gridcell "Select dataset_image_002.jpg dataset_image_002.jpg" [ref=f1e1634]:
+                                  - generic [ref=f1e1635]:
+                                    - generic [ref=f1e1637]:
+                                      - checkbox "Select dataset_image_002.jpg" [checked] [ref=f1e1638]
+                                      - generic [ref=f1e1639]:
+                                        - img
+                                    - text: dataset_image_002.jpg
+                              - row "dataset_image_003.jpg" [ref=f1e1640]:
+                                - gridcell "Select dataset_image_003.jpg dataset_image_003.jpg" [ref=f1e1641]:
+                                  - generic [ref=f1e1642]:
+                                    - checkbox "Select dataset_image_003.jpg" [ref=f1e1645]
+                                    - text: dataset_image_003.jpg
+                              - row "dataset_image_004.jpg" [ref=f1e1647]:
+                                - gridcell "Select dataset_image_004.jpg dataset_image_004.jpg" [ref=f1e1648]:
+                                  - generic [ref=f1e1649]:
+                                    - checkbox "Select dataset_image_004.jpg" [ref=f1e1652]
+                                    - text: dataset_image_004.jpg
+                            - generic [ref=f1e1655]:
+                              - toolbar "Actions" [ref=f1e1657]:
+                                - button "Move" [ref=f1e1658]:
+                                  - img
+                                  - text: Move
+                                - button "Delete" [ref=f1e1659]:
+                                  - img
+                                  - text: Delete
+                              - button "Clear selection" [ref=f1e1660]:
+                                - img
+                              - text: 2 selected
+                        - separator [ref=f1e1661]
+                        - generic [ref=f1e1662]:
+                          - paragraph [ref=f1e1663]: PressableElement — generic pressable wrapper
+                          - generic [ref=f1e1664]:
+                            - generic [ref=f1e1666]: Press me (text)
+                            - generic [ref=f1e1669] [cursor=pointer]:
+                              - img "Upload"
+                              - text: Upload asset
+                            - generic [ref=f1e1671]: Very long label text that should be truncated when it overflows the container
+                        - separator [ref=f1e1672]
+                        - generic [ref=f1e1673]:
+                          - paragraph [ref=f1e1674]: CornerIndicator — notification dot applied to a View
+                          - generic [ref=f1e1675]:
+                            - generic [ref=f1e1676]:
+                              - generic [ref=f1e1677]:
+                                - status "Pending change" [ref=f1e1678]
+                                - generic [ref=f1e1679]:
+                                  - img "Folder"
+                              - generic [ref=f1e1680]: Active (dot visible)
+                            - generic [ref=f1e1681]:
+                              - generic [ref=f1e1683]:
+                                - img "Folder"
+                              - generic [ref=f1e1684]: Inactive (no dot)
+                            - generic [ref=f1e1685]:
+                              - generic [ref=f1e1686]:
+                                - status "Pending change" [ref=f1e1687]
+                                - button "Notifications" [ref=f1e1688]:
+                                  - img
+                              - generic [ref=f1e1689]: On ActionButton
+                        - separator [ref=f1e1690]
+                        - generic [ref=f1e1691]:
+                          - paragraph [ref=f1e1692]: PhotoPlaceholder — initials avatar with deterministic colour
+                          - generic [ref=f1e1693]:
+                            - generic [ref=f1e1694]:
+                              - img "Alice Nguyen" [ref=f1e1696]: A
+                              - generic [ref=f1e1697]: Alice N.
+                            - generic [ref=f1e1698]:
+                              - img "Bob Müller" [ref=f1e1700]: B
+                              - generic [ref=f1e1701]: Bob M.
+                            - generic [ref=f1e1702]:
+                              - img "Carol Smith" [ref=f1e1704]: C
+                              - generic [ref=f1e1705]: Carol S. (large)
+                            - generic [ref=f1e1706]:
+                              - img "David Park" [ref=f1e1708]: D
+                              - generic [ref=f1e1709]: David P. (square)
+                        - separator [ref=f1e1710]
+                        - generic [ref=f1e1711]:
+                          - paragraph [ref=f1e1712]: FullscreenAction — fullscreen takeover dialog
+                          - generic [ref=f1e1714]:
+                            - generic [ref=f1e1715]: Click the fullscreen icon to open
+                            - generic [ref=f1e1716]:
+                              - button "Open in fullscreen Model Viewer" [ref=f1e1717]:
+                                - img
+                              - text: Model Viewer
+                  - button "Show code" [ref=f1e1719] [cursor=pointer]

@@ -1,8 +1,8 @@
 import type { Preview, Decorator } from '@storybook/react';
 import { ThemeProvider } from '../src/theme/ThemeProvider';
+import { darkTheme } from './theme';
 
 const withThemeProvider: Decorator = (Story, context) => {
-    console.log('oh it is being wrapped!!!');
     return (
         <ThemeProvider width={'100%'}>
             <Story {...context.args} />
@@ -18,6 +18,9 @@ const preview: Preview = {
     },
 
     parameters: {
+        docs: {
+            theme: darkTheme,
+        },
         backgrounds: {
             options: {
                 dark: { name: 'Dark', value: '#242528' },
