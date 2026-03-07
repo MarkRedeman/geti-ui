@@ -3,40 +3,85 @@ import * as DocStories from './Breadcrumbs.stories';
 
 <Meta of={DocStories} />
 
-<Title />
+<Title>Breadcrumbs</Title>
+
+<Subtitle>A hierarchical navigation path showing the user's current location.</Subtitle>
+
+```tsx
+import { Breadcrumbs, Item } from '@geti/ui';
+```
+
+- [React Spectrum V3 Breadcrumbs](https://react-spectrum.adobe.com/v3/Breadcrumbs.html)
+- [Spectrum 2 Breadcrumbs](https://react-spectrum.adobe.com/s2/Breadcrumbs.html)
+
+<Stories />
 
 ## Responsibility
 
-Re-exports Adobe React Spectrum's `Breadcrumbs` as a named Geti component, providing hierarchical location navigation that shows the user's current path and allows upward traversal.
+`Breadcrumbs` display the **hierarchical navigation path** to the user's current location in an application. They help users understand where they are, navigate back up the hierarchy, and reduce the sense of being "lost" in a deep structure.
 
-## Design
+### When to use
+- Use when content lives in a **hierarchy of 2 or more levels** (e.g., a file system, project structure).
+- Prefer breadcrumbs over back buttons in applications where users can arrive at a page from multiple paths.
+- **Root item**: Always include the root/home item to provide a consistent exit point.
+- **Current page**: The last item represents the current page and is **non-interactive**.
 
-Generic thin wrapper — `BreadcrumbsProps<T extends object> extends SpectrumBreadcrumbsProps<T>`. The component body is `(props) => <SpectrumBreadcrumbs {...props} />`.
+### Truncation & Overflow
+- **Enforced limit**: Breadcrumbs automatically collapse middle items into an overflow menu when more than 4 items are present.
+- The root item and the last item are typically preserved, while intermediate items are hidden behind a `…` button.
 
-The generic `T` allows typed item collections. Spectrum's `Breadcrumbs` handles overflow behaviour (collapsing middle items into a `…` expander on narrow widths) automatically.
+## Variants
 
-## Flow
+### Sizes
+Supports `S`, `M`, and `L` sizes. Note that `S` is being phased out in the Spectrum 2 migration.
 
-```
-props { children (Item nodes), onAction, isDisabled, ...rest }
-  → <SpectrumBreadcrumbs {...props} />
-```
-
-No state, no effects, no refs.
-
-## Integration
-
-- Used in page headers and navigation chrome to communicate the current location within a deep hierarchy (e.g. workspace → project → dataset → annotation).
-- `Item` from `navigation/Menu/` (or directly from Spectrum) is used to define each breadcrumb segment.
-- Themed automatically by `ThemeProvider`.
-
-
-<Stories />
----
-
-<Primary />
+### Multiline
+V3 supports `isMultiline`, which breaks the last item onto its own line, often used when the current page title is long or serves as the primary page heading.
 
 ## Props
 
-<Controls />
+| Prop | Type | Default | Description |
+| :--- | :--- | :--- | :--- |
+| `children` | `ItemElement \| ItemRenderer` | — | The breadcrumb items to display. |
+| `onAction` | `(key: Key) => void` | — | Handler called when a breadcrumb is pressed. |
+| `isDisabled` | `boolean` | `false` | Whether the breadcrumbs are disabled. |
+| `size` | `'S' \| 'M' \| 'L'` | `'L'` | The size of the breadcrumbs. |
+| `showRoot` | `boolean` | `false` | Whether the root item should always be visible. |
+| `isMultiline` | `boolean` | `false` | Whether the last item should wrap to a new line. |
 
+## Accessibility
+
+### Roles and Landmarks
+- **Landmark Requirement**: When breadcrumbs serve as primary navigation, wrap them in a `<nav>` element with an `aria-label="Breadcrumb"`.
+- **Current Page**: The last item is automatically marked with `aria-current="page"` and is excluded from the tab order as it is non-interactive.
+- **Keyboard Navigation**: Standard `Tab` navigation allows users to move between interactive links. Breadcrumbs are not a composite widget and do not use arrow keys.
+
+### Example Landmark
+```tsx
+<nav aria-label="Breadcrumb">
+  <Breadcrumbs>
+    <Item key="home">Home</Item>
+    <Item key="project">Project</Item>
+    <Item>Current Page</Item>
+  </Breadcrumbs>
+</nav>
+```
+
+## Spectrum 2 Migration
+
+The migration to Spectrum 2 (S2) simplifies the API and automates more behavior:
+
+- **Item Rename**: `<Item>` is replaced by a dedicated `<Breadcrumb>` component.
+- **Key → ID**: Use the `id` prop instead of `key` on `<Breadcrumb>`.
+- **Automatic Overflow**: S2 handles overflow menu collapsing entirely automatically without needing container width constraints.
+- **Size Scale**: The `S` size is removed; default size changes from `L` to `M`.
+- **Deferred Props**: `showRoot`, `isMultiline`, and `autoFocusCurrent` are not yet implemented in the initial S2 release.
+
+### S2 Migration Mapping
+| V3 Prop | S2 Equivalent | Notes |
+| :--- | :--- | :--- |
+| `<Item>` | `<Breadcrumb>` | Semantic rename |
+| `key` | `id` | Standard S2 migration |
+| `size="S"` | ❌ Removed | Use size "M" instead |
+| `showRoot` | ⚠️ Pending | Not yet in S2 |
+| `isMultiline` | ⚠️ Pending | Not yet in S2 |
