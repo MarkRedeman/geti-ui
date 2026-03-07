@@ -1,0 +1,31 @@
+name: Validate Renovate configuration
+
+on:
+  pull_request:
+    paths:
+      - ".github/renovate.json5"
+
+permissions: {} # No permissions by default on workflow level
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.event.after }}
+  cancel-in-progress: true
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read # to checkout code
+    steps:
+      - name: Checkout configuration
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+        with:
+          persist-credentials: false
+
+      - name: Validate configuration
+        run: |
+          # renovate: datasource=docker
+          export RENOVATE_IMAGE=ghcr.io/renovatebot/renovate:40.11
+          docker run --rm --entrypoint "renovate-config-validator" \
+          -v "${{ github.workspace }}/.github/renovate.json5":"/renovate.json5" \
+          ${RENOVATE_IMAGE} "/renovate.json5"
