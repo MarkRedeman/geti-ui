@@ -1,44 +1,94 @@
-import { Meta, Title, Subtitle, Description, Primary, Controls, Stories } from '@storybook/addon-docs/blocks';
+import { Meta, Title, Subtitle, Description, Primary, Controls, Stories } from '@storybook/blocks';
 import * as DocStories from './RangeSlider.stories';
 
 <Meta of={DocStories} />
 
-<Title />
+<Title>RangeSlider</Title>
+
+<Subtitle>A dual-handle slider for selecting a numeric range between a minimum and maximum value.</Subtitle>
+
+```tsx
+import { RangeSlider } from '@geti/ui';
+```
+
+- [React Spectrum V3 RangeSlider](https://react-spectrum.adobe.com/react-spectrum/RangeSlider.html)
+- [Spectrum 2 RangeSlider](https://react-spectrum.adobe.com/s2/RangeSlider.html)
+
+<Stories />
 
 ## Responsibility
 
-`RangeSlider` is a dual-handle slider for selecting a numeric range (min/max pair). It wraps Adobe React Spectrum's `RangeSlider` to keep Geti consumers decoupled from direct Spectrum imports.
+The `RangeSlider` component allows users to select a bounded interval (a subset range) from a fixed scale. It provides two independently draggable handles representing the "start" and "end" values of the range.
 
-## Design
+### When to use
+- To select a numeric range, such as a price filter (e.g., $20 - $80), a date window, or a confidence score threshold.
+- When both the upper and lower bounds of the selection are important and known in advance.
 
-Pure pass-through:
+### When to use something else
+- Use [Slider](/docs/components-form-slider--docs) to select a single numeric value.
+- Use [ProgressBar](/docs/components-status-progressbar--docs) for read-only status.
 
-```tsx
-export interface RangeSliderProps extends SpectrumRangeSliderProps {}
-export const RangeSlider = (props: RangeSliderProps) => <SpectrumRangeSlider {...props} />;
-```
+## Variants
 
-No CSS module, no styling overrides. Compare to `Slider` (single-handle, in the same `form/` folder) which *does* add a `data-filled` attribute and CSS module override for Geti's `--energy-blue` track colour — `RangeSlider` has no such customisation.
+### Dual Thumbs
+The `RangeSlider` always provides two handles. These handles are constrained so they cannot cross each other, ensuring the "start" value is always less than or equal to the "end" value.
 
-Full Spectrum API preserved: `value`, `defaultValue`, `onChange`, `minValue`, `maxValue`, `step`, `label`, `isDisabled`, `formatOptions`, `getValueLabel`, `orientation`.
+### Orientation
+- **Horizontal** (Default): The standard horizontal track.
+- **Vertical**: Use `orientation="vertical"` for vertical layouts.
 
-## Flow
-
-Props in → forwarded to `SpectrumRangeSlider` → Spectrum renders two draggable thumbs with ARIA `role="slider"` on each, keyboard-accessible, with the selected range highlighted on the track.
-
-## Integration
-
-- **Depends on**: `@adobe/react-spectrum` (`RangeSlider`, `SpectrumRangeSliderProps`)
-- **Contrast**: `Slider` (single value, custom Geti styling) vs `RangeSlider` (range value, unstyled Spectrum)
-- **Used by**: filter panels (e.g. confidence score range, date range sliders)
-
-
-<Stories />
----
-
-<Primary />
+### Formatting
+The value labels for both handles can be formatted using `formatOptions` (e.g., for percentages, currency, or units) via the `Intl.NumberFormat` API.
 
 ## Props
 
-<Controls />
+### Value
+| Prop | Type | Default | Description |
+|---|---|---|---|
+| `value` | `{ start: number, end: number }` | — | The current range value (controlled). |
+| `defaultValue` | `{ start: number, end: number }` | — | The initial range value (uncontrolled). |
+| `minValue` | `number` | `0` | The minimum allowed value for the range. |
+| `maxValue` | `number` | `100` | The maximum allowed value for the range. |
+| `step` | `number` | `1` | The increment between selectable values. |
 
+### Content
+| Prop | Type | Description |
+|---|---|---|
+| `label` | `ReactNode` | The label for the range slider. |
+| `showValueLabel` | `boolean` | Whether to display the current range values as labels. |
+| `getValueLabel` | `(value: RangeValue<number>) => string` | A function to generate a custom range label. |
+| `contextualHelp` | `ReactNode` | A `<ContextualHelp>` element placed next to the label. |
+
+### Events
+| Prop | Type | Description |
+|---|---|---|
+| `onChange` | `(value: RangeValue<number>) => void` | Called continuously as the user drags either handle. |
+| `onChangeEnd` | `(value: RangeValue<number>) => void` | Called only when the user releases a handle. |
+
+### Styles
+| Prop | Type | Description |
+|---|---|---|
+| `width` | `DimensionValue` | The width of the slider component. |
+| `labelPosition` | `'top' \| 'side'` | The position of the label relative to the slider. |
+
+## Accessibility
+
+- Each handle renders as an `<input type="range">` with `role="slider"`.
+- **Keyboard support**: Each handle is independently focusable. Use **Arrow keys** to increment/decrement, and **Home/End** to jump to the track bounds.
+- Thumbs are dynamically constrained via `aria-valuemin` and `aria-valuemax` to prevent crossing.
+- Full support for `aria-label`, `aria-labelledby`, and `aria-valuetext` for screen reader compatibility.
+
+## Spectrum 2 Migration
+
+When migrating to Spectrum 2 (S2), keep the following changes in mind:
+
+| V3 Prop | S2 Equivalent | Notes |
+|---|---|---|
+| `orientation="vertical"` | — | Vertical orientation is removed in S2; horizontal only. |
+| `showValueLabel` | — | Value labels are always visible in S2 for accessibility. |
+| `getValueLabel` | — | Removed in S2; use `formatOptions` instead. |
+| `width="size-3000"` | `styles={style({ width: 240 })}` | Dimension props move to the `style()` macro. |
+| `isEmphasized` | `isEmphasized` | New in S2: Applies an accent-color highlight to the track. |
+| `size` | `size` | S2 adds a `size` prop (`'S'`, `'M'`, `'L'`, `'XL'`). |
+
+<Controls />
