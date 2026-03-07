@@ -1,4 +1,4 @@
-import { Meta, Title, Subtitle, Description, Primary, Controls, Stories, Source } from '@storybook/blocks';
+import { Meta, Title, Subtitle, Description, Primary, Controls, Stories, Source } from '@storybook/addon-docs/blocks';
 import * as DocStories from './Checkbox.stories';
 
 <Meta of={DocStories} />
@@ -14,7 +14,6 @@ import { Checkbox } from '@geti/ui';
 ```
 
 - [React Spectrum Checkbox](https://react-spectrum.adobe.com/react-spectrum/Checkbox.html)
-- [Spectrum 2 Checkbox](https://react-spectrum.adobe.com/s2/Checkbox.html)
 
 <Stories />
 
@@ -84,11 +83,3 @@ The `Checkbox` component accepts all standard [Spectrum layout and spacing props
 
 ---
 
-## Spectrum 2 Migration
-
-The `Checkbox` component is highly stable. When migrating to Spectrum 2 (`@react-spectrum/s2`), most implementations will require only an import update:
-
-- **Import Update**: Change from `@adobe/react-spectrum` to `@react-spectrum/s2`.
-- **New `size` Prop**: S2 adds a `size` prop (`'S' \| 'M' \| 'L' \| 'XL'`).
-- **Styles Macro**: Layout and spacing props migrate to the new `styles` macro system.
-- **Emphasized Standalone**: In S2, the `isEmphasized` prop (blue accent) is available on standalone checkboxes, not just groups.
