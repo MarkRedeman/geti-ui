@@ -11,7 +11,7 @@ NumberFields allow users to input numeric values and increment or decrement them
 import { NumberField } from '@geti/ui';
 ```
 
-[React Spectrum V3 NumberField](https://react-spectrum.adobe.com/react-spectrum/NumberField.html) | [Spectrum 2 NumberField](https://react-spectrum.adobe.com/s2/NumberField.html)
+[React Spectrum V3 NumberField](https://react-spectrum.adobe.com/react-spectrum/NumberField.html)
 
 <Stories />
 
@@ -87,14 +87,4 @@ The `formatOptions` prop allows for advanced formatting:
     - `PageUp/Down`: Increments or decrements the value by a larger amount (if configured).
     - `Home/End`: Sets the value to the `minValue` or `maxValue`.
 - **Labeling**: Always provide a `label`. Stepper buttons are automatically labeled for screen readers (e.g., "Increment", "Decrement").
-
-## Spectrum 2 Migration
-
-When migrating to Spectrum 2 (`@react-spectrum/s2`), note the following changes:
-
-- **Component Name**: Remains `NumberField`.
-- **Validation**: `validationState` is replaced by the `isInvalid` boolean prop.
-- **Styling**: Switch from `UNSAFE_className` to the `style` macro and `styles` prop.
-- **Size**: S2 introduces standardized `size` props (`S`, `M`, `L`, `XL`).
-- **Wheel Support**: S2 allows disabling scroll-wheel adjustments via `isWheelDisabled`.
 
