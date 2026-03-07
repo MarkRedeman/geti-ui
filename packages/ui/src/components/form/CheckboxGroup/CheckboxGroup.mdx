@@ -5,92 +5,85 @@ import * as DocStories from './CheckboxGroup.stories';
 
 <Title>CheckboxGroup</Title>
 
-<Subtitle>
-  A CheckboxGroup allows users to select one or more items from a list of options.
-</Subtitle>
+<Subtitle>A CheckboxGroup allows users to select zero or more items from a list of options.</Subtitle>
 
 ```tsx
 import { Checkbox, CheckboxGroup } from '@geti/ui';
 ```
 
-- [React Spectrum CheckboxGroup](https://react-spectrum.adobe.com/react-spectrum/CheckboxGroup.html)
+- [React Spectrum V3 CheckboxGroup](https://react-spectrum.adobe.com/react-spectrum/CheckboxGroup.html)
 - [Spectrum 2 CheckboxGroup](https://react-spectrum.adobe.com/s2/CheckboxGroup.html)
 
 <Stories />
 
 ## Responsibility
 
-The `CheckboxGroup` component is a wrapper around Adobe's React Spectrum `CheckboxGroup`. It groups multiple `Checkbox` instances under a shared label and manages their collective selection state, validation, and accessibility relationships.
+The `CheckboxGroup` component manages a collection of checkboxes, allowing users to select multiple options from a list. It ensures consistent labeling, orientation, and validation state across all items in the group.
 
-### Key Features
-- **Managed Selection**: Handles a collection of selected values as an array of strings.
-- **Orientation**: Supports both `vertical` (default) and `horizontal` layouts.
-- **Form Integration**: Provides built-in support for labels, help text, and error messages within Spectrum forms.
-- **Semantic Grouping**: Automatically handles ARIA roles (`role="group"`) and labeling for the entire set of checkboxes.
+### When to use
+- When the user needs to select one or more options from a visible list.
+- When the choices are not mutually exclusive.
 
----
+### When to use something else
+- Use [RadioGroup](/docs/components-form-radiogroup--docs) when the user must select exactly one option.
+- Use a single [Checkbox](/docs/components-form-checkbox--docs) for a standalone binary choice (e.g., "I accept the terms").
+- Use [Switch](/docs/components-form-switch--docs) for immediate on/off toggles.
 
 ## Variants
 
+### States
+- **Disabled**: Both the group (`isDisabled` on `CheckboxGroup`) and individual items can be disabled.
+- **Invalid**: Indicates a validation error for the group. In V3, use `validationState="invalid"`.
+- **Read-only**: The selection is visible but cannot be changed. Use `isReadOnly`.
+- **Required**: Marks the group as requiring at least one selection. Use `isRequired`.
+- **Emphasized**: Use `isEmphasized` for high-prominence (blue) styling across the group.
+
 ### Orientation
-Use the `orientation` prop to switch between `vertical` and `horizontal` layouts. Vertical is recommended for long lists, while horizontal is best for small sets of short labels.
-
-### Layout Options
-- **Label Position**: Labels can be placed on the `top` (default) or the `side`.
-- **Necessity Indicator**: Displays whether the field is `required` or `optional` via an icon or text label.
-
----
+- **Vertical** (Default): Recommended for long lists of options.
+- **Horizontal**: Best for small sets of options with short labels. Use `orientation="horizontal"`.
 
 ## Props
 
-<Controls of={DocStories.Default} />
-
-### Content
-
+### CheckboxGroup
 | Prop | Type | Default | Description |
-|------|------|---------|-------------|
-| `children` | `ReactNode` | — | The `Checkbox` elements that make up the group. |
+|---|---|---|---|
 | `label` | `ReactNode` | — | The label for the entire group. |
-| `description` | `ReactNode` | — | Help text displayed below the group. |
-| `errorMessage` | `ReactNode` | — | Error message displayed when validation fails. |
-
-### Value / State
-
-| Prop | Type | Default | Description |
-|------|------|---------|-------------|
 | `value` | `string[]` | — | Controlled array of selected values. |
 | `defaultValue` | `string[]` | — | Initial selection state (uncontrolled). |
-| `orientation` | `'vertical' \| 'horizontal'` | `'vertical'` | The layout axis of the group. |
-| `isDisabled` | `boolean` | `false` | Disables all checkboxes within the group. |
-| `isReadOnly` | `boolean` | `false` | Prevents the user from changing the selection. |
+| `orientation` | `'vertical' \| 'horizontal'` | `'vertical'` | Layout axis for the checkboxes. |
+| `validationState` | `'valid' \| 'invalid'` | — | Whether the input is valid or invalid. |
 | `isRequired` | `boolean` | `false` | Whether at least one checkbox must be selected. |
+| `isDisabled` | `boolean` | `false` | Disables all checkboxes within the group. |
+| `isEmphasized` | `boolean` | `false` | Whether the checkboxes should use emphasized styling. |
 
-### Events
-
+### Checkbox
 | Prop | Type | Description |
-|------|------|-------------|
-| `onChange` | `(value: string[]) => void` | Handler called when the selection changes. Returns the new array of selected values. |
-
-### Styles
-
-The `CheckboxGroup` component accepts all standard [Spectrum layout and spacing props](https://react-spectrum.adobe.com/react-spectrum/styling.html).
-
----
+|---|---|---|
+| `value` | `string` | The value to be submitted for this option. |
+| `children` | `ReactNode` | The label text or content for this checkbox. |
+| `isIndeterminate` | `boolean` | Displays a dash state (presentational only). |
+| `isDisabled` | `boolean` | Whether this specific checkbox is disabled. |
 
 ## Accessibility
 
-- **Group Labeling**: The `label` prop is used to provide an accessible name for the group. If no visible label is provided, an `aria-label` must be used.
-- **Individual Labels**: Every `Checkbox` within the group must have its own visible label.
-- **Focus Management**: Focus can be moved through the group using the `Tab` key.
-
----
+- The `CheckboxGroup` uses `role="group"` and is automatically labeled by the `label` prop via `aria-labelledby`.
+- Individual checkboxes use native `<input type="checkbox">` elements (visually hidden) for standard behavior.
+- **Keyboard support**: 
+    - **Tab** moves focus through the checkboxes.
+    - **Space** toggles the focused checkbox.
+- Screen readers announce the group label, the individual checkbox label, and its checked state.
 
 ## Spectrum 2 Migration
 
-When migrating to Spectrum 2 (`@react-spectrum/s2`), note the following changes:
+When migrating to Spectrum 2 (S2), keep the following changes in mind:
 
-- **Import Update**: Change from `@adobe/react-spectrum` to `@react-spectrum/s2`.
-- **Breaking Change**: The `showErrorIcon` prop has been removed in S2 due to accessibility considerations.
-- **New `size` Prop**: S2 adds a `size` prop (`'S' \| 'M' \| 'L' \| 'XL'`).
-- **Styles Macro**: Layout and spacing props migrate to the new `styles` macro system.
-- **Validation Behavior**: The default `validationBehavior` changes from `'aria'` to `'native'`.
+| V3 Prop | S2 Equivalent | Notes |
+|---|---|---|
+| `validationState="invalid"` | `isInvalid` | Boolean flag replaces the string enum. |
+| `validationState="valid"` | — | No visual "valid" state in S2. |
+| `showErrorIcon` | — | Removed in S2 for accessibility reasons. |
+| `isEmphasized` | `isEmphasized` | Remains the standard for accent-color highlights. |
+| `size` | `size` | S2 adds a `size` prop (`'S'`, `'M'`, `'L'`, `'XL'`). |
+| `validationBehavior` | `validationBehavior` | **Breaking**: Default flips from `'aria'` to `'native'`. |
+
+<Controls />
