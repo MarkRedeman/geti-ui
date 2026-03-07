@@ -8,12 +8,8 @@ import * as DocStories from './CardView.stories';
 <Subtitle>A responsive grid collection for rendering visually rich cards.</Subtitle>
 
 ```tsx
-import { CardView } from '@geti/ui';
+import { CardView, Card } from '@geti/ui';
 ```
-
-- [React Aria GridList (Headless Equivalent)](https://react-aria.adobe.com/react-aria-components/GridList.html)
-
-<Stories />
 
 ## Responsibility
 
@@ -27,6 +23,56 @@ import { CardView } from '@geti/ui';
 ### Comparison with other collections
 - **vs. ListView**: Use `ListView` for text-heavy data where scannable density and linear order are more important.
 - **vs. TableView**: Use `TableView` when items have multiple attributes that need to be compared across columns (sorting/filtering).
+
+## Design
+
+`CardView` is built as a flexible CSS Grid container that maps an array of `items` to a collection of `Card` components. 
+
+- **Internal Anatomy**: The component provides a root `<div>` with `display: grid` and uses the `renderCard` prop to instantiate individual cards.
+- **Responsive Behavior**: By default, it uses a fixed number of `columns`, but can be customized for different viewport sizes using standard layout props.
+- **Layout Tokens**: It defaults to a `16px` gap, aligning with the Geti design system's spacing scale.
+
+## Flow
+
+1. **Data Ingestion**: The component receives an array of generic `items<T>`.
+2. **Card Mapping**: For each item, the `renderCard` callback is executed, returning the props for a `Card`.
+3. **Grid Rendering**: The grid container manages the positioning and spacing of the resulting card elements.
+4. **Interaction**: User interactions (clicks, selection) are handled within the individual `Card` instances or by parent selection state.
+
+## Integration
+
+### Paired with ActionBar
+To enable bulk actions in a `CardView`, it must be wrapped in an `ActionBarContainer`.
+
+```tsx
+<ActionBarContainer>
+  <CardView
+    items={assets}
+    renderCard={(asset) => ({
+      title: asset.name,
+      isSelected: selectedKeys.has(asset.id),
+      onSelectionChange: (selected) => handleSelection(asset.id, selected)
+    })}
+  />
+  <ActionBar selectedItemCount={selectedKeys.size}>
+    <Item key="download">Download</Item>
+  </ActionBar>
+</ActionBarContainer>
+```
+
+### Empty States
+When the `items` array is empty, pair `CardView` with an `IllustratedMessage` to provide feedback to the user.
+
+## Accessibility
+
+`CardView` ensures that visually rich collections remain accessible to screen readers and keyboard users.
+
+| Feature | Implementation |
+| :--- | :--- |
+| **Roles** | The container uses `role="list"` and each card is wrapped in a `role="listitem"`. |
+| **Labels** | **Required:** Always provide an `aria-label` to the `CardView` for screen reader context. |
+| **Navigation** | Supports standard `Tab` navigation between interactive cards. |
+| **Interactive Content** | Ensure each card has a clear accessible name (via its title) and that any images have descriptive `alt` text. |
 
 ## Variants
 
