@@ -1,69 +1,86 @@
-import { Meta, Title, Subtitle, Description, Primary, Controls, Stories } from '@storybook/addon-docs/blocks';
+import { Meta, Title, Subtitle, Description, Primary, Controls, Stories } from '@storybook/blocks';
 import * as DocStories from './Switch.stories';
 
 <Meta of={DocStories} />
 
-<Title />
+<Title>Switch</Title>
+
+<Subtitle>A binary on/off toggle for immediate settings and activation.</Subtitle>
+
+```tsx
+import { Switch } from '@geti/ui';
+```
+
+- [React Spectrum V3 Switch](https://react-spectrum.adobe.com/react-spectrum/Switch.html)
+- [Spectrum 2 Switch](https://react-spectrum.adobe.com/s2/Switch.html)
+
+<Stories />
 
 ## Responsibility
 
-`Switch` is an on/off toggle switch. It wraps Spectrum's `Switch` and applies Geti's energy-blue track/handle colours when `isEmphasized` is `true` — mirroring the same `data-*` attribute + CSS module token-override pattern used by `Slider`.
+The `Switch` component represents a binary choice (on/off) that typically takes effect immediately. It is commonly used in settings panels, preference toggles, and feature-flag controls.
 
-<Stories />
----
+### When to use
+- For immediate activation/deactivation of a feature or setting.
+- When the state change should happen without a "Submit" button.
 
-## Design
+### When to use something else
+- Use [Checkbox](/docs/components-form-checkbox--docs) for selections within a list or form where changes take effect on submission.
+- Use [ToggleButton](/docs/components-ui-primitives-togglebutton--docs) for a momentary toggle action, often within a toolbar.
 
-### The `isEmphasized` → `data-emphasized` pattern
+## Variants
 
-Spectrum's `Switch` supports `isEmphasized` but uses its accent colour for the selected track. To override with `--energy-blue`:
+### States
+- **Selected**: The "on" state. Use `isSelected` (controlled) or `defaultSelected` (uncontrolled).
+- **Disabled**: The switch is non-interactive and visually dimmed. Use `isDisabled`.
+- **Emphasized**: In Geti UI, the `isEmphasized` prop applies energy-blue design tokens to the track and handle, providing higher visual prominence.
 
-1. `isEmphasized` is passed through to Spectrum (unchanged, in `...props`).
-2. Mirrored as `data-emphasized={props.isEmphasized}` on the Spectrum component.
-3. CSS module selects `.switch[data-emphasized='true']` and overrides six Spectrum component-level tokens:
-
-```css
-/* Switch.module.css */
-.switch[data-emphasized='true'] {
-    --spectrum-switch-emphasized-track-color-selected:        var(--energy-blue);
-    --spectrum-switch-emphasized-track-color-selected-hover:  var(--energy-blue-light);
-    --spectrum-switch-emphasized-track-color-selected-down:   var(--energy-blue-lighter);
-    --spectrum-switch-emphasized-handle-border-color-selected:       var(--energy-blue);
-    --spectrum-switch-emphasized-handle-border-color-selected-hover: var(--energy-blue-light);
-    --spectrum-switch-emphasized-handle-border-color-selected-down:  var(--energy-blue-lighter);
-}
-```
-
-`.switch` is always applied via `UNSAFE_className={clsx(styles.switch, UNSAFE_className)}`.
-
-### Props
-
-```tsx
-export interface SwitchProps extends SpectrumSwitchProps {}
-```
-
-No props are added or removed. All Spectrum props (`isSelected`, `defaultSelected`, `onChange`, `isEmphasized`, `isDisabled`, `children`, etc.) pass through.
-
----
-
-## Flow
-
-Pure presentational. No internal state. `isEmphasized` controls the CSS override via `data-emphasized` attribute.
-
----
-
-## Integration
-
-- **Depends on**: `@adobe/react-spectrum` (`Switch`, `SpectrumSwitchProps`), `clsx`, `./Switch.module.css`.
-- **Tokens**: `--energy-blue`, `--energy-blue-light`, `--energy-blue-lighter` from `geti-global.module.css`.
-- **Consumed by**: settings panels, feature-flag toggles, on/off preference controls.
-
-
----
-
-<Primary />
+### Validation
+Note that `Switch` does **not** support an invalid or error state by design. It is used for binary activation, not for data entry that requires validation.
 
 ## Props
 
-<Controls />
+### Content
+| Prop | Type | Description |
+|---|---|---|
+| `children` | `ReactNode` | The label text or content for the switch. |
+| `aria-label` | `string` | An accessible label for the switch if no visible label is provided. |
 
+### Value / State
+| Prop | Type | Default | Description |
+|---|---|---|---|
+| `isSelected` | `boolean` | — | Whether the switch is in the "on" state (controlled). |
+| `defaultSelected` | `boolean` | — | The initial "on" state (uncontrolled). |
+| `isDisabled` | `boolean` | `false` | Whether the switch is disabled. |
+| `isReadOnly` | `boolean` | `false` | Whether the switch value can be changed by the user. |
+
+### Events
+| Prop | Type | Description |
+|---|---|---|
+| `onChange` | `(isSelected: boolean) => void` | Handler called when the switch state is toggled. |
+
+### Styles
+| Prop | Type | Description |
+|---|---|---|
+| `isEmphasized` | `boolean` | Whether the switch should use a high-prominence (energy-blue) style. |
+| `UNSAFE_className` | `string` | A custom CSS class name for the component. |
+
+## Accessibility
+
+- Renders as a visually-hidden `<input type="checkbox" role="switch">` inside a `<label>`.
+- Full keyboard support: **Space** to toggle the switch, and **Tab** to move focus.
+- Automatically handles state communication to screen readers via the `switch` role and `aria-checked` attribute.
+- High contrast mode support via Adobe Spectrum.
+
+## Spectrum 2 Migration
+
+When migrating to Spectrum 2 (S2), the `Switch` component remains largely unchanged in terms of its API surface.
+
+| V3 Prop | S2 Equivalent | Notes |
+|---|---|---|
+| `isEmphasized` | `isEmphasized` | Direct mapping; remains the standard for accent-color highlights. |
+| `isSelected` | `isSelected` | Unchanged. |
+| `size` | `size` | S2 adds a `size` prop (`'S'`, `'M'`, `'L'`, `'XL'`). |
+| Style props | `styles={style({...})}` | Layout and spacing props migrate to the `style()` macro. |
+
+<Controls />
