@@ -12,7 +12,6 @@ import { Menu, MenuTrigger, Item, Section } from '@geti/ui';
 ```
 
 - [React Spectrum V3 Menu](https://react-spectrum.adobe.com/react-spectrum/Menu.html)
-- [Spectrum 2 Menu](https://react-spectrum.adobe.com/s2/Menu.html)
 
 <Stories />
 
@@ -74,49 +73,4 @@ Use the `Section` component to group related menu items. Each section can have a
   - `Enter` or `Space` activates the focused item and closes the menu.
   - `Esc` closes the menu and returns focus to the trigger.
 - **Labeling**: Use `aria-label` or `aria-labelledby` on the `MenuTrigger` to provide an accessible name for the trigger button.
-
-## Spectrum 2 Migration
-
-The migration to Spectrum 2 (S2) introduces a more explicit sub-component structure and improved collection management.
-
-### Structural Changes
-- **MenuItem**: Generic `<Item>` becomes a dedicated `<MenuItem>` component.
-- **MenuSection**: Generic `<Section>` becomes `<MenuSection>`, with headers now defined using explicit `<Header>` and `<Heading>` children.
-- **ID Prop**: Use the `id` prop instead of `key` for menu items.
-
-### New Features
-- **Submenus**: S2 supports nested submenus using the `<SubmenuTrigger>` component.
-- **Section Selection**: You can now set `selectionMode` directly on a `<MenuSection>` for per-section selection behavior.
-- **Link Indicators**: Menu items with an `href` prop automatically show an external link icon.
-
-### Migration Example
-
-**V3 Style (Current):**
-```tsx
-<MenuTrigger>
-  <Button>Actions</Button>
-  <Menu onAction={doAction}>
-    <Section title="Edit">
-      <Item key="rename">Rename</Item>
-      <Item key="copy">Make a copy</Item>
-    </Section>
-    <Item key="delete">Delete</Item>
-  </Menu>
-</MenuTrigger>
-```
-
-**S2 Style (Future):**
-```tsx
-<MenuTrigger>
-  <Button>Actions</Button>
-  <Menu onAction={doAction}>
-    <MenuSection>
-      <Header><Heading>Edit</Heading></Header>
-      <MenuItem id="rename">Rename</MenuItem>
-      <MenuItem id="copy">Make a copy</MenuItem>
-    </MenuSection>
-    <MenuItem id="delete">Delete</MenuItem>
-  </Menu>
-</MenuTrigger>
-```
 
