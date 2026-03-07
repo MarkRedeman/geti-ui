@@ -1,4 +1,4 @@
-import { Meta, Title, Subtitle, Description, Primary, Controls, Stories } from '@storybook/blocks';
+import { Meta, Title, Subtitle, Description, Primary, Controls, Stories } from '@storybook/addon-docs/blocks';
 import * as DocStories from './TextArea.stories';
 
 <Meta of={DocStories} />
@@ -12,7 +12,6 @@ import { TextArea } from '@geti/ui';
 ```
 
 - [React Spectrum V3 TextArea](https://react-spectrum.adobe.com/react-spectrum/TextArea.html)
-- [Spectrum 2 TextArea](https://react-spectrum.adobe.com/s2/TextArea.html)
 
 <Stories />
 
@@ -82,17 +81,5 @@ The `TextArea` component is a multi-line text input primitive built on Adobe Rea
 - Automatically associates labels and error messages via `aria-labelledby` and `aria-describedby`.
 - **Enter key behavior**: Unlike `TextField`, pressing Enter in a `TextArea` inserts a new line rather than submitting the form.
 - Full keyboard support for navigation, selection, and editing.
-
-## Spectrum 2 Migration
-
-When migrating to Spectrum 2 (S2), consider these changes:
-
-| V3 Prop | S2 Equivalent | Notes |
-|---|---|---|
-| `validationState="invalid"` | `isInvalid` | Renamed to a boolean flag. |
-| `validationState="valid"` | — | Valid visual state removed. |
-| `isQuiet` | — | Quiet variant removed in S2. |
-| `width="size-3600"` | `styles={style({ width: 288 })}` | Style props migrate to the `style()` macro. |
-| `size` | `size` | S2 adds a `size` prop (`'S'`, `'M'`, `'L'`, `'XL'`). |
 
 <Controls />
