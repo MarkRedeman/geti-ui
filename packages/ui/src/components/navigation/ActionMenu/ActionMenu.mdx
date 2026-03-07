@@ -12,7 +12,6 @@ import { ActionMenu, Item, Section } from '@geti/ui';
 ```
 
 - [React Spectrum V3 ActionMenu](https://react-spectrum.adobe.com/react-spectrum/ActionMenu.html)
-- [Spectrum 2 ActionMenu](https://react-spectrum.adobe.com/s2/ActionMenu.html)
 
 <Stories />
 
@@ -41,7 +40,7 @@ Key responsibilities:
 While most `ActionMenu` items are commands, you can also use `selectionMode="single"` or `selectionMode="multiple"` to allow users to select items from the menu (e.g., a "View Mode" setting).
 
 ### Size
-Supports `S`, `M`, and `L` sizes for the trigger button. In Spectrum 2, you can also independently control the size of the menu items using the `menuSize` prop.
+Supports `S`, `M`, and `L` sizes for the trigger button.
 
 ## Props
 
@@ -63,90 +62,6 @@ Supports `S`, `M`, and `L` sizes for the trigger button. In Spectrum 2, you can 
   - `Enter` or `Space` activates the focused item and closes the menu.
   - `Esc` closes the menu and returns focus to the trigger.
 - **ARIA Roles**: The trigger has `role="button"` with `aria-haspopup="true"`. Menu items have `role="menuitem"`, `role="menuitemradio"`, or `role="menuitemcheckbox"` depending on the selection mode.
-
-## Spectrum 2 Migration
-
-The migration to Spectrum 2 (S2) involves a more explicit sub-component structure and improved layout controls.
-
-### Structural Changes
-- **Item to MenuItem**: Generic `<Item>` becomes `<MenuItem>`.
-- **Section Headers**: Instead of a `title` prop on `<Section>`, S2 uses a more nested structure: `<MenuSection><Header><Heading>Title</Heading></Header>...</MenuSection>`.
-- **ID Prop**: Use `id` instead of `key` for menu items.
-
-### New Features
-- **menuSize**: A new prop that allows you to set the menu item size independently from the trigger button size.
-- **Link Indicators**: Items with an `href` prop automatically display an external link icon.
-
-### Migration Example
-
-**V3 Style (Current):**
-```tsx
-<ActionMenu aria-label="More actions" onAction={doAction}>
-  <Section title="Edit">
-    <Item key="rename">Rename</Item>
-    <Item key="copy">Make a copy</Item>
-  </Section>
-  <Item key="delete">Delete</Item>
-</ActionMenu>
-```
-
-**S2 Style (Future):**
-```tsx
-<ActionMenu aria-label="More actions" onAction={doAction}>
-  <MenuSection>
-    <Header><Heading>Edit</Heading></Header>
-    <MenuItem id="rename">Rename</MenuItem>
-    <MenuItem id="copy">Make a copy</MenuItem>
-  </MenuSection>
-  <MenuItem id="delete">Delete</MenuItem>
-</ActionMenu>
-```
-
-
-- [React Spectrum V3 ActionMenu](https://react-spectrum.adobe.com/react-spectrum/ActionMenu.html)
-- [Spectrum 2 ActionMenu](https://react-spectrum.adobe.com/s2/ActionMenu.html)
-
-<Stories />
-
-## Responsibility
-
-Provides a pre-composed dropdown menu triggered by an icon-only action button — the standard pattern for contextual action menus attached to list rows, cards, and toolbar items. Encapsulates the `MenuTrigger` + `Menu` pairing behind a single component.
-
-## Design
-
-Generic thin wrapper — `ActionMenuProps<T extends object> extends SpectrumActionMenuProps<T>`. The component body is `(props) => <SpectrumActionMenu {...props} />`.
-
-The generic `T` carries the item type through, allowing typed `items` arrays. Spectrum's `ActionMenu` internally composes its own `ActionButton` trigger (the `⋯` icon) with `MenuTrigger` + `Menu`, so this wrapper inherits all of that behaviour for free.
-
-## Flow
-
-```
-props { items, onAction, disabledKeys, children (Item/Section), ...rest }
-  → <SpectrumActionMenu {...props} />
-      → (Spectrum internally): ActionButton trigger → MenuTrigger → Menu overlay
-```
-
-No state, no effects, no refs.
-
-## Integration
-
-- A higher-level convenience over `Menu` + `MenuTrigger` from the same navigation category.
-- Used in list/table rows and card headers where a contextual action menu is needed without a custom trigger.
-- `Item` and `Section` from `Menu/` are used to compose the menu content.
-
-### When to use `ActionMenu` vs `Menu`
-
-| Situation | Use |
-| :--- | :--- |
-| Need the standard `⋯` / meatball icon trigger | `ActionMenu` |
-| Need a custom trigger element (text button, image, etc.) | `Menu` + `MenuTrigger` |
-| Attaching to a list row, card, or table cell | `ActionMenu` |
-
-### Usage Rules
-
-- **`onAction` for commands**: Pass `onAction(key)` to handle item activation. `ActionMenu` items are typically non-selectable commands.
-- **Accessible label**: Because the trigger is icon-only, always provide an `aria-label` so screen readers can announce the button's purpose (e.g., `aria-label="Row actions"`).
-- **`disabledKeys`**: Disable specific items by key without removing them, preserving screen-reader discoverability.
 
 ---
 
@@ -190,65 +105,3 @@ No state, no effects, no refs.
 - **Do not nest interactive elements inside `<Item>`**: The item itself is the interactive target. Any icons within an item should be decorative (`aria-hidden`).
 - **Disabled items remain visible**: Prefer `disabledKeys` over omitting items to avoid confusing screen reader users who expect certain actions to be present.
 - **Mobile tray**: On touch/mobile viewports, Spectrum automatically renders the menu in a bottom tray — no code change required.
-
-## Spectrum 2 Migration
-
-The migration to Spectrum 2 (S2) renames sub-components and splits one prop into two.
-
-### Import change
-
-```tsx
-// V3
-import { ActionMenu, Item, Section } from '@adobe/react-spectrum';
-
-// S2
-import { ActionMenu, MenuItem, MenuSection, Header, Heading } from '@react-spectrum/s2';
-```
-
-### Prop mapping
-
-| V3 | S2 | Notes |
-| :--- | :--- | :--- |
-| `<Item key="x">` | `<MenuItem id="x">` | `key` stays only inside `array.map()` |
-| `<Section title="Group">` | `<MenuSection><Header><Heading>Group</Heading></Header>...</MenuSection>` | Section header is now explicit JSX |
-| `size` | `size` | Controls the `ActionButton` trigger size |
-| — | `menuSize` | **New in S2.** Controls the popup menu size separately from the trigger |
-| `onAction` | `onAction` | Unchanged |
-| `disabledKeys` | `disabledKeys` | Unchanged |
-| `isDisabled` | `isDisabled` | Unchanged |
-| `closeOnSelect` | ⚠️ Pending | Not yet implemented in S2 — comment out, do not delete |
-| `trigger` (long-press) | ⚠️ Pending | Not yet implemented in S2 — comment out, do not delete |
-| V3 layout style props (`margin`, `width`, …) | `styles={style({...})}` | Replace with S2 style macro |
-
-### Before / After
-
-```tsx
-// V3
-<ActionMenu aria-label="Row actions" onAction={handler} size="M">
-  <Item key="edit">Edit</Item>
-  <Item key="duplicate">Duplicate</Item>
-  <Item key="delete">Delete</Item>
-</ActionMenu>
-
-// S2
-<ActionMenu aria-label="Row actions" onAction={handler} size="M">
-  <MenuItem id="edit">Edit</MenuItem>
-  <MenuItem id="duplicate">Duplicate</MenuItem>
-  <MenuItem id="delete">Delete</MenuItem>
-</ActionMenu>
-```
-
-### New S2 features
-
-| Feature | Description |
-| :--- | :--- |
-| `menuSize` prop | Control popup menu item size independently from the trigger button size |
-| External link icon | Items with `href` automatically show an external-link icon; suppress with `hideLinkOutIcon` |
-| Full-outline focus | Focus indicator is now a full border outline (replaces V3 left-side bar) |
-
-### Codemod
-
-```bash
-npx @react-spectrum/codemods s1-to-s2 --components=ActionMenu
-```
-
