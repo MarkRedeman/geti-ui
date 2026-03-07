@@ -1,4 +1,4 @@
-import { Meta, Title, Subtitle, Description, Primary, Controls, Stories, Source } from '@storybook/blocks';
+import { Meta, Title, Subtitle, Description, Primary, Controls, Stories, Source } from '@storybook/addon-docs/blocks';
 import * as DocStories from './Button.stories';
 
 <Meta of={DocStories} />
@@ -14,7 +14,7 @@ import { Button } from '@geti/ui';
 ```
 
 - [React Spectrum Button](https://react-spectrum.adobe.com/react-spectrum/Button.html)
-- [Spectrum 2 Button](https://react-spectrum.adobe.com/s2/Button)
+
 
 <Stories />
 
@@ -86,13 +86,4 @@ The `Button` component accepts all standard [Spectrum layout and spacing props](
 - **Keyboard Navigation**: Buttons are fully accessible via the keyboard (Space and Enter keys).
 - **Focus Management**: Use the forwarded `ref` to manage focus programmatically when needed (e.g., returning focus after a dialog closes).
 
----
 
-## Spectrum 2 Migration
-
-When migrating to Spectrum 2 (`@react-spectrum/s2`), be aware of the following changes:
-
-- **`style` → `fillStyle`**: The `style` prop is renamed to `fillStyle` in S2.
-- **`size` Prop**: S2 introduces a `size` prop (`'S' \| 'M' \| 'L' \| 'XL'`).
-- **Styles Macro**: Layout and spacing props are consolidated into a new `styles` macro system.
-- **New Variants**: S2 adds `premium` (gold) and `genai` (gradient) variants.
