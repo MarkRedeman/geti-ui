@@ -3,40 +3,104 @@ import * as DocStories from './Grid.stories';
 
 <Meta of={DocStories} />
 
-<Title />
+# Grid
+
+<Subtitle>Grid is a layout container that uses CSS Grid to create complex two-dimensional layouts with rows and columns.</Subtitle>
+
+```tsx
+import { Grid } from '@geti/ui';
+```
+
+- [React Spectrum V3 Grid](https://react-spectrum.adobe.com/react-spectrum/Grid.html)
+
+<Stories />
 
 ## Responsibility
 
-Re-exports Adobe React Spectrum's `Grid` as a named Geti component, providing a CSS grid container with Spectrum's layout prop system for two-dimensional layout composition.
+The `Grid` component provides a powerful system for two-dimensional layout composition. It allows for the definition of rows, columns, and areas, making it ideal for page structures, dashboard layouts, and complex forms.
 
-## Design
+Key responsibilities:
+- **Two-Dimensional Layout**: Control both rows and columns simultaneously.
+- **Named Areas**: Use the `areas` prop to define named sections of a layout (e.g., `'header header', 'sidebar content'`).
+- **Flexible Sizing**: Support for `fr` units, percentage-based widths, and Spectrum dimension tokens.
+- **Responsive Control**: Define different grid structures for different viewport sizes using responsive prop objects.
 
-Thin wrapper — `GridComponentProps extends GridProps` (named `GridComponentProps` to avoid collision with the re-exported Spectrum `GridProps` type, mirroring the same pattern as `Flex`). The component body is `(props) => <SpectrumGrid {...props} />`.
+### When to use
+- To build the overall structure of a page or complex UI panel.
+- To create a layout with a fixed-width sidebar and a fluid-width content area.
+- When rows and columns both need to be carefully aligned.
+- To handle form layouts where labels and inputs are aligned across multiple rows.
 
-Spectrum's `Grid` accepts props like `areas`, `columns`, `rows`, `gap`, `columnGap`, `rowGap`, `justifyItems`, `alignItems` — using Spectrum dimension tokens alongside standard CSS grid values.
+### When to avoid
+- For simple horizontal or vertical stacks (use `Flex` instead).
+- When you only need to align items along a single axis.
 
-## Flow
+## Variants
 
-```
-props (GridProps passthrough — areas, columns, rows, gap, ...)
-  → <SpectrumGrid {...props} />
-```
+### Columns & Rows
+Use the `columns` and `rows` props to define the number and size of tracks in the grid. Both props accept arrays of values (e.g., `['200px', '1fr']`).
 
-No state, no effects, no refs.
+### Named Areas
+The `areas` prop allows for a more descriptive way to manage complex layouts. Children can be assigned to specific areas using the `gridArea` prop on the child component (usually a `View`).
 
-## Integration
-
-- Used for two-dimensional layouts: settings forms with label/input columns, dashboard panels, split-pane layouts.
-- Pairs with `Flex` (same layouts/ category) — use `Grid` when rows and columns both matter; use `Flex` for single-axis alignment.
-- `CardView` (data/ category) uses native CSS grid directly (not this component) because it needs imperative `gridTemplateColumns` calculated from a prop.
-
-
-<Stories />
----
-
-<Primary />
+### Gap
+The `gap` prop (and `columnGap`/`rowGap`) provides a standardized way to add space between grid items using Spectrum's size tokens.
 
 ## Props
 
-<Controls />
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `areas` | `Responsive<string[]>` | - | Named grid areas. |
+| `columns` | `Responsive<DimensionValue[] \| string>` | - | The track sizes for columns. |
+| `rows` | `Responsive<DimensionValue[] \| string>` | - | The track sizes for rows. |
+| `gap` | `Responsive<DimensionValue>` | - | The space between grid items. |
+| `justifyContent` | `Responsive<JustifyContent>` | - | How the grid is distributed within the container. |
+| `alignItems` | `Responsive<AlignItems>` | - | How items are aligned within their grid areas. |
+
+## Accessibility
+
+- **Semantic HTML**: By default, `Grid` renders as a `<div>`. Use the `elementType` prop to change it to a more semantic element if appropriate for the content (e.g., `main`, `section`).
+- **Logical Flow**: Ensure that the grid layout maintains a logical reading and tab order that matches the visual presentation.
+
+## Spectrum 2 Migration
+
+The migration to Spectrum 2 (S2) involves a fundamental shift: **dedicated layout components like `Grid` are removed.**
+
+### The New Pattern
+In S2, layout is handled by applying the `style()` macro directly to plain HTML elements.
+
+- **V3**: `<Grid columns={['1fr', '3fr']} gap="size-100">`
+- **S2**: `<div className={style({ display: 'grid', gridTemplateColumns: '1fr 3fr', gap: 8 })}>`
+
+### Key Changes
+- **No Component Wrapper**: Use standard `<div>`, `<section>`, etc.
+- **Pixel Values**: Instead of string tokens like `'size-100'`, use direct pixel numbers (e.g., `8`).
+- **Grid Syntax**: CSS property names like `gridTemplateColumns` are used inside the `style()` macro instead of the shorthand `columns`.
+
+### Migration Example
+
+**V3 Style (Current):**
+```tsx
+<Grid areas={['header header', 'sidebar content']} columns={['200px', '1fr']} gap="size-200">
+  <View gridArea="header">Header</View>
+  <View gridArea="sidebar">Sidebar</View>
+  <View gridArea="content">Content</View>
+</Grid>
+```
+
+**S2 Style (Future):**
+```tsx
+import { style } from '@react-spectrum/s2/style' with { type: 'macro' };
+
+<div className={style({ 
+  display: 'grid', 
+  gridTemplateAreas: '"header header" "sidebar content"', 
+  gridTemplateColumns: '200px 1fr', 
+  gap: 16 
+})}>
+  <div className={style({ gridArea: 'header' })}>Header</div>
+  <div className={style({ gridArea: 'sidebar' })}>Sidebar</div>
+  <div className={style({ gridArea: 'content' })}>Content</div>
+</div>
+```
 
