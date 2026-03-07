@@ -1,4 +1,4 @@
-import { Meta, Title, Subtitle, Description, Primary, Controls, Stories } from '@storybook/blocks';
+import { Meta, Title, Subtitle, Description, Primary, Controls, Stories } from '@storybook/addon-docs/blocks';
 import * as DocStories from './SearchField.stories';
 
 <Meta of={DocStories} />
@@ -12,7 +12,6 @@ import { SearchField } from '@geti/ui';
 ```
 
 - [React Spectrum V3 SearchField](https://react-spectrum.adobe.com/react-spectrum/SearchField.html)
-- [Spectrum 2 SearchField](https://react-spectrum.adobe.com/s2/SearchField.html)
 
 <Stories />
 
@@ -73,18 +72,6 @@ The `SearchField` component provides a standard search input interface. It autom
     - <kbd>Escape</kbd>: Clears the input and triggers `onClear`.
 - **Labeling**: Always provide a `label`. Use `aria-label` or `aria-labelledby` if the label is visually hidden.
 - **Ref Forwarding**: Forwards its ref to the underlying input, allowing imperative actions like `focus()` or `clear()`.
-
-## Spectrum 2 Migration
-
-When migrating to Spectrum 2 (S2), note the following changes:
-
-| V3 Prop | S2 Equivalent | Notes |
-|---|---|---|
-| `validationState="invalid"` | `isInvalid` | Boolean flag replaces the string enum. |
-| `isQuiet` | — | Quiet variant is removed in S2. |
-| `width="size-3000"` | `styles={style({ width: 240 })}` | Dimension props move to the `style()` macro. |
-| `size` | `size` | S2 adds a `size` prop (`'S'`, `'M'`, `'L'`, `'XL'`). |
-| `validationBehavior` | `validationBehavior` | **Breaking**: Default behavior flips from `'aria'` to `'native'`. |
 
 <Controls />
 
