@@ -8,6 +8,7 @@ import {
     OverlayArrow,
     Popover as AriaPopover,
     PopoverProps as AriaPopoverProps,
+    Button as AriaButton,
 } from 'react-aria-components';
 
 /**
@@ -21,14 +22,17 @@ export interface CustomPopoverProps extends Omit<AriaPopoverProps, 'children' | 
     showArrow?: boolean;
     /** Custom width for the popover panel. */
     width?: number | string;
-    /** The trigger element. If provided, the component manages open state internally via DialogTrigger. */
+    /** 
+     * The trigger element. If provided, the component manages open state internally via DialogTrigger.
+     * Must be a RAC-compatible pressable element (e.g. Button) to receive ARIA and keyboard handlers.
+     */
     triggerElement?: ReactNode;
 }
 
 /**
  * A Geti-styled popover built on react-aria-components.
  * Adds Geti-specific chrome such as optional arrow rendering and width control.
- * When `trigger` is provided, it manages open/close state automatically via DialogTrigger.
+ * When `triggerElement` is provided, it manages open/close state automatically via DialogTrigger.
  */
 export const CustomPopover = ({
     children,
@@ -43,18 +47,31 @@ export const CustomPopover = ({
         ...(width !== undefined ? { width, minWidth: width } : {}),
     };
 
+    const renderArrow = () => (
+        showArrow && (
+            <OverlayArrow>
+                {/* 
+                    Arrow SVG points upward (∧) by default. 
+                    RAC rotates it automatically to match popover placement.
+                */}
+                <svg width={12} height={12} viewBox="0 0 12 12">
+                    <path d="M0 12 L6 6 L12 12" />
+                </svg>
+            </OverlayArrow>
+        )
+    );
+
     if (triggerElement !== undefined) {
+        // Ensure the trigger is a RAC-aware element for accessibility.
+        const trigger = typeof triggerElement === 'string' 
+            ? <AriaButton>{triggerElement}</AriaButton> 
+            : triggerElement;
+
         return (
             <AriaDialogTrigger>
-                {triggerElement}
+                {trigger}
                 <AriaPopover {...rest} style={popoverStyle}>
-                    {showArrow && (
-                        <OverlayArrow>
-                            <svg width={12} height={12} viewBox="0 0 12 12">
-                                <path d="M0 0 L6 6 L12 0" />
-                            </svg>
-                        </OverlayArrow>
-                    )}
+                    {renderArrow()}
                     <AriaDialog>{children}</AriaDialog>
                 </AriaPopover>
             </AriaDialogTrigger>
@@ -63,13 +80,7 @@ export const CustomPopover = ({
 
     return (
         <AriaPopover {...rest} style={popoverStyle}>
-            {showArrow && (
-                <OverlayArrow>
-                    <svg width={12} height={12} viewBox="0 0 12 12">
-                        <path d="M0 0 L6 6 L12 0" />
-                    </svg>
-                </OverlayArrow>
-            )}
+            {renderArrow()}
             <AriaDialog>{children}</AriaDialog>
         </AriaPopover>
     );
