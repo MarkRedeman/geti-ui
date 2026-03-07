@@ -11,6 +11,11 @@ export interface CardViewProps<T = unknown> {
     items: T[];
     /** Render function that maps an item to a card. */
     renderCard: (item: T, index: number) => CardProps;
+    /** 
+     * Extractor function for the stable identity key of an item.
+     * @default (item, index) => index
+     */
+    getItemKey?: (item: T, index: number) => string | number;
     /** Accessible label for the card collection. */
     'aria-label'?: string;
     /** The number of columns in the grid layout.
@@ -30,6 +35,7 @@ export interface CardViewProps<T = unknown> {
 export const CardView = <T,>({
     items,
     renderCard,
+    getItemKey,
     'aria-label': ariaLabel,
     columns = 3,
     gap = '16px',
@@ -46,8 +52,10 @@ export const CardView = <T,>({
         >
             {items.map((item, index) => {
                 const cardProps = renderCard(item, index);
+                const key = getItemKey ? getItemKey(item, index) : index;
+
                 return (
-                    <div key={index} role="listitem">
+                    <div key={key} role="listitem">
                         <Card {...cardProps} />
                     </div>
                 );
