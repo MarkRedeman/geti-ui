@@ -1,51 +1,77 @@
-import { Meta, Title, Subtitle, Description, Primary, Controls, Stories } from '@storybook/addon-docs/blocks';
+import { Meta, Title, Subtitle, Description, Primary, Controls, Stories, Source } from '@storybook/blocks';
 import * as DocStories from './Divider.stories';
 
 <Meta of={DocStories} />
 
-<Title />
+<Title>Divider</Title>
+
+<Subtitle>
+  Dividers bring clarity to a layout by grouping and dividing content in close proximity.
+</Subtitle>
+
+```tsx
+import { Divider } from '@geti/ui';
+```
+
+- [React Spectrum Divider](https://react-spectrum.adobe.com/react-spectrum/Divider.html)
+- [Spectrum 2 Divider](https://react-spectrum.adobe.com/s2/Divider.html)
+
+<Stories />
 
 ## Responsibility
 
-`Divider` renders a horizontal or vertical visual separator to group and divide content in close proximity. It is a minimal Spectrum wrapper with no Geti-specific extensions.
+The `Divider` component is a direct wrapper around Adobe's React Spectrum `Divider`. It is used to separate sections of content or group related elements visually.
 
-<Stories />
----
-
-## Design
-
-```tsx
-export interface DividerProps extends SpectrumDividerProps {}
-export const Divider = (props: DividerProps) => <SpectrumDivider {...props} />;
-```
-
-All Spectrum props pass through unchanged:
-- `orientation` — `'horizontal'` (default) or `'vertical'`
-- `size` — `'S'` | `'M'` | `'L'` controls thickness
-- `UNSAFE_className`, `UNSAFE_style`
-
-No CSS module, no Geti-specific props.
+### Key Usage Rules
+1. **Layout Context**: A `Divider` has no intrinsic size. It stretches to fill its container's width (horizontal) or height (vertical). It **must** be placed within a layout container like `Flex` or `Grid` to be visible.
+2. **Orientation Alignment**:
+    - Use `orientation="horizontal"` (default) inside a column-direction layout.
+    - Use `orientation="vertical"` inside a row-direction layout.
+3. **Automatic Slotting**: When used inside a Spectrum `Dialog`, the `Divider` automatically slots itself between the header and the body content.
 
 ---
 
-## Flow
+## Variants
 
-Pure presentational. Stateless.
+### Orientation
+Dividers can be horizontal or vertical. Vertical dividers are often used to separate items in a toolbar or navigation row.
 
----
-
-## Integration
-
-- **Depends on**: `@adobe/react-spectrum` (`Divider`, `SpectrumDividerProps`).
-- **Consumed by**: dialogs (between header and content), toolbars, sidebars, and any layout requiring a clear visual break between sections.
-- **Colour**: inherits from `--spectrum-alias-border-color-mid` or similar tokens set in `geti-dark.module.css`.
-
+### Thickness (Size)
+The `size` prop controls the thickness of the divider line:
+- `S`: 1px (Thinnest)
+- `M`: 2px
+- `L`: 4px (Thickest, default in v3)
 
 ---
-
-<Primary />
 
 ## Props
 
-<Controls />
+<Controls of={DocStories.Horizontal} />
 
+### Content / Value
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `orientation` | `'horizontal' \| 'vertical'` | `'horizontal'` | The axis the divider aligns to. |
+| `size` | `'S' \| 'M' \| 'L'` | `'L'` | Controls the thickness of the divider. |
+
+### Styles
+
+The `Divider` component accepts all standard [Spectrum layout and spacing props](https://react-spectrum.adobe.com/react-spectrum/styling.html), including `margin`, `flex`, and `grid` properties.
+
+---
+
+## Accessibility
+
+- **Role**: Renders as an `<hr>` element with `role="separator"`.
+- **Labeling**: If the divider is used to separate distinct logical sections, consider providing an `aria-label` to describe the separation for screen reader users.
+
+---
+
+## Spectrum 2 Migration
+
+When migrating to Spectrum 2 (`@react-spectrum/s2`), note the following changes:
+
+- **Default Size Change**: In S2, the default `size` changes from `'L'` to `'M'`. This may require explicit prop updates to maintain visual parity.
+- **Static Color**: S2 adds a `staticColor` prop (`'white' \| 'black' \| 'auto'`) for use over colored backgrounds.
+- **Styles Macro**: Layout and spacing props are replaced by the S2 `styles` macro system.
