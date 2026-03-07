@@ -1,4 +1,4 @@
-import { Meta, Subtitle, Primary, Controls } from '@storybook/addon-docs/blocks';
+import { Meta, Subtitle, Primary, Controls, Stories } from '@storybook/addon-docs/blocks';
 import * as DocStories from '../KitchenSink.stories';
 
 <Meta of={DocStories} name="MediaViewModes" />
@@ -8,8 +8,7 @@ import * as DocStories from '../KitchenSink.stories';
 <Subtitle>View mode switcher between Grid and List layouts.</Subtitle>
 
 ```tsx
-import { MediaViewModes } from '@geti/ui';
-import { ViewModes } from '@geti/ui';
+import { MediaViewModes, ViewModes, INITIAL_VIEW_MODE } from '@geti/ui';
 ```
 
 > **Stories**: `MediaViewModes` is demonstrated inside the **Navigation Kitchen Sink** story
@@ -35,6 +34,37 @@ Key responsibilities:
 - When the modes relate to navigation (different pages/sections) rather than presentation — use `Tabs` or `Menu` with navigation semantics.
 - When the full label of each mode should be permanently visible — use a `Picker` or a segmented `ActionGroup`.
 
+## Design
+
+`MediaViewModes` is a Geti-native composite component built entirely from Spectrum primitives: `MenuTrigger → TooltipTrigger → ActionButton` (trigger) + `Menu > Item[]` (overlay).
+
+- **Composition**: The `MenuTrigger` wraps a `TooltipTrigger`, which in turn wraps the `ActionButton`. This ensures that the tooltip is shown on the trigger button while the menu remains a sibling portal.
+- **Icon Mapping**: Each `ViewModes` enum value is mapped to a specific Spectrum workflow icon:
+
+| ViewMode | Icon | Description |
+| :--- | :--- | :--- |
+| `LARGE` | `ClassicGridView` | 4 large thumbnails per row (default) |
+| `MEDIUM` | `ModernGridView` | 6 medium thumbnails per row |
+| `SMALL` | `ViewGrid` | 8 small thumbnails per row |
+| `DETAILS` | `ViewList` | Single-column detailed list view |
+
+- **Quiet Trigger**: The `ActionButton` uses `isQuiet={true}` by default to minimize visual weight in toolbars.
+
+## Flow
+
+1. **User Interaction**: User clicks the `ActionButton` trigger.
+2. **Trigger**: `MenuTrigger` opens the selection menu.
+3. **Selection**: User selects a new mode (e.g., `DETAILS`) from the menu.
+4. **Guard**: `handleAction` verifies that the selected key is different from the current `viewMode` and exists in the `items` array.
+5. **Callback**: `setViewMode(newMode)` is called, notifying the parent to update its state.
+6. **Re-render**: Parent updates `viewMode` prop; `MediaViewModes` re-renders with the new active icon.
+
+## Integration
+
+- **State Management**: The component is fully controlled. Consumers typically use a `useState` hook initialized with `INITIAL_VIEW_MODE` (exported from `utils.ts`).
+- **Toolbar Placement**: Designed to sit in a right-aligned `ActionGroup` or toolbar section alongside other gallery controls (Search, Sort, Filter).
+- **Items Customization**: Use the `items` prop to exclude modes that are not supported by the current gallery implementation (e.g., excluding `DETAILS` for asset-only grids).
+
 ## Variants
 
 ### Subset of Modes
@@ -43,17 +73,21 @@ By default `MediaViewModes` renders all four `ViewModes` values (`Large`, `Mediu
 ### Disabled
 Set `isDisabled` to `true` to render the trigger button in a disabled state. The tooltip is still shown but the menu cannot be opened.
 
+---
+
+<Stories name="MediaViewModes" />
+
 ## Props
 
+### MediaViewModes Props
 | Prop | Type | Default | Description |
-|------|------|---------|-------------|
-| `viewMode` | `ViewModes` | **Required** | The currently active view mode. Controls which icon is shown on the trigger button and which item is marked as selected in the menu. |
-| `setViewMode` | `Dispatch<SetStateAction<ViewModes>> \| ((viewMode: ViewModes) => void)` | **Required** | Callback invoked when the user selects a different mode. Compatible with both `useState` setters and plain handler functions. |
+| :--- | :--- | :--- | :--- |
+| `viewMode` | `ViewModes` | **Required** | The currently active view mode. Controls which icon is shown on the trigger button. |
+| `setViewMode` | `(viewMode: ViewModes) => void` | **Required** | Callback invoked when the user selects a different mode. |
 | `items` | `ViewModes[]` | All four modes | Ordered list of view modes to include in the menu. Defaults to `[Large, Medium, Small, Details]`. |
 | `isDisabled` | `boolean` | `false` | When `true`, disables the `ActionButton` trigger and prevents the menu from opening. |
 
 ### `ViewModes` enum
-
 ```ts
 export enum ViewModes {
     LARGE   = 'Large thumbnails',
