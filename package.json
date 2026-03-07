@@ -12,7 +12,10 @@
     "lint": "pnpm --filter @geti/ui lint",
     "format": "pnpm --filter @geti/ui format",
     "format:check": "pnpm --filter @geti/ui format:check",
-    "prepare": "husky"
+    "prepare": "husky",
+    "docs:dev": "pnpm --filter @geti/documentation dev",
+    "docs:build": "pnpm --filter @geti/documentation build",
+    "docs:preview": "pnpm --filter @geti/documentation preview"
   },
   "engines": {
     "node": ">=20.19.0",
