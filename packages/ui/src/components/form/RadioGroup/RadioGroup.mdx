@@ -1,4 +1,4 @@
-import { Meta, Title, Subtitle, Description, Primary, Controls, Stories } from '@storybook/blocks';
+import { Meta, Title, Subtitle, Description, Primary, Controls, Stories } from '@storybook/addon-docs/blocks';
 import * as DocStories from './RadioGroup.stories';
 
 <Meta of={DocStories} />
@@ -12,7 +12,6 @@ import { RadioGroup, Radio } from '@geti/ui';
 ```
 
 - [React Spectrum V3 RadioGroup](https://react-spectrum.adobe.com/react-spectrum/RadioGroup.html)
-- [Spectrum 2 RadioGroup](https://react-spectrum.adobe.com/s2/RadioGroup.html)
 
 <Stories />
 
@@ -69,17 +68,5 @@ The `RadioGroup` and `Radio` components provide a way for users to select a sing
     - **Tab** moves focus into the group (to the selected radio).
     - **Arrow keys** navigate through and automatically select the next/previous radio in the group.
 - Screen readers correctly announce the group label, the individual option label, and the selection state.
-
-## Spectrum 2 Migration
-
-When migrating to Spectrum 2 (S2), keep the following changes in mind:
-
-| V3 Prop | S2 Equivalent | Notes |
-|---|---|---|
-| `validationState="invalid"` | `isInvalid` | Boolean flag replaces the string enum. |
-| `validationState="valid"` | — | No visual "valid" state in S2. |
-| `showErrorIcon` | — | Removed in S2 for accessibility reasons. |
-| `isEmphasized` | `isEmphasized` | Remains the standard for accent-color highlights. |
-| `size` | `size` | S2 adds a `size` prop (`'S'`, `'M'`, `'L'`, `'XL'`). |
 
 <Controls />
