@@ -5,39 +5,99 @@ import * as DocStories from './ComboBox.stories';
 
 <Title />
 
-## Responsibility
-
-`ComboBox` is a text input combined with a dropdown list of suggestions, allowing users to either pick from predefined options or enter a custom value. It wraps Spectrum's `ComboBox` and co-exports `Item` for option children.
-
-## Design
-
-Generic thin wrapper with a co-exported `Item`:
+ComboBoxes combine a text entry with a picker menu, allowing users to filter longer lists to only the selections matching a query.
 
 ```tsx
-export interface ComboBoxProps<T extends object> extends SpectrumComboBoxProps<T> {}
-export const ComboBox = <T extends object>(props: ComboBoxProps<T>) => <SpectrumComboBox {...props} />;
-export { Item } from '@adobe/react-spectrum';
+import { ComboBox, Item } from '@geti/ui';
 ```
 
-No CSS overrides. Full Spectrum API: `label`, `items`, `inputValue`, `defaultInputValue`, `onInputChange`, `onSelectionChange`, `selectedKey`, `isDisabled`, `isRequired`, `validationState`, `menuTrigger`, `allowsCustomValue`.
-
-## Flow
-
-User types → `onInputChange` fires → caller filters `items` → dropdown re-renders → user selects → `onSelectionChange` fires with the selected key.
-
-## Integration
-
-- **Depends on**: `@adobe/react-spectrum` (`ComboBox`, `Item`, `SpectrumComboBoxProps`)
-- **Usage**: `<ComboBox><Item key="a">Option A</Item></ComboBox>` or with `items` + render function
-- **Contrast**: `Picker` (select-only, no free-form text) vs `ComboBox` (type + select)
-
+[React Spectrum V3 ComboBox](https://react-spectrum.adobe.com/react-spectrum/ComboBox.html) | [Spectrum 2 ComboBox](https://react-spectrum.adobe.com/s2/ComboBox.html)
 
 <Stories />
----
 
-<Primary />
+## Responsibility
+
+The `ComboBox` component is a combination of a text input and a listbox, allowing users to choose from a list of options or enter a custom value (when `allowsCustomValue` is enabled). It is designed for scenarios where the number of options is large, and filtering is necessary for efficiency.
+
+### How it works
+- **Filtering**: As the user types, the list of options is filtered to show only matching items.
+- **Selection**: Users can select an item from the list using the mouse or keyboard, or by typing the full value.
+- **Custom Values**: By default, `ComboBox` reverts to the previously selected item if the input doesn't match an option on blur. Set `allowsCustomValue` to `true` to allow any text input.
+
+### ComboBox vs. Picker
+- Use **Picker** for a small, static list of options where the user must choose exactly one item and does not need to filter.
+- Use **ComboBox** when the list is long enough to require filtering, or when a custom user-entered value is a valid option.
+
+## Variants
+
+### Collection Types
+`ComboBox` supports both static and dynamic collections:
+- **Static**: Useful for small, fixed sets of data. Options are defined as `<Item>` children.
+- **Dynamic**: Recommended for larger lists or data from an API. Use the `items` prop and a render function for better performance and automatic caching.
+
+### Selection
+Selection is handled via the `selectedKey` (controlled) or `defaultSelectedKey` (uncontrolled) props. The `onSelectionChange` event returns the key of the selected item.
+
+### Manual vs. Automatic Opening
+The `menuTrigger` prop controls when the menu opens:
+- `input` (default): Opens when the user edits the input text.
+- `focus`: Opens when the user focuses the input.
+- `manual`: Only opens when the user clicks the trigger button or uses arrow keys.
+
+### Validation States
+Supports `validationState="invalid"` to indicate an error, often used in conjunction with `errorMessage`.
 
 ## Props
 
-<Controls />
+### Content
+| Prop | Type | Description |
+| --- | --- | --- |
+| `children` | `ReactNode \| ((item: T) => ReactNode)` | The contents of the collection (e.g., `<Item>` elements). |
+| `items` | `Iterable<T>` | The list of items for the collection (dynamic). |
+| `label` | `ReactNode` | The label for the ComboBox. |
+| `description` | `ReactNode` | A description for the field. |
+| `errorMessage` | `ReactNode` | An error message for the field. |
+
+### Value/State
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `selectedKey` | `Key` | — | The currently selected key (controlled). |
+| `defaultSelectedKey` | `Key` | — | The initial selected key (uncontrolled). |
+| `inputValue` | `string` | — | The current value of the input field (controlled). |
+| `defaultInputValue` | `string` | — | The initial value of the input field (uncontrolled). |
+| `allowsCustomValue` | `boolean` | `false` | Whether to allow values not present in the items list. |
+
+### Events
+| Prop | Type | Description |
+| --- | --- | --- |
+| `onSelectionChange` | `(key: Key) => void` | Handler called when the selection changes. |
+| `onInputChange` | `(value: string) => void` | Handler called when the input text changes. |
+| `onOpenChange` | `(isOpen: boolean) => void` | Handler called when the menu's open state changes. |
+
+### Styles
+| Prop | Type | Description |
+| --- | --- | --- |
+| `isDisabled` | `boolean` | Whether the ComboBox is disabled. |
+| `isRequired` | `boolean` | Whether user input is required. |
+| `validationState` | `'valid' \| 'invalid'` | Whether the input is valid or invalid. |
+
+## Accessibility
+
+- **ARIA Roles**: Implements the `combobox` role with `aria-autocomplete`, `aria-haspopup`, and `aria-expanded` managed automatically.
+- **Keyboard Support**:
+    - `ArrowDown/Up`: Navigates the list of suggestions.
+    - `Enter`: Selects the focused suggestion.
+    - `Escape`: Closes the menu or clears the input.
+- **Labeling**: Always provide a `label`. If a visual label is not possible, use `aria-label` or `aria-labelledby`.
+
+## Spectrum 2 Migration
+
+When migrating to Spectrum 2 (`@react-spectrum/s2`), note the following changes:
+
+- **Component Name**: Remains `ComboBox`.
+- **Items**: Use `ComboBoxItem` instead of `Item`.
+- **Sections**: Use `ComboBoxSection` and `Header` for grouping.
+- **Styling**: Switch from `UNSAFE_className` to the `style` macro and `styles` prop.
+- **Slots**: `ComboBoxItem` in S2 supports rich content via slots (e.g., `<Text slot="label">`, `<Text slot="description">`, `<Avatar slot="avatar">`).
+- **Form Integration**: S2 `ComboBox` has improved `name` and `formValue` support for native HTML form submission.
 
