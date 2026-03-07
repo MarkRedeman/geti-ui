@@ -5,9 +5,30 @@ import * as DocStories from './Toast.stories';
 
 <Title />
 
+<Subtitle>
+  Toast notifications are temporary, non-modal status updates used to inform users about the outcome of an action or system state.
+</Subtitle>
+
+```tsx
+import { ToastContainer, toast } from '@geti/ui';
+```
+
 ## Responsibility
 
 Provides the complete toast notification system: a mount-point component (`ToastContainer`) that renders queued toasts in the DOM, and a programmatic imperative API (`toast`) for enqueuing notifications from anywhere in the application without needing component context.
+
+## When to use
+
+- **Success Confirmation**: To notify a user that an action (e.g., saving a project, deleting an item) completed successfully.
+- **Error Alerts**: To warn a user about a failed process or network error that doesn't block the entire workflow.
+- **Informational Updates**: To provide non-critical context about background processes.
+- **Async Feedback**: To confirm when a long-running background task has finished.
+
+## When to avoid
+
+- **Critical Warnings**: If a user must acknowledge a message before proceeding, use a `Dialog` or `AlertDialog` instead.
+- **Lengthy Content**: Toasts should be concise. For detailed logs or long messages, use a dedicated notification center or status page.
+- **Persistent Information**: Toasts disappear automatically; do not use them for information the user needs to refer back to later.
 
 ## Design
 
@@ -47,6 +68,16 @@ toast.negative('Upload failed', { timeout: 5000 })
 - `toast.*` can be called from any module — event handlers, async utilities, error boundaries — without component imports.
 - Spectrum manages toast queuing, deduplication, and auto-dismiss internally.
 
+## Accessibility
+
+Toasts are rendered in an ARIA live region to ensure they are announced by screen readers immediately upon appearing.
+
+| Feature | Implementation |
+| :--- | :--- |
+| **Role** | Uses `role="status"` or `role="alert"` depending on the variant (negative uses alert). |
+| **Live Region** | `aria-live="polite"` for most toasts; `aria-live="assertive"` for critical errors. |
+| **Focus** | Toasts do not take focus on appearance to avoid interrupting the user's flow. |
+| **Keyboard** | Users can navigate to active toasts via `F6` (standard Spectrum behavior) to interact with action buttons. |
 
 <Stories />
 ---
@@ -55,5 +86,14 @@ toast.negative('Upload failed', { timeout: 5000 })
 
 ## Props
 
+### ToastContainer Props
 <Controls />
+
+### ToastOptions
+| Property | Type | Default | Description |
+| :--- | :--- | :--- | :--- |
+| `timeout` | `number` | `5000` | Time in milliseconds before the toast automatically dismisses. |
+| `actionLabel` | `string` | - | Label for an optional action button within the toast. |
+| `onAction` | `() => void` | - | Callback triggered when the action button is clicked. |
+| `shouldCloseOnAction` | `boolean` | `true` | Whether the toast should dismiss automatically after the action is triggered. |
 
