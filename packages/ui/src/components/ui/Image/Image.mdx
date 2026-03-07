@@ -1,4 +1,4 @@
-import { Meta, Title, Subtitle, Description, Primary, Controls, Stories, Source } from '@storybook/blocks';
+import { Meta, Title, Subtitle, Description, Primary, Controls, Stories, Source } from '@storybook/addon-docs/blocks';
 import * as DocStories from './Image.stories';
 
 <Meta of={DocStories} />
@@ -14,7 +14,7 @@ import { Image } from '@geti/ui';
 ```
 
 - [React Spectrum Image](https://react-spectrum.adobe.com/react-spectrum/Image.html)
-- [Spectrum 2 Image](https://react-spectrum.adobe.com/s2/Image.html)
+
 
 <Stories />
 
@@ -79,14 +79,4 @@ The `Image` component accepts all standard [Spectrum layout and spacing props](h
 - **Informative Images**: Ensure `alt` text describes the *purpose* or *content* of the image clearly for users with visual impairments.
 - **No Omission**: Spectrum enforces the presence of the `alt` attribute at the type level; omitting it will cause a TypeScript error.
 
----
 
-## Spectrum 2 Migration
-
-Spectrum 2 (`@react-spectrum/s2`) introduces several powerful improvements for images:
-
-- **Styles Macro**: Layout and object-fit props are replaced by the S2 `styles` macro system (e.g., `styles={style({ objectFit: 'cover' })}`).
-- **Coordinated Loading**: The `<ImageCoordinator>` component allows groups of images to be revealed simultaneously once they have all finished loading.
-- **Conditional Sources**: The `src` prop can accept an array of sources to provide different images for light and dark color schemes.
-- **Lazy Loading**: Native support for `loading="lazy"` is available as a first-class prop.
-- **Custom Error State**: A `renderError` prop allows for declarative fallback UI when an image fails to load.
