@@ -5,44 +5,90 @@ import * as DocStories from './SearchField.stories';
 
 <Title />
 
-## Responsibility
-
-Provides a search input with a built-in clear button and optional programmatic ref access. Wraps `SpectrumSearchField` and adds `forwardRef` support so callers can call `.focus()` or `.clear()` on the field imperatively.
-
-## Design
-
-Spectrum wrapper with `forwardRef`:
+A SearchField is a text field designed for searches, featuring a search icon and a clear button.
 
 ```tsx
-export interface SearchFieldProps extends Omit<SpectrumSearchFieldProps, 'ref'> {}
-
-export const SearchField = forwardRef<TextFieldRef, SearchFieldProps>((props, ref) => (
-    <SpectrumSearchField {...props} ref={ref} />
-));
+import { SearchField } from '@geti/ui';
 ```
 
-`'ref'` is omitted from the props type (`Omit<SpectrumSearchFieldProps, 'ref'>`) because React handles the ref separately via `forwardRef`. The imperative handle type is `TextFieldRef` from `@react-types/textfield`, which exposes `.focus()` and `.clear()` methods.
-
-`displayName` is set manually (`SearchField.displayName = 'SearchField'`) so React DevTools identifies the component correctly despite `forwardRef` wrapping.
-
-## Flow
-
-The ref is forwarded directly to the underlying Spectrum input. The consumer can programmatically clear the field (e.g., on route change or filter reset) without re-rendering.
-
-Search queries flow: `user types → onChange → consumer state → value prop` (controlled mode).
-
-## Integration
-
-- **Depends on**: `@adobe/react-spectrum` (`SearchField`, `SpectrumSearchFieldProps`), `@react-types/textfield` (`TextFieldRef`)
-- **Used by**: filter/search panels that need to clear the search field programmatically
-
+[React Spectrum V3 SearchField](https://react-spectrum.adobe.com/react-spectrum/SearchField.html) | [Spectrum 2 SearchField](https://react-spectrum.adobe.com/s2/SearchField.html)
 
 <Stories />
----
 
-<Primary />
+## Responsibility
+
+The `SearchField` component provides a specialized text input for search queries. It automatically includes a search icon at the start and a clear button (displayed when there is text) at the end. It supports both controlled and uncontrolled states, validation, and ref forwarding for imperative actions like `focus()` or `clear()`.
+
+### Key Features
+- **Clear Button**: Automatically appears when the field has a value, allowing users to quickly reset their search.
+- **Submit Event**: The `onSubmit` event is triggered when the user presses <kbd>Enter</kbd>, making it easy to distinguish between typing and finalizing a search.
+- **Ref Forwarding**: Forwards its ref to the underlying input, exposing `TextFieldRef` methods such as `focus()`, `select()`, and `clear()`.
+
+### SearchField vs. TextField
+- Use **SearchField** specifically for search-related inputs. The iconography and clear button are standardized for this purpose.
+- Use **TextField** for general text entry where search-specific features like the "clear" button or search icon are not required.
+
+## Variants
+
+### Value States
+- **Controlled**: Use the `value` and `onChange` props to manage the state yourself.
+- **Uncontrolled**: Use the `defaultValue` prop to set an initial value without managing updates.
+
+### Validation
+Supports `validationState="invalid"` (or `isInvalid` in S2/RAC contexts) to indicate an error. Pair with `errorMessage` to provide feedback.
+
+### Visual Styles
+- **Quiet**: Use `isQuiet` for a more minimal look with no background or border on three sides.
+- **Disabled/Read Only**: Use `isDisabled` to prevent interaction or `isReadOnly` to allow selection but not editing.
 
 ## Props
 
-<Controls />
+### Content
+| Prop | Type | Description |
+| --- | --- | --- |
+| `label` | `ReactNode` | The label for the search field. |
+| `description` | `ReactNode` | A description for the field. |
+| `errorMessage` | `ReactNode` | An error message for the field. |
+| `placeholder` | `string` | Temporary text displayed when the field is empty. |
+
+### Value/State
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `value` | `string` | — | The current value (controlled). |
+| `defaultValue` | `string` | — | The default value (uncontrolled). |
+| `name` | `string` | — | The name of the input element (for form submission). |
+
+### Events
+| Prop | Type | Description |
+| --- | --- | --- |
+| `onChange` | `(value: string) => void` | Handler called when the value changes. |
+| `onSubmit` | `(value: string) => void` | Handler called when the search is submitted (Enter key). |
+| `onClear` | `() => void` | Handler called when the clear button is pressed. |
+| `onFocus/onBlur` | `(e: FocusEvent) => void` | Handlers for focus and blur events. |
+
+### Styles
+| Prop | Type | Description |
+| --- | --- | --- |
+| `isQuiet` | `boolean` | Whether the search field should be quiet. |
+| `isDisabled` | `boolean` | Whether the input is disabled. |
+| `isReadOnly` | `boolean` | Whether the input is read-only. |
+| `validationState` | `'valid' \| 'invalid'` | Whether the input is valid or invalid. |
+
+## Accessibility
+
+- **ARIA Role**: Implements `role="searchbox"`.
+- **Keyboard Support**:
+    - `Enter`: Triggers the `onSubmit` event.
+    - `Escape`: Clears the input field and triggers `onClear`.
+- **Labeling**: Always provide a `label`. Use `aria-label` or `aria-labelledby` if a visible label is not appropriate for the design.
+
+## Spectrum 2 Migration
+
+When migrating to Spectrum 2 (`@react-spectrum/s2`), note the following changes:
+
+- **Component Name**: Remains `SearchField`.
+- **Validation**: `validationState` is replaced by the `isInvalid` boolean prop.
+- **Styling**: Switch from `UNSAFE_className` to the `style` macro and `styles` prop.
+- **Size**: S2 introduces standardized `size` props (`S`, `M`, `L`, `XL`).
+- **Form Integration**: Enhanced support for native HTML form validation and submission.
 
