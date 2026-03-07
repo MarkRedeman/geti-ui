@@ -11,7 +11,8 @@ import ViewList from '@spectrum-icons/workflow/ViewList';
 import type { Meta, StoryObj } from '@storybook/react';
 
 import { ActionButton } from './ActionButton/ActionButton';
-import { Avatar, AvatarGroup } from './Avatar/Avatar';
+import { Avatar } from './Avatar/Avatar';
+import { AvatarGroup } from './Avatar/AvatarGroup';
 import { Button } from './Button/Button';
 import { CornerIndicator } from './CornerIndicator/CornerIndicator';
 import { Divider } from './Divider/Divider';
