@@ -1,4 +1,4 @@
-import { Meta, Title, Subtitle, Description, Primary, Controls, Stories } from '@storybook/blocks';
+import { Meta, Title, Subtitle, Description, Primary, Controls, Stories } from '@storybook/addon-docs/blocks';
 import * as DocStories from './Slider.stories';
 
 <Meta of={DocStories} />
@@ -12,7 +12,6 @@ import { Slider } from '@geti/ui';
 ```
 
 - [React Spectrum V3 Slider](https://react-spectrum.adobe.com/react-spectrum/Slider.html)
-- [Spectrum 2 Slider](https://react-spectrum.adobe.com/s2/Slider.html)
 
 <Stories />
 
@@ -81,17 +80,5 @@ The value label can be formatted using `formatOptions` (e.g., for percentages, c
 - Full keyboard support: **Arrow keys** increment/decrement by `step`, **PageUp/PageDown** for larger steps, and **Home/End** to jump to bounds.
 - Automatically handles ARIA attributes like `aria-valuemin`, `aria-valuemax`, and `aria-valuenow`.
 - Supports screen readers by providing formatted value text via `aria-valuetext`.
-
-## Spectrum 2 Migration
-
-When migrating to Spectrum 2 (S2), note the following changes:
-
-| V3 Prop | S2 Equivalent | Notes |
-|---|---|---|
-| `isFilled` | — | S2 Sliders are always filled by default; this prop is removed. |
-| `showValueLabel` | — | Removed in S2 for accessibility reasons. |
-| `width="size-2400"` | `styles={style({ width: 192 })}` | Dimension props move to the `style()` macro. |
-| `trackStyle` | `trackStyle` | New in S2: `'thin' \| 'thick'` (default `'thin'`). |
-| `isEmphasized` | `isEmphasized` | New in S2: Applies an accent-color highlight. |
 
 <Controls />
