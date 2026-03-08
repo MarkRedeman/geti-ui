@@ -1,7 +1,7 @@
 /* Geti dark theme — CSS module for Adobe React Spectrum */
 /* Mirrors reference-packages/ui/theme/geti/geti-dark.module.css */
 
-.spectrum--dark {
+.spectrum.spectrum--dark {
     --spectrum-global-color-status: Verified;
     --spectrum-global-color-version: 5.1;
     --spectrum-global-color-celery-400: rgb(68, 181, 86);
