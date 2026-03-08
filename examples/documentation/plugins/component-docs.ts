@@ -249,14 +249,6 @@ function findComponentFile(componentDir: string, componentName: string): string 
   return fs.existsSync(componentFile) ? componentFile : null;
 }
 
-/**
- * Escape backticks and `${` sequences so the string can be safely embedded
- * inside a JS/MDX template literal (backtick string).
- */
-function escapeTemplateLiteral(s: string): string {
-  return s.replace(/`/g, '\\`').replace(/\$\{/g, '\\${');
-}
-
 function getPackageComponentImportName(componentName: string): string | null {
   // Toast docs are backed by ToastContainer in @geti/ui
   if (componentName === 'Toast') return 'ToastContainer';
@@ -403,8 +395,6 @@ export function componentDocsPlugin(): RspressPlugin {
 
         if (page.storiesPath) {
           const storiesImportPath = page.storiesPath.replace(/\.tsx$/, '');
-          const rawStories = fs.readFileSync(page.storiesPath, 'utf-8');
-          const escapedSource = escapeTemplateLiteral(rawStories);
           const packageComponentImportName = getPackageComponentImportName(page.componentName);
 
           // Build the stories block: imports + JSX
@@ -417,8 +407,8 @@ export function componentDocsPlugin(): RspressPlugin {
 
           const storiesJsx =
             (packageComponentImportName
-              ? `<StoriesGallery module={ComponentStories} source={\`${escapedSource}\`} component={${packageComponentImportName}} />\n`
-              : `<StoriesGallery module={ComponentStories} source={\`${escapedSource}\`} />\n`);
+              ? `<StoriesGallery module={ComponentStories} component={${packageComponentImportName}} componentName="${page.componentName}" />\n`
+              : `<StoriesGallery module={ComponentStories} componentName="${page.componentName}" />\n`);
 
           // Insert stories right after the intro section (title + subtitle + import
           // code block + links) and before the first ## heading.

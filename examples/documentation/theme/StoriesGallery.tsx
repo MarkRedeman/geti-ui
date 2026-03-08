@@ -6,12 +6,26 @@ interface StoryObj {
   args?: Record<string, unknown>;
   decorators?: Array<(Story: ComponentType) => React.ReactNode>;
   name?: string;
+  parameters?: {
+    docs?: {
+      source?: {
+        code?: string;
+      };
+    };
+  };
 }
 
 interface StoriesMeta {
   component?: ComponentType<Record<string, unknown>>;
   args?: Record<string, unknown>;
   decorators?: Array<(Story: ComponentType) => React.ReactNode>;
+  parameters?: {
+    docs?: {
+      source?: {
+        code?: string;
+      };
+    };
+  };
 }
 
 interface StoriesModule {
@@ -21,8 +35,8 @@ interface StoriesModule {
 
 interface StoriesGalleryProps {
   module: StoriesModule;
-  source: string;
   component?: ComponentType<Record<string, unknown>>;
+  componentName?: string;
 }
 
 /** Top-level error boundary for the entire StoriesGallery */
@@ -172,18 +186,86 @@ function renderStory(
   return content;
 }
 
+function normalizeComponentName(name: string | undefined): string {
+  if (!name) return 'Component';
+  const segment = name.includes('_') ? name.split('_').at(-1) || name : name;
+  return segment.replace(/[^A-Za-z0-9]/g, '') || 'Component';
+}
+
+function toJsxValue(value: unknown): string {
+  if (typeof value === 'string') return JSON.stringify(value);
+  if (typeof value === 'number' || typeof value === 'boolean') return `{${String(value)}}`;
+  if (value === null) return '{null}';
+  if (value === undefined) return '{undefined}';
+  if (typeof value === 'function') return '{() => { /* ... */ }}';
+
+  try {
+    return `{${JSON.stringify(value, null, 2)}}`;
+  } catch {
+    return '{/* complex value */}';
+  }
+}
+
+function buildAutoJsxSnippet(
+  story: StoryObj,
+  meta: StoriesMeta,
+  component?: ComponentType<Record<string, unknown>>,
+  componentNameOverride?: string
+): string {
+  const mergedArgs: Record<string, unknown> = {
+    ...(meta.args ?? {}),
+    ...(story.args ?? {}),
+  };
+
+  const componentName = normalizeComponentName(
+    componentNameOverride || component?.displayName || component?.name
+  );
+  const children = mergedArgs.children;
+  const entries = Object.entries(mergedArgs).filter(([key]) => key !== 'children');
+
+  const propLines = entries.map(([key, value]) => `  ${key}=${toJsxValue(value)}`);
+  const openTag = propLines.length > 0 ? `<${componentName}\n${propLines.join('\n')}` : `<${componentName}`;
+
+  if (children === undefined || children === null) {
+    return `${openTag} />`;
+  }
+
+  const childrenText = typeof children === 'string' ? children : `{${String(children)}}`;
+  return `${openTag}>\n  ${childrenText}\n</${componentName}>`;
+}
+
+function getStoryCode(
+  name: string,
+  story: StoryObj,
+  meta: StoriesMeta,
+  component?: ComponentType<Record<string, unknown>>,
+  componentNameOverride?: string
+): string {
+  // 1) Prefer explicit docs source if provided by the story/meta.
+  const explicitCode = story.parameters?.docs?.source?.code ?? meta.parameters?.docs?.source?.code;
+  if (explicitCode?.trim()) return explicitCode;
+
+  // 2) If story has render fn, show concise render skeleton.
+  if (story.render) {
+    return `export const ${name} = {\n  render: (args) => (\n    /* custom render */\n  )\n};`;
+  }
+
+  // 3) Fallback: generate JSX from merged args.
+  return buildAutoJsxSnippet(story, meta, component, componentNameOverride);
+}
+
 function StoryCard({
   name,
   story,
   meta,
-  source,
   component,
+  componentName,
 }: {
   name: string;
   story: StoryObj;
   meta: StoriesMeta;
-  source: string;
   component?: ComponentType<Record<string, unknown>>;
+  componentName?: string;
 }) {
   const [showCode, setShowCode] = useState(false);
 
@@ -266,7 +348,7 @@ function StoryCard({
               maxHeight: '400px',
             }}
           >
-            <code>{source}</code>
+            <code>{getStoryCode(name, story, meta, component, componentName)}</code>
           </pre>
         )}
       </div>
@@ -307,7 +389,7 @@ function StoryContent({
   return <ThemeProvider>{rendered}</ThemeProvider>;
 }
 
-export const StoriesGallery = ({ module, source, component: explicitComponent }: StoriesGalleryProps) => {
+export const StoriesGallery = ({ module, component: explicitComponent, componentName }: StoriesGalleryProps) => {
   const meta = module.default as StoriesMeta;
   // Use explicit component if provided, otherwise fall back to meta.component
   const component = explicitComponent ?? meta.component;
@@ -336,8 +418,8 @@ export const StoriesGallery = ({ module, source, component: explicitComponent }:
             name={name}
             story={story}
             meta={meta}
-            source={source}
             component={component}
+            componentName={componentName}
           />
         ))}
       </section>
