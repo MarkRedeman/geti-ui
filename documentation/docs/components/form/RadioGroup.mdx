@@ -1,0 +1,133 @@
+---
+title: RadioGroup
+---
+
+import { Radio, RadioGroup } from '@geti/ui';
+import { ExampleCard } from '../../../theme/ExampleCard';
+
+# RadioGroup
+
+RadioGroup presents a named set of mutually exclusive options. Use it in forms and settings panels when a user must pick exactly one option from a visible list.
+
+```tsx
+import { Radio, RadioGroup } from '@geti/ui';
+```
+
+- [React Spectrum RadioGroup ↗](https://react-spectrum.adobe.com/react-spectrum/RadioGroup.html)
+- [Geti UI Theming](/components/theming)
+
+## Examples
+
+<ExampleCard
+  title="Default (vertical)"
+  code={`<RadioGroup label="Annotation type">
+  <Radio value="detection">Object detection</Radio>
+  <Radio value="segmentation">Segmentation</Radio>
+  <Radio value="classification">Classification</Radio>
+</RadioGroup>`}
+>
+  <RadioGroup label="Annotation type">
+    <Radio value="detection">Object detection</Radio>
+    <Radio value="segmentation">Segmentation</Radio>
+    <Radio value="classification">Classification</Radio>
+  </RadioGroup>
+</ExampleCard>
+
+<ExampleCard
+  title="Pre-selected value"
+  code={`<RadioGroup label="Export format" defaultValue="coco">
+  <Radio value="coco">COCO JSON</Radio>
+  <Radio value="pascal">Pascal VOC</Radio>
+  <Radio value="yolo">YOLO</Radio>
+</RadioGroup>`}
+>
+  <RadioGroup label="Export format" defaultValue="coco">
+    <Radio value="coco">COCO JSON</Radio>
+    <Radio value="pascal">Pascal VOC</Radio>
+    <Radio value="yolo">YOLO</Radio>
+  </RadioGroup>
+</ExampleCard>
+
+<ExampleCard
+  title="Horizontal layout"
+  code={`<RadioGroup label="View mode" orientation="horizontal">
+  <Radio value="grid">Grid</Radio>
+  <Radio value="list">List</Radio>
+</RadioGroup>`}
+>
+  <RadioGroup label="View mode" orientation="horizontal">
+    <Radio value="grid">Grid</Radio>
+    <Radio value="list">List</Radio>
+  </RadioGroup>
+</ExampleCard>
+
+<ExampleCard
+  title="Disabled"
+  code={`<RadioGroup label="Locked option" isDisabled defaultValue="a">
+  <Radio value="a">Option A</Radio>
+  <Radio value="b">Option B</Radio>
+</RadioGroup>`}
+>
+  <RadioGroup label="Locked option" isDisabled defaultValue="a">
+    <Radio value="a">Option A</Radio>
+    <Radio value="b">Option B</Radio>
+  </RadioGroup>
+</ExampleCard>
+
+## Responsibility
+
+`RadioGroup` and `Radio` are thin wrappers around React Spectrum's equivalents. All props pass through unchanged. The wrappers provide `@geti/ui` import paths and Geti theming.
+
+## Variants and states
+
+| Prop | Options | Default |
+|---|---|---|
+| `orientation` | `'vertical' \| 'horizontal'` | `'vertical'` |
+| `isDisabled` | boolean | `false` |
+| `isReadOnly` | boolean | `false` |
+
+## Props (deep dive)
+
+### Content
+
+- `children`: `Radio` components. Each must have a `value` string.
+- `label`: visible group label.
+- `description`: optional helper text.
+- `errorMessage`: error text shown when `validationState="invalid"`.
+
+### Value
+
+- `value`: controlled selected value.
+- `defaultValue`: uncontrolled initial value.
+
+### Events
+
+- `onChange`: `(value: string) => void`.
+
+### Validation
+
+- `validationState`: `'valid' | 'invalid'`.
+- `isRequired`: marks as required in form validation.
+
+### Accessibility
+
+- renders as `<fieldset>` with `<legend>` for the `label` — never skip the `label` prop,
+- individual `Radio` items render as standard radio inputs with correct labelling.
+
+## Related components
+
+- `CheckboxGroup` — use when multiple options can be selected at once.
+- `ToggleButtons` — use for compact view/mode switching outside of forms.
+- `Picker` — use when the option list is long or needs to be collapsed in a dropdown.
+
+## Example use cases
+
+<details>
+  <summary>Typical use cases</summary>
+
+- Task type selector in a project creation wizard (`Detection`, `Segmentation`, etc.).
+- Export format picker in a dataset download dialog.
+- Model evaluation metric selector.
+- Media sort order control (`Newest first`, `Oldest first`).
+
+</details>
