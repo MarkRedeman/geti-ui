@@ -1,0 +1,99 @@
+---
+title: DateRangePicker
+---
+
+import { DateRangePicker } from '@geti/ui';
+import { ExampleCard } from '../../../../theme/ExampleCard';
+
+# DateRangePicker
+
+`DateRangePicker` lets users select a contiguous date range using two segmented inputs and a shared RangeCalendar popover. Use it whenever a start and end date are both required.
+
+```tsx
+import { DateRangePicker } from '@geti/ui';
+```
+
+- [React Spectrum DateRangePicker ↗](https://react-spectrum.adobe.com/react-spectrum/DateRangePicker.html)
+- [Geti UI Theming](/components/theming)
+
+## Examples
+
+<ExampleCard
+  title="Default"
+  code={`<DateRangePicker label="Event range" />`}
+>
+  <DateRangePicker label="Event range" />
+</ExampleCard>
+
+<ExampleCard
+  title="With time (minute granularity)"
+  code={`<DateRangePicker label="Event range and time" granularity="minute" />`}
+>
+  <DateRangePicker label="Event range and time" granularity="minute" />
+</ExampleCard>
+
+<ExampleCard
+  title="Disabled"
+  code={`<DateRangePicker label="Event range" isDisabled />`}
+>
+  <DateRangePicker label="Event range" isDisabled />
+</ExampleCard>
+
+## Responsibility
+
+`DateRangePicker` wraps React Spectrum's `DateRangePicker` and applies `width="size-2400"` to fix a Safari mobile layout-flicker bug. All other props pass through unchanged.
+
+## Variants and states
+
+| State | Prop | Notes |
+|---|---|---|
+| Date only | `granularity="day"` (default) | Day/month/year segments |
+| Date + time | `granularity="minute"` or `"second"` | Adds time segments to both fields |
+| Disabled | `isDisabled` | Non-interactive |
+| Read-only | `isReadOnly` | Shows value, no editing |
+| Required | `isRequired` | Adds required indicator |
+| Invalid | `validationState="invalid"` + `errorMessage` | Error styling |
+
+## Props (deep dive)
+
+### Content
+
+- `label`: visible field label.
+- `description`: helper text below the field.
+- `errorMessage`: shown when `validationState="invalid"`.
+- `startName` / `endName`: form field names for start/end date.
+
+### Value / state
+
+- `value` / `defaultValue`: controlled/uncontrolled as `{ start, end }`.
+- `minValue` / `maxValue`: constrains the selectable range.
+- `granularity`: smallest time unit (`"day"`, `"hour"`, `"minute"`, `"second"`).
+- `allowsNonContiguousRanges`: allows selecting ranges that include disabled dates.
+- `isDisabled`, `isReadOnly`, `isRequired`.
+
+### Events
+
+- `onChange({ start, end })`: fires when the user commits a new range.
+
+### Accessibility
+
+- Provides two separate accessible date inputs for screen readers.
+- The shared calendar highlights the full selected range.
+
+## Related components
+
+- `DatePicker` — use when only a single date is needed.
+- `RangeCalendar` — use when you need the calendar grid standalone without the input fields.
+- `DateField` — use for a bare segmented date input without the popover.
+
+## Example use cases
+
+<details>
+  <summary>Typical use cases</summary>
+
+- Filtering media uploads by a date range (e.g. "from — to").
+- Defining a training data window with start and end timestamps.
+- Specifying a project active period in project settings.
+- Setting a reporting period in analytics or export dialogs.
+
+</details>
