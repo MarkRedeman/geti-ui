@@ -1,0 +1,88 @@
+---
+title: ProgressBar
+---
+
+import { ProgressBar } from '@geti/ui';
+import { ExampleCard } from '../../../theme/ExampleCard';
+
+# ProgressBar
+
+`ProgressBar` shows task progress in a horizontal track. Use it when users need a quick percentage-style signal for long-running operations.
+
+```tsx
+import { ProgressBar } from '@geti/ui';
+```
+
+- [React Spectrum ProgressBar ↗](https://react-spectrum.adobe.com/react-spectrum/ProgressBar.html)
+- [Geti UI Theming](/components/theming)
+
+## Examples
+
+<ExampleCard
+  title="Determinate progress"
+  code={`<ProgressBar label="Uploading" value={45} />`}
+>
+  <ProgressBar label="Uploading" value={45} />
+</ExampleCard>
+
+<ExampleCard
+  title="Indeterminate"
+  code={`<ProgressBar label="Processing" isIndeterminate />`}
+>
+  <ProgressBar label="Processing" isIndeterminate />
+</ExampleCard>
+
+<ExampleCard
+  title="Custom min/max"
+  code={`<ProgressBar label="Batch" minValue={0} maxValue={20} value={8} />`}
+>
+  <ProgressBar label="Batch" minValue={0} maxValue={20} value={8} />
+</ExampleCard>
+
+## Responsibility
+
+`ProgressBar` is a pass-through wrapper around React Spectrum `ProgressBar`.
+It keeps the same behavior while standardizing imports through `@geti/ui`.
+
+## Variants and states
+
+| State | Prop | Notes |
+|---|---|---|
+| Determinate | `value` | Shows concrete progress within min/max |
+| Indeterminate | `isIndeterminate` | Shows continuous animation without percent |
+| Disabled | `isDisabled` | Non-interactive visual state |
+
+## Props (deep dive)
+
+### Content
+
+- `label`: visible progress label.
+- `formatOptions`: Intl number formatting options for displayed value.
+
+### Value / state
+
+- `value`: current progress value.
+- `minValue` / `maxValue`: progress range.
+- `isIndeterminate`: animated non-determinate state.
+
+### Accessibility
+
+- Always provide `label` so screen readers announce purpose, not only value.
+- Use determinate mode whenever percentage can be computed.
+
+## Related components
+
+- `ProgressCircle` — use when horizontal space is limited.
+- `Loading` — use for layout-level loading states (inline/overlay/fullscreen).
+- `Meter` — use when value is a measurement with thresholds rather than task progress.
+
+## Example use cases
+
+<details>
+  <summary>Typical use cases</summary>
+
+- Upload progress for media batches.
+- Training job progress in a side panel.
+- Step-level completion in multi-stage import workflow.
+
+</details>
