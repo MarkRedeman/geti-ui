@@ -1,0 +1,106 @@
+---
+title: ColorSwatchPicker
+---
+
+import { ColorSwatchPicker, ColorSwatchPickerItem } from '@geti/ui';
+import { ExampleCard } from '../../../../theme/ExampleCard';
+
+# ColorSwatchPicker
+
+`ColorSwatchPicker` renders a keyboard-navigable grid of `ColorSwatchPickerItem` swatches and lets the user select one. Use it as a preset palette in a color editor or settings panel.
+
+```tsx
+import { ColorSwatchPicker, ColorSwatchPickerItem } from '@geti/ui';
+```
+
+- [React Spectrum ColorSwatchPicker ↗](https://react-spectrum.adobe.com/react-spectrum/ColorSwatchPicker.html)
+- [Geti UI Theming](/components/theming)
+
+## Examples
+
+<ExampleCard
+  title="Default palette"
+  code={`<ColorSwatchPicker aria-label="Color palette">
+  <ColorSwatchPickerItem color="#f00" aria-label="Red" />
+  <ColorSwatchPickerItem color="#0f0" aria-label="Green" />
+  <ColorSwatchPickerItem color="#00f" aria-label="Blue" />
+  <ColorSwatchPickerItem color="#ff0" aria-label="Yellow" />
+  <ColorSwatchPickerItem color="#f0f" aria-label="Magenta" />
+  <ColorSwatchPickerItem color="#0ff" aria-label="Cyan" />
+</ColorSwatchPicker>`}
+>
+  <ColorSwatchPicker aria-label="Color palette">
+    <ColorSwatchPickerItem color="#f00" aria-label="Red" />
+    <ColorSwatchPickerItem color="#0f0" aria-label="Green" />
+    <ColorSwatchPickerItem color="#00f" aria-label="Blue" />
+    <ColorSwatchPickerItem color="#ff0" aria-label="Yellow" />
+    <ColorSwatchPickerItem color="#f0f" aria-label="Magenta" />
+    <ColorSwatchPickerItem color="#0ff" aria-label="Cyan" />
+  </ColorSwatchPicker>
+</ExampleCard>
+
+<ExampleCard
+  title="Large swatches"
+  code={`<ColorSwatchPicker aria-label="Large palette" size="L">
+  <ColorSwatchPickerItem color="#e73623" aria-label="Geti red" />
+  <ColorSwatchPickerItem color="#0075ff" aria-label="Geti blue" />
+  <ColorSwatchPickerItem color="#1ba04a" aria-label="Geti green" />
+  <ColorSwatchPickerItem color="#f5a623" aria-label="Geti orange" />
+</ColorSwatchPicker>`}
+>
+  <ColorSwatchPicker aria-label="Large palette" size="L">
+    <ColorSwatchPickerItem color="#e73623" aria-label="Geti red" />
+    <ColorSwatchPickerItem color="#0075ff" aria-label="Geti blue" />
+    <ColorSwatchPickerItem color="#1ba04a" aria-label="Geti green" />
+    <ColorSwatchPickerItem color="#f5a623" aria-label="Geti orange" />
+  </ColorSwatchPicker>
+</ExampleCard>
+
+## Responsibility
+
+`ColorSwatchPicker` and `ColorSwatchPickerItem` are pass-through wrappers of the React Spectrum equivalents. In React Spectrum v3, `ColorSwatchPickerItem` is rendered as a `ColorSwatch`.
+
+## Variants and states
+
+| Prop | Values | Notes |
+|---|---|---|
+| `size` | `"S"`, `"M"`, `"L"` | Swatch dimensions for all items |
+| `rounding` | `"none"`, `"default"`, `"full"` | Corner radius applied to all items |
+| `density` | `"compact"`, `"regular"`, `"spacious"` | Grid spacing |
+
+## Props (deep dive)
+
+### ColorSwatchPicker
+
+- `aria-label`: **required** — labels the group for screen readers.
+- `value` / `defaultValue`: controlled/uncontrolled selected color.
+- `size`: swatch size applied to all children.
+- `rounding`: corner radius for all children.
+- `density`: spacing between swatches.
+- `onChange(color)`: fires when the user selects a swatch.
+
+### ColorSwatchPickerItem
+
+- `color`: any CSS color string or `Color` object.
+- `aria-label`: **required** — identifies the individual swatch.
+
+### Accessibility
+
+- The picker uses `role="listbox"` with each swatch as `role="option"`.
+- Keyboard: arrow keys navigate swatches; Enter/Space selects.
+
+## Related components
+
+- `ColorSwatch` — use for a standalone non-interactive color preview.
+- `ColorPickerDialog` — full dialog that includes a `ColorSwatchPicker` as a preset palette.
+
+## Example use cases
+
+<details>
+  <summary>Typical use cases</summary>
+
+- Preset color palette in the `ColorPickerDialog` for quickly selecting common annotation label colors.
+- Brand color selector in a project theme settings panel.
+- Quick-access toolbar for frequently used drawing colors.
+
+</details>
