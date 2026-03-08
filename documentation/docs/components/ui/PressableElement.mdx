@@ -1,0 +1,104 @@
+---
+title: PressableElement
+---
+
+import { PressableElement } from '@geti/ui';
+import { ExampleCard } from '../../../theme/ExampleCard';
+
+# PressableElement
+
+PressableElement attaches press interaction semantics (mouse, touch, keyboard) to any arbitrary container element. Use it when a non-button UI block needs to be interactive but `ActionButton` or `Button` is not the right semantic fit.
+
+```tsx
+import { PressableElement } from '@geti/ui';
+```
+
+- [React Aria Pressable ↗](https://react-spectrum.adobe.com/react-aria/interactions.html)
+- [Geti UI Theming](/components/theming)
+
+## Examples
+
+<ExampleCard
+  title="Basic pressable container"
+  code={`<PressableElement onPress={() => alert('Pressed!')}>
+  <div style={{ padding: '1rem', background: '#2a2a2a', borderRadius: 6, color: '#fff', cursor: 'pointer' }}>
+    Click or press me
+  </div>
+</PressableElement>`}
+>
+  <PressableElement>
+    <div style={{ padding: '1rem', background: '#2a2a2a', borderRadius: 6, color: '#ccc', cursor: 'pointer' }}>
+      Click or press me
+    </div>
+  </PressableElement>
+</ExampleCard>
+
+<ExampleCard
+  title="Truncated text"
+  code={`<PressableElement isTruncated width="size-2400">
+  <div style={{ color: '#ccc' }}>
+    This long text will be truncated with an ellipsis when it overflows the container
+  </div>
+</PressableElement>`}
+>
+  <PressableElement isTruncated width="size-2400">
+    <div style={{ color: '#ccc' }}>
+      This long text will be truncated with an ellipsis when it overflows the container
+    </div>
+  </PressableElement>
+</ExampleCard>
+
+## Responsibility
+
+`PressableElement` combines `react-aria-components`' `Pressable` with Spectrum's `StyleProps` system. It:
+
+- passes all Spectrum style props (width, height, padding, etc.) to the inner div,
+- passes press event props (`onPress`, `onPressStart`, `onPressEnd`, etc.) to the `Pressable` wrapper,
+- supports `isTruncated` for single-line text overflow,
+- supports `onDoubleClick` for double-click interaction alongside press events.
+
+## Variants and states
+
+`PressableElement` has no visual variants — it is a behavior wrapper. All visual styling comes from children or Spectrum style props.
+
+## Props (deep dive)
+
+### Content
+
+- `children`: any React node to make pressable.
+- `id`: forwarded to the inner div.
+
+### Behavior
+
+- `onPress`: primary press handler (mouse click, tap, Enter/Space key).
+- `onPressStart` / `onPressEnd`: low-level press lifecycle hooks.
+- `onDoubleClick`: double-click handler for the inner div.
+- `isTruncated`: applies `overflow: hidden; white-space: nowrap; text-overflow: ellipsis` to the inner div.
+
+### Layout (Spectrum style props)
+
+- Standard `StyleProps`: `width`, `height`, `padding`, `margin`, etc.
+- `UNSAFE_className` / `UNSAFE_style` for custom overrides.
+
+### Accessibility
+
+- `Pressable` is headless — it adds no ARIA role by default. Add `role` and `aria-label` to the child element if the container represents a meaningful interactive region,
+- prefer `ActionButton` or `Button` for standard button semantics.
+
+## Related components
+
+- `ActionButton` — use for toolbar and inline actions with standard button semantics.
+- `Button` — use for page-level CTAs.
+- `ToggleButton` — use for persistent toggle state.
+
+## Example use cases
+
+<details>
+  <summary>Typical use cases</summary>
+
+- Clickable media thumbnail in an annotation grid.
+- Selectable card in a project browser that needs press but not button semantics.
+- Row-level click handler in a custom list that isn't a standard table.
+- Double-clickable label to enter edit mode inline.
+
+</details>
