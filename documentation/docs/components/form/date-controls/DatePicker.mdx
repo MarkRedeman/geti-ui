@@ -1,0 +1,97 @@
+---
+title: DatePicker
+---
+
+import { DatePicker } from '@geti/ui';
+import { ExampleCard } from '../../../../theme/ExampleCard';
+
+# DatePicker
+
+`DatePicker` combines a segmented `DateField` with a Calendar popover, letting users enter or pick a date (and optionally time). Use it in forms that require a precise date value.
+
+```tsx
+import { DatePicker } from '@geti/ui';
+```
+
+- [React Spectrum DatePicker ↗](https://react-spectrum.adobe.com/react-spectrum/DatePicker.html)
+- [Geti UI Theming](/components/theming)
+
+## Examples
+
+<ExampleCard
+  title="Default"
+  code={`<DatePicker label="Event date" />`}
+>
+  <DatePicker label="Event date" />
+</ExampleCard>
+
+<ExampleCard
+  title="With time (minute granularity)"
+  code={`<DatePicker label="Event date and time" granularity="minute" />`}
+>
+  <DatePicker label="Event date and time" granularity="minute" />
+</ExampleCard>
+
+<ExampleCard
+  title="Disabled"
+  code={`<DatePicker label="Event date" isDisabled />`}
+>
+  <DatePicker label="Event date" isDisabled />
+</ExampleCard>
+
+## Responsibility
+
+`DatePicker` wraps React Spectrum's `DatePicker` and applies `width="size-2400"` explicitly to fix a Safari mobile layout-flicker bug. All other props pass through unchanged.
+
+## Variants and states
+
+| State | Prop | Notes |
+|---|---|---|
+| Date only | `granularity="day"` (default) | Shows day/month/year segments |
+| Date + time | `granularity="minute"` or `"second"` | Adds time segments |
+| Disabled | `isDisabled` | Non-interactive |
+| Read-only | `isReadOnly` | Shows value, no editing |
+| Required | `isRequired` | Adds required indicator |
+| Invalid | `validationState="invalid"` + `errorMessage` | Error styling |
+
+## Props (deep dive)
+
+### Content
+
+- `label`: visible field label.
+- `description`: helper text below the field.
+- `errorMessage`: shown when `validationState="invalid"`.
+
+### Value / state
+
+- `value` / `defaultValue`: controlled/uncontrolled date value (accepts `CalendarDate`, `CalendarDateTime`, `ZonedDateTime`).
+- `minValue` / `maxValue`: constrains the selectable range.
+- `granularity`: controls the smallest time unit shown (`"day"`, `"hour"`, `"minute"`, `"second"`).
+- `isDisabled`, `isReadOnly`, `isRequired`.
+
+### Events
+
+- `onChange(value)`: fires when the user commits a new date.
+
+### Accessibility
+
+- Always provide a `label` — the field cannot be identified without it.
+- The calendar popover is keyboard-navigable (arrow keys move days, Page Up/Down move months).
+
+## Related components
+
+- `DateField` — use when you want the segmented input only, without the calendar popover.
+- `DateRangePicker` — use when a start and end date are both required.
+- `Calendar` — use when you need the calendar grid standalone (without the input).
+
+## Example use cases
+
+<details>
+  <summary>Typical use cases</summary>
+
+- Scheduling a model training run with a specific start date.
+- Setting a project deadline in a project creation form.
+- Filtering media uploads by a specific acquisition date.
+- Booking an annotation task with a due date and time.
+
+</details>
