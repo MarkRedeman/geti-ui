@@ -1,0 +1,99 @@
+---
+title: TimeField
+---
+
+import { TimeField } from '@geti/ui';
+import { ExampleCard } from '../../../../theme/ExampleCard';
+
+# TimeField
+
+`TimeField` is a segmented keyboard input for time-only values. Use it when users should type or step through hours/minutes/seconds without opening a calendar popover.
+
+```tsx
+import { TimeField } from '@geti/ui';
+```
+
+- [React Spectrum TimeField ↗](https://react-spectrum.adobe.com/react-spectrum/TimeField.html)
+- [Geti UI Theming](/components/theming)
+
+## Examples
+
+<ExampleCard
+  title="Default"
+  code={`<TimeField label="Start time" />`}
+>
+  <TimeField label="Start time" />
+</ExampleCard>
+
+<ExampleCard
+  title="24-hour cycle"
+  code={`<TimeField label="Shift time" hourCycle={24} />`}
+>
+  <TimeField label="Shift time" hourCycle={24} />
+</ExampleCard>
+
+<ExampleCard
+  title="Invalid state"
+  code={`<TimeField label="Departure time" validationState="invalid" errorMessage="Please enter a future time." />`}
+>
+  <TimeField
+    label="Departure time"
+    validationState="invalid"
+    errorMessage="Please enter a future time."
+  />
+</ExampleCard>
+
+## Responsibility
+
+`TimeField` is a pass-through wrapper around React Spectrum `TimeField`.
+No default behavior is changed; the wrapper provides consistent `@geti/ui` import usage.
+
+## Variants and states
+
+| State | Prop | Notes |
+|---|---|---|
+| Valid | `validationState="valid"` | Positive validation indication |
+| Invalid | `validationState="invalid"` + `errorMessage` | Error styling and helper text |
+| Disabled | `isDisabled` | Non-interactive |
+| Read-only | `isReadOnly` | Value visible, not editable |
+
+## Props (deep dive)
+
+### Content
+
+- `label`: visible field label.
+- `description`: helper text.
+- `errorMessage`: text shown when invalid.
+
+### Value / state
+
+- `value` / `defaultValue`: controlled or uncontrolled time value.
+- `minValue` / `maxValue`: allowed time bounds.
+- `granularity`: smallest segment to edit (`hour`, `minute`, `second`).
+- `hourCycle`: `12` or `24`.
+
+### Events
+
+- `onChange(value)`: called when segment edits produce a new time value.
+
+### Accessibility
+
+- Always provide `label`.
+- Segmented input supports keyboard editing and arrow-step interaction.
+
+## Related components
+
+- `DateField` — same segmented UX for date values.
+- `DatePicker` — use when both date and optional time selection are needed with popover.
+- `DateRangePicker` — use for start/end date range selection.
+
+## Example use cases
+
+<details>
+  <summary>Typical use cases</summary>
+
+- Shift start/end time entry.
+- Time-based scheduling in job configuration panels.
+- Deadline hour/minute selection in project settings.
+
+</details>
