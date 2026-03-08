@@ -216,7 +216,7 @@ function StoryCard({
         {/* Demo area */}
         <div
           style={{
-            background: '#1a1a1a',
+            background: '#1d1d1d',
             padding: '2rem',
             display: 'flex',
             alignItems: 'center',
