@@ -204,6 +204,30 @@ Add CI checks:
 5. **Dead-link check strictness**
    - remove Storybook-specific dead-link exclusions once legacy pages are gone.
 
+### Phase 3 progress update
+
+Implemented now:
+
+- ✅ `documentation/scripts/check-docs-coverage.mjs`
+  - validates authored-page coverage against `packages/ui/src/components/**`
+- ✅ `documentation/scripts/check-docs-no-stories-imports.mjs`
+  - blocks new `.stories` imports in docs (temporary allowlist for `docs/examples.mdx`)
+- ✅ docs Playwright smoke test:
+  - `documentation/playwright.config.ts`
+  - `documentation/e2e/components-smoke.spec.ts`
+- ✅ root script wiring:
+  - `docs:check:coverage`
+  - `docs:check:no-stories-imports`
+  - `docs:test:e2e`
+- ✅ CI workflow wiring in `.github/workflows/ci.yml`
+  - new `docs` job for coverage + no-stories + build + smoke test
+
+Remaining in Phase 3:
+
+- tighten `check-docs-no-stories-imports` by removing the `examples.mdx` allowlist
+  once the Examples route is fully authored and no longer imports KitchenSink stories.
+- remove Storybook dead-link exclusions after Phase 4 decommissioning.
+
 ---
 
 ## Phase 4 — Decommission Storybook coupling in docs
