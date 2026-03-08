@@ -1,0 +1,131 @@
+---
+title: DateField
+---
+
+import { DateField, TimeField } from '@geti/ui';
+import { ExampleCard } from '../../../../theme/ExampleCard';
+
+# DateField
+
+`DateField` provides a segmented keyboard input for entering a date value, with each date segment (day, month, year) editable independently. `TimeField` is a co-located companion for time-only values.
+
+```tsx
+import { DateField, TimeField } from '@geti/ui';
+```
+
+- [React Spectrum DateField ↗](https://react-spectrum.adobe.com/react-spectrum/DateField.html)
+- [React Spectrum TimeField ↗](https://react-spectrum.adobe.com/react-spectrum/TimeField.html)
+- [Geti UI Theming](/components/theming)
+
+## Examples
+
+<ExampleCard
+  title="DateField — default"
+  code={`<DateField label="Event date" />`}
+>
+  <DateField label="Event date" />
+</ExampleCard>
+
+<ExampleCard
+  title="DateField — with description"
+  code={`<DateField label="Birth date" description="Please enter your date of birth." />`}
+>
+  <DateField label="Birth date" description="Please enter your date of birth." />
+</ExampleCard>
+
+<ExampleCard
+  title="DateField — invalid"
+  code={`<DateField label="Expiration date" validationState="invalid" errorMessage="Date must be in the future." />`}
+>
+  <DateField label="Expiration date" validationState="invalid" errorMessage="Date must be in the future." />
+</ExampleCard>
+
+<ExampleCard
+  title="DateField — disabled"
+  code={`<DateField label="Release date" isDisabled />`}
+>
+  <DateField label="Release date" isDisabled />
+</ExampleCard>
+
+<ExampleCard
+  title="TimeField — default"
+  code={`<TimeField label="Event time" />`}
+>
+  <TimeField label="Event time" />
+</ExampleCard>
+
+<ExampleCard
+  title="TimeField — with description"
+  code={`<TimeField label="Meeting time" description="Please select a time for the meeting." />`}
+>
+  <TimeField label="Meeting time" description="Please select a time for the meeting." />
+</ExampleCard>
+
+<ExampleCard
+  title="TimeField — invalid"
+  code={`<TimeField label="Departure time" validationState="invalid" errorMessage="Time must be in the future." />`}
+>
+  <TimeField label="Departure time" validationState="invalid" errorMessage="Time must be in the future." />
+</ExampleCard>
+
+## Responsibility
+
+Both `DateField` and `TimeField` are direct pass-through wrappers of the equivalent React Spectrum components. No defaults are changed. Use `DateField` for date-only values and `TimeField` for time-only values; combine both in a layout when you need a full date-time entry without the calendar popover.
+
+## Variants and states
+
+| State | Prop | Notes |
+|---|---|---|
+| Valid | `validationState="valid"` | Green indicator |
+| Invalid | `validationState="invalid"` + `errorMessage` | Red outline + error |
+| Disabled | `isDisabled` | Non-interactive |
+| Read-only | `isReadOnly` | Non-editable display |
+| Required | `isRequired` | Adds required indicator |
+
+## Props (deep dive)
+
+### Content
+
+- `label`: visible field label.
+- `description`: helper text.
+- `errorMessage`: validation error text.
+
+### Value / state (DateField)
+
+- `value` / `defaultValue`: `CalendarDate | CalendarDateTime | ZonedDateTime`.
+- `minValue` / `maxValue`: constrains the accepted range.
+- `granularity`: smallest unit to display (`"day"`, `"hour"`, `"minute"`, `"second"`).
+- `isDisabled`, `isReadOnly`, `isRequired`.
+
+### Value / state (TimeField)
+
+- `value` / `defaultValue`: `Time` or `ZonedDateTime`.
+- `minValue` / `maxValue`: time range constraint.
+- `granularity`: `"hour"`, `"minute"`, or `"second"`.
+- `hourCycle`: `12` or `24`.
+
+### Events
+
+- `onChange(value)`: fires when the user finishes editing a segment.
+
+### Accessibility
+
+- Always supply `label` — the segmented input cannot be labelled by context alone.
+- Each segment receives its own `aria-label` from Spectrum automatically.
+
+## Related components
+
+- `DatePicker` — use when the user benefits from a calendar popover for picking dates.
+- `DateRangePicker` — use for a start + end date range with calendar.
+- `Calendar` — use for a standalone calendar without text input.
+
+## Example use cases
+
+<details>
+  <summary>Typical use cases</summary>
+
+- Embedding an inline date entry in a dense form without a popover.
+- Entering a time-only value such as a shift start time.
+- Collecting an exact timestamp when typing is faster than calendar navigation.
+
+</details>
