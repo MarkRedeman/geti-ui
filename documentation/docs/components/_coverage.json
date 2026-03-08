@@ -1,7 +1,7 @@
 {
   "generatedAt": "2026-03-08T14:37:40.501Z",
   "total": 83,
-  "migrated": 77,
+  "migrated": 83,
   "components": [
     {
       "category": "data",
@@ -85,7 +85,7 @@
       "componentName": "IllustratedMessage",
       "route": "/components/feedback/IllustratedMessage",
       "targetDocsPath": "documentation/docs/components/feedback/IllustratedMessage.mdx",
-      "migrated": false
+      "migrated": true
     },
     {
       "category": "feedback",
@@ -99,7 +99,7 @@
       "componentName": "IntelBrandedLoading",
       "route": "/components/feedback/IntelBrandedLoading",
       "targetDocsPath": "documentation/docs/components/feedback/IntelBrandedLoading.mdx",
-      "migrated": false
+      "migrated": true
     },
     {
       "category": "feedback",
@@ -120,14 +120,14 @@
       "componentName": "ProgressBar",
       "route": "/components/feedback/ProgressBar",
       "targetDocsPath": "documentation/docs/components/feedback/ProgressBar.mdx",
-      "migrated": false
+      "migrated": true
     },
     {
       "category": "feedback",
       "componentName": "ProgressCircle",
       "route": "/components/feedback/ProgressCircle",
       "targetDocsPath": "documentation/docs/components/feedback/ProgressCircle.mdx",
-      "migrated": false
+      "migrated": true
     },
     {
       "category": "feedback",
@@ -253,14 +253,14 @@
       "componentName": "RangeCalendar",
       "route": "/components/form/date-controls/RangeCalendar",
       "targetDocsPath": "documentation/docs/components/form/date-controls/RangeCalendar.mdx",
-      "migrated": false
+      "migrated": true
     },
     {
       "category": "form/date-controls",
       "componentName": "TimeField",
       "route": "/components/form/date-controls/TimeField",
       "targetDocsPath": "documentation/docs/components/form/date-controls/TimeField.mdx",
-      "migrated": false
+      "migrated": true
     },
     {
       "category": "form",

@@ -156,17 +156,17 @@ changes/patterns we should reuse for all next components:
 
 Current authored coverage from `documentation/docs/components/_coverage.json`:
 
-- **Migrated:** 77 / 83 component pages
-- **Remaining:** 6 pages
+- **Migrated:** 83 / 83 component pages
+- **Remaining:** 0 pages
 
-Completed migration waves so far:
+Completed migration waves:
 
 - ✅ Wave A (`ui/` + core `form/`)
-- ✅ Wave B (`form/pickers`, `form/date-controls`, `form/color-controls`) **mostly complete**
-- ✅ Wave C (`data/` + `feedback/`) **mostly complete**
+- ✅ Wave B (`form/pickers`, `form/date-controls`, `form/color-controls`)
+- ✅ Wave C (`data/` + `feedback/`)
 - ✅ Wave D (`navigation/` + `layouts/` + `overlays/`)
 
-Remaining components to migrate next:
+Final components migrated after previous snapshot:
 
 1. `feedback/IllustratedMessage`
 2. `feedback/IntelBrandedLoading`
@@ -179,6 +179,7 @@ Operational note:
 
 - We are currently committing **one component per commit** for migrated pages,
   as requested, while keeping legacy package docs untouched for rollback.
+- Continue updating this migration plan after each major task batch.
 
 ---
 
