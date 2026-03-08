@@ -1,0 +1,122 @@
+---
+title: TagGroup
+---
+
+import { TagGroup, TagItem } from '@geti/ui';
+import { ExampleCard } from '../../../theme/ExampleCard';
+
+# TagGroup
+
+`TagGroup` renders a collection of tag items from data. Tags can optionally be removed by the user. Use it when you have a list of categorisation items — selected filters, applied labels, chosen categories — that the user may need to dismiss.
+
+```tsx
+import { TagGroup, TagItem } from '@geti/ui';
+```
+
+- [React Spectrum TagGroup ↗](https://react-spectrum.adobe.com/react-spectrum/TagGroup.html)
+- [Geti UI Theming](/components/theming)
+
+## Examples
+
+<ExampleCard
+  title="Default tag group"
+  code={`<TagGroup aria-label="Categories">
+  <TagItem key="news">News</TagItem>
+  <TagItem key="travel">Travel</TagItem>
+  <TagItem key="gaming">Gaming</TagItem>
+  <TagItem key="shopping">Shopping</TagItem>
+</TagGroup>`}
+>
+  <TagGroup aria-label="Categories">
+    <TagItem key="news">News</TagItem>
+    <TagItem key="travel">Travel</TagItem>
+    <TagItem key="gaming">Gaming</TagItem>
+    <TagItem key="shopping">Shopping</TagItem>
+  </TagGroup>
+</ExampleCard>
+
+<ExampleCard
+  title="Removable tags"
+  code={`<TagGroup
+  aria-label="Applied filters"
+  onRemove={(keys) => console.log('Removed:', keys)}
+>
+  <TagItem key="detection">Detection</TagItem>
+  <TagItem key="trained">Trained</TagItem>
+  <TagItem key="high-accuracy">High accuracy</TagItem>
+</TagGroup>`}
+>
+  <TagGroup
+    aria-label="Applied filters"
+    onRemove={(keys) => console.log('Removed:', keys)}
+  >
+    <TagItem key="detection">Detection</TagItem>
+    <TagItem key="trained">Trained</TagItem>
+    <TagItem key="high-accuracy">High accuracy</TagItem>
+  </TagGroup>
+</ExampleCard>
+
+<ExampleCard
+  title="With a label"
+  code={`<TagGroup label="Active labels">
+  <TagItem key="person">Person</TagItem>
+  <TagItem key="car">Car</TagItem>
+  <TagItem key="bicycle">Bicycle</TagItem>
+</TagGroup>`}
+>
+  <TagGroup label="Active labels">
+    <TagItem key="person">Person</TagItem>
+    <TagItem key="car">Car</TagItem>
+    <TagItem key="bicycle">Bicycle</TagItem>
+  </TagGroup>
+</ExampleCard>
+
+## Responsibility
+
+`TagGroup` is a thin wrapper around React Spectrum's `TagGroup`. `TagItem` is the re-exported `Item` component, aliased to avoid name collisions. Removal behaviour, overflow handling, and keyboard interactions come directly from Spectrum.
+
+## Variants and states
+
+| Feature | Notes |
+|---|---|
+| Static tags | Children as `TagItem` elements without `onRemove` — display only |
+| Removable tags | Pass `onRemove` to show a dismiss button on each tag |
+| Labelled | Pass `label` to render a visible label above the group |
+
+## Props (deep dive)
+
+### Content
+
+- `children`: `TagItem` elements, each with a unique `key`.
+- `items` + render function: for dynamic collections from a data array.
+- `label`: visible label rendered above the group.
+
+### Value / state
+
+- `maxRows`: limits visible rows and shows a "Show more" toggle.
+
+### Events
+
+- `onRemove(keys)`: called with the `Set` of keys when the user dismisses a tag. You are responsible for updating the items array.
+
+### Accessibility
+
+- Provide `aria-label` when there is no visible `label` prop.
+- The dismiss button is labelled automatically by Spectrum (`Remove <tag text>`).
+
+## Related components
+
+- `Tag` — use for a single standalone label chip, not a managed collection.
+- `ListBox` — use when tags represent selectable options rather than applied filters.
+- `Badge` — use for static colour-coded status labels with no removal.
+
+## Example use cases
+
+<details>
+  <summary>Typical use cases</summary>
+
+- Active filter chips in a dataset browser that the user can dismiss one by one.
+- Applied annotation labels on an image shown as a removable tag row.
+- Selected model tags in a comparison view.
+
+</details>
