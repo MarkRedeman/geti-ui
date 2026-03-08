@@ -1,0 +1,102 @@
+---
+title: Image
+---
+
+import { Image } from '@geti/ui';
+import { ExampleCard } from '../../../theme/ExampleCard';
+
+# Image
+
+Image renders an accessible image with support for alt text, object-fit modes, and decorative image handling. Use it wherever you need an image that integrates with Spectrum layout props and Geti theming.
+
+```tsx
+import { Image } from '@geti/ui';
+```
+
+- [React Spectrum Image ↗](https://react-spectrum.adobe.com/react-spectrum/Image.html)
+- [Geti UI Theming](/components/theming)
+
+## Examples
+
+<ExampleCard
+  title="Basic image"
+  code={`<Image src="https://picsum.photos/200/120" alt="Sample landscape" />`}
+>
+  <Image src="https://picsum.photos/200/120" alt="Sample landscape" />
+</ExampleCard>
+
+<ExampleCard
+  title="Fixed size with object-fit cover"
+  code={`<Image
+  src="https://picsum.photos/300/200"
+  alt="Cover-fit image"
+  width="150px"
+  height="100px"
+  objectFit="cover"
+/>`}
+>
+  <Image
+    src="https://picsum.photos/300/200"
+    alt="Cover-fit image"
+    width="150px"
+    height="100px"
+    objectFit="cover"
+  />
+</ExampleCard>
+
+<ExampleCard
+  title="Decorative image (hidden from screen readers)"
+  code={`<Image src="https://picsum.photos/200/120" alt="" />`}
+>
+  <Image src="https://picsum.photos/200/120" alt="" />
+</ExampleCard>
+
+## Responsibility
+
+`Image` is a thin wrapper around React Spectrum's `Image` — all props pass through unchanged. It provides:
+
+- consistent `@geti/ui` import path,
+- Spectrum style prop support (`width`, `height`, `padding`, etc.),
+- integration with Geti's `ThemeProvider` context.
+
+## Variants and states
+
+`Image` has no visual variants. Control appearance through `objectFit` and dimension props.
+
+| Prop | Options | Notes |
+|---|---|---|
+| `objectFit` | `'fill' \| 'contain' \| 'cover' \| 'none' \| 'scale-down'` | Maps to CSS `object-fit` |
+
+## Props (deep dive)
+
+### Content
+
+- `src`: image URL.
+- `alt`: alternative text. Pass an empty string `""` for decorative images that screen readers should skip.
+
+### Visual
+
+- `width` / `height`: Spectrum dimension values or CSS strings.
+- `objectFit`: controls how the image fills its box.
+
+### Accessibility
+
+- **always** provide `alt`. Use descriptive text for informative images; use `""` for purely decorative ones,
+- never use `Image` for interactive elements — use `ActionButton` with an icon instead.
+
+## Related components
+
+- `Avatar` — use for circular user profile images.
+- `PhotoPlaceholder` — use when an image URL is unavailable and initials should be shown.
+
+## Example use cases
+
+<details>
+  <summary>Typical use cases</summary>
+
+- Dataset thumbnail in a project card.
+- Model preview screenshot in a training results panel.
+- Logo in a branding header.
+- Annotation media thumbnail in a media browser list.
+
+</details>
