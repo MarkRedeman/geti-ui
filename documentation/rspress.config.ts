@@ -1,4 +1,6 @@
 import { defineConfig } from '@rspress/core';
+import { pluginLlms } from '@rspress/plugin-llms';
+import { pluginSitemap } from '@rspress/plugin-sitemap';
 import path from 'node:path';
 import { componentDocsPlugin } from './plugins/component-docs';
 
@@ -77,6 +79,7 @@ export default defineConfig({
   },
   themeConfig: {
     darkMode: true,
+    llmsUI: true,
     nav: [
       { text: 'Components', link: '/components/ui/Button' },
       { text: 'Assets', link: '/assets/' },
@@ -100,5 +103,13 @@ export default defineConfig({
       message: '© Intel Corporation',
     },
   },
-  plugins: [componentDocsPlugin()],
+  plugins: [
+    componentDocsPlugin(),
+    pluginLlms(),
+    pluginSitemap({
+      siteUrl: 'https://open-edge-platform.github.io/geti-ui',
+      defaultChangeFreq: 'weekly',
+      defaultPriority: '0.7',
+    }),
+  ],
 });
