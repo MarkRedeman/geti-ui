@@ -10,7 +10,7 @@ Responsibilities:
 - **Storybook** (`.storybook/`) — interactive component catalogue and development environment, served on port 6006.
 - **Unit tests** — `rstest` (Vitest-compatible, Rspack-powered) runs `*.test.tsx` files co-located with components.
 - **E2E tests** (`e2e/`) — Playwright tests run against the live Storybook instance.
-- **Linting** (`rslint.jsonc`) — package-local lint configuration layered on top of the root ESLint config.
+- **Linting** (`rslint.jsonc`) — package-local lint configuration for TypeScript/React source files.
 
 ## Design
 

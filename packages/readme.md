@@ -10,7 +10,7 @@ Its role is purely structural — it provides the conventional monorepo boundary
 
 - **One package today**: `packages/ui/` is the entire library. The directory is named `packages/` (plural) to make room for future additions such as a standalone tokens package, an icons wrapper, or a config package, without requiring a restructure.
 - **npm workspace resolution**: root `package.json` declares `workspaces`, so any directory added here can be included in the workspace.
-- **No shared config package yet**: ESLint, TypeScript, and Prettier configs live at the repo root and are referenced by relative path from `packages/ui/`. If a second package is added, a shared config package in `packages/config/` would be the natural next step.
+- **No shared config package yet**: Rslint, TypeScript, and Prettier configs live in package/root files and are referenced by relative path where needed. If a second package is added, a shared config package in `packages/config/` would be the natural next step.
 
 ## Flow
 
