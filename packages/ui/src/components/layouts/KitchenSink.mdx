@@ -11,15 +11,15 @@ The `layouts/` category owns **structural containers that arrange and group othe
 
 Components in this folder:
 
-| Component | Purpose |
-|---|---|
-| `Flex` | CSS flexbox container with Spectrum dimension/spacing props |
-| `Grid` | CSS grid container with Spectrum dimension/spacing props |
-| `View` | General-purpose styled block container (re-exported from `ui/`) |
-| `Card` | Bordered, rounded content panel — static (`article`) or interactive (`button`) |
-| `Well` | Read-only content container with subtle background and border |
-| `Accordion` | Group of collapsible `Disclosure` sections |
-| `Disclosure` / `DisclosureTitle` / `DisclosurePanel` | Single collapsible section |
+| Component                                            | Purpose                                                                        |
+| ---------------------------------------------------- | ------------------------------------------------------------------------------ |
+| `Flex`                                               | CSS flexbox container with Spectrum dimension/spacing props                    |
+| `Grid`                                               | CSS grid container with Spectrum dimension/spacing props                       |
+| `View`                                               | General-purpose styled block container (re-exported from `ui/`)                |
+| `Card`                                               | Bordered, rounded content panel — static (`article`) or interactive (`button`) |
+| `Well`                                               | Read-only content container with subtle background and border                  |
+| `Accordion`                                          | Group of collapsible `Disclosure` sections                                     |
+| `Disclosure` / `DisclosureTitle` / `DisclosurePanel` | Single collapsible section                                                     |
 
 ---
 
@@ -37,6 +37,7 @@ export const Grid = (props: GridComponentProps) => <SpectrumGrid {...props} />;
 `Flex` and `Grid` accept Spectrum's typed `FlexProps` / `GridProps`, which use Spectrum's dimension token system (`size-100`, `size-200`, etc.) rather than raw CSS values. This ensures all spacing and sizing is consistent with the theme.
 
 `Disclosure` also re-exports its sub-components so callers can compose with them from a single import:
+
 ```tsx
 export { DisclosurePanel, DisclosureTitle };
 ```
@@ -75,7 +76,6 @@ export { DisclosurePanel, DisclosureTitle };
 - **Consumed by**: every page-level template in Geti uses `Flex`/`Grid` for layout. `Well` is used for code/preformatted-text blocks. `Card`/`CardView` are used for project and dataset grids. `Accordion`/`Disclosure` are used for collapsible settings panels.
 - **Theme**: `--spectrum-well-background-color` and `--spectrum-well-border-color` are overridden in `geti-dark.module.css` to match the dark surface; `geti-card-button:focus-visible` outline is defined in `geti-global.module.css`.
 
-
 ---
 
 <Stories />
@@ -87,4 +87,3 @@ export { DisclosurePanel, DisclosureTitle };
 ## Props
 
 <Controls />
-

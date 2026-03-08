@@ -22,17 +22,20 @@ import { RangeCalendar } from '@geti/ui';
 `RangeCalendar` is a thin wrapper around Adobe React Spectrum's `RangeCalendar`. It renders an always-visible month grid where users define a date range by selecting a start date and an end date. The selected span is highlighted between those two points.
 
 Key responsibilities:
+
 - **Two-endpoint selection**: Manages a `{ start: DateValue, end: DateValue }` range object rather than a single date.
 - **In-progress highlighting**: While the user is mid-selection (start chosen, hovering over end), the provisional range is visually highlighted in real time.
 - **Constraint enforcement**: `minValue` / `maxValue` restrict the grid; individual dates can be blocked via `isDateUnavailable`.
 - **Multi-month view**: `visibleMonths` shows two or more months simultaneously — particularly useful so both endpoints of a long range are visible at once.
 
 ### When to use
+
 - When users need to define a time window — report date ranges, booking periods, sprint intervals, data export ranges.
 - When the selected span needs to be clearly visible as a contiguous block rather than two isolated points.
 - When you are building a custom overlay and need the range grid without the `DateRangePicker` trigger.
 
 ### When to avoid
+
 - When users select a single date — use `Calendar` instead.
 - When vertical or horizontal space is severely constrained — a range calendar with `visibleMonths={2}` is wide. Consider `DateRangePicker` (popover) instead.
 - When start and end represent logically unrelated dates that should be chosen independently rather than as a span.
@@ -42,12 +45,15 @@ Key responsibilities:
 ## Variants
 
 ### Default
+
 Single-month view. User clicks the start day, then clicks the end day. The span is highlighted in between.
 
 ### Multi-month (`visibleMonths`)
+
 `visibleMonths={2}` is the canonical usage for range selection — it lets users see both month boundaries of a range at once without navigating away.
 
 ### Disabled
+
 `isDisabled` grays out the entire grid. Use when the date range is locked (e.g., a read-only report filter).
 
 ---
@@ -57,9 +63,7 @@ Single-month view. User clicks the start day, then clicks the end day. The span 
 `RangeCalendar` is a pure pass-through wrapper. The generic is typed as `any` to allow any Spectrum calendar-system date type without an extra cast at the call site.
 
 ```tsx
-export const RangeCalendar = (props: SpectrumRangeCalendarProps<any>) => (
-  <SpectrumRangeCalendar {...props} />
-);
+export const RangeCalendar = (props: SpectrumRangeCalendarProps<any>) => <SpectrumRangeCalendar {...props} />;
 export type { SpectrumRangeCalendarProps as RangeCalendarProps };
 ```
 
@@ -72,12 +76,12 @@ import { today, getLocalTimeZone } from '@internationalized/date';
 const [range, setRange] = useState<RangeValue<CalendarDate> | null>(null);
 
 <RangeCalendar
-  aria-label="Report date range"
-  visibleMonths={2}
-  value={range}
-  onChange={setRange}
-  minValue={today(getLocalTimeZone())}
-/>
+    aria-label="Report date range"
+    visibleMonths={2}
+    value={range}
+    onChange={setRange}
+    minValue={today(getLocalTimeZone())}
+/>;
 ```
 
 ---
@@ -96,20 +100,20 @@ const [range, setRange] = useState<RangeValue<CalendarDate> | null>(null);
 
 ### Key props
 
-| Prop | Type | Default | Description |
-|------|------|---------|-------------|
-| `value` | `RangeValue<DateValue> \| null` | — | The controlled selected range. |
-| `defaultValue` | `RangeValue<DateValue> \| null` | — | The default selected range (uncontrolled). |
-| `onChange` | `(value: RangeValue<DateValue> \| null) => void` | — | Called when the range changes. Fires after **both** endpoints are set. |
-| `minValue` | `DateValue` | — | The earliest selectable date. |
-| `maxValue` | `DateValue` | — | The latest selectable date. |
-| `isDateUnavailable` | `(date: DateValue) => boolean` | — | Marks individual dates as unavailable (shown with a strikethrough). |
-| `allowsNonContiguousRanges` | `boolean` | `false` | Allows unavailable dates within the selected span. |
-| `focusedValue` | `DateValue` | — | Controls which month is currently visible. |
-| `visibleMonths` | `number` | `1` | Number of consecutive months to show. `2` is recommended for range selection. |
-| `isDisabled` | `boolean` | `false` | Disables all interaction. |
-| `isReadOnly` | `boolean` | `false` | Prevents changes without disabling keyboard focus. |
-| `aria-label` | `string` | — | **Required.** Accessible label for the calendar widget. |
+| Prop                        | Type                                             | Default | Description                                                                   |
+| --------------------------- | ------------------------------------------------ | ------- | ----------------------------------------------------------------------------- |
+| `value`                     | `RangeValue<DateValue> \| null`                  | —       | The controlled selected range.                                                |
+| `defaultValue`              | `RangeValue<DateValue> \| null`                  | —       | The default selected range (uncontrolled).                                    |
+| `onChange`                  | `(value: RangeValue<DateValue> \| null) => void` | —       | Called when the range changes. Fires after **both** endpoints are set.        |
+| `minValue`                  | `DateValue`                                      | —       | The earliest selectable date.                                                 |
+| `maxValue`                  | `DateValue`                                      | —       | The latest selectable date.                                                   |
+| `isDateUnavailable`         | `(date: DateValue) => boolean`                   | —       | Marks individual dates as unavailable (shown with a strikethrough).           |
+| `allowsNonContiguousRanges` | `boolean`                                        | `false` | Allows unavailable dates within the selected span.                            |
+| `focusedValue`              | `DateValue`                                      | —       | Controls which month is currently visible.                                    |
+| `visibleMonths`             | `number`                                         | `1`     | Number of consecutive months to show. `2` is recommended for range selection. |
+| `isDisabled`                | `boolean`                                        | `false` | Disables all interaction.                                                     |
+| `isReadOnly`                | `boolean`                                        | `false` | Prevents changes without disabling keyboard focus.                            |
+| `aria-label`                | `string`                                         | —       | **Required.** Accessible label for the calendar widget.                       |
 
 ---
 
@@ -119,32 +123,34 @@ const [range, setRange] = useState<RangeValue<CalendarDate> | null>(null);
 
 - **Widget role**: `role="grid"` on the calendar, `role="row"` per week, `role="gridcell"` + `role="button"` per day cell.
 - **Labels**: Always supply `aria-label`. Without it the grid is announced without context. The displayed month/year heading is wired to the grid via `aria-labelledby` internally.
-- **Selection state**: 
-  - Start cell: `aria-selected="true"` and announced as "start of range".
-  - End cell: `aria-selected="true"` and announced as "end of range".
-  - Intermediate cells: `aria-selected="true"` and announced as "selected".
-  - Unavailable cells: `aria-disabled="true"` with a descriptive announcement.
+- **Selection state**:
+    - Start cell: `aria-selected="true"` and announced as "start of range".
+    - End cell: `aria-selected="true"` and announced as "end of range".
+    - Intermediate cells: `aria-selected="true"` and announced as "selected".
+    - Unavailable cells: `aria-disabled="true"` with a descriptive announcement.
 - **Keyboard navigation**:
 
-| Key | Behaviour |
-|-----|-----------|
-| `Arrow keys` | Move focus one day in the indicated direction |
-| `PageUp` | Navigate to the previous month |
-| `PageDown` | Navigate to the next month |
-| `Shift + PageUp` | Navigate to the previous year |
-| `Shift + PageDown` | Navigate to the next year |
-| `Home` | Move focus to the first day of the current week |
-| `End` | Move focus to the last day of the current week |
-| `Enter` / `Space` | Commit the focused date as the start or end of the range |
+| Key                | Behaviour                                                |
+| ------------------ | -------------------------------------------------------- |
+| `Arrow keys`       | Move focus one day in the indicated direction            |
+| `PageUp`           | Navigate to the previous month                           |
+| `PageDown`         | Navigate to the next month                               |
+| `Shift + PageUp`   | Navigate to the previous year                            |
+| `Shift + PageDown` | Navigate to the next year                                |
+| `Home`             | Move focus to the first day of the current week          |
+| `End`              | Move focus to the last day of the current week           |
+| `Enter` / `Space`  | Commit the focused date as the start or end of the range |
 
 - **Two-step selection**: Screen readers are informed whether they are selecting the start or end of the range so the two-click model is not ambiguous.
 
 ## Related components
+
 - `Calendar` — use instead when only a single date (not a range) needs to be selected.
 - `DateRangePicker` — use instead when the range calendar should be hidden in a popover rather than always visible.
 - `RangeSlider` — use instead when the range is a continuous numeric value rather than calendar dates.
 
 ## Example use cases
+
 <details>
   <summary>Typical use cases</summary>
 

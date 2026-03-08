@@ -22,17 +22,20 @@ import { Calendar } from '@geti/ui';
 `Calendar` is a thin wrapper around Adobe React Spectrum's `Calendar`. It renders a full month grid directly into the page — not inside a popover or trigger. Use it when you need a persistent, always-visible date picker rather than an on-demand one.
 
 Key responsibilities:
+
 - **Standalone rendering**: Displays a navigable month grid inline, with no trigger button or overlay.
 - **Single-date selection**: Resolves to one `DateValue` (or `null`) and calls `onChange` when the user commits a selection.
 - **Constraint enforcement**: Accepts `minValue` / `maxValue` to restrict the selectable range, with out-of-range days visually disabled.
 - **Multi-month view**: Supports `visibleMonths` to show two or more consecutive months side by side.
 
 ### When to use
+
 - When date selection is the primary task on the page and always visible (e.g., an event scheduler, a booking sidebar).
 - When you need to display context around a date — surrounding days, range highlights — without hiding them behind a popover.
 - When embedding a calendar in a custom overlay or panel that you control yourself.
 
 ### When to avoid
+
 - When vertical space is constrained — prefer `DateField` (segment input) or `DatePicker` (popover) instead.
 - When users need to select a **start and end date** — use `RangeCalendar` instead.
 - When date selection is secondary to other form content — an inline calendar dominates the layout.
@@ -42,12 +45,15 @@ Key responsibilities:
 ## Variants
 
 ### Default
+
 A single month view. The user navigates months with Previous / Next buttons.
 
 ### Multi-month (`visibleMonths`)
+
 Pass `visibleMonths={2}` (or higher) to render consecutive months side by side. Useful for date-range context even with single-date selection.
 
 ### Disabled
+
 `isDisabled` grays out the entire grid and blocks interaction. Use when the date is not yet configurable (e.g., a locked event).
 
 ---
@@ -57,9 +63,7 @@ Pass `visibleMonths={2}` (or higher) to render consecutive months side by side. 
 `Calendar` is a pure pass-through wrapper. The generic is typed as `any` at the wrapper level so consumers can pass any Spectrum calendar-system type without an extra cast.
 
 ```tsx
-export const Calendar = (props: SpectrumCalendarProps<any>) => (
-  <SpectrumCalendar {...props} />
-);
+export const Calendar = (props: SpectrumCalendarProps<any>) => <SpectrumCalendar {...props} />;
 export type { SpectrumCalendarProps as CalendarProps };
 ```
 
@@ -71,12 +75,7 @@ import { CalendarDate } from '@internationalized/date';
 
 const [date, setDate] = useState<CalendarDate | null>(null);
 
-<Calendar
-  aria-label="Event date"
-  value={date}
-  onChange={setDate}
-  minValue={today(getLocalTimeZone())}
-/>
+<Calendar aria-label="Event date" value={date} onChange={setDate} minValue={today(getLocalTimeZone())} />;
 ```
 
 ---
@@ -100,10 +99,10 @@ import { today, getLocalTimeZone } from '@internationalized/date';
 // onChange(DateValue) fires; the selected cell is highlighted.
 
 <Calendar
-  aria-label="Event date"
-  minValue={today(getLocalTimeZone())}
-  onChange={(date) => console.log('Selected:', date.toString())}
-/>
+    aria-label="Event date"
+    minValue={today(getLocalTimeZone())}
+    onChange={(date) => console.log('Selected:', date.toString())}
+/>;
 ```
 
 ---
@@ -112,18 +111,18 @@ import { today, getLocalTimeZone } from '@internationalized/date';
 
 ### Key props
 
-| Prop | Type | Default | Description |
-|------|------|---------|-------------|
-| `value` | `DateValue \| null` | — | The controlled selected date. |
-| `defaultValue` | `DateValue \| null` | — | The default selected date (uncontrolled). |
-| `onChange` | `(value: DateValue \| null) => void` | — | Called when the selected date changes. |
-| `minValue` | `DateValue` | — | The earliest selectable date. Earlier dates are disabled. |
-| `maxValue` | `DateValue` | — | The latest selectable date. Later dates are disabled. |
-| `focusedValue` | `DateValue` | — | Programmatically controls which month is visible. |
-| `visibleMonths` | `number` | `1` | Number of consecutive months to display. |
-| `isDisabled` | `boolean` | `false` | Disables all interaction. |
-| `isReadOnly` | `boolean` | `false` | Prevents selection changes without disabling focus. |
-| `aria-label` | `string` | — | **Required.** Accessible label for the calendar widget. |
+| Prop            | Type                                 | Default | Description                                               |
+| --------------- | ------------------------------------ | ------- | --------------------------------------------------------- |
+| `value`         | `DateValue \| null`                  | —       | The controlled selected date.                             |
+| `defaultValue`  | `DateValue \| null`                  | —       | The default selected date (uncontrolled).                 |
+| `onChange`      | `(value: DateValue \| null) => void` | —       | Called when the selected date changes.                    |
+| `minValue`      | `DateValue`                          | —       | The earliest selectable date. Earlier dates are disabled. |
+| `maxValue`      | `DateValue`                          | —       | The latest selectable date. Later dates are disabled.     |
+| `focusedValue`  | `DateValue`                          | —       | Programmatically controls which month is visible.         |
+| `visibleMonths` | `number`                             | `1`     | Number of consecutive months to display.                  |
+| `isDisabled`    | `boolean`                            | `false` | Disables all interaction.                                 |
+| `isReadOnly`    | `boolean`                            | `false` | Prevents selection changes without disabling focus.       |
+| `aria-label`    | `string`                             | —       | **Required.** Accessible label for the calendar widget.   |
 
 ---
 
@@ -136,25 +135,27 @@ import { today, getLocalTimeZone } from '@internationalized/date';
 - **Selection state**: The selected cell carries `aria-selected="true"`. Disabled dates have `aria-disabled="true"`.
 - **Keyboard navigation**:
 
-| Key | Behaviour |
-|-----|-----------|
-| `Arrow keys` | Move focus one day in the indicated direction |
-| `PageUp` | Navigate to the previous month |
-| `PageDown` | Navigate to the next month |
-| `Shift + PageUp` | Navigate to the previous year |
-| `Shift + PageDown` | Navigate to the next year |
-| `Home` | Move focus to the first day of the current week |
-| `End` | Move focus to the last day of the current week |
-| `Enter` / `Space` | Select the focused date |
+| Key                | Behaviour                                       |
+| ------------------ | ----------------------------------------------- |
+| `Arrow keys`       | Move focus one day in the indicated direction   |
+| `PageUp`           | Navigate to the previous month                  |
+| `PageDown`         | Navigate to the next month                      |
+| `Shift + PageUp`   | Navigate to the previous year                   |
+| `Shift + PageDown` | Navigate to the next year                       |
+| `Home`             | Move focus to the first day of the current week |
+| `End`              | Move focus to the last day of the current week  |
+| `Enter` / `Space`  | Select the focused date                         |
 
 - **Screen reader announcements**: Spectrum announces the focused date (including day-of-week and whether it is selected, disabled, or today) as the user navigates the grid.
 
 ## Related components
+
 - `RangeCalendar` — use instead when users must select both a start and end date on the same calendar.
 - `DatePicker` — use instead when the calendar should be hidden behind a popover trigger rather than always visible.
 - `DateField` — use instead when a compact keyboard-entry segment input is preferred over a full calendar grid.
 
 ## Example use cases
+
 <details>
   <summary>Typical use cases</summary>
 

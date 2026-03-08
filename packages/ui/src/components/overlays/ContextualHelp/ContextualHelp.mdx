@@ -20,18 +20,21 @@ import { ContextualHelp, Heading, Content, Footer, Link } from '@geti/ui';
 `ContextualHelp` provides in-context, non-blocking guidance for users. It renders as a quiet icon button (either a `?` or an `ℹ`) that opens a popover-style dialog when clicked.
 
 ### When to use
+
 - **Supplemental Guidance**: Use when a label, field, or UI element needs a deeper description than a simple tooltip can provide.
 - **Task Concepts**: Use to explain a task, concept, or permission, optionally including a "Learn more" link.
 - **Non-interactive Elements**: Ideal for providing context on plain text or disabled buttons that cannot receive focus for tooltips.
 
 ### Comparison with other components
-| Situation | Use instead |
-| :--- | :--- |
-| Brief, transient label for an icon button | `Tooltip` |
-| Persistent, inline feedback (error/warning) | `InlineAlert` |
-| Modal workflow requiring a decision | `Dialog` or `AlertDialog` |
+
+| Situation                                   | Use instead               |
+| :------------------------------------------ | :------------------------ |
+| Brief, transient label for an icon button   | `Tooltip`                 |
+| Persistent, inline feedback (error/warning) | `InlineAlert`             |
+| Modal workflow requiring a decision         | `Dialog` or `AlertDialog` |
 
 ### Usage Rules
+
 - **Heading and Content**: Both are required for a complete help dialog.
 - **Footer Link**: Use the `<Footer>` slot with a standalone `<Link>` for "Learn more" links to external documentation.
 - **Avoid Interaction**: Keep the popover content read-only. Do not put forms or complex interactive controls inside.
@@ -39,24 +42,27 @@ import { ContextualHelp, Heading, Content, Footer, Link } from '@geti/ui';
 ## Variants
 
 ### Help Variant (Default)
+
 Renders a `?` icon. Best for in-depth guidance about a task or concept.
 
 ### Info Variant
+
 Renders an `ℹ` icon. Best for brief, supplemental context about a specific label or feature.
 
 ## Props
 
-| Prop | Type | Default | Description |
-| :--- | :--- | :--- | :--- |
-| `variant` | `'help' \| 'info'` | `'help'` | The icon variant to display. |
-| `children` | `ReactNode` | — | The content to display in the popover (Heading, Content, Footer). |
-| `placement` | `Placement` | `'bottom start'` | The preferred placement of the popover. |
-| `isOpen` | `boolean` | — | Whether the popover is open (controlled). |
-| `onOpenChange` | `(isOpen: boolean) => void` | — | Handler called when the open state changes. |
+| Prop           | Type                        | Default          | Description                                                       |
+| :------------- | :-------------------------- | :--------------- | :---------------------------------------------------------------- |
+| `variant`      | `'help' \| 'info'`          | `'help'`         | The icon variant to display.                                      |
+| `children`     | `ReactNode`                 | —                | The content to display in the popover (Heading, Content, Footer). |
+| `placement`    | `Placement`                 | `'bottom start'` | The preferred placement of the popover.                           |
+| `isOpen`       | `boolean`                   | —                | Whether the popover is open (controlled).                         |
+| `onOpenChange` | `(isOpen: boolean) => void` | —                | Handler called when the open state changes.                       |
 
 ## Accessibility
 
 ### Roles and Keyboard
+
 - **Trigger**: The icon is a quiet `role="button"` that is fully keyboard-focusable.
 - **Dialog**: The popover is a `role="dialog"` with `aria-modal="false"`, meaning it doesn't block interactions elsewhere but is clearly identified to screen readers.
 - **Keyboard Navigation**:
@@ -65,6 +71,7 @@ Renders an `ℹ` icon. Best for brief, supplemental context about a specific lab
     - `Tab`: Users can tab into the popover if it contains interactive elements like links.
 
 ### Touch Support
+
 Unlike tooltips, `ContextualHelp` is triggered via press/click, making it accessible on touch screens where hover-only interactions are not available.
 
 ## Related components
@@ -86,4 +93,3 @@ Unlike tooltips, `ContextualHelp` is triggered via press/click, making it access
 - **Annotation type guidance**: An annotation type selector includes a `?` icon for each type that shows a brief description and a link to the annotation guide.
 
 </details>
-

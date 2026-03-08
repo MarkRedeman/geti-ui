@@ -11,20 +11,20 @@ The `ui/` category is the **foundational primitive layer** of the Geti design sy
 
 Components in this folder:
 
-| Component | Purpose |
-|---|---|
-| `Button` | Primary call-to-action button (`accent`/`primary`/`secondary`/`negative` variants; `cta`/`overBackground` excluded) |
-| `ActionButton` | Icon-first toolbar action button with Geti `colorVariant` extension (`dark`/`light`/`blue`) |
-| `ToggleButton` | Single on/off toggle button (selected/deselected state) — thin Spectrum wrapper |
-| `ToggleButtons` | Mutually exclusive button group for view switching; custom-built on top of `Button` |
-| `Avatar` | Circular thumbnail for a user or entity — thin Spectrum wrapper |
-| `AvatarGroup` | Row of `Avatar` instances with negative-margin overlap and `+N` overflow count badge |
-| `Divider` | Horizontal or vertical visual separator — thin Spectrum wrapper |
-| `Image` | Accessible image wrapper — thin Spectrum wrapper |
-| `View` | General-purpose styled layout container (Spectrum style props) |
-| `CornerIndicator` | Small blue dot overlay on a child element to signal pending/notification state |
-| `PhotoPlaceholder` | Deterministic-colour initials avatar when no photo is available |
-| `PressableElement` | RAC `Pressable` + Spectrum `useStyleProps` bridge — pressable div with Spectrum style props |
+| Component          | Purpose                                                                                                             |
+| ------------------ | ------------------------------------------------------------------------------------------------------------------- |
+| `Button`           | Primary call-to-action button (`accent`/`primary`/`secondary`/`negative` variants; `cta`/`overBackground` excluded) |
+| `ActionButton`     | Icon-first toolbar action button with Geti `colorVariant` extension (`dark`/`light`/`blue`)                         |
+| `ToggleButton`     | Single on/off toggle button (selected/deselected state) — thin Spectrum wrapper                                     |
+| `ToggleButtons`    | Mutually exclusive button group for view switching; custom-built on top of `Button`                                 |
+| `Avatar`           | Circular thumbnail for a user or entity — thin Spectrum wrapper                                                     |
+| `AvatarGroup`      | Row of `Avatar` instances with negative-margin overlap and `+N` overflow count badge                                |
+| `Divider`          | Horizontal or vertical visual separator — thin Spectrum wrapper                                                     |
+| `Image`            | Accessible image wrapper — thin Spectrum wrapper                                                                    |
+| `View`             | General-purpose styled layout container (Spectrum style props)                                                      |
+| `CornerIndicator`  | Small blue dot overlay on a child element to signal pending/notification state                                      |
+| `PhotoPlaceholder` | Deterministic-colour initials avatar when no photo is available                                                     |
+| `PressableElement` | RAC `Pressable` + Spectrum `useStyleProps` bridge — pressable div with Spectrum style props                         |
 
 ---
 
@@ -64,6 +64,7 @@ No prop changes. Goal: centralise imports so consumers never reach into `@adobe/
 ### Pattern 6 — Runtime-computed values via `UNSAFE_style`, static layout in CSS module (`PhotoPlaceholder`)
 
 `PhotoPlaceholder` splits styling between:
+
 - `UNSAFE_style`: `backgroundColor`, `color`, `borderRadius` — runtime-computed values only.
 - `PhotoPlaceholder.module.css`: inner flex centering — static, belongs in CSS.
 
@@ -97,7 +98,6 @@ The only partial exception is `PressableElement`, which calls `useStyleProps` fr
 - **Theme**: components automatically receive Geti's dark theme tokens because they are always rendered inside `ThemeProvider`, which sets the Spectrum `Provider` context.
 - **Exports**: all public exports flow up through `packages/ui/src/index.ts`.
 
-
 ---
 
 <Stories />
@@ -109,4 +109,3 @@ The only partial exception is `PressableElement`, which calls `useStyleProps` fr
 ## Props
 
 <Controls />
-

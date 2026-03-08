@@ -22,18 +22,21 @@ import { ProgressCircle } from '@geti/ui';
 Its primary use case in Geti is the indeterminate spinner: signalling that work is in progress without implying a known completion percentage. It is the rendering primitive used by the `Loading` component, which wraps it in positioning logic (fullscreen, overlay, inline). Use `ProgressCircle` directly when you need the spinner itself without any positioning wrapper — for example, inside a button, an icon slot, or a table cell.
 
 Key characteristics:
+
 - **Three sizes**: `S` (24 px), `M` (48 px, default), `L` — tuned for inline, standard, and hero loading contexts respectively.
 - **Determinate and indeterminate**: A `value` prop drives a precise arc fill; `isIndeterminate` animates a continuous sweep.
 - **No visible label**: Unlike `ProgressBar` and `Meter`, `ProgressCircle` renders no visible text. An `aria-label` is the sole accessible name and is always required.
 - **Theme aware**: Visual tokens are resolved by `ThemeProvider`; no component-level CSS overrides are needed.
 
 ### When to use
+
 - Inside `Loading` implicitly — `Loading` renders `ProgressCircle` for its `spinner` variant.
 - Directly when you need a spinner in a specific slot without the container logic of `Loading` (e.g. inside a `Button` while `isPending`, in a list row during an inline fetch, or in a `Tooltip` trigger area).
 - For compact determinate arcs when a `ProgressBar` would be too wide for the available space.
 - Choose size `S` for tight spaces (icon rows, table cells), `M` for card-level indicators, `L` for full-panel loading states.
 
 ### When to avoid
+
 - When you need both a spinner and a progress percentage — use `ProgressBar` instead, which provides a label and value display.
 - When the operation is better described by a static level (e.g. disk usage) — use `Meter`.
 - Do not use multiple `ProgressCircle` components simultaneously on the same screen without careful consideration; multiple spinning indicators create anxiety and distract from content.
@@ -80,23 +83,23 @@ No state, no effects, no refs. Spectrum manages SVG arc rendering, animation, an
 <ProgressCircle aria-label="Loading..." isIndeterminate size="M" />
 ```
 
-| Concern | Detail |
-|---------|--------|
-| **Package** | `@adobe/react-spectrum` — `ProgressCircle` |
-| **Theme** | Resolved automatically by `ThemeProvider`. No CSS imports required. |
-| **Used by** | `Loading` (spinner variant) — wraps `ProgressCircle` with `isIndeterminate` in a positioned container |
+| Concern     | Detail                                                                                                                 |
+| ----------- | ---------------------------------------------------------------------------------------------------------------------- |
+| **Package** | `@adobe/react-spectrum` — `ProgressCircle`                                                                             |
+| **Theme**   | Resolved automatically by `ThemeProvider`. No CSS imports required.                                                    |
+| **Used by** | `Loading` (spinner variant) — wraps `ProgressCircle` with `isIndeterminate` in a positioned container                  |
 | **Related** | `Loading` (positioned spinner with modes), `ProgressBar` (linear progress with label), `Meter` (static quantity level) |
 
 All `SpectrumProgressCircleProps` are accepted as-is. The primary props are:
 
-| Prop | Type | Default | Description |
-|------|------|---------|-------------|
-| `aria-label` | `string` | — | **Required.** The accessible name. There is no visible label; this is the sole name for screen readers. |
-| `isIndeterminate` | `boolean` | `false` | When `true`, animates a continuous sweep. `value` is ignored. |
-| `value` | `number` | `0` | Current progress value for determinate mode. Interpreted within `[minValue, maxValue]`. |
-| `minValue` | `number` | `0` | Minimum value of the range. |
-| `maxValue` | `number` | `100` | Maximum value of the range. |
-| `size` | `'S' \| 'M' \| 'L'` | `'M'` | Controls the rendered diameter of the circle. |
+| Prop              | Type                | Default | Description                                                                                             |
+| ----------------- | ------------------- | ------- | ------------------------------------------------------------------------------------------------------- |
+| `aria-label`      | `string`            | —       | **Required.** The accessible name. There is no visible label; this is the sole name for screen readers. |
+| `isIndeterminate` | `boolean`           | `false` | When `true`, animates a continuous sweep. `value` is ignored.                                           |
+| `value`           | `number`            | `0`     | Current progress value for determinate mode. Interpreted within `[minValue, maxValue]`.                 |
+| `minValue`        | `number`            | `0`     | Minimum value of the range.                                                                             |
+| `maxValue`        | `number`            | `100`   | Maximum value of the range.                                                                             |
+| `size`            | `'S' \| 'M' \| 'L'` | `'M'`   | Controls the rendered diameter of the circle.                                                           |
 
 ## Accessibility
 
@@ -108,12 +111,14 @@ All `SpectrumProgressCircleProps` are accepted as-is. The primary props are:
 - **No keyboard interaction**: `ProgressCircle` is a read-only display element. It is not focusable and does not respond to keyboard or pointer events.
 
 ## Related components
+
 - **`Loading`** — use instead of a raw `ProgressCircle` when you need placement control (overlay, fullscreen, inline); `Loading` wraps `ProgressCircle` internally for its spinner variant.
 - **`ProgressBar`** — use when the operation has a measurable completion percentage or needs a visible text label alongside the indicator.
 - **`Meter`** — use for static quantity levels (storage usage, resource utilisation) rather than active operation progress.
 - **`Skeleton`** — use when the content shape is known and layout preservation matters more than showing a spinner.
 
 ## Example use cases
+
 <details>
   <summary>Typical use cases</summary>
 

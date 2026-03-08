@@ -13,7 +13,6 @@ import { Well } from '@geti/ui';
 
 - [React Spectrum V3 Well](https://react-spectrum.adobe.com/react-spectrum/Well.html)
 
-
 <Stories />
 
 ## Responsibility
@@ -21,12 +20,14 @@ import { Well } from '@geti/ui';
 `Well` provides a muted, inset visual container for content that is related to but subordinate to the main page content. It communicates "here is additional context" without the weight of a `Card` or the structural authority of a `View` with a full border and background. It is the right choice when you need a subtle boundary around preformatted text, configuration summaries, log output, or supplementary notes.
 
 Key responsibilities:
+
 - **Visual Grouping**: Clearly separates a block of related elements from the surrounding UI with a muted inset border and background.
 - **Subtle Emphasis**: Draws the eye without disrupting the page hierarchy — quieter than a `Card`, more deliberate than a plain `Flex`.
 - **Semantic Flexibility**: Accepts any ARIA `role` so it can act as a `region`, `group`, `note`, or `log` depending on the content it contains.
 - **Consistent Styling**: Standardised padding, border-radius, and border colour drawn from Spectrum design tokens — no per-use inline styles needed.
 
 ### When to use
+
 - To display secondary or supplementary information alongside the main content (configuration details, hints, metadata summaries).
 - To group a set of related read-only fields or settings that belong together visually.
 - As a container for preformatted text, code snippets, log output, or markup examples.
@@ -34,6 +35,7 @@ Key responsibilities:
 - For "Notes", "Tips", or "Info" callout blocks that provide contextual guidance.
 
 ### When to avoid
+
 - For primary content that should be the main focus of the page — use `Card` or a styled `View`.
 - For interactive elements that need a "lifted surface" affordance — use `Card`.
 - When the section needs to be collapsible or expandable — use `Disclosure` or `Accordion`.
@@ -68,10 +70,7 @@ export const Well = (props: WellProps) => <SpectrumWell {...props} />;
 ### Default — Plain Content Container
 
 ```tsx
-<Well>
-    This configuration was last updated on 12 January 2025.
-    All values shown here are read-only.
-</Well>
+<Well>This configuration was last updated on 12 January 2025. All values shown here are read-only.</Well>
 ```
 
 ### Code / Preformatted Text
@@ -119,13 +118,13 @@ When the Well contains a meaningful, self-contained section of the page, promote
 
 ## Props
 
-| Prop | Type | Default | Description |
-| --- | --- | --- | --- |
-| `children` | `ReactNode` | - | The content to be rendered inside the well. |
-| `role` | `string` | - | The ARIA role for the container (e.g., `'region'`, `'group'`, `'note'`, `'log'`). |
-| `aria-label` | `string` | - | An accessible label for the well. Required when `role="region"`. |
-| `aria-labelledby` | `string` | - | References the `id` of an element that labels this well. Alternative to `aria-label`. |
-| `UNSAFE_className` | `string` | - | A custom CSS class to apply. Use sparingly — prefer `View` when full style control is needed. |
+| Prop               | Type        | Default | Description                                                                                   |
+| ------------------ | ----------- | ------- | --------------------------------------------------------------------------------------------- |
+| `children`         | `ReactNode` | -       | The content to be rendered inside the well.                                                   |
+| `role`             | `string`    | -       | The ARIA role for the container (e.g., `'region'`, `'group'`, `'note'`, `'log'`).             |
+| `aria-label`       | `string`    | -       | An accessible label for the well. Required when `role="region"`.                              |
+| `aria-labelledby`  | `string`    | -       | References the `id` of an element that labels this well. Alternative to `aria-label`.         |
+| `UNSAFE_className` | `string`    | -       | A custom CSS class to apply. Use sparingly — prefer `View` when full style control is needed. |
 
 Additional layout and dimension props (`margin`, `width`, `height`, etc.) inherited from `SpectrumWellProps` are forwarded transparently.
 
@@ -153,17 +152,17 @@ import { Flex, Well, View } from '@geti/ui';
 
         <Button variant="cta">Save changes</Button>
     </Flex>
-</View>
+</View>;
 ```
 
 ## Accessibility
 
 - **Roles and Landmarks**: `Well` has no implicit ARIA role. Choose an explicit role based on the content it holds:
-  - `role="region"` — a significant, self-contained section of the page. **Must** be paired with `aria-label` or `aria-labelledby` to appear as a named landmark in assistive technology.
-  - `role="group"` — a set of related controls or fields. Useful inside forms.
-  - `role="note"` — supplementary information attached to the surrounding content (tips, warnings, annotations).
-  - `role="log"` — live output that updates over time (logs, feeds). Add `aria-live="polite"` or `aria-live="assertive"` as appropriate.
-  - Omit `role` entirely if the well is purely decorative and the landmark would add noise to the page structure.
+    - `role="region"` — a significant, self-contained section of the page. **Must** be paired with `aria-label` or `aria-labelledby` to appear as a named landmark in assistive technology.
+    - `role="group"` — a set of related controls or fields. Useful inside forms.
+    - `role="note"` — supplementary information attached to the surrounding content (tips, warnings, annotations).
+    - `role="log"` — live output that updates over time (logs, feeds). Add `aria-live="polite"` or `aria-live="assertive"` as appropriate.
+    - Omit `role` entirely if the well is purely decorative and the landmark would add noise to the page structure.
 - **Labelling**: Whenever a role is assigned, provide a clear label:
 
 ```tsx

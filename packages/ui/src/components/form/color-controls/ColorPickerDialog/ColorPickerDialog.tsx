@@ -1,10 +1,4 @@
-import {
-    parseColor,
-    Color,
-    Content,
-    Heading,
-    ButtonGroup,
-} from '@adobe/react-spectrum';
+import { parseColor, Color, Content, Heading, ButtonGroup } from '@adobe/react-spectrum';
 import { ColorArea } from '../ColorArea/ColorArea';
 import { ColorField } from '../ColorField/ColorField';
 import { ColorSlider } from '../ColorSlider/ColorSlider';
@@ -36,7 +30,7 @@ const DEFAULT_COLOR = 'hsb(0, 100%, 100%)';
 
 /**
  * Safely parses a color string into an HSBA Color object.
- * HSBA is used as the internal format to prevent "Unknown color channel: alpha" 
+ * HSBA is used as the internal format to prevent "Unknown color channel: alpha"
  * errors when rendering the alpha slider.
  */
 const safeParseColorHSBA = (value: string | undefined): Color => {
@@ -115,11 +109,7 @@ export const ColorPickerDialog = ({
                                         ColorField is passed a HEX string to ensure 
                                         proper formatting and avoid HSB channel mismatches.
                                     */}
-                                    <ColorField
-                                        label="Hex"
-                                        value={color.toFormat('rgb')}
-                                        onChange={setColorHSBA}
-                                    />
+                                    <ColorField label="Hex" value={color.toFormat('rgb')} onChange={setColorHSBA} />
                                 </Flex>
                             </Flex>
 

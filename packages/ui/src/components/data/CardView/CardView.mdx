@@ -18,11 +18,13 @@ import { CardView, Card } from '@geti/ui';
 `CardView` is used to render a collection of items as a responsive grid of cards. It is ideal for **visually rich content** such as images, media assets, user profiles, or product cards where 2D spatial browsing is more effective than a linear list.
 
 ### When to use CardView
+
 - **Media-heavy objects**: When images or previews are the primary way users identify items.
 - **2D Spatial Layout**: When users benefit from browsing a grid rather than scanning a vertical list.
 - **Comparison at a glance**: When items have roughly equal conceptual weight and need to be compared visually.
 
 ### Comparison with other collections
+
 - **vs. ListView**: Use `ListView` for text-heavy data where scannable density and linear order are more important.
 - **vs. TableView**: Use `TableView` when items have multiple attributes that need to be compared across columns (sorting/filtering).
 
@@ -37,47 +39,52 @@ import { CardView, Card } from '@geti/ui';
 ## Integration
 
 ### Paired with ActionBar
+
 To enable bulk actions in a `CardView`, it must be wrapped in an `ActionBarContainer`.
 
 ```tsx
 <ActionBarContainer>
-  <CardView
-    items={assets}
-    renderCard={(asset) => ({
-      title: asset.name,
-      isSelected: selectedKeys.has(asset.id),
-      onSelectionChange: (selected) => handleSelection(asset.id, selected)
-    })}
-  />
-  <ActionBar selectedItemCount={selectedKeys.size}>
-    <Item key="download">Download</Item>
-  </ActionBar>
+    <CardView
+        items={assets}
+        renderCard={(asset) => ({
+            title: asset.name,
+            isSelected: selectedKeys.has(asset.id),
+            onSelectionChange: (selected) => handleSelection(asset.id, selected),
+        })}
+    />
+    <ActionBar selectedItemCount={selectedKeys.size}>
+        <Item key="download">Download</Item>
+    </ActionBar>
 </ActionBarContainer>
 ```
 
 ### Empty States
+
 When the `items` array is empty, pair `CardView` with an `IllustratedMessage` to provide feedback to the user.
 
 ## Variants
 
 ### Custom Grid Layout
+
 The current implementation uses a flexible CSS Grid layout. You can configure the density using the `columns` and `gap` props.
 
 ### Card Types
+
 While `CardView` manages the collection, the individual cards are typically rendered using the `Card` component from `@geti/ui`. Depending on the use case, these can be:
+
 - **Asset Cards**: For files, images, or media.
 - **User Cards**: For people or profiles.
 - **Interactive Cards**: Cards that act as buttons or links.
 
 ## Props
 
-| Prop | Type | Default | Description |
-| :--- | :--- | :--- | :--- |
-| `items` | `T[]` | — | **Required.** The collection of data items to render. |
-| `renderCard` | `(item: T, index: number) => CardProps` | — | **Required.** A function that maps each data item to the props for a `Card` component. |
-| `aria-label` | `string` | — | **Required.** An accessible label for the card collection. |
-| `columns` | `number` | `3` | The number of columns in the grid layout. |
-| `gap` | `string` | `'16px'` | The CSS gap between cards. |
+| Prop         | Type                                    | Default  | Description                                                                            |
+| :----------- | :-------------------------------------- | :------- | :------------------------------------------------------------------------------------- |
+| `items`      | `T[]`                                   | —        | **Required.** The collection of data items to render.                                  |
+| `renderCard` | `(item: T, index: number) => CardProps` | —        | **Required.** A function that maps each data item to the props for a `Card` component. |
+| `aria-label` | `string`                                | —        | **Required.** An accessible label for the card collection.                             |
+| `columns`    | `number`                                | `3`      | The number of columns in the grid layout.                                              |
+| `gap`        | `string`                                | `'16px'` | The CSS gap between cards.                                                             |
 
 ## Accessibility
 

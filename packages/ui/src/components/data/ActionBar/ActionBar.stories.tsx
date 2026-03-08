@@ -6,7 +6,7 @@ import Delete from '@spectrum-icons/workflow/Delete';
 import { Key } from 'react-aria-components';
 
 const meta: Meta<typeof ActionBar> = {
-    tags: ["!dev"],
+    tags: ['!dev'],
     component: ActionBar,
     title: 'Data/ActionBar',
 };

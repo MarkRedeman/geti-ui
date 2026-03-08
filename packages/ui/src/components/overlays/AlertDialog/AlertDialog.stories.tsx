@@ -7,7 +7,7 @@ import { Button } from '@adobe/react-spectrum';
 import { AlertDialog, DialogTrigger } from '@geti/ui';
 
 const meta: Meta<typeof AlertDialog> = {
-    tags: ["!dev"],
+    tags: ['!dev'],
     component: AlertDialog,
     title: 'Overlays/AlertDialog',
     parameters: {

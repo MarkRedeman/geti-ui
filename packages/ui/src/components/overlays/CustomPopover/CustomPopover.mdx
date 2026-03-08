@@ -21,18 +21,21 @@ import { CustomPopover } from '@geti/ui';
 `CustomPopover` provides a **controlled or uncontrolled popover surface** built directly on `react-aria-components` (RAC) primitives, bypassing Spectrum's visual token system. This gives callers direct DOM and layout control at the cost of automatic Spectrum theming.
 
 Key responsibilities:
+
 - **Dual mode**: Operates either as a **controlled** popover (caller owns `isOpen`/`onOpenChange`, no trigger element in the component tree) or as an **uncontrolled** popover (a `triggerElement` is provided and `DialogTrigger` manages open state automatically).
 - **Directional arrow**: `showArrow` renders an `OverlayArrow` with a 12×12 SVG triangle that flips direction automatically based on resolved placement.
 - **Width control**: `width` sets both `width` and `minWidth` on the popover's inline style, ensuring a consistent panel size regardless of content.
 - **Full RAC `PopoverProps`**: All `react-aria-components` Popover positioning props (`placement`, `offset`, `crossOffset`, `containerPadding`, `shouldFlip`) are forwarded through `...rest`.
 
 ### When to use
+
 - When `Popover` (Spectrum-based) does not offer sufficient DOM layout control — e.g., when you need pixel-accurate placement for an annotation canvas editor.
 - When the popover requires a visible directional arrow pointing at its trigger (`showArrow`).
 - When the trigger element is provided externally and you want internal open-state management (`triggerElement` mode).
 - When the popover must be driven by external state (e.g., opened programmatically by a keyboard shortcut or a canvas event) without a persistent trigger button.
 
 ### When to avoid
+
 - For standard contextual information popovers triggered by a button — use `Popover` (Spectrum-based), which inherits Spectrum's visual token styling automatically.
 - For inline contextual help with a question mark icon — use `ContextualHelp`.
 - For rich dialog content that needs a title, dismiss button, and structured layout — use `DialogContainer` or `Dialog` directly.
@@ -45,11 +48,8 @@ Key responsibilities:
 Renders a RAC `DialogTrigger` wrapping both the trigger and the popover. The trigger drives open/close state; the caller is not responsible for managing `isOpen`.
 
 ```tsx
-<CustomPopover
-  triggerElement={<button>Open</button>}
-  placement="bottom"
->
-  <p>Popover content</p>
+<CustomPopover triggerElement={<button>Open</button>} placement="bottom">
+    <p>Popover content</p>
 </CustomPopover>
 ```
 
@@ -60,36 +60,24 @@ Renders a bare RAC `Popover` driven by `isOpen` and `onOpenChange`. Use when the
 ```tsx
 const [isOpen, setIsOpen] = useState(false);
 
-<CustomPopover
-  isOpen={isOpen}
-  onOpenChange={setIsOpen}
-  triggerRef={anchorRef}
-  placement="top"
->
-  <p>Controlled popover content</p>
-</CustomPopover>
+<CustomPopover isOpen={isOpen} onOpenChange={setIsOpen} triggerRef={anchorRef} placement="top">
+    <p>Controlled popover content</p>
+</CustomPopover>;
 ```
 
 ### With arrow
 
 ```tsx
-<CustomPopover
-  showArrow
-  triggerElement={<button>Open</button>}
-  placement="bottom start"
->
-  <p>Arrow points at the trigger.</p>
+<CustomPopover showArrow triggerElement={<button>Open</button>} placement="bottom start">
+    <p>Arrow points at the trigger.</p>
 </CustomPopover>
 ```
 
 ### Custom width
 
 ```tsx
-<CustomPopover
-  width={320}
-  triggerElement={<button>Open</button>}
->
-  <p>Fixed-width panel content.</p>
+<CustomPopover width={320} triggerElement={<button>Open</button>}>
+    <p>Fixed-width panel content.</p>
 </CustomPopover>
 ```
 
@@ -100,9 +88,9 @@ Built entirely on RAC primitives: `Popover`, `DialogTrigger`, `OverlayArrow`, an
 ```tsx
 // Arrow SVG — a 12×12 triangle. RAC flips it automatically on placement.
 <OverlayArrow>
-  <svg width={12} height={12} viewBox="0 0 12 12">
-    <path d="M0 0 L6 6 L12 0" />
-  </svg>
+    <svg width={12} height={12} viewBox="0 0 12 12">
+        <path d="M0 0 L6 6 L12 0" />
+    </svg>
 </OverlayArrow>
 ```
 
@@ -117,16 +105,16 @@ Callers are responsible for **all visual styling** of the popover surface — ba
 
 ## Props
 
-| Prop | Type | Default | Description |
-|------|------|---------|-------------|
-| `children` | `ReactNode` | — | **Required.** Content rendered inside the popover dialog. |
-| `triggerElement` | `ReactNode` | — | When provided, enables uncontrolled mode; the component wraps content in a `DialogTrigger`. |
-| `showArrow` | `boolean` | `false` | Renders a directional `OverlayArrow` SVG triangle pointing at the trigger. |
-| `width` | `number \| string` | — | Sets both `width` and `minWidth` on the popover panel. |
-| `placement` | `Placement` | `'bottom'` | Preferred placement relative to the trigger. RAC will flip if space is unavailable. |
-| `isOpen` | `boolean` | — | Controlled open state (controlled mode only). |
-| `onOpenChange` | `(isOpen: boolean) => void` | — | Called when the open state changes (controlled mode only). |
-| `style` | `CSSProperties` | — | Additional inline styles merged onto the popover panel. |
+| Prop             | Type                        | Default    | Description                                                                                 |
+| ---------------- | --------------------------- | ---------- | ------------------------------------------------------------------------------------------- |
+| `children`       | `ReactNode`                 | —          | **Required.** Content rendered inside the popover dialog.                                   |
+| `triggerElement` | `ReactNode`                 | —          | When provided, enables uncontrolled mode; the component wraps content in a `DialogTrigger`. |
+| `showArrow`      | `boolean`                   | `false`    | Renders a directional `OverlayArrow` SVG triangle pointing at the trigger.                  |
+| `width`          | `number \| string`          | —          | Sets both `width` and `minWidth` on the popover panel.                                      |
+| `placement`      | `Placement`                 | `'bottom'` | Preferred placement relative to the trigger. RAC will flip if space is unavailable.         |
+| `isOpen`         | `boolean`                   | —          | Controlled open state (controlled mode only).                                               |
+| `onOpenChange`   | `(isOpen: boolean) => void` | —          | Called when the open state changes (controlled mode only).                                  |
+| `style`          | `CSSProperties`             | —          | Additional inline styles merged onto the popover panel.                                     |
 
 All other `react-aria-components` `PopoverProps` (e.g., `offset`, `crossOffset`, `containerPadding`, `shouldFlip`, `triggerRef`) are forwarded via `...rest`.
 
@@ -137,11 +125,11 @@ All other `react-aria-components` `PopoverProps` (e.g., `offset`, `crossOffset`,
 - **Dismiss on `Escape`**: RAC handles `Escape` key dismissal automatically, calling `onOpenChange(false)`.
 - **Dismiss on outside click**: RAC dismisses the popover when the user clicks outside, calling `onOpenChange(false)`.
 - **`aria-label` on Dialog**: If the popover content does not include a visible heading, add `aria-label` to the `CustomPopover` (forwarded to the inner `AriaDialog`) so screen readers announce the popover's purpose:
-  ```tsx
-  <CustomPopover aria-label="Color picker" triggerElement={<button>Pick colour</button>}>
-    …
-  </CustomPopover>
-  ```
+    ```tsx
+    <CustomPopover aria-label="Color picker" triggerElement={<button>Pick colour</button>}>
+        …
+    </CustomPopover>
+    ```
 - **`OverlayArrow`**: The arrow SVG is decorative and carries no ARIA attributes — `OverlayArrow` is rendered with `aria-hidden` by RAC.
 - **Keyboard**: Standard RAC popover keyboard interactions apply — `Tab` cycles through focusable elements inside the popover; `Escape` closes it; clicking outside closes it.
 

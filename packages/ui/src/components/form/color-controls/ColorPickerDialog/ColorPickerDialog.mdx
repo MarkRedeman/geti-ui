@@ -5,7 +5,9 @@ import * as DocStories from './ColorPickerDialog.stories';
 
 # ColorPickerDialog
 
-<Subtitle>A stateful composite dialog that assembles every color-editing primitive into a single triggered color picker.</Subtitle>
+<Subtitle>
+    A stateful composite dialog that assembles every color-editing primitive into a single triggered color picker.
+</Subtitle>
 
 ```tsx
 import { ColorPickerDialog } from '@geti/ui';
@@ -18,6 +20,7 @@ import { ColorPickerDialog } from '@geti/ui';
 `ColorPickerDialog` is the highest-level, opinionated color input in the library. Unlike the individual color primitives (`ColorArea`, `ColorWheel`, `ColorSlider`, `ColorField`), this component owns its own internal draft state and presents a complete color editing experience behind an `ActionButton` trigger. It is the primary color picker entry point for any surface where users need to choose or change a color value.
 
 Key responsibilities:
+
 - **Stateful Draft**: Maintains a local `Color` draft while the dialog is open. Changes are not committed until the user presses **Confirm**, preserving the original value if they cancel.
 - **Composite Assembly**: Combines `ColorArea` (saturation/brightness 2D), two `ColorSlider` instances (hue + alpha), `ColorWheel`, `ColorField` (hex), and `ColorSwatchPicker` (8 presets) into a single cohesive layout.
 - **Controlled Trigger**: Exposes `isOpen` / `onOpenChange` for fully controlled open state when needed.
@@ -25,11 +28,13 @@ Key responsibilities:
 - **Safe Cancellation**: The **Cancel** button closes the dialog without calling `onColorChange` — the caller's state is never touched on dismissal.
 
 ### When to use
+
 - Any time users need to select or change a color value — annotation tools, theme settings, label management, chart customisation.
 - When the full color picker UI would be too large to show inline — the dialog pattern keeps it out of the way until needed.
 - When you want the safest, most complete color picking experience with minimal integration code.
 
 ### When to avoid
+
 - When you need to build a custom color picker layout — compose the primitives (`ColorArea`, `ColorWheel`, `ColorSlider`, `ColorField`) directly instead.
 - When only a fixed palette of brand colors is allowed — `ColorSwatchPicker` alone is more constrained and appropriate.
 - When color editing is a rare or low-priority action — consider a simple `ColorField` hex input to reduce UI weight.
@@ -39,23 +44,22 @@ Key responsibilities:
 **Stateful composite** — the only color component in this library that owns its own `useState`:
 
 ```tsx
-const [color, setColor] = useState<Color>(() =>
-  colorProp ? parseColor(colorProp) : parseColor('hsl(0, 100%, 50%)')
-);
+const [color, setColor] = useState<Color>(() => (colorProp ? parseColor(colorProp) : parseColor('hsl(0, 100%, 50%)')));
 
 useEffect(() => {
-  if (colorProp) setColor(parseColor(colorProp));
+    if (colorProp) setColor(parseColor(colorProp));
 }, [colorProp]);
 
 const handleConfirm = (close: () => void) => {
-  onColorChange?.(color.toString('hex'));
-  close();
+    onColorChange?.(color.toString('hex'));
+    close();
 };
 ```
 
 The dialog is opened via `DialogTrigger`. The trigger itself is an `ActionButton` containing a live `ColorSwatch` preview and a text label — giving users an immediate visual indicator of the current color before they open the picker.
 
 The dialog layout has two columns:
+
 - **Left**: `ColorArea` (saturation/brightness) → hue `ColorSlider` → alpha `ColorSlider`
 - **Right**: `ColorWheel` + `ColorField` (hex)
 - **Below**: `ColorSwatchPicker` with 8 preset swatches
@@ -74,11 +78,7 @@ All sub-components share the same `color` / `setColor` pair, so every picker is 
 
 ```tsx
 // Uncontrolled (typical)
-<ColorPickerDialog
-  color="#4a90e2"
-  label="Annotation Color"
-  onColorChange={(hex) => console.log('New color:', hex)}
-/>
+<ColorPickerDialog color="#4a90e2" label="Annotation Color" onColorChange={(hex) => console.log('New color:', hex)} />;
 // → User clicks "Annotation Color" button → dialog opens
 // → User drags ColorWheel, tweaks hex field, selects a preset
 // → Clicks Confirm → onColorChange('#1e90ff') fires
@@ -87,23 +87,23 @@ All sub-components share the same `color` / `setColor` pair, so every picker is 
 // Controlled open state
 const [isOpen, setIsOpen] = useState(false);
 <ColorPickerDialog
-  color={themeColor}
-  label="Theme Color"
-  onColorChange={setThemeColor}
-  isOpen={isOpen}
-  onOpenChange={setIsOpen}
-/>
+    color={themeColor}
+    label="Theme Color"
+    onColorChange={setThemeColor}
+    isOpen={isOpen}
+    onOpenChange={setIsOpen}
+/>;
 ```
 
 ### Props
 
-| Prop | Type | Default | Description |
-|------|------|---------|-------------|
-| `color` | `string` | `'hsl(0, 100%, 50%)'` | The current color value as a hex or CSS color string. |
-| `onColorChange` | `(color: string) => void` | — | Called with the confirmed hex color when the user clicks Confirm. |
-| `label` | `string` | `'Pick Color'` | The label shown on the trigger button and used as the dialog heading context. |
-| `isOpen` | `boolean` | — | Controlled open state for the dialog. |
-| `onOpenChange` | `(isOpen: boolean) => void` | — | Called when the dialog open state changes. |
+| Prop            | Type                        | Default               | Description                                                                   |
+| --------------- | --------------------------- | --------------------- | ----------------------------------------------------------------------------- |
+| `color`         | `string`                    | `'hsl(0, 100%, 50%)'` | The current color value as a hex or CSS color string.                         |
+| `onColorChange` | `(color: string) => void`   | —                     | Called with the confirmed hex color when the user clicks Confirm.             |
+| `label`         | `string`                    | `'Pick Color'`        | The label shown on the trigger button and used as the dialog heading context. |
+| `isOpen`        | `boolean`                   | —                     | Controlled open state for the dialog.                                         |
+| `onOpenChange`  | `(isOpen: boolean) => void` | —                     | Called when the dialog open state changes.                                    |
 
 ## Accessibility
 
@@ -115,6 +115,7 @@ const [isOpen, setIsOpen] = useState(false);
 - **Focus management**: On open, focus moves to the first interactive element inside the dialog (`ColorArea`). On close (either button or Escape), focus returns to the trigger `ActionButton`.
 
 ## Related components
+
 - `ColorArea` — the 2D saturation/brightness surface assembled inside this dialog.
 - `ColorWheel` — the hue ring assembled inside this dialog.
 - `ColorSlider` — the alpha/opacity slider assembled inside this dialog.
@@ -122,6 +123,7 @@ const [isOpen, setIsOpen] = useState(false);
 - `ColorSwatchPicker` — the preset swatch strip assembled inside this dialog.
 
 ## Example use cases
+
 <details>
   <summary>Typical use cases</summary>
 

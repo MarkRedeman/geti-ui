@@ -18,6 +18,7 @@ import { PhotoPlaceholder } from '@geti/ui';
 `PhotoPlaceholder` fills a functional gap in the Adobe Spectrum design system: providing a high-quality, initials-based fallback for missing images. While Spectrum's `Avatar` component is strictly image-only, `PhotoPlaceholder` ensures every entity has a distinct visual identity even without a profile photo.
 
 Key capabilities:
+
 - **Deterministic Color**: Background colors are hashed from an `indicator` string (e.g., email or ID), ensuring the same user always has the same color.
 - **Initials Rendering**: Automatically extracts and displays the first initial from the `name` prop.
 - **Smart Contrast**: Dynamically calculates whether to use light or dark text based on the background color's perceived luminance, ensuring WCAG-compliant contrast.
@@ -28,9 +29,11 @@ The color pipeline uses a perceptual luminance formula (ITU-R 601 weights): the 
 ## Variants
 
 ### Sizing
+
 The component supports standard Spectrum dimension tokens for `width` and `height`. The default size is `size-1600` (64px).
 
 ### Custom Shape
+
 Use the `borderRadius` prop to change the shape from the default circle (`50%`) to a rounded square or other geometric form.
 
 ## Props
@@ -39,25 +42,27 @@ Use the `borderRadius` prop to change the shape from the default circle (`50%`) 
 
 ### Content
 
-| Prop | Type | Default | Description |
-|------|------|---------|-------------|
-| `name` | `string` | **Required** | The name of the person or entity. Extracts the first letter for display. |
+| Prop        | Type     | Default      | Description                                                                    |
+| ----------- | -------- | ------------ | ------------------------------------------------------------------------------ |
+| `name`      | `string` | **Required** | The name of the person or entity. Extracts the first letter for display.       |
 | `indicator` | `string` | **Required** | A unique string (email, ID) used to deterministically pick a background color. |
 
 ### Value / Style overrides
 
-| Prop | Type | Default | Description |
-|------|------|---------|-------------|
-| `width` | `string \| number` | `'size-1600'` | Spectrum dimension token or numeric pixel value for width. |
-| `height` | `string \| number` | `'size-1600'` | Spectrum dimension token or numeric pixel value for height. |
-| `borderRadius` | `string` | `'50%'` | CSS border-radius value (e.g., `'8px'`, `'100%'`). |
+| Prop           | Type               | Default       | Description                                                 |
+| -------------- | ------------------ | ------------- | ----------------------------------------------------------- |
+| `width`        | `string \| number` | `'size-1600'` | Spectrum dimension token or numeric pixel value for width.  |
+| `height`       | `string \| number` | `'size-1600'` | Spectrum dimension token or numeric pixel value for height. |
+| `borderRadius` | `string`           | `'50%'`       | CSS border-radius value (e.g., `'8px'`, `'100%'`).          |
 
 ## Related components
+
 - `Avatar` — use when an actual user photo is available; `PhotoPlaceholder` is its fallback partner.
 - `AvatarGroup` — use when displaying a stack of multiple users; `PhotoPlaceholder` renders inside `Avatar` automatically on image error.
 - `Image` — use for general-purpose images that are not person/entity representations.
 
 ## Example use cases
+
 <details>
   <summary>Typical use cases</summary>
 

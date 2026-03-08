@@ -6,7 +6,7 @@ import type { Meta, StoryObj } from '@storybook/react';
 import { Breadcrumbs, BreadcrumbItem as Item } from '@geti/ui';
 
 const meta: Meta<typeof Breadcrumbs> = {
-    tags: ["!dev"],
+    tags: ['!dev'],
     component: Breadcrumbs,
     title: 'Navigation/Breadcrumbs',
     parameters: {

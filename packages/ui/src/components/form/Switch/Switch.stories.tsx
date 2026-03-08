@@ -6,7 +6,7 @@ import type { Meta, StoryObj } from '@storybook/react';
 import { Switch } from '@geti/ui';
 
 const meta: Meta<typeof Switch> = {
-    tags: ["!dev"],
+    tags: ['!dev'],
     component: Switch,
     title: 'Form/Switch',
     argTypes: {

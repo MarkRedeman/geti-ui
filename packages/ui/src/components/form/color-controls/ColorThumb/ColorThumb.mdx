@@ -5,7 +5,10 @@ import * as DocStories from './ColorThumb.stories';
 
 # ColorThumb
 
-<Subtitle>A compact square swatch that displays a color value as a solid background — the library's only fully custom color primitive.</Subtitle>
+<Subtitle>
+    A compact square swatch that displays a color value as a solid background — the library's only fully custom color
+    primitive.
+</Subtitle>
 
 ```tsx
 import { ColorThumb } from '@geti/ui';
@@ -18,17 +21,20 @@ import { ColorThumb } from '@geti/ui';
 `ColorThumb` is the only color component in this library that does **not** wrap `@adobe/react-spectrum`. It is a small, static, purely presentational element: a square block of solid color used to show the currently selected color at a glance — for example, inside a trigger button before the color picker opens, or in a table cell alongside a color label.
 
 Key responsibilities:
+
 - **Color Preview**: Renders a solid square with `background-color` driven by a CSS custom property (`--color-thumb-bg`), keeping dynamic color values in CSS rather than inline `style` attributes.
 - **Flexible Sizing**: The `size` prop controls both width and height uniformly, defaulting to `10` px. Sizes are integer pixel values — not Spectrum dimension tokens.
 - **CSS Custom Property Pattern**: Uses `UNSAFE_style` to inject `--color-thumb-bg` into the underlying `View`. The CSS module then references `var(--color-thumb-bg)` for `background-color`. This is the correct Spectrum-compatible pattern for dynamic color values in a CSS module.
 - **Composable**: Extends `ViewProps` (excluding `width`, `height`, and `UNSAFE_style`), so all Spectrum layout and spacing props (`margin`, `flex`, `alignSelf`, etc.) are available.
 
 ### When to use
+
 - To show the current color selection inside a trigger button (e.g., the `ActionButton` trigger in `ColorPickerDialog`).
 - As an inline color indicator in table cells, list items, or annotation label chips.
 - Anywhere a compact, non-interactive color swatch is needed without the overhead of `ColorSwatch` from the swatch picker family.
 
 ### When to avoid
+
 - When the swatch needs to be selectable — use `ColorSwatch` inside `ColorSwatchPicker` instead.
 - When you need to display a gradient or pattern — `ColorThumb` only renders solid colors.
 - When the color string might be `undefined` — always guard against `undefined` before passing to `color`, as an empty custom property will render a transparent background with no visible indicator.
@@ -38,23 +44,19 @@ Key responsibilities:
 Built on the library's own `View` component with a CSS module and a CSS custom property:
 
 ```tsx
-export const ColorThumb = ({
-  color,
-  size = 10,
-  UNSAFE_className,
-  UNSAFE_style,
-  ...rest
-}: ColorThumbProps) => (
-  <View
-    {...rest}
-    width={size}
-    height={size}
-    UNSAFE_className={clsx(styles.colorThumb, UNSAFE_className)}
-    UNSAFE_style={{
-      '--color-thumb-bg': color,
-      ...UNSAFE_style,
-    } as CSSPropertiesWithVars}
-  />
+export const ColorThumb = ({ color, size = 10, UNSAFE_className, UNSAFE_style, ...rest }: ColorThumbProps) => (
+    <View
+        {...rest}
+        width={size}
+        height={size}
+        UNSAFE_className={clsx(styles.colorThumb, UNSAFE_className)}
+        UNSAFE_style={
+            {
+                '--color-thumb-bg': color,
+                ...UNSAFE_style,
+            } as CSSPropertiesWithVars
+        }
+    />
 );
 ```
 
@@ -92,12 +94,12 @@ export const ColorThumb = ({
 
 ### Props
 
-| Prop | Type | Default | Description |
-|------|------|---------|-------------|
-| `color` | `string` | **Required** | Any valid CSS color string (`#rrggbb`, `rgb(...)`, `hsl(...)`, named colors). |
-| `size` | `number` | `10` | Width and height in pixels. |
-| `UNSAFE_className` | `string` | — | Additional CSS class names. Merged with the module class via `clsx`. |
-| `UNSAFE_style` | `CSSProperties` | — | Additional inline styles. Merged after the `--color-thumb-bg` custom property. |
+| Prop               | Type            | Default      | Description                                                                    |
+| ------------------ | --------------- | ------------ | ------------------------------------------------------------------------------ |
+| `color`            | `string`        | **Required** | Any valid CSS color string (`#rrggbb`, `rgb(...)`, `hsl(...)`, named colors).  |
+| `size`             | `number`        | `10`         | Width and height in pixels.                                                    |
+| `UNSAFE_className` | `string`        | —            | Additional CSS class names. Merged with the module class via `clsx`.           |
+| `UNSAFE_style`     | `CSSProperties` | —            | Additional inline styles. Merged after the `--color-thumb-bg` custom property. |
 
 All `ViewProps` layout and spacing props (`margin`, `flex`, `alignSelf`, `position`, etc.) are also accepted via `...rest`.
 
@@ -109,11 +111,13 @@ All `ViewProps` layout and spacing props (`margin`, `flex`, `alignSelf`, `positi
 - **Do not focus**: `ColorThumb` is not in the tab order. Never add a `tabIndex` or `onPress` handler directly to it.
 
 ## Related components
+
 - `ColorSwatch` — use instead when the color display needs a standardized size, shape, and optional interactivity in a `ColorSwatchPicker`.
 - `ColorPickerDialog` — use `ColorThumb` as the visual swatch inside the trigger `ActionButton` of a color picker.
 - `ActionButton` — the typical parent element; wrap an `ActionButton` around `ColorThumb` to create a compact color picker trigger.
 
 ## Example use cases
+
 <details>
   <summary>Typical use cases</summary>
 

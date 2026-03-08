@@ -37,19 +37,19 @@ Built on RAC, not Spectrum. Key building blocks:
 
 ## Props
 
-| Prop | Type | Default | Description |
-|------|------|---------|-------------|
-| `items` | `T[]` | — | **Required.** The array of items to render. |
-| `renderItem` | `(item: T) => ReactNode` | — | **Required.** Renders the content for each list item. |
-| `idFormatter` | `(item: T) => Key` | — | **Required.** Returns the unique key for each item. |
-| `textValueFormatter` | `(item: T) => string` | — | **Required.** Returns the accessible text for each item. |
-| `layoutOptions` | `ListLayoutOptions` | — | Options passed to `ListLayout` (e.g. `rowHeight`). |
-| `containerHeight` | `string` | — | Height of the outer scroll container. Defaults to filling available space. |
-| `isLoading` | `boolean` | `false` | When true, appends the loading sentinel and triggers `useLoadMore`. |
-| `onLoadMore` | `() => void` | — | Called when the user scrolls near the bottom of the list. |
-| `renderLoading` | `() => ReactNode` | `<Loading mode="inline" size="M">` | Custom render for the loading sentinel. |
-| `selected` | `Iterable<Key>` | — | The currently selected item keys. |
-| `ariaLabel` | `string` | — | **Required.** Accessible label for the list box. |
+| Prop                 | Type                     | Default                            | Description                                                                |
+| -------------------- | ------------------------ | ---------------------------------- | -------------------------------------------------------------------------- |
+| `items`              | `T[]`                    | —                                  | **Required.** The array of items to render.                                |
+| `renderItem`         | `(item: T) => ReactNode` | —                                  | **Required.** Renders the content for each list item.                      |
+| `idFormatter`        | `(item: T) => Key`       | —                                  | **Required.** Returns the unique key for each item.                        |
+| `textValueFormatter` | `(item: T) => string`    | —                                  | **Required.** Returns the accessible text for each item.                   |
+| `layoutOptions`      | `ListLayoutOptions`      | —                                  | Options passed to `ListLayout` (e.g. `rowHeight`).                         |
+| `containerHeight`    | `string`                 | —                                  | Height of the outer scroll container. Defaults to filling available space. |
+| `isLoading`          | `boolean`                | `false`                            | When true, appends the loading sentinel and triggers `useLoadMore`.        |
+| `onLoadMore`         | `() => void`             | —                                  | Called when the user scrolls near the bottom of the list.                  |
+| `renderLoading`      | `() => ReactNode`        | `<Loading mode="inline" size="M">` | Custom render for the loading sentinel.                                    |
+| `selected`           | `Iterable<Key>`          | —                                  | The currently selected item keys.                                          |
+| `ariaLabel`          | `string`                 | —                                  | **Required.** Accessible label for the list box.                           |
 
 ## Accessibility
 

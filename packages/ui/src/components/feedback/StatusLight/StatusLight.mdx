@@ -22,18 +22,21 @@ import { StatusLight } from '@geti/ui';
 The key distinction from `Badge` is **temporal presence**: a `StatusLight` implies a continuous, live state that persists and may change (e.g. a device that is `"Active"` right now, or `"Offline"` since last ping). A `Badge` is a static categorical label attached to a noun (e.g. `"Beta"`, `"Archived"`). When the state can change at runtime and the user needs to understand the current health of the system, `StatusLight` is the right choice.
 
 Key characteristics:
+
 - **Semantic and accent variants**: Four semantic variants (`positive`, `negative`, `notice`, `info`) carry universal meaning; nine accent variants (`celery`, `chartreuse`, `yellow`, `magenta`, `fuchsia`, `purple`, `indigo`, `seafoam`, `neutral`) support categorical colour coding in data visualisation.
 - **Disabled state**: `isDisabled` renders the dot and label in a muted style, communicating that the status information is not available or the resource is inactive.
 - **Passive display**: `StatusLight` is a non-interactive display primitive. It does not receive focus or handle press events.
 - **Theme aware**: Visual tokens are resolved by `ThemeProvider`; no component-level CSS overrides are needed.
 
 ### When to use
+
 - To represent the live operational state of a device, service, or model deployment in a list or dashboard (`"Active"`, `"Offline"`, `"Error"`, `"Training"`).
 - To colour-code categories in a legend for a data visualisation chart, using the accent variants for differentiation without semantic implication.
 - In tables and list views where a small, scannable status indicator is needed alongside row data.
 - Use semantic variants (`positive`, `negative`, `notice`, `info`) when the colour carries a health meaning; use accent variants (`celery`, `indigo`, etc.) for pure categorical differentiation.
 
 ### When to avoid
+
 - When the state is a static classification or label, not a live condition — use `Badge` instead.
 - When the status needs a title and explanatory body text (e.g. an error message with detail) — use `InlineAlert`.
 - Do not use `StatusLight` for form validation feedback; screen readers interpret it as a status indicator, not an error message.
@@ -82,20 +85,20 @@ No state, no effects, no refs. Spectrum handles dot colour, label alignment, and
 </Flex>
 ```
 
-| Concern | Detail |
-|---------|--------|
-| **Package** | `@adobe/react-spectrum` — `StatusLight` |
-| **Theme** | Resolved automatically by `ThemeProvider`. No CSS imports required. |
-| **Related** | `Badge` (static categorical label), `InlineAlert` (rich contextual message), `Meter` (quantitative level) |
-| **Placement** | Device/pipeline list rows, dashboard stat panels, data visualisation legends, model deployment cards |
+| Concern       | Detail                                                                                                    |
+| ------------- | --------------------------------------------------------------------------------------------------------- |
+| **Package**   | `@adobe/react-spectrum` — `StatusLight`                                                                   |
+| **Theme**     | Resolved automatically by `ThemeProvider`. No CSS imports required.                                       |
+| **Related**   | `Badge` (static categorical label), `InlineAlert` (rich contextual message), `Meter` (quantitative level) |
+| **Placement** | Device/pipeline list rows, dashboard stat panels, data visualisation legends, model deployment cards      |
 
 All `SpectrumStatusLightProps` are accepted as-is. The primary props are:
 
-| Prop | Type | Default | Description |
-|------|------|---------|-------------|
-| `children` | `ReactNode` | — | The visible label text. **Required** — a `StatusLight` without a label is inaccessible. |
-| `variant` | `'neutral' \| 'positive' \| 'negative' \| 'notice' \| 'info' \| 'celery' \| 'chartreuse' \| 'yellow' \| 'magenta' \| 'fuchsia' \| 'purple' \| 'indigo' \| 'seafoam'` | `'neutral'` | Determines dot colour. Semantic variants carry health meaning; accent variants are for categorical differentiation. |
-| `isDisabled` | `boolean` | `false` | Renders the dot and label muted, indicating that status is unavailable. |
+| Prop         | Type                                                                                                                                                                 | Default     | Description                                                                                                         |
+| ------------ | -------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------- | ------------------------------------------------------------------------------------------------------------------- |
+| `children`   | `ReactNode`                                                                                                                                                          | —           | The visible label text. **Required** — a `StatusLight` without a label is inaccessible.                             |
+| `variant`    | `'neutral' \| 'positive' \| 'negative' \| 'notice' \| 'info' \| 'celery' \| 'chartreuse' \| 'yellow' \| 'magenta' \| 'fuchsia' \| 'purple' \| 'indigo' \| 'seafoam'` | `'neutral'` | Determines dot colour. Semantic variants carry health meaning; accent variants are for categorical differentiation. |
+| `isDisabled` | `boolean`                                                                                                                                                            | `false`     | Renders the dot and label muted, indicating that status is unavailable.                                             |
 
 ## Accessibility
 
@@ -108,12 +111,14 @@ All `SpectrumStatusLightProps` are accepted as-is. The primary props are:
 - **Live state updates**: When `StatusLight` reflects a value that changes at runtime (e.g. polling a device status), wrap it in an `aria-live="polite"` region so screen reader users are notified of changes without interruption.
 
 ## Related components
+
 - **`Badge`** — use for static categorical metadata (e.g. "Beta", "Archived") attached to an entity rather than a live, changeable operational state.
 - **`InlineAlert`** — use when the status message requires a title, body copy, and/or an action button (e.g. a persistent error explanation).
 - **`Toast`** — use for transient, event-driven notifications triggered after async operations complete rather than for displaying a continuous live state.
 - **`Meter`** — use when the state is a measurable quantity within a known range (e.g. 72% storage used) rather than a categorical health label.
 
 ## Example use cases
+
 <details>
   <summary>Typical use cases</summary>
 

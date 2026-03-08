@@ -7,7 +7,7 @@ import { Content } from '@adobe/react-spectrum';
 import { TabItem as Item, TabList, TabPanels, Tabs } from '@geti/ui';
 
 const meta: Meta<typeof Tabs> = {
-    tags: ["!dev"],
+    tags: ['!dev'],
     component: Tabs,
     title: 'Navigation/Tabs',
     parameters: {

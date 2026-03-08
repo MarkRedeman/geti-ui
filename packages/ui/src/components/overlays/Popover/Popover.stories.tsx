@@ -7,7 +7,7 @@ import { ActionButton, Content, Dialog, Heading } from '@adobe/react-spectrum';
 import { Popover } from '@geti/ui';
 
 const meta: Meta<typeof Popover> = {
-    tags: ["!dev"],
+    tags: ['!dev'],
     component: Popover,
     title: 'Overlays/Popover',
     parameters: {

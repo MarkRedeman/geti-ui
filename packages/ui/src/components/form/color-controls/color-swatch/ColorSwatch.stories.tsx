@@ -3,7 +3,7 @@ import type { Meta, StoryObj } from '@storybook/react';
 import { ColorSwatch, Flex } from '@geti/ui';
 
 const meta: Meta<typeof ColorSwatch> = {
-    tags: ["!dev"],
+    tags: ['!dev'],
     component: ColorSwatch,
     title: 'Form/Color controls/ColorSwatch',
     argTypes: {

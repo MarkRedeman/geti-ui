@@ -7,7 +7,7 @@ import { Button, ButtonGroup, Content, Divider, Footer, Heading } from '@adobe/r
 import { Dialog, DialogTrigger } from '@geti/ui';
 
 const meta: Meta<typeof Dialog> = {
-    tags: ["!dev"],
+    tags: ['!dev'],
     component: Dialog,
     title: 'Overlays/Dialog',
     parameters: {

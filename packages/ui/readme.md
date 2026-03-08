@@ -5,6 +5,7 @@
 `packages/ui/` is the `@geti/ui` library package — the single publishable artifact of the monorepo. It contains the React + TypeScript component library, its Storybook configuration, Playwright e2e tests, and all build tooling configuration.
 
 Responsibilities:
+
 - **Library source** (`src/`) — all components, the theme system, utilities, and the public `index.ts` barrel export.
 - **Build** — `rslib` (Rspack-based library bundler) produces dual ESM + CJS outputs plus TypeScript declaration files under `dist/`.
 - **Storybook** (`.storybook/`) — interactive component catalogue and development environment, served on port 6006.
@@ -24,12 +25,14 @@ Responsibilities:
 ## Flow
 
 **Development:**
+
 ```
 npm run storybook      → starts Storybook dev server (Rsbuild, port 6006)
 npm run test:watch     → rstest in watch mode, re-runs on file save
 ```
 
 **Build:**
+
 ```
 src/index.ts
   → rslib (Rspack + pluginReact)
@@ -39,6 +42,7 @@ src/index.ts
 ```
 
 **Test:**
+
 ```
 *.test.tsx  → rstest (jsdom) → @testing-library assertions
 e2e/*.spec.ts → Playwright → running Storybook instance

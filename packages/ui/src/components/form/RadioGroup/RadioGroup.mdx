@@ -26,27 +26,29 @@ import { RadioGroup, Radio } from '@geti/ui';
 - **`Radio` outside `RadioGroup`**: Do not render `Radio` without a `RadioGroup` parent — mutual-exclusion logic and ARIA group semantics live in the container.
 
 ### When to use
+
 - When the user must choose **exactly one** option from a small, visible set (typically 2–5 choices).
 - When it is important for the user to **see all options simultaneously** to compare them.
 - When options are **mutually exclusive by nature**: alignment, notification frequency, etc.
 
 ### When to avoid
+
 - **Multiple selections** — use [`CheckboxGroup`](/docs/form-checkboxgroup--docs).
 - **A single on/off toggle** — use [`Switch`](/docs/form-switch--docs) or [`Checkbox`](/docs/form-checkbox--docs).
 - **Many options or limited space** — use [`Select`](/docs/form-pickers-select--docs) or [`ComboBox`](/docs/form-pickers-combobox--docs).
 
 ## States
 
-| State | Prop | Description |
-|-------|------|-------------|
-| Default | — | No option selected. |
-| Pre-selected | `defaultValue="..."` | Uncontrolled initial selection. |
-| Controlled | `value="..."` + `onChange` | Controlled selection state. |
-| Disabled (group) | `isDisabled={true}` on `RadioGroup` | All options non-interactive and dimmed. |
-| Disabled (option) | `isDisabled={true}` on `Radio` | Single option disabled; others remain active. |
-| Invalid | `validationState="invalid"` on `RadioGroup` | Error border and icon on the group. |
-| Read-only | `isReadOnly={true}` | Current selection visible but cannot be changed. |
-| Required | `isRequired={true}` | Visual asterisk and `aria-required` on the group. |
+| State             | Prop                                        | Description                                       |
+| ----------------- | ------------------------------------------- | ------------------------------------------------- |
+| Default           | —                                           | No option selected.                               |
+| Pre-selected      | `defaultValue="..."`                        | Uncontrolled initial selection.                   |
+| Controlled        | `value="..."` + `onChange`                  | Controlled selection state.                       |
+| Disabled (group)  | `isDisabled={true}` on `RadioGroup`         | All options non-interactive and dimmed.           |
+| Disabled (option) | `isDisabled={true}` on `Radio`              | Single option disabled; others remain active.     |
+| Invalid           | `validationState="invalid"` on `RadioGroup` | Error border and icon on the group.               |
+| Read-only         | `isReadOnly={true}`                         | Current selection visible but cannot be changed.  |
+| Required          | `isRequired={true}`                         | Visual asterisk and `aria-required` on the group. |
 
 Use `orientation="horizontal"` for 2–3 short-label options when horizontal space is available. Keep the default vertical orientation for longer labels or more than 3 options.
 
@@ -56,35 +58,37 @@ Use `orientation="horizontal"` for 2–3 short-label options when horizontal spa
 
 ### RadioGroup
 
-| Prop | Type | Default | Description |
-|------|------|---------|-------------|
-| `label` | `ReactNode` | — | The label for the group. Required for accessibility unless `aria-label` is provided. |
-| `value` | `string` | — | The currently selected value (controlled). |
-| `defaultValue` | `string` | — | The initial selected value (uncontrolled). |
-| `onChange` | `(value: string) => void` | — | Called when the selected option changes. Receives the `value` string of the newly selected `Radio`. |
-| `orientation` | `'vertical' \| 'horizontal'` | `'vertical'` | The axis along which radio options are arranged. |
-| `validationState` | `'valid' \| 'invalid'` | — | Visual and ARIA validation state for the group. |
-| `errorMessage` | `ReactNode` | — | Error text rendered below the group when `validationState="invalid"`. |
-| `description` | `ReactNode` | — | Persistent helper text displayed below the group label. |
-| `isRequired` | `boolean` | `false` | Whether a selection is required. Adds a visual asterisk and `aria-required`. |
-| `isDisabled` | `boolean` | `false` | Whether all options in the group are non-interactive. |
-| `isReadOnly` | `boolean` | `false` | Whether the selection is visible but cannot be changed. |
+| Prop              | Type                         | Default      | Description                                                                                         |
+| ----------------- | ---------------------------- | ------------ | --------------------------------------------------------------------------------------------------- |
+| `label`           | `ReactNode`                  | —            | The label for the group. Required for accessibility unless `aria-label` is provided.                |
+| `value`           | `string`                     | —            | The currently selected value (controlled).                                                          |
+| `defaultValue`    | `string`                     | —            | The initial selected value (uncontrolled).                                                          |
+| `onChange`        | `(value: string) => void`    | —            | Called when the selected option changes. Receives the `value` string of the newly selected `Radio`. |
+| `orientation`     | `'vertical' \| 'horizontal'` | `'vertical'` | The axis along which radio options are arranged.                                                    |
+| `validationState` | `'valid' \| 'invalid'`       | —            | Visual and ARIA validation state for the group.                                                     |
+| `errorMessage`    | `ReactNode`                  | —            | Error text rendered below the group when `validationState="invalid"`.                               |
+| `description`     | `ReactNode`                  | —            | Persistent helper text displayed below the group label.                                             |
+| `isRequired`      | `boolean`                    | `false`      | Whether a selection is required. Adds a visual asterisk and `aria-required`.                        |
+| `isDisabled`      | `boolean`                    | `false`      | Whether all options in the group are non-interactive.                                               |
+| `isReadOnly`      | `boolean`                    | `false`      | Whether the selection is visible but cannot be changed.                                             |
 
 ### Radio
 
-| Prop | Type | Default | Description |
-|------|------|---------|-------------|
-| `value` | `string` | — | **Required.** The string value submitted when this option is selected. Must be unique within the group. |
-| `children` | `ReactNode` | — | The visible label for this radio option. |
-| `isDisabled` | `boolean` | `false` | Whether this specific option is non-interactive while others remain active. |
+| Prop         | Type        | Default | Description                                                                                             |
+| ------------ | ----------- | ------- | ------------------------------------------------------------------------------------------------------- |
+| `value`      | `string`    | —       | **Required.** The string value submitted when this option is selected. Must be unique within the group. |
+| `children`   | `ReactNode` | —       | The visible label for this radio option.                                                                |
+| `isDisabled` | `boolean`   | `false` | Whether this specific option is non-interactive while others remain active.                             |
 
 ## Related components
+
 - `CheckboxGroup` — use instead when multiple options may be selected simultaneously.
 - `Picker` — use instead when there are many options and a dropdown saves space.
 - `Switch` — use instead for a strictly binary on/off toggle that takes immediate effect.
 - `ToggleButtons` — use instead when the options are toolbar-style controls rather than form fields.
 
 ## Example use cases
+
 <details>
   <summary>Typical use cases</summary>
 

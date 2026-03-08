@@ -11,18 +11,18 @@ The `data/` category owns **components for presenting, browsing, and acting on c
 
 Components in this folder:
 
-| Component | Purpose |
-|---|---|
-| `ListBox` | Static list of selectable options (single or multi) |
-| `ListView` | Interactive item list with selection, drag-and-drop, and density variants |
-| `TableView` + sub-components | Sortable, selectable columnar table with virtualised scrolling |
-| `TreeView` | Hierarchical expandable/collapsible tree |
-| `CardView` | Responsive CSS-grid of `Card` components driven by a data array |
-| `ActionBar` / `ActionBarContainer` | Floating contextual toolbar for bulk selection actions |
-| `Tag` | Standalone Geti-styled metadata chip with dot, prefix/suffix slots |
-| `TagGroup` | Spectrum-backed removable tag collection |
-| `VirtualizedListLayout` | High-performance windowed vertical list (react-aria-components Virtualizer) |
-| `VirtualizedHorizontalGrid` | High-performance windowed horizontal carousel (react-aria-components Virtualizer) |
+| Component                          | Purpose                                                                           |
+| ---------------------------------- | --------------------------------------------------------------------------------- |
+| `ListBox`                          | Static list of selectable options (single or multi)                               |
+| `ListView`                         | Interactive item list with selection, drag-and-drop, and density variants         |
+| `TableView` + sub-components       | Sortable, selectable columnar table with virtualised scrolling                    |
+| `TreeView`                         | Hierarchical expandable/collapsible tree                                          |
+| `CardView`                         | Responsive CSS-grid of `Card` components driven by a data array                   |
+| `ActionBar` / `ActionBarContainer` | Floating contextual toolbar for bulk selection actions                            |
+| `Tag`                              | Standalone Geti-styled metadata chip with dot, prefix/suffix slots                |
+| `TagGroup`                         | Spectrum-backed removable tag collection                                          |
+| `VirtualizedListLayout`            | High-performance windowed vertical list (react-aria-components Virtualizer)       |
+| `VirtualizedHorizontalGrid`        | High-performance windowed horizontal carousel (react-aria-components Virtualizer) |
 
 ---
 
@@ -43,9 +43,11 @@ export const TableView = <T extends object>(props: TableViewProps<T>) => <Spectr
 ```
 
 This means consumers can do:
+
 ```tsx
 import { TableView, TableHeader, Column, TableBody, Row, Cell } from '@geti/ui';
 ```
+
 …without knowing which Spectrum sub-package each piece comes from.
 
 ### CardView — CSS-grid composite over layouts/Card
@@ -61,6 +63,7 @@ import { TableView, TableHeader, Column, TableBody, Row, Cell } from '@geti/ui';
 Both virtualized components bypass Spectrum's ListView/TableView and instead use the **`react-aria-components` `Virtualizer` + `ListBox`** pattern. This is the library's forward-looking direction (react-aria-components is the next generation after `@adobe/react-spectrum`).
 
 Key design choices:
+
 - `VirtualizedListLayout` uses `ListLayout` from `react-aria-components` and `useLoadMore` from `@react-aria/utils` to implement infinite-scroll load-more behaviour.
 - `VirtualizedHorizontalGrid` uses a custom `HorizontalLayout` class for the carousel layout.
 - Both use an `idFormatter` + `textValueFormatter` callback pattern to decouple rendering from identity, keeping the component generic over any `T`.
@@ -80,14 +83,13 @@ Key design choices:
 ## Integration
 
 - **Depends on**:
-  - `@adobe/react-spectrum` — `ListBox`, `ListView`, `TableView`, `TreeView`, `TagGroup`, `ActionBar`
-  - `react-aria-components` — `Virtualizer`, `ListBox`, `ListBoxItem`, `ListLayout`
-  - `@react-aria/utils` — `useLoadMore`
-  - `../layouts/Card/Card` — `CardView` composes `Card` directly
-  - `../feedback/Loading/Loading` — `VirtualizedListLayout` default loading state
+    - `@adobe/react-spectrum` — `ListBox`, `ListView`, `TableView`, `TreeView`, `TagGroup`, `ActionBar`
+    - `react-aria-components` — `Virtualizer`, `ListBox`, `ListBoxItem`, `ListLayout`
+    - `@react-aria/utils` — `useLoadMore`
+    - `../layouts/Card/Card` — `CardView` composes `Card` directly
+    - `../feedback/Loading/Loading` — `VirtualizedListLayout` default loading state
 - **Consumed by**: any Geti page that lists projects, annotations, datasets, media items, labels, or any other collection.
 - **Theme**: all Spectrum-based components inherit the Geti dark theme from `ThemeProvider`; `Tag` reads Spectrum global CSS tokens directly.
-
 
 ---
 
@@ -100,4 +102,3 @@ Key design choices:
 ## Props
 
 <Controls />
-

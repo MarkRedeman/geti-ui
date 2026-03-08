@@ -11,7 +11,7 @@ export interface CardViewProps<T = unknown> {
     items: T[];
     /** Render function that maps an item to a card. */
     renderCard: (item: T, index: number) => CardProps;
-    /** 
+    /**
      * Extractor function for the stable identity key of an item.
      * @default (item, index) => index
      */

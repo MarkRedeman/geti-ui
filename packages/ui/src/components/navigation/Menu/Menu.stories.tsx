@@ -7,7 +7,7 @@ import { ActionButton } from '@adobe/react-spectrum';
 import { MenuItem as Item, Menu, MenuTrigger, MenuSection as Section } from '@geti/ui';
 
 const meta: Meta<typeof Menu> = {
-    tags: ["!dev"],
+    tags: ['!dev'],
     component: Menu,
     title: 'Navigation/Menu',
     parameters: {

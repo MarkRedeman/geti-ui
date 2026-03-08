@@ -33,6 +33,7 @@ Consumer: import { Button } from '@geti/ui'
 ```
 
 At build time:
+
 ```
 src/index.ts  (rslib entry)
   → re-exports from components/, theme/, utils/

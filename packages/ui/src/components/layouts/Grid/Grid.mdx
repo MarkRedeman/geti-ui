@@ -13,7 +13,6 @@ import { Grid } from '@geti/ui';
 
 - [React Spectrum V3 Grid](https://react-spectrum.adobe.com/react-spectrum/Grid.html)
 
-
 <Stories />
 
 ## Responsibility
@@ -21,12 +20,14 @@ import { Grid } from '@geti/ui';
 `Grid` is the layout primitive for two-dimensional composition. Where `Flex` handles a single axis, `Grid` controls both rows and columns simultaneously, making it the right choice for page scaffolding, dashboard panels, card galleries, and any layout where alignment across two axes matters.
 
 Key responsibilities:
+
 - **Two-Dimensional Layout**: Define rows and columns independently with `rows` and `columns` props.
 - **Named Areas**: Use the `areas` prop to build readable, intent-expressive layout templates (e.g., `'header header'`, `'sidebar content'`).
 - **Flexible Track Sizing**: Supports `fr` units, `auto`, percentage widths, and Spectrum dimension tokens — all in the same declaration.
 - **Responsive Control**: Define entirely different grid structures for different viewport sizes using responsive prop objects.
 
 ### When to use
+
 - To build the overall skeleton of a page or complex UI panel (header, sidebar, content, footer).
 - For card galleries where items should align on both row and column axes.
 - When a layout has a fixed-width sidebar alongside a fluid content region.
@@ -34,6 +35,7 @@ Key responsibilities:
 - When items need to span multiple rows or columns.
 
 ### When to avoid
+
 - For simple horizontal or vertical stacks — use `Flex` instead.
 - When you only need to align items along a single axis.
 - For wrapping tag or chip lists — `Flex wrap` is simpler and more semantically appropriate.
@@ -81,11 +83,7 @@ The thin-wrapper pattern provides namespace isolation — consuming code imports
 
 ```tsx
 <Grid
-    areas={[
-        'header  header',
-        'sidebar content',
-        'footer  footer',
-    ]}
+    areas={['header  header', 'sidebar content', 'footer  footer']}
     columns={['240px', '1fr']}
     rows={['size-800', '1fr', 'size-600']}
     gap="size-200"
@@ -102,7 +100,9 @@ The thin-wrapper pattern provides namespace isolation — consuming code imports
 ```tsx
 // Auto-fill card gallery: as many columns as fit, min 260px each
 <Grid columns="repeat(auto-fill, minmax(260px, 1fr))" gap="size-300">
-    {projects.map(p => <Card key={p.id}>{p.name}</Card>)}
+    {projects.map((p) => (
+        <Card key={p.id}>{p.name}</Card>
+    ))}
 </Grid>
 ```
 
@@ -111,11 +111,10 @@ The thin-wrapper pattern provides namespace isolation — consuming code imports
 Use a responsive object to collapse columns on smaller viewports.
 
 ```tsx
-<Grid
-    columns={{ base: '1fr', M: 'repeat(2, 1fr)', L: 'repeat(3, 1fr)' }}
-    gap={{ base: 'size-200', L: 'size-300' }}
->
-    {items.map(item => <Card key={item.id}>{item.name}</Card>)}
+<Grid columns={{ base: '1fr', M: 'repeat(2, 1fr)', L: 'repeat(3, 1fr)' }} gap={{ base: 'size-200', L: 'size-300' }}>
+    {items.map((item) => (
+        <Card key={item.id}>{item.name}</Card>
+    ))}
 </Grid>
 ```
 
@@ -139,22 +138,22 @@ Spectrum's named breakpoints are:
 
 ## Props
 
-| Prop | Type | Default | Description |
-| --- | --- | --- | --- |
-| `areas` | `Responsive<string[]>` | - | Named grid area template. Each string represents one row. |
-| `columns` | `Responsive<DimensionValue[] \| string>` | - | Track sizes for columns. Accepts Spectrum tokens, CSS values, or `fr` units. |
-| `rows` | `Responsive<DimensionValue[] \| string>` | - | Track sizes for rows. |
-| `gap` | `Responsive<DimensionValue>` | - | The space between grid items (both axes). |
-| `columnGap` | `Responsive<DimensionValue>` | - | Horizontal gap between columns. |
-| `rowGap` | `Responsive<DimensionValue>` | - | Vertical gap between rows. |
-| `justifyContent` | `Responsive<JustifyContent>` | - | How the whole grid is aligned horizontally within the container. |
-| `alignContent` | `Responsive<AlignContent>` | - | How the whole grid is aligned vertically within the container. |
-| `justifyItems` | `Responsive<JustifyItems>` | - | Default horizontal alignment of items within their cells. |
-| `alignItems` | `Responsive<AlignItems>` | - | Default vertical alignment of items within their cells. |
-| `autoColumns` | `Responsive<DimensionValue>` | - | Size for implicitly created columns. |
-| `autoRows` | `Responsive<DimensionValue>` | - | Size for implicitly created rows. |
-| `elementType` | `string` | `'div'` | The HTML element or custom component to render. |
-| `children` | `ReactNode` | - | The grid items. |
+| Prop             | Type                                     | Default | Description                                                                  |
+| ---------------- | ---------------------------------------- | ------- | ---------------------------------------------------------------------------- |
+| `areas`          | `Responsive<string[]>`                   | -       | Named grid area template. Each string represents one row.                    |
+| `columns`        | `Responsive<DimensionValue[] \| string>` | -       | Track sizes for columns. Accepts Spectrum tokens, CSS values, or `fr` units. |
+| `rows`           | `Responsive<DimensionValue[] \| string>` | -       | Track sizes for rows.                                                        |
+| `gap`            | `Responsive<DimensionValue>`             | -       | The space between grid items (both axes).                                    |
+| `columnGap`      | `Responsive<DimensionValue>`             | -       | Horizontal gap between columns.                                              |
+| `rowGap`         | `Responsive<DimensionValue>`             | -       | Vertical gap between rows.                                                   |
+| `justifyContent` | `Responsive<JustifyContent>`             | -       | How the whole grid is aligned horizontally within the container.             |
+| `alignContent`   | `Responsive<AlignContent>`               | -       | How the whole grid is aligned vertically within the container.               |
+| `justifyItems`   | `Responsive<JustifyItems>`               | -       | Default horizontal alignment of items within their cells.                    |
+| `alignItems`     | `Responsive<AlignItems>`                 | -       | Default vertical alignment of items within their cells.                      |
+| `autoColumns`    | `Responsive<DimensionValue>`             | -       | Size for implicitly created columns.                                         |
+| `autoRows`       | `Responsive<DimensionValue>`             | -       | Size for implicitly created rows.                                            |
+| `elementType`    | `string`                                 | `'div'` | The HTML element or custom component to render.                              |
+| `children`       | `ReactNode`                              | -       | The grid items.                                                              |
 
 All remaining `GridProps` from `@adobe/react-spectrum` are forwarded transparently.
 
@@ -166,11 +165,7 @@ All remaining `GridProps` from `@adobe/react-spectrum` are forwarded transparent
 import { Grid, View } from '@geti/ui';
 
 // Typical page scaffold using Grid + View
-<Grid
-    areas={['header', 'content', 'footer']}
-    rows={['size-800', '1fr', 'size-600']}
-    height="100vh"
->
+<Grid areas={['header', 'content', 'footer']} rows={['size-800', '1fr', 'size-600']} height="100vh">
     <View gridArea="header" backgroundColor="gray-100" padding="size-200">
         <Header />
     </View>
@@ -180,15 +175,15 @@ import { Grid, View } from '@geti/ui';
     <View gridArea="footer" backgroundColor="gray-100" padding="size-200">
         <Footer />
     </View>
-</Grid>
+</Grid>;
 ```
 
 ## Accessibility
 
 - **Semantic HTML**: `Grid` renders as a `<div>` by default. Use the `elementType` prop to promote it to a meaningful element for the content it contains:
-  - `elementType="main"` for the primary page content area.
-  - `elementType="section"` for a self-contained section of the page (add `aria-label`).
-  - `elementType="ul"` (with `<li>` children) when the grid items form a list.
+    - `elementType="main"` for the primary page content area.
+    - `elementType="section"` for a self-contained section of the page (add `aria-label`).
+    - `elementType="ul"` (with `<li>` children) when the grid items form a list.
 - **Logical Reading Order**: Ensure the DOM order of grid children matches the intended reading and tab order. CSS Grid's `grid-column` and `grid-row` placement can reorder items visually without changing DOM order, which can confuse screen reader users if used carelessly.
 - **Named Areas and ARIA**: Named areas defined in the `areas` prop are purely a CSS concept and have no automatic accessibility meaning. Assign appropriate roles and labels to the child elements placed inside each area.
 - **Landmark Regions**: When the grid represents a significant page structure, label each region explicitly:

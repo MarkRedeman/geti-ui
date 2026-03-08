@@ -5,7 +5,10 @@ import * as DocStories from './DatePicker.stories';
 
 # DatePicker
 
-<Subtitle>A date input that combines a segmented keyboard field with a calendar popover, so users can type or click to pick a date.</Subtitle>
+<Subtitle>
+    A date input that combines a segmented keyboard field with a calendar popover, so users can type or click to pick a
+    date.
+</Subtitle>
 
 ```tsx
 import { DatePicker } from '@geti/ui';
@@ -20,17 +23,20 @@ import { DatePicker } from '@geti/ui';
 `DatePicker` is a thin wrapper around Adobe React Spectrum's `DatePicker`. It applies a single hardcoded `width` default to fix a Safari mobile layout regression before forwarding all props to the Spectrum component.
 
 Key responsibilities:
+
 - **Dual Input Mode**: Offers both a `DateField` (segmented keyboard input for month/day/year) and a calendar button that opens a `Calendar` popover. Users can use whichever method they prefer.
 - **Safari Mobile Fix**: Applies `width="size-2400"` before the props spread. Without an explicit width, iOS Safari causes layout flickering when the calendar popover opens. Callers can override this by passing their own `width` (the spread wins).
 - **Time Support**: When `granularity="minute"` (or finer) is set, the date field extends to include time segments — no separate `TimePicker` needed.
 - **Validation**: Supports `minValue`, `maxValue`, `isDateUnavailable`, `validationState`, and `errorMessage` for comprehensive date constraint expression.
 
 ### When to use
+
 - Any form field where a user needs to enter a specific date — scheduled events, deadlines, filter start dates.
 - When users may prefer keyboard entry (power users) OR visual calendar selection (casual users) — `DatePicker` supports both.
 - When you need combined date-and-time input — set `granularity="minute"` or `granularity="second"`.
 
 ### When to avoid
+
 - When only keyboard input is required and no calendar UI is needed — use `DateField` directly.
 - When the user needs to select a start **and** end date — use `DateRangePicker` instead.
 - When the date selection is from a very large range where calendar navigation would be tedious — consider a plain `TextField` with format guidance.
@@ -40,10 +46,8 @@ Key responsibilities:
 Thin wrapper with one hardcoded default prop applied **before** the spread:
 
 ```tsx
-export const DatePicker = <T extends DateValue>(
-  props: SpectrumDatePickerProps<T>
-) => (
-  <SpectrumDatePicker width="size-2400" {...props} />
+export const DatePicker = <T extends DateValue>(props: SpectrumDatePickerProps<T>) => (
+    <SpectrumDatePicker width="size-2400" {...props} />
 );
 
 export type { SpectrumDatePickerProps as DatePickerProps };
@@ -93,22 +97,22 @@ const [date, setDate] = useState(today(getLocalTimeZone()));
 
 ### Props
 
-| Prop | Type | Default | Description |
-|------|------|---------|-------------|
-| `value` | `T extends DateValue` | — | The current date (controlled). |
-| `defaultValue` | `T extends DateValue` | — | The initial date (uncontrolled). |
-| `onChange` | `(value: T) => void` | — | Called when the user commits a date. |
-| `label` | `string` | — | The visible label for the field. |
-| `granularity` | `'day' \| 'hour' \| 'minute' \| 'second'` | `'day'` | The finest time unit to display. |
-| `minValue` | `DateValue` | — | The earliest selectable date. |
-| `maxValue` | `DateValue` | — | The latest selectable date. |
-| `isDateUnavailable` | `(date: DateValue) => boolean` | — | Function to mark specific dates as unavailable. |
-| `isDisabled` | `boolean` | `false` | Prevents interaction. |
-| `isReadOnly` | `boolean` | `false` | Displays the value but prevents changes. |
-| `isRequired` | `boolean` | `false` | Marks the field as required. |
-| `validationState` | `'valid' \| 'invalid'` | — | Controls inline validation styling. |
-| `errorMessage` | `ReactNode` | — | Error message shown when `validationState="invalid"`. |
-| `width` | `DimensionValue` | `'size-2400'` | Override the default width. |
+| Prop                | Type                                      | Default       | Description                                           |
+| ------------------- | ----------------------------------------- | ------------- | ----------------------------------------------------- |
+| `value`             | `T extends DateValue`                     | —             | The current date (controlled).                        |
+| `defaultValue`      | `T extends DateValue`                     | —             | The initial date (uncontrolled).                      |
+| `onChange`          | `(value: T) => void`                      | —             | Called when the user commits a date.                  |
+| `label`             | `string`                                  | —             | The visible label for the field.                      |
+| `granularity`       | `'day' \| 'hour' \| 'minute' \| 'second'` | `'day'`       | The finest time unit to display.                      |
+| `minValue`          | `DateValue`                               | —             | The earliest selectable date.                         |
+| `maxValue`          | `DateValue`                               | —             | The latest selectable date.                           |
+| `isDateUnavailable` | `(date: DateValue) => boolean`            | —             | Function to mark specific dates as unavailable.       |
+| `isDisabled`        | `boolean`                                 | `false`       | Prevents interaction.                                 |
+| `isReadOnly`        | `boolean`                                 | `false`       | Displays the value but prevents changes.              |
+| `isRequired`        | `boolean`                                 | `false`       | Marks the field as required.                          |
+| `validationState`   | `'valid' \| 'invalid'`                    | —             | Controls inline validation styling.                   |
+| `errorMessage`      | `ReactNode`                               | —             | Error message shown when `validationState="invalid"`. |
+| `width`             | `DimensionValue`                          | `'size-2400'` | Override the default width.                           |
 
 ## Accessibility
 
@@ -120,11 +124,13 @@ const [date, setDate] = useState(today(getLocalTimeZone()));
 - **Labels**: Always provide `label`. If a visible label is not desired, use `aria-label` or `aria-labelledby` to maintain an accessible name for the `group`.
 
 ## Related components
+
 - `DateRangePicker` — use instead when users must select both a start and an end date.
 - `DateField` — use instead when a calendar popover is not needed and keyboard-only segment input is preferred.
 - `Calendar` — use instead when the date picker must be permanently visible rather than in a popover.
 
 ## Example use cases
+
 <details>
   <summary>Typical use cases</summary>
 

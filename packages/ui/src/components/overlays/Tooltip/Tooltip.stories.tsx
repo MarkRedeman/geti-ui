@@ -6,7 +6,7 @@ import type { Meta, StoryObj } from '@storybook/react';
 import { Button, Tooltip, TooltipTrigger } from '@geti/ui';
 
 const meta: Meta<typeof Tooltip> = {
-    tags: ["!dev"],
+    tags: ['!dev'],
     component: Tooltip,
     title: 'Overlays/Tooltip',
     parameters: {

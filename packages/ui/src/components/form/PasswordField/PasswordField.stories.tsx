@@ -6,7 +6,7 @@ import type { Meta, StoryObj } from '@storybook/react';
 import { PasswordField } from '@geti/ui';
 
 const meta: Meta<typeof PasswordField> = {
-    tags: ["!dev"],
+    tags: ['!dev'],
     component: PasswordField,
     title: 'Form/PasswordField',
     argTypes: {

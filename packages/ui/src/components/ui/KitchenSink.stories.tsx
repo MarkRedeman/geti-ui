@@ -10,7 +10,21 @@ import ViewGrid from '@spectrum-icons/workflow/ViewGrid';
 import ViewList from '@spectrum-icons/workflow/ViewList';
 import type { Meta, StoryObj } from '@storybook/react';
 
-import { ActionButton, Avatar, AvatarGroup, Button, CornerIndicator, Divider, Flex, Image, PhotoPlaceholder, PressableElement, ToggleButton, ToggleButtons, View } from '@geti/ui';
+import {
+    ActionButton,
+    Avatar,
+    AvatarGroup,
+    Button,
+    CornerIndicator,
+    Divider,
+    Flex,
+    Image,
+    PhotoPlaceholder,
+    PressableElement,
+    ToggleButton,
+    ToggleButtons,
+    View,
+} from '@geti/ui';
 
 // ---------------------------------------------------------------------------
 // Helpers
@@ -124,7 +138,10 @@ const UIKitchenSink = () => (
 
             {/* ── Buttons ── */}
             <View padding="size-300" backgroundColor="gray-50" borderRadius="medium">
-                <SectionHeading title="Button" subtitle="accent, primary, secondary, negative variants; disabled and pending states" />
+                <SectionHeading
+                    title="Button"
+                    subtitle="accent, primary, secondary, negative variants; disabled and pending states"
+                />
                 <Flex direction="column" gap="size-200">
                     <div>
                         <SubLabel>Variants</SubLabel>
@@ -139,8 +156,12 @@ const UIKitchenSink = () => (
                     <div>
                         <SubLabel>States</SubLabel>
                         <Flex direction="row" gap="size-150" wrap>
-                            <Button variant="accent" isDisabled>Disabled</Button>
-                            <Button variant="accent" isPending>Pending</Button>
+                            <Button variant="accent" isDisabled>
+                                Disabled
+                            </Button>
+                            <Button variant="accent" isPending>
+                                Pending
+                            </Button>
                         </Flex>
                     </div>
                 </Flex>
@@ -148,7 +169,10 @@ const UIKitchenSink = () => (
 
             {/* ── ActionButton ── */}
             <View padding="size-300" backgroundColor="gray-50" borderRadius="medium">
-                <SectionHeading title="ActionButton" subtitle="default, dark, light, blue color variants; quiet, disabled states" />
+                <SectionHeading
+                    title="ActionButton"
+                    subtitle="default, dark, light, blue color variants; quiet, disabled states"
+                />
                 <Flex direction="column" gap="size-200">
                     <div>
                         <SubLabel>Color variants</SubLabel>
@@ -165,7 +189,9 @@ const UIKitchenSink = () => (
                         <Flex direction="row" gap="size-150" wrap>
                             <ActionButton isQuiet>Quiet</ActionButton>
                             <ActionButton isDisabled>Disabled</ActionButton>
-                            <ActionButton isQuiet isDisabled>Quiet + Disabled</ActionButton>
+                            <ActionButton isQuiet isDisabled>
+                                Quiet + Disabled
+                            </ActionButton>
                         </Flex>
                     </div>
                 </Flex>
@@ -177,7 +203,9 @@ const UIKitchenSink = () => (
                 <Flex direction="row" gap="size-150" wrap>
                     <ToggleButton>Unselected</ToggleButton>
                     <ToggleButton defaultSelected>Pre-selected</ToggleButton>
-                    <ToggleButton isEmphasized defaultSelected>Emphasized</ToggleButton>
+                    <ToggleButton isEmphasized defaultSelected>
+                        Emphasized
+                    </ToggleButton>
                     <ToggleButton isQuiet>Quiet</ToggleButton>
                     <ToggleButton isDisabled>Disabled</ToggleButton>
                 </Flex>
@@ -194,38 +222,78 @@ const UIKitchenSink = () => (
                     <Divider size="S" />
                     <div>
                         <SubLabel>Text options</SubLabel>
-                        <ToggleButtons options={['Day', 'Week', 'Month']} selectedOption="Week" onOptionChange={() => {}} />
+                        <ToggleButtons
+                            options={['Day', 'Week', 'Month']}
+                            selectedOption="Week"
+                            onOptionChange={() => {}}
+                        />
                     </div>
                     <Divider size="S" />
                     <div>
                         <SubLabel>Disabled</SubLabel>
-                        <ToggleButtons options={['A', 'B', 'C']} selectedOption="B" onOptionChange={() => {}} isDisabled />
+                        <ToggleButtons
+                            options={['A', 'B', 'C']}
+                            selectedOption="B"
+                            onOptionChange={() => {}}
+                            isDisabled
+                        />
                     </div>
                 </Flex>
             </View>
 
             {/* ── Avatar & AvatarGroup ── */}
             <View padding="size-300" backgroundColor="gray-50" borderRadius="medium">
-                <SectionHeading title="Avatar & AvatarGroup" subtitle="individual avatars and stacked groups with overflow badge" />
+                <SectionHeading
+                    title="Avatar & AvatarGroup"
+                    subtitle="individual avatars and stacked groups with overflow badge"
+                />
                 <Flex direction="column" gap="size-250">
                     <div>
                         <SubLabel>Individual avatars — sizes</SubLabel>
                         <Flex direction="row" gap="size-200" alignItems="center" wrap>
                             <Flex direction="column" gap="size-75" alignItems="center">
                                 <Avatar src="https://i.pravatar.cc/40?img=1" alt="Alice" size="avatar-size-100" />
-                                <span style={{ fontSize: 'var(--spectrum-global-dimension-font-size-50)', color: 'var(--spectrum-global-color-gray-600)' }}>100</span>
+                                <span
+                                    style={{
+                                        fontSize: 'var(--spectrum-global-dimension-font-size-50)',
+                                        color: 'var(--spectrum-global-color-gray-600)',
+                                    }}
+                                >
+                                    100
+                                </span>
                             </Flex>
                             <Flex direction="column" gap="size-75" alignItems="center">
                                 <Avatar src="https://i.pravatar.cc/40?img=2" alt="Bob" size="avatar-size-300" />
-                                <span style={{ fontSize: 'var(--spectrum-global-dimension-font-size-50)', color: 'var(--spectrum-global-color-gray-600)' }}>300</span>
+                                <span
+                                    style={{
+                                        fontSize: 'var(--spectrum-global-dimension-font-size-50)',
+                                        color: 'var(--spectrum-global-color-gray-600)',
+                                    }}
+                                >
+                                    300
+                                </span>
                             </Flex>
                             <Flex direction="column" gap="size-75" alignItems="center">
                                 <Avatar src="https://i.pravatar.cc/40?img=3" alt="Carol" size="avatar-size-500" />
-                                <span style={{ fontSize: 'var(--spectrum-global-dimension-font-size-50)', color: 'var(--spectrum-global-color-gray-600)' }}>500</span>
+                                <span
+                                    style={{
+                                        fontSize: 'var(--spectrum-global-dimension-font-size-50)',
+                                        color: 'var(--spectrum-global-color-gray-600)',
+                                    }}
+                                >
+                                    500
+                                </span>
                             </Flex>
                             <Flex direction="column" gap="size-75" alignItems="center">
                                 <Avatar src="https://i.pravatar.cc/40?img=4" alt="David" size="avatar-size-700" />
-                                <span style={{ fontSize: 'var(--spectrum-global-dimension-font-size-50)', color: 'var(--spectrum-global-color-gray-600)' }}>700</span>
+                                <span
+                                    style={{
+                                        fontSize: 'var(--spectrum-global-dimension-font-size-50)',
+                                        color: 'var(--spectrum-global-color-gray-600)',
+                                    }}
+                                >
+                                    700
+                                </span>
                             </Flex>
                         </Flex>
                     </div>
@@ -278,7 +346,14 @@ const UIKitchenSink = () => (
                             objectFit="cover"
                             UNSAFE_style={{ borderRadius: 'var(--spectrum-alias-border-radius-medium)' }}
                         />
-                        <span style={{ fontSize: 'var(--spectrum-global-dimension-font-size-50)', color: 'var(--spectrum-global-color-gray-600)' }}>cover</span>
+                        <span
+                            style={{
+                                fontSize: 'var(--spectrum-global-dimension-font-size-50)',
+                                color: 'var(--spectrum-global-color-gray-600)',
+                            }}
+                        >
+                            cover
+                        </span>
                     </Flex>
                     <Flex direction="column" gap="size-75" alignItems="center">
                         <Image
@@ -287,16 +362,29 @@ const UIKitchenSink = () => (
                             width="size-3600"
                             height="size-1600"
                             objectFit="contain"
-                            UNSAFE_style={{ borderRadius: 'var(--spectrum-alias-border-radius-medium)', background: 'var(--spectrum-global-color-gray-200)' }}
+                            UNSAFE_style={{
+                                borderRadius: 'var(--spectrum-alias-border-radius-medium)',
+                                background: 'var(--spectrum-global-color-gray-200)',
+                            }}
                         />
-                        <span style={{ fontSize: 'var(--spectrum-global-dimension-font-size-50)', color: 'var(--spectrum-global-color-gray-600)' }}>contain</span>
+                        <span
+                            style={{
+                                fontSize: 'var(--spectrum-global-dimension-font-size-50)',
+                                color: 'var(--spectrum-global-color-gray-600)',
+                            }}
+                        >
+                            contain
+                        </span>
                     </Flex>
                 </Flex>
             </View>
 
             {/* ── View ── */}
             <View padding="size-300" backgroundColor="gray-50" borderRadius="medium">
-                <SectionHeading title="View" subtitle="layout container with background colors, borders, and border radius" />
+                <SectionHeading
+                    title="View"
+                    subtitle="layout container with background colors, borders, and border radius"
+                />
                 <Flex direction="row" gap="size-200" wrap>
                     <View padding="size-200" backgroundColor="blue-100" borderRadius="medium">
                         <Text>blue-100</Text>
@@ -317,12 +405,31 @@ const UIKitchenSink = () => (
                     {['Alice Nguyen', 'Bob Müller', 'Carol Smith', 'David Park'].map((name, i) => (
                         <Flex key={name} direction="column" gap="size-75" alignItems="center">
                             <PhotoPlaceholder name={name} indicator={`user${i}@geti.intel.com`} />
-                            <span style={{ fontSize: 'var(--spectrum-global-dimension-font-size-50)', color: 'var(--spectrum-global-color-gray-600)' }}>{name.split(' ')[0]}</span>
+                            <span
+                                style={{
+                                    fontSize: 'var(--spectrum-global-dimension-font-size-50)',
+                                    color: 'var(--spectrum-global-color-gray-600)',
+                                }}
+                            >
+                                {name.split(' ')[0]}
+                            </span>
                         </Flex>
                     ))}
                     <Flex direction="column" gap="size-75" alignItems="center">
-                        <PhotoPlaceholder name="Eva Torres" indicator="eva@geti.intel.com" width="size-2400" height="size-2400" />
-                        <span style={{ fontSize: 'var(--spectrum-global-dimension-font-size-50)', color: 'var(--spectrum-global-color-gray-600)' }}>Large</span>
+                        <PhotoPlaceholder
+                            name="Eva Torres"
+                            indicator="eva@geti.intel.com"
+                            width="size-2400"
+                            height="size-2400"
+                        />
+                        <span
+                            style={{
+                                fontSize: 'var(--spectrum-global-dimension-font-size-50)',
+                                color: 'var(--spectrum-global-color-gray-600)',
+                            }}
+                        >
+                            Large
+                        </span>
                     </Flex>
                 </Flex>
             </View>
@@ -333,19 +440,45 @@ const UIKitchenSink = () => (
                 <Flex direction="row" gap="size-400" alignItems="center" wrap>
                     <Flex direction="column" gap="size-75" alignItems="center">
                         <CornerIndicator isActive>
-                            <View width="size-1200" height="size-1200" backgroundColor="gray-300" borderRadius="medium" UNSAFE_style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                            <View
+                                width="size-1200"
+                                height="size-1200"
+                                backgroundColor="gray-300"
+                                borderRadius="medium"
+                                UNSAFE_style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}
+                            >
                                 <FolderOpen aria-label="Folder" />
                             </View>
                         </CornerIndicator>
-                        <span style={{ fontSize: 'var(--spectrum-global-dimension-font-size-50)', color: 'var(--spectrum-global-color-gray-600)' }}>Active</span>
+                        <span
+                            style={{
+                                fontSize: 'var(--spectrum-global-dimension-font-size-50)',
+                                color: 'var(--spectrum-global-color-gray-600)',
+                            }}
+                        >
+                            Active
+                        </span>
                     </Flex>
                     <Flex direction="column" gap="size-75" alignItems="center">
                         <CornerIndicator isActive={false}>
-                            <View width="size-1200" height="size-1200" backgroundColor="gray-300" borderRadius="medium" UNSAFE_style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                            <View
+                                width="size-1200"
+                                height="size-1200"
+                                backgroundColor="gray-300"
+                                borderRadius="medium"
+                                UNSAFE_style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}
+                            >
                                 <FolderOpen aria-label="Folder" />
                             </View>
                         </CornerIndicator>
-                        <span style={{ fontSize: 'var(--spectrum-global-dimension-font-size-50)', color: 'var(--spectrum-global-color-gray-600)' }}>Inactive</span>
+                        <span
+                            style={{
+                                fontSize: 'var(--spectrum-global-dimension-font-size-50)',
+                                color: 'var(--spectrum-global-color-gray-600)',
+                            }}
+                        >
+                            Inactive
+                        </span>
                     </Flex>
                     <Flex direction="column" gap="size-75" alignItems="center">
                         <CornerIndicator isActive>
@@ -353,14 +486,24 @@ const UIKitchenSink = () => (
                                 <UploadToCloud />
                             </ActionButton>
                         </CornerIndicator>
-                        <span style={{ fontSize: 'var(--spectrum-global-dimension-font-size-50)', color: 'var(--spectrum-global-color-gray-600)' }}>On ActionButton</span>
+                        <span
+                            style={{
+                                fontSize: 'var(--spectrum-global-dimension-font-size-50)',
+                                color: 'var(--spectrum-global-color-gray-600)',
+                            }}
+                        >
+                            On ActionButton
+                        </span>
                     </Flex>
                 </Flex>
             </View>
 
             {/* ── PressableElement ── */}
             <View padding="size-300" backgroundColor="gray-50" borderRadius="medium">
-                <SectionHeading title="PressableElement" subtitle="generic pressable wrapper for any non-interactive content" />
+                <SectionHeading
+                    title="PressableElement"
+                    subtitle="generic pressable wrapper for any non-interactive content"
+                />
                 <Flex direction="row" gap="size-200" wrap alignItems="center">
                     <PressableElement onPress={() => {}}>
                         <View padding="size-150" backgroundColor="gray-200" borderRadius="medium">
@@ -368,7 +511,12 @@ const UIKitchenSink = () => (
                         </View>
                     </PressableElement>
                     <PressableElement onPress={() => {}}>
-                        <View padding="size-150" backgroundColor="blue-100" borderRadius="medium" UNSAFE_style={{ cursor: 'pointer' }}>
+                        <View
+                            padding="size-150"
+                            backgroundColor="blue-100"
+                            borderRadius="medium"
+                            UNSAFE_style={{ cursor: 'pointer' }}
+                        >
                             <Flex direction="row" gap="size-75" alignItems="center">
                                 <UploadToCloud aria-label="Upload" />
                                 <Text>Upload asset</Text>
@@ -391,7 +539,7 @@ const UIKitchenSink = () => (
 // ---------------------------------------------------------------------------
 
 const meta: Meta<typeof UIKitchenSink> = {
-    tags: ["!dev"],
+    tags: ['!dev'],
     component: UIKitchenSink,
     title: 'Kitchen sink/UI',
     parameters: {

@@ -26,12 +26,14 @@ import { DropZone } from '@geti/ui';
 - **`aria-label` is required**: Names both the drop region and the hidden button for screen readers.
 
 ### When to use
+
 - For file upload regions, image inlays, or data import workflows where dragging is primary or supplementary.
 - When you need both drag-and-drop **and** click-to-browse — nest a `FileTrigger`-wrapped `Button` inside.
 - When the zone needs a "replace" state (`isFilled`) after content has already been uploaded.
 - When drop-type validation is required via `getDropOperation`.
 
 ### When to avoid
+
 - **Click-to-browse only** — use [`FileTrigger`](/docs/components-form-filetrigger--docs) alone.
 - **Compact file attachment flows** — a `FileTrigger`-wrapped `Button` without a `DropZone` is lighter for avatar uploaders or inline attachment pickers.
 - **Native `FormData` submission** — manage `FileList` manually from `onDrop` or use a native `<input type="file">`.
@@ -63,9 +65,7 @@ import { DropZone } from '@geti/ui';
 
 ```tsx
 <DropZone
-    getDropOperation={(types) =>
-        types.has('image/png') || types.has('image/jpeg') ? 'copy' : 'cancel'
-    }
+    getDropOperation={(types) => (types.has('image/png') || types.has('image/jpeg') ? 'copy' : 'cancel')}
     onDrop={handleDrop}
     aria-label="Upload image"
 >
@@ -79,34 +79,36 @@ import { DropZone } from '@geti/ui';
 
 ### Events
 
-| Prop | Type | Description |
-|------|------|-------------|
-| `onDrop` | `(e: DropEvent) => void` | Called when content is dropped into the zone. `DropEvent.items` contains files and text items. |
-| `onDropEnter` | `(e: DropEnterEvent) => void` | Called when a valid drag enters the zone boundary. |
-| `onDropExit` | `(e: DropExitEvent) => void` | Called when a valid drag leaves the zone boundary. |
-| `getDropOperation` | `(types: DragTypes, allowed: DropOperation[]) => DropOperation` | Validates the incoming drop. Return `'copy'`, `'move'`, `'link'`, or `'cancel'`. |
+| Prop               | Type                                                            | Description                                                                                    |
+| ------------------ | --------------------------------------------------------------- | ---------------------------------------------------------------------------------------------- |
+| `onDrop`           | `(e: DropEvent) => void`                                        | Called when content is dropped into the zone. `DropEvent.items` contains files and text items. |
+| `onDropEnter`      | `(e: DropEnterEvent) => void`                                   | Called when a valid drag enters the zone boundary.                                             |
+| `onDropExit`       | `(e: DropExitEvent) => void`                                    | Called when a valid drag leaves the zone boundary.                                             |
+| `getDropOperation` | `(types: DragTypes, allowed: DropOperation[]) => DropOperation` | Validates the incoming drop. Return `'copy'`, `'move'`, `'link'`, or `'cancel'`.               |
 
 ### State
 
-| Prop | Type | Default | Description |
-|------|------|---------|-------------|
-| `isFilled` | `boolean` | `false` | Whether the zone already contains content. Switches to "replace" state on next drag. |
-| `replaceMessage` | `string` | `'Drop file to replace'` | Overlay message shown when dragging over a filled zone. |
-| `isDisabled` | `boolean` | `false` | Disables all drop interactions and visually dims the zone. |
+| Prop             | Type      | Default                  | Description                                                                          |
+| ---------------- | --------- | ------------------------ | ------------------------------------------------------------------------------------ |
+| `isFilled`       | `boolean` | `false`                  | Whether the zone already contains content. Switches to "replace" state on next drag. |
+| `replaceMessage` | `string`  | `'Drop file to replace'` | Overlay message shown when dragging over a filled zone.                              |
+| `isDisabled`     | `boolean` | `false`                  | Disables all drop interactions and visually dims the zone.                           |
 
 ### Content
 
-| Prop | Type | Description |
-|------|------|-------------|
-| `children` | `ReactNode` | Content inside the zone: labels, illustrations, `FileTrigger` buttons. |
-| `aria-label` | `string` | **Required for accessibility.** Names the visually hidden button inside the zone. |
+| Prop         | Type        | Description                                                                       |
+| ------------ | ----------- | --------------------------------------------------------------------------------- |
+| `children`   | `ReactNode` | Content inside the zone: labels, illustrations, `FileTrigger` buttons.            |
+| `aria-label` | `string`    | **Required for accessibility.** Names the visually hidden button inside the zone. |
 
 ## Related components
+
 - `FileTrigger` — the primary pairing; nests inside `DropZone` for both drag-and-drop and click-to-browse.
 - `Button` — use as the `FileTrigger` child for a clear visible affordance.
 - `Image` — use inside `DropZone` to preview a dropped image before confirming the upload.
 
 ## Example use cases
+
 <details>
   <summary>Typical use cases</summary>
 

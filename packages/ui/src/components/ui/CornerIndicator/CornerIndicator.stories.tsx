@@ -3,7 +3,7 @@ import { CornerIndicator } from '@geti/ui';
 import { View } from '@adobe/react-spectrum';
 
 const meta: Meta<typeof CornerIndicator> = {
-    tags: ["!dev"],
+    tags: ['!dev'],
     component: CornerIndicator,
     title: 'UI/CornerIndicator',
 };

@@ -7,7 +7,7 @@ import { Content, Flex, Heading, Text } from '@adobe/react-spectrum';
 import { ContextualHelp } from '@geti/ui';
 
 const meta: Meta<typeof ContextualHelp> = {
-    tags: ["!dev"],
+    tags: ['!dev'],
     component: ContextualHelp,
     title: 'Overlays/ContextualHelp',
     parameters: {

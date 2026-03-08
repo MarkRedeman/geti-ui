@@ -6,7 +6,7 @@ import type { Meta, StoryObj } from '@storybook/react';
 import { Checkbox } from '@geti/ui';
 
 const meta: Meta<typeof Checkbox> = {
-    tags: ["!dev"],
+    tags: ['!dev'],
     component: Checkbox,
     title: 'Form/Checkbox',
     argTypes: {

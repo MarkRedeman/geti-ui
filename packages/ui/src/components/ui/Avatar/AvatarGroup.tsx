@@ -10,9 +10,9 @@ import type { AvatarProps } from './Avatar';
  * Props for the AvatarGroup component.
  */
 export interface AvatarGroupProps {
-    /** 
-     * Array of avatar props to render in the group. 
-     * To ensure stable rendering and correct re-ordering, it is recommended 
+    /**
+     * Array of avatar props to render in the group.
+     * To ensure stable rendering and correct re-ordering, it is recommended
      * that each item provides a unique `alt` text or stable React key.
      */
     avatars: AvatarProps[];

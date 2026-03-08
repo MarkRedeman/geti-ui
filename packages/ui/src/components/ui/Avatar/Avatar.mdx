@@ -26,26 +26,29 @@ The `AvatarGroup` is a custom layout component that manages a collection of avat
 ### Variants
 
 #### Sizes
+
 Avatars support a range of named Spectrum size tokens. The default size is `avatar-size-100` (24px).
 
-| Size Token | Pixel Value (Approx) |
-|------------|----------------------|
-| `avatar-size-50` | 16px |
-| `avatar-size-75` | 20px |
-| `avatar-size-100` | 24px (Default) |
-| `avatar-size-200` | 32px |
-| `avatar-size-300` | 40px |
-| `avatar-size-400` | 48px |
-| `avatar-size-500` | 64px |
-| `avatar-size-600` | 80px |
-| `avatar-size-700` | 96px |
+| Size Token        | Pixel Value (Approx) |
+| ----------------- | -------------------- |
+| `avatar-size-50`  | 16px                 |
+| `avatar-size-75`  | 20px                 |
+| `avatar-size-100` | 24px (Default)       |
+| `avatar-size-200` | 32px                 |
+| `avatar-size-300` | 40px                 |
+| `avatar-size-400` | 48px                 |
+| `avatar-size-500` | 64px                 |
+| `avatar-size-600` | 80px                 |
+| `avatar-size-700` | 96px                 |
 
 Custom numeric pixel values are also supported (e.g., `size={50}`).
 
 #### Disabled
+
 Use the `isDisabled` prop to render the avatar in a visually muted state.
 
 #### Fallback
+
 If the `src` URL is invalid or the image fails to load, a generic silhouette placeholder is rendered automatically.
 
 ### Props
@@ -54,17 +57,17 @@ If the `src` URL is invalid or the image fails to load, a generic silhouette pla
 
 #### Content
 
-| Prop | Type | Default | Description |
-|------|------|---------|-------------|
-| `src` | `string` | — | The image URL for the avatar. |
-| `alt` | `string` | `null` | Accessible text description. Required for standalone avatars. |
+| Prop  | Type     | Default | Description                                                   |
+| ----- | -------- | ------- | ------------------------------------------------------------- |
+| `src` | `string` | —       | The image URL for the avatar.                                 |
+| `alt` | `string` | `null`  | Accessible text description. Required for standalone avatars. |
 
 #### Value
 
-| Prop | Type | Default | Description |
-|------|------|---------|-------------|
-| `size` | `string \| number` | `'avatar-size-100'` | Size token or custom pixel number. |
-| `isDisabled` | `boolean` | `false` | Whether the avatar is visually disabled. |
+| Prop         | Type               | Default             | Description                              |
+| ------------ | ------------------ | ------------------- | ---------------------------------------- |
+| `size`       | `string \| number` | `'avatar-size-100'` | Size token or custom pixel number.       |
+| `isDisabled` | `boolean`          | `false`             | Whether the avatar is visually disabled. |
 
 The `Avatar` component accepts all standard [Spectrum layout and spacing props](https://react-spectrum.adobe.com/react-spectrum/styling.html), including `margin`, `position`, and `flex` properties. Standalone avatars must provide a meaningful `alt` description for screen readers.
 
@@ -75,9 +78,11 @@ The `Avatar` component accepts all standard [Spectrum layout and spacing props](
 ### Variants
 
 #### Max Count
+
 The `max` prop controls how many avatars are shown before the list is truncated with a `+N` badge.
 
 #### Uniform Sizing
+
 Providing a `size` prop to the `AvatarGroup` will override the sizes of all individual avatars within the group.
 
 ### Props
@@ -86,25 +91,27 @@ Providing a `size` prop to the `AvatarGroup` will override the sizes of all indi
 
 #### Content
 
-| Prop | Type | Default | Description |
-|------|------|---------|-------------|
+| Prop      | Type            | Default      | Description                                         |
+| --------- | --------------- | ------------ | --------------------------------------------------- |
 | `avatars` | `AvatarProps[]` | **Required** | Array of prop objects for each avatar in the group. |
 
 #### Value
 
-| Prop | Type | Default | Description |
-|------|------|---------|-------------|
-| `max` | `number` | `3` | Maximum number of avatars to display before showing an overflow badge. |
-| `size` | `string \| number` | — | Uniform size override for all avatars in the group. |
+| Prop   | Type               | Default | Description                                                            |
+| ------ | ------------------ | ------- | ---------------------------------------------------------------------- |
+| `max`  | `number`           | `3`     | Maximum number of avatars to display before showing an overflow badge. |
+| `size` | `string \| number` | —       | Uniform size override for all avatars in the group.                    |
 
 `AvatarGroup` uses `role="group"` and `aria-label` to identify the collection of users. The overflow badge includes an `aria-label` (e.g., "2 more") to ensure the total count is accessible.
 
 ## Related components
+
 - `AvatarGroup` — use when you need to display a compact overlapping stack of multiple avatars.
 - `PhotoPlaceholder` — use when a user photo is unavailable and a deterministic initials/color placeholder is needed.
 - `Image` — use for non-person, non-avatar imagery where `objectFit` and layout props matter more than person semantics.
 
 ## Example use cases
+
 <details>
   <summary>Typical use cases</summary>
 

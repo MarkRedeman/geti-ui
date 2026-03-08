@@ -39,12 +39,14 @@ Two exports with different usage models:
 **`ToastContainer`** — thin wrapper over Spectrum's `ToastContainer`. Must be rendered once in the application tree (typically near the root). Accepts the same props as `SpectrumToastContainer`.
 
 **`toast`** — a plain object (not a component) with four methods:
+
 ```ts
 toast.positive(message, options?)
 toast.negative(message, options?)
 toast.info(message, options?)
 toast.neutral(message, options?)
 ```
+
 Each method calls `SpectrumToastQueue.<variant>(message, options)` directly. This gives callers a stable, variant-named API without importing Spectrum internals. The `toast` object is a pure function dispatch table — no hooks, no React lifecycle.
 
 The separation of `ToastContainer` (render tree) from `toast` (imperative API) follows the "render once, call anywhere" pattern, enabling toast creation from event handlers, async callbacks, and non-React code.
@@ -65,7 +67,7 @@ The separation of `ToastContainer` (render tree) from `toast` (imperative API) f
 **Usage (anywhere)** — call `toast.*` from any module:
 
 ```tsx
-toast.negative('Upload failed', { timeout: 5000 })
+toast.negative('Upload failed', { timeout: 5000 });
 ```
 
 ## Props
@@ -76,31 +78,33 @@ toast.negative('Upload failed', { timeout: 5000 })
 
 ### ToastOptions
 
-| Property | Type | Default | Description |
-| :--- | :--- | :--- | :--- |
-| `timeout` | `number` | `5000` | Time in milliseconds before the toast automatically dismisses. |
-| `actionLabel` | `string` | — | Label for an optional action button within the toast. |
-| `onAction` | `() => void` | — | Callback triggered when the action button is clicked. |
-| `shouldCloseOnAction` | `boolean` | `true` | Whether the toast should dismiss automatically after the action is triggered. |
+| Property              | Type         | Default | Description                                                                   |
+| :-------------------- | :----------- | :------ | :---------------------------------------------------------------------------- |
+| `timeout`             | `number`     | `5000`  | Time in milliseconds before the toast automatically dismisses.                |
+| `actionLabel`         | `string`     | —       | Label for an optional action button within the toast.                         |
+| `onAction`            | `() => void` | —       | Callback triggered when the action button is clicked.                         |
+| `shouldCloseOnAction` | `boolean`    | `true`  | Whether the toast should dismiss automatically after the action is triggered. |
 
 ## Accessibility
 
 Toasts are rendered in an ARIA live region to ensure they are announced by screen readers immediately upon appearing.
 
-| Feature | Implementation |
-| :--- | :--- |
-| **Role** | Uses `role="status"` or `role="alert"` depending on the variant (negative uses alert). |
-| **Live Region** | `aria-live="polite"` for most toasts; `aria-live="assertive"` for critical errors. |
-| **Focus** | Toasts do not take focus on appearance to avoid interrupting the user's flow. |
-| **Keyboard** | Users can navigate to active toasts via `F6` (standard Spectrum behavior) to interact with action buttons. |
+| Feature         | Implementation                                                                                             |
+| :-------------- | :--------------------------------------------------------------------------------------------------------- |
+| **Role**        | Uses `role="status"` or `role="alert"` depending on the variant (negative uses alert).                     |
+| **Live Region** | `aria-live="polite"` for most toasts; `aria-live="assertive"` for critical errors.                         |
+| **Focus**       | Toasts do not take focus on appearance to avoid interrupting the user's flow.                              |
+| **Keyboard**    | Users can navigate to active toasts via `F6` (standard Spectrum behavior) to interact with action buttons. |
 
 ## Related components
+
 - **`InlineAlert`** — use instead of `Toast` when the message must remain visible until explicitly dismissed or until the triggering condition changes (e.g. a form validation error).
 - **`Dialog` / `AlertDialog`** — use when the user must acknowledge a critical message before continuing; toasts are non-blocking and non-modal.
 - **`StatusLight`** — use to show the ongoing operational state of a resource; unlike `Toast`, it does not disappear after a timeout.
 - **`Badge`** — use for static categorical metadata attached to an entity (e.g. "Beta", "Archived") rather than for event-driven feedback.
 
 ## Example use cases
+
 <details>
   <summary>Typical use cases</summary>
 

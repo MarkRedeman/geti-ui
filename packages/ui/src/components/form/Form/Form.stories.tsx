@@ -6,7 +6,7 @@ import type { Meta, StoryObj } from '@storybook/react';
 import { Button, TextField, Form } from '@geti/ui';
 
 const meta: Meta<typeof Form> = {
-    tags: ["!dev"],
+    tags: ['!dev'],
     component: Form,
     title: 'Form/Form',
     argTypes: {

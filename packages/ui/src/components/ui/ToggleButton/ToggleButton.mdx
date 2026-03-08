@@ -20,7 +20,9 @@ import { ToggleButton } from '@geti/ui';
 The `ToggleButton` component is a direct wrapper around Adobe's React Spectrum `ToggleButton`. It is used for binary states where a persistent "pressed" or "selected" visual is required to indicate an active mode (e.g., toggling a "Bold" style or a "Grid view").
 
 ### ToggleButton vs. Button
+
 It is important to distinguish `ToggleButton` from a standard `Button`:
+
 - **Button**: Triggers a one-time action (e.g., "Save", "Delete"). It has no concept of selection.
 - **ToggleButton**: Represents a state that stays active until toggled off. It uses `aria-pressed` to communicate its state to assistive technologies.
 
@@ -29,9 +31,11 @@ It is important to distinguish `ToggleButton` from a standard `Button`:
 ## Variants
 
 ### Emphasis
+
 Use the `isEmphasized` prop to apply the Geti accent color (blue) when the button is selected. This makes the active state more visually prominent.
 
 ### Quiet
+
 The `isQuiet` prop removes the standard button background and border, rendering a minimal style that only appears on hover or selection. This is ideal for dense toolbars.
 
 ## Props
@@ -40,34 +44,36 @@ The `isQuiet` prop removes the standard button background and border, rendering 
 
 ### Content
 
-| Prop | Type | Default | Description |
-|------|------|---------|-------------|
-| `children` | `ReactNode` | — | The label text or icon to display. |
-| `aria-label` | `string` | — | Required for icon-only buttons to ensure accessibility. |
+| Prop         | Type        | Default | Description                                             |
+| ------------ | ----------- | ------- | ------------------------------------------------------- |
+| `children`   | `ReactNode` | —       | The label text or icon to display.                      |
+| `aria-label` | `string`    | —       | Required for icon-only buttons to ensure accessibility. |
 
 ### Value / State
 
-| Prop | Type | Default | Description |
-|------|------|---------|-------------|
-| `isSelected` | `boolean` | — | Controlled selection state. |
-| `defaultSelected` | `boolean` | — | Initial selection state (uncontrolled). |
-| `isDisabled` | `boolean` | `false` | Whether the button is disabled. |
+| Prop              | Type      | Default | Description                             |
+| ----------------- | --------- | ------- | --------------------------------------- |
+| `isSelected`      | `boolean` | —       | Controlled selection state.             |
+| `defaultSelected` | `boolean` | —       | Initial selection state (uncontrolled). |
+| `isDisabled`      | `boolean` | `false` | Whether the button is disabled.         |
 
 ### Events
 
-| Prop | Type | Description |
-|------|------|-------------|
+| Prop       | Type                            | Description                                           |
+| ---------- | ------------------------------- | ----------------------------------------------------- |
 | `onChange` | `(isSelected: boolean) => void` | Primary handler called when the toggle state changes. |
-| `onPress` | `(e: PressEvent) => void` | Handler called when the button is pressed. |
+| `onPress`  | `(e: PressEvent) => void`       | Handler called when the button is pressed.            |
 
 The `ToggleButton` component accepts all standard [Spectrum layout and spacing props](https://react-spectrum.adobe.com/react-spectrum/styling.html). For icon-only buttons, `aria-label` is strictly required. Uses `aria-pressed` to inform screen readers of the current toggle state. Fully navigable and activatable via the Space and Enter keys.
 
 ## Related components
+
 - `Button` — use instead for one-shot actions with no persistent selected state.
 - `ActionButton` — use instead when the button changes label or icon based on state (e.g., Play→Pause).
 - `ToggleButtons` — use instead when only one option from a set may be active at a time (mutually exclusive group).
 
 ## Example use cases
+
 <details>
   <summary>Typical use cases</summary>
 

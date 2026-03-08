@@ -6,7 +6,7 @@ import type { Meta, StoryObj } from '@storybook/react';
 import { SearchField } from '@geti/ui';
 
 const meta: Meta<typeof SearchField> = {
-    tags: ["!dev"],
+    tags: ['!dev'],
     component: SearchField,
     title: 'Form/SearchField',
     argTypes: {

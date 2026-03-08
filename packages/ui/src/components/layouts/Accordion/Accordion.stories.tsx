@@ -5,7 +5,7 @@ import type { Meta, StoryObj } from '@storybook/react';
 import { Accordion, Disclosure, DisclosurePanel, DisclosureTitle } from '@geti/ui';
 
 const meta: Meta<typeof Accordion> = {
-    tags: ["!dev"],
+    tags: ['!dev'],
     component: Accordion,
     title: 'Layouts/Accordion',
     argTypes: {

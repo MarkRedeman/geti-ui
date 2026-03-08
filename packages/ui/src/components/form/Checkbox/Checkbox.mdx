@@ -25,53 +25,57 @@ import { Checkbox } from '@geti/ui';
 - **Validation Feedback**: Participates in form validation by surfacing `validationState="invalid"` with error styling and an `errorMessage` below the control.
 
 ### When to use
+
 - For a **single binary choice**: "Accept terms and conditions", "Remember me", "Enable notifications".
 - When the user can select **multiple independent items** — combine with `CheckboxGroup` for grouped selections.
 - Inside forms where the value is collected on **submission** rather than applied instantly. If the change should take effect immediately, use [`Switch`](/docs/form-switch--docs) instead.
 - When you need the **indeterminate** state to represent partial selection in a hierarchical tree.
 
 ### When to avoid
+
 - **Instant activation of a setting** — use [`Switch`](/docs/form-switch--docs).
 - **Exactly one option from a set** — use [`RadioGroup`](/docs/form-radiogroup--docs).
 - **Many options with limited space** — use [`Select`](/docs/form-pickers-select--docs) or [`ComboBox`](/docs/form-pickers-combobox--docs).
 
 ## States
 
-| State | Prop | Description |
-|-------|------|-------------|
-| Default | — | Standard unchecked checkbox. |
-| Selected | `defaultSelected={true}` or `isSelected={true}` | Checked state with a visible tick. |
-| Indeterminate | `isIndeterminate={true}` | Dash indicator for partial selection. Visual only. |
-| Disabled | `isDisabled={true}` | Non-focusable and visually dimmed. |
-| Disabled + Selected | `isDisabled={true}` + `defaultSelected={true}` | Checked-but-locked state. |
-| Invalid | `validationState="invalid"` | Error border and icon; renders `errorMessage` below the control. |
-| Required | `isRequired={true}` | Adds a visual asterisk and `aria-required="true"`. |
+| State               | Prop                                            | Description                                                      |
+| ------------------- | ----------------------------------------------- | ---------------------------------------------------------------- |
+| Default             | —                                               | Standard unchecked checkbox.                                     |
+| Selected            | `defaultSelected={true}` or `isSelected={true}` | Checked state with a visible tick.                               |
+| Indeterminate       | `isIndeterminate={true}`                        | Dash indicator for partial selection. Visual only.               |
+| Disabled            | `isDisabled={true}`                             | Non-focusable and visually dimmed.                               |
+| Disabled + Selected | `isDisabled={true}` + `defaultSelected={true}`  | Checked-but-locked state.                                        |
+| Invalid             | `validationState="invalid"`                     | Error border and icon; renders `errorMessage` below the control. |
+| Required            | `isRequired={true}`                             | Adds a visual asterisk and `aria-required="true"`.               |
 
 ## Props
 
 <Controls of={DocStories.Default} />
 
-| Prop | Type | Default | Description |
-|------|------|---------|-------------|
-| `children` | `ReactNode` | — | The visible label. Required for accessibility unless `aria-label` is provided. |
-| `isSelected` | `boolean` | — | Controlled selection state. |
-| `defaultSelected` | `boolean` | `false` | Initial selection state (uncontrolled). |
-| `isIndeterminate` | `boolean` | `false` | Renders a dash instead of a checkmark. **Visual only.** |
-| `isDisabled` | `boolean` | `false` | Non-interactive and visually dimmed. |
-| `isReadOnly` | `boolean` | `false` | Focusable but value cannot change. |
-| `isRequired` | `boolean` | `false` | Adds a visual asterisk and `aria-required`. |
-| `validationState` | `'valid' \| 'invalid'` | — | Visual and ARIA validation state. |
-| `errorMessage` | `ReactNode` | — | Error text rendered below the checkbox when `validationState="invalid"`. |
-| `onChange` | `(isSelected: boolean) => void` | — | Called when the selection changes. Receives a `boolean` directly — no `.target.checked` unwrapping needed. |
-| `name` | `string` | — | The HTML `name` attribute, used during native form submission. |
-| `value` | `string` | — | The string value submitted when inside a `CheckboxGroup`. |
+| Prop              | Type                            | Default | Description                                                                                                |
+| ----------------- | ------------------------------- | ------- | ---------------------------------------------------------------------------------------------------------- |
+| `children`        | `ReactNode`                     | —       | The visible label. Required for accessibility unless `aria-label` is provided.                             |
+| `isSelected`      | `boolean`                       | —       | Controlled selection state.                                                                                |
+| `defaultSelected` | `boolean`                       | `false` | Initial selection state (uncontrolled).                                                                    |
+| `isIndeterminate` | `boolean`                       | `false` | Renders a dash instead of a checkmark. **Visual only.**                                                    |
+| `isDisabled`      | `boolean`                       | `false` | Non-interactive and visually dimmed.                                                                       |
+| `isReadOnly`      | `boolean`                       | `false` | Focusable but value cannot change.                                                                         |
+| `isRequired`      | `boolean`                       | `false` | Adds a visual asterisk and `aria-required`.                                                                |
+| `validationState` | `'valid' \| 'invalid'`          | —       | Visual and ARIA validation state.                                                                          |
+| `errorMessage`    | `ReactNode`                     | —       | Error text rendered below the checkbox when `validationState="invalid"`.                                   |
+| `onChange`        | `(isSelected: boolean) => void` | —       | Called when the selection changes. Receives a `boolean` directly — no `.target.checked` unwrapping needed. |
+| `name`            | `string`                        | —       | The HTML `name` attribute, used during native form submission.                                             |
+| `value`           | `string`                        | —       | The string value submitted when inside a `CheckboxGroup`.                                                  |
 
 ## Related components
+
 - `CheckboxGroup` — when multiple related checkboxes share a label and collective state.
 - `Switch` — when the action takes immediate effect (no Submit button needed).
 - `RadioGroup` — when exactly one option from a set may be selected.
 
 ## Example use cases
+
 <details>
   <summary>Typical use cases</summary>
 

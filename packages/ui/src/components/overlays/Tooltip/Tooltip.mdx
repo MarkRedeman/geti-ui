@@ -25,7 +25,9 @@ The two components are always used together:
 ```tsx
 <TooltipTrigger>
     {/* 1. The element that triggers the tooltip on hover or focus */}
-    <ActionButton aria-label="Edit"><Edit /></ActionButton>
+    <ActionButton aria-label="Edit">
+        <Edit />
+    </ActionButton>
 
     {/* 2. The tooltip content */}
     <Tooltip>Edit item</Tooltip>
@@ -33,20 +35,23 @@ The two components are always used together:
 ```
 
 Key responsibilities:
+
 - **Contextual Labeling**: Provides a visible text label for elements that lack permanent labels (like icon-only buttons).
 - **Progressive Disclosure**: Keeps the UI clean by hiding non-essential information until the user needs it.
 - **Accessibility**: `TooltipTrigger` automatically associates the tooltip text with the trigger element via `aria-describedby` or `aria-labelledby`.
 
 ### When to use
+
 - For icon-only `ActionButton` elements to surface their name or action.
 - To provide a brief supplementary explanation of a UI element's function or current state.
 - When permanent labels would clutter the interface and the element's purpose is clear from context once revealed.
 
 ### When to avoid
+
 - For interactive content — tooltips must be non-interactive (no links, buttons, or form elements inside).
 - For long descriptions or complex help text — use `ContextualHelp` instead.
 - For essential information that must always be visible — do not hide required context behind a hover.
-- **On disabled elements**: Disabled elements do not receive focus or pointer events, so a tooltip attached to them will never appear. If a tooltip on a disabled element is absolutely necessary (e.g., to explain *why* it is disabled), wrap the disabled element in a `<span>` or `<div>` and attach the `TooltipTrigger` to that wrapper instead:
+- **On disabled elements**: Disabled elements do not receive focus or pointer events, so a tooltip attached to them will never appear. If a tooltip on a disabled element is absolutely necessary (e.g., to explain _why_ it is disabled), wrap the disabled element in a `<span>` or `<div>` and attach the `TooltipTrigger` to that wrapper instead:
 
 ```tsx
 // ✗ Tooltip will never show — disabled buttons don't fire hover/focus events
@@ -68,7 +73,7 @@ Key responsibilities:
 
 ## Design
 
-`Tooltip` follows the *transparent wrapper* pattern: it extends `SpectrumTooltipProps` without modification and delegates all rendering to Spectrum.
+`Tooltip` follows the _transparent wrapper_ pattern: it extends `SpectrumTooltipProps` without modification and delegates all rendering to Spectrum.
 
 ```tsx
 // packages/ui/src/components/overlays/Tooltip/Tooltip.tsx
@@ -95,7 +100,7 @@ This keeps the Geti wrappers as stable integration points — they can later ado
 Spectrum manages a shared global timer for all tooltips on the page:
 
 - **Warmup** (`delay`): After the user hovers a trigger for the first time, the tooltip waits for the configured delay (default `1500 ms`) before appearing. This prevents accidental flashes when the cursor passes over elements.
-- **Cooldown**: Once at least one tooltip has been shown, subsequent triggers show *immediately* — the warmup delay is bypassed while the user is actively exploring. After the user stops hovering tooltips, the warmup timer resets for the next interaction.
+- **Cooldown**: Once at least one tooltip has been shown, subsequent triggers show _immediately_ — the warmup delay is bypassed while the user is actively exploring. After the user stops hovering tooltips, the warmup timer resets for the next interaction.
 
 This behaviour is fully managed by Spectrum and requires no configuration on the consumer side.
 
@@ -104,17 +109,19 @@ This behaviour is fully managed by Spectrum and requires no configuration on the
 ## Variants
 
 ### Placement
+
 Tooltips can be placed on any side of the trigger (`top`, `bottom`, `start`, `end`). Spectrum automatically flips the placement if there is insufficient space in the chosen direction.
 
 ### Semantic Variants
+
 React Spectrum V3 supports semantic variants that add a coloured background and an optional status icon:
 
-| Variant | Use Case |
-|---------|----------|
-| `neutral` (default) | Standard informational tooltip |
-| `positive` | Indicates a success or healthy state |
-| `negative` | Indicates an error or destructive action |
-| `info` | Surfaces informational or advisory context |
+| Variant             | Use Case                                   |
+| ------------------- | ------------------------------------------ |
+| `neutral` (default) | Standard informational tooltip             |
+| `positive`          | Indicates a success or healthy state       |
+| `negative`          | Indicates an error or destructive action   |
+| `info`              | Surfaces informational or advisory context |
 
 ---
 
@@ -122,35 +129,35 @@ React Spectrum V3 supports semantic variants that add a coloured background and 
 
 ### Tooltip Props
 
-| Prop | Type | Default | Description |
-|------|------|---------|-------------|
-| `children` | `ReactNode` | — | The text or content of the tooltip. Must be non-interactive. |
-| `variant` | `'neutral' \| 'positive' \| 'negative' \| 'info'` | `'neutral'` | The semantic variant that controls the background colour. |
-| `showIcon` | `boolean` | `false` | Whether to show a status icon alongside the text. Requires a non-neutral `variant`. |
+| Prop       | Type                                              | Default     | Description                                                                         |
+| ---------- | ------------------------------------------------- | ----------- | ----------------------------------------------------------------------------------- |
+| `children` | `ReactNode`                                       | —           | The text or content of the tooltip. Must be non-interactive.                        |
+| `variant`  | `'neutral' \| 'positive' \| 'negative' \| 'info'` | `'neutral'` | The semantic variant that controls the background colour.                           |
+| `showIcon` | `boolean`                                         | `false`     | Whether to show a status icon alongside the text. Requires a non-neutral `variant`. |
 
 ### TooltipTrigger Props
 
-| Prop | Type | Default | Description |
-|------|------|---------|-------------|
-| `children` | `[ReactElement, ReactElement]` | — | Exactly two children: the trigger element and a `<Tooltip>`. |
-| `delay` | `number` | `1500` | Warmup delay in milliseconds before the tooltip first appears. |
-| `trigger` | `'focus'` | — | When set to `'focus'`, the tooltip only shows on keyboard focus, never on hover. |
-| `isDisabled` | `boolean` | `false` | Prevents the tooltip from showing at all. |
-| `placement` | `'top' \| 'bottom' \| 'start' \| 'end' \| ...` | `'top'` | Preferred placement of the tooltip relative to the trigger. |
+| Prop         | Type                                           | Default | Description                                                                      |
+| ------------ | ---------------------------------------------- | ------- | -------------------------------------------------------------------------------- |
+| `children`   | `[ReactElement, ReactElement]`                 | —       | Exactly two children: the trigger element and a `<Tooltip>`.                     |
+| `delay`      | `number`                                       | `1500`  | Warmup delay in milliseconds before the tooltip first appears.                   |
+| `trigger`    | `'focus'`                                      | —       | When set to `'focus'`, the tooltip only shows on keyboard focus, never on hover. |
+| `isDisabled` | `boolean`                                      | `false` | Prevents the tooltip from showing at all.                                        |
+| `placement`  | `'top' \| 'bottom' \| 'start' \| 'end' \| ...` | `'top'` | Preferred placement of the tooltip relative to the trigger.                      |
 
 ---
 
 ## Accessibility
 
 - **ARIA wiring**: `TooltipTrigger` automatically adds either `aria-describedby` or `aria-labelledby` to the trigger element, pointing to the tooltip content:
-  - `aria-describedby` is used when the trigger already has its own accessible name (e.g., a button with visible text). The tooltip supplements it with additional description.
-  - `aria-labelledby` is used when the trigger has no other accessible name (e.g., an icon-only `ActionButton` with no `aria-label`). In this case the tooltip *becomes* the accessible name. Prefer adding an explicit `aria-label` to the trigger and relying on `aria-describedby` for predictability.
+    - `aria-describedby` is used when the trigger already has its own accessible name (e.g., a button with visible text). The tooltip supplements it with additional description.
+    - `aria-labelledby` is used when the trigger has no other accessible name (e.g., an icon-only `ActionButton` with no `aria-label`). In this case the tooltip _becomes_ the accessible name. Prefer adding an explicit `aria-label` to the trigger and relying on `aria-describedby` for predictability.
 - **Keyboard support**: The tooltip appears when the trigger receives keyboard focus, ensuring keyboard-only users receive the same contextual information as pointer users.
 - **Non-interactive content**: Tooltips must never contain interactive elements (links, buttons, inputs). Screen readers surface tooltip text as supplementary information only; interactive content inside will be unreachable.
 - **Hover persistence (WCAG 2.1 SC 1.4.13)**: Spectrum keeps the tooltip visible when the pointer moves from the trigger onto the tooltip itself. This is required by [WCAG 2.1 Success Criterion 1.4.13 — Content on Hover or Focus](https://www.w3.org/WAI/WCAG21/Understanding/content-on-hover-or-focus.html), which mandates that revealed content must be:
-  - **Dismissable** — without moving focus (Escape closes it),
-  - **Hoverable** — the pointer can move over the tooltip without it disappearing,
-  - **Persistent** — it remains until the pointer moves away, focus moves, or the user dismisses it.
+    - **Dismissable** — without moving focus (Escape closes it),
+    - **Hoverable** — the pointer can move over the tooltip without it disappearing,
+    - **Persistent** — it remains until the pointer moves away, focus moves, or the user dismisses it.
 - **Timing**: Tooltips are not time-limited — they remain visible for as long as the trigger is hovered or focused, satisfying the persistence requirement above.
 
 ---
@@ -163,7 +170,9 @@ React Spectrum V3 supports semantic variants that add a coloured background and 
 
 ```tsx
 <TooltipTrigger isDisabled={!showHint}>
-    <ActionButton aria-label="Filter"><Filter /></ActionButton>
+    <ActionButton aria-label="Filter">
+        <Filter />
+    </ActionButton>
     <Tooltip>Apply filters</Tooltip>
 </TooltipTrigger>
 ```
@@ -180,7 +189,7 @@ import Edit from '@spectrum-icons/workflow/Edit';
         <Edit />
     </ActionButton>
     <Tooltip>Edit item</Tooltip>
-</TooltipTrigger>
+</TooltipTrigger>;
 ```
 
 - **z-index and stacking**: Spectrum manages overlay z-index automatically. Ensure your application root includes `ThemeProvider` (which wraps Spectrum's `Provider`) to avoid stacking context conflicts.

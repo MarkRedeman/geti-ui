@@ -20,17 +20,20 @@ import { ActionButton } from '@geti/ui';
 `ActionButton` is a lightweight wrapper around Adobe React Spectrum's `ActionButton`. Its primary job is to inject **Geti product-specific color themes** via CSS module classes mapped through the `colorVariant` prop, while transparently forwarding all other Spectrum behaviour.
 
 Key responsibilities:
+
 - **Color variants**: Adds three Geti-specific visual styles (`dark`, `light`, `blue`) via `UNSAFE_className` merging using `clsx`, without overriding Spectrum's interactive state management.
 - **`UNSAFE_className` safety**: Merges the caller's own `UNSAFE_className` with the internal variant class, so consumers can still apply ad-hoc overrides without losing the Geti styling.
 - **Full Spectrum compatibility**: All Spectrum `ActionButtonProps` (including `isQuiet`, `isDisabled`, `staticColor`, `type`, event handlers, and layout props) pass through unchanged.
 
 ### When to use
+
 - For icon-only or icon+label buttons in toolbars, annotation canvases, and side panels.
 - When the action is task-based (e.g., "Delete", "Edit", "Zoom in") and should not draw as much visual weight as a primary `Button`.
 - When the button is displayed against a coloured or dark surface and the standard Spectrum default style would clash — choose the appropriate `colorVariant`.
 - For quiet, low-prominence toggle or utility controls — use `isQuiet` to suppress the background/border until hover.
 
 ### When to avoid
+
 - For the **primary call to action** on a page (e.g., "Save", "Create") — use `Button` with `variant="accent"`, which draws full visual weight.
 - For toggle state (on/off) — use `ToggleButton`, which manages `isSelected` state and `aria-pressed`.
 - When the button is part of a mutually exclusive group (e.g., a view switcher) — use `ToggleButtons`.
@@ -40,11 +43,11 @@ Key responsibilities:
 
 ### Color variants
 
-| `colorVariant` | Background | Hover/active | Typical context |
-|----------------|------------|--------------|-----------------|
-| `dark` (default) | Transparent | Subtle gray border | Dark panels, toolbars, canvas sidebars |
-| `light` | Transparent | Blue-tinted border | Light-background headers, top navigation |
-| `blue` | Transparent | Blue text/border | Icon-only, transparent overlay contexts |
+| `colorVariant`   | Background  | Hover/active       | Typical context                          |
+| ---------------- | ----------- | ------------------ | ---------------------------------------- |
+| `dark` (default) | Transparent | Subtle gray border | Dark panels, toolbars, canvas sidebars   |
+| `light`          | Transparent | Blue-tinted border | Light-background headers, top navigation |
+| `blue`           | Transparent | Blue text/border   | Icon-only, transparent overlay contexts  |
 
 ### Visual options (from Spectrum)
 
@@ -56,37 +59,39 @@ Key responsibilities:
 
 ### Geti-specific
 
-| Prop | Type | Default | Description |
-|------|------|---------|-------------|
-| `colorVariant` | `'dark' \| 'light' \| 'blue'` | — | Applies a Geti-specific visual color style via CSS module class injection. |
+| Prop           | Type                          | Default | Description                                                                |
+| -------------- | ----------------------------- | ------- | -------------------------------------------------------------------------- |
+| `colorVariant` | `'dark' \| 'light' \| 'blue'` | —       | Applies a Geti-specific visual color style via CSS module class injection. |
 
 ### From Spectrum (key props)
 
 <Controls of={DocStories.Default} />
 
-| Prop | Type | Default | Description |
-|------|------|---------|-------------|
-| `children` | `ReactNode` | — | Button content: `Label`, `Icon`, or both. |
-| `isQuiet` | `boolean` | `false` | Removes background/border at rest. |
-| `isDisabled` | `boolean` | `false` | Prevents interaction and applies disabled styling. |
-| `staticColor` | `'white' \| 'black'` | — | Static color for placement on coloured backgrounds. |
-| `type` | `'button' \| 'submit' \| 'reset'` | `'button'` | HTML button type. |
-| `UNSAFE_className` | `string` | — | Additional class names merged with the variant class. |
-| `onPress` | `(e: PressEvent) => void` | — | Called when the button is pressed. |
-| `onPressStart` | `(e: PressEvent) => void` | — | Called when a press interaction starts. |
-| `onPressEnd` | `(e: PressEvent) => void` | — | Called when a press interaction ends. |
-| `onFocus` | `(e: FocusEvent) => void` | — | Called when the element receives focus. |
-| `onBlur` | `(e: FocusEvent) => void` | — | Called when the element loses focus. |
+| Prop               | Type                              | Default    | Description                                           |
+| ------------------ | --------------------------------- | ---------- | ----------------------------------------------------- |
+| `children`         | `ReactNode`                       | —          | Button content: `Label`, `Icon`, or both.             |
+| `isQuiet`          | `boolean`                         | `false`    | Removes background/border at rest.                    |
+| `isDisabled`       | `boolean`                         | `false`    | Prevents interaction and applies disabled styling.    |
+| `staticColor`      | `'white' \| 'black'`              | —          | Static color for placement on coloured backgrounds.   |
+| `type`             | `'button' \| 'submit' \| 'reset'` | `'button'` | HTML button type.                                     |
+| `UNSAFE_className` | `string`                          | —          | Additional class names merged with the variant class. |
+| `onPress`          | `(e: PressEvent) => void`         | —          | Called when the button is pressed.                    |
+| `onPressStart`     | `(e: PressEvent) => void`         | —          | Called when a press interaction starts.               |
+| `onPressEnd`       | `(e: PressEvent) => void`         | —          | Called when a press interaction ends.                 |
+| `onFocus`          | `(e: FocusEvent) => void`         | —          | Called when the element receives focus.               |
+| `onBlur`           | `(e: FocusEvent) => void`         | —          | Called when the element loses focus.                  |
 
 For icon-only buttons, always provide an explicit `aria-label` so screen readers can announce the action. When wrapping `ActionButton` in a `TooltipTrigger`, Spectrum automatically wires `aria-describedby` from the button to the tooltip.
 
 ## Related components
+
 - `Button` — use instead for the primary call-to-action on a page (accent/cta weight).
 - `ToggleButton` — use instead when the button represents a persistent on/off state via `aria-pressed`.
 - `ToggleButtons` — use instead when selecting one option from a mutually exclusive group of actions.
 - `ActionButton` (Spectrum) — the upstream component this wraps; fall back to it when no `colorVariant` customisation is needed.
 
 ## Example use cases
+
 <details>
   <summary>Typical use cases</summary>
 

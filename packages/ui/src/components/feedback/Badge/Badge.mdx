@@ -22,18 +22,21 @@ import { Badge } from '@geti/ui';
 Its purpose is to draw immediate, scannable attention to a small piece of metadata — a state (`"Active"`, `"Failed"`), a classification (`"Beta"`, `"New"`), or a count — directly adjacent to the element it annotates.
 
 Key characteristics:
+
 - **Categorical signalling**: The `variant` prop encodes semantic meaning through colour, using Spectrum's full palette (`positive`, `negative`, `info`, `neutral`, and eight accent colours).
 - **Icon support**: Accepts an icon + label pair or an icon alone (with `aria-label` required in the icon-only case).
 - **Passive display**: `Badge` is a non-interactive display primitive. It does not receive focus, handle press events, or accept `onPress`.
 - **Theme aware**: Visual tokens are resolved by `ThemeProvider`; no component-level CSS overrides are needed.
 
 ### When to use
+
 - To communicate the lifecycle state of an entity (e.g. `"Training"`, `"Deployed"`, `"Archived"`).
 - To label a feature or item as `"New"` or `"Beta"` when that metadata is genuinely relevant to the user's decision.
 - To show small counts or totals when space is constrained and a full number label would be too heavy.
 - Inside list rows, card headers, or navigation items where a quick visual scan matters.
 
 ### When to avoid
+
 - When the state is operational and changes in real time — use `StatusLight` instead, which provides a pulsing dot and a continuous presence affordance.
 - When the message is a contextual alert (info, warning, error) that needs a title and body — use `InlineAlert`.
 - When the content is interactive (e.g. removable tags) — use `Tag` from the `data/` category, which supports `onRemove`.
@@ -81,11 +84,11 @@ No state, no effects, no refs. All layout, colour, and sizing is delegated to Sp
 
 All `SpectrumBadgeProps` are accepted as-is. The key props are:
 
-| Prop | Type | Default | Description |
-|------|------|---------|-------------|
-| `variant` | `'neutral' \| 'info' \| 'positive' \| 'negative' \| 'indigo' \| 'yellow' \| 'magenta' \| 'fuchsia' \| 'purple' \| 'seafoam'` | `'neutral'` | Determines the badge colour. Semantic variants (`positive`, `negative`, `info`) carry meaning; accent variants are for categorical differentiation only. |
-| `children` | `ReactNode` | — | The badge content. Can be a string, a number, or an `<icon> + <span>` pair. |
-| `aria-label` | `string` | — | **Required** when `children` contains only an icon and no visible text. |
+| Prop         | Type                                                                                                                         | Default     | Description                                                                                                                                              |
+| ------------ | ---------------------------------------------------------------------------------------------------------------------------- | ----------- | -------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `variant`    | `'neutral' \| 'info' \| 'positive' \| 'negative' \| 'indigo' \| 'yellow' \| 'magenta' \| 'fuchsia' \| 'purple' \| 'seafoam'` | `'neutral'` | Determines the badge colour. Semantic variants (`positive`, `negative`, `info`) carry meaning; accent variants are for categorical differentiation only. |
+| `children`   | `ReactNode`                                                                                                                  | —           | The badge content. Can be a string, a number, or an `<icon> + <span>` pair.                                                                              |
+| `aria-label` | `string`                                                                                                                     | —           | **Required** when `children` contains only an icon and no visible text.                                                                                  |
 
 ## Accessibility
 
@@ -96,12 +99,14 @@ All `SpectrumBadgeProps` are accepted as-is. The key props are:
 - **Context**: Because `Badge` is an inline `<span>`, it is announced as part of the surrounding sentence. Position it close to the element it describes so the association is clear to screen reader users.
 
 ## Related components
+
 - **`StatusLight`** — use for live, changeable operational states (e.g. "Active", "Offline") that persist over time; `Badge` is for static categorical metadata.
 - **`Tag`** — use when the label needs to be removable or interactive; `Badge` is a non-interactive display primitive.
 - **`InlineAlert`** — use when the annotation requires a title, body text, and/or an action button rather than a compact inline label.
 - **`StatusLight`** (accent variants) — use for colour-coded category legends in data visualisation rather than `Badge` when a dot indicator is more appropriate than a pill.
 
 ## Example use cases
+
 <details>
   <summary>Typical use cases</summary>
 

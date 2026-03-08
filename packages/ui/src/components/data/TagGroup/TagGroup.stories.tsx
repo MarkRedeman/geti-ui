@@ -6,7 +6,7 @@ import type { Meta, StoryObj } from '@storybook/react';
 import { TagGroup, TagItem as Item } from '@geti/ui';
 
 const meta: Meta<typeof TagGroup> = {
-    tags: ["!dev"],
+    tags: ['!dev'],
     component: TagGroup,
     title: 'Data/TagGroup',
     parameters: {

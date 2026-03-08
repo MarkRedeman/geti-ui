@@ -8,12 +8,12 @@ Shared utility functions used internally by components and optionally by consume
 
 **`distinct-colors.ts`** provides three exports:
 
-| Export | Purpose |
-|--------|---------|
-| `DISTINCT_COLORS` | A curated palette of 21 perceptually distinct hex colours drawn from the Geti brand and product colour sets |
+| Export                                       | Purpose                                                                                                                                                                |
+| -------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `DISTINCT_COLORS`                            | A curated palette of 21 perceptually distinct hex colours drawn from the Geti brand and product colour sets                                                            |
 | `getDistinctColorBasedOnHash(value: string)` | Deterministically maps any string to a colour from `DISTINCT_COLORS` using a Java-style string hash (`Math.imul(31, s) + charCode`). Same input → same colour, always. |
-| `getRandomDistinctColor()` | Returns a random colour from the palette. Used when determinism is not required. |
-| `getHEXFormat(color: string)` | Strips an 8-digit hex colour (with `ff` alpha suffix) down to a 6-digit hex. Useful for normalising colour values returned by the color picker components. |
+| `getRandomDistinctColor()`                   | Returns a random colour from the palette. Used when determinism is not required.                                                                                       |
+| `getHEXFormat(color: string)`                | Strips an 8-digit hex colour (with `ff` alpha suffix) down to a 6-digit hex. Useful for normalising colour values returned by the color picker components.             |
 
 The hash function is a well-known fast non-cryptographic hash (Bernstein/djb2 variant), chosen for speed and distribution quality over the small palette.
 

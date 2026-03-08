@@ -6,7 +6,7 @@ import type { Meta, StoryObj } from '@storybook/react';
 import { StatusLight } from '@geti/ui';
 
 const meta: Meta<typeof StatusLight> = {
-    tags: ["!dev"],
+    tags: ['!dev'],
     component: StatusLight,
     title: 'Feedback/StatusLight',
     argTypes: {

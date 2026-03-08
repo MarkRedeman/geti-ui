@@ -57,21 +57,21 @@ Most `ActionMenu` items are commands, but you can also use `selectionMode="singl
 
 ## Props
 
-| Prop | Type | Default | Description |
-|------|------|---------|-------------|
-| `children` | `ItemElement \| ItemRenderer<T>` | — | The menu items using `Item` or `Section`. |
-| `onAction` | `(key: Key) => void` | — | Handler called when a menu item is pressed (command mode). |
-| `onSelectionChange` | `(keys: Selection) => void` | — | Handler called when selection changes (selection modes). |
-| `aria-label` | `string` | — | **Required.** An accessible label for the icon-only trigger button. |
-| `selectionMode` | `'none' \| 'single' \| 'multiple'` | `'none'` | The selection behaviour of the menu. |
-| `selectedKeys` | `Selection` | — | The currently selected keys (controlled). |
-| `defaultSelectedKeys` | `Selection` | — | The initially selected keys (uncontrolled). |
-| `disabledKeys` | `Iterable<Key>` | `[]` | Keys of items that should be non-interactive but remain visible. |
-| `size` | `'S' \| 'M' \| 'L'` | `'M'` | The size of the trigger button. |
-| `isDisabled` | `boolean` | `false` | Whether the trigger button and all menu items are disabled. |
-| `isQuiet` | `boolean` | `false` | Whether the trigger button is rendered without a border. |
-| `align` | `'start' \| 'end'` | `'start'` | Where the menu overlay aligns relative to the trigger. |
-| `direction` | `'bottom' \| 'top' \| 'left' \| 'right'` | `'bottom'` | The direction the menu opens. |
+| Prop                  | Type                                     | Default    | Description                                                         |
+| --------------------- | ---------------------------------------- | ---------- | ------------------------------------------------------------------- |
+| `children`            | `ItemElement \| ItemRenderer<T>`         | —          | The menu items using `Item` or `Section`.                           |
+| `onAction`            | `(key: Key) => void`                     | —          | Handler called when a menu item is pressed (command mode).          |
+| `onSelectionChange`   | `(keys: Selection) => void`              | —          | Handler called when selection changes (selection modes).            |
+| `aria-label`          | `string`                                 | —          | **Required.** An accessible label for the icon-only trigger button. |
+| `selectionMode`       | `'none' \| 'single' \| 'multiple'`       | `'none'`   | The selection behaviour of the menu.                                |
+| `selectedKeys`        | `Selection`                              | —          | The currently selected keys (controlled).                           |
+| `defaultSelectedKeys` | `Selection`                              | —          | The initially selected keys (uncontrolled).                         |
+| `disabledKeys`        | `Iterable<Key>`                          | `[]`       | Keys of items that should be non-interactive but remain visible.    |
+| `size`                | `'S' \| 'M' \| 'L'`                      | `'M'`      | The size of the trigger button.                                     |
+| `isDisabled`          | `boolean`                                | `false`    | Whether the trigger button and all menu items are disabled.         |
+| `isQuiet`             | `boolean`                                | `false`    | Whether the trigger button is rendered without a border.            |
+| `align`               | `'start' \| 'end'`                       | `'start'`  | Where the menu overlay aligns relative to the trigger.              |
+| `direction`           | `'bottom' \| 'top' \| 'left' \| 'right'` | `'bottom'` | The direction the menu opens.                                       |
 
 ---
 
@@ -116,14 +116,14 @@ The "three dots" trigger icon is fixed — it is rendered by Spectrum's `ActionM
 
 **Keyboard interactions**
 
-| Key | Behaviour |
-|-----|-----------|
-| `Enter` / `Space` / `Arrow Down` (trigger) | Opens menu, focuses first item |
-| `Arrow Up` (trigger) | Opens menu, focuses last item |
-| `Arrow Down` / `Arrow Up` (menu open) | Moves focus between items |
-| `Enter` / `Space` (item focused) | Activates item; closes menu |
-| `Escape` | Closes menu, returns focus to trigger |
-| Type-ahead | Focus jumps to next matching item |
+| Key                                        | Behaviour                             |
+| ------------------------------------------ | ------------------------------------- |
+| `Enter` / `Space` / `Arrow Down` (trigger) | Opens menu, focuses first item        |
+| `Arrow Up` (trigger)                       | Opens menu, focuses last item         |
+| `Arrow Down` / `Arrow Up` (menu open)      | Moves focus between items             |
+| `Enter` / `Space` (item focused)           | Activates item; closes menu           |
+| `Escape`                                   | Closes menu, returns focus to trigger |
+| Type-ahead                                 | Focus jumps to next matching item     |
 
 ---
 

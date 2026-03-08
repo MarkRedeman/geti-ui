@@ -22,18 +22,21 @@ import { InlineAlert } from '@geti/ui';
 The fundamental distinction from `Toast` is **persistence and positioning**: a `Toast` is an imperative, transient overlay triggered programmatically from anywhere in the application (typically after an async operation); an `InlineAlert` is a declarative, persistent element rendered in the normal document flow, co-located with the content it annotates. It stays visible until the condition that prompted it is resolved — a form field error, a resource limit warning, or a configuration status — and the user dismisses it or the state changes.
 
 Key characteristics:
+
 - **Structured content**: Accepts `<Heading>` and `<Content>` from `@adobe/react-spectrum` as children, providing a clear title + body hierarchy for messages that need more than a single line.
 - **Semantic variants**: `neutral`, `info`, `positive`, `notice`, and `negative` use colour and icon to signal severity without requiring additional explanatory text.
 - **Declarative and in-flow**: Renders in the normal document order. It does not float above content, does not require a portal, and does not auto-dismiss.
 - **Theme aware**: Visual tokens are resolved by `ThemeProvider`; no component-level CSS overrides are needed.
 
 ### When to use
+
 - For form-level validation summaries that aggregate errors from multiple fields (e.g. `"The form contains errors — review the highlighted fields above"`).
 - For persistent warnings co-located with a setting or resource (e.g. `"Storage is nearly full — delete unused datasets to free space"`).
 - For contextual success confirmation embedded in a detail view after a destructive or significant action (e.g. `"Model deployment was successful"`).
 - When the message needs a title and body text and should remain visible until explicitly dismissed or the condition changes.
 
 ### When to avoid
+
 - For transient, system-level notifications triggered after async operations — use `Toast` instead.
 - For a simple categorical label (e.g. `"Beta"`, `"Archived"`) — use `Badge`.
 - For a compact operational state indicator (`"Active"`, `"Offline"`) — use `StatusLight`.
@@ -97,20 +100,20 @@ import { InlineAlert } from '@geti/ui';
 </InlineAlert>
 ```
 
-| Concern | Detail |
-|---------|--------|
-| **Package** | `@adobe/react-spectrum` — `InlineAlert` |
-| **Children** | Use `<Heading>` and `<Content>` from `@adobe/react-spectrum`. These are the only supported child types; passing arbitrary JSX may produce layout issues. |
-| **Theme** | Resolved automatically by `ThemeProvider`. No CSS imports required. |
-| **Related** | `Toast` (transient overlay notifications), `Badge` (static categorical label), `StatusLight` (operational state indicator) |
-| **Placement** | Form footers, settings panels, detail views, resource summary cards |
+| Concern       | Detail                                                                                                                                                   |
+| ------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Package**   | `@adobe/react-spectrum` — `InlineAlert`                                                                                                                  |
+| **Children**  | Use `<Heading>` and `<Content>` from `@adobe/react-spectrum`. These are the only supported child types; passing arbitrary JSX may produce layout issues. |
+| **Theme**     | Resolved automatically by `ThemeProvider`. No CSS imports required.                                                                                      |
+| **Related**   | `Toast` (transient overlay notifications), `Badge` (static categorical label), `StatusLight` (operational state indicator)                               |
+| **Placement** | Form footers, settings panels, detail views, resource summary cards                                                                                      |
 
 All `SpectrumInlineAlertProps` are accepted as-is. The primary props are:
 
-| Prop | Type | Default | Description |
-|------|------|---------|-------------|
-| `variant` | `'neutral' \| 'info' \| 'positive' \| 'notice' \| 'negative'` | `'neutral'` | Determines the colour scheme and icon of the alert. |
-| `children` | `ReactNode` | — | The alert content. Compose with `<Heading>` (title) and `<Content>` (body) from `@adobe/react-spectrum`. |
+| Prop       | Type                                                          | Default     | Description                                                                                              |
+| ---------- | ------------------------------------------------------------- | ----------- | -------------------------------------------------------------------------------------------------------- |
+| `variant`  | `'neutral' \| 'info' \| 'positive' \| 'notice' \| 'negative'` | `'neutral'` | Determines the colour scheme and icon of the alert.                                                      |
+| `children` | `ReactNode`                                                   | —           | The alert content. Compose with `<Heading>` (title) and `<Content>` (body) from `@adobe/react-spectrum`. |
 
 ## Accessibility
 
@@ -123,12 +126,14 @@ All `SpectrumInlineAlertProps` are accepted as-is. The primary props are:
 - **Contrast**: All `InlineAlert` variants in Geti's dark theme are designed to meet WCAG AA contrast requirements through `ThemeProvider`'s token overrides. If overriding colours with `UNSAFE_className`, verify contrast independently.
 
 ## Related components
+
 - **`Toast`** — use for transient, auto-dismissing notifications triggered programmatically after async events; `InlineAlert` is declarative and persistent.
 - **`Badge`** — use for compact, static categorical labels (e.g. "Beta", "Archived") that require no title or body text.
 - **`StatusLight`** — use for a compact dot-and-label indicator of a live operational state rather than a rich contextual message.
 - **`IllustratedMessage`** — use when the feedback occupies a large empty area and benefits from an illustration (e.g. empty states, 404 screens).
 
 ## Example use cases
+
 <details>
   <summary>Typical use cases</summary>
 

@@ -3,7 +3,7 @@ import type { Meta, StoryObj } from '@storybook/react';
 import { ColorSwatchPicker, ColorSwatchPickerItem } from '@geti/ui';
 
 const meta: Meta<typeof ColorSwatchPicker> = {
-    tags: ["!dev"],
+    tags: ['!dev'],
     component: ColorSwatchPicker,
     title: 'Form/Color controls/ColorSwatchPicker',
     argTypes: {

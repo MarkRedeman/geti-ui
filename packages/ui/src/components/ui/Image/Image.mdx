@@ -20,6 +20,7 @@ import { Image } from '@geti/ui';
 The `Image` component is a lightweight wrapper around Adobe's React Spectrum `Image`. It provides a centralized import point for images within the Geti UI design system, ensuring consistent application of accessibility rules and styling.
 
 ### Key Usage Rules
+
 1. **Mandatory Alt Text**: Every image **must** have an `alt` prop.
     - For informative images, provide a meaningful, localized description.
     - For decorative images that should be ignored by screen readers, set `alt=""`.
@@ -29,7 +30,9 @@ The `Image` component is a lightweight wrapper around Adobe's React Spectrum `Im
 ## Variants
 
 ### Object Fit
+
 The `objectFit` prop accepts standard CSS values to determine how the image fills its container:
+
 - `cover`: Fills the container, cropping the image if necessary.
 - `contain`: Shows the entire image, adding "letterboxing" if needed.
 - `fill`: Stretches the image to fill the container (may distort aspect ratio).
@@ -41,33 +44,35 @@ The `objectFit` prop accepts standard CSS values to determine how the image fill
 
 ### Content
 
-| Prop | Type | Default | Description |
-|------|------|---------|-------------|
-| `src` | `string` | — | The URL of the image. |
+| Prop  | Type     | Default      | Description                                                              |
+| ----- | -------- | ------------ | ------------------------------------------------------------------------ |
+| `src` | `string` | —            | The URL of the image.                                                    |
 | `alt` | `string` | **Required** | Accessible description of the image. Use `alt=""` for decorative images. |
 
 ### Value / State
 
-| Prop | Type | Default | Description |
-|------|------|---------|-------------|
-| `objectFit` | `'cover' \| 'contain' \| 'fill' \| 'none' \| 'scale-down'` | — | How the image fits into its container. |
-| `crossOrigin` | `'anonymous' \| 'use-credentials'` | — | CORS request mode for the image. |
+| Prop          | Type                                                       | Default | Description                            |
+| ------------- | ---------------------------------------------------------- | ------- | -------------------------------------- |
+| `objectFit`   | `'cover' \| 'contain' \| 'fill' \| 'none' \| 'scale-down'` | —       | How the image fits into its container. |
+| `crossOrigin` | `'anonymous' \| 'use-credentials'`                         | —       | CORS request mode for the image.       |
 
 ### Events
 
-| Prop | Type | Description |
-|------|------|-------------|
-| `onLoad` | `ReactEventHandler` | Triggered when the image has finished loading. |
-| `onError` | `ReactEventHandler` | Triggered if the image fails to load. |
+| Prop      | Type                | Description                                    |
+| --------- | ------------------- | ---------------------------------------------- |
+| `onLoad`  | `ReactEventHandler` | Triggered when the image has finished loading. |
+| `onError` | `ReactEventHandler` | Triggered if the image fails to load.          |
 
 The `Image` component accepts all standard [Spectrum layout and spacing props](https://react-spectrum.adobe.com/react-spectrum/styling.html), including `width`, `height`, `margin`, `position`, and `flex` properties. Setting `alt=""` is the standard way to hide decorative images from screen readers. Spectrum enforces the presence of the `alt` attribute at the type level; omitting it will cause a TypeScript error.
 
 ## Related components
+
 - `Avatar` — use instead when the image represents a person or entity and circle cropping / size tokens are needed.
 - `PhotoPlaceholder` — use alongside `Avatar` as a fallback when a person photo is unavailable.
 - `View` — use as a parent container to add padding, border, or background behind the image.
 
 ## Example use cases
+
 <details>
   <summary>Typical use cases</summary>
 

@@ -20,16 +20,19 @@ import { MediaViewModes, ViewModes, INITIAL_VIEW_MODE } from '@geti/ui';
 `MediaViewModes` is a Geti-native composite component that provides a standardised icon button and drop-down menu for switching between display modes in media galleries and data browsers. It replaces ad-hoc view-switcher implementations across the application with a single, accessible, consistently-styled control.
 
 Key responsibilities:
+
 - **Mode Icon**: Renders the icon that corresponds to the **currently active** view mode as the visible label of the `ActionButton` trigger, giving immediate visual feedback about the current state.
 - **Mode Selection Menu**: Opens a single-selection `Menu` listing all available `ViewModes` values. Selecting an item calls `setViewMode` and closes the menu.
 - **Tooltip Discoverability**: The `ActionButton` is wrapped in a `TooltipTrigger` that shows a `"View mode"` tooltip on hover, ensuring the control is self-describing even when using a quiet/icon-only button.
 - **Disabled State**: The `isDisabled` prop propagates to the `ActionButton` and prevents the menu from opening while data is loading or unavailable.
 
 ### When to use
+
 - In toolbar areas above image or dataset galleries where users need to switch between thumbnail grid sizes and a detailed list view.
 - Anywhere a finite set of mutually-exclusive display modes must be surfaced as an icon-based selector rather than a segmented control or tab set.
 
 ### When to avoid
+
 - When only two modes are available — consider a `ToggleButton` pair instead.
 - When the modes relate to navigation (different pages/sections) rather than presentation — use `Tabs` or `Menu` with navigation semantics.
 - When the full label of each mode should be permanently visible — use a `Picker` or a segmented `ActionGroup`.
@@ -41,12 +44,12 @@ Key responsibilities:
 - **Composition**: The `MenuTrigger` wraps a `TooltipTrigger`, which in turn wraps the `ActionButton`. This ensures that the tooltip is shown on the trigger button while the menu remains a sibling portal.
 - **Icon Mapping**: Each `ViewModes` enum value is mapped to a specific Spectrum workflow icon:
 
-| ViewMode | Icon | Description |
-| :--- | :--- | :--- |
-| `LARGE` | `ClassicGridView` | 4 large thumbnails per row (default) |
-| `MEDIUM` | `ModernGridView` | 6 medium thumbnails per row |
-| `SMALL` | `ViewGrid` | 8 small thumbnails per row |
-| `DETAILS` | `ViewList` | Single-column detailed list view |
+| ViewMode  | Icon              | Description                          |
+| :-------- | :---------------- | :----------------------------------- |
+| `LARGE`   | `ClassicGridView` | 4 large thumbnails per row (default) |
+| `MEDIUM`  | `ModernGridView`  | 6 medium thumbnails per row          |
+| `SMALL`   | `ViewGrid`        | 8 small thumbnails per row           |
+| `DETAILS` | `ViewList`        | Single-column detailed list view     |
 
 - **Quiet Trigger**: The `ActionButton` uses `isQuiet={true}` by default to minimize visual weight in toolbars.
 
@@ -59,9 +62,11 @@ Key responsibilities:
 ## Variants
 
 ### Subset of Modes
+
 By default `MediaViewModes` renders all four `ViewModes` values (`Large`, `Medium`, `Small`, `Details`). Pass a custom `items` array to expose only a subset relevant to the current context.
 
 ### Disabled
+
 Set `isDisabled` to `true` to render the trigger button in a disabled state. The tooltip is still shown but the menu cannot be opened.
 
 ---
@@ -71,19 +76,21 @@ Set `isDisabled` to `true` to render the trigger button in a disabled state. The
 ## Props
 
 ### MediaViewModes Props
-| Prop | Type | Default | Description |
-| :--- | :--- | :--- | :--- |
-| `viewMode` | `ViewModes` | **Required** | The currently active view mode. Controls which icon is shown on the trigger button. |
-| `setViewMode` | `(viewMode: ViewModes) => void` | **Required** | Callback invoked when the user selects a different mode. |
-| `items` | `ViewModes[]` | All four modes | Ordered list of view modes to include in the menu. Defaults to `[Large, Medium, Small, Details]`. |
-| `isDisabled` | `boolean` | `false` | When `true`, disables the `ActionButton` trigger and prevents the menu from opening. |
+
+| Prop          | Type                            | Default        | Description                                                                                       |
+| :------------ | :------------------------------ | :------------- | :------------------------------------------------------------------------------------------------ |
+| `viewMode`    | `ViewModes`                     | **Required**   | The currently active view mode. Controls which icon is shown on the trigger button.               |
+| `setViewMode` | `(viewMode: ViewModes) => void` | **Required**   | Callback invoked when the user selects a different mode.                                          |
+| `items`       | `ViewModes[]`                   | All four modes | Ordered list of view modes to include in the menu. Defaults to `[Large, Medium, Small, Details]`. |
+| `isDisabled`  | `boolean`                       | `false`        | When `true`, disables the `ActionButton` trigger and prevents the menu from opening.              |
 
 ### `ViewModes` enum
+
 ```ts
 export enum ViewModes {
-    LARGE   = 'Large thumbnails',
-    MEDIUM  = 'Medium thumbnails',
-    SMALL   = 'Small thumbnails',
+    LARGE = 'Large thumbnails',
+    MEDIUM = 'Medium thumbnails',
+    SMALL = 'Small thumbnails',
     DETAILS = 'Details',
 }
 ```
@@ -96,12 +103,14 @@ export enum ViewModes {
 - **MenuTrigger Management**: Open/close state and focus return are handled entirely by React Spectrum's `MenuTrigger`, providing correct focus management out of the box.
 
 ## Related components
+
 - **`Menu`** / **`MenuTrigger`** — the underlying primitives that `MediaViewModes` composes; use them directly when you need a custom trigger icon or a non-standard layout.
 - **`ActionGroup`** — use when all view mode options should be permanently visible as a segmented button row rather than hidden behind a single icon trigger.
 - **`Tabs`** — use when each mode corresponds to a distinct content panel that should be rendered inline; prefer `MediaViewModes` when modes control only the presentation of the same data.
 - **`ActionMenu`** — use for general-purpose contextual actions behind a "three dots" trigger; `MediaViewModes` is purpose-built for display-mode switching with a mode-aware trigger icon.
 
 ## Example use cases
+
 <details>
   <summary>Typical use cases</summary>
 

@@ -22,18 +22,21 @@ import { Link } from '@geti/ui';
 Its purpose is to give users a recognisable, underlined hyperlink affordance that is unambiguously distinct from a `Button`. Where a `Button` triggers an action within the current context, a `Link` navigates the user to a new location — whether that is an external URL, a different route, or an anchor within the same page.
 
 Key characteristics:
+
 - **Variants for context**: `primary` (accent-coloured), `secondary` (subdued), and `overBackground` (white, for use on coloured or image backgrounds) cover the three most common placement scenarios.
 - **Quiet mode**: `isQuiet` removes the underline until hover or focus, reducing visual noise in dense layouts while preserving the affordance on interaction.
 - **Router integration**: Spectrum's `Link` is intentionally router-agnostic. Pass `href` for standard anchor behaviour; supply `onPress` to intercept navigation and delegate to a client-side router (e.g. React Router's `navigate`).
 - **Theme aware**: Visual tokens are resolved by `ThemeProvider`; no component-level CSS overrides are needed.
 
 ### When to use
+
 - For inline text links within body copy, form helpers, or error messages (e.g. `"Forgot password?"`, `"Learn more"`).
 - For navigation links in breadcrumbs, footers, and sidebars where the destination is a URL or route.
 - When the action is navigational in nature and `<a>` semantics are correct.
 - Use `overBackground` when the link appears on a coloured panel, image thumbnail, or dark banner where the default colour would have insufficient contrast.
 
 ### When to avoid
+
 - When the element triggers an action rather than navigating — use `Button` or `ActionButton` instead.
 - When the full content area should be clickable (e.g. a project card) — use `Card` with `onPress`.
 - Do not use `Link` as a styling convenience for text that isn't actually navigable; this breaks the semantic contract and confuses screen reader users.
@@ -55,12 +58,12 @@ No state, no effects, no refs. Spectrum handles focus ring rendering, press stat
 
 ## Integration
 
-| Concern | Detail |
-|---------|--------|
-| **Package** | `@adobe/react-spectrum` — `Link` |
-| **Theme** | Resolved automatically by `ThemeProvider`. No CSS imports required. |
-| **Router** | Not router-aware by default. Use `onPress` to integrate with React Router, TanStack Router, or any client-side navigation library. |
-| **Related** | `Button` (actions), `ActionButton` (icon+label toolbar actions), `Breadcrumbs` (structured navigation trail) |
+| Concern     | Detail                                                                                                                             |
+| ----------- | ---------------------------------------------------------------------------------------------------------------------------------- |
+| **Package** | `@adobe/react-spectrum` — `Link`                                                                                                   |
+| **Theme**   | Resolved automatically by `ThemeProvider`. No CSS imports required.                                                                |
+| **Router**  | Not router-aware by default. Use `onPress` to integrate with React Router, TanStack Router, or any client-side navigation library. |
+| **Related** | `Button` (actions), `ActionButton` (icon+label toolbar actions), `Breadcrumbs` (structured navigation trail)                       |
 
 ### Usage examples
 
@@ -96,16 +99,16 @@ No state, no effects, no refs. Spectrum handles focus ring rendering, press stat
 
 All `SpectrumLinkProps` are accepted as-is. The primary props are:
 
-| Prop | Type | Default | Description |
-|------|------|---------|-------------|
-| `children` | `ReactNode` | — | The visible link text. Should be descriptive enough to make sense out of context (avoid `"click here"`). |
-| `href` | `string` | — | The destination URL. Omit when using `onPress` for client-side routing. |
-| `variant` | `'primary' \| 'secondary' \| 'overBackground'` | `'primary'` | Visual treatment of the link colour. |
-| `isQuiet` | `boolean` | `false` | Removes the underline until hover or focus. |
-| `target` | `string` | — | Standard anchor `target` attribute (e.g. `'_blank'`). When using `target="_blank"`, add `rel="noopener noreferrer"` via `rel`. |
-| `rel` | `string` | — | Standard anchor `rel` attribute. |
-| `onPress` | `(e: PressEvent) => void` | — | Called on press; use for client-side navigation. |
-| `isDisabled` | `boolean` | `false` | Renders the link non-interactive and visually muted. |
+| Prop         | Type                                           | Default     | Description                                                                                                                    |
+| ------------ | ---------------------------------------------- | ----------- | ------------------------------------------------------------------------------------------------------------------------------ |
+| `children`   | `ReactNode`                                    | —           | The visible link text. Should be descriptive enough to make sense out of context (avoid `"click here"`).                       |
+| `href`       | `string`                                       | —           | The destination URL. Omit when using `onPress` for client-side routing.                                                        |
+| `variant`    | `'primary' \| 'secondary' \| 'overBackground'` | `'primary'` | Visual treatment of the link colour.                                                                                           |
+| `isQuiet`    | `boolean`                                      | `false`     | Removes the underline until hover or focus.                                                                                    |
+| `target`     | `string`                                       | —           | Standard anchor `target` attribute (e.g. `'_blank'`). When using `target="_blank"`, add `rel="noopener noreferrer"` via `rel`. |
+| `rel`        | `string`                                       | —           | Standard anchor `rel` attribute.                                                                                               |
+| `onPress`    | `(e: PressEvent) => void`                      | —           | Called on press; use for client-side navigation.                                                                               |
+| `isDisabled` | `boolean`                                      | `false`     | Renders the link non-interactive and visually muted.                                                                           |
 
 ## Accessibility
 
@@ -117,12 +120,14 @@ All `SpectrumLinkProps` are accepted as-is. The primary props are:
 - **`overBackground` contrast**: The white-on-colour rendering of `overBackground` must meet WCAG AA contrast requirements (4.5:1 for normal text). Test the specific background colour in your usage context.
 
 ## Related components
+
 - **`Button`** / **`ActionButton`** — use when the element triggers an action in the current context rather than navigating to a new location; never use `Link` as a styled button.
 - **`Breadcrumbs`** — use when the link is part of a structured navigation trail showing the user's position in the hierarchy.
 - **`Menu`** / **`ActionMenu`** — use when multiple navigation targets should be grouped behind a single trigger rather than presented as individual inline links.
 - **`Tabs`** — use when switching between sibling sections of the same page; prefer `Link` only when navigation changes the URL.
 
 ## Example use cases
+
 <details>
   <summary>Typical use cases</summary>
 

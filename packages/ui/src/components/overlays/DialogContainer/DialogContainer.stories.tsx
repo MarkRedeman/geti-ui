@@ -8,7 +8,7 @@ import { Button, ButtonGroup, Content, Divider, Heading } from '@adobe/react-spe
 import { Dialog, DialogContainer } from '@geti/ui';
 
 const meta: Meta<typeof DialogContainer> = {
-    tags: ["!dev"],
+    tags: ['!dev'],
     component: DialogContainer,
     title: 'Overlays/DialogContainer',
     parameters: {

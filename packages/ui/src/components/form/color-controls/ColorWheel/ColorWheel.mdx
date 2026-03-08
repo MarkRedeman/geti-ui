@@ -5,7 +5,9 @@ import * as DocStories from './ColorWheel.stories';
 
 # ColorWheel
 
-<Subtitle>A circular hue ring that lets users select a hue value by rotating a thumb around a 360° gradient track.</Subtitle>
+<Subtitle>
+    A circular hue ring that lets users select a hue value by rotating a thumb around a 360° gradient track.
+</Subtitle>
 
 ```tsx
 import { ColorWheel } from '@geti/ui';
@@ -20,16 +22,19 @@ import { ColorWheel } from '@geti/ui';
 `ColorWheel` is a pure pass-through wrapper around Adobe React Spectrum's `ColorWheel`. It provides the most spatially intuitive hue selection interaction available — a circular track where every hue is equidistant from the centre, making the relationship between hue values immediately perceivable without linear boundary effects.
 
 Key responsibilities:
+
 - **Hue Selection**: Rotates the user's selected hue around a full 360° colour wheel. Only the `hue` channel is updated; saturation and brightness/lightness are preserved.
 - **HSL and HSB**: Works with both `hsl(...)` and `hsb(...)` color values — Spectrum normalises internally.
 - **Size Control**: The `size` prop sets the outer diameter in pixels, making it easy to scale the wheel for different layout contexts.
 
 ### When to use
+
 - As the primary hue selector alongside `ColorArea` (saturation/brightness) in a complete color picker.
 - When users benefit from seeing the full spectrum arranged spatially in a circle — graphic tools, annotation systems, theme editors.
 - When you want a compact hue picker that communicates "circular" color relationships (e.g., complementary colors are opposite on the wheel).
 
 ### When to avoid
+
 - When a linear hue slider is more appropriate for the layout — `ColorSlider` with `channel="hue"` is a valid space-efficient alternative.
 - When screen real estate is extremely limited — the minimum rendered diameter is around 100 px; prefer `ColorSlider` for narrow columns.
 - When users are expected to select from a constrained palette — `ColorSwatchPicker` prevents off-palette selections.
@@ -41,9 +46,7 @@ Pure thin wrapper — zero local state, no CSS overrides:
 ```tsx
 export interface ColorWheelProps extends SpectrumColorWheelProps {}
 
-export const ColorWheel = (props: ColorWheelProps) => (
-  <SpectrumColorWheel {...props} />
-);
+export const ColorWheel = (props: ColorWheelProps) => <SpectrumColorWheel {...props} />;
 ```
 
 Spectrum renders the wheel as an SVG-backed circular gradient with a draggable thumb positioned at the current hue angle. The thumb's position is calculated as `(hue / 360) * 2π` radians from the top of the circle.
@@ -58,13 +61,13 @@ Spectrum renders the wheel as an SVG-backed circular gradient with a draggable t
 
 ### Props
 
-| Prop | Type | Default | Description |
-|------|------|---------|-------------|
-| `value` | `Color` | — | The current color (controlled). Only the hue channel is manipulated. |
-| `defaultValue` | `Color \| string` | — | The initial color (uncontrolled). |
-| `onChange` | `(value: Color) => void` | — | Called when the user rotates the thumb. |
-| `size` | `number` | `192` | The outer diameter of the wheel in pixels. |
-| `isDisabled` | `boolean` | `false` | Prevents interaction. |
+| Prop           | Type                     | Default | Description                                                          |
+| -------------- | ------------------------ | ------- | -------------------------------------------------------------------- |
+| `value`        | `Color`                  | —       | The current color (controlled). Only the hue channel is manipulated. |
+| `defaultValue` | `Color \| string`        | —       | The initial color (uncontrolled).                                    |
+| `onChange`     | `(value: Color) => void` | —       | Called when the user rotates the thumb.                              |
+| `size`         | `number`                 | `192`   | The outer diameter of the wheel in pixels.                           |
+| `isDisabled`   | `boolean`                | `false` | Prevents interaction.                                                |
 
 ## Accessibility
 
@@ -75,11 +78,13 @@ Spectrum renders the wheel as an SVG-backed circular gradient with a draggable t
 - **Disabled state**: `isDisabled` adds `aria-disabled="true"` and removes the thumb from the tab order.
 
 ## Related components
+
 - `ColorArea` — compose alongside `ColorWheel` so the wheel selects hue while the area selects saturation/brightness.
 - `ColorSlider` — use instead for hue when a linear horizontal gradient is preferred over a circular wheel.
 - `ColorPickerDialog` — use instead for a complete, assembled color picker that includes `ColorWheel` pre-composed.
 
 ## Example use cases
+
 <details>
   <summary>Typical use cases</summary>
 

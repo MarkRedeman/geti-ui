@@ -93,8 +93,14 @@ export type { ComboBoxProps } from './components/form/pickers/ComboBox/ComboBox'
 export { ColorSwatch } from './components/form/color-controls/color-swatch/ColorSwatch';
 export type { ColorSwatchProps } from './components/form/color-controls/color-swatch/ColorSwatch';
 
-export { ColorSwatchPicker, ColorSwatchPickerItem } from './components/form/color-controls/color-swatch/ColorSwatchPicker';
-export type { ColorSwatchPickerProps, ColorSwatchPickerItemProps } from './components/form/color-controls/color-swatch/ColorSwatchPicker';
+export {
+    ColorSwatchPicker,
+    ColorSwatchPickerItem,
+} from './components/form/color-controls/color-swatch/ColorSwatchPicker';
+export type {
+    ColorSwatchPickerProps,
+    ColorSwatchPickerItemProps,
+} from './components/form/color-controls/color-swatch/ColorSwatchPicker';
 
 export { ColorSlider } from './components/form/color-controls/ColorSlider/ColorSlider';
 export type { ColorSliderProps } from './components/form/color-controls/ColorSlider/ColorSlider';

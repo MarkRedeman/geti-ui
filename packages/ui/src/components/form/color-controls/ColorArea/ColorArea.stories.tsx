@@ -3,7 +3,7 @@ import type { Meta, StoryObj } from '@storybook/react';
 import { ColorArea, Flex } from '@geti/ui';
 
 const meta: Meta<typeof ColorArea> = {
-    tags: ["!dev"],
+    tags: ['!dev'],
     component: ColorArea,
     title: 'Form/Color controls/ColorArea',
     argTypes: {

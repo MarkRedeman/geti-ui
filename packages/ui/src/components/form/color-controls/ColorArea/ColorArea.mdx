@@ -20,16 +20,19 @@ import { ColorArea } from '@geti/ui';
 `ColorArea` is a pure pass-through wrapper around Adobe React Spectrum's `ColorArea`. Its single purpose is to surface the Spectrum component through the `@geti/ui` package boundary with a typed, re-exportable `ColorAreaProps` interface.
 
 Key responsibilities:
+
 - **2D Channel Editing**: Exposes two independently configurable color channels (`xChannel`, `yChannel`) rendered as a continuous 2D gradient. The user drags a circular thumb to update both channels simultaneously.
 - **Color Model Agnostic**: Works with RGB (`"red"`, `"green"`, `"blue"`), HSB (`"saturation"`, `"brightness"`), and HSL (`"lightness"`) color models. The most common configuration is `xChannel="saturation"` + `yChannel="brightness"` (the standard "color box" found in most native color pickers).
 - **Controlled and Uncontrolled**: Supports both `value`/`onChange` (controlled) and `defaultValue` (uncontrolled).
 
 ### When to use
+
 - As the main saturation/brightness picker inside a custom color picker UI — paired with a `ColorWheel` or `ColorSlider` for hue.
 - When users need to adjust two related color dimensions at once (e.g., saturation vs. brightness of a chosen hue).
 - Whenever you need a visually rich, direct-manipulation color selector in a settings or annotation panel.
 
 ### When to avoid
+
 - When only a single channel needs adjustment — use `ColorSlider` instead.
 - When the design calls for a compact inline color picker — `ColorField` (hex input) is less disruptive.
 - When using it standalone without labelling the axes — always ensure both channels are identifiable to assistive technologies via the built-in `label` prop or surrounding context.
@@ -41,9 +44,7 @@ Pure thin wrapper — zero local state, no CSS overrides:
 ```tsx
 export interface ColorAreaProps extends SpectrumColorAreaProps {}
 
-export const ColorArea = (props: ColorAreaProps) => (
-  <SpectrumColorArea {...props} />
-);
+export const ColorArea = (props: ColorAreaProps) => <SpectrumColorArea {...props} />;
 ```
 
 The `size` prop controls both width and height (square). The rendered gradient adjusts live as the `value` changes — for example, when `ColorWheel` changes the hue, the entire ColorArea gradient re-renders to reflect the new hue while preserving the thumb's saturation/brightness position.
@@ -62,28 +63,23 @@ The `size` prop controls both width and height (square). The rendered gradient a
 // Typical usage inside a custom color picker
 const [color, setColor] = useState<Color>(parseColor('hsb(0, 100%, 50%)'));
 
-<ColorArea
-  value={color}
-  onChange={(c) => c && setColor(c)}
-  xChannel="saturation"
-  yChannel="brightness"
-/>
+<ColorArea value={color} onChange={(c) => c && setColor(c)} xChannel="saturation" yChannel="brightness" />;
 // → user drags thumb to upper-right corner
 // → onChange fires: Color { hue: 0, saturation: 100, brightness: 95 }
 ```
 
 ### Props
 
-| Prop | Type | Default | Description |
-|------|------|---------|-------------|
-| `value` | `Color` | — | The current color (controlled). |
-| `defaultValue` | `Color \| string` | — | The initial color (uncontrolled). |
-| `onChange` | `(value: Color) => void` | — | Called when the user moves the thumb. |
-| `xChannel` | `ColorChannel` | `'saturation'` | The color channel controlled by the X axis. |
-| `yChannel` | `ColorChannel` | `'brightness'` | The color channel controlled by the Y axis. |
-| `size` | `number` | `192` | Width and height of the area in pixels. |
-| `isDisabled` | `boolean` | `false` | Prevents interaction. |
-| `label` | `string` | — | An accessible label for the component. |
+| Prop           | Type                     | Default        | Description                                 |
+| -------------- | ------------------------ | -------------- | ------------------------------------------- |
+| `value`        | `Color`                  | —              | The current color (controlled).             |
+| `defaultValue` | `Color \| string`        | —              | The initial color (uncontrolled).           |
+| `onChange`     | `(value: Color) => void` | —              | Called when the user moves the thumb.       |
+| `xChannel`     | `ColorChannel`           | `'saturation'` | The color channel controlled by the X axis. |
+| `yChannel`     | `ColorChannel`           | `'brightness'` | The color channel controlled by the Y axis. |
+| `size`         | `number`                 | `192`          | Width and height of the area in pixels.     |
+| `isDisabled`   | `boolean`                | `false`        | Prevents interaction.                       |
+| `label`        | `string`                 | —              | An accessible label for the component.      |
 
 ## Accessibility
 
@@ -93,11 +89,13 @@ const [color, setColor] = useState<Color>(parseColor('hsb(0, 100%, 50%)'));
 - **Visual contrast**: The thumb has a white border and drop shadow, ensuring it remains visible across the full gradient range without relying on color alone.
 
 ## Related components
+
 - `ColorWheel` — compose alongside `ColorArea` to provide hue selection (wheel) + saturation/brightness (area).
 - `ColorSlider` — use instead for precise linear control of a single channel on a gradient track.
 - `ColorPickerDialog` — use instead for a complete, assembled color picker with all primitives pre-composed.
 
 ## Example use cases
+
 <details>
   <summary>Typical use cases</summary>
 

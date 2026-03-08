@@ -10,7 +10,7 @@ A deprecated convenience wrapper that centres the Intel-branded loading animatio
 ```tsx
 // New code — preferred
 import { Loading } from '@geti/ui';
-<Loading variant="intel" mode="inline" size="L" />
+<Loading variant="intel" mode="inline" size="L" />;
 
 // Legacy code only
 import { IntelBrandedLoading } from '@geti/ui';
@@ -27,9 +27,11 @@ import { IntelBrandedLoading } from '@geti/ui';
 Its single configurable surface is `height?: string` — the height of the outer `Flex` container, defaulting to `'100vh'`. No other styling, layout, or animation customization is exposed.
 
 ### When to use
+
 - **Only** when migrating or maintaining existing code that already uses `IntelBrandedLoading`.
 
 ### When to avoid
+
 - **All new code.** Use `<Loading variant="intel" mode="inline" size="L" />` instead.
 - When you need sizing other than `L` (192 px) — `Loading` exposes `size` directly.
 - When you need overlay or fullscreen positioning — `Loading` supports `mode="overlay"` and `mode="fullscreen"`.
@@ -41,7 +43,7 @@ A thin composition:
 ```tsx
 // What IntelBrandedLoading renders internally:
 <Flex justifyContent="center" alignItems="center" height={height} direction="column">
-  <Loading variant="intel" mode="inline" size="L" style={{ height }} />
+    <Loading variant="intel" mode="inline" size="L" style={{ height }} />
 </Flex>
 ```
 
@@ -67,8 +69,8 @@ The `height` prop is passed to both the `Flex` container and the inner `Loading`
 
 ## Props
 
-| Prop | Type | Default | Description |
-|------|------|---------|-------------|
+| Prop     | Type     | Default   | Description                                                                       |
+| -------- | -------- | --------- | --------------------------------------------------------------------------------- |
 | `height` | `string` | `'100vh'` | The height of the outer centering container. Passed to both `Flex` and `Loading`. |
 
 ## Accessibility
@@ -78,11 +80,13 @@ The `height` prop is passed to both the `Flex` container and the inner `Loading`
 - See the [Loading accessibility section](/docs/feedback-loading--docs) for complete guidance on announcing loading states to screen readers.
 
 ## Related components
+
 - **`Loading`** — the replacement for `IntelBrandedLoading`; use `<Loading variant="intel" mode="inline" size="L" />` in all new code.
 - **`ProgressCircle`** — the underlying spinner primitive used by `Loading`'s default (`spinner`) variant for compact inline or overlay states.
 - **`Skeleton`** — use for layout-preserving content placeholders during data fetching rather than a full-area branded animation.
 
 ## Example use cases
+
 <details>
   <summary>Typical use cases</summary>
 

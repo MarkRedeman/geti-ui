@@ -6,7 +6,7 @@ import type { Meta, StoryObj } from '@storybook/react';
 import { ComboBox, ComboBoxItem as Item } from '@geti/ui';
 
 const meta: Meta<typeof ComboBox> = {
-    tags: ["!dev"],
+    tags: ['!dev'],
     component: ComboBox,
     title: 'Form/ComboBox',
     argTypes: {

@@ -7,8 +7,9 @@ Global test infrastructure for the `@geti/ui` package. Currently contains a sing
 ## Design
 
 **`setup.ts`** has one line:
+
 ```ts
-import "@testing-library/jest-dom";
+import '@testing-library/jest-dom';
 ```
 
 This augments the global `expect` with DOM-specific matchers (`.toBeInTheDocument()`, `.toHaveValue()`, `.toBeVisible()`, etc.) provided by `@testing-library/jest-dom`. Without it, these matchers would not exist in the rstest/Vitest environment.

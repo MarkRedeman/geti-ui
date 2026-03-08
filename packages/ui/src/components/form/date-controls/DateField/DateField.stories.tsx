@@ -3,7 +3,7 @@ import type { Meta, StoryObj } from '@storybook/react';
 import { DateField } from '@geti/ui';
 
 const meta: Meta<typeof DateField> = {
-    tags: ["!dev"],
+    tags: ['!dev'],
     component: DateField,
     title: 'Form/Date controls/DateField',
     argTypes: {

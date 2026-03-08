@@ -6,7 +6,7 @@ import type { Meta, StoryObj } from '@storybook/react';
 import { Slider } from '@geti/ui';
 
 const meta: Meta<typeof Slider> = {
-    tags: ["!dev"],
+    tags: ['!dev'],
     component: Slider,
     title: 'Form/Slider',
     argTypes: {

@@ -3,7 +3,7 @@ import { PressableElement } from '@geti/ui';
 import { View, Text } from '@adobe/react-spectrum';
 
 const meta: Meta<typeof PressableElement> = {
-    tags: ["!dev"],
+    tags: ['!dev'],
     component: PressableElement,
     title: 'UI/PressableElement',
 };

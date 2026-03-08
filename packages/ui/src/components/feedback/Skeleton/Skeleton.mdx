@@ -15,21 +15,24 @@ import { Skeleton } from '@geti/ui';
 
 ## Responsibility
 
-`Skeleton` is a **zero-dependency, layout-preserving** loading placeholder. Unlike `Loading` — which communicates an indeterminate waiting state with a spinner — `Skeleton` communicates the *shape* of the content that will appear, reducing perceived load time and preventing jarring layout shifts.
+`Skeleton` is a **zero-dependency, layout-preserving** loading placeholder. Unlike `Loading` — which communicates an indeterminate waiting state with a spinner — `Skeleton` communicates the _shape_ of the content that will appear, reducing perceived load time and preventing jarring layout shifts.
 
 Key responsibilities:
+
 - **Shape communication**: Renders a rectangle (default) or circle matching the dimensions of the content it stands in for, so the page layout is fully established before content arrives.
 - **Shimmer animation**: A `linear-gradient` sweep animation (`shimmer 2s ease infinite`) draws the eye and signals activity without a distracting spinner.
 - **Consumer-driven sizing**: The component imposes no default dimensions — callers own `width` and `height` entirely, making the skeleton pixel-accurate for any content type.
 - **Aspect ratio helper**: `isAspectRatioOne` enforces a `1:1` aspect ratio, removing the need to specify both `width` and `height` for square image placeholders.
 
 ### When to use
+
 - As a placeholder for cards, list items, text blocks, avatars, or images during an async data fetch.
 - When the content's dimensions are known ahead of time and a layout-preserving placeholder is preferable to a spinner.
 - To compose multi-element loading skeletons that mimic the final page structure (see the `TextBlock` and `Card` stories).
 - When you need a circle placeholder for an avatar or icon — use `isCircle`.
 
 ### When to avoid
+
 - When the content area is large and unbounded — a `Loading` spinner (overlay or fullscreen) is less misleading.
 - When load time is expected to be under ~300 ms — instantaneous transitions don't need skeletons and adding them can cause unnecessary flicker.
 - When the content shape is unknown — a centered `Loading` spinner is more honest.
@@ -38,12 +41,15 @@ Key responsibilities:
 ## Variants
 
 ### Rectangle (default)
+
 The standard shape for text lines, card bodies, and any rectangular content area.
 
 ### Circle (`isCircle`)
+
 Sets `borderRadius: '50%'` for avatar, icon, or profile image placeholders. Should always be paired with equal `width` and `height` (or `isAspectRatioOne`).
 
 ### Aspect ratio square (`isAspectRatioOne`)
+
 Sets `aspectRatio: '1'`. Use when only `width` is known (e.g., a grid cell that is always as tall as it is wide).
 
 ## Design
@@ -79,15 +85,15 @@ The `shimmer` keyframe is defined in `geti-global.module.css` (a global styleshe
 
 ## Props
 
-| Prop | Type | Default | Description |
-|------|------|---------|-------------|
-| `width` | `string \| number` | `'100%'` | Width of the skeleton. Numbers are converted to `px`. |
-| `height` | `string \| number` | `'1rem'` | Height of the skeleton. Numbers are converted to `px`. |
-| `isCircle` | `boolean` | `false` | Renders the skeleton as a circle (`borderRadius: '50%'`). |
-| `isAspectRatioOne` | `boolean` | `false` | Enforces a `1:1` aspect ratio, deriving height from width. |
-| `className` | `string` | — | Additional CSS class names. |
-| `style` | `CSSProperties` | `{}` | Inline style overrides applied after all computed styles. |
-| `aria-label` | `string` | `'Loading…'` | Accessible label announced by screen readers. Override to be content-specific (e.g., `'Loading avatar'`). |
+| Prop               | Type               | Default      | Description                                                                                               |
+| ------------------ | ------------------ | ------------ | --------------------------------------------------------------------------------------------------------- |
+| `width`            | `string \| number` | `'100%'`     | Width of the skeleton. Numbers are converted to `px`.                                                     |
+| `height`           | `string \| number` | `'1rem'`     | Height of the skeleton. Numbers are converted to `px`.                                                    |
+| `isCircle`         | `boolean`          | `false`      | Renders the skeleton as a circle (`borderRadius: '50%'`).                                                 |
+| `isAspectRatioOne` | `boolean`          | `false`      | Enforces a `1:1` aspect ratio, deriving height from width.                                                |
+| `className`        | `string`           | —            | Additional CSS class names.                                                                               |
+| `style`            | `CSSProperties`    | `{}`         | Inline style overrides applied after all computed styles.                                                 |
+| `aria-label`       | `string`           | `'Loading…'` | Accessible label announced by screen readers. Override to be content-specific (e.g., `'Loading avatar'`). |
 
 ## Accessibility
 
@@ -97,12 +103,14 @@ The `shimmer` keyframe is defined in `geti-global.module.css` (a global styleshe
 - **Animation**: The shimmer animation is driven by CSS `animation`. Users who have set `prefers-reduced-motion` in their OS will not see the animation suppressed automatically — if your product has a strict motion policy, add a `@media (prefers-reduced-motion: reduce)` override to the global `shimmer` keyframe definition to pause or remove it.
 
 ## Related components
+
 - **`Loading`** — use when the content dimensions are unknown or for full-area/overlay loading states; `Loading` complements `Skeleton` by covering unbounded spaces.
 - **`ProgressBar`** — use when the load operation has a measurable completion percentage that should be communicated to the user.
 - **`ProgressCircle`** — use as a compact spinner in tight spaces where a skeleton layout placeholder is not appropriate.
 - **`IllustratedMessage`** — use when the content area is empty due to a persistent condition (no results, first-use state) rather than a transient loading state.
 
 ## Example use cases
+
 <details>
   <summary>Typical use cases</summary>
 

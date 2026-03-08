@@ -6,7 +6,7 @@ import type { Meta, StoryObj } from '@storybook/react';
 import { Radio, RadioGroup } from '@geti/ui';
 
 const meta: Meta<typeof RadioGroup> = {
-    tags: ["!dev"],
+    tags: ['!dev'],
     component: RadioGroup,
     title: 'Form/RadioGroup',
     argTypes: {

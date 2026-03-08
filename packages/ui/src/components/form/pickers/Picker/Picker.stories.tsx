@@ -6,7 +6,7 @@ import type { Meta, StoryObj } from '@storybook/react';
 import { PickerItem as Item, Picker } from '@geti/ui';
 
 const meta: Meta<typeof Picker> = {
-    tags: ["!dev"],
+    tags: ['!dev'],
     component: Picker,
     title: 'Form/Picker',
     argTypes: {

@@ -14,10 +14,12 @@ Houses all picker and color-input components: date/time pickers, dropdown picker
 ## Design
 
 **Dominant pattern — thin wrapper:**
+
 ```tsx
 export interface PickerProps<T extends object> extends SpectrumPickerProps<T> {}
 export const Picker = <T extends object>(props: PickerProps<T>) => <SpectrumPicker {...props} />;
 ```
+
 All props forwarded unchanged; no CSS overrides; Spectrum owns all rendering and accessibility.
 
 **Date/time pickers — Safari mobile fix:**
@@ -59,4 +61,3 @@ For `ColorPickerDialog`: `color` prop (string) → `parseColor()` → `useState<
 ## Props
 
 <Controls />
-

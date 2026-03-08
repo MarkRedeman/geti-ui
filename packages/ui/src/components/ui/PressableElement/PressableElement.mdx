@@ -23,6 +23,7 @@ import { PressableElement } from '@geti/ui';
 It is the primary choice for creating custom interactive surfaces that do not fit the semantic model of a `Button` or `Link`, such as clickable cards, list items, or complex thumbnail wrappers.
 
 Key features:
+
 - **Hybrid Styling**: Uses the internal Spectrum `useStyleProps` hook to translate tokens like `padding="size-200"` into CSS variables.
 - **Accessible Press**: Leverages the RAC `Pressable` component to handle focus, keyboard (Enter/Space), and touch interactions uniformly.
 - **Ref Forwarding**: Ensures that interactions and focus are correctly managed on the underlying DOM element.
@@ -33,9 +34,11 @@ The component splits its props between an outer RAC `Pressable` (which manages i
 ## Variants
 
 ### Truncation
+
 When `isTruncated` is `true`, the wrapper applies CSS ellipsis styles to ensure content fits within the specified `width`.
 
 ### Double Click
+
 In addition to standard press events, `PressableElement` supports a native `onDoubleClick` handler, which is useful for specialized workflows like "double-click to rename" or "double-click to open."
 
 ## Props
@@ -44,26 +47,28 @@ In addition to standard press events, `PressableElement` supports a native `onDo
 
 ### Content
 
-| Prop | Type | Default | Description |
-|------|------|---------|-------------|
-| `children` | `ReactNode` | — | The content to be wrapped and made interactive. |
+| Prop       | Type        | Default | Description                                     |
+| ---------- | ----------- | ------- | ----------------------------------------------- |
+| `children` | `ReactNode` | —       | The content to be wrapped and made interactive. |
 
 ### Interaction
 
-| Prop | Type | Default | Description |
-|------|------|---------|-------------|
-| `onPress` | `(e: PressEvent) => void` | — | Handler called when the element is pressed. |
-| `onDoubleClick` | `() => void` | — | Native double-click event handler. |
-| `isDisabled` | `boolean` | `false` | Whether the element should ignore interactions. |
+| Prop            | Type                      | Default | Description                                     |
+| --------------- | ------------------------- | ------- | ----------------------------------------------- |
+| `onPress`       | `(e: PressEvent) => void` | —       | Handler called when the element is pressed.     |
+| `onDoubleClick` | `() => void`              | —       | Native double-click event handler.              |
+| `isDisabled`    | `boolean`                 | `false` | Whether the element should ignore interactions. |
 
 `PressableElement` accepts all standard [Spectrum layout and spacing props](https://react-spectrum.adobe.com/react-spectrum/styling.html).
 
 ## Related components
+
 - `Button` — use instead for standard interactive buttons that render with full Spectrum button semantics and styling.
 - `ActionButton` — use instead for compact, icon-oriented task buttons in toolbars.
 - `View` — use instead when a container needs Spectrum style tokens but does not need to be interactive.
 
 ## Example use cases
+
 <details>
   <summary>Typical use cases</summary>
 

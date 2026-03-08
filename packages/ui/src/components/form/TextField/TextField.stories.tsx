@@ -6,7 +6,7 @@ import type { Meta, StoryObj } from '@storybook/react';
 import { TextField } from '@geti/ui';
 
 const meta: Meta<typeof TextField> = {
-    tags: ["!dev"],
+    tags: ['!dev'],
     component: TextField,
     title: 'Form/TextField',
     argTypes: {

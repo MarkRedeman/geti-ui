@@ -3,7 +3,7 @@ import type { Meta, StoryObj } from '@storybook/react';
 import { Calendar } from '@geti/ui';
 
 const meta: Meta<typeof Calendar> = {
-    tags: ["!dev"],
+    tags: ['!dev'],
     component: Calendar,
     title: 'Form/Date controls/Calendar',
     argTypes: {

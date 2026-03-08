@@ -145,7 +145,12 @@ const PickersKitchenSink = () => (
                                         <PickerItem key={key}>{label}</PickerItem>
                                     ))}
                                 </Picker>
-                                <Picker label="Invalid picker" validationState="invalid" errorMessage="Selection required." width="100%">
+                                <Picker
+                                    label="Invalid picker"
+                                    validationState="invalid"
+                                    errorMessage="Selection required."
+                                    width="100%"
+                                >
                                     {FRAMEWORK_OPTIONS.map(({ key, label }) => (
                                         <PickerItem key={key}>{label}</PickerItem>
                                     ))}
@@ -180,7 +185,10 @@ const PickersKitchenSink = () => (
 
             {/* ── Color pickers ── */}
             <View padding="size-300" backgroundColor="gray-50" borderRadius="medium">
-                <SectionHeading title="Color Pickers" subtitle="ColorArea, ColorSlider, ColorWheel, ColorField, ColorSwatchPicker, ColorPickerDialog, ColorSwatch" />
+                <SectionHeading
+                    title="Color Pickers"
+                    subtitle="ColorArea, ColorSlider, ColorWheel, ColorField, ColorSwatchPicker, ColorPickerDialog, ColorSwatch"
+                />
                 <Grid columns={['1fr', '1fr']} gap="size-400" UNSAFE_style={{ alignItems: 'start' }}>
                     <Flex direction="column" gap="size-300">
                         <div>
@@ -209,7 +217,13 @@ const PickersKitchenSink = () => (
                             <SubLabel>ColorField — hex input</SubLabel>
                             <Flex direction="column" gap="size-150">
                                 <ColorField label="Brand color" defaultValue="#0071e3" width="size-2400" />
-                                <ColorField label="Invalid" defaultValue="#xyz" validationState="invalid" errorMessage="Enter a valid hex color." width="size-2400" />
+                                <ColorField
+                                    label="Invalid"
+                                    defaultValue="#xyz"
+                                    validationState="invalid"
+                                    errorMessage="Enter a valid hex color."
+                                    width="size-2400"
+                                />
                                 <ColorField label="Disabled" defaultValue="#888888" isDisabled width="size-2400" />
                             </Flex>
                         </div>
@@ -256,7 +270,12 @@ const PickersKitchenSink = () => (
                             <Flex direction="column" gap="size-150">
                                 <DateField label="Start date" width="size-2400" />
                                 <DateField label="With time" granularity="minute" width="size-2400" />
-                                <DateField label="Invalid" validationState="invalid" errorMessage="Please enter a valid date." width="size-2400" />
+                                <DateField
+                                    label="Invalid"
+                                    validationState="invalid"
+                                    errorMessage="Please enter a valid date."
+                                    width="size-2400"
+                                />
                                 <DateField label="Disabled" isDisabled width="size-2400" />
                             </Flex>
                         </div>
@@ -292,11 +311,25 @@ const PickersKitchenSink = () => (
                             <Flex direction="row" gap="size-400" wrap alignItems="start">
                                 <Flex direction="column" gap="size-75" alignItems="center">
                                     <Calendar aria-label="Select annotation date" />
-                                    <span style={{ fontSize: 'var(--spectrum-global-dimension-font-size-50)', color: 'var(--spectrum-global-color-gray-600)' }}>Default</span>
+                                    <span
+                                        style={{
+                                            fontSize: 'var(--spectrum-global-dimension-font-size-50)',
+                                            color: 'var(--spectrum-global-color-gray-600)',
+                                        }}
+                                    >
+                                        Default
+                                    </span>
                                 </Flex>
                                 <Flex direction="column" gap="size-75" alignItems="center">
                                     <Calendar aria-label="Disabled calendar" isDisabled />
-                                    <span style={{ fontSize: 'var(--spectrum-global-dimension-font-size-50)', color: 'var(--spectrum-global-color-gray-600)' }}>Disabled</span>
+                                    <span
+                                        style={{
+                                            fontSize: 'var(--spectrum-global-dimension-font-size-50)',
+                                            color: 'var(--spectrum-global-color-gray-600)',
+                                        }}
+                                    >
+                                        Disabled
+                                    </span>
                                 </Flex>
                             </Flex>
                         </div>
@@ -317,7 +350,7 @@ const PickersKitchenSink = () => (
 // ---------------------------------------------------------------------------
 
 const meta: Meta<typeof PickersKitchenSink> = {
-    tags: ["!dev"],
+    tags: ['!dev'],
     component: PickersKitchenSink,
     title: 'Kitchen sink/Form/Pickers',
     parameters: {

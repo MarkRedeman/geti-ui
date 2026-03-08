@@ -6,15 +6,15 @@ The `theme/` module is the **single source of truth for Geti's visual identity**
 
 Files in this folder:
 
-| File | Purpose |
-|---|---|
-| `ThemeProvider.tsx` | React component — wraps Spectrum's `Provider` with `getiTheme`, `colorScheme="dark"`, `scale="medium"`, `locale="en-US"` |
-| `theme.ts` | Assembles the `getiTheme` object by merging Spectrum's `defaultTheme` layers with Geti overrides |
-| `geti-global.module.css` | Global tokens applied to `.spectrum` — brand colours, animation durations, shimmer keyframe, typography overrides |
-| `geti-dark.module.css` | Dark-mode tokens applied to `.spectrum--dark` — Geti's complete gray ramp, blues, semantic colours, component-level overrides |
-| `geti-light.module.css` | Light-mode token overrides (currently minimal; dark is the primary palette) |
-| `geti-medium.module.css` | Medium-scale token overrides (touch/desktop breakpoint) |
-| `geti-large.module.css` | Large-scale token overrides (accessibility/large-text scale) |
+| File                     | Purpose                                                                                                                       |
+| ------------------------ | ----------------------------------------------------------------------------------------------------------------------------- |
+| `ThemeProvider.tsx`      | React component — wraps Spectrum's `Provider` with `getiTheme`, `colorScheme="dark"`, `scale="medium"`, `locale="en-US"`      |
+| `theme.ts`               | Assembles the `getiTheme` object by merging Spectrum's `defaultTheme` layers with Geti overrides                              |
+| `geti-global.module.css` | Global tokens applied to `.spectrum` — brand colours, animation durations, shimmer keyframe, typography overrides             |
+| `geti-dark.module.css`   | Dark-mode tokens applied to `.spectrum--dark` — Geti's complete gray ramp, blues, semantic colours, component-level overrides |
+| `geti-light.module.css`  | Light-mode token overrides (currently minimal; dark is the primary palette)                                                   |
+| `geti-medium.module.css` | Medium-scale token overrides (touch/desktop breakpoint)                                                                       |
+| `geti-large.module.css`  | Large-scale token overrides (accessibility/large-text scale)                                                                  |
 
 ---
 
@@ -26,12 +26,12 @@ Adobe React Spectrum's `Provider` accepts a `Theme` object with five CSS-module 
 
 ```ts
 type Theme = {
-  global: CSSModule;   // always applied
-  dark: CSSModule;     // applied when colorScheme="dark"
-  light: CSSModule;    // applied when colorScheme="light"
-  medium: CSSModule;   // applied at medium scale
-  large: CSSModule;    // applied at large scale
-}
+    global: CSSModule; // always applied
+    dark: CSSModule; // applied when colorScheme="dark"
+    light: CSSModule; // applied when colorScheme="light"
+    medium: CSSModule; // applied at medium scale
+    large: CSSModule; // applied at large scale
+};
 ```
 
 Each `CSSModule` is a map of class names exported from a `.module.css` file. Spectrum adds those class names to the root DOM node when it renders, making all `var(--spectrum-*)` tokens inside those selectors available to every descendant.
@@ -42,15 +42,15 @@ Geti does not replace Spectrum's default theme; it **extends** it. `theme.ts` ex
 
 ```ts
 function mergeClasses(defaultObj: CSSModule = {}, customObj: CSSModule = {}): CSSModule {
-  const merged = { ...defaultObj };
-  for (const key in customObj) {
-    if (merged[key]) {
-      merged[key] = `${merged[key]} ${customObj[key]}`;  // concatenate classes
-    } else {
-      merged[key] = customObj[key];
+    const merged = { ...defaultObj };
+    for (const key in customObj) {
+        if (merged[key]) {
+            merged[key] = `${merged[key]} ${customObj[key]}`; // concatenate classes
+        } else {
+            merged[key] = customObj[key];
+        }
     }
-  }
-  return merged;
+    return merged;
 }
 ```
 
@@ -81,6 +81,7 @@ The dark file applies to `.spectrum--dark` and defines:
 ### `ThemeProvider` — the single required wrapper
 
 All Geti components **must be rendered inside `ThemeProvider`**. It provides:
+
 - The Geti theme object (merged token sets)
 - `colorScheme="dark"` — dark mode is the default and primary
 - `scale="medium"` — desktop scale
@@ -88,7 +89,7 @@ All Geti components **must be rendered inside `ThemeProvider`**. It provides:
 
 ```tsx
 <ThemeProvider>
-  <App />
+    <App />
 </ThemeProvider>
 ```
 
@@ -111,5 +112,5 @@ Callers can override any `Provider` prop (e.g. `locale`, `colorScheme`) by sprea
 - **Storybook**: `ThemeProvider` is configured as a global decorator in `.storybook/preview.tsx`, so every story automatically renders inside the Geti theme.
 - **Application entry**: consuming applications must render `<ThemeProvider>` as their outermost component (or at least above any Geti UI components).
 - **Token consumption pattern**:
-  - Spectrum components: consume `--spectrum-*` tokens transparently via Spectrum's internal styling.
-  - Custom components (`Tag`, `Skeleton`, `AvatarGroup`, etc.): reference `var(--spectrum-global-color-*)` and `var(--energy-blue)` directly in inline `CSSProperties` or CSS modules.
+    - Spectrum components: consume `--spectrum-*` tokens transparently via Spectrum's internal styling.
+    - Custom components (`Tag`, `Skeleton`, `AvatarGroup`, etc.): reference `var(--spectrum-global-color-*)` and `var(--energy-blue)` directly in inline `CSSProperties` or CSS modules.

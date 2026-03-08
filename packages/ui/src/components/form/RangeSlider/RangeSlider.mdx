@@ -20,10 +20,12 @@ import { RangeSlider } from '@geti/ui';
 `RangeSlider` is a transparent wrapper around Adobe React Spectrum's `RangeSlider`. It provides two independently draggable handles representing the `start` and `end` of a bounded interval. The handles are automatically constrained so they cannot cross each other.
 
 ### When to use
+
 - To select a numeric range: a confidence score window, a price filter, a frame-range for video trimming.
 - When both the upper and lower bounds of the selection are important and defined.
 
 ### When to avoid
+
 - Use [`Slider`](/docs/components-form-slider--docs) to select a single numeric value.
 - Use [`NumberField`](/docs/components-form-numberfield--docs) when users need to type precise min/max values.
 - Use [`ProgressBar`](/docs/components-status-progressbar--docs) for read-only status indication.
@@ -39,41 +41,47 @@ import { RangeSlider } from '@geti/ui';
 <Controls of={DocStories.Default} />
 
 ### Value
-| Prop | Type | Default | Description |
-|---|---|---|---|
-| `value` | `{ start: number, end: number }` | — | The current range value (controlled). |
-| `defaultValue` | `{ start: number, end: number }` | — | The initial range value (uncontrolled). |
-| `minValue` | `number` | `0` | The minimum allowed value for the range. |
-| `maxValue` | `number` | `100` | The maximum allowed value for the range. |
-| `step` | `number` | `1` | The increment between selectable values. |
+
+| Prop           | Type                             | Default | Description                              |
+| -------------- | -------------------------------- | ------- | ---------------------------------------- |
+| `value`        | `{ start: number, end: number }` | —       | The current range value (controlled).    |
+| `defaultValue` | `{ start: number, end: number }` | —       | The initial range value (uncontrolled).  |
+| `minValue`     | `number`                         | `0`     | The minimum allowed value for the range. |
+| `maxValue`     | `number`                         | `100`   | The maximum allowed value for the range. |
+| `step`         | `number`                         | `1`     | The increment between selectable values. |
 
 ### Content
-| Prop | Type | Description |
-|---|---|---|
-| `label` | `ReactNode` | The label for the range slider. |
-| `showValueLabel` | `boolean` | Whether to display the current range values as labels. |
-| `getValueLabel` | `(value: RangeValue<number>) => string` | A function to generate a custom range label. |
-| `formatOptions` | `Intl.NumberFormatOptions` | Locale-aware display formatting for value labels. |
-| `contextualHelp` | `ReactNode` | A `<ContextualHelp>` element placed next to the label. |
+
+| Prop             | Type                                    | Description                                            |
+| ---------------- | --------------------------------------- | ------------------------------------------------------ |
+| `label`          | `ReactNode`                             | The label for the range slider.                        |
+| `showValueLabel` | `boolean`                               | Whether to display the current range values as labels. |
+| `getValueLabel`  | `(value: RangeValue<number>) => string` | A function to generate a custom range label.           |
+| `formatOptions`  | `Intl.NumberFormatOptions`              | Locale-aware display formatting for value labels.      |
+| `contextualHelp` | `ReactNode`                             | A `<ContextualHelp>` element placed next to the label. |
 
 ### Events
-| Prop | Type | Description |
-|---|---|---|
-| `onChange` | `(value: RangeValue<number>) => void` | Called continuously as the user drags either handle. |
-| `onChangeEnd` | `(value: RangeValue<number>) => void` | Called only when the user releases a handle. |
+
+| Prop          | Type                                  | Description                                          |
+| ------------- | ------------------------------------- | ---------------------------------------------------- |
+| `onChange`    | `(value: RangeValue<number>) => void` | Called continuously as the user drags either handle. |
+| `onChangeEnd` | `(value: RangeValue<number>) => void` | Called only when the user releases a handle.         |
 
 ### Layout
-| Prop | Type | Description |
-|---|---|---|
-| `width` | `DimensionValue` | The width of the slider component. |
+
+| Prop            | Type              | Description                                       |
+| --------------- | ----------------- | ------------------------------------------------- |
+| `width`         | `DimensionValue`  | The width of the slider component.                |
 | `labelPosition` | `'top' \| 'side'` | The position of the label relative to the slider. |
 
 ## Related components
+
 - `Slider` — use instead when only a single value (not a range) needs to be selected.
 - `NumberField` — use instead when users need to type precise min/max values.
 - `DateRangePicker` — use instead when the range represents a time period rather than a numeric value.
 
 ## Example use cases
+
 <details>
   <summary>Typical use cases</summary>
 

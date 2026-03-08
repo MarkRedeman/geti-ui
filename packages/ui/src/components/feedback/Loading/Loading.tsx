@@ -104,13 +104,7 @@ export const Loading = ({
         const px = INTEL_SIZE_MAP[size as keyof typeof INTEL_SIZE_MAP] ?? INTEL_SIZE_MAP['L'];
         return (
             <div style={{ ...baseStyle, ...style }} className={className}>
-                <img
-                    src={IntelLoadingWebp}
-                    role="progressbar"
-                    alt="Loading"
-                    width={px}
-                    height={px}
-                />
+                <img src={IntelLoadingWebp} role="progressbar" alt="Loading" width={px} height={px} />
             </div>
         );
     }

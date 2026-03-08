@@ -6,7 +6,7 @@ import type { Meta, StoryObj } from '@storybook/react';
 import { Button } from '@geti/ui';
 
 const meta: Meta<typeof Button> = {
-    tags: ["!dev"],
+    tags: ['!dev'],
     component: Button,
     title: 'UI/Button',
     argTypes: {

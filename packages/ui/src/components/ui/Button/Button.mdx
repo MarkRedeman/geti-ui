@@ -21,12 +21,14 @@ import { Button } from '@geti/ui';
 `Button` is a thin wrapper around Adobe React Spectrum's `Button`. It enforces Geti-specific constraints and defaults at the boundary, keeping downstream consumers insulated from upstream API changes.
 
 Key responsibilities:
+
 - **Legacy variant removal**: The Spectrum `cta` and `overBackground` variants are excluded — they do not exist in the Geti design language.
 - **Accent default**: Defaults to the `accent` variant (blue), so `<Button>Save</Button>` does the right thing without an explicit `variant` prop.
 - **Class merging**: `UNSAFE_className` is passed through `clsx` before reaching Spectrum, so multiple class strings, conditional objects, and arrays are all handled correctly.
 - **Ref forwarding**: Accepts `FocusableRef<HTMLElement>` — Spectrum's ref type — enabling programmatic focus management after dialogs close.
 
 ### When to use
+
 - Primary call-to-action on a page ("Create Project", "Save", "Submit"). Use `variant="accent"` (default).
 - Secondary actions that shouldn't compete with the primary CTA ("Edit", "Export"). Use `variant="primary"`.
 - Neutral or cancel actions ("Cancel", "Back"). Use `variant="secondary"` with `style="outline"`.
@@ -34,6 +36,7 @@ Key responsibilities:
 - Pending async operations. Use `isPending` to show a loading spinner.
 
 ### When to avoid
+
 - Navigation-only actions where the destination is a URL — prefer `<a>` or `Button` with `elementType="a"` and `href`.
 - Icon-only toolbar actions — prefer `ActionButton`, which has a more appropriate compact affordance.
 - Toggle state (on/off) — use `ToggleButton`.
@@ -41,17 +44,17 @@ Key responsibilities:
 
 ## Variants and states
 
-| `variant` | `style` | Typical use |
-|-----------|---------|-------------|
-| `accent` (default) | `fill` | Primary CTA |
-| `primary` | `fill` | Secondary action |
-| `secondary` | `outline` | Cancel / low-weight action |
-| `negative` | `fill` | Destructive action |
+| `variant`          | `style`   | Typical use                |
+| ------------------ | --------- | -------------------------- |
+| `accent` (default) | `fill`    | Primary CTA                |
+| `primary`          | `fill`    | Secondary action           |
+| `secondary`        | `outline` | Cancel / low-weight action |
+| `negative`         | `fill`    | Destructive action         |
 
-| State | Prop | Notes |
-|-------|------|-------|
-| Loading | `isPending={true}` | Disables interaction and shows a spinner |
-| Disabled | `isDisabled={true}` | Non-interactive, visually dimmed |
+| State    | Prop                | Notes                                    |
+| -------- | ------------------- | ---------------------------------------- |
+| Loading  | `isPending={true}`  | Disables interaction and shows a spinner |
+| Disabled | `isDisabled={true}` | Non-interactive, visually dimmed         |
 
 `onPress` is the canonical handler — it fires for mouse clicks, touch taps, and `Space`/`Enter` alike. Use it instead of `onClick`.
 
@@ -61,40 +64,42 @@ Key responsibilities:
 
 ### Content
 
-| Prop | Type | Default | Description |
-|------|------|---------|-------------|
-| `children` | `ReactNode` | — | Label text or content inside the button. |
-| `elementType` | `string \| ElementType` | `'button'` | The HTML element or component to render (e.g., `'a'`). |
-| `href` | `string` | — | URL to navigate to. Only effective when `elementType="a"`. |
+| Prop          | Type                    | Default    | Description                                                |
+| ------------- | ----------------------- | ---------- | ---------------------------------------------------------- |
+| `children`    | `ReactNode`             | —          | Label text or content inside the button.                   |
+| `elementType` | `string \| ElementType` | `'button'` | The HTML element or component to render (e.g., `'a'`).     |
+| `href`        | `string`                | —          | URL to navigate to. Only effective when `elementType="a"`. |
 
 ### Value / State
 
-| Prop | Type | Default | Description |
-|------|------|---------|-------------|
-| `variant` | `'accent' \| 'primary' \| 'secondary' \| 'negative'` | `'accent'` | Visual style of the button. |
-| `style` | `'fill' \| 'outline'` | `'fill'` | Background/border rendering style. |
-| `isDisabled` | `boolean` | `false` | Whether the button is non-interactive and visually dimmed. |
-| `isPending` | `boolean` | `false` | Whether to show a loading spinner and suppress interaction. Sets `aria-busy`. |
+| Prop         | Type                                                 | Default    | Description                                                                   |
+| ------------ | ---------------------------------------------------- | ---------- | ----------------------------------------------------------------------------- |
+| `variant`    | `'accent' \| 'primary' \| 'secondary' \| 'negative'` | `'accent'` | Visual style of the button.                                                   |
+| `style`      | `'fill' \| 'outline'`                                | `'fill'`   | Background/border rendering style.                                            |
+| `isDisabled` | `boolean`                                            | `false`    | Whether the button is non-interactive and visually dimmed.                    |
+| `isPending`  | `boolean`                                            | `false`    | Whether to show a loading spinner and suppress interaction. Sets `aria-busy`. |
 
 ### Events
 
-| Prop | Type | Description |
-|------|------|-------------|
-| `onPress` | `(e: PressEvent) => void` | Called when the button is pressed (click, touch, or keyboard). |
-| `onPressStart` | `(e: PressEvent) => void` | Called when a press interaction begins. |
-| `onPressEnd` | `(e: PressEvent) => void` | Called when a press interaction ends. |
+| Prop           | Type                      | Description                                                    |
+| -------------- | ------------------------- | -------------------------------------------------------------- |
+| `onPress`      | `(e: PressEvent) => void` | Called when the button is pressed (click, touch, or keyboard). |
+| `onPressStart` | `(e: PressEvent) => void` | Called when a press interaction begins.                        |
+| `onPressEnd`   | `(e: PressEvent) => void` | Called when a press interaction ends.                          |
 
 ### Layout and spacing
 
 `Button` accepts all standard [Spectrum layout and spacing props](https://react-spectrum.adobe.com/react-spectrum/styling.html), including `margin`, `flex`, `width`, and `height`.
 
 ## Related components
+
 - `ActionButton` — compact icon/toolbar actions without primary CTA weight.
 - `ToggleButton` — when the action has a persistent on/off state.
 - `ToggleButtons` — mutually exclusive segmented button groups.
 - `PressableElement` — press semantics on a non-button container or card.
 
 ## Example use cases
+
 <details>
   <summary>Typical use cases</summary>
 

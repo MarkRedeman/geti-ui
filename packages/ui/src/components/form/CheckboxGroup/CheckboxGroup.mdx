@@ -20,10 +20,12 @@ import { Checkbox, CheckboxGroup } from '@geti/ui';
 `CheckboxGroup` manages a collection of `Checkbox` items under a shared label, orientation, and validation state. The container handles the selected-values array and ARIA group semantics — individual `Checkbox` items inside only need a `value` prop.
 
 ### When to use
+
 - When the user needs to select one or more options from a visible list.
 - When the choices are not mutually exclusive.
 
 ### When to avoid
+
 - Use [`RadioGroup`](/docs/components-form-radiogroup--docs) when the user must select exactly one option.
 - Use a single [`Checkbox`](/docs/components-form-checkbox--docs) for a standalone binary choice (e.g., "I accept the terms").
 - Use [`Switch`](/docs/components-form-switch--docs) for immediate on/off toggles.
@@ -42,33 +44,37 @@ import { Checkbox, CheckboxGroup } from '@geti/ui';
 <Controls of={DocStories.Default} />
 
 ### CheckboxGroup
-| Prop | Type | Default | Description |
-|---|---|---|---|
-| `label` | `ReactNode` | — | The label for the entire group. Required for accessibility unless `aria-label` is provided. |
-| `value` | `string[]` | — | Controlled array of selected values. |
-| `defaultValue` | `string[]` | — | Initial selection state (uncontrolled). |
-| `onChange` | `(value: string[]) => void` | — | Called when the selection changes. Receives the updated array of selected values. |
-| `orientation` | `'vertical' \| 'horizontal'` | `'vertical'` | Layout axis for the checkboxes. |
-| `validationState` | `'valid' \| 'invalid'` | — | Whether the group is valid or invalid. |
-| `isRequired` | `boolean` | `false` | Whether at least one checkbox must be selected. |
-| `isDisabled` | `boolean` | `false` | Disables all checkboxes within the group. |
-| `isReadOnly` | `boolean` | `false` | Selection is visible but cannot be changed. |
-| `isEmphasized` | `boolean` | `false` | Applies high-prominence (blue) styling. |
+
+| Prop              | Type                         | Default      | Description                                                                                 |
+| ----------------- | ---------------------------- | ------------ | ------------------------------------------------------------------------------------------- |
+| `label`           | `ReactNode`                  | —            | The label for the entire group. Required for accessibility unless `aria-label` is provided. |
+| `value`           | `string[]`                   | —            | Controlled array of selected values.                                                        |
+| `defaultValue`    | `string[]`                   | —            | Initial selection state (uncontrolled).                                                     |
+| `onChange`        | `(value: string[]) => void`  | —            | Called when the selection changes. Receives the updated array of selected values.           |
+| `orientation`     | `'vertical' \| 'horizontal'` | `'vertical'` | Layout axis for the checkboxes.                                                             |
+| `validationState` | `'valid' \| 'invalid'`       | —            | Whether the group is valid or invalid.                                                      |
+| `isRequired`      | `boolean`                    | `false`      | Whether at least one checkbox must be selected.                                             |
+| `isDisabled`      | `boolean`                    | `false`      | Disables all checkboxes within the group.                                                   |
+| `isReadOnly`      | `boolean`                    | `false`      | Selection is visible but cannot be changed.                                                 |
+| `isEmphasized`    | `boolean`                    | `false`      | Applies high-prominence (blue) styling.                                                     |
 
 ### Checkbox (inside CheckboxGroup)
-| Prop | Type | Description |
-|---|---|---|
-| `value` | `string` | **Required.** The value added to the group's array when this item is selected. |
-| `children` | `ReactNode` | The label text for this checkbox. |
-| `isIndeterminate` | `boolean` | Displays a dash state (visual only). |
-| `isDisabled` | `boolean` | Disables this specific checkbox only. |
+
+| Prop              | Type        | Description                                                                    |
+| ----------------- | ----------- | ------------------------------------------------------------------------------ |
+| `value`           | `string`    | **Required.** The value added to the group's array when this item is selected. |
+| `children`        | `ReactNode` | The label text for this checkbox.                                              |
+| `isIndeterminate` | `boolean`   | Displays a dash state (visual only).                                           |
+| `isDisabled`      | `boolean`   | Disables this specific checkbox only.                                          |
 
 ## Related components
+
 - `Checkbox` — use directly when checkboxes are independent of one another and don't share a group label.
 - `RadioGroup` — use instead when exactly one option from the set may be selected at a time.
 - `Picker` — use instead when there are many options and a dropdown is more space-efficient.
 
 ## Example use cases
+
 <details>
   <summary>Typical use cases</summary>
 

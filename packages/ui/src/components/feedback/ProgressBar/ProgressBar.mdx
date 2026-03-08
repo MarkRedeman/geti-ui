@@ -19,21 +19,24 @@ import { ProgressBar } from '@geti/ui';
 
 `ProgressBar` registers Adobe React Spectrum's `ProgressBar` in Geti's public API surface, providing the standard linear progress pattern for operations that have a clear start and end — file uploads, batch processing jobs, training pipeline steps, and export tasks.
 
-The key distinction from `Meter` is **temporal intent**: a `ProgressBar` represents *movement toward completion of an active task*, whereas a `Meter` represents the *current level of a static quantity*. When the task duration is unknown, `isIndeterminate` replaces the fill bar with an animated sweep, communicating activity without implying a completion percentage.
+The key distinction from `Meter` is **temporal intent**: a `ProgressBar` represents _movement toward completion of an active task_, whereas a `Meter` represents the _current level of a static quantity_. When the task duration is unknown, `isIndeterminate` replaces the fill bar with an animated sweep, communicating activity without implying a completion percentage.
 
 Key characteristics:
+
 - **Determinate and indeterminate**: `value` drives a precise fill; `isIndeterminate` shows an animated sweep for unknown durations.
 - **Custom value labels**: `valueLabel` overrides the auto-generated percentage with a domain-specific string (e.g. `"3 of 10 files"`).
 - **Accessible by design**: Spectrum manages all ARIA attributes automatically from the numeric props.
 - **Theme aware**: Visual tokens are resolved by `ThemeProvider`; no component-level CSS overrides are needed.
 
 ### When to use
+
 - For file uploads, imports, or exports where the user needs to track completion percentage.
 - For batch jobs (e.g. model training steps, annotation auto-labelling) that report incremental progress.
 - For any multi-step operation with a countable total where showing elapsed vs. remaining improves perceived performance.
 - Use `isIndeterminate` when the operation is active but its duration cannot be measured (e.g. waiting for a server response, initial data load).
 
 ### When to avoid
+
 - When representing a static level or quantity at a point in time — use `Meter` with a semantic `variant` instead.
 - When a compact inline spinner is all that's needed (no percentage context) — use `ProgressCircle` or `Loading`.
 - Do not use a `ProgressBar` for pagination or step indicators; use a dedicated stepper or `Tabs` component.
@@ -85,25 +88,25 @@ No state, no effects, no refs. Spectrum manages fill width, animation, and label
 />
 ```
 
-| Concern | Detail |
-|---------|--------|
-| **Package** | `@adobe/react-spectrum` — `ProgressBar` |
-| **Theme** | Resolved automatically by `ThemeProvider`. No CSS imports required. |
-| **Related** | `Meter` (static quantity level), `ProgressCircle` (compact circular spinner), `Loading` (positioned overlay spinner) |
-| **Placement** | Upload panels, job status rows, training dashboards, modal footers during async operations |
+| Concern       | Detail                                                                                                               |
+| ------------- | -------------------------------------------------------------------------------------------------------------------- |
+| **Package**   | `@adobe/react-spectrum` — `ProgressBar`                                                                              |
+| **Theme**     | Resolved automatically by `ThemeProvider`. No CSS imports required.                                                  |
+| **Related**   | `Meter` (static quantity level), `ProgressCircle` (compact circular spinner), `Loading` (positioned overlay spinner) |
+| **Placement** | Upload panels, job status rows, training dashboards, modal footers during async operations                           |
 
 All `SpectrumProgressBarProps` are accepted as-is. The primary props are:
 
-| Prop | Type | Default | Description |
-|------|------|---------|-------------|
-| `label` | `string` | — | Visible label rendered above the bar. Recommended; omit only when using `aria-label`. |
-| `value` | `number` | `0` | Current progress value. Interpreted within `[minValue, maxValue]`. Ignored when `isIndeterminate` is `true`. |
-| `minValue` | `number` | `0` | Minimum value of the range. |
-| `maxValue` | `number` | `100` | Maximum value of the range. |
-| `isIndeterminate` | `boolean` | `false` | When `true`, renders an animated sweep instead of a static fill. `value` is ignored. |
-| `valueLabel` | `ReactNode` | auto | Overrides the default `"X%"` label with a custom string (e.g. `"3 of 10 files"`). |
-| `aria-label` | `string` | — | Required when no visible `label` is provided. |
-| `aria-labelledby` | `string` | — | Alternative to `aria-label` when the label is a separate element. |
+| Prop              | Type        | Default | Description                                                                                                  |
+| ----------------- | ----------- | ------- | ------------------------------------------------------------------------------------------------------------ |
+| `label`           | `string`    | —       | Visible label rendered above the bar. Recommended; omit only when using `aria-label`.                        |
+| `value`           | `number`    | `0`     | Current progress value. Interpreted within `[minValue, maxValue]`. Ignored when `isIndeterminate` is `true`. |
+| `minValue`        | `number`    | `0`     | Minimum value of the range.                                                                                  |
+| `maxValue`        | `number`    | `100`   | Maximum value of the range.                                                                                  |
+| `isIndeterminate` | `boolean`   | `false` | When `true`, renders an animated sweep instead of a static fill. `value` is ignored.                         |
+| `valueLabel`      | `ReactNode` | auto    | Overrides the default `"X%"` label with a custom string (e.g. `"3 of 10 files"`).                            |
+| `aria-label`      | `string`    | —       | Required when no visible `label` is provided.                                                                |
+| `aria-labelledby` | `string`    | —       | Alternative to `aria-label` when the label is a separate element.                                            |
 
 ## Accessibility
 
@@ -115,12 +118,14 @@ All `SpectrumProgressBarProps` are accepted as-is. The primary props are:
 - **No keyboard interaction**: `ProgressBar` is a read-only display element. It is not focusable and does not respond to keyboard or pointer events.
 
 ## Related components
+
 - **`Meter`** — use for a static quantity level at a point in time (e.g. storage usage, annotation coverage) rather than an in-progress operation.
 - **`ProgressCircle`** — use when a compact circular indicator is sufficient and a horizontal bar would be too wide for the available space.
 - **`Loading`** — use for full-area or overlay loading states where no percentage context is needed.
 - **`Skeleton`** — use when layout preservation matters during initial data load and the content shape is known.
 
 ## Example use cases
+
 <details>
   <summary>Typical use cases</summary>
 

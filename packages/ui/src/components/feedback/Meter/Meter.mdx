@@ -19,21 +19,24 @@ import { Meter } from '@geti/ui';
 
 `Meter` registers Adobe React Spectrum's `Meter` in Geti's public API surface, providing a horizontal bar gauge suitable for representing quantities that have meaningful thresholds — storage capacity, resource utilisation, annotation coverage, or model confidence.
 
-The key distinction from `ProgressBar` is **semantic intent**: a `Meter` represents the *current level* of a quantity at a point in time, not the *progress of an ongoing operation*. It is always determinate, and its `variant` encodes how the consumer should interpret that level.
+The key distinction from `ProgressBar` is **semantic intent**: a `Meter` represents the _current level_ of a quantity at a point in time, not the _progress of an ongoing operation_. It is always determinate, and its `variant` encodes how the consumer should interpret that level.
 
 Key characteristics:
+
 - **Semantic variants**: `positive`, `warning`, `critical`, and `informative` use colour to signal health without requiring extra text.
 - **Custom value labels**: `valueLabel` overrides the auto-generated percentage with a domain-specific string (e.g. `"7 of 10 models"`).
 - **Always determinate**: `Meter` has no `isIndeterminate` mode. If the quantity is unknown, use `ProgressBar` with `isIndeterminate`.
 - **Theme aware**: Visual tokens are resolved by `ThemeProvider`; no component-level CSS overrides are needed.
 
 ### When to use
+
 - To show current resource consumption: storage usage, memory, CPU, GPU utilisation.
 - To visualise annotation coverage or labelling progress within a fixed quota.
 - To represent a quality score (e.g. model accuracy, data quality) against a known maximum.
 - When the numeric level itself needs a semantic colour grade (`warning` at 65%, `critical` at 90%).
 
 ### When to avoid
+
 - For an operation that is actively running — use `ProgressBar` (determinate) or `ProgressBar isIndeterminate` instead.
 - For a compact inline spinner — use `ProgressCircle` or `Loading`.
 - When the quantity has no meaningful maximum (open-ended counters) — the bar would always appear full or near-full, which is misleading.
@@ -89,25 +92,25 @@ No state, no effects, no refs. Spectrum manages the bar fill, label layout, and 
 />
 ```
 
-| Concern | Detail |
-|---------|--------|
-| **Package** | `@adobe/react-spectrum` — `Meter` |
-| **Theme** | Resolved automatically by `ThemeProvider`. No CSS imports required. |
-| **Related** | `ProgressBar` (in-progress operations), `ProgressCircle` (compact spinner), `Loading` (overlay spinner) |
-| **Placement** | Dashboard stat panels, resource summary rows, model or dataset detail cards |
+| Concern       | Detail                                                                                                  |
+| ------------- | ------------------------------------------------------------------------------------------------------- |
+| **Package**   | `@adobe/react-spectrum` — `Meter`                                                                       |
+| **Theme**     | Resolved automatically by `ThemeProvider`. No CSS imports required.                                     |
+| **Related**   | `ProgressBar` (in-progress operations), `ProgressCircle` (compact spinner), `Loading` (overlay spinner) |
+| **Placement** | Dashboard stat panels, resource summary rows, model or dataset detail cards                             |
 
 All `SpectrumMeterProps` are accepted as-is. The primary props are:
 
-| Prop | Type | Default | Description |
-|------|------|---------|-------------|
-| `label` | `string` | — | Visible label rendered above the bar. Recommended; omit only when using `aria-label`. |
-| `value` | `number` | `0` | The current value. Interpreted within `[minValue, maxValue]`. |
-| `minValue` | `number` | `0` | The minimum of the range. |
-| `maxValue` | `number` | `100` | The maximum of the range. |
-| `variant` | `'informative' \| 'positive' \| 'warning' \| 'critical'` | `'informative'` | Semantic colour of the bar fill. |
-| `valueLabel` | `ReactNode` | auto | Overrides the default `"X%"` label with a custom string. |
-| `aria-label` | `string` | — | Required when no visible `label` is provided. |
-| `aria-labelledby` | `string` | — | Alternative to `aria-label` when the label is a separate element. |
+| Prop              | Type                                                     | Default         | Description                                                                           |
+| ----------------- | -------------------------------------------------------- | --------------- | ------------------------------------------------------------------------------------- |
+| `label`           | `string`                                                 | —               | Visible label rendered above the bar. Recommended; omit only when using `aria-label`. |
+| `value`           | `number`                                                 | `0`             | The current value. Interpreted within `[minValue, maxValue]`.                         |
+| `minValue`        | `number`                                                 | `0`             | The minimum of the range.                                                             |
+| `maxValue`        | `number`                                                 | `100`           | The maximum of the range.                                                             |
+| `variant`         | `'informative' \| 'positive' \| 'warning' \| 'critical'` | `'informative'` | Semantic colour of the bar fill.                                                      |
+| `valueLabel`      | `ReactNode`                                              | auto            | Overrides the default `"X%"` label with a custom string.                              |
+| `aria-label`      | `string`                                                 | —               | Required when no visible `label` is provided.                                         |
+| `aria-labelledby` | `string`                                                 | —               | Alternative to `aria-label` when the label is a separate element.                     |
 
 ## Accessibility
 
@@ -118,12 +121,14 @@ All `SpectrumMeterProps` are accepted as-is. The primary props are:
 - **No keyboard interaction**: `Meter` is a read-only display element. It is not focusable and does not respond to keyboard or pointer events.
 
 ## Related components
+
 - **`ProgressBar`** — use when representing an active, time-bound operation (file upload, model training epoch) rather than a static quantity level.
 - **`ProgressCircle`** — use for a compact, circular alternative when a linear bar is too wide for the available space.
 - **`StatusLight`** — use when the state is categorical and live (e.g. "Active", "Error") rather than a scalar quantity within a known range.
 - **`Badge`** — use for short, static categorical labels where no numeric range is involved.
 
 ## Example use cases
+
 <details>
   <summary>Typical use cases</summary>
 

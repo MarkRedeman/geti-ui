@@ -25,12 +25,14 @@ import { FileTrigger } from '@geti/ui';
 - **No visible output**: Renders only what `children` render plus the hidden input — no container, no border, no layout impact.
 
 ### When to use
+
 - When you want a styled `Button`, `Link`, or other interactive element to trigger a file selection.
 - As the click-to-browse companion inside a [`DropZone`](/docs/components-form-dropzone--docs).
 - When you need control over accepted file types, multi-file selection, or directory selection.
 - On mobile when you want to open a camera via `defaultCamera`.
 
 ### When to avoid
+
 - **Drag-and-drop only** — use [`DropZone`](/docs/components-form-dropzone--docs) alone.
 - **Native form submission** — use a `<input type="file" name="…">` if the browser needs to include the file in `FormData` without JavaScript.
 
@@ -66,31 +68,33 @@ Pair with `DropZone` to give users both drag-and-drop and click-to-browse paths 
 
 ### Events
 
-| Prop | Type | Description |
-|------|------|-------------|
+| Prop       | Type                                | Description                                                                             |
+| ---------- | ----------------------------------- | --------------------------------------------------------------------------------------- |
 | `onSelect` | `(files: FileList \| null) => void` | Called when the user selects files. If the user cancels the picker, this is not called. |
 
 ### File selection
 
-| Prop | Type | Default | Description |
-|------|------|---------|-------------|
-| `acceptedFileTypes` | `readonly string[]` | — | MIME types or extensions to allow (e.g., `['image/*']`, `['.csv']`). Maps to the `accept` attribute. |
-| `allowsMultiple` | `boolean` | `false` | Whether multiple files can be selected in one session. |
-| `acceptDirectory` | `boolean` | `false` | Opens a directory/folder picker instead of a file picker. |
-| `defaultCamera` | `'user' \| 'environment'` | — | Mobile only: `'user'` = front camera, `'environment'` = rear camera. |
+| Prop                | Type                      | Default | Description                                                                                          |
+| ------------------- | ------------------------- | ------- | ---------------------------------------------------------------------------------------------------- |
+| `acceptedFileTypes` | `readonly string[]`       | —       | MIME types or extensions to allow (e.g., `['image/*']`, `['.csv']`). Maps to the `accept` attribute. |
+| `allowsMultiple`    | `boolean`                 | `false` | Whether multiple files can be selected in one session.                                               |
+| `acceptDirectory`   | `boolean`                 | `false` | Opens a directory/folder picker instead of a file picker.                                            |
+| `defaultCamera`     | `'user' \| 'environment'` | —       | Mobile only: `'user'` = front camera, `'environment'` = rear camera.                                 |
 
 ### Content
 
-| Prop | Type | Description |
-|------|------|-------------|
+| Prop       | Type        | Description                                                                                |
+| ---------- | ----------- | ------------------------------------------------------------------------------------------ |
 | `children` | `ReactNode` | The interactive element that triggers the file picker. Must be a single pressable element. |
 
 ## Related components
+
 - `DropZone` — pair with `FileTrigger` to provide both drag-and-drop and click-to-browse paths.
 - `Button` — the most common child trigger; provides consistent Geti styling and press handling.
 - `ActionButton` — use as the child when the trigger is in a toolbar with icon-only controls.
 
 ## Example use cases
+
 <details>
   <summary>Typical use cases</summary>
 

@@ -13,7 +13,6 @@ import { Flex } from '@geti/ui';
 
 - [React Spectrum V3 Flex](https://react-spectrum.adobe.com/react-spectrum/Flex.html)
 
-
 <Stories />
 
 ## Responsibility
@@ -21,12 +20,14 @@ import { Flex } from '@geti/ui';
 `Flex` is the primary layout primitive for one-dimensional layouts. It abstracts CSS Flexbox properties into a set of design-token-aware props, ensuring consistent spacing and alignment across the entire application without writing raw CSS.
 
 Key responsibilities:
+
 - **Directional Layout**: Easily switch between `row` and `column` layouts using the `direction` prop.
 - **Alignment & Distribution**: Precise control over child placement via `justifyContent` and `alignItems`.
 - **Consistent Spacing**: Uses Spectrum's dimension token system (e.g., `'size-100'`, `'size-200'`) for the `gap` prop, ensuring spacing stays on the design grid.
 - **Responsive Design**: Supports object-based responsive props for different breakpoints (e.g., `direction={{ base: 'column', L: 'row' }}`).
 
 ### When to use
+
 - To align items in a single horizontal or vertical line (e.g., a toolbar, a button group, a header).
 - To create flexible layouts where items grow or shrink to fill available space.
 - To distribute space evenly or between items using `justifyContent: 'space-between'`.
@@ -34,6 +35,7 @@ Key responsibilities:
 - For a simple vertical stack of form fields or panels where `direction="column"` is sufficient.
 
 ### When to avoid
+
 - For complex two-dimensional grid layouts — use `Grid` instead.
 - When the container itself needs a background colour, border, or padding — wrap with `View`.
 - When items must be precisely placed in both rows and columns simultaneously — use `Grid`.
@@ -60,6 +62,7 @@ The thin-wrapper pattern has two benefits:
 ## Variants
 
 ### Direction
+
 Use the `direction` prop to set the flex axis.
 
 ```tsx
@@ -96,7 +99,9 @@ Always prefer Spectrum dimension tokens over raw pixel values so spacing stays o
 ```tsx
 // Tag cloud / chip list that reflows across lines
 <Flex wrap gap="size-100">
-    {tags.map(tag => <Tag key={tag}>{tag}</Tag>)}
+    {tags.map((tag) => (
+        <Tag key={tag}>{tag}</Tag>
+    ))}
 </Flex>
 ```
 
@@ -120,7 +125,7 @@ Any Flex prop accepts a responsive object keyed on Spectrum's named breakpoints:
 <Flex as="nav" alignItems="center" justifyContent="space-between" gap="size-200">
     <ActionButton>Undo</ActionButton>
     <ActionButton>Redo</ActionButton>
-    <Flex flex={1} />   {/* spacer */}
+    <Flex flex={1} /> {/* spacer */}
     <ActionButton>Save</ActionButton>
 </Flex>
 ```
@@ -145,18 +150,18 @@ Any Flex prop accepts a responsive object keyed on Spectrum's named breakpoints:
 
 ## Props
 
-| Prop | Type | Default | Description |
-| --- | --- | --- | --- |
-| `direction` | `Responsive<'row' \| 'column' \| 'row-reverse' \| 'column-reverse'>` | `'row'` | The direction of the flex items. |
-| `justifyContent` | `Responsive<'start' \| 'center' \| 'end' \| 'space-between' \| 'space-around' \| 'space-evenly'>` | `'start'` | How to distribute space along the main axis. |
-| `alignItems` | `Responsive<'start' \| 'center' \| 'end' \| 'stretch' \| 'baseline'>` | `'stretch'` | How to align items along the cross axis. |
-| `gap` | `Responsive<DimensionValue>` | - | The space between flex items (both axes). |
-| `columnGap` | `Responsive<DimensionValue>` | - | The horizontal gap between items. |
-| `rowGap` | `Responsive<DimensionValue>` | - | The vertical gap between items. |
-| `wrap` | `Responsive<boolean \| 'wrap' \| 'nowrap' \| 'wrap-reverse'>` | `false` | Whether items wrap to multiple lines. |
-| `flex` | `Responsive<string \| number \| boolean>` | - | The CSS `flex` shorthand for the container itself. |
-| `elementType` | `string` | `'div'` | The HTML element or custom component to render. |
-| `children` | `ReactNode` | - | The flex items. |
+| Prop             | Type                                                                                              | Default     | Description                                        |
+| ---------------- | ------------------------------------------------------------------------------------------------- | ----------- | -------------------------------------------------- |
+| `direction`      | `Responsive<'row' \| 'column' \| 'row-reverse' \| 'column-reverse'>`                              | `'row'`     | The direction of the flex items.                   |
+| `justifyContent` | `Responsive<'start' \| 'center' \| 'end' \| 'space-between' \| 'space-around' \| 'space-evenly'>` | `'start'`   | How to distribute space along the main axis.       |
+| `alignItems`     | `Responsive<'start' \| 'center' \| 'end' \| 'stretch' \| 'baseline'>`                             | `'stretch'` | How to align items along the cross axis.           |
+| `gap`            | `Responsive<DimensionValue>`                                                                      | -           | The space between flex items (both axes).          |
+| `columnGap`      | `Responsive<DimensionValue>`                                                                      | -           | The horizontal gap between items.                  |
+| `rowGap`         | `Responsive<DimensionValue>`                                                                      | -           | The vertical gap between items.                    |
+| `wrap`           | `Responsive<boolean \| 'wrap' \| 'nowrap' \| 'wrap-reverse'>`                                     | `false`     | Whether items wrap to multiple lines.              |
+| `flex`           | `Responsive<string \| number \| boolean>`                                                         | -           | The CSS `flex` shorthand for the container itself. |
+| `elementType`    | `string`                                                                                          | `'div'`     | The HTML element or custom component to render.    |
+| `children`       | `ReactNode`                                                                                       | -           | The flex items.                                    |
 
 All remaining `FlexProps` from `@adobe/react-spectrum` are forwarded transparently.
 
@@ -172,15 +177,15 @@ import { View, Flex } from '@geti/ui';
         <TextField label="Name" />
         <Button variant="cta">Save</Button>
     </Flex>
-</View>
+</View>;
 ```
 
 ## Accessibility
 
 - **Semantic HTML**: `Flex` renders as a `<div>` by default. Use the `elementType` prop to promote it to a semantic element when the layout has a meaningful role:
-  - `elementType="nav"` for navigation bars.
-  - `elementType="ul"` (with `<li>` children) for lists of items.
-  - `elementType="section"` or `elementType="main"` for major page regions.
+    - `elementType="nav"` for navigation bars.
+    - `elementType="ul"` (with `<li>` children) for lists of items.
+    - `elementType="section"` or `elementType="main"` for major page regions.
 - **Reading Order**: The visual order of flex items must match the DOM order. Avoid using `order` or `flex-direction: row-reverse` solely for visual effect, as this breaks the logical tab sequence for keyboard and screen reader users.
 - **ARIA Landmarks**: When `elementType="nav"` or `elementType="section"`, add an `aria-label` so the landmark is uniquely named in assistive technology's region list.
 

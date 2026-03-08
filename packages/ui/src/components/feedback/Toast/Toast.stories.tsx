@@ -6,7 +6,7 @@ import type { Meta, StoryObj } from '@storybook/react';
 import { Button, ToastContainer, toast } from '@geti/ui';
 
 const meta: Meta<typeof ToastContainer> = {
-    tags: ["!dev"],
+    tags: ['!dev'],
     component: ToastContainer,
     title: 'Feedback/Toast',
     parameters: {

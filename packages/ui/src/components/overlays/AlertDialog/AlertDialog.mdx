@@ -37,17 +37,20 @@ It is always used as a direct child of `DialogTrigger`, which owns the open stat
 ```
 
 Key responsibilities:
+
 - **Critical Feedback**: Provides clear visual and semantic cues for the severity of the action (e.g., a red primary button for the `"destructive"` variant).
 - **Standardized Actions**: Ensures consistent button placement and labeling across the application without requiring manual `Footer` / `ButtonGroup` composition.
 - **Accessibility**: Automatically assigns `role="alertdialog"` and manages focus transitions, including `autoFocusButton`.
 
 ### When to use
+
 - For **destructive, irreversible actions** that require explicit user confirmation — e.g., "Delete project", "Overwrite file", "Revoke access".
 - For **critical warnings** where the user must acknowledge a risk before proceeding — e.g., "Proceeding will invalidate your current session".
 - When the confirmation content is **simple body text** with no embedded forms, tables, or rich UI elements.
 - When you need a clear "Yes / No" or "Confirm / Cancel" pattern and want Spectrum's built-in button styling (red for destructive, etc.) automatically applied.
 
 ### When to avoid
+
 - For **complex forms or rich content** — use `Dialog` with full slot composition instead, which gives you control over the interior structure.
 - For **non-critical acknowledgements** — use `Toast` for transient feedback, or `Dialog` with an `"information"` intent when a less urgent overlay is sufficient.
 - When you need a **dismissible close button** (×) in the corner — `AlertDialog` does not support this; use `Dialog` with `isDismissable` on `DialogTrigger`.
@@ -57,7 +60,7 @@ Key responsibilities:
 
 ## Design
 
-`AlertDialog` follows the same *transparent wrapper* pattern as `Dialog`: it extends `SpectrumAlertDialogProps` without modification and delegates all rendering to Spectrum.
+`AlertDialog` follows the same _transparent wrapper_ pattern as `Dialog`: it extends `SpectrumAlertDialogProps` without modification and delegates all rendering to Spectrum.
 
 ```tsx
 // packages/ui/src/components/overlays/AlertDialog/AlertDialog.tsx
@@ -80,43 +83,39 @@ Since `AlertDialogProps` is a direct extension of `SpectrumAlertDialogProps`, ev
 ## Variants
 
 ### Confirmation (default)
+
 The standard variant for reversible or low-risk confirmations. The primary button uses the default accent color.
 
 ```tsx
-<AlertDialog
-    variant="confirmation"
-    title="Save changes?"
-    primaryActionLabel="Save"
-    cancelLabel="Cancel"
->
+<AlertDialog variant="confirmation" title="Save changes?" primaryActionLabel="Save" cancelLabel="Cancel">
     Your changes will be saved permanently.
 </AlertDialog>
 ```
 
 ### Destructive
+
 Used for actions that result in data loss or are irreversible. The primary action button is automatically styled with a negative (red) color to signal danger.
 
 ```tsx
-<AlertDialog
-    variant="destructive"
-    title="Delete dataset?"
-    primaryActionLabel="Delete"
-    cancelLabel="Cancel"
->
+<AlertDialog variant="destructive" title="Delete dataset?" primaryActionLabel="Delete" cancelLabel="Cancel">
     This will permanently delete the dataset and all of its annotations.
 </AlertDialog>
 ```
 
 ### Information
+
 Presents a non-actionable notice with a single "Got it" button. Use when you need to inform the user of something important before they continue.
 
 ### Warning
+
 Includes a warning icon in the heading. Use when the user is about to do something that may have unintended side effects but is not necessarily destructive.
 
 ### Error
+
 Communicates that something has gone wrong. Typically triggered programmatically rather than by a user action.
 
 ### With Secondary Action
+
 Adds a third button between the primary action and Cancel. Use when there is a meaningful alternative action alongside the primary one (e.g., "Save" / "Don't save" / "Cancel").
 
 ```tsx
@@ -128,7 +127,9 @@ Adds a third button between the primary action and Cancel. Use when there is a m
     cancelLabel="Cancel"
     onPrimaryAction={() => save()}
     onSecondaryAction={() => discard()}
-    onCancel={() => {/* stay in the dialog's caller context */}}
+    onCancel={() => {
+        /* stay in the dialog's caller context */
+    }}
 >
     Do you want to save your changes before closing?
 </AlertDialog>
@@ -138,18 +139,18 @@ Adds a third button between the primary action and Cancel. Use when there is a m
 
 ## Props
 
-| Prop | Type | Default | Description |
-|------|------|---------|-------------|
-| `title` | `string` | — | The title of the alert dialog, rendered in the dialog header and used as the accessible label. |
-| `children` | `ReactNode` | — | The message or body text of the alert dialog. Keep this concise — for complex content use `Dialog`. |
-| `variant` | `'confirmation' \| 'information' \| 'destructive' \| 'error' \| 'warning'` | `'confirmation'` | Controls the visual style and semantic intent. `'destructive'` renders the primary button in red. |
-| `primaryActionLabel` | `string` | — | The label for the primary action button. Always required. |
-| `secondaryActionLabel` | `string` | — | The label for an optional secondary action button, rendered between the primary and cancel buttons. |
-| `cancelLabel` | `string` | — | The label for the cancel button. If omitted, no cancel button is rendered. |
-| `onPrimaryAction` | `() => void` | — | Handler called when the primary action button is pressed. The dialog closes automatically after this returns. |
-| `onSecondaryAction` | `() => void` | — | Handler called when the secondary action button is pressed. The dialog closes automatically after this returns. |
-| `onCancel` | `() => void` | — | Handler called when the cancel button is pressed or Escape is pressed. The dialog closes automatically after this returns. |
-| `autoFocusButton` | `'primary' \| 'secondary' \| 'cancel'` | — | Which button receives focus when the dialog opens. If unset, Spectrum determines focus from DOM order. |
+| Prop                   | Type                                                                       | Default          | Description                                                                                                                |
+| ---------------------- | -------------------------------------------------------------------------- | ---------------- | -------------------------------------------------------------------------------------------------------------------------- |
+| `title`                | `string`                                                                   | —                | The title of the alert dialog, rendered in the dialog header and used as the accessible label.                             |
+| `children`             | `ReactNode`                                                                | —                | The message or body text of the alert dialog. Keep this concise — for complex content use `Dialog`.                        |
+| `variant`              | `'confirmation' \| 'information' \| 'destructive' \| 'error' \| 'warning'` | `'confirmation'` | Controls the visual style and semantic intent. `'destructive'` renders the primary button in red.                          |
+| `primaryActionLabel`   | `string`                                                                   | —                | The label for the primary action button. Always required.                                                                  |
+| `secondaryActionLabel` | `string`                                                                   | —                | The label for an optional secondary action button, rendered between the primary and cancel buttons.                        |
+| `cancelLabel`          | `string`                                                                   | —                | The label for the cancel button. If omitted, no cancel button is rendered.                                                 |
+| `onPrimaryAction`      | `() => void`                                                               | —                | Handler called when the primary action button is pressed. The dialog closes automatically after this returns.              |
+| `onSecondaryAction`    | `() => void`                                                               | —                | Handler called when the secondary action button is pressed. The dialog closes automatically after this returns.            |
+| `onCancel`             | `() => void`                                                               | —                | Handler called when the cancel button is pressed or Escape is pressed. The dialog closes automatically after this returns. |
+| `autoFocusButton`      | `'primary' \| 'secondary' \| 'cancel'`                                     | —                | Which button receives focus when the dialog opens. If unset, Spectrum determines focus from DOM order.                     |
 
 ---
 
@@ -168,7 +169,9 @@ The `title` prop is automatically wired as the accessible label for the dialog v
 When the dialog opens, Spectrum moves focus into it automatically. By default, focus lands on the first focusable element in DOM order (typically the primary action button). Use `autoFocusButton` to override this when a safer default is needed:
 
 ```tsx
-{/* For destructive dialogs, focus "Cancel" by default to prevent accidental confirmation */}
+{
+    /* For destructive dialogs, focus "Cancel" by default to prevent accidental confirmation */
+}
 <AlertDialog
     variant="destructive"
     title="Delete all annotations?"
@@ -177,19 +180,19 @@ When the dialog opens, Spectrum moves focus into it automatically. By default, f
     autoFocusButton="cancel"
 >
     This will remove all annotations from the dataset.
-</AlertDialog>
+</AlertDialog>;
 ```
 
 When the dialog closes, focus automatically returns to the trigger element — no manual focus restoration is required.
 
 **Keyboard interactions**
 
-| Key | Behaviour |
-|-----|-----------|
-| `Tab` | Move focus to the next button within the dialog |
-| `Shift + Tab` | Move focus to the previous button |
-| `Enter` / `Space` | Activate the focused button |
-| `Escape` | Close the dialog and call `onCancel` |
+| Key               | Behaviour                                       |
+| ----------------- | ----------------------------------------------- |
+| `Tab`             | Move focus to the next button within the dialog |
+| `Shift + Tab`     | Move focus to the previous button               |
+| `Enter` / `Space` | Activate the focused button                     |
+| `Escape`          | Close the dialog and call `onCancel`            |
 
 **Screen reader behaviour**
 
@@ -251,7 +254,7 @@ const [isOpen, setIsOpen] = useState(false);
     >
         This action cannot be undone.
     </AlertDialog>
-</DialogTrigger>
+</DialogTrigger>;
 ```
 
 ## Related components

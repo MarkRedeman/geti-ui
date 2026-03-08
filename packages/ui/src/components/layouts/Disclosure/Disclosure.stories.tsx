@@ -6,7 +6,7 @@ import type { Meta, StoryObj } from '@storybook/react';
 import { Disclosure, DisclosurePanel, DisclosureTitle } from '@geti/ui';
 
 const meta: Meta<typeof Disclosure> = {
-    tags: ["!dev"],
+    tags: ['!dev'],
     component: Disclosure,
     title: 'Layouts/Disclosure',
     argTypes: {

@@ -7,7 +7,7 @@ import type { Meta, StoryObj } from '@storybook/react';
 import { Badge } from '@geti/ui';
 
 const meta: Meta<typeof Badge> = {
-    tags: ["!dev"],
+    tags: ['!dev'],
     component: Badge,
     title: 'Feedback/Badge',
     argTypes: {

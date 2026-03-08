@@ -5,7 +5,9 @@ import * as DocStories from './ColorField.stories';
 
 # ColorField
 
-<Subtitle>A text input that accepts a hex color string or individual channel value and converts it to a typed Color object.</Subtitle>
+<Subtitle>
+    A text input that accepts a hex color string or individual channel value and converts it to a typed Color object.
+</Subtitle>
 
 ```tsx
 import { ColorField } from '@geti/ui';
@@ -20,18 +22,21 @@ import { ColorField } from '@geti/ui';
 `ColorField` is a pure pass-through wrapper around Adobe React Spectrum's `ColorField`. It provides a keyboard-accessible text input where users can type a color value directly — the most precise and efficient input method for users who already know the exact color they want.
 
 Key responsibilities:
+
 - **Hex Parsing**: Accepts and validates 3-digit (`#f00`) and 6-digit (`#ff0000`) hex strings. Invalid input is rejected on blur — the field reverts to the last valid value.
 - **Channel Editing**: When `channel` is specified, the field accepts a numeric value for that single channel (e.g., `0–360` for hue, `0–255` for red) instead of a full hex string.
 - **Validation Feedback**: Supports `validationState` (`"invalid"`) and `errorMessage` for inline form error display.
 - **Form Integration**: Behaves like a standard form field — participates in `Form` layout, respects `isRequired`, `isReadOnly`, and `isDisabled`.
 
 ### When to use
+
 - As the hex input inside a full color picker UI (this is exactly how `ColorPickerDialog` uses it).
 - When users are power users who prefer typing over visual pickers.
 - In data-dense forms where space is constrained and a text field is less intrusive than a wheel or area.
 - When you need to expose a single numeric channel value for editing (e.g., an "Opacity" percentage field).
 
 ### When to avoid
+
 - When users are unfamiliar with hex notation — `ColorArea` + `ColorWheel` offer a more intuitive visual alternative.
 - As the sole color input in a creative tool — visual pickers dramatically reduce friction for exploratory color selection.
 - When the value must stay within a brand color set — `ColorSwatchPicker` enforces fixed choices more naturally.
@@ -43,9 +48,7 @@ Pure thin wrapper — zero local state, no CSS overrides:
 ```tsx
 export interface ColorFieldProps extends SpectrumColorFieldProps {}
 
-export const ColorField = (props: ColorFieldProps) => (
-  <SpectrumColorField {...props} />
-);
+export const ColorField = (props: ColorFieldProps) => <SpectrumColorField {...props} />;
 ```
 
 Spectrum's `ColorField` internally uses `@react-aria/color` to parse the entered string into a `Color` object on commit (blur or Enter). If parsing fails, it does not call `onChange` and restores the previous value.
@@ -82,18 +85,18 @@ const [color, setColor] = useState<Color>(parseColor('#e73623'));
 
 ### Props
 
-| Prop | Type | Default | Description |
-|------|------|---------|-------------|
-| `value` | `Color` | — | The current color (controlled). |
-| `defaultValue` | `Color \| string` | — | The initial color (uncontrolled). |
-| `onChange` | `(value: Color) => void` | — | Called when the user commits a valid color string. |
-| `channel` | `ColorChannel` | — | If set, edits a single numeric channel instead of a full hex string. |
-| `label` | `string` | — | The visible label for the input. |
-| `isDisabled` | `boolean` | `false` | Prevents editing. |
-| `isReadOnly` | `boolean` | `false` | Displays the value but prevents changes. |
-| `isRequired` | `boolean` | `false` | Marks the field as required in form context. |
-| `validationState` | `'valid' \| 'invalid'` | — | Controls inline validation styling. |
-| `errorMessage` | `ReactNode` | — | Message shown when `validationState="invalid"`. |
+| Prop              | Type                     | Default | Description                                                          |
+| ----------------- | ------------------------ | ------- | -------------------------------------------------------------------- |
+| `value`           | `Color`                  | —       | The current color (controlled).                                      |
+| `defaultValue`    | `Color \| string`        | —       | The initial color (uncontrolled).                                    |
+| `onChange`        | `(value: Color) => void` | —       | Called when the user commits a valid color string.                   |
+| `channel`         | `ColorChannel`           | —       | If set, edits a single numeric channel instead of a full hex string. |
+| `label`           | `string`                 | —       | The visible label for the input.                                     |
+| `isDisabled`      | `boolean`                | `false` | Prevents editing.                                                    |
+| `isReadOnly`      | `boolean`                | `false` | Displays the value but prevents changes.                             |
+| `isRequired`      | `boolean`                | `false` | Marks the field as required in form context.                         |
+| `validationState` | `'valid' \| 'invalid'`   | —       | Controls inline validation styling.                                  |
+| `errorMessage`    | `ReactNode`              | —       | Message shown when `validationState="invalid"`.                      |
 
 ## Accessibility
 
@@ -103,11 +106,13 @@ const [color, setColor] = useState<Color>(parseColor('#e73623'));
 - **Required state**: `isRequired` adds `aria-required="true"` to the underlying input.
 
 ## Related components
+
 - `ColorSlider` — use alongside `ColorField` to offer both drag and type input for the same channel.
 - `ColorArea` — use alongside `ColorField` for a spatial 2D color selection surface with precise hex entry.
 - `ColorPickerDialog` — use instead for a complete, assembled color picker that includes `ColorField` pre-composed.
 
 ## Example use cases
+
 <details>
   <summary>Typical use cases</summary>
 

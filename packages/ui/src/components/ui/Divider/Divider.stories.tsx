@@ -6,7 +6,7 @@ import type { Meta, StoryObj } from '@storybook/react';
 import { Divider } from '@geti/ui';
 
 const meta: Meta<typeof Divider> = {
-    tags: ["!dev"],
+    tags: ['!dev'],
     component: Divider,
     title: 'UI/Divider',
     argTypes: {

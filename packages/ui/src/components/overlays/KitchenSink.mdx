@@ -11,16 +11,16 @@ The `overlays/` category owns **every component that renders content above the m
 
 Components in this folder:
 
-| Component | Purpose |
-|---|---|
-| `Dialog` / `DialogTrigger` | General-purpose modal dialog (trigger + panel) |
-| `AlertDialog` | Pre-structured confirmation/destructive-action dialog |
-| `DialogContainer` | Triggerless dialog host for programmatic open/close |
-| `Popover` | Lightweight context-anchored popover (thin wrapper over `DialogTrigger type="popover"`) |
-| `CustomPopover` | Geti-styled popover built from `react-aria-components` with optional arrow |
-| `ContextualHelp` | Small icon-triggered help popover with heading/content |
-| `Tooltip` / `TooltipTrigger` | Short hover/focus description attached to any trigger |
-| `FullscreenAction` | Inline toolbar button that opens its child content as a fullscreen takeover dialog |
+| Component                    | Purpose                                                                                 |
+| ---------------------------- | --------------------------------------------------------------------------------------- |
+| `Dialog` / `DialogTrigger`   | General-purpose modal dialog (trigger + panel)                                          |
+| `AlertDialog`                | Pre-structured confirmation/destructive-action dialog                                   |
+| `DialogContainer`            | Triggerless dialog host for programmatic open/close                                     |
+| `Popover`                    | Lightweight context-anchored popover (thin wrapper over `DialogTrigger type="popover"`) |
+| `CustomPopover`              | Geti-styled popover built from `react-aria-components` with optional arrow              |
+| `ContextualHelp`             | Small icon-triggered help popover with heading/content                                  |
+| `Tooltip` / `TooltipTrigger` | Short hover/focus description attached to any trigger                                   |
+| `FullscreenAction`           | Inline toolbar button that opens its child content as a fullscreen takeover dialog      |
 
 ---
 
@@ -44,9 +44,7 @@ export const TooltipTrigger = (props: TooltipTriggerProps) => <SpectrumTooltipTr
 `Popover` is not a new component but a convenience wrapper that pre-sets `type="popover"` on `DialogTrigger`, so the overlay appears anchored to its trigger rather than as a centred modal:
 
 ```tsx
-export const Popover = ({ type = 'popover', ...rest }: PopoverProps) => (
-  <SpectrumDialogTrigger {...rest} type={type} />
-);
+export const Popover = ({ type = 'popover', ...rest }: PopoverProps) => <SpectrumDialogTrigger {...rest} type={type} />;
 ```
 
 Callers can override `type` to `'modal'`, `'tray'`, etc. if needed.
@@ -56,6 +54,7 @@ Callers can override `type` to `'modal'`, `'tray'`, etc. if needed.
 `CustomPopover` is the one overlay component that uses **`react-aria-components`** rather than `@adobe/react-spectrum`. It wraps RAC's `Popover` + `Dialog` + optional `OverlayArrow`. This gives callers full control over styling (the RAC `Popover` has no pre-applied Spectrum chrome).
 
 Two usage modes:
+
 1. **Controlled** (no `triggerElement`): caller provides open state externally. The component renders the `AriaPopover` directly with no trigger.
 2. **Uncontrolled** (with `triggerElement`): the component wraps the trigger and panel in `AriaDialogTrigger`, handling open state automatically.
 
@@ -68,6 +67,7 @@ The optional `showArrow` prop renders an `OverlayArrow` with a simple SVG chevro
 ### `FullscreenAction` — composite Geti component
 
 `FullscreenAction` is the only fully custom composite in this category. It assembles:
+
 - A quiet `ActionButton` with `FullScreen` icon
 - A `TooltipTrigger`/`Tooltip` wrapping the trigger
 - A `DialogTrigger type="fullscreenTakeover"`
@@ -89,12 +89,11 @@ The `actionButton` prop can be a static `ReactNode` or a factory function `(ref)
 ## Integration
 
 - **Depends on**:
-  - `@adobe/react-spectrum` — `Dialog`, `DialogTrigger`, `AlertDialog`, `DialogContainer`, `ContextualHelp`, `Tooltip`, `TooltipTrigger`, `ActionButton`, `ButtonGroup`, `Content`, `Heading`, `Divider`
-  - `react-aria-components` — `CustomPopover` (`Popover`, `Dialog`, `DialogTrigger`, `OverlayArrow`)
-  - `@spectrum-icons/workflow` — `FullScreen`, `FullScreenExit` icons in `FullscreenAction`
+    - `@adobe/react-spectrum` — `Dialog`, `DialogTrigger`, `AlertDialog`, `DialogContainer`, `ContextualHelp`, `Tooltip`, `TooltipTrigger`, `ActionButton`, `ButtonGroup`, `Content`, `Heading`, `Divider`
+    - `react-aria-components` — `CustomPopover` (`Popover`, `Dialog`, `DialogTrigger`, `OverlayArrow`)
+    - `@spectrum-icons/workflow` — `FullScreen`, `FullScreenExit` icons in `FullscreenAction`
 - **Consumed by**: any Geti feature that needs confirmation flows (AlertDialog), contextual options (Popover), help text (ContextualHelp), hover descriptions (Tooltip), or immersive views (FullscreenAction).
 - **Theme**: `--spectrum-tray-background-color` and modal overlay colours are overridden in `geti-dark.module.css` to match Geti's dark surface palette.
-
 
 ---
 
@@ -107,4 +106,3 @@ The `actionButton` prop can be a static `ReactNode` or a factory function `(ref)
 ## Props
 
 <Controls />
-

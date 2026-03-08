@@ -6,7 +6,7 @@ import type { Meta, StoryObj } from '@storybook/react';
 import { ListBox, ListBoxItem as Item } from '@geti/ui';
 
 const meta: Meta<typeof ListBox> = {
-    tags: ["!dev"],
+    tags: ['!dev'],
     component: ListBox,
     title: 'Data/ListBox',
     argTypes: {

@@ -3,7 +3,7 @@ import type { Meta, StoryObj } from '@storybook/react';
 import { ColorField, Flex } from '@geti/ui';
 
 const meta: Meta<typeof ColorField> = {
-    tags: ["!dev"],
+    tags: ['!dev'],
     component: ColorField,
     title: 'Form/Color controls/ColorField',
     argTypes: {

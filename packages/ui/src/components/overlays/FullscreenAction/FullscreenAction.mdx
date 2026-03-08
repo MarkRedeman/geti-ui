@@ -18,17 +18,20 @@ import { FullscreenAction } from '@geti/ui';
 `FullscreenAction` is a **Geti-native composite pattern** for "expand to fullscreen" interactions. It encapsulates the entire expand/collapse workflow — trigger button, tooltip, dialog lifecycle, title header, divider, action button slot, and close button — so consuming components never need to assemble this pattern from scratch.
 
 Key responsibilities:
+
 - **Trigger composition**: Combines `TooltipTrigger`, `ActionButton` (with the `FullScreen` workflow icon), and a `Tooltip` into a single quiet, icon-only trigger button.
 - **Dialog structure**: Renders a `fullscreenTakeover` `Dialog` with a `Heading`, `Divider`, `Content`, and `ButtonGroup` — matching Spectrum's expected fullscreen dialog anatomy.
 - **Container ref forwarding**: Exposes a `containerRef` to the `actionButton` factory prop, enabling canvas-based or DOM-measurement scenarios where the fullscreen content needs a reference to its containing DOM node before rendering.
 - **Action button slot**: Accepts either a static `ReactNode` or a factory function `(ref) => ReactNode` in the `actionButton` prop, supporting both simple and ref-dependent action placements.
 
 ### When to use
+
 - To promote a panel, editor, image viewer, chart, or canvas into a dedicated fullscreen experience.
 - When the fullscreen content requires additional toolbar actions alongside the close button (e.g., "Export", "Reset", "Compare") — use the `actionButton` slot.
 - When a DOM reference to the fullscreen container is needed (e.g., a canvas renderer must append to the container node) — use the `actionButton` factory form.
 
 ### When to avoid
+
 - For standard modal dialogs that are not tied to a "fullscreen" context — use `Dialog` with `DialogTrigger` directly.
 - When the fullscreen trigger is not a `FullScreen` icon button — compose `DialogTrigger type="fullscreenTakeover"` manually with your own trigger.
 - For lightweight contextual information overlays — use `Popover` or `ContextualHelp`.
@@ -86,12 +89,12 @@ Fully custom composite — not a Spectrum pass-through. Composes Spectrum primit
 
 ## Props
 
-| Prop | Type | Default | Description |
-|------|------|---------|-------------|
-| `children` | `ReactNode` | — | **Required.** The content to display inside the fullscreen dialog's `Content` region. |
-| `title` | `string \| ReactNode` | — | Dialog heading text. When a `string`, also used to generate the trigger button's `aria-label` (`"Open in fullscreen {title}"`). |
-| `actionButton` | `ReactNode \| ((ref: DOMRefValue<HTMLElement> \| null) => ReactNode)` | — | Optional action(s) placed in the `ButtonGroup` before the close button. Pass a factory function to receive the `Content` container ref. |
-| `id` | `string` | — | ID prefix for the trigger button (`${id}-open-fullscreen`). |
+| Prop           | Type                                                                  | Default | Description                                                                                                                             |
+| -------------- | --------------------------------------------------------------------- | ------- | --------------------------------------------------------------------------------------------------------------------------------------- |
+| `children`     | `ReactNode`                                                           | —       | **Required.** The content to display inside the fullscreen dialog's `Content` region.                                                   |
+| `title`        | `string \| ReactNode`                                                 | —       | Dialog heading text. When a `string`, also used to generate the trigger button's `aria-label` (`"Open in fullscreen {title}"`).         |
+| `actionButton` | `ReactNode \| ((ref: DOMRefValue<HTMLElement> \| null) => ReactNode)` | —       | Optional action(s) placed in the `ButtonGroup` before the close button. Pass a factory function to receive the `Content` container ref. |
+| `id`           | `string`                                                              | —       | ID prefix for the trigger button (`${id}-open-fullscreen`).                                                                             |
 
 ## Accessibility
 

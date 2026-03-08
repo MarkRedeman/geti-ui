@@ -3,7 +3,7 @@ import type { Meta, StoryObj } from '@storybook/react';
 import { ColorWheel } from '@geti/ui';
 
 const meta: Meta<typeof ColorWheel> = {
-    tags: ["!dev"],
+    tags: ['!dev'],
     component: ColorWheel,
     title: 'Form/Color controls/ColorWheel',
     argTypes: {

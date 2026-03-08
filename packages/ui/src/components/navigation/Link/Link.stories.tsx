@@ -6,7 +6,7 @@ import type { Meta, StoryObj } from '@storybook/react';
 import { Link } from '@geti/ui';
 
 const meta: Meta<typeof Link> = {
-    tags: ["!dev"],
+    tags: ['!dev'],
     component: Link,
     title: 'Navigation/Link',
     argTypes: {

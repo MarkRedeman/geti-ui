@@ -5,7 +5,7 @@ import ViewGrid from '@spectrum-icons/workflow/ViewGrid';
 import ViewList from '@spectrum-icons/workflow/ViewList';
 
 const meta: Meta<typeof ToggleButtons> = {
-    tags: ["!dev"],
+    tags: ['!dev'],
     title: 'UI/ToggleButtons',
     component: ToggleButtons,
 };

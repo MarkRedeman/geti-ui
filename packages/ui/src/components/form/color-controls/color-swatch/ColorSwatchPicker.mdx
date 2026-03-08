@@ -5,7 +5,9 @@ import * as DocStories from './ColorSwatchPicker.stories';
 
 # ColorSwatchPicker
 
-<Subtitle>An interactive selection group that lets users choose a color from a predefined palette of swatches.</Subtitle>
+<Subtitle>
+    An interactive selection group that lets users choose a color from a predefined palette of swatches.
+</Subtitle>
 
 ```tsx
 import { ColorSwatchPicker, ColorSwatchPickerItem } from '@geti/ui';
@@ -22,18 +24,21 @@ import { ColorSwatchPicker, ColorSwatchPickerItem } from '@geti/ui';
 `ColorSwatchPicker` is a thin wrapper around Adobe React Spectrum's `ColorSwatchPicker`. It manages the selection state for a group of color swatches and calls `onChange` with the newly chosen `Color` when the user selects one. Each swatch in the group is represented by a `ColorSwatchPickerItem`.
 
 Key responsibilities:
+
 - **Selection management**: Tracks which swatch is currently selected, applies a selection ring to it, and fires `onChange(Color)` on selection.
 - **Palette composition**: Accepts `ColorSwatchPickerItem` children, each representing one color option in the set.
 - **Layout control**: `density` (`compact`, `regular`, `spacious`) controls the gap between swatches; `size` and `rounding` propagate to all child swatches.
 - **Controlled or uncontrolled**: Supports both a `value` prop (controlled) and `defaultValue` (uncontrolled) to integrate with either React state or HTML form submission.
 
 ### When to use
+
 - When presenting a predefined, finite set of color options (brand palette, annotation colors, label colors).
 - When the color options are curated and known ahead of time — the user picks from the set rather than constructing a color.
 - As the "Presets" section of a larger color picker UI (e.g., inside `ColorPickerDialog`) for quick access to common colors.
 - In any form where a color choice should be presented as a constrained selection rather than a free-form input.
 
 ### When to avoid
+
 - When users need arbitrary color freedom — use `ColorPickerDialog` (which includes `ColorArea`, `ColorSlider`, and `ColorField`).
 - When there is only one color to display with no selection intent — use `ColorSwatch` (the static display element) instead.
 - When the palette is very large (> ~20 colors) — a `Picker` dropdown with color names may be more navigable than a wide swatch grid.
@@ -43,18 +48,23 @@ Key responsibilities:
 ## Variants
 
 ### Default
+
 A horizontal row of `ColorSwatchPickerItem` children. The selected item receives a visible focus ring and selection indicator.
 
 ### Density
+
 Control the gap between swatches:
+
 - `compact` — tight spacing, suitable for toolbars or embedded panels.
 - `regular` — default spacing.
 - `spacious` — wider gaps, suited to standalone palette panels.
 
 ### Size
+
 `S`, `M`, `L` — propagated to all children. Use `S` in dense UI contexts; `L` for touch-primary surfaces.
 
 ### Rounding
+
 `none`, `default`, `full` — propagated to all children. `full` gives a classic palette-circle aesthetic.
 
 ---
@@ -68,16 +78,12 @@ Control the gap between swatches:
 ```tsx
 export interface ColorSwatchPickerProps extends SpectrumColorSwatchPickerProps {}
 
-export const ColorSwatchPicker = (props: ColorSwatchPickerProps) => (
-  <SpectrumColorSwatchPicker {...props} />
-);
+export const ColorSwatchPicker = (props: ColorSwatchPickerProps) => <SpectrumColorSwatchPicker {...props} />;
 
 // Items are ColorSwatch elements — the picker handles selection semantics
 export interface ColorSwatchPickerItemProps extends SpectrumColorSwatchProps {}
 
-export const ColorSwatchPickerItem = (props: ColorSwatchPickerItemProps) => (
-  <SpectrumColorSwatch {...props} />
-);
+export const ColorSwatchPickerItem = (props: ColorSwatchPickerItemProps) => <SpectrumColorSwatch {...props} />;
 ```
 
 Typical controlled usage:
@@ -89,28 +95,28 @@ import { parseColor, Color } from '@adobe/react-spectrum';
 const [selectedColor, setSelectedColor] = useState<Color>(parseColor('#ff0000'));
 
 <ColorSwatchPicker
-  aria-label="Annotation color"
-  value={selectedColor}
-  onChange={setSelectedColor}
-  size="M"
-  rounding="full"
-  density="regular"
+    aria-label="Annotation color"
+    value={selectedColor}
+    onChange={setSelectedColor}
+    size="M"
+    rounding="full"
+    density="regular"
 >
-  <ColorSwatchPickerItem color="#ff0000" aria-label="Red" />
-  <ColorSwatchPickerItem color="#00c851" aria-label="Green" />
-  <ColorSwatchPickerItem color="#007bff" aria-label="Blue" />
-  <ColorSwatchPickerItem color="#ffbb33" aria-label="Yellow" />
-  <ColorSwatchPickerItem color="#ff4444" aria-label="Orange" />
-</ColorSwatchPicker>
+    <ColorSwatchPickerItem color="#ff0000" aria-label="Red" />
+    <ColorSwatchPickerItem color="#00c851" aria-label="Green" />
+    <ColorSwatchPickerItem color="#007bff" aria-label="Blue" />
+    <ColorSwatchPickerItem color="#ffbb33" aria-label="Yellow" />
+    <ColorSwatchPickerItem color="#ff4444" aria-label="Orange" />
+</ColorSwatchPicker>;
 ```
 
 Use inside `ColorPickerDialog` as a presets row:
 
 ```tsx
 <ColorSwatchPicker value={color} onChange={setColor}>
-  <ColorSwatch color="#ff0000" aria-label="Red" />
-  <ColorSwatch color="#00ff00" aria-label="Green" />
-  <ColorSwatch color="#0000ff" aria-label="Blue" />
+    <ColorSwatch color="#ff0000" aria-label="Red" />
+    <ColorSwatch color="#00ff00" aria-label="Green" />
+    <ColorSwatch color="#0000ff" aria-label="Blue" />
 </ColorSwatchPicker>
 ```
 
@@ -132,25 +138,25 @@ Use inside `ColorPickerDialog` as a presets row:
 
 ### ColorSwatchPicker
 
-| Prop | Type | Default | Description |
-|------|------|---------|-------------|
-| `children` | `ReactNode` | **Required** | `ColorSwatchPickerItem` (or `ColorSwatch`) elements representing each color option. |
-| `value` | `Color` | — | The controlled selected color. Must match the `color` prop of one of the children. |
-| `defaultValue` | `Color` | — | The default selected color (uncontrolled). |
-| `onChange` | `(value: Color) => void` | — | Called when the user selects a new swatch. |
-| `size` | `'S' \| 'M' \| 'L'` | `'M'` | Size applied to all child swatches. |
-| `rounding` | `'none' \| 'default' \| 'full'` | `'default'` | Border radius applied to all child swatches. |
-| `density` | `'compact' \| 'regular' \| 'spacious'` | `'regular'` | Gap between child swatches. |
-| `aria-label` | `string` | — | **Required.** Accessible label for the picker group. |
+| Prop           | Type                                   | Default      | Description                                                                         |
+| -------------- | -------------------------------------- | ------------ | ----------------------------------------------------------------------------------- |
+| `children`     | `ReactNode`                            | **Required** | `ColorSwatchPickerItem` (or `ColorSwatch`) elements representing each color option. |
+| `value`        | `Color`                                | —            | The controlled selected color. Must match the `color` prop of one of the children.  |
+| `defaultValue` | `Color`                                | —            | The default selected color (uncontrolled).                                          |
+| `onChange`     | `(value: Color) => void`               | —            | Called when the user selects a new swatch.                                          |
+| `size`         | `'S' \| 'M' \| 'L'`                    | `'M'`        | Size applied to all child swatches.                                                 |
+| `rounding`     | `'none' \| 'default' \| 'full'`        | `'default'`  | Border radius applied to all child swatches.                                        |
+| `density`      | `'compact' \| 'regular' \| 'spacious'` | `'regular'`  | Gap between child swatches.                                                         |
+| `aria-label`   | `string`                               | —            | **Required.** Accessible label for the picker group.                                |
 
 ### ColorSwatchPickerItem
 
-| Prop | Type | Default | Description |
-|------|------|---------|-------------|
-| `color` | `string \| Color` | **Required** | The color this item represents. |
-| `aria-label` | `string` | — | **Required.** Human-readable color name (e.g., `"Red"`). |
-| `size` | `'S' \| 'M' \| 'L'` | Inherited | Overrides the picker-level `size` for this item. |
-| `rounding` | `'none' \| 'default' \| 'full'` | Inherited | Overrides the picker-level `rounding` for this item. |
+| Prop         | Type                            | Default      | Description                                              |
+| ------------ | ------------------------------- | ------------ | -------------------------------------------------------- |
+| `color`      | `string \| Color`               | **Required** | The color this item represents.                          |
+| `aria-label` | `string`                        | —            | **Required.** Human-readable color name (e.g., `"Red"`). |
+| `size`       | `'S' \| 'M' \| 'L'`             | Inherited    | Overrides the picker-level `size` for this item.         |
+| `rounding`   | `'none' \| 'default' \| 'full'` | Inherited    | Overrides the picker-level `rounding` for this item.     |
 
 ---
 
@@ -164,22 +170,24 @@ Use inside `ColorPickerDialog` as a presets row:
 - **Selection announcement**: When the user moves to a swatch, the screen reader announces its `aria-label` and whether it is selected (e.g., "Red, radio button, checked").
 - **Keyboard navigation**:
 
-| Key | Behaviour |
-|-----|-----------|
-| `Tab` | Move focus into the picker group (lands on the selected item, or the first item if none selected) |
-| `←` / `↑` | Move focus to the previous swatch in the group |
-| `→` / `↓` | Move focus to the next swatch in the group |
-| `Enter` / `Space` | Select the currently focused swatch |
+| Key               | Behaviour                                                                                         |
+| ----------------- | ------------------------------------------------------------------------------------------------- |
+| `Tab`             | Move focus into the picker group (lands on the selected item, or the first item if none selected) |
+| `←` / `↑`         | Move focus to the previous swatch in the group                                                    |
+| `→` / `↓`         | Move focus to the next swatch in the group                                                        |
+| `Enter` / `Space` | Select the currently focused swatch                                                               |
 
 - **Single tab stop**: The picker group is a single tab stop — internal navigation uses arrow keys, not `Tab`. This follows standard `radiogroup` convention and prevents users from having to tab through every color option.
 - **Focus management**: Focus stays within the group until `Tab` is pressed to move to the next focusable element in the page.
 
 ## Related components
+
 - `ColorSwatch` — the non-interactive display variant used when swatches do not need to be selectable.
 - `ColorPickerDialog` — the `ColorSwatchPicker` preset strip is assembled inside this dialog.
 - `RadioGroup` — the semantic model underlying `ColorSwatchPicker`; use `RadioGroup` instead for text-based single-selection.
 
 ## Example use cases
+
 <details>
   <summary>Typical use cases</summary>
 

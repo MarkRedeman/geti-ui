@@ -30,23 +30,26 @@ The component uses a Spectrum `View` with `position="relative"` to establish a c
 ## Variants
 
 ### Active State
+
 When `isActive` is `true`, a small blue dot is rendered in the top-right corner. When `false`, the indicator is completely removed from the DOM.
 
 ## Props
 
 <Controls of={DocStories.Default} />
 
-| Prop | Type | Default | Description |
-|------|------|---------|-------------|
-| `children` | `ReactNode` | — | The element to which the indicator is attached. |
-| `isActive` | `boolean` | — | Whether the indicator dot is visible. |
+| Prop       | Type        | Default | Description                                     |
+| ---------- | ----------- | ------- | ----------------------------------------------- |
+| `children` | `ReactNode` | —       | The element to which the indicator is attached. |
+| `isActive` | `boolean`   | —       | Whether the indicator dot is visible.           |
 
 ## Related components
+
 - `Avatar` / `AvatarGroup` — common parent element to wrap with `CornerIndicator` to indicate user activity.
 - `ActionButton` — common parent to signal that a tool or mode is currently active via the indicator dot.
 - `Image` / `PhotoPlaceholder` — wrap with `CornerIndicator` to signal unsaved changes or pending updates on a thumbnail.
 
 ## Example use cases
+
 <details>
   <summary>Typical use cases</summary>
 

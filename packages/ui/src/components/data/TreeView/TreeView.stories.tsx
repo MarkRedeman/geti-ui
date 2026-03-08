@@ -3,7 +3,7 @@ import { Item, Text } from '@adobe/react-spectrum';
 import { TreeView } from '@geti/ui';
 
 const meta: Meta<typeof TreeView> = {
-    tags: ["!dev"],
+    tags: ['!dev'],
     component: TreeView,
     title: 'Data/TreeView',
 };

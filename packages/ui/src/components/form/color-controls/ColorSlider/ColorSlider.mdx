@@ -5,7 +5,10 @@ import * as DocStories from './ColorSlider.stories';
 
 # ColorSlider
 
-<Subtitle>A linear gradient slider that lets users adjust a single color channel — hue, alpha, red, green, blue, saturation, brightness, or lightness.</Subtitle>
+<Subtitle>
+    A linear gradient slider that lets users adjust a single color channel — hue, alpha, red, green, blue, saturation,
+    brightness, or lightness.
+</Subtitle>
 
 ```tsx
 import { ColorSlider } from '@geti/ui';
@@ -20,17 +23,20 @@ import { ColorSlider } from '@geti/ui';
 `ColorSlider` is a pure pass-through wrapper around Adobe React Spectrum's `ColorSlider`. It gives users precise, linear control over a single dimension of a color — the most predictable and familiar interaction pattern for channel-by-channel color editing.
 
 Key responsibilities:
+
 - **Single Channel Control**: The `channel` prop determines which dimension is adjusted. The slider track renders a gradient from the channel's minimum to maximum value at the current color's other channel values — so the gradient always shows what the resulting color will look like at each position.
 - **Orientation**: Supports both `"horizontal"` (default) and `"vertical"` layout for flexible composition.
 - **Label and Value Display**: Renders a visible `label` and an optional numeric value label (`showValueLabel`). Set `label={null}` to suppress the label for embedded use inside a composite.
 
 ### When to use
+
 - For hue selection as a linear alternative to `ColorWheel` (particularly in compact layouts).
 - For alpha/opacity control — this is the canonical use case; `ColorArea` cannot represent alpha directly.
 - For per-channel RGB or HSL adjustment in settings panels where all channels should be independently visible.
 - Inside custom color picker layouts when you want more layout control than `ColorPickerDialog` provides.
 
 ### When to avoid
+
 - When adjusting two channels simultaneously — `ColorArea` is purpose-built for that.
 - When circular hue selection is preferred — `ColorWheel` is more spatially intuitive for hue.
 - When you only need a plain numeric range (no color context) — use `Slider` instead.
@@ -42,9 +48,7 @@ Pure thin wrapper — zero local state, no CSS overrides:
 ```tsx
 export interface ColorSliderProps extends SpectrumColorSliderProps {}
 
-export const ColorSlider = (props: ColorSliderProps) => (
-  <SpectrumColorSlider {...props} />
-);
+export const ColorSlider = (props: ColorSliderProps) => <SpectrumColorSlider {...props} />;
 ```
 
 The `channel` prop is required. Spectrum's renderer draws a gradient that interpolates that channel from minimum to maximum at the current values of all other channels — giving users immediate visual feedback on the impact of each position.
@@ -88,16 +92,16 @@ const [color, setColor] = useState<Color>(parseColor('hsl(0, 100%, 50%)'));
 
 ### Props
 
-| Prop | Type | Default | Description |
-|------|------|---------|-------------|
-| `channel` | `ColorChannel` | **Required** | The color channel to control (`"hue"`, `"red"`, `"green"`, `"blue"`, `"alpha"`, `"saturation"`, `"brightness"`, `"lightness"`). |
-| `value` | `Color` | — | The current color (controlled). |
-| `defaultValue` | `Color \| string` | — | The initial color (uncontrolled). |
-| `onChange` | `(value: Color) => void` | — | Called when the thumb is moved. |
-| `orientation` | `'horizontal' \| 'vertical'` | `'horizontal'` | Slider track direction. |
-| `label` | `string \| null` | — | The visible label. Pass `null` to suppress. |
-| `showValueLabel` | `boolean` | `true` | Whether to display the numeric value next to the label. |
-| `isDisabled` | `boolean` | `false` | Prevents interaction. |
+| Prop             | Type                         | Default        | Description                                                                                                                     |
+| ---------------- | ---------------------------- | -------------- | ------------------------------------------------------------------------------------------------------------------------------- |
+| `channel`        | `ColorChannel`               | **Required**   | The color channel to control (`"hue"`, `"red"`, `"green"`, `"blue"`, `"alpha"`, `"saturation"`, `"brightness"`, `"lightness"`). |
+| `value`          | `Color`                      | —              | The current color (controlled).                                                                                                 |
+| `defaultValue`   | `Color \| string`            | —              | The initial color (uncontrolled).                                                                                               |
+| `onChange`       | `(value: Color) => void`     | —              | Called when the thumb is moved.                                                                                                 |
+| `orientation`    | `'horizontal' \| 'vertical'` | `'horizontal'` | Slider track direction.                                                                                                         |
+| `label`          | `string \| null`             | —              | The visible label. Pass `null` to suppress.                                                                                     |
+| `showValueLabel` | `boolean`                    | `true`         | Whether to display the numeric value next to the label.                                                                         |
+| `isDisabled`     | `boolean`                    | `false`        | Prevents interaction.                                                                                                           |
 
 ## Accessibility
 
@@ -108,11 +112,13 @@ const [color, setColor] = useState<Color>(parseColor('hsl(0, 100%, 50%)'));
 - **Labels**: If `label={null}` is used (e.g., inside `ColorPickerDialog`), always ensure the slider is identifiable from its surrounding context or supply `aria-label` directly on the `channel` channel to avoid an unlabelled control.
 
 ## Related components
+
 - `ColorArea` — use alongside `ColorSlider` to give users 2D spatial saturation/brightness control while the slider handles alpha or hue.
 - `ColorWheel` — use instead of `ColorSlider` for hue selection when a circular, intuitive rotation gesture is preferred.
 - `ColorPickerDialog` — use instead for a complete, assembled color picker that includes `ColorSlider` pre-composed.
 
 ## Example use cases
+
 <details>
   <summary>Typical use cases</summary>
 

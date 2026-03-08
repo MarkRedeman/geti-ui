@@ -20,6 +20,7 @@ import { ActionBar, ActionBarContainer, Item } from '@geti/ui';
 `ActionBar` is a **selection-driven** toolbar: it stays hidden until something in the collection is selected, then slides up to present relevant actions alongside a count of selected items and a "Clear selection" button. It always works in tandem with a collection component — `TableView`, `ListView`, or `CardView` — wrapped together in `ActionBarContainer`.
 
 The architectural split is intentional:
+
 - **`ActionBarContainer`** coordinates the slide-in animation and stacks the collection and bar in a managed layout.
 - **`ActionBar`** owns the count display, the action buttons, and the clear callback.
 - The **collection** owns selection state and feeds `selectedItemCount` upward.
@@ -27,46 +28,50 @@ The architectural split is intentional:
 Selection drives visibility: the bar slides into view when `selectedItemCount` is non-zero (wire `onSelectionChange` → `selectedItemCount`), and slides back out once `onClearSelection` resets the selection to an empty set.
 
 ### When to use `ActionBar`
+
 - When users can select multiple rows in a `TableView` or `ListView` and need to act on the whole selection at once (delete, export, assign, approve).
 - When selection state is `"multiple"` and bulk operations make sense. For single-item contextual actions, a row-level menu is more appropriate.
 
-### When *not* to use `ActionBar`
+### When _not_ to use `ActionBar`
+
 - As a persistent, always-visible toolbar — use `ActionGroup` or `Toolbar` instead.
 - For per-item actions that apply to exactly one row regardless of selection — use a row-level `Menu`.
 
 ## Variants
 
 ### Emphasized
+
 Pass `isEmphasized` when the bar floats visually above the collection content. Omit it for a blended appearance.
 
 ### Button label behavior
+
 Controls how action button labels are presented when space is limited:
 
-| Value | Behaviour |
-|-------|-----------|
-| `'show'` | Always show text labels alongside icons |
-| `'hide'` | Icon-only; labels become tooltips on hover |
-| `'collapse'` *(default)* | Show labels if space allows, otherwise collapse to icons |
+| Value                    | Behaviour                                                |
+| ------------------------ | -------------------------------------------------------- |
+| `'show'`                 | Always show text labels alongside icons                  |
+| `'hide'`                 | Icon-only; labels become tooltips on hover               |
+| `'collapse'` _(default)_ | Show labels if space allows, otherwise collapse to icons |
 
 ## Props
 
 ### `<ActionBar>`
 
-| Prop | Type | Default | Description |
-|------|------|---------|-------------|
-| `children` | `ItemElement \| ItemRenderer` | — | **Required.** The action `<Item>` nodes to render as toolbar buttons. |
-| `selectedItemCount` | `number \| 'all'` | — | **Required.** Drives visibility — bar is hidden when `0`; shows "N selected" otherwise. |
-| `onAction` | `(key: Key) => void` | — | Called when the user activates an action button. Receives the `key` of the pressed `<Item>`. |
-| `onClearSelection` | `() => void` | — | Called when the user presses "Clear selection". Clear `selectedKeys` in this handler. |
-| `isEmphasized` | `boolean` | `false` | Applies the emphasized (floating) visual treatment. |
-| `buttonLabelBehavior` | `'show' \| 'collapse' \| 'hide'` | `'collapse'` | Controls text label visibility on action buttons. |
+| Prop                  | Type                             | Default      | Description                                                                                  |
+| --------------------- | -------------------------------- | ------------ | -------------------------------------------------------------------------------------------- |
+| `children`            | `ItemElement \| ItemRenderer`    | —            | **Required.** The action `<Item>` nodes to render as toolbar buttons.                        |
+| `selectedItemCount`   | `number \| 'all'`                | —            | **Required.** Drives visibility — bar is hidden when `0`; shows "N selected" otherwise.      |
+| `onAction`            | `(key: Key) => void`             | —            | Called when the user activates an action button. Receives the `key` of the pressed `<Item>`. |
+| `onClearSelection`    | `() => void`                     | —            | Called when the user presses "Clear selection". Clear `selectedKeys` in this handler.        |
+| `isEmphasized`        | `boolean`                        | `false`      | Applies the emphasized (floating) visual treatment.                                          |
+| `buttonLabelBehavior` | `'show' \| 'collapse' \| 'hide'` | `'collapse'` | Controls text label visibility on action buttons.                                            |
 
 ### `<ActionBarContainer>`
 
-| Prop | Type | Default | Description |
-|------|------|---------|-------------|
-| `children` | `ReactNode` | — | Should contain exactly one collection component and one `ActionBar`. |
-| Layout props | `DimensionValue` | — | Accepts standard Spectrum layout props (`height`, `width`, `flex`, etc.). |
+| Prop         | Type             | Default | Description                                                               |
+| ------------ | ---------------- | ------- | ------------------------------------------------------------------------- |
+| `children`   | `ReactNode`      | —       | Should contain exactly one collection component and one `ActionBar`.      |
+| Layout props | `DimensionValue` | —       | Accepts standard Spectrum layout props (`height`, `width`, `flex`, etc.). |
 
 ### Paired with `TableView`
 
@@ -76,53 +81,56 @@ import type { Selection } from '@adobe/react-spectrum';
 import { Item, Text } from '@adobe/react-spectrum';
 import Delete from '@spectrum-icons/workflow/Delete';
 import Export from '@spectrum-icons/workflow/Export';
-import {
-  ActionBar, ActionBarContainer,
-  TableView, TableHeader, TableBody, Column, Row, Cell,
-} from '@geti/ui';
+import { ActionBar, ActionBarContainer, TableView, TableHeader, TableBody, Column, Row, Cell } from '@geti/ui';
 
 export function DatasetTable({ rows }) {
-  const [selectedKeys, setSelectedKeys] = useState<Selection>(new Set());
+    const [selectedKeys, setSelectedKeys] = useState<Selection>(new Set());
 
-  const count = selectedKeys === 'all' ? 'all' : selectedKeys.size;
+    const count = selectedKeys === 'all' ? 'all' : selectedKeys.size;
 
-  return (
-    <ActionBarContainer height="size-6000">
-      <TableView
-        aria-label="Datasets"
-        selectionMode="multiple"
-        selectedKeys={selectedKeys}
-        onSelectionChange={setSelectedKeys}
-      >
-        <TableHeader>
-          <Column isRowHeader>Name</Column>
-          <Column>Images</Column>
-          <Column>Status</Column>
-        </TableHeader>
-        <TableBody items={rows}>
-          {(row) => (
-            <Row key={row.id} id={row.id}>
-              <Cell>{row.name}</Cell>
-              <Cell>{row.imageCount}</Cell>
-              <Cell>{row.status}</Cell>
-            </Row>
-          )}
-        </TableBody>
-      </TableView>
+    return (
+        <ActionBarContainer height="size-6000">
+            <TableView
+                aria-label="Datasets"
+                selectionMode="multiple"
+                selectedKeys={selectedKeys}
+                onSelectionChange={setSelectedKeys}
+            >
+                <TableHeader>
+                    <Column isRowHeader>Name</Column>
+                    <Column>Images</Column>
+                    <Column>Status</Column>
+                </TableHeader>
+                <TableBody items={rows}>
+                    {(row) => (
+                        <Row key={row.id} id={row.id}>
+                            <Cell>{row.name}</Cell>
+                            <Cell>{row.imageCount}</Cell>
+                            <Cell>{row.status}</Cell>
+                        </Row>
+                    )}
+                </TableBody>
+            </TableView>
 
-      <ActionBar
-        selectedItemCount={count}
-        onClearSelection={() => setSelectedKeys(new Set())}
-        onAction={(key) => {
-          if (key === 'delete') deleteDatasets(selectedKeys);
-          if (key === 'export') exportDatasets(selectedKeys);
-        }}
-      >
-        <Item key="delete"><Delete /><Text>Delete</Text></Item>
-        <Item key="export"><Export /><Text>Export</Text></Item>
-      </ActionBar>
-    </ActionBarContainer>
-  );
+            <ActionBar
+                selectedItemCount={count}
+                onClearSelection={() => setSelectedKeys(new Set())}
+                onAction={(key) => {
+                    if (key === 'delete') deleteDatasets(selectedKeys);
+                    if (key === 'export') exportDatasets(selectedKeys);
+                }}
+            >
+                <Item key="delete">
+                    <Delete />
+                    <Text>Delete</Text>
+                </Item>
+                <Item key="export">
+                    <Export />
+                    <Text>Export</Text>
+                </Item>
+            </ActionBar>
+        </ActionBarContainer>
+    );
 }
 ```
 

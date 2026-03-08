@@ -43,53 +43,58 @@ Key responsibilities:
 ## Variants and states
 
 ### Default (no selection)
+
 Renders the `placeholder` text (or an empty trigger) until the user makes a choice.
 
 ### Default selected
+
 Pass `defaultSelectedKey` to pre-select an item in uncontrolled usage. The key must match one of the item keys in the collection.
 
 ### Disabled
+
 `isDisabled` grays out the trigger and removes it from the tab order. Use when the value is locked or context-dependent (e.g., a field that is only editable after another choice is made).
 
 ### Required with validation
+
 Combine `isRequired`, `validationState`, and `errorMessage` to surface form-level errors. The trigger border turns red and the message appears below.
 
 ### Grouped options (Sections)
+
 Use `Section` from `@adobe/react-spectrum` as a child of `Picker` to add visual groupings with headings. Sections are purely presentational — keys must still be unique across all sections.
 
 ## Props
 
 ### Content
 
-| Prop | Type | Default | Description |
-|------|------|---------|-------------|
-| `label` | `ReactNode` | — | Visible label rendered above the trigger. Omit only when providing `aria-label`. |
-| `placeholder` | `string` | — | Text shown in the trigger when no item is selected. |
-| `items` | `Iterable<T>` | — | Data source for dynamic collections. Pair with a render-function `children`. |
-| `disabledKeys` | `Iterable<Key>` | — | Keys of items that are shown but cannot be selected. |
+| Prop           | Type            | Default | Description                                                                      |
+| -------------- | --------------- | ------- | -------------------------------------------------------------------------------- |
+| `label`        | `ReactNode`     | —       | Visible label rendered above the trigger. Omit only when providing `aria-label`. |
+| `placeholder`  | `string`        | —       | Text shown in the trigger when no item is selected.                              |
+| `items`        | `Iterable<T>`   | —       | Data source for dynamic collections. Pair with a render-function `children`.     |
+| `disabledKeys` | `Iterable<Key>` | —       | Keys of items that are shown but cannot be selected.                             |
 
 ### Value
 
-| Prop | Type | Default | Description |
-|------|------|---------|-------------|
-| `selectedKey` | `Key \| null` | — | The currently selected item key (controlled). |
-| `defaultSelectedKey` | `Key` | — | The initially selected key (uncontrolled). |
-| `onSelectionChange` | `(key: Key) => void` | — | Called when the user selects an item. |
+| Prop                 | Type                 | Default | Description                                   |
+| -------------------- | -------------------- | ------- | --------------------------------------------- |
+| `selectedKey`        | `Key \| null`        | —       | The currently selected item key (controlled). |
+| `defaultSelectedKey` | `Key`                | —       | The initially selected key (uncontrolled).    |
+| `onSelectionChange`  | `(key: Key) => void` | —       | Called when the user selects an item.         |
 
 ### Validation
 
-| Prop | Type | Default | Description |
-|------|------|---------|-------------|
-| `isRequired` | `boolean` | `false` | Marks the field required; sets `aria-required`. |
-| `isDisabled` | `boolean` | `false` | Disables the entire picker. |
-| `validationState` | `'valid' \| 'invalid'` | — | Controls inline validation styling. |
-| `errorMessage` | `ReactNode` | — | Error text shown when `validationState="invalid"`. |
+| Prop              | Type                   | Default | Description                                        |
+| ----------------- | ---------------------- | ------- | -------------------------------------------------- |
+| `isRequired`      | `boolean`              | `false` | Marks the field required; sets `aria-required`.    |
+| `isDisabled`      | `boolean`              | `false` | Disables the entire picker.                        |
+| `validationState` | `'valid' \| 'invalid'` | —       | Controls inline validation styling.                |
+| `errorMessage`    | `ReactNode`            | —       | Error text shown when `validationState="invalid"`. |
 
 ### Layout
 
-| Prop | Type | Default | Description |
-|------|------|---------|-------------|
-| `width` | `DimensionValue` | — | Width of the trigger button. |
+| Prop    | Type             | Default | Description                  |
+| ------- | ---------------- | ------- | ---------------------------- |
+| `width` | `DimensionValue` | —       | Width of the trigger button. |
 
 ## Usage examples
 

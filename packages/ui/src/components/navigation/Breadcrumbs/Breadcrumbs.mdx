@@ -20,18 +20,21 @@ import { Breadcrumbs, Item } from '@geti/ui';
 `Breadcrumbs` provide a secondary navigation system that reveals the user's location within a website or web application. They are essential for deep hierarchical structures — such as project folders, nested settings pages, or multi-level dataset views — where users need both positional context and a quick way to move up the tree.
 
 Key responsibilities:
+
 - **Hierarchical Context**: Clearly shows the path from the root to the current page, orienting users who may have arrived via deep-link or search.
 - **Efficient Navigation**: Allows users to jump back multiple levels with a single click, rather than pressing "Back" repeatedly.
 - **Structural Consistency**: Provides a standard exit point (the root item) across different sections of the application, reinforcing the information architecture.
 
 ### When to use
+
 - When content is organized in a hierarchy of **two or more levels deep** — a single-level hierarchy adds noise without value.
-- In applications where users can arrive at a page from multiple entry points (e.g., search results, notifications) and need structural context to understand *where* they are.
+- In applications where users can arrive at a page from multiple entry points (e.g., search results, notifications) and need structural context to understand _where_ they are.
 - To supplement primary navigation (sidebar or top nav) — not to replace it.
 - When the hierarchy has **3–6 levels** and intermediate steps are meaningful to users (e.g., Workspace → Project → Dataset → Image).
 - When navigating away from the current page is a frequent task and users should not need to reach for the browser back button.
 
 ### When to avoid
+
 - For **flat navigation structures** with only one level — a single item trail provides no context.
 - To **replace the primary navigation system** — breadcrumbs are a supplemental wayfinding aid.
 - In **sequential wizard flows** — use a `Stepper` or "Back / Next" button pattern; breadcrumbs imply a tree, not a sequence.
@@ -50,9 +53,7 @@ Key responsibilities:
 
 export interface BreadcrumbsProps<T extends object> extends SpectrumBreadcrumbsProps<T> {}
 
-export const Breadcrumbs = <T extends object>(props: BreadcrumbsProps<T>) => (
-    <SpectrumBreadcrumbs {...props} />
-);
+export const Breadcrumbs = <T extends object>(props: BreadcrumbsProps<T>) => <SpectrumBreadcrumbs {...props} />;
 ```
 
 **`Item` re-export**
@@ -71,6 +72,7 @@ export { Item } from '@adobe/react-spectrum';
 Spectrum's `Breadcrumbs` implementation automatically manages overflow. When the rendered trail is too wide for its container — or when there are more than **4 items** — intermediate items collapse into an ellipsis (`…`) button. Clicking that button opens an overlay menu listing the hidden ancestors.
 
 Two props control this behavior:
+
 - `showRoot` (`boolean`, default `false`) — when `true`, the root item is always visible even when intermediate items are collapsed. Useful when the root label is a meaningful anchor (e.g., the workspace name).
 - The collapse threshold is determined by Spectrum internally based on available container width, not a fixed item count.
 
@@ -80,17 +82,14 @@ Two props control this behavior:
 
 ```tsx
 const crumbs = [
-    { id: 'home',     label: 'Home' },
+    { id: 'home', label: 'Home' },
     { id: 'projects', label: 'Projects' },
-    { id: 'current',  label: 'My Project' },
+    { id: 'current', label: 'My Project' },
 ];
 
-<Breadcrumbs<typeof crumbs[number]>
-    items={crumbs}
-    onAction={(key) => navigate(`/${key}`)}
->
+<Breadcrumbs<(typeof crumbs)[number]> items={crumbs} onAction={(key) => navigate(`/${key}`)}>
     {(item) => <Item key={item.id}>{item.label}</Item>}
-</Breadcrumbs>
+</Breadcrumbs>;
 ```
 
 **Theme integration**
@@ -102,12 +101,15 @@ const crumbs = [
 ## Variants
 
 ### Sizes
+
 Supports `S`, `M`, and `L` sizes via the `size` prop. The default is `L`. Use `S` or `M` inside compact toolbars or page headers where vertical space is constrained.
 
 ### Multiline
+
 The `isMultiline` prop allows the last item (the current page title) to wrap to its own line. This is useful when the current page title is exceptionally long or when it serves as the primary heading for the page — the multiline layout gives the title more visual weight.
 
 ### Overflow behavior
+
 Breadcrumbs automatically collapse intermediate items into an overflow menu (represented by a `…` button) when available width is insufficient. The overflow button is fully accessible: keyboard users can open the menu with `Enter` or `Space` and navigate its items with arrow keys.
 
 Set `showRoot={true}` to keep the first item pinned in the visible portion of the trail regardless of collapse state, ensuring users always have a quick route back to the top level.
@@ -116,15 +118,15 @@ Set `showRoot={true}` to keep the first item pinned in the visible portion of th
 
 ## Props
 
-| Prop | Type | Default | Description |
-|------|------|---------|-------------|
-| `children` | `ItemElement \| ItemRenderer<T>` | — | The breadcrumb items to display. Each must be an `Item` with a unique `key`. |
-| `onAction` | `(key: Key) => void` | — | Handler called when a breadcrumb item is pressed. Use this to drive router navigation. |
-| `size` | `'S' \| 'M' \| 'L'` | `'L'` | The size of the breadcrumbs. |
-| `isDisabled` | `boolean` | `false` | Whether all breadcrumb items are disabled. |
-| `showRoot` | `boolean` | `false` | Whether the root item should remain visible when intermediate items are collapsed. |
-| `isMultiline` | `boolean` | `false` | Whether the last item wraps to a new line, giving it more visual prominence. |
-| `items` | `Iterable<T>` | — | Item objects for dynamic (render-function) collections. |
+| Prop          | Type                             | Default | Description                                                                            |
+| ------------- | -------------------------------- | ------- | -------------------------------------------------------------------------------------- |
+| `children`    | `ItemElement \| ItemRenderer<T>` | —       | The breadcrumb items to display. Each must be an `Item` with a unique `key`.           |
+| `onAction`    | `(key: Key) => void`             | —       | Handler called when a breadcrumb item is pressed. Use this to drive router navigation. |
+| `size`        | `'S' \| 'M' \| 'L'`              | `'L'`   | The size of the breadcrumbs.                                                           |
+| `isDisabled`  | `boolean`                        | `false` | Whether all breadcrumb items are disabled.                                             |
+| `showRoot`    | `boolean`                        | `false` | Whether the root item should remain visible when intermediate items are collapsed.     |
+| `isMultiline` | `boolean`                        | `false` | Whether the last item wraps to a new line, giving it more visual prominence.           |
+| `items`       | `Iterable<T>`                    | —       | Item objects for dynamic (render-function) collections.                                |
 
 ---
 
@@ -160,26 +162,26 @@ Do not provide an `href` or route for the last item. If you are using `onAction`
 
 **ARIA roles**
 
-| Element | Role / Attribute | Notes |
-|---------|-----------------|-------|
-| Wrapping `<nav>` | `navigation` landmark | Provide `aria-label="Breadcrumb"`. |
-| Each ancestor item | `link` | Interactive; announces the label and signals it is navigable. |
-| Last item (current page) | Static text | Non-interactive; receives `aria-current="page"`. |
-| Overflow `…` button | `button` | Announces "…" — consider pairing with `showRoot` to keep the root label always visible for context. |
-| Overflow menu | `menu` with `menuitem` children | Lists all hidden intermediate ancestors. |
+| Element                  | Role / Attribute                | Notes                                                                                               |
+| ------------------------ | ------------------------------- | --------------------------------------------------------------------------------------------------- |
+| Wrapping `<nav>`         | `navigation` landmark           | Provide `aria-label="Breadcrumb"`.                                                                  |
+| Each ancestor item       | `link`                          | Interactive; announces the label and signals it is navigable.                                       |
+| Last item (current page) | Static text                     | Non-interactive; receives `aria-current="page"`.                                                    |
+| Overflow `…` button      | `button`                        | Announces "…" — consider pairing with `showRoot` to keep the root label always visible for context. |
+| Overflow menu            | `menu` with `menuitem` children | Lists all hidden intermediate ancestors.                                                            |
 
 **Keyboard navigation**
 
-| Key | Behaviour |
-|-----|-----------|
-| `Tab` | Moves focus to the next interactive breadcrumb link. The last item (current page) is skipped. |
-| `Shift + Tab` | Moves focus to the previous interactive breadcrumb link. |
-| `Enter` / `Space` | Activates the focused link, firing `onAction(key)`. |
-| `Tab` (on `…` button) | Moves focus to the overflow button when intermediate items are collapsed. |
-| `Enter` / `Space` (on `…`) | Opens the overflow menu. |
-| `Arrow Down` / `Arrow Up` | Navigates within the open overflow menu. |
-| `Escape` (in overflow menu) | Closes the menu and returns focus to the `…` button. |
-| `Enter` (on menu item) | Activates the menu item, firing `onAction(key)`, and closes the menu. |
+| Key                         | Behaviour                                                                                     |
+| --------------------------- | --------------------------------------------------------------------------------------------- |
+| `Tab`                       | Moves focus to the next interactive breadcrumb link. The last item (current page) is skipped. |
+| `Shift + Tab`               | Moves focus to the previous interactive breadcrumb link.                                      |
+| `Enter` / `Space`           | Activates the focused link, firing `onAction(key)`.                                           |
+| `Tab` (on `…` button)       | Moves focus to the overflow button when intermediate items are collapsed.                     |
+| `Enter` / `Space` (on `…`)  | Opens the overflow menu.                                                                      |
+| `Arrow Down` / `Arrow Up`   | Navigates within the open overflow menu.                                                      |
+| `Escape` (in overflow menu) | Closes the menu and returns focus to the `…` button.                                          |
+| `Enter` (on menu item)      | Activates the menu item, firing `onAction(key)`, and closes the menu.                         |
 
 **Focus management and the overflow menu**
 
@@ -248,9 +250,9 @@ import { Breadcrumbs, Item } from '@geti/ui';
 import type { Key } from '@adobe/react-spectrum';
 
 const crumbs = [
-    { key: 'home',    label: 'Home',    path: '/' },
-    { key: 'models',  label: 'Models',  path: '/models' },
-    { key: 'current', label: 'ResNet50' },  // no path — current page
+    { key: 'home', label: 'Home', path: '/' },
+    { key: 'models', label: 'Models', path: '/models' },
+    { key: 'current', label: 'ResNet50' }, // no path — current page
 ];
 
 export const ModelBreadcrumbs = () => {
@@ -258,10 +260,12 @@ export const ModelBreadcrumbs = () => {
 
     return (
         <nav aria-label="Breadcrumb">
-            <Breadcrumbs onAction={(key: Key) => {
-                const crumb = crumbs.find((c) => c.key === key);
-                if (crumb?.path) router.push(crumb.path);
-            }}>
+            <Breadcrumbs
+                onAction={(key: Key) => {
+                    const crumb = crumbs.find((c) => c.key === key);
+                    if (crumb?.path) router.push(crumb.path);
+                }}
+            >
                 {crumbs.map((crumb) => (
                     <Item key={crumb.key}>{crumb.label}</Item>
                 ))}
@@ -329,12 +333,14 @@ export const DatasetToolbar = () => (
 ```
 
 ## Related components
+
 - **`Link`** — use for standalone inline text navigation links; `Breadcrumbs` is purpose-built for structured multi-level navigation trails.
 - **`Tabs`** — use when switching between sibling sections at the same level; `Breadcrumbs` is for navigating up through parent levels in a hierarchy.
 - **`Menu`** — use when navigation targets should be grouped behind a single trigger; `Breadcrumbs` keeps all visible levels in the primary view.
 - **`ActionButton`** — use alongside `Breadcrumbs` in a flex row for "Back" navigation patterns when only a single ancestor level needs to be accessible.
 
 ## Example use cases
+
 <details>
   <summary>Typical use cases</summary>
 

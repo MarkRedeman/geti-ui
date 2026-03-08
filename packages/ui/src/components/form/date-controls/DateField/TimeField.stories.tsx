@@ -3,7 +3,7 @@ import type { Meta, StoryObj } from '@storybook/react';
 import { TimeField } from '@geti/ui'; // TimeField is co-located with DateField
 
 const meta: Meta<typeof TimeField> = {
-    tags: ["!dev"],
+    tags: ['!dev'],
     component: TimeField,
     title: 'Form/Date controls/TimeField',
     argTypes: {

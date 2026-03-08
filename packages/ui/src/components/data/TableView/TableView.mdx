@@ -21,6 +21,7 @@ import { TableView, TableHeader, TableBody, Column, Row, Cell } from '@geti/ui';
 `TableView` is the right choice when users need to **scan, sort, compare, and act on structured multi-column data**. It renders a fully virtualised table with built-in support for sorting, single/multi-row selection, drag-and-drop reordering, asynchronous loading, and column resizing.
 
 Key responsibilities:
+
 - **Virtualised rendering**: Only DOM nodes for visible rows are created, keeping performance consistent for large datasets.
 - **Sorting**: Column headers surface `sortDescriptor` and `onSortChange` for both client-side and server-side sort integration.
 - **Selection**: Supports `'none'`, `'single'`, and `'multiple'` selection modes with checkbox or highlight visual feedback.
@@ -28,6 +29,7 @@ Key responsibilities:
 - **Sub-component re-exports**: Exports `TableHeader`, `TableBody`, `Column`, `Row`, and `Cell` alongside their prop types so callers need only a single import path for the entire table API.
 
 ### When to use
+
 - **Multi-column structured data**: When each row contains multiple comparable fields (e.g., name, type, date, status).
 - **Sorting**: When users need to sort rows by a column header click.
 - **Batch operations**: When users select one or many rows and act on the selection (e.g., bulk delete, export).
@@ -35,6 +37,7 @@ Key responsibilities:
 - **Resizable columns**: When users need to adjust column widths to fit varying content lengths.
 
 ### When to avoid
+
 - **Single-column collections** (e.g., a file browser, feed, or annotation list) — use `ListView` for richer single-column item rendering.
 - **Simple selection inside a form** — use `ListBox`, which has no interactive cells or sorting.
 - **Visual asset browsing** (image grids, card galleries) — use `CardView`.
@@ -49,27 +52,25 @@ All sub-components (`TableHeader`, `TableBody`, `Column`, `Row`, `Cell`) are re-
 The design choice to export everything from one file ensures callers only need a **single import path** for the entire table API.
 
 ```tsx
-<TableView
-  aria-label="Dataset items"
-  selectionMode="multiple"
-  onAction={(key) => navigate(`/items/${key}`)}
->
-  <TableHeader>
-    <Column isRowHeader allowsSorting>Name</Column>
-    <Column allowsSorting>Type</Column>
-    <Column>Date Modified</Column>
-    <Column>Status</Column>
-  </TableHeader>
-  <TableBody items={rows}>
-    {(row) => (
-      <Row key={row.id} id={row.id}>
-        <Cell>{row.name}</Cell>
-        <Cell>{row.type}</Cell>
-        <Cell>{row.dateModified}</Cell>
-        <Cell>{row.status}</Cell>
-      </Row>
-    )}
-  </TableBody>
+<TableView aria-label="Dataset items" selectionMode="multiple" onAction={(key) => navigate(`/items/${key}`)}>
+    <TableHeader>
+        <Column isRowHeader allowsSorting>
+            Name
+        </Column>
+        <Column allowsSorting>Type</Column>
+        <Column>Date Modified</Column>
+        <Column>Status</Column>
+    </TableHeader>
+    <TableBody items={rows}>
+        {(row) => (
+            <Row key={row.id} id={row.id}>
+                <Cell>{row.name}</Cell>
+                <Cell>{row.type}</Cell>
+                <Cell>{row.dateModified}</Cell>
+                <Cell>{row.status}</Cell>
+            </Row>
+        )}
+    </TableBody>
 </TableView>
 ```
 
@@ -85,20 +86,20 @@ The design choice to export everything from one file ensures callers only need a
 
 ```tsx
 <TableView selectionMode="multiple" sortDescriptor={sort} onSortChange={setSort}>
-  <TableHeader columns={columns}>
-    {col => <Column key={col.key} allowsSorting={col.sortable}>{col.name}</Column>}
-  </TableHeader>
-  <TableBody
-    items={rows}
-    loadingState={loadingState}
-    onLoadMore={fetchNextPage}
-  >
-    {row => (
-      <Row key={row.id} id={row.id}>
-        {col => <Cell>{row[col.key]}</Cell>}
-      </Row>
-    )}
-  </TableBody>
+    <TableHeader columns={columns}>
+        {(col) => (
+            <Column key={col.key} allowsSorting={col.sortable}>
+                {col.name}
+            </Column>
+        )}
+    </TableHeader>
+    <TableBody items={rows} loadingState={loadingState} onLoadMore={fetchNextPage}>
+        {(row) => (
+            <Row key={row.id} id={row.id}>
+                {(col) => <Cell>{row[col.key]}</Cell>}
+            </Row>
+        )}
+    </TableBody>
 </TableView>
 ```
 
@@ -106,32 +107,32 @@ The design choice to export everything from one file ensures callers only need a
 
 ### `<TableView>`
 
-| Prop | Type | Default | Description |
-|------|------|---------|-------------|
-| `aria-label` | `string` | — | **Required** accessible label (or use `aria-labelledby`). |
-| `selectionMode` | `'none' \| 'single' \| 'multiple'` | `'none'` | Whether rows can be selected. |
-| `selectionBehavior` | `'toggle' \| 'replace'` | `'toggle'` | How selection changes on click. |
-| `sortDescriptor` | `SortDescriptor` | — | The current sort column and direction (controlled). |
-| `onSortChange` | `(descriptor: SortDescriptor) => void` | — | Called when the user clicks a sortable column header. |
-| `onAction` | `(key: Key) => void` | — | Called when the user activates a row (Enter / click). |
-| `loadingState` | `LoadingState` | — | Controls the table's loading indicator and spinner rows. |
-| `onLoadMore` | `() => void` | — | Called when the user scrolls near the bottom. |
-| `disabledKeys` | `Iterable<Key>` | — | Row keys that cannot be selected or activated. |
-| `density` | `'compact' \| 'regular' \| 'spacious'` | `'regular'` | Row height density. |
+| Prop                | Type                                   | Default     | Description                                               |
+| ------------------- | -------------------------------------- | ----------- | --------------------------------------------------------- |
+| `aria-label`        | `string`                               | —           | **Required** accessible label (or use `aria-labelledby`). |
+| `selectionMode`     | `'none' \| 'single' \| 'multiple'`     | `'none'`    | Whether rows can be selected.                             |
+| `selectionBehavior` | `'toggle' \| 'replace'`                | `'toggle'`  | How selection changes on click.                           |
+| `sortDescriptor`    | `SortDescriptor`                       | —           | The current sort column and direction (controlled).       |
+| `onSortChange`      | `(descriptor: SortDescriptor) => void` | —           | Called when the user clicks a sortable column header.     |
+| `onAction`          | `(key: Key) => void`                   | —           | Called when the user activates a row (Enter / click).     |
+| `loadingState`      | `LoadingState`                         | —           | Controls the table's loading indicator and spinner rows.  |
+| `onLoadMore`        | `() => void`                           | —           | Called when the user scrolls near the bottom.             |
+| `disabledKeys`      | `Iterable<Key>`                        | —           | Row keys that cannot be selected or activated.            |
+| `density`           | `'compact' \| 'regular' \| 'spacious'` | `'regular'` | Row height density.                                       |
 
 ### `<Column>`
 
-| Prop | Type | Default | Description |
-|------|------|---------|-------------|
-| `isRowHeader` | `boolean` | `false` | Marks the column as the primary row identifier (`role="rowheader"`). |
-| `allowsSorting` | `boolean` | `false` | Enables sort on click. |
-| `width` | `number \| string` | — | Fixed column width. |
+| Prop            | Type               | Default | Description                                                          |
+| --------------- | ------------------ | ------- | -------------------------------------------------------------------- |
+| `isRowHeader`   | `boolean`          | `false` | Marks the column as the primary row identifier (`role="rowheader"`). |
+| `allowsSorting` | `boolean`          | `false` | Enables sort on click.                                               |
+| `width`         | `number \| string` | —       | Fixed column width.                                                  |
 
 ### `<Cell>`
 
-| Prop | Type | Default | Description |
-|------|------|---------|-------------|
-| `textValue` | `string` | — | Plain-text version of the cell for screen reader announcements when the visual content is non-textual. |
+| Prop        | Type     | Default | Description                                                                                            |
+| ----------- | -------- | ------- | ------------------------------------------------------------------------------------------------------ |
+| `textValue` | `string` | —       | Plain-text version of the cell for screen reader announcements when the visual content is non-textual. |
 
 ## Accessibility
 
@@ -139,14 +140,14 @@ The design choice to export everything from one file ensures callers only need a
 
 `TableView` uses `role="grid"` (not `role="table"`) because the table is interactive — cells are focusable and rows are selectable. The static `role="table"` does not permit interactive descendant elements per the WAI-ARIA specification.
 
-| Element | ARIA role | Notes |
-|---------|-----------|-------|
-| `<TableView>` | `grid` | Interactive grid; single tab stop |
-| `<TableHeader>` row | `row` (in `rowgroup`) | Contains column headers |
-| `<Column>` | `columnheader` | Sortable columns get `aria-sort` |
-| `<TableBody>` | `rowgroup` | Contains data rows |
-| `<Row>` | `row` | `aria-selected` when selection is enabled |
-| `<Cell>` | `gridcell` | First column with `isRowHeader` → `rowheader` role |
+| Element             | ARIA role             | Notes                                              |
+| ------------------- | --------------------- | -------------------------------------------------- |
+| `<TableView>`       | `grid`                | Interactive grid; single tab stop                  |
+| `<TableHeader>` row | `row` (in `rowgroup`) | Contains column headers                            |
+| `<Column>`          | `columnheader`        | Sortable columns get `aria-sort`                   |
+| `<TableBody>`       | `rowgroup`            | Contains data rows                                 |
+| `<Row>`             | `row`                 | `aria-selected` when selection is enabled          |
+| `<Cell>`            | `gridcell`            | First column with `isRowHeader` → `rowheader` role |
 
 ### Required labelling
 
@@ -167,26 +168,26 @@ Mark the primary identifying column with `isRowHeader` on `<Column>`. This maps 
 
 ```tsx
 <TableHeader>
-  <Column isRowHeader>Name</Column>   {/* announced as row header */}
-  <Column>Type</Column>
-  <Column>Date Modified</Column>
+    <Column isRowHeader>Name</Column> {/* announced as row header */}
+    <Column>Type</Column>
+    <Column>Date Modified</Column>
 </TableHeader>
 ```
 
 ### Keyboard interactions
 
-| Key | Action |
-|-----|--------|
-| `Tab` | Moves focus into the table (single tab stop via roving `tabindex`) |
-| `Arrow Up / Down` | Moves focus between rows |
-| `Arrow Left / Right` | Moves focus between cells within a row |
-| `Space` | Toggles row selection (in `toggle` selection behaviour) |
-| `Enter` | Triggers `onAction` on the focused row |
-| `Escape` | Clears selection (configurable via `escapeKeyBehavior`) |
-| `Shift + Arrow Up/Down` | Extends selection range |
-| `Ctrl/Cmd + A` | Selects all rows |
-| `Home / End` | Moves focus to the first / last cell in a row |
-| `Page Up / Down` | Scrolls the table and moves focus one page |
+| Key                     | Action                                                             |
+| ----------------------- | ------------------------------------------------------------------ |
+| `Tab`                   | Moves focus into the table (single tab stop via roving `tabindex`) |
+| `Arrow Up / Down`       | Moves focus between rows                                           |
+| `Arrow Left / Right`    | Moves focus between cells within a row                             |
+| `Space`                 | Toggles row selection (in `toggle` selection behaviour)            |
+| `Enter`                 | Triggers `onAction` on the focused row                             |
+| `Escape`                | Clears selection (configurable via `escapeKeyBehavior`)            |
+| `Shift + Arrow Up/Down` | Extends selection range                                            |
+| `Ctrl/Cmd + A`          | Selects all rows                                                   |
+| `Home / End`            | Moves focus to the first / last cell in a row                      |
+| `Page Up / Down`        | Scrolls the table and moves focus one page                         |
 
 ### Focus management
 
@@ -198,7 +199,7 @@ For cells whose visual content is ambiguous (e.g., icon-only status indicators),
 
 ```tsx
 <Cell textValue="Published">
-  <CheckCircle aria-hidden />
+    <CheckCircle aria-hidden />
 </Cell>
 ```
 

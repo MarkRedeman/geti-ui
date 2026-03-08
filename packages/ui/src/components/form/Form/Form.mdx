@@ -20,6 +20,7 @@ import { Form } from '@geti/ui';
 `Form` is a transparent wrapper around Adobe React Spectrum's `Form`. It renders a native `<form>` element and establishes a React context that propagates layout settings and shared states to all descendant Spectrum form components automatically — without requiring each field to be configured individually.
 
 Key responsibilities:
+
 - **Layout propagation**: Sets `labelPosition` and `labelAlign` once at the form level; all child Spectrum fields inherit these values automatically.
 - **Necessity indicator**: Controls how required/optional fields are annotated — via an asterisk icon or text label — consistently across all fields.
 - **Shared disabled / required state**: `isDisabled` and `isRequired` cascade to every child Spectrum component, simplifying bulk state changes (e.g., disabling all fields during submission).
@@ -27,6 +28,7 @@ Key responsibilities:
 - **Focus management on error**: When `validationBehavior="native"` and submission fails, Spectrum automatically moves focus to the first invalid field — no manual `ref` management needed.
 
 ### When to use
+
 - When you have **two or more related input fields** that should be submitted together.
 - To ensure consistent label alignment and layout across multiple fields without configuring each field individually.
 - When you need form-wide disabled state during an async operation (e.g., while a submit request is in flight).
@@ -34,6 +36,7 @@ Key responsibilities:
 - When building settings panels or multi-field wizards where label position, necessity indicators, and validation behaviour should be uniform.
 
 ### When to avoid
+
 - **Single isolated fields** — use `TextField`, `Select`, or other field components directly without a `Form` wrapper.
 - **Non-submission groupings** — if you're visually grouping fields but there is no submit action, use a plain `<div>`, `Flex`, or `Grid` container instead to avoid creating a spurious `<form>` landmark.
 - **Purely decorative containers** — do not use `Form` to get consistent spacing; use layout primitives.
@@ -78,7 +81,7 @@ const serverErrors = {
 <Form validationErrors={serverErrors} validationBehavior="aria">
     <TextField label="Project name" name="name" />
     <TextField label="Email" name="email" />
-</Form>
+</Form>;
 ```
 
 Each field whose `name` matches a key in `validationErrors` will automatically render in an invalid state with the provided error message.
@@ -91,47 +94,49 @@ Each field whose `name` matches a key in `validationErrors` will automatically r
 
 ### Layout
 
-| Prop | Type | Default | Description |
-|------|------|---------|-------------|
-| `labelPosition` | `'top' \| 'side'` | `'top'` | Label position for all child fields. Can be overridden per field. |
-| `labelAlign` | `'start' \| 'end'` | `'start'` | Label text alignment when `labelPosition="side"`. |
-| `necessityIndicator` | `'icon' \| 'label'` | `'icon'` | How required/optional state is indicated next to field labels. |
+| Prop                 | Type                | Default   | Description                                                       |
+| -------------------- | ------------------- | --------- | ----------------------------------------------------------------- |
+| `labelPosition`      | `'top' \| 'side'`   | `'top'`   | Label position for all child fields. Can be overridden per field. |
+| `labelAlign`         | `'start' \| 'end'`  | `'start'` | Label text alignment when `labelPosition="side"`.                 |
+| `necessityIndicator` | `'icon' \| 'label'` | `'icon'`  | How required/optional state is indicated next to field labels.    |
 
 ### State
 
-| Prop | Type | Default | Description |
-|------|------|---------|-------------|
-| `isDisabled` | `boolean` | `false` | Disables all child Spectrum form components. |
+| Prop         | Type      | Default | Description                                           |
+| ------------ | --------- | ------- | ----------------------------------------------------- |
+| `isDisabled` | `boolean` | `false` | Disables all child Spectrum form components.          |
 | `isRequired` | `boolean` | `false` | Marks all child Spectrum form components as required. |
-| `isReadOnly` | `boolean` | `false` | Makes all child Spectrum form components read-only. |
+| `isReadOnly` | `boolean` | `false` | Makes all child Spectrum form components read-only.   |
 
 ### Validation
 
-| Prop | Type | Default | Description |
-|------|------|---------|-------------|
-| `validationBehavior` | `'aria' \| 'native'` | `'aria'` | Whether to use ARIA-only validation or native HTML5 constraint validation. |
-| `validationErrors` | `Record<string, string \| string[]>` | — | A map from field `name` to error message(s). Used to surface server-side validation errors. |
+| Prop                 | Type                                 | Default  | Description                                                                                 |
+| -------------------- | ------------------------------------ | -------- | ------------------------------------------------------------------------------------------- |
+| `validationBehavior` | `'aria' \| 'native'`                 | `'aria'` | Whether to use ARIA-only validation or native HTML5 constraint validation.                  |
+| `validationErrors`   | `Record<string, string \| string[]>` | —        | A map from field `name` to error message(s). Used to surface server-side validation errors. |
 
 ### Events
 
-| Prop | Type | Description |
-|------|------|-------------|
+| Prop       | Type                     | Description                                        |
+| ---------- | ------------------------ | -------------------------------------------------- |
 | `onSubmit` | `(e: FormEvent) => void` | Called when the form's submit button is activated. |
-| `onReset` | `(e: FormEvent) => void` | Called when the form is reset. |
+| `onReset`  | `(e: FormEvent) => void` | Called when the form is reset.                     |
 
 ### Content
 
-| Prop | Type | Description |
-|------|------|-------------|
+| Prop       | Type        | Description                   |
+| ---------- | ----------- | ----------------------------- |
 | `children` | `ReactNode` | The form fields and controls. |
 
 ## Related components
+
 - `TextField` — a common field child; participates in `Form` label alignment and validation context.
 - `Picker` — use for fixed-option select fields inside `Form`.
 - `ComboBox` — use for searchable or dynamic-option fields inside `Form`.
 - `Button` — use with `type="submit"` as the primary `Form` submission trigger.
 
 ## Example use cases
+
 <details>
   <summary>Typical use cases</summary>
 

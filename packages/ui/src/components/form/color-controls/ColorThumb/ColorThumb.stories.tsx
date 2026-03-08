@@ -3,7 +3,7 @@ import type { Meta, StoryObj } from '@storybook/react';
 import { ColorThumb, Flex } from '@geti/ui';
 
 const meta: Meta<typeof ColorThumb> = {
-    tags: ["!dev"],
+    tags: ['!dev'],
     component: ColorThumb,
     title: 'Form/Color controls/ColorThumb',
     argTypes: {

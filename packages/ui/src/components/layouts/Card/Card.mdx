@@ -11,7 +11,6 @@ A Card is a flexible content container used to group related information and act
 import { Card } from '@geti/ui';
 ```
 
-
 <Stories />
 
 ## Responsibility
@@ -19,18 +18,21 @@ import { Card } from '@geti/ui';
 `Card` is the primary surface primitive for representing discrete items in a collection — projects, datasets, models, or any entity that deserves a distinct visual boundary. It wraps Spectrum's `View` to apply themed borders, background, and padding, and automatically chooses the correct HTML element based on whether the card is interactive.
 
 Key responsibilities:
+
 - **Visual Containment**: Groups related content (images, text, actions) into a distinct visual unit with a bordered, rounded surface.
 - **Semantic Branching**: Automatically renders as `<article>` for static content or `<button>` for interactive cards, based on the presence of `onPress`.
 - **Selection State**: Provides built-in visual feedback — an "informative" background and a "focus" border — when `isSelected` is `true`.
 - **Theme Integration**: All colours, borders, and spacing use Spectrum design tokens so the card adapts correctly to the Geti dark theme.
 
 ### When to use
+
 - To represent individual items in a collection (e.g., a project list, a model gallery, a dataset browser).
 - To group related information that requires a clear visual boundary and a "surface" metaphor.
 - When an entire area of content needs to be clickable or selectable as a single unit.
 - When you need built-in selection state visuals without writing custom CSS.
 
 ### When to avoid
+
 - For simple grouping without the need for a border or background — use `Flex` or `Grid` instead.
 - For secondary or supplementary information that should recede visually — use a `Well`.
 - When the content is part of a sequential flow and does not represent a standalone entity (e.g., a wizard step).
@@ -69,7 +71,12 @@ export const Card = ({
                     aria-pressed={isSelected}
                     disabled={isDisabled}
                     onClick={isDisabled ? undefined : onPress}
-                    style={{ all: 'unset', display: 'block', width: '100%', cursor: isDisabled ? 'not-allowed' : 'pointer' }}
+                    style={{
+                        all: 'unset',
+                        display: 'block',
+                        width: '100%',
+                        cursor: isDisabled ? 'not-allowed' : 'pointer',
+                    }}
                 >
                     {children}
                 </button>
@@ -122,22 +129,24 @@ export const Card = ({
 // Driving selection from a Set
 const [selectedIds, setSelectedIds] = useState<Set<string>>(new Set());
 
-{projects.map(project => (
-    <Card
-        key={project.id}
-        aria-label={project.name}
-        isSelected={selectedIds.has(project.id)}
-        onPress={() => {
-            setSelectedIds(prev => {
-                const next = new Set(prev);
-                next.has(project.id) ? next.delete(project.id) : next.add(project.id);
-                return next;
-            });
-        }}
-    >
-        <ProjectSummary project={project} />
-    </Card>
-))}
+{
+    projects.map((project) => (
+        <Card
+            key={project.id}
+            aria-label={project.name}
+            isSelected={selectedIds.has(project.id)}
+            onPress={() => {
+                setSelectedIds((prev) => {
+                    const next = new Set(prev);
+                    next.has(project.id) ? next.delete(project.id) : next.add(project.id);
+                    return next;
+                });
+            }}
+        >
+            <ProjectSummary project={project} />
+        </Card>
+    ));
+}
 ```
 
 ### Disabled
@@ -146,7 +155,7 @@ const [selectedIds, setSelectedIds] = useState<Set<string>>(new Set());
 <Card
     aria-label="Unavailable project"
     isDisabled
-    onPress={() => {}}  // still required to activate interactive mode
+    onPress={() => {}} // still required to activate interactive mode
 >
     <strong>Project Gamma</strong>
     <p>Segmentation · processing…</p>
@@ -159,7 +168,7 @@ The most common layout pattern: combine `Card` with `Grid` for a responsive gall
 
 ```tsx
 <Grid columns="repeat(auto-fill, minmax(260px, 1fr))" gap="size-300">
-    {models.map(model => (
+    {models.map((model) => (
         <Card
             key={model.id}
             aria-label={model.name}
@@ -169,7 +178,9 @@ The most common layout pattern: combine `Card` with `Grid` for a responsive gall
             <ModelThumbnail src={model.thumbnail} />
             <Flex direction="column" gap="size-50" marginTop="size-100">
                 <strong>{model.name}</strong>
-                <span>{model.type} · {model.accuracy}%</span>
+                <span>
+                    {model.type} · {model.accuracy}%
+                </span>
             </Flex>
         </Card>
     ))}
@@ -178,14 +189,14 @@ The most common layout pattern: combine `Card` with `Grid` for a responsive gall
 
 ## Props
 
-| Prop | Type | Default | Description |
-| --- | --- | --- | --- |
-| `children` | `ReactNode` | — | The content to be rendered inside the card. |
-| `onPress` | `() => void` | — | Handler called when the card is pressed. If provided, the card renders as a `<button>`; otherwise as an `<article>`. |
-| `isSelected` | `boolean` | `false` | Whether the card is in a selected state. Applies focus-border and informative-background tokens. |
-| `isDisabled` | `boolean` | `false` | Whether the interactive card is disabled. Only applies when `onPress` is provided. |
-| `aria-label` | `string` | — | An accessible label for the card. Should always be provided. |
-| `UNSAFE_className` | `string` | — | A CSS class name applied to the outer `View`. Use only when token overrides are insufficient. |
+| Prop               | Type         | Default | Description                                                                                                          |
+| ------------------ | ------------ | ------- | -------------------------------------------------------------------------------------------------------------------- |
+| `children`         | `ReactNode`  | —       | The content to be rendered inside the card.                                                                          |
+| `onPress`          | `() => void` | —       | Handler called when the card is pressed. If provided, the card renders as a `<button>`; otherwise as an `<article>`. |
+| `isSelected`       | `boolean`    | `false` | Whether the card is in a selected state. Applies focus-border and informative-background tokens.                     |
+| `isDisabled`       | `boolean`    | `false` | Whether the interactive card is disabled. Only applies when `onPress` is provided.                                   |
+| `aria-label`       | `string`     | —       | An accessible label for the card. Should always be provided.                                                         |
+| `UNSAFE_className` | `string`     | —       | A CSS class name applied to the outer `View`. Use only when token overrides are insufficient.                        |
 
 ## Integration
 
@@ -197,7 +208,7 @@ import { Grid } from '@geti/ui';
 
 // Typical usage: card gallery inside a Grid
 <Grid columns="repeat(auto-fill, minmax(280px, 1fr))" gap="size-300">
-    {items.map(item => (
+    {items.map((item) => (
         <Card
             key={item.id}
             aria-label={item.title}
@@ -207,7 +218,7 @@ import { Grid } from '@geti/ui';
             <ItemPreview item={item} />
         </Card>
     ))}
-</Grid>
+</Grid>;
 ```
 
 **Adding inner actions**: Place a `Flex` inside the card to add secondary action buttons. Make the card static (no `onPress`) and handle interactions per element to avoid the entire card being one large focusable button.
@@ -232,9 +243,9 @@ import { Grid } from '@geti/ui';
 - **`aria-label` is required**: The `<article>` and `<button>` elements both carry an `aria-label`. Without it, screen reader users hear the raw text content of the card with no structural context. Always pass a short, unique label that identifies the item (e.g., `"Project Alpha"`, `"Detection model v3"`).
 - **`aria-pressed` for selection**: Interactive cards set `aria-pressed={isSelected}` on the `<button>`. This communicates the current selection state to screen readers as a toggle button.
 - **Keyboard interactions** (interactive mode only):
-  - `Enter` / `Space` — activates the card (fires `onPress`).
-  - `Tab` — moves focus to the next interactive card or focusable element.
-  - `Shift+Tab` — moves focus to the previous interactive element.
+    - `Enter` / `Space` — activates the card (fires `onPress`).
+    - `Tab` — moves focus to the next interactive card or focusable element.
+    - `Shift+Tab` — moves focus to the previous interactive element.
 - **Disabled state**: `disabled` is set natively on the `<button>`, which removes it from the tab order and prevents activation. Additionally, `aria-disabled={isDisabled}` is set so the disabled state is announced even if the element is visually styled to look non-interactive.
 - **Avoid nesting interactive elements inside an interactive card**: If an `onPress` handler is provided, do not also place `Button` or `Link` children inside the card. Nested interactive elements create an invalid accessibility tree (buttons inside buttons) and confuse keyboard navigation.
 

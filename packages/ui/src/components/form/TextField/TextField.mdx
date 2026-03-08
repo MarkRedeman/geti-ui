@@ -22,11 +22,13 @@ import { TextField } from '@geti/ui';
 `onChange` receives the **string value** directly — no `.target.value` unwrapping needed.
 
 ### When to use
+
 - For short, bounded text inputs: names, emails, usernames, URLs, short descriptions.
 - When the input is a single line and does not require multi-line entry.
 - When you need to communicate validation state clearly with `validationState="invalid"` and `errorMessage`.
 
 ### When to avoid
+
 - **Multi-line input** — use `TextArea`.
 - **Search inputs** — use `SearchField` (built-in clear button and search icon).
 - **Numeric inputs** — use `NumberField` (stepper buttons, `role="spinbutton"`).
@@ -35,15 +37,15 @@ import { TextField } from '@geti/ui';
 
 ## States
 
-| State | Prop | Description |
-|-------|------|-------------|
-| Default | — | Standard interactive field. |
-| Invalid | `validationState="invalid"` | Red border, error icon, `errorMessage` below the field. |
-| Valid | `validationState="valid"` | Green border, checkmark. Use sparingly. |
-| Disabled | `isDisabled={true}` | Non-focusable, visually dimmed. |
-| Read-only | `isReadOnly={true}` | Focusable and copy-able, but not editable. |
-| Required | `isRequired={true}` | Visual asterisk and `aria-required="true"`. |
-| Quiet | `isQuiet={true}` | Underline-only border for dense or settings-panel layouts. |
+| State     | Prop                        | Description                                                |
+| --------- | --------------------------- | ---------------------------------------------------------- |
+| Default   | —                           | Standard interactive field.                                |
+| Invalid   | `validationState="invalid"` | Red border, error icon, `errorMessage` below the field.    |
+| Valid     | `validationState="valid"`   | Green border, checkmark. Use sparingly.                    |
+| Disabled  | `isDisabled={true}`         | Non-focusable, visually dimmed.                            |
+| Read-only | `isReadOnly={true}`         | Focusable and copy-able, but not editable.                 |
+| Required  | `isRequired={true}`         | Visual asterisk and `aria-required="true"`.                |
+| Quiet     | `isQuiet={true}`            | Underline-only border for dense or settings-panel layouts. |
 
 Use `labelPosition="side"` to place the label to the left for aligned form layouts.
 
@@ -53,49 +55,51 @@ Use `labelPosition="side"` to place the label to the left for aligned form layou
 
 ### Content
 
-| Prop | Type | Description |
-|------|------|-------------|
-| `label` | `ReactNode` | The label above or beside the field. Required for accessibility unless `aria-label` is provided. |
-| `placeholder` | `string` | Hint text when empty. Supplement labels — do not substitute for them. |
-| `description` | `ReactNode` | Persistent helper text below the field. |
-| `errorMessage` | `ReactNode` | Error message shown when `validationState="invalid"`. |
-| `contextualHelp` | `ReactNode` | A `<ContextualHelp>` popover anchored to the label. |
+| Prop             | Type        | Description                                                                                      |
+| ---------------- | ----------- | ------------------------------------------------------------------------------------------------ |
+| `label`          | `ReactNode` | The label above or beside the field. Required for accessibility unless `aria-label` is provided. |
+| `placeholder`    | `string`    | Hint text when empty. Supplement labels — do not substitute for them.                            |
+| `description`    | `ReactNode` | Persistent helper text below the field.                                                          |
+| `errorMessage`   | `ReactNode` | Error message shown when `validationState="invalid"`.                                            |
+| `contextualHelp` | `ReactNode` | A `<ContextualHelp>` popover anchored to the label.                                              |
 
 ### Value / State
 
-| Prop | Type | Default | Description |
-|------|------|---------|-------------|
-| `value` | `string` | — | The current value (controlled). |
-| `defaultValue` | `string` | — | The initial value (uncontrolled). |
-| `type` | `string` | `'text'` | The `<input>` type (`'text'`, `'email'`, `'url'`, `'password'`, etc.). |
-| `validationState` | `'valid' \| 'invalid'` | — | Visual and ARIA validation state. |
-| `isRequired` | `boolean` | `false` | Adds a visual asterisk and `aria-required`. |
-| `isReadOnly` | `boolean` | `false` | Value visible but not editable. |
-| `isDisabled` | `boolean` | `false` | Non-interactive and visually dimmed. |
-| `maxLength` | `number` | — | Maximum number of characters allowed. |
-| `isQuiet` | `boolean` | `false` | Underline-only border style. |
+| Prop              | Type                   | Default  | Description                                                            |
+| ----------------- | ---------------------- | -------- | ---------------------------------------------------------------------- |
+| `value`           | `string`               | —        | The current value (controlled).                                        |
+| `defaultValue`    | `string`               | —        | The initial value (uncontrolled).                                      |
+| `type`            | `string`               | `'text'` | The `<input>` type (`'text'`, `'email'`, `'url'`, `'password'`, etc.). |
+| `validationState` | `'valid' \| 'invalid'` | —        | Visual and ARIA validation state.                                      |
+| `isRequired`      | `boolean`              | `false`  | Adds a visual asterisk and `aria-required`.                            |
+| `isReadOnly`      | `boolean`              | `false`  | Value visible but not editable.                                        |
+| `isDisabled`      | `boolean`              | `false`  | Non-interactive and visually dimmed.                                   |
+| `maxLength`       | `number`               | —        | Maximum number of characters allowed.                                  |
+| `isQuiet`         | `boolean`              | `false`  | Underline-only border style.                                           |
 
 ### Events
 
-| Prop | Type | Description |
-|------|------|-------------|
-| `onChange` | `(value: string) => void` | Called on every value change. Receives the new string directly. |
-| `onBlur` | `(e: FocusEvent) => void` | Called when the field loses focus. Commonly used to trigger validation. |
+| Prop       | Type                      | Description                                                             |
+| ---------- | ------------------------- | ----------------------------------------------------------------------- |
+| `onChange` | `(value: string) => void` | Called on every value change. Receives the new string directly.         |
+| `onBlur`   | `(e: FocusEvent) => void` | Called when the field loses focus. Commonly used to trigger validation. |
 
 ### Layout
 
-| Prop | Type | Description |
-|------|------|-------------|
+| Prop            | Type              | Description                           |
+| --------------- | ----------------- | ------------------------------------- |
 | `labelPosition` | `'top' \| 'side'` | Label position relative to the input. |
-| `width` | `DimensionValue` | The width of the entire component. |
+| `width`         | `DimensionValue`  | The width of the entire component.    |
 
 ## Related components
+
 - `TextArea` — use instead for multi-line free-text entry.
 - `SearchField` — use instead when the input's semantic purpose is filtering or querying.
 - `NumberField` — use instead for numeric-only inputs with stepper buttons.
 - `PasswordField` — use instead when the input must mask its value and include a reveal toggle.
 
 ## Example use cases
+
 <details>
   <summary>Typical use cases</summary>
 

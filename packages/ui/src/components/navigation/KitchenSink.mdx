@@ -11,14 +11,14 @@ The `navigation/` category owns **components that move the user through the appl
 
 Components in this folder:
 
-| Component | Purpose |
-|---|---|
-| `Tabs` / `TabList` / `TabPanels` / `Item` | Sectioned view switcher with accessible tab controls |
-| `Menu` / `MenuTrigger` / `Item` / `Section` | Floating action/option menu triggered by a button |
-| `ActionMenu` | Pre-composed `ActionButton` + `Menu` in one component |
-| `Breadcrumbs` / `Item` | Hierarchical location trail with ancestor links |
-| `Link` | Accessible inline hyperlink |
-| `MediaViewModes` | Icon button + menu to switch between list/grid view modes |
+| Component                                   | Purpose                                                   |
+| ------------------------------------------- | --------------------------------------------------------- |
+| `Tabs` / `TabList` / `TabPanels` / `Item`   | Sectioned view switcher with accessible tab controls      |
+| `Menu` / `MenuTrigger` / `Item` / `Section` | Floating action/option menu triggered by a button         |
+| `ActionMenu`                                | Pre-composed `ActionButton` + `Menu` in one component     |
+| `Breadcrumbs` / `Item`                      | Hierarchical location trail with ancestor links           |
+| `Link`                                      | Accessible inline hyperlink                               |
+| `MediaViewModes`                            | Icon button + menu to switch between list/grid view modes |
 
 ---
 
@@ -47,6 +47,7 @@ This pattern is repeated for `Tabs` (`TabList`, `TabPanels`, `Item`), `Breadcrum
 ### Tabs decomposition
 
 `Tabs` is decomposed into four co-located files:
+
 - `Tabs.tsx` — the outer wrapper
 - `TabList.tsx` — the row of tab triggers
 - `TabPanels.tsx` — the panel container
@@ -59,6 +60,7 @@ This pattern is repeated for `Tabs` (`TabList`, `TabPanels`, `Item`), `Breadcrum
 ### MediaViewModes — Geti-native composite
 
 `MediaViewModes` is a bespoke Geti component with no direct Spectrum equivalent. It:
+
 1. Renders the icon for the **current** view mode as the `ActionButton` label.
 2. Opens a `Menu` (from `@adobe/react-spectrum` directly) with all available modes.
 3. Handles `onAction` by matching the selection key to a `ViewModes` enum value and calling `setViewMode`.
@@ -84,7 +86,6 @@ Icons come from `@spectrum-icons/workflow` (List, ViewGrid, ModernGridView, Clas
 - **Consumed by**: application shell (tabs for workspace switching), toolbar areas (ActionMenu, MediaViewModes), page headers (Breadcrumbs), and inline content (Link).
 - **Theme**: inherits Geti dark tokens via `ThemeProvider`; `--spectrum-tabs-*` overrides in `geti-dark.module.css` ensure the tab selection indicator uses the Geti blue.
 
-
 ---
 
 <Stories />
@@ -96,4 +97,3 @@ Icons come from `@spectrum-icons/workflow` (List, ViewGrid, ModernGridView, Clas
 ## Props
 
 <Controls />
-

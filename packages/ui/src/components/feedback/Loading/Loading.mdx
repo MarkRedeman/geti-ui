@@ -20,12 +20,14 @@ import { Loading } from '@geti/ui';
 `Loading` is the **single source of truth** for "something is loading" communication across the Geti application. It unifies two visual styles (`spinner`, `intel`) and three layout modes (`inline`, `overlay`, `fullscreen`) into one composable API, eliminating the need for ad-hoc CSS positioning on every loading state.
 
 Key responsibilities:
+
 - **Mode-based positioning**: Computes a `CSSProperties` object for each mode, removing the need for consumers to add wrapper divs with `position: fixed` or `position: absolute`.
 - **Variant switching**: Renders either a Spectrum `ProgressCircle` or an Intel-branded WebP animation, keeping the outer wrapper structure identical for both.
 - **Size normalization**: The `size` prop maps to Spectrum's `S | M | L` tokens for the spinner, and to explicit pixel sizes (`24 | 48 | 192 px`) for the Intel animation via `INTEL_SIZE_MAP`.
 - **Scrim support**: For `overlay` and `fullscreen` modes, a `backgroundColor` can be passed via the `style` prop to create a dimming scrim without a separate overlay element.
 
 ### When to use
+
 - As the primary loading indicator during data fetching, model inference, or navigation transitions.
 - Use `mode="overlay"` when loading content within a bounded container (e.g., a card, panel, or modal) that should be blocked while loading.
 - Use `mode="fullscreen"` for application-level loading states (e.g., initial app bootstrap, full-page transitions).
@@ -33,6 +35,7 @@ Key responsibilities:
 - Use `variant="intel"` for prominent, brand-forward splash screens on the Intel platform.
 
 ### When to avoid
+
 - For skeleton-style content placeholders — use `Skeleton`, which preserves layout and communicates content shape.
 - For progress with a known completion percentage — use `ProgressBar` or `ProgressCircle` directly.
 - For tiny inline status icons — use `StatusLight`.
@@ -42,18 +45,18 @@ Key responsibilities:
 
 ### Mode
 
-| Mode | Positioning | Typical use |
-|------|-------------|-------------|
-| `inline` | `display: flex`, no positioning | Participates in document flow; inside a container |
-| `overlay` | `position: absolute; inset: 0` | Blocks a `position: relative` parent container |
-| `fullscreen` | `position: fixed; inset: 0` | Full-application blocking overlay |
+| Mode         | Positioning                     | Typical use                                       |
+| ------------ | ------------------------------- | ------------------------------------------------- |
+| `inline`     | `display: flex`, no positioning | Participates in document flow; inside a container |
+| `overlay`    | `position: absolute; inset: 0`  | Blocks a `position: relative` parent container    |
+| `fullscreen` | `position: fixed; inset: 0`     | Full-application blocking overlay                 |
 
 ### Variant
 
-| Variant | Inner content | Size mapping |
-|---------|---------------|--------------|
-| `spinner` | Spectrum `ProgressCircle isIndeterminate` | Spectrum S / M / L tokens |
-| `intel` | `<img>` from Intel loading WebP asset | `S=24px`, `M=48px`, `L=192px` |
+| Variant   | Inner content                             | Size mapping                  |
+| --------- | ----------------------------------------- | ----------------------------- |
+| `spinner` | Spectrum `ProgressCircle isIndeterminate` | Spectrum S / M / L tokens     |
+| `intel`   | `<img>` from Intel loading WebP asset     | `S=24px`, `M=48px`, `L=192px` |
 
 ## Design
 
@@ -86,13 +89,13 @@ Two orthogonal axes — `mode` and `variant` — are resolved independently at r
 
 ## Props
 
-| Prop | Type | Default | Description |
-|------|------|---------|-------------|
-| `mode` | `'inline' \| 'overlay' \| 'fullscreen'` | `'fullscreen'` | Controls the CSS positioning strategy of the outer wrapper. |
-| `variant` | `'spinner' \| 'intel'` | `'spinner'` | Selects the visual loading indicator. |
-| `size` | `'S' \| 'M' \| 'L'` | `'L'` | Size of the indicator. Pixel values differ between variants (see table above). |
-| `style` | `CSSProperties` | `{}` | Additional inline styles merged into the outer wrapper (e.g., `backgroundColor` for a scrim). |
-| `className` | `string` | — | Additional CSS class names on the outer wrapper. |
+| Prop        | Type                                    | Default        | Description                                                                                   |
+| ----------- | --------------------------------------- | -------------- | --------------------------------------------------------------------------------------------- |
+| `mode`      | `'inline' \| 'overlay' \| 'fullscreen'` | `'fullscreen'` | Controls the CSS positioning strategy of the outer wrapper.                                   |
+| `variant`   | `'spinner' \| 'intel'`                  | `'spinner'`    | Selects the visual loading indicator.                                                         |
+| `size`      | `'S' \| 'M' \| 'L'`                     | `'L'`          | Size of the indicator. Pixel values differ between variants (see table above).                |
+| `style`     | `CSSProperties`                         | `{}`           | Additional inline styles merged into the outer wrapper (e.g., `backgroundColor` for a scrim). |
+| `className` | `string`                                | —              | Additional CSS class names on the outer wrapper.                                              |
 
 All other props from `SpectrumProgressCircleProps` are forwarded to `ProgressCircle` in `spinner` mode.
 
@@ -105,12 +108,14 @@ All other props from `SpectrumProgressCircleProps` are forwarded to `ProgressCir
 - **Keyboard**: The loading indicator itself is not interactive and receives no focus.
 
 ## Related components
+
 - **`Skeleton`** — use when the content shape is known and layout preservation reduces perceived load time; `Skeleton` complements `Loading` for structured placeholder UIs.
 - **`ProgressBar`** — use when the loading operation has a measurable completion percentage that should be communicated to the user.
 - **`ProgressCircle`** — use as the raw spinner primitive in tight layout slots (e.g. inside a button, table cell) without `Loading`'s positioning wrapper.
 - **`IntelBrandedLoading`** — deprecated; use `<Loading variant="intel" mode="inline" size="L" />` for the Intel-branded animation in new code.
 
 ## Example use cases
+
 <details>
   <summary>Typical use cases</summary>
 

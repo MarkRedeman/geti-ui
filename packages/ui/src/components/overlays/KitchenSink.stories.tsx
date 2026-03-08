@@ -97,7 +97,8 @@ const OverlaysKitchenSink = () => (
                         color: 'var(--spectrum-global-color-gray-600)',
                     }}
                 >
-                    Showcase of all overlay components: tooltips, popovers, dialogs, alert dialogs, contextual help, and fullscreen actions.
+                    Showcase of all overlay components: tooltips, popovers, dialogs, alert dialogs, contextual help, and
+                    fullscreen actions.
                 </p>
             </View>
 
@@ -124,7 +125,9 @@ const OverlaysKitchenSink = () => (
                         <Tooltip>Tooltip at end</Tooltip>
                     </TooltipTrigger>
                     <TooltipTrigger isDisabled>
-                        <Button variant="secondary" isDisabled>Disabled</Button>
+                        <Button variant="secondary" isDisabled>
+                            Disabled
+                        </Button>
                         <Tooltip>You won&apos;t see this</Tooltip>
                     </TooltipTrigger>
                 </Flex>
@@ -172,7 +175,12 @@ const OverlaysKitchenSink = () => (
                             </p>
                         </Flex>
                     </CustomPopover>
-                    <CustomPopover triggerElement={<AriaButton>With arrow</AriaButton>} showArrow placement="bottom" width={240}>
+                    <CustomPopover
+                        triggerElement={<AriaButton>With arrow</AriaButton>}
+                        showArrow
+                        placement="bottom"
+                        width={240}
+                    >
                         <Flex direction="column" gap="size-75" UNSAFE_style={{ padding: '10px 14px' }}>
                             <strong>Arrow popover</strong>
                             <p style={{ margin: 0, fontSize: '0.875rem' }}>Directional arrow points to the trigger.</p>
@@ -192,12 +200,17 @@ const OverlaysKitchenSink = () => (
                                 <Heading>Modal dialog</Heading>
                                 <SpectrumDivider />
                                 <Content>
-                                    This is a full modal dialog. It blocks interaction with the rest of the page until dismissed.
+                                    This is a full modal dialog. It blocks interaction with the rest of the page until
+                                    dismissed.
                                 </Content>
                                 <Footer>
                                     <ButtonGroup>
-                                        <Button variant="secondary" onPress={close}>Cancel</Button>
-                                        <Button variant="accent" onPress={close}>Confirm</Button>
+                                        <Button variant="secondary" onPress={close}>
+                                            Cancel
+                                        </Button>
+                                        <Button variant="accent" onPress={close}>
+                                            Confirm
+                                        </Button>
                                     </ButtonGroup>
                                 </Footer>
                             </Dialog>
@@ -288,7 +301,10 @@ const OverlaysKitchenSink = () => (
                         <ContextualHelp variant="info">
                             <Heading>About confidence threshold</Heading>
                             <Content>
-                                <Text>This value controls the minimum confidence score required before a detection is accepted.</Text>
+                                <Text>
+                                    This value controls the minimum confidence score required before a detection is
+                                    accepted.
+                                </Text>
                             </Content>
                         </ContextualHelp>
                     </Flex>
@@ -309,9 +325,16 @@ const OverlaysKitchenSink = () => (
                             UNSAFE_style={{ padding: '40px' }}
                         >
                             <Text>
-                                This is the fullscreen content area. Use this for immersive editing, annotation, or viewing experiences where the full viewport is needed.
+                                This is the fullscreen content area. Use this for immersive editing, annotation, or
+                                viewing experiences where the full viewport is needed.
                             </Text>
-                            <View backgroundColor="gray-200" borderRadius="medium" width="100%" height="size-3600" UNSAFE_style={{ maxWidth: '600px' }} />
+                            <View
+                                backgroundColor="gray-200"
+                                borderRadius="medium"
+                                width="100%"
+                                height="size-3600"
+                                UNSAFE_style={{ maxWidth: '600px' }}
+                            />
                         </Flex>
                     </FullscreenAction>
                     <Text>Click the expand icon to open fullscreen</Text>
@@ -326,7 +349,7 @@ const OverlaysKitchenSink = () => (
 // ---------------------------------------------------------------------------
 
 const meta: Meta<typeof OverlaysKitchenSink> = {
-    tags: ["!dev"],
+    tags: ['!dev'],
     component: OverlaysKitchenSink,
     title: 'Kitchen sink/Overlays',
     parameters: {

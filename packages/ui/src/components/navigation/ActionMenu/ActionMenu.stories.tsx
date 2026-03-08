@@ -7,7 +7,7 @@ import { Item } from '@adobe/react-spectrum';
 import { ActionMenu } from '@geti/ui';
 
 const meta: Meta<typeof ActionMenu> = {
-    tags: ["!dev"],
+    tags: ['!dev'],
     component: ActionMenu,
     title: 'Navigation/ActionMenu',
     parameters: {

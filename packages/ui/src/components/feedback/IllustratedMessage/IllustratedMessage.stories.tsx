@@ -8,7 +8,7 @@ import { Content, Heading } from '@adobe/react-spectrum';
 import { IllustratedMessage } from '@geti/ui';
 
 const meta: Meta<typeof IllustratedMessage> = {
-    tags: ["!dev"],
+    tags: ['!dev'],
     component: IllustratedMessage,
     title: 'Feedback/IllustratedMessage',
     parameters: {

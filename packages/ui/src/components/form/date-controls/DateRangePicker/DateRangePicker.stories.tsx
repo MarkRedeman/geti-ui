@@ -3,7 +3,7 @@ import type { Meta, StoryObj } from '@storybook/react';
 import { DateRangePicker } from '@geti/ui';
 
 const meta: Meta<typeof DateRangePicker> = {
-    tags: ["!dev"],
+    tags: ['!dev'],
     component: DateRangePicker,
     title: 'Form/Date controls/DateRangePicker',
     argTypes: {

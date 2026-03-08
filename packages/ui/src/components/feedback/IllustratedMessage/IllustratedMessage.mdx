@@ -20,19 +20,22 @@ import { IllustratedMessage, Heading, Content } from '@geti/ui';
 `IllustratedMessage` is a specialized layout component designed to fill a large, prominent empty area. It typically consists of a decorative illustration, a heading (title), and body content (description).
 
 ### When to use IllustratedMessage
+
 - **Empty States**: Filling a large empty table, list, or canvas when no results are found.
 - **Section-level Errors**: Displaying full-page or section-level errors like a 404 or 500 page.
 - **First-use Onboarding**: Prompting a user to take an initial action, such as "Create your first dataset."
 - **Drag-and-Drop Targets**: Providing a visual target for file uploads.
 
 ### Comparison with other components
-| Scenario | Use instead |
-| :--- | :--- |
-| Brief, dismissible status message | `Toast` or `InlineAlert` |
-| Warning or error inline within a form | `InlineAlert` |
-| Destructive confirmation with action | `AlertDialog` |
+
+| Scenario                              | Use instead              |
+| :------------------------------------ | :----------------------- |
+| Brief, dismissible status message     | `Toast` or `InlineAlert` |
+| Warning or error inline within a form | `InlineAlert`            |
+| Destructive confirmation with action  | `AlertDialog`            |
 
 ### Usage Rules
+
 - **Always provide a Heading**: The heading acts as the accessible name of the message for screen readers.
 - **Spectrum Illustrations**: Use standard Adobe Spectrum illustrations for visual consistency.
 - **Not for inline validation**: Use field-level error messages for form validation instead of `IllustratedMessage`.
@@ -50,43 +53,45 @@ The layout is responsive and centers content within its parent container, making
 ## Integration
 
 ### Paired with DropZone
+
 A common pattern for file uploads is to place an `IllustratedMessage` inside a `DropZone`.
 
 ```tsx
 <DropZone onDrop={handleDrop}>
-  <IllustratedMessage>
-    <FileIcon />
-    <Heading>Drop files here</Heading>
-    <Content>Or click to browse from your computer</Content>
-  </IllustratedMessage>
+    <IllustratedMessage>
+        <FileIcon />
+        <Heading>Drop files here</Heading>
+        <Content>Or click to browse from your computer</Content>
+    </IllustratedMessage>
 </DropZone>
 ```
 
 ### Empty List State
+
 Use `IllustratedMessage` as the `renderEmptyState` prop in collection components.
 
 ```tsx
 <ListView
-  items={items}
-  renderEmptyState={() => (
-    <IllustratedMessage>
-      <NoResultsIllustration />
-      <Heading>No items found</Heading>
-      <Content>Try adjusting your search or filters.</Content>
-    </IllustratedMessage>
-  )}
+    items={items}
+    renderEmptyState={() => (
+        <IllustratedMessage>
+            <NoResultsIllustration />
+            <Heading>No items found</Heading>
+            <Content>Try adjusting your search or filters.</Content>
+        </IllustratedMessage>
+    )}
 >
-  {/* List items */}
+    {/* List items */}
 </ListView>
 ```
 
 ## Props
 
-| Prop | Type | Default | Description |
-| :--- | :--- | :--- | :--- |
-| `children` | `ReactNode` | — | The illustration, `Heading`, and `Content` elements. |
-| `UNSAFE_className` | `string` | — | CSS class name to apply to the container. |
-| Spectrum style props | — | — | Supports standard layout props like `margin`, `width`, etc. |
+| Prop                 | Type        | Default | Description                                                 |
+| :------------------- | :---------- | :------ | :---------------------------------------------------------- |
+| `children`           | `ReactNode` | —       | The illustration, `Heading`, and `Content` elements.        |
+| `UNSAFE_className`   | `string`    | —       | CSS class name to apply to the container.                   |
+| Spectrum style props | —           | —       | Supports standard layout props like `margin`, `width`, etc. |
 
 ## Accessibility
 
@@ -96,12 +101,14 @@ Use `IllustratedMessage` as the `renderEmptyState` prop in collection components
 - If the message represents a live change in state (e.g., a search results list that just became empty), wrap the component in an `aria-live="polite"` region.
 
 ## Related components
+
 - **`InlineAlert`** — use for compact, in-flow status messages (info, warning, error) that don't require a large illustration; `IllustratedMessage` is for prominent empty-state areas.
 - **`Toast`** — use for transient, auto-dismissing event notifications rather than persistent empty or error states.
 - **`Loading`** — use alongside `IllustratedMessage` to replace the illustrated placeholder while data is being fetched, then reveal the message if the result is empty.
 - **`ListView` / `CardView`** — these collection components accept an `IllustratedMessage` via `renderEmptyState` for their built-in empty state slot.
 
 ## Example use cases
+
 <details>
   <summary>Typical use cases</summary>
 

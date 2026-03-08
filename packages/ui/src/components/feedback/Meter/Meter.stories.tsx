@@ -6,7 +6,7 @@ import type { Meta, StoryObj } from '@storybook/react';
 import { Meter } from '@geti/ui';
 
 const meta: Meta<typeof Meter> = {
-    tags: ["!dev"],
+    tags: ['!dev'],
     component: Meter,
     title: 'Feedback/Meter',
     argTypes: {

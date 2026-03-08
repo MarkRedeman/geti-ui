@@ -5,7 +5,10 @@ import * as DocStories from './TimeField.stories';
 
 # TimeField
 
-<Subtitle>A segment-based time input that lets users type hours, minutes, and seconds independently using the keyboard, scoped purely to time values.</Subtitle>
+<Subtitle>
+    A segment-based time input that lets users type hours, minutes, and seconds independently using the keyboard, scoped
+    purely to time values.
+</Subtitle>
 
 ```tsx
 import { TimeField } from '@geti/ui';
@@ -22,18 +25,21 @@ import { TimeField } from '@geti/ui';
 `TimeField` is a thin wrapper around Adobe React Spectrum's `TimeField`. It renders a time value as individually editable segments (e.g., `HH : MM : SS AM/PM`) directly in the form layout. Unlike `DateField`, it operates exclusively on time — there are no date segments. Use it when you need to capture or display a time of day, a scheduled time, or a recurring time without a date component.
 
 Key responsibilities:
+
 - **Time-only editing**: Segments cover hours, minutes, seconds, and optionally milliseconds and AM/PM — no date portions.
 - **Type safety**: Generic over `T extends TimeValue`, accepting `Time` or `ZonedDateTime` from `@internationalized/date`.
 - **Granularity control**: `granularity` limits visible segments (e.g., show only `hour:minute` for appointment scheduling, show `hour:minute:second` for process durations).
 - **Timezone awareness**: When a `ZonedDateTime` is passed, an optional timezone segment can be displayed or hidden via `hideTimeZone`.
 
 ### When to use
+
 - When collecting a time of day independently of a date — meeting start times, daily alarm triggers, opening hours, scheduled job times.
 - When the date is already established elsewhere and only the time needs to be set (e.g., a form with a separate `DateField` and a `TimeField`).
 - When you need fine-grained segment control — showing only `HH:MM` for everyday scheduling, or `HH:MM:SS` for technical process configurations.
 - When keyboard-only time entry is required — `TimeField` avoids the overhead of a clock picker overlay.
 
 ### When to avoid
+
 - When users need to select both a date and a time together — use `DateField` with a `CalendarDateTime` value, which includes time segments.
 - When a fuzzy or relative time expression is more useful than an exact value (e.g., "in 30 minutes") — `TimeField` is for precise, absolute times.
 - When the UX calls for a visual clock face or a scrollable time picker — `TimeField` is keyboard-segment-only.
@@ -43,15 +49,19 @@ Key responsibilities:
 ## Variants
 
 ### Default
+
 Renders `HH : MM AM/PM` segments with a visible label. Locale-aware — renders 24-hour format in locales that use it.
 
 ### With description
+
 Add `description` for helper text (e.g., "All times are in UTC+0", "Use 24-hour format").
 
 ### Invalid
+
 Set `validationState="invalid"` and `errorMessage` to surface a constraint violation (e.g., "Departure time must be in the future"). The border turns red and the message is announced.
 
 ### Disabled
+
 `isDisabled` grays out all segments and removes them from the tab order. Use when the time is system-controlled or locked.
 
 ---
@@ -61,9 +71,7 @@ Set `validationState="invalid"` and `errorMessage` to surface a constraint viola
 `TimeField` is a pure pass-through wrapper, generic over Spectrum's `TimeValue` union.
 
 ```tsx
-export const TimeField = <T extends TimeValue>(
-  props: SpectrumTimeFieldProps<T>
-) => <SpectrumTimeField {...props} />;
+export const TimeField = <T extends TimeValue>(props: SpectrumTimeFieldProps<T>) => <SpectrumTimeField {...props} />;
 
 export type { SpectrumTimeFieldProps as TimeFieldProps };
 ```
@@ -78,13 +86,7 @@ import { Time } from '@internationalized/date';
 
 const [time, setTime] = useState<Time | null>(null);
 
-<TimeField
-  label="Meeting time"
-  value={time}
-  onChange={setTime}
-  granularity="minute"
-  isRequired
-/>
+<TimeField label="Meeting time" value={time} onChange={setTime} granularity="minute" isRequired />;
 ```
 
 For timezone-aware time (e.g., scheduling across regions):
@@ -93,11 +95,11 @@ For timezone-aware time (e.g., scheduling across regions):
 import { ZonedDateTime, now, getLocalTimeZone } from '@internationalized/date';
 
 <TimeField<ZonedDateTime>
-  label="Scheduled at"
-  value={scheduledTime}
-  onChange={setScheduledTime}
-  hideTimeZone={false}
-/>
+    label="Scheduled at"
+    value={scheduledTime}
+    onChange={setScheduledTime}
+    hideTimeZone={false}
+/>;
 ```
 
 ---
@@ -113,8 +115,8 @@ import { ZonedDateTime, now, getLocalTimeZone } from '@internationalized/date';
 ```tsx
 // Side-by-side date + time entry
 <Flex gap="size-200">
-  <DateField label="Date" value={date} onChange={setDate} />
-  <TimeField label="Time" value={time} onChange={setTime} granularity="minute" />
+    <DateField label="Date" value={date} onChange={setDate} />
+    <TimeField label="Time" value={time} onChange={setTime} granularity="minute" />
 </Flex>
 ```
 
@@ -124,24 +126,24 @@ import { ZonedDateTime, now, getLocalTimeZone } from '@internationalized/date';
 
 ### Key props
 
-| Prop | Type | Default | Description |
-|------|------|---------|-------------|
-| `value` | `T \| null` | — | The controlled time value. |
-| `defaultValue` | `T \| null` | — | The default time value (uncontrolled). |
-| `onChange` | `(value: T \| null) => void` | — | Called when any segment changes and the full time is valid. |
-| `label` | `ReactNode` | — | Visible label rendered above the field. |
-| `description` | `ReactNode` | — | Helper text rendered below the field. |
-| `errorMessage` | `ReactNode` | — | Error text shown when `validationState="invalid"`. |
-| `validationState` | `'valid' \| 'invalid'` | — | Controls validation visual and ARIA state. |
-| `isRequired` | `boolean` | `false` | Marks the field as required. |
-| `isDisabled` | `boolean` | `false` | Disables all segments and removes from tab order. |
-| `isReadOnly` | `boolean` | `false` | Prevents editing without visually disabling. |
-| `granularity` | `'hour' \| 'minute' \| 'second' \| 'millisecond'` | `'minute'` | The finest time unit to display. Coarser units are always shown. |
-| `hourCycle` | `12 \| 24` | locale | Forces 12- or 24-hour display, overriding the locale default. |
-| `hideTimeZone` | `boolean` | `false` | Hides the timezone segment when using `ZonedDateTime`. |
-| `placeholderValue` | `T` | — | Controls placeholder appearance before a value is entered. |
-| `minValue` | `TimeValue` | — | Earliest allowed time; earlier values are flagged invalid. |
-| `maxValue` | `TimeValue` | — | Latest allowed time; later values are flagged invalid. |
+| Prop               | Type                                              | Default    | Description                                                      |
+| ------------------ | ------------------------------------------------- | ---------- | ---------------------------------------------------------------- |
+| `value`            | `T \| null`                                       | —          | The controlled time value.                                       |
+| `defaultValue`     | `T \| null`                                       | —          | The default time value (uncontrolled).                           |
+| `onChange`         | `(value: T \| null) => void`                      | —          | Called when any segment changes and the full time is valid.      |
+| `label`            | `ReactNode`                                       | —          | Visible label rendered above the field.                          |
+| `description`      | `ReactNode`                                       | —          | Helper text rendered below the field.                            |
+| `errorMessage`     | `ReactNode`                                       | —          | Error text shown when `validationState="invalid"`.               |
+| `validationState`  | `'valid' \| 'invalid'`                            | —          | Controls validation visual and ARIA state.                       |
+| `isRequired`       | `boolean`                                         | `false`    | Marks the field as required.                                     |
+| `isDisabled`       | `boolean`                                         | `false`    | Disables all segments and removes from tab order.                |
+| `isReadOnly`       | `boolean`                                         | `false`    | Prevents editing without visually disabling.                     |
+| `granularity`      | `'hour' \| 'minute' \| 'second' \| 'millisecond'` | `'minute'` | The finest time unit to display. Coarser units are always shown. |
+| `hourCycle`        | `12 \| 24`                                        | locale     | Forces 12- or 24-hour display, overriding the locale default.    |
+| `hideTimeZone`     | `boolean`                                         | `false`    | Hides the timezone segment when using `ZonedDateTime`.           |
+| `placeholderValue` | `T`                                               | —          | Controls placeholder appearance before a value is entered.       |
+| `minValue`         | `TimeValue`                                       | —          | Earliest allowed time; earlier values are flagged invalid.       |
+| `maxValue`         | `TimeValue`                                       | —          | Latest allowed time; later values are flagged invalid.           |
 
 ---
 
@@ -156,24 +158,26 @@ import { ZonedDateTime, now, getLocalTimeZone } from '@internationalized/date';
 - **Required/invalid**: `aria-required` and `aria-invalid` are set on the group. `errorMessage` is linked via `aria-describedby`.
 - **Keyboard navigation**:
 
-| Key | Behaviour |
-|-----|-----------|
-| `Tab` | Move focus into the field (first segment) |
-| `Tab` / `Shift + Tab` | Move focus between segments |
-| `0`–`9` | Type digits into the focused segment; auto-advances when complete |
-| `↑` / `↓` | Increment or decrement the focused segment by 1 unit |
-| `A` / `P` | Toggle AM/PM when the meridiem segment is focused |
-| `Backspace` | Clear the focused segment |
+| Key                   | Behaviour                                                         |
+| --------------------- | ----------------------------------------------------------------- |
+| `Tab`                 | Move focus into the field (first segment)                         |
+| `Tab` / `Shift + Tab` | Move focus between segments                                       |
+| `0`–`9`               | Type digits into the focused segment; auto-advances when complete |
+| `↑` / `↓`             | Increment or decrement the focused segment by 1 unit              |
+| `A` / `P`             | Toggle AM/PM when the meridiem segment is focused                 |
+| `Backspace`           | Clear the focused segment                                         |
 
 - **Segment bounds**: Typing is range-clamped per segment — e.g., typing `9` in the hour segment (12-hour mode) immediately completes it and advances; typing `1` waits for the next digit to determine if `10`, `11`, or `12` is intended.
 - **Locale adaptation**: Spectrum automatically renders 12-hour or 24-hour format based on the active locale, eliminating the need for manual format strings.
 
 ## Related components
+
 - `DateField` — use alongside `TimeField` when both a calendar date and a clock time must be captured separately.
 - `DatePicker` — use instead when date + time selection together in a single popover-backed input is preferred.
 - `NumberField` — use instead if only a raw numeric duration (e.g., seconds) rather than a clock time is needed.
 
 ## Example use cases
+
 <details>
   <summary>Typical use cases</summary>
 

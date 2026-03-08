@@ -114,7 +114,8 @@ const NavigationKitchenSink = () => (
                         color: 'var(--spectrum-global-color-gray-600)',
                     }}
                 >
-                    Showcase of all navigation components: Tabs, Breadcrumbs, Link, Menu, ActionMenu, and MediaViewModes.
+                    Showcase of all navigation components: Tabs, Breadcrumbs, Link, Menu, ActionMenu, and
+                    MediaViewModes.
                 </p>
             </View>
 
@@ -207,16 +208,27 @@ const NavigationKitchenSink = () => (
                 <SectionHeading title="Link" subtitle="inline anchor element with style variants" />
                 <Flex direction="row" gap="size-300" wrap alignItems="center">
                     <Link href="https://example.com">Default link</Link>
-                    <Link href="https://example.com" variant="primary">Primary</Link>
-                    <Link href="https://example.com" variant="secondary">Secondary</Link>
-                    <Link href="https://example.com" isQuiet>Quiet</Link>
-                    <Link href="https://example.com" isDisabled>Disabled</Link>
+                    <Link href="https://example.com" variant="primary">
+                        Primary
+                    </Link>
+                    <Link href="https://example.com" variant="secondary">
+                        Secondary
+                    </Link>
+                    <Link href="https://example.com" isQuiet>
+                        Quiet
+                    </Link>
+                    <Link href="https://example.com" isDisabled>
+                        Disabled
+                    </Link>
                 </Flex>
             </View>
 
             {/* ── Menu & MenuTrigger ── */}
             <View padding="size-300" backgroundColor="gray-50" borderRadius="medium">
-                <SectionHeading title="Menu & MenuTrigger" subtitle="dropdown menus with sections and selection modes" />
+                <SectionHeading
+                    title="Menu & MenuTrigger"
+                    subtitle="dropdown menus with sections and selection modes"
+                />
                 <Flex direction="column" gap="size-200">
                     <div>
                         <SubLabel>Menu with sections</SubLabel>
@@ -271,7 +283,14 @@ const NavigationKitchenSink = () => (
                             <Item key="rename">Rename</Item>
                             <Item key="delete">Delete</Item>
                         </ActionMenu>
-                        <span style={{ fontSize: 'var(--spectrum-global-dimension-font-size-50)', color: 'var(--spectrum-global-color-gray-600)' }}>Default</span>
+                        <span
+                            style={{
+                                fontSize: 'var(--spectrum-global-dimension-font-size-50)',
+                                color: 'var(--spectrum-global-color-gray-600)',
+                            }}
+                        >
+                            Default
+                        </span>
                     </Flex>
                     <Flex direction="column" gap="size-75" alignItems="center">
                         <ActionMenu isQuiet aria-label="Quiet action menu">
@@ -279,21 +298,38 @@ const NavigationKitchenSink = () => (
                             <Item key="export">Export</Item>
                             <Item key="archive">Archive</Item>
                         </ActionMenu>
-                        <span style={{ fontSize: 'var(--spectrum-global-dimension-font-size-50)', color: 'var(--spectrum-global-color-gray-600)' }}>Quiet</span>
+                        <span
+                            style={{
+                                fontSize: 'var(--spectrum-global-dimension-font-size-50)',
+                                color: 'var(--spectrum-global-color-gray-600)',
+                            }}
+                        >
+                            Quiet
+                        </span>
                     </Flex>
                     <Flex direction="column" gap="size-75" alignItems="center">
                         <ActionMenu isDisabled aria-label="Disabled action menu">
                             <Item key="a">Action A</Item>
                             <Item key="b">Action B</Item>
                         </ActionMenu>
-                        <span style={{ fontSize: 'var(--spectrum-global-dimension-font-size-50)', color: 'var(--spectrum-global-color-gray-600)' }}>Disabled</span>
+                        <span
+                            style={{
+                                fontSize: 'var(--spectrum-global-dimension-font-size-50)',
+                                color: 'var(--spectrum-global-color-gray-600)',
+                            }}
+                        >
+                            Disabled
+                        </span>
                     </Flex>
                 </Flex>
             </View>
 
             {/* ── MediaViewModes ── */}
             <View padding="size-300" backgroundColor="gray-50" borderRadius="medium">
-                <SectionHeading title="MediaViewModes" subtitle="view mode switcher between Large, Medium, Small, and Details" />
+                <SectionHeading
+                    title="MediaViewModes"
+                    subtitle="view mode switcher between Large, Medium, Small, and Details"
+                />
                 <Flex direction="row" gap="size-200" alignItems="center">
                     <MediaViewModesDemo />
                     <Text>Click the icon to cycle between view modes</Text>
@@ -308,7 +344,7 @@ const NavigationKitchenSink = () => (
 // ---------------------------------------------------------------------------
 
 const meta: Meta<typeof NavigationKitchenSink> = {
-    tags: ["!dev"],
+    tags: ['!dev'],
     component: NavigationKitchenSink,
     title: 'Kitchen sink/Navigation',
     parameters: {

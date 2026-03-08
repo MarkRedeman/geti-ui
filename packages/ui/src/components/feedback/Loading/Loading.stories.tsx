@@ -6,7 +6,7 @@ import type { Meta, StoryObj } from '@storybook/react';
 import { Loading } from '@geti/ui';
 
 const meta: Meta<typeof Loading> = {
-    tags: ["!dev"],
+    tags: ['!dev'],
     component: Loading,
     title: 'Feedback/Loading',
     argTypes: {

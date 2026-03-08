@@ -38,7 +38,9 @@
             "types": "./dist/types/assets/primary-tools/index.d.ts"
         }
     },
-    "sideEffects": ["*.css"],
+    "sideEffects": [
+        "*.css"
+    ],
     "style": "./dist/esm/index.css",
     "main": "./dist/cjs/index.js",
     "module": "./dist/esm/index.js",

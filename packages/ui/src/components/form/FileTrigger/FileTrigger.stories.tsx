@@ -6,7 +6,7 @@ import type { Meta, StoryObj } from '@storybook/react';
 import { Button, FileTrigger } from '@geti/ui';
 
 const meta: Meta<typeof FileTrigger> = {
-    tags: ["!dev"],
+    tags: ['!dev'],
     component: FileTrigger,
     title: 'Form/FileTrigger',
     argTypes: {

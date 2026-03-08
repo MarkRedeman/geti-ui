@@ -6,7 +6,7 @@ import type { Meta, StoryObj } from '@storybook/react';
 import { Grid } from '@geti/ui';
 
 const meta: Meta<typeof Grid> = {
-    tags: ["!dev"],
+    tags: ['!dev'],
     component: Grid,
     title: 'Layouts/Grid',
     argTypes: {

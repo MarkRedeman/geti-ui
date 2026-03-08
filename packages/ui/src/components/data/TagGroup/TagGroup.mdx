@@ -21,6 +21,7 @@ import { TagGroup, Item } from '@geti/ui';
 `TagGroup` is a transparent wrapper around Adobe React Spectrum's `TagGroup`. It renders an interactive collection of tags used for categorizing, filtering, or labeling items. The wrapper exists as an integration boundary — all Spectrum behaviour (keyboard navigation, selection state, ARIA roles, and removal callbacks) is inherited directly from Spectrum. Geti-specific defaults or prop transformations can be introduced here in future without changing the consumer import path.
 
 Key responsibilities:
+
 - **Keyboard navigation**: Provides roving `tabindex` management so users can move between tags with `Arrow` keys without tabbing through every item.
 - **Selection**: Supports `none` (default), `single`, and `multiple` selection modes via `selectionMode`.
 - **Removal**: Exposes an `onRemove` callback that fires when the user activates the remove button on an individual tag. The remove button only renders when `onRemove` is provided.
@@ -28,6 +29,7 @@ Key responsibilities:
 - **Theme integration**: Inherits all Spectrum colour, spacing, and focus-ring tokens from `ThemeProvider` in the Geti dark theme.
 
 ### When to use
+
 - **Interactive labels**: Displaying keywords, categories, or metadata that users can interact with (select or remove).
 - **Applied filters**: A list of currently active filters that users can dismiss individually.
 - **Dynamic collections**: Managing a set of tags that grows or shrinks based on user action (e.g., adding classification labels).
@@ -35,6 +37,7 @@ Key responsibilities:
 - When accessibility requirements demand keyboard navigation and ARIA-compliant semantics for a tag collection.
 
 ### When to avoid
+
 - **Static, read-only display labels** — use the Geti `Tag` primitive (`data/Tag`), which has no Spectrum dependency and is lighter weight.
 - **Status indicators** (e.g., "Beta", "Active") — use `Badge` or `StatusLight`, which carry semantic colour meaning.
 - **Single read-only label paired with a field** — use `Label`.
@@ -44,7 +47,7 @@ Key responsibilities:
 
 ## Design
 
-`TagGroup` follows the *transparent wrapper* pattern: it extends `SpectrumTagGroupProps` without modification and delegates all rendering to Spectrum. The `Item` re-export is provided so consumers can import both from `@geti/ui` without importing directly from Spectrum.
+`TagGroup` follows the _transparent wrapper_ pattern: it extends `SpectrumTagGroupProps` without modification and delegates all rendering to Spectrum. The `Item` re-export is provided so consumers can import both from `@geti/ui` without importing directly from Spectrum.
 
 ```tsx
 // packages/ui/src/components/data/TagGroup/TagGroup.tsx
@@ -54,9 +57,7 @@ export interface TagGroupProps<T extends object> extends SpectrumTagGroupProps<T
 // Re-export of Spectrum Item for use with TagGroup
 export const Item = SpectrumItem;
 
-export const TagGroup = <T extends object>(props: TagGroupProps<T>) => (
-    <SpectrumTagGroup {...props} />
-);
+export const TagGroup = <T extends object>(props: TagGroupProps<T>) => <SpectrumTagGroup {...props} />;
 ```
 
 This means `TagGroup` accepts the complete Spectrum `TagGroup` API. Any future Geti-specific defaults (e.g., a default `label`, a maximum tag count, or a custom remove icon) can be introduced in the wrapper without changing call sites.
@@ -65,18 +66,18 @@ This means `TagGroup` accepts the complete Spectrum `TagGroup` API. Any future G
 
 All props pass through to Spectrum unchanged:
 
-| Geti `TagGroupProps` | Spectrum `SpectrumTagGroupProps` | Notes |
-|----------------------|----------------------------------|-------|
-| `label` | `label` | Associates with the grid landmark via `aria-labelledby` |
-| `onRemove` | `onRemove` | `(keys: Set<Key>) => void` — triggers when remove is activated |
-| `selectionMode` | `selectionMode` | `'none' \| 'single' \| 'multiple'` |
-| `selectedKeys` | `selectedKeys` | Controlled selection state |
-| `defaultSelectedKeys` | `defaultSelectedKeys` | Uncontrolled initial selection |
-| `onSelectionChange` | `onSelectionChange` | Fired when selection changes |
-| `maxRows` | `maxRows` | Caps visible rows; adds a "Show more" button |
-| `items` | `items` | Dynamic collection data |
-| `children` | `children` | Static `<Item>` nodes or render function |
-| `...rest` | all other props | Passed through without transformation |
+| Geti `TagGroupProps`  | Spectrum `SpectrumTagGroupProps` | Notes                                                          |
+| --------------------- | -------------------------------- | -------------------------------------------------------------- |
+| `label`               | `label`                          | Associates with the grid landmark via `aria-labelledby`        |
+| `onRemove`            | `onRemove`                       | `(keys: Set<Key>) => void` — triggers when remove is activated |
+| `selectionMode`       | `selectionMode`                  | `'none' \| 'single' \| 'multiple'`                             |
+| `selectedKeys`        | `selectedKeys`                   | Controlled selection state                                     |
+| `defaultSelectedKeys` | `defaultSelectedKeys`            | Uncontrolled initial selection                                 |
+| `onSelectionChange`   | `onSelectionChange`              | Fired when selection changes                                   |
+| `maxRows`             | `maxRows`                        | Caps visible rows; adds a "Show more" button                   |
+| `items`               | `items`                          | Dynamic collection data                                        |
+| `children`            | `children`                       | Static `<Item>` nodes or render function                       |
+| `...rest`             | all other props                  | Passed through without transformation                          |
 
 **The `Item` export**
 
@@ -88,7 +89,7 @@ import { TagGroup, Item } from '@geti/ui';
 <TagGroup label="Labels">
     <Item key="person">Person</Item>
     <Item key="vehicle">Vehicle</Item>
-</TagGroup>
+</TagGroup>;
 ```
 
 **Theme integration**
@@ -103,11 +104,11 @@ import { TagGroup, Item } from '@geti/ui';
 
 `selectionMode` controls whether tags respond to click/keyboard selection:
 
-| Mode | Behaviour |
-|------|-----------|
+| Mode               | Behaviour                                              |
+| ------------------ | ------------------------------------------------------ |
 | `'none'` (default) | Tags are not selectable; they display as static chips. |
-| `'single'` | One tag may be selected at a time. |
-| `'multiple'` | Any number of tags may be selected simultaneously. |
+| `'single'`         | One tag may be selected at a time.                     |
+| `'multiple'`       | Any number of tags may be selected simultaneously.     |
 
 ```tsx
 // Static display
@@ -141,7 +142,7 @@ const [labels, setLabels] = useState(['Cat', 'Dog', 'Bird']);
     onRemove={(keys) => setLabels((prev) => prev.filter((l) => !keys.has(l)))}
 >
     {(item) => <Item key={item.id}>{item.name}</Item>}
-</TagGroup>
+</TagGroup>;
 ```
 
 ### Overflow with maxRows
@@ -158,33 +159,33 @@ const [labels, setLabels] = useState(['Cat', 'Dog', 'Bird']);
 
 ### Collection
 
-| Prop | Type | Default | Description |
-|------|------|---------|-------------|
-| `children` | `ItemElement \| ItemRenderer` | — | Static `<Item>` nodes or a render function for dynamic collections. |
-| `items` | `Iterable<T>` | — | The data source for dynamic collections. Passed alongside a children render function. |
-| `label` | `ReactNode` | — | The visible label for the tag group. Required for accessibility unless `aria-label` is provided. |
+| Prop       | Type                          | Default | Description                                                                                      |
+| ---------- | ----------------------------- | ------- | ------------------------------------------------------------------------------------------------ |
+| `children` | `ItemElement \| ItemRenderer` | —       | Static `<Item>` nodes or a render function for dynamic collections.                              |
+| `items`    | `Iterable<T>`                 | —       | The data source for dynamic collections. Passed alongside a children render function.            |
+| `label`    | `ReactNode`                   | —       | The visible label for the tag group. Required for accessibility unless `aria-label` is provided. |
 
 ### Selection
 
-| Prop | Type | Default | Description |
-|------|------|---------|-------------|
-| `selectionMode` | `'none' \| 'single' \| 'multiple'` | `'none'` | Whether and how tags can be selected. |
-| `selectedKeys` | `Selection` | — | The currently selected keys (controlled). |
-| `defaultSelectedKeys` | `Selection` | — | The initially selected keys (uncontrolled). |
-| `disabledKeys` | `Iterable<Key>` | — | Keys of tags that should be non-interactive. |
-| `onSelectionChange` | `(keys: Selection) => void` | — | Called when the selection changes. |
+| Prop                  | Type                               | Default  | Description                                  |
+| --------------------- | ---------------------------------- | -------- | -------------------------------------------- |
+| `selectionMode`       | `'none' \| 'single' \| 'multiple'` | `'none'` | Whether and how tags can be selected.        |
+| `selectedKeys`        | `Selection`                        | —        | The currently selected keys (controlled).    |
+| `defaultSelectedKeys` | `Selection`                        | —        | The initially selected keys (uncontrolled).  |
+| `disabledKeys`        | `Iterable<Key>`                    | —        | Keys of tags that should be non-interactive. |
+| `onSelectionChange`   | `(keys: Selection) => void`        | —        | Called when the selection changes.           |
 
 ### Removal
 
-| Prop | Type | Default | Description |
-|------|------|---------|-------------|
-| `onRemove` | `(keys: Set<Key>) => void` | — | Called when a tag's remove button is activated. When provided, a remove button renders on each tag. |
+| Prop       | Type                       | Default | Description                                                                                         |
+| ---------- | -------------------------- | ------- | --------------------------------------------------------------------------------------------------- |
+| `onRemove` | `(keys: Set<Key>) => void` | —       | Called when a tag's remove button is activated. When provided, a remove button renders on each tag. |
 
 ### Layout
 
-| Prop | Type | Default | Description |
-|------|------|---------|-------------|
-| `maxRows` | `number` | — | Caps the number of visible rows. Overflowing tags are hidden behind a "Show more" button. |
+| Prop      | Type     | Default | Description                                                                               |
+| --------- | -------- | ------- | ----------------------------------------------------------------------------------------- |
+| `maxRows` | `number` | —       | Caps the number of visible rows. Overflowing tags are hidden behind a "Show more" button. |
 
 ---
 
@@ -206,13 +207,13 @@ const [labels, setLabels] = useState(['Cat', 'Dog', 'Bird']);
 
 - **Keyboard interactions**:
 
-| Key | Behaviour |
-|-----|-----------|
-| `Tab` | Move focus into or out of the tag group (lands on the first/last focused tag) |
-| `Arrow Left / Right` | Move focus between tags within the group |
-| `Space` / `Enter` | Select or deselect the focused tag (when `selectionMode` is not `'none'`) |
-| `Backspace` / `Delete` | Remove the focused tag (only when `onRemove` is provided) |
-| `Home` / `End` | Jump focus to the first or last tag in the group |
+| Key                    | Behaviour                                                                     |
+| ---------------------- | ----------------------------------------------------------------------------- |
+| `Tab`                  | Move focus into or out of the tag group (lands on the first/last focused tag) |
+| `Arrow Left / Right`   | Move focus between tags within the group                                      |
+| `Space` / `Enter`      | Select or deselect the focused tag (when `selectionMode` is not `'none'`)     |
+| `Backspace` / `Delete` | Remove the focused tag (only when `onRemove` is provided)                     |
+| `Home` / `End`         | Jump focus to the first or last tag in the group                              |
 
 - **Remove button**: When `onRemove` is provided, each tag renders an `×` button with an accessible label of `"Remove {textValue}"`. This button is keyboard-reachable independently from the tag itself, so screen reader users can tab to it and activate it with `Space` or `Enter`.
 - **Focus management on removal**: After a tag is removed, Spectrum automatically moves focus to the adjacent tag or to the group label, preventing focus loss.

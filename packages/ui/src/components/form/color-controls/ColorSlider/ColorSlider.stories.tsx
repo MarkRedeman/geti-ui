@@ -3,7 +3,7 @@ import type { Meta, StoryObj } from '@storybook/react';
 import { ColorSlider, Flex } from '@geti/ui';
 
 const meta: Meta<typeof ColorSlider> = {
-    tags: ["!dev"],
+    tags: ['!dev'],
     component: ColorSlider,
     title: 'Form/Color controls/ColorSlider',
     argTypes: {

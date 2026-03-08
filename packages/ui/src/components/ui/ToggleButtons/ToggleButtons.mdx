@@ -18,24 +18,29 @@ import { ToggleButtons } from '@geti/ui';
 `ToggleButtons` is a custom implementation of a selection group where exactly one option is active at a time. It is built using a collection of Geti `Button` components styled to appear as a single, cohesive "pill" or "segmented" control.
 
 ### What this component does
+
 - Renders an array of options as a horizontal button group.
 - Automatically handles visual selection states: the selected button uses `variant="accent"` (blue fill), while others use `variant="secondary"` (outlined).
 - Applies `aria-pressed` attributes to correctly communicate state to assistive technologies.
 - Provides a `getLabel` mapper for rendering icons or custom React nodes instead of raw text.
 
 ### Key Constraints
+
 - **Single Selection**: This component is strictly mutually exclusive. It does not support multiple simultaneous selections.
 - **Controlled State**: The component is fully controlled. The caller must provide the `selectedOption` and handle the `onOptionChange` callback.
 
 ## Variants
 
 ### Text Options
+
 By default, the component renders the string or number values from the `options` array directly as button labels.
 
 ### Icon Options
+
 Use the `getLabel` prop to map option values to icons or custom elements. This is commonly used for view-switching (e.g., Grid vs. List).
 
 ### Disabled Group
+
 Set `isDisabled` to `true` to disable all buttons in the group simultaneously.
 
 ## Props
@@ -44,27 +49,29 @@ Set `isDisabled` to `true` to disable all buttons in the group simultaneously.
 
 ### Content / Value
 
-| Prop | Type | Default | Description |
-|------|------|---------|-------------|
-| `options` | `T[]` | **Required** | Array of available options (`string` or `number`). |
-| `selectedOption` | `T` | **Required** | The currently selected option. |
-| `onOptionChange` | `(option: T) => void` | **Required** | Callback triggered when a new option is selected. |
-| `getLabel` | `(option: T) => ReactNode` | — | Optional mapping function to render custom labels/icons for each option. |
+| Prop             | Type                       | Default      | Description                                                              |
+| ---------------- | -------------------------- | ------------ | ------------------------------------------------------------------------ |
+| `options`        | `T[]`                      | **Required** | Array of available options (`string` or `number`).                       |
+| `selectedOption` | `T`                        | **Required** | The currently selected option.                                           |
+| `onOptionChange` | `(option: T) => void`      | **Required** | Callback triggered when a new option is selected.                        |
+| `getLabel`       | `(option: T) => ReactNode` | —            | Optional mapping function to render custom labels/icons for each option. |
 
 ### State
 
-| Prop | Type | Default | Description |
-|------|------|---------|-------------|
+| Prop         | Type      | Default | Description                           |
+| ------------ | --------- | ------- | ------------------------------------- |
 | `isDisabled` | `boolean` | `false` | Whether the entire group is disabled. |
 
 The component uses `role="group"` and `aria-label="Selection options"` to identify the collection. Individual buttons use `aria-pressed` to signal their selection status. Note: this custom implementation does not currently support arrow-key navigation within the group; each button remains an independent tab stop.
 
 ## Related components
+
 - `ToggleButton` — use instead for a single independent on/off toggle (not a group).
 - `RadioGroup` — use instead when the options are form fields that participate in validation and submission.
 - `Picker` — use instead when there are many options that don't fit inline as a button row.
 
 ## Example use cases
+
 <details>
   <summary>Typical use cases</summary>
 

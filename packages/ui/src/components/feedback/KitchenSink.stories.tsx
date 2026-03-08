@@ -103,7 +103,8 @@ const FeedbackKitchenSink = () => (
                         color: 'var(--spectrum-global-color-gray-600)',
                     }}
                 >
-                    Showcase of all feedback and status components: progress indicators, alerts, badges, and loading states.
+                    Showcase of all feedback and status components: progress indicators, alerts, badges, and loading
+                    states.
                 </p>
             </View>
 
@@ -120,7 +121,13 @@ const FeedbackKitchenSink = () => (
                                 <ProgressBar label="Upload progress" value={65} width="100%" />
                                 <ProgressBar label="Processing…" isIndeterminate width="100%" />
                                 <ProgressBar label="Storage used" value={82} showValueLabel width="100%" />
-                                <ProgressBar label="Over-background" value={95} variant="overBackground" showValueLabel width="100%" />
+                                <ProgressBar
+                                    label="Over-background"
+                                    value={95}
+                                    variant="overBackground"
+                                    showValueLabel
+                                    width="100%"
+                                />
                             </Flex>
                         </div>
                     </Flex>
@@ -130,15 +137,36 @@ const FeedbackKitchenSink = () => (
                             <Flex direction="row" gap="size-300" alignItems="center">
                                 <Flex direction="column" gap="size-50" alignItems="center">
                                     <ProgressCircle aria-label="40%" value={40} />
-                                    <span style={{ fontSize: 'var(--spectrum-global-dimension-font-size-50)', color: 'var(--spectrum-global-color-gray-600)' }}>40% (S)</span>
+                                    <span
+                                        style={{
+                                            fontSize: 'var(--spectrum-global-dimension-font-size-50)',
+                                            color: 'var(--spectrum-global-color-gray-600)',
+                                        }}
+                                    >
+                                        40% (S)
+                                    </span>
                                 </Flex>
                                 <Flex direction="column" gap="size-50" alignItems="center">
                                     <ProgressCircle aria-label="Indeterminate" isIndeterminate size="M" />
-                                    <span style={{ fontSize: 'var(--spectrum-global-dimension-font-size-50)', color: 'var(--spectrum-global-color-gray-600)' }}>Indeterminate (M)</span>
+                                    <span
+                                        style={{
+                                            fontSize: 'var(--spectrum-global-dimension-font-size-50)',
+                                            color: 'var(--spectrum-global-color-gray-600)',
+                                        }}
+                                    >
+                                        Indeterminate (M)
+                                    </span>
                                 </Flex>
                                 <Flex direction="column" gap="size-50" alignItems="center">
                                     <ProgressCircle aria-label="75%" value={75} size="L" />
-                                    <span style={{ fontSize: 'var(--spectrum-global-dimension-font-size-50)', color: 'var(--spectrum-global-color-gray-600)' }}>75% (L)</span>
+                                    <span
+                                        style={{
+                                            fontSize: 'var(--spectrum-global-dimension-font-size-50)',
+                                            color: 'var(--spectrum-global-color-gray-600)',
+                                        }}
+                                    >
+                                        75% (L)
+                                    </span>
                                 </Flex>
                             </Flex>
                         </div>
@@ -159,7 +187,10 @@ const FeedbackKitchenSink = () => (
 
             {/* ── Loading ── */}
             <View padding="size-300" backgroundColor="gray-50" borderRadius="medium">
-                <SectionHeading title="Loading" subtitle="Variant comparison: spinner (default) vs intel — inline sizes and overlay mode" />
+                <SectionHeading
+                    title="Loading"
+                    subtitle="Variant comparison: spinner (default) vs intel — inline sizes and overlay mode"
+                />
                 <Grid
                     columns={['max-content', '1fr', '1fr', '1fr', '1fr']}
                     gap="size-200"
@@ -169,34 +200,82 @@ const FeedbackKitchenSink = () => (
                     <div />
                     {(['S', 'M', 'L'] as const).map((size) => (
                         <Flex key={size} justifyContent="center">
-                            <span style={{ fontSize: 'var(--spectrum-global-dimension-font-size-50)', fontWeight: 600, color: 'var(--spectrum-global-color-gray-600)', textTransform: 'uppercase', letterSpacing: '0.08em' }}>
+                            <span
+                                style={{
+                                    fontSize: 'var(--spectrum-global-dimension-font-size-50)',
+                                    fontWeight: 600,
+                                    color: 'var(--spectrum-global-color-gray-600)',
+                                    textTransform: 'uppercase',
+                                    letterSpacing: '0.08em',
+                                }}
+                            >
                                 inline ({size})
                             </span>
                         </Flex>
                     ))}
                     <Flex justifyContent="center">
-                        <span style={{ fontSize: 'var(--spectrum-global-dimension-font-size-50)', fontWeight: 600, color: 'var(--spectrum-global-color-gray-600)', textTransform: 'uppercase', letterSpacing: '0.08em' }}>
+                        <span
+                            style={{
+                                fontSize: 'var(--spectrum-global-dimension-font-size-50)',
+                                fontWeight: 600,
+                                color: 'var(--spectrum-global-color-gray-600)',
+                                textTransform: 'uppercase',
+                                letterSpacing: '0.08em',
+                            }}
+                        >
                             overlay
                         </span>
                     </Flex>
 
                     {/* Row 1 — Spinner (default) */}
-                    <span style={{ fontSize: 'var(--spectrum-global-dimension-font-size-75)', fontWeight: 600, color: 'var(--spectrum-global-color-gray-700)', whiteSpace: 'nowrap' }}>
+                    <span
+                        style={{
+                            fontSize: 'var(--spectrum-global-dimension-font-size-75)',
+                            fontWeight: 600,
+                            color: 'var(--spectrum-global-color-gray-700)',
+                            whiteSpace: 'nowrap',
+                        }}
+                    >
                         Spinner (default)
                     </span>
                     {(['S', 'M', 'L'] as const).map((size) => (
                         <Flex key={size} justifyContent="center" alignItems="center">
-                            <Loading variant="spinner" mode="inline" size={size} aria-label={`Spinner loading ${size}`} />
+                            <Loading
+                                variant="spinner"
+                                mode="inline"
+                                size={size}
+                                aria-label={`Spinner loading ${size}`}
+                            />
                         </Flex>
                     ))}
                     <Flex justifyContent="center" alignItems="center">
-                        <View position="relative" width="size-1200" height="size-1200" backgroundColor="gray-200" borderRadius="regular" UNSAFE_style={{ overflow: 'hidden' }}>
-                            <Loading variant="spinner" mode="overlay" size="M" aria-label="Spinner overlay loading" style={{ backgroundColor: 'rgba(0,0,0,0.35)' }} />
+                        <View
+                            position="relative"
+                            width="size-1200"
+                            height="size-1200"
+                            backgroundColor="gray-200"
+                            borderRadius="regular"
+                            UNSAFE_style={{ overflow: 'hidden' }}
+                        >
+                            <Loading
+                                variant="spinner"
+                                mode="overlay"
+                                size="M"
+                                aria-label="Spinner overlay loading"
+                                style={{ backgroundColor: 'rgba(0,0,0,0.35)' }}
+                            />
                         </View>
                     </Flex>
 
                     {/* Row 2 — Intel */}
-                    <span style={{ fontSize: 'var(--spectrum-global-dimension-font-size-75)', fontWeight: 600, color: 'var(--spectrum-global-color-gray-700)', whiteSpace: 'nowrap' }}>
+                    <span
+                        style={{
+                            fontSize: 'var(--spectrum-global-dimension-font-size-75)',
+                            fontWeight: 600,
+                            color: 'var(--spectrum-global-color-gray-700)',
+                            whiteSpace: 'nowrap',
+                        }}
+                    >
                         Intel
                     </span>
                     {(['S', 'M', 'L'] as const).map((size) => (
@@ -205,8 +284,21 @@ const FeedbackKitchenSink = () => (
                         </Flex>
                     ))}
                     <Flex justifyContent="center" alignItems="center">
-                        <View position="relative" width="size-1200" height="size-1200" backgroundColor="gray-200" borderRadius="regular" UNSAFE_style={{ overflow: 'hidden' }}>
-                            <Loading variant="intel" size='M' mode="overlay" aria-label="Intel overlay loading" style={{ backgroundColor: 'rgba(0,0,0,0.35)' }} />
+                        <View
+                            position="relative"
+                            width="size-1200"
+                            height="size-1200"
+                            backgroundColor="gray-200"
+                            borderRadius="regular"
+                            UNSAFE_style={{ overflow: 'hidden' }}
+                        >
+                            <Loading
+                                variant="intel"
+                                size="M"
+                                mode="overlay"
+                                aria-label="Intel overlay loading"
+                                style={{ backgroundColor: 'rgba(0,0,0,0.35)' }}
+                            />
                         </View>
                     </Flex>
                 </Grid>
@@ -218,10 +310,22 @@ const FeedbackKitchenSink = () => (
                     <SubLabel>IntelBrandedLoading (legacy wrapper — deprecated)</SubLabel>
                     <Flex direction="row" gap="size-400" alignItems="center" wrap>
                         <Flex direction="column" gap="size-100" alignItems="center">
-                            <View backgroundColor="gray-200" borderRadius="medium" UNSAFE_style={{ overflow: 'hidden' }} width="size-2400" height="size-2400" position="relative">
+                            <View
+                                backgroundColor="gray-200"
+                                borderRadius="medium"
+                                UNSAFE_style={{ overflow: 'hidden' }}
+                                width="size-2400"
+                                height="size-2400"
+                                position="relative"
+                            >
                                 <IntelBrandedLoading height="100%" />
                             </View>
-                            <span style={{ fontSize: 'var(--spectrum-global-dimension-font-size-50)', color: 'var(--spectrum-global-color-gray-600)' }}>
+                            <span
+                                style={{
+                                    fontSize: 'var(--spectrum-global-dimension-font-size-50)',
+                                    color: 'var(--spectrum-global-color-gray-600)',
+                                }}
+                            >
                                 IntelBrandedLoading (wraps Loading variant=&quot;intel&quot;)
                             </span>
                         </Flex>
@@ -256,7 +360,9 @@ const FeedbackKitchenSink = () => (
                 <Flex direction="column" gap="size-150">
                     <InlineAlert variant="neutral">
                         <Heading>Note</Heading>
-                        <Content>This is a neutral inline alert providing helpful context about the current state.</Content>
+                        <Content>
+                            This is a neutral inline alert providing helpful context about the current state.
+                        </Content>
                     </InlineAlert>
                     <InlineAlert variant="info">
                         <Heading>Did you know?</Heading>
@@ -327,12 +433,19 @@ const FeedbackKitchenSink = () => (
             {/* ── IllustratedMessage ── */}
             <View padding="size-300" backgroundColor="gray-50" borderRadius="medium">
                 <SectionHeading title="IllustratedMessage" subtitle="empty state with icon, heading, and body text" />
-                <View borderWidth="thin" borderColor="gray-300" borderRadius="medium" padding="size-300" backgroundColor="gray-75">
+                <View
+                    borderWidth="thin"
+                    borderColor="gray-300"
+                    borderRadius="medium"
+                    padding="size-300"
+                    backgroundColor="gray-75"
+                >
                     <IllustratedMessage>
                         <Magnify size="XXL" />
                         <Heading>No results found</Heading>
                         <Content>
-                            No models match your current filters. Try adjusting your search criteria or clearing active filters.
+                            No models match your current filters. Try adjusting your search criteria or clearing active
+                            filters.
                         </Content>
                     </IllustratedMessage>
                 </View>
@@ -342,10 +455,16 @@ const FeedbackKitchenSink = () => (
             <View padding="size-300" backgroundColor="gray-50" borderRadius="medium">
                 <SectionHeading title="Toast" subtitle="positive, negative, info, and neutral notification toasts" />
                 <Flex direction="row" gap="size-150" wrap>
-                    <Button variant="accent" onPress={() => toast.positive('Model training complete! 94.2% mAP achieved.')}>
+                    <Button
+                        variant="accent"
+                        onPress={() => toast.positive('Model training complete! 94.2% mAP achieved.')}
+                    >
                         Positive toast
                     </Button>
-                    <Button variant="negative" onPress={() => toast.negative('Inference failed. Check logs for details.')}>
+                    <Button
+                        variant="negative"
+                        onPress={() => toast.negative('Inference failed. Check logs for details.')}
+                    >
                         Negative toast
                     </Button>
                     <Button variant="secondary" onPress={() => toast.info('Your session expires in 10 minutes.')}>
@@ -365,7 +484,7 @@ const FeedbackKitchenSink = () => (
 // ---------------------------------------------------------------------------
 
 const meta: Meta<typeof FeedbackKitchenSink> = {
-    tags: ["!dev"],
+    tags: ['!dev'],
     component: FeedbackKitchenSink,
     title: 'Kitchen sink/Feedback',
     parameters: {

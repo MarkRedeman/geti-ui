@@ -21,17 +21,20 @@ import { Tabs, TabList, TabPanels, Item } from '@geti/ui';
 `Tabs` groups related content that sits at the same level of hierarchy. The component family provides a clear visual structure for switching between different views or categories within a single page or container.
 
 Key responsibilities:
+
 - **Sectional Organisation**: Breaks large amounts of content into manageable, related pieces that are revealed one at a time.
 - **Context Preservation**: Lets users switch between sections without navigating away or losing their place in the application.
 - **Visual Feedback**: Clearly indicates which section is currently active and provides a scannable summary of all available sections.
 
 ### When to use
-- To present **same-level sibling views** where only one should be visible at a time (e.g., *General*, *Security*, *Notifications* in a settings panel).
+
+- To present **same-level sibling views** where only one should be visible at a time (e.g., _General_, _Security_, _Notifications_ in a settings panel).
 - When users need to switch frequently between related datasets and keeping all sections visible simultaneously would be impractical.
 - When vertical space is limited and content can be effectively layered behind a tabbed interface.
 - For **property panels** (vertical orientation) where different attribute groups share the same space.
 
 ### When to avoid
+
 - For **primary site-wide navigation** — use a sidebar or top navigation bar instead; tab semantics imply peer content, not hierarchical navigation.
 - When items represent **actions** rather than content sections — use `ActionGroup` or `ActionMenu`.
 - For **more than 7 tabs** — consider a vertical navigation list, a dropdown selector, or a nested hierarchy.
@@ -52,7 +55,7 @@ export interface TabsProps<T extends object> extends SpectrumTabsProps<T> {}
 export const Tabs = <T extends object>(props: TabsProps<T>) => <SpectrumTabs {...props} />;
 ```
 
-`TabList` and `TabPanels` follow the same *transparent wrapper* pattern:
+`TabList` and `TabPanels` follow the same _transparent wrapper_ pattern:
 
 ```tsx
 // TabList.tsx
@@ -68,12 +71,12 @@ export const TabPanels = <T extends object>(props: TabPanelsProps<T>) => <Spectr
 
 The full tab experience is composed from three collaborating pieces:
 
-| Component | Role |
-|-----------|------|
-| `Tabs` | Root container. Owns all state (selected key, orientation, density). Provides context to children. |
-| `TabList` | Renders the row (or column) of clickable tab labels. Each child must be an `Item` with a unique `key`. |
-| `TabPanels` | Renders the active content panel. Each child must be an `Item` whose `key` matches a `TabList` item. |
-| `Item` | Re-exported directly from `@adobe/react-spectrum`. Serves as the shared data primitive for both `TabList` and `TabPanels`. |
+| Component   | Role                                                                                                                       |
+| ----------- | -------------------------------------------------------------------------------------------------------------------------- |
+| `Tabs`      | Root container. Owns all state (selected key, orientation, density). Provides context to children.                         |
+| `TabList`   | Renders the row (or column) of clickable tab labels. Each child must be an `Item` with a unique `key`.                     |
+| `TabPanels` | Renders the active content panel. Each child must be an `Item` whose `key` matches a `TabList` item.                       |
+| `Item`      | Re-exported directly from `@adobe/react-spectrum`. Serves as the shared data primitive for both `TabList` and `TabPanels`. |
 
 A minimal composition looks like this:
 
@@ -85,9 +88,15 @@ A minimal composition looks like this:
         <Item key="notifications">Notifications</Item>
     </TabList>
     <TabPanels>
-        <Item key="general"><Content>General settings…</Content></Item>
-        <Item key="security"><Content>Security settings…</Content></Item>
-        <Item key="notifications"><Content>Notification settings…</Content></Item>
+        <Item key="general">
+            <Content>General settings…</Content>
+        </Item>
+        <Item key="security">
+            <Content>Security settings…</Content>
+        </Item>
+        <Item key="notifications">
+            <Content>Notification settings…</Content>
+        </Item>
     </TabPanels>
 </Tabs>
 ```
@@ -99,13 +108,19 @@ All three components (`Tabs`, `TabList`, `TabPanels`) are generic over `T extend
 ```tsx
 const pages = [
     { id: 'overview', label: 'Overview' },
-    { id: 'details',  label: 'Details' },
+    { id: 'details', label: 'Details' },
 ];
 
-<Tabs<typeof pages[number]> items={pages}>
+<Tabs<(typeof pages)[number]> items={pages}>
     <TabList>{(item) => <Item key={item.id}>{item.label}</Item>}</TabList>
-    <TabPanels>{(item) => <Item key={item.id}><Content>{item.id} content</Content></Item>}</TabPanels>
-</Tabs>
+    <TabPanels>
+        {(item) => (
+            <Item key={item.id}>
+                <Content>{item.id} content</Content>
+            </Item>
+        )}
+    </TabPanels>
+</Tabs>;
 ```
 
 **Theme integration**
@@ -117,20 +132,25 @@ const pages = [
 ## Variants
 
 ### Orientation
+
 - **Horizontal (default)**: The most common variant, best for 2–5 tabs across the top of a content area.
 - **Vertical**: Useful for sidebar-style property panels or when the number of tabs is too large to fit horizontally.
 
 ### Density
+
 Accepts `regular` (default) and `compact`. Use `compact` in information-dense dashboards or property panels where vertical space is at a premium.
 
 ### Quiet
+
 The `isQuiet` prop removes the border below the tab bar, blending the tabs into their container. Useful when tabs are placed inside a `Card` or another container that already provides visual framing.
 
 ### Keyboard Activation
+
 - **Automatic (default)**: The tab is selected as soon as it receives keyboard focus via arrow keys.
 - **Manual** (`keyboardActivation="manual"`): Requires an explicit `Enter` or `Space` press to confirm selection after navigation.
 
 ### Disabled tabs
+
 Individual tabs can be disabled via the `disabledKeys` prop on `Tabs`, leaving them visible but non-interactive.
 
 ---
@@ -139,33 +159,33 @@ Individual tabs can be disabled via the `disabledKeys` prop on `Tabs`, leaving t
 
 ### Tabs Props
 
-| Prop | Type | Default | Description |
-|------|------|---------|-------------|
-| `selectedKey` | `Key` | — | The currently selected tab key (controlled). |
-| `defaultSelectedKey` | `Key` | — | The initially selected tab key (uncontrolled). |
-| `onSelectionChange` | `(key: Key) => void` | — | Handler called when the selection changes. |
-| `orientation` | `'horizontal' \| 'vertical'` | `'horizontal'` | The orientation of the tab list. |
-| `density` | `'regular' \| 'compact'` | `'regular'` | The visual density of the tabs. |
-| `keyboardActivation` | `'automatic' \| 'manual'` | `'automatic'` | Whether tabs are activated on focus or only on Enter/Space. |
-| `isQuiet` | `boolean` | `false` | Removes the bottom border from the tab bar. |
-| `isDisabled` | `boolean` | `false` | Whether the entire tab group is disabled. |
-| `disabledKeys` | `Iterable<Key>` | — | Keys of individual tabs to disable. |
-| `items` | `Iterable<T>` | — | Item objects for dynamic collections. |
+| Prop                 | Type                         | Default        | Description                                                 |
+| -------------------- | ---------------------------- | -------------- | ----------------------------------------------------------- |
+| `selectedKey`        | `Key`                        | —              | The currently selected tab key (controlled).                |
+| `defaultSelectedKey` | `Key`                        | —              | The initially selected tab key (uncontrolled).              |
+| `onSelectionChange`  | `(key: Key) => void`         | —              | Handler called when the selection changes.                  |
+| `orientation`        | `'horizontal' \| 'vertical'` | `'horizontal'` | The orientation of the tab list.                            |
+| `density`            | `'regular' \| 'compact'`     | `'regular'`    | The visual density of the tabs.                             |
+| `keyboardActivation` | `'automatic' \| 'manual'`    | `'automatic'`  | Whether tabs are activated on focus or only on Enter/Space. |
+| `isQuiet`            | `boolean`                    | `false`        | Removes the bottom border from the tab bar.                 |
+| `isDisabled`         | `boolean`                    | `false`        | Whether the entire tab group is disabled.                   |
+| `disabledKeys`       | `Iterable<Key>`              | —              | Keys of individual tabs to disable.                         |
+| `items`              | `Iterable<T>`                | —              | Item objects for dynamic collections.                       |
 
 ### TabList Props
 
-| Prop | Type | Default | Description |
-|------|------|---------|-------------|
-| `aria-label` | `string` | — | **Required.** An accessible label for the tab list. |
-| `children` | `ItemElement \| ItemRenderer<T>` | — | The tab labels. Each child must be an `Item` with a `key`. |
-| `items` | `Iterable<T>` | — | Item objects when using a render-function child. |
+| Prop         | Type                             | Default | Description                                                |
+| ------------ | -------------------------------- | ------- | ---------------------------------------------------------- |
+| `aria-label` | `string`                         | —       | **Required.** An accessible label for the tab list.        |
+| `children`   | `ItemElement \| ItemRenderer<T>` | —       | The tab labels. Each child must be an `Item` with a `key`. |
+| `items`      | `Iterable<T>`                    | —       | Item objects when using a render-function child.           |
 
 ### TabPanels Props
 
-| Prop | Type | Default | Description |
-|------|------|---------|-------------|
-| `children` | `ItemElement \| ItemRenderer<T>` | — | The panel content. Keys must match the corresponding `TabList` items. |
-| `items` | `Iterable<T>` | — | Item objects when using a render-function child. |
+| Prop       | Type                             | Default | Description                                                           |
+| ---------- | -------------------------------- | ------- | --------------------------------------------------------------------- |
+| `children` | `ItemElement \| ItemRenderer<T>` | —       | The panel content. Keys must match the corresponding `TabList` items. |
+| `items`    | `Iterable<T>`                    | —       | Item objects when using a render-function child.                      |
 
 ---
 
@@ -175,11 +195,11 @@ Individual tabs can be disabled via the `disabledKeys` prop on `Tabs`, leaving t
 
 **ARIA roles**
 
-| Element | Role | Notes |
-|---------|------|-------|
-| `TabList` | `tablist` | Container for all tab buttons. |
-| Each `Item` in `TabList` | `tab` | The individual selectable tab. Active tab has `aria-selected="true"`. Inactive tabs have `aria-selected="false"`. |
-| Each `Item` in `TabPanels` | `tabpanel` | The active panel. Linked to its tab via `aria-labelledby`. |
+| Element                    | Role       | Notes                                                                                                             |
+| -------------------------- | ---------- | ----------------------------------------------------------------------------------------------------------------- |
+| `TabList`                  | `tablist`  | Container for all tab buttons.                                                                                    |
+| Each `Item` in `TabList`   | `tab`      | The individual selectable tab. Active tab has `aria-selected="true"`. Inactive tabs have `aria-selected="false"`. |
+| Each `Item` in `TabPanels` | `tabpanel` | The active panel. Linked to its tab via `aria-labelledby`.                                                        |
 
 **`aria-label` on `TabList`**
 
@@ -202,16 +222,16 @@ Always provide `aria-label` (or `aria-labelledby`) on the `TabList`. Without it,
 
 **Keyboard interactions**
 
-| Key | Behaviour |
-|-----|-----------|
-| `Tab` | Moves focus into the `tablist` (landing on the active tab). |
+| Key                          | Behaviour                                                                                               |
+| ---------------------------- | ------------------------------------------------------------------------------------------------------- |
+| `Tab`                        | Moves focus into the `tablist` (landing on the active tab).                                             |
 | `Arrow Left` / `Arrow Right` | Moves focus between tabs (horizontal orientation). With `keyboardActivation="automatic"`, also selects. |
-| `Arrow Up` / `Arrow Down` | Moves focus between tabs (vertical orientation). |
-| `Home` | Moves focus to the first tab. |
-| `End` | Moves focus to the last tab. |
-| `Enter` / `Space` | Selects the focused tab (required with `keyboardActivation="manual"`; also works in automatic mode). |
-| `Tab` (from active tab) | Moves focus **into the active panel** — bypassing the other tab buttons. |
-| `Shift + Tab` (from panel) | Returns focus to the active tab. |
+| `Arrow Up` / `Arrow Down`    | Moves focus between tabs (vertical orientation).                                                        |
+| `Home`                       | Moves focus to the first tab.                                                                           |
+| `End`                        | Moves focus to the last tab.                                                                            |
+| `Enter` / `Space`            | Selects the focused tab (required with `keyboardActivation="manual"`; also works in automatic mode).    |
+| `Tab` (from active tab)      | Moves focus **into the active panel** — bypassing the other tab buttons.                                |
+| `Shift + Tab` (from panel)   | Returns focus to the active tab.                                                                        |
 
 **Focus management between list and panel**
 
@@ -241,10 +261,14 @@ When a tab is selected, the screen reader announces the tab label, its position 
         <Item key="security">Security</Item>
     </TabList>
     <TabPanels>
-        <Item key="general"><Content>General…</Content></Item>
-        <Item key="security"><Content>Security…</Content></Item>
+        <Item key="general">
+            <Content>General…</Content>
+        </Item>
+        <Item key="security">
+            <Content>Security…</Content>
+        </Item>
     </TabPanels>
-</Tabs>
+</Tabs>;
 
 // Controlled — you own the state
 const [selected, setSelected] = useState<Key>('general');
@@ -255,13 +279,18 @@ const [selected, setSelected] = useState<Key>('general');
         <Item key="security">Security</Item>
     </TabList>
     <TabPanels>
-        <Item key="general"><Content>General…</Content></Item>
-        <Item key="security"><Content>Security…</Content></Item>
+        <Item key="general">
+            <Content>General…</Content>
+        </Item>
+        <Item key="security">
+            <Content>Security…</Content>
+        </Item>
     </TabPanels>
-</Tabs>
+</Tabs>;
 ```
 
 Use `defaultSelectedKey` (uncontrolled) when no external state needs to react to the selection. Use `selectedKey` + `onSelectionChange` (controlled) when:
+
 - A sibling component needs to read or update the active tab (e.g., a "Next" button that advances through tabs).
 - The active tab is derived from a URL parameter or persisted in application state.
 - You need to prevent or delay a tab switch (e.g., after form validation).
@@ -280,7 +309,7 @@ Set `keyboardActivation="manual"` to decouple focus movement from activation:
     selectedKey={activeTab}
     onSelectionChange={(key) => {
         setActiveTab(key);
-        fetchTabData(key);   // only fires on explicit confirmation
+        fetchTabData(key); // only fires on explicit confirmation
     }}
     aria-label="Analytics dashboard"
 >
@@ -290,9 +319,15 @@ Set `keyboardActivation="manual"` to decouple focus movement from activation:
         <Item key="revenue">Revenue</Item>
     </TabList>
     <TabPanels>
-        <Item key="traffic"><Content>{trafficData}</Content></Item>
-        <Item key="conversions"><Content>{conversionData}</Content></Item>
-        <Item key="revenue"><Content>{revenueData}</Content></Item>
+        <Item key="traffic">
+            <Content>{trafficData}</Content>
+        </Item>
+        <Item key="conversions">
+            <Content>{conversionData}</Content>
+        </Item>
+        <Item key="revenue">
+            <Content>{revenueData}</Content>
+        </Item>
     </TabPanels>
 </Tabs>
 ```
@@ -311,23 +346,29 @@ import { Tabs, TabList, TabPanels, Item } from '@geti/ui';
             <Item key="details">Details</Item>
         </TabList>
         <TabPanels flex={1}>
-            <Item key="overview"><Content>Overview…</Content></Item>
-            <Item key="details"><Content>Details…</Content></Item>
+            <Item key="overview">
+                <Content>Overview…</Content>
+            </Item>
+            <Item key="details">
+                <Content>Details…</Content>
+            </Item>
         </TabPanels>
     </Tabs>
-</Flex>
+</Flex>;
 ```
 
 - **Pairing with `Card`**: Place `Tabs` inside a `Card` to create a contained tabbed panel. Use `isQuiet` to remove the tab bar border so it blends naturally with the card surface.
 - **Content slot**: Panel content is conventionally wrapped in the Spectrum `<Content>` slot component for correct padding and typography. Import it directly from `@adobe/react-spectrum`.
 
 ## Related components
+
 - **`Menu`** — use when options represent commands or actions rather than co-equal sibling content views; `Menu` overlays are ephemeral, whereas `Tabs` panels are always mounted.
 - **`ActionGroup`** — use for a set of toggle buttons that filter or change a view without hiding/showing separate panels.
 - **`Breadcrumbs`** — use alongside `Tabs` in deep hierarchies where breadcrumbs communicate positional context and tabs switch between sibling sections of the current level.
 - **`Link`** — use for navigation that changes the URL and requires browser history support; prefer `Tabs` only when switching between in-page sections without route changes.
 
 ## Example use cases
+
 <details>
   <summary>Typical use cases</summary>
 

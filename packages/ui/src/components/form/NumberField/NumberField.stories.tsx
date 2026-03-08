@@ -6,7 +6,7 @@ import type { Meta, StoryObj } from '@storybook/react';
 import { NumberField } from '@geti/ui';
 
 const meta: Meta<typeof NumberField> = {
-    tags: ["!dev"],
+    tags: ['!dev'],
     component: NumberField,
     title: 'Form/NumberField',
     argTypes: {

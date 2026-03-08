@@ -11,19 +11,19 @@ The `feedback/` category owns **every component that communicates system state b
 
 Components in this folder:
 
-| Component | Purpose |
-|---|---|
-| `Loading` | Flexible loading spinner in `inline`, `overlay`, or `fullscreen` mode; supports `spinner` or `intel` (branded) variant |
-| `IntelBrandedLoading` | *(deprecated)* Full-page Intel-branded loading animation; use `<Loading variant="intel" />` instead |
-| `ProgressBar` | Horizontal determinate or indeterminate progress indicator |
-| `ProgressCircle` | Circular determinate or indeterminate progress indicator |
-| `Meter` | Quantity/achievement meter with threshold colouring |
-| `Skeleton` | Shimmering placeholder rectangle/circle for content-loading states |
-| `Toast` / `ToastContainer` + `toast` API | Programmatic notification toasts (positive, negative, info, neutral) |
-| `InlineAlert` | Non-modal inline contextual message, often used for form-level validation summaries |
-| `IllustratedMessage` | Empty-state display combining an SVG illustration, heading, and description |
-| `Badge` | Small colour-coded metadata chip for counts or categories |
-| `StatusLight` | Coloured dot + label for semantic status and category coding |
+| Component                                | Purpose                                                                                                                |
+| ---------------------------------------- | ---------------------------------------------------------------------------------------------------------------------- |
+| `Loading`                                | Flexible loading spinner in `inline`, `overlay`, or `fullscreen` mode; supports `spinner` or `intel` (branded) variant |
+| `IntelBrandedLoading`                    | _(deprecated)_ Full-page Intel-branded loading animation; use `<Loading variant="intel" />` instead                    |
+| `ProgressBar`                            | Horizontal determinate or indeterminate progress indicator                                                             |
+| `ProgressCircle`                         | Circular determinate or indeterminate progress indicator                                                               |
+| `Meter`                                  | Quantity/achievement meter with threshold colouring                                                                    |
+| `Skeleton`                               | Shimmering placeholder rectangle/circle for content-loading states                                                     |
+| `Toast` / `ToastContainer` + `toast` API | Programmatic notification toasts (positive, negative, info, neutral)                                                   |
+| `InlineAlert`                            | Non-modal inline contextual message, often used for form-level validation summaries                                    |
+| `IllustratedMessage`                     | Empty-state display combining an SVG illustration, heading, and description                                            |
+| `Badge`                                  | Small colour-coded metadata chip for counts or categories                                                              |
+| `StatusLight`                            | Coloured dot + label for semantic status and category coding                                                           |
 
 ---
 
@@ -44,10 +44,12 @@ This is sufficient because Spectrum already handles ARIA (`aria-valuenow`, `role
 `Loading` is the most configurable feedback component. It is not a wrapper over a single Spectrum primitive; it branches on two independent axes:
 
 **`mode`** (`inline` | `overlay` | `fullscreen`):
+
 - Controls the CSS position/layout via one of three pre-computed `CSSProperties` objects (`INLINE_STYLE`, `OVERLAY_STYLE`, `FULLSCREEN_STYLE`).
 - The wrapping `<div>` receives this as its base style, merged with any caller-supplied `style`.
 
 **`variant`** (`spinner` | `intel`):
+
 - `spinner` renders `<ProgressCircle isIndeterminate />` from the `feedback/ProgressCircle` wrapper.
 - `intel` renders an `<img>` tag pointing at `intel-loading.webp`, sized via an `INTEL_SIZE_MAP` (S=24px, M=48px, L=192px).
 
@@ -56,10 +58,12 @@ This is sufficient because Spectrum already handles ARIA (`aria-valuenow`, `role
 ### `Toast` — programmatic API pattern
 
 `Toast` exports two things:
+
 1. `ToastContainer` — a placement-aware React component that must appear once at the app root (inside `ThemeProvider`).
 2. `toast` — a plain object with `positive`, `negative`, `info`, `neutral` methods that call into `SpectrumToastQueue` directly.
 
 This means callers never need a component reference to trigger a notification:
+
 ```ts
 toast.negative('Upload failed', { timeout: 5000 });
 ```
@@ -86,13 +90,12 @@ Spectrum's `Badge` already supports all required variants (positive, negative, n
 ## Integration
 
 - **Depends on**:
-  - `@adobe/react-spectrum` — `ProgressBar`, `ProgressCircle`, `Meter`, `Badge`, `InlineAlert`, `IllustratedMessage`, `StatusLight`, `ToastContainer`, `ToastQueue`, `Flex`
-  - `../ProgressCircle/ProgressCircle` — `Loading` imports its own sibling
-  - `intel-loading.webp` — bundled binary asset for the Intel branded animation
+    - `@adobe/react-spectrum` — `ProgressBar`, `ProgressCircle`, `Meter`, `Badge`, `InlineAlert`, `IllustratedMessage`, `StatusLight`, `ToastContainer`, `ToastQueue`, `Flex`
+    - `../ProgressCircle/ProgressCircle` — `Loading` imports its own sibling
+    - `intel-loading.webp` — bundled binary asset for the Intel branded animation
 - **Does NOT depend on** any other Geti component category (feedback is consumed by, not consuming, higher-level components).
 - **`VirtualizedListLayout` in `data/`** uses `Loading` as its default `renderLoading` implementation, showing the cross-category consumption pattern.
 - **Theme**: `geti-dark.module.css` overrides `--spectrum-toast-*-background-color` tokens so toast colours match Geti's palette (coral for negative, energy-blue-shade for info, daisy for warning).
-
 
 ---
 
@@ -105,4 +108,3 @@ Spectrum's `Badge` already supports all required variants (positive, negative, n
 ## Props
 
 <Controls />
-

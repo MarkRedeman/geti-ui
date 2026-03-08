@@ -13,7 +13,6 @@ import { Disclosure, DisclosureTitle, DisclosurePanel } from '@geti/ui';
 
 - [React Spectrum V3 Disclosure](https://react-spectrum.adobe.com/react-spectrum/Disclosure.html)
 
-
 <Stories />
 
 ## Responsibility
@@ -21,18 +20,21 @@ import { Disclosure, DisclosureTitle, DisclosurePanel } from '@geti/ui';
 `Disclosure` provides a standard mechanism for progressive disclosure: a clickable heading (`DisclosureTitle`) that controls the visibility of an associated content region (`DisclosurePanel`). It is the atomic building block of collapsible UI — used standalone for a single optional section, or composed inside `Accordion` to coordinate groups of sections.
 
 Key responsibilities:
+
 - **Progressive Disclosure**: Hides non-essential content by default, surfacing it only when the user explicitly requests it. This reduces cognitive load in dense UIs.
 - **State Management**: Manages the `isExpanded` boolean — either internally (uncontrolled) or externally (controlled via `isExpanded` + `onExpandedChange`).
 - **Accessible Pattern**: Implements the WAI-ARIA Disclosure pattern: the trigger button carries `aria-expanded` and `aria-controls`; the panel carries the corresponding `id` and `role="group"`.
 - **Composable Primitive**: Serves as the low-level unit that `Accordion` wraps and coordinates across multiple instances.
 
 ### When to use
+
 - For a single, independent collapsible section (e.g., "Advanced Settings", "Filter Options").
 - For help text, caveats, or additional context that should not be shown by default.
 - As the direct child of an `Accordion` when you need multiple related sections managed together.
 - When content is optional and users can decide whether they need to see it at all.
 
 ### When to avoid
+
 - When the user needs to see all the content at all times for quick scanning or comparison — show it directly with `Flex` or `Grid`.
 - For grouping interactive elements that should always be accessible (use a `Well` or `Card`).
 - For primary site-wide navigation — use a sidebar, `Tabs`, or a `NavigationMenu` instead.
@@ -102,7 +104,7 @@ const [expanded, setExpanded] = useState(false);
             <AnnotationDetails />
         </DisclosurePanel>
     </Disclosure>
-</>
+</>;
 ```
 
 ### Quiet Style
@@ -150,28 +152,28 @@ The `isQuiet` prop removes the heading's visual border and background, producing
 
 ### Disclosure Props
 
-| Prop | Type | Default | Description |
-| --- | --- | --- | --- |
-| `children` | `ReactNode` | — | Must contain a `DisclosureTitle` and a `DisclosurePanel`. |
-| `isExpanded` | `boolean` | — | Whether the section is expanded (controlled). |
-| `defaultExpanded` | `boolean` | `false` | Whether the section is expanded on first render (uncontrolled). |
-| `onExpandedChange` | `(isExpanded: boolean) => void` | — | Handler called when the expansion state changes. |
-| `isDisabled` | `boolean` | `false` | Whether the disclosure trigger is disabled. |
-| `isQuiet` | `boolean` | `false` | Whether to use the quiet (reduced visual weight) style. |
+| Prop               | Type                            | Default | Description                                                     |
+| ------------------ | ------------------------------- | ------- | --------------------------------------------------------------- |
+| `children`         | `ReactNode`                     | —       | Must contain a `DisclosureTitle` and a `DisclosurePanel`.       |
+| `isExpanded`       | `boolean`                       | —       | Whether the section is expanded (controlled).                   |
+| `defaultExpanded`  | `boolean`                       | `false` | Whether the section is expanded on first render (uncontrolled). |
+| `onExpandedChange` | `(isExpanded: boolean) => void` | —       | Handler called when the expansion state changes.                |
+| `isDisabled`       | `boolean`                       | `false` | Whether the disclosure trigger is disabled.                     |
+| `isQuiet`          | `boolean`                       | `false` | Whether to use the quiet (reduced visual weight) style.         |
 
 All remaining `SpectrumDisclosureProps` from `@adobe/react-spectrum` are forwarded transparently.
 
 ### DisclosureTitle Props
 
-| Prop | Type | Default | Description |
-| --- | --- | --- | --- |
-| `children` | `ReactNode` | — | The label or content of the clickable heading/trigger. |
+| Prop       | Type        | Default | Description                                            |
+| ---------- | ----------- | ------- | ------------------------------------------------------ |
+| `children` | `ReactNode` | —       | The label or content of the clickable heading/trigger. |
 
 ### DisclosurePanel Props
 
-| Prop | Type | Default | Description |
-| --- | --- | --- | --- |
-| `children` | `ReactNode` | — | The content shown when the disclosure is expanded. |
+| Prop       | Type        | Default | Description                                        |
+| ---------- | ----------- | ------- | -------------------------------------------------- |
+| `children` | `ReactNode` | —       | The content shown when the disclosure is expanded. |
 
 ## Integration
 
@@ -189,7 +191,7 @@ import { Disclosure, DisclosureTitle, DisclosurePanel } from '@geti/ui';
             <NumberField label="Learning rate" defaultValue={0.001} />
         </Flex>
     </DisclosurePanel>
-</Disclosure>
+</Disclosure>;
 ```
 
 `Disclosure` and `Accordion` are intentionally separate: `Disclosure` handles a single expandable section cleanly; `Accordion` is the coordination layer for many. Prefer `Disclosure` when you have one independent section. Switch to `Accordion` when you have two or more logically grouped sections that benefit from coordinated single-select or multi-select expansion.
@@ -197,15 +199,15 @@ import { Disclosure, DisclosureTitle, DisclosurePanel } from '@geti/ui';
 ## Accessibility
 
 - **Roles**:
-  - `DisclosureTitle` renders as a `<button>` (or as a heading + button combination, following Spectrum's heading level conventions). It carries `aria-expanded="true|false"` and `aria-controls="{panelId}"`.
-  - `DisclosurePanel` renders as a `<div role="group">` for general content, or `role="region"` with an `aria-label` for significant landmark-worthy content. Spectrum wires the `id` automatically.
+    - `DisclosureTitle` renders as a `<button>` (or as a heading + button combination, following Spectrum's heading level conventions). It carries `aria-expanded="true|false"` and `aria-controls="{panelId}"`.
+    - `DisclosurePanel` renders as a `<div role="group">` for general content, or `role="region"` with an `aria-label` for significant landmark-worthy content. Spectrum wires the `id` automatically.
 - **Keyboard interactions**:
-  - `Enter` or `Space` — toggles the expansion state when the trigger is focused.
-  - `Tab` — moves focus from the trigger into the first interactive element inside the panel (when expanded), or to the next focusable element outside the disclosure (when collapsed).
-  - `Shift+Tab` — moves focus backward through the interactive sequence.
+    - `Enter` or `Space` — toggles the expansion state when the trigger is focused.
+    - `Tab` — moves focus from the trigger into the first interactive element inside the panel (when expanded), or to the next focusable element outside the disclosure (when collapsed).
+    - `Shift+Tab` — moves focus backward through the interactive sequence.
 - **Labeling**:
-  - `DisclosureTitle` is always the label for the section. Make the title text descriptive enough for the section to be understood in isolation (e.g., "Advanced Training Settings", not just "Advanced").
-  - If the panel contains enough content to warrant a landmark region (for assistive technology's region list), add `aria-label` to `DisclosurePanel`.
+    - `DisclosureTitle` is always the label for the section. Make the title text descriptive enough for the section to be understood in isolation (e.g., "Advanced Training Settings", not just "Advanced").
+    - If the panel contains enough content to warrant a landmark region (for assistive technology's region list), add `aria-label` to `DisclosurePanel`.
 - **Animation and `prefers-reduced-motion`**: Spectrum's expand/collapse animation respects the OS-level `prefers-reduced-motion` media query. No additional configuration is required.
 - **Avoid suppressing the trigger**: Do not hide or `display:none` the `DisclosureTitle` to create a disclosure that opens programmatically only. If the trigger must not be visible, use a controlled `Disclosure` with a separate off-screen or icon-only trigger, but retain the trigger in the DOM so screen reader users can still discover and interact with the section.
 

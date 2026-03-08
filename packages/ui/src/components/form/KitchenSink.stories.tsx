@@ -118,16 +118,30 @@ const FormKitchenSink = () => (
 
             {/* ── Text inputs ── */}
             <View padding="size-300" backgroundColor="gray-50" borderRadius="medium">
-                <SectionHeading title="Text Inputs" subtitle="TextField, TextArea, NumberField, SearchField, PasswordField" />
+                <SectionHeading
+                    title="Text Inputs"
+                    subtitle="TextField, TextArea, NumberField, SearchField, PasswordField"
+                />
                 <Grid columns={['1fr', '1fr']} gap="size-300" UNSAFE_style={{ alignItems: 'start' }}>
                     <Flex direction="column" gap="size-250">
                         <div>
                             <SubLabel>TextField</SubLabel>
                             <Flex direction="column" gap="size-150">
                                 <TextField label="Username" placeholder="Enter username" width="100%" />
-                                <TextField label="Email" placeholder="user@example.com" description="We'll never share your email." width="100%" />
+                                <TextField
+                                    label="Email"
+                                    placeholder="user@example.com"
+                                    description="We'll never share your email."
+                                    width="100%"
+                                />
                                 <TextField label="Disabled" value="Read-only content" isDisabled width="100%" />
-                                <TextField label="Invalid" defaultValue="bad@" validationState="invalid" errorMessage="Enter a valid email address." width="100%" />
+                                <TextField
+                                    label="Invalid"
+                                    defaultValue="bad@"
+                                    validationState="invalid"
+                                    errorMessage="Enter a valid email address."
+                                    width="100%"
+                                />
                             </Flex>
                         </div>
                         <Divider size="S" />
@@ -145,8 +159,21 @@ const FormKitchenSink = () => (
                         <div>
                             <SubLabel>NumberField</SubLabel>
                             <Flex direction="column" gap="size-150">
-                                <NumberField label="Quantity" defaultValue={5} minValue={0} maxValue={100} width="100%" />
-                                <NumberField label="Price ($)" defaultValue={9.99} minValue={0} step={0.01} formatOptions={{ style: 'currency', currency: 'USD' }} width="100%" />
+                                <NumberField
+                                    label="Quantity"
+                                    defaultValue={5}
+                                    minValue={0}
+                                    maxValue={100}
+                                    width="100%"
+                                />
+                                <NumberField
+                                    label="Price ($)"
+                                    defaultValue={9.99}
+                                    minValue={0}
+                                    step={0.01}
+                                    formatOptions={{ style: 'currency', currency: 'USD' }}
+                                    width="100%"
+                                />
                                 <NumberField label="Disabled" defaultValue={42} isDisabled width="100%" />
                             </Flex>
                         </div>
@@ -169,7 +196,9 @@ const FormKitchenSink = () => (
                             <Flex direction="column" gap="size-150">
                                 <CheckboxGroup label="Preferred frameworks" defaultValue={['react', 'svelte']}>
                                     {FRAMEWORK_OPTIONS.map(({ key, label }) => (
-                                        <Checkbox key={key} value={key}>{label}</Checkbox>
+                                        <Checkbox key={key} value={key}>
+                                            {label}
+                                        </Checkbox>
                                     ))}
                                 </CheckboxGroup>
                                 <CheckboxGroup label="Horizontal" orientation="horizontal">
@@ -220,8 +249,22 @@ const FormKitchenSink = () => (
                     <div>
                         <SubLabel>Slider</SubLabel>
                         <Flex direction="column" gap="size-150">
-                            <Slider label="Opacity" defaultValue={60} minValue={0} maxValue={100} isFilled width="100%" />
-                            <Slider label="Volume" defaultValue={30} minValue={0} maxValue={100} step={10} width="100%" />
+                            <Slider
+                                label="Opacity"
+                                defaultValue={60}
+                                minValue={0}
+                                maxValue={100}
+                                isFilled
+                                width="100%"
+                            />
+                            <Slider
+                                label="Volume"
+                                defaultValue={30}
+                                minValue={0}
+                                maxValue={100}
+                                step={10}
+                                width="100%"
+                            />
                             <Slider label="Disabled" defaultValue={50} isDisabled width="100%" />
                         </Flex>
                     </div>
@@ -229,8 +272,19 @@ const FormKitchenSink = () => (
                     <div>
                         <SubLabel>RangeSlider</SubLabel>
                         <Flex direction="column" gap="size-150">
-                            <RangeSlider label="Confidence threshold" defaultValue={{ start: 20, end: 80 }} minValue={0} maxValue={100} width="100%" />
-                            <RangeSlider label="Disabled range" defaultValue={{ start: 30, end: 70 }} isDisabled width="100%" />
+                            <RangeSlider
+                                label="Confidence threshold"
+                                defaultValue={{ start: 20, end: 80 }}
+                                minValue={0}
+                                maxValue={100}
+                                width="100%"
+                            />
+                            <RangeSlider
+                                label="Disabled range"
+                                defaultValue={{ start: 30, end: 70 }}
+                                isDisabled
+                                width="100%"
+                            />
                         </Flex>
                     </div>
                 </Flex>
@@ -238,7 +292,10 @@ const FormKitchenSink = () => (
 
             {/* ── File controls ── */}
             <View padding="size-300" backgroundColor="gray-50" borderRadius="medium">
-                <SectionHeading title="File Controls" subtitle="FileTrigger (button wrapper) and DropZone (drag-and-drop target)" />
+                <SectionHeading
+                    title="File Controls"
+                    subtitle="FileTrigger (button wrapper) and DropZone (drag-and-drop target)"
+                />
                 <Flex direction="column" gap="size-250">
                     <div>
                         <SubLabel>FileTrigger</SubLabel>
@@ -259,16 +316,30 @@ const FormKitchenSink = () => (
                         <SubLabel>DropZone</SubLabel>
                         <Flex direction="row" gap="size-300" wrap alignItems="start">
                             <DropZone>
-                                <Flex direction="column" gap="size-100" alignItems="center" UNSAFE_style={{ padding: '24px 32px' }}>
-                                    <span style={{ fontSize: 'var(--spectrum-global-dimension-font-size-75)' }}>Drop files here or</span>
+                                <Flex
+                                    direction="column"
+                                    gap="size-100"
+                                    alignItems="center"
+                                    UNSAFE_style={{ padding: '24px 32px' }}
+                                >
+                                    <span style={{ fontSize: 'var(--spectrum-global-dimension-font-size-75)' }}>
+                                        Drop files here or
+                                    </span>
                                     <FileTrigger>
                                         <Button variant="secondary">Browse files</Button>
                                     </FileTrigger>
                                 </Flex>
                             </DropZone>
                             <DropZone isFilled>
-                                <Flex direction="column" gap="size-100" alignItems="center" UNSAFE_style={{ padding: '24px 32px' }}>
-                                    <span style={{ fontSize: 'var(--spectrum-global-dimension-font-size-75)' }}>Filled state</span>
+                                <Flex
+                                    direction="column"
+                                    gap="size-100"
+                                    alignItems="center"
+                                    UNSAFE_style={{ padding: '24px 32px' }}
+                                >
+                                    <span style={{ fontSize: 'var(--spectrum-global-dimension-font-size-75)' }}>
+                                        Filled state
+                                    </span>
                                 </Flex>
                             </DropZone>
                         </Flex>
@@ -285,8 +356,12 @@ const FormKitchenSink = () => (
                     <NumberField label="Age" minValue={18} maxValue={120} />
                     <Switch>Subscribe to newsletter</Switch>
                     <Flex direction="row" gap="size-150">
-                        <Button variant="accent" type="submit">Submit</Button>
-                        <Button variant="secondary" type="reset">Reset</Button>
+                        <Button variant="accent" type="submit">
+                            Submit
+                        </Button>
+                        <Button variant="secondary" type="reset">
+                            Reset
+                        </Button>
                     </Flex>
                 </Form>
             </View>
@@ -299,7 +374,7 @@ const FormKitchenSink = () => (
 // ---------------------------------------------------------------------------
 
 const meta: Meta<typeof FormKitchenSink> = {
-    tags: ["!dev"],
+    tags: ['!dev'],
     component: FormKitchenSink,
     title: 'Kitchen sink/Form',
     parameters: {

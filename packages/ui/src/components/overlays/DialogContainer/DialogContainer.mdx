@@ -20,16 +20,19 @@ import { DialogContainer } from '@geti/ui';
 `DialogContainer` solves the specific architectural problem of showing a Spectrum `Dialog` when **the trigger element cannot or should not remain in the DOM** while the dialog is open.
 
 Key responsibilities:
+
 - **Trigger-independent lifecycle**: Manages the modal overlay and focus trap without requiring a persistent trigger `<button>` in the component tree.
 - **Controlled API**: Enforces an always-controlled pattern — `isOpen` and `onDismiss` are required, making the dialog's open state explicit and testable.
 - **Spectrum-native children**: Accepts any `Dialog` or `AlertDialog` as its child, inheriting the full Spectrum modal experience (title, divider, action buttons, animation, scrim).
 
 ### When to use
+
 - When the trigger element is **transient** — e.g., a row in a table or list that can be deleted, a canvas element that can be unmounted, or a context menu item that closes before the dialog opens.
 - When a dialog is opened **programmatically** — from a keyboard shortcut, a Redux/state action, a right-click context menu, or a canvas event — where no button element exists as a natural trigger.
 - When the trigger and dialog are in **different parts of the component tree** and wiring a `DialogTrigger` ref would be impractical.
 
 ### When to avoid
+
 - When a **stable, persistent trigger button** exists — use `DialogTrigger` instead, which pairs the trigger and dialog in a single unit and manages focus return automatically.
 - For non-modal floating panels or popovers — use `Popover` or `CustomPopover`.
 - For tooltip or contextual-help overlays — use `ContextualHelp`.
@@ -69,13 +72,13 @@ const [isOpen, setIsOpen] = useState(false);
 
 ## Props
 
-| Prop | Type | Default | Description |
-|------|------|---------|-------------|
-| `children` | `ReactNode` | — | **Required.** A single `Dialog` or `AlertDialog`. |
-| `isOpen` | `boolean` | — | **Required.** Whether the dialog is currently open. |
-| `onDismiss` | `() => void` | — | **Required.** Called when the user dismisses the dialog (Escape, scrim click, or internal close action). |
-| `isDismissable` | `boolean` | `false` | Whether the dialog can be dismissed by clicking the scrim or pressing Escape. |
-| `type` | `'modal' \| 'fullscreen' \| 'fullscreenTakeover'` | `'modal'` | The visual presentation of the dialog overlay. |
+| Prop            | Type                                              | Default   | Description                                                                                              |
+| --------------- | ------------------------------------------------- | --------- | -------------------------------------------------------------------------------------------------------- |
+| `children`      | `ReactNode`                                       | —         | **Required.** A single `Dialog` or `AlertDialog`.                                                        |
+| `isOpen`        | `boolean`                                         | —         | **Required.** Whether the dialog is currently open.                                                      |
+| `onDismiss`     | `() => void`                                      | —         | **Required.** Called when the user dismisses the dialog (Escape, scrim click, or internal close action). |
+| `isDismissable` | `boolean`                                         | `false`   | Whether the dialog can be dismissed by clicking the scrim or pressing Escape.                            |
+| `type`          | `'modal' \| 'fullscreen' \| 'fullscreenTakeover'` | `'modal'` | The visual presentation of the dialog overlay.                                                           |
 
 ## Accessibility
 

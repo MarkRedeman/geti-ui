@@ -22,7 +22,7 @@ export interface CustomPopoverProps extends Omit<AriaPopoverProps, 'children' | 
     showArrow?: boolean;
     /** Custom width for the popover panel. */
     width?: number | string;
-    /** 
+    /**
      * The trigger element. If provided, the component manages open state internally via DialogTrigger.
      * Must be a RAC-compatible pressable element (e.g. Button) to receive ARIA and keyboard handlers.
      */
@@ -47,7 +47,7 @@ export const CustomPopover = ({
         ...(width !== undefined ? { width, minWidth: width } : {}),
     };
 
-    const renderArrow = () => (
+    const renderArrow = () =>
         showArrow && (
             <OverlayArrow>
                 {/* 
@@ -58,14 +58,11 @@ export const CustomPopover = ({
                     <path d="M0 12 L6 6 L12 12" />
                 </svg>
             </OverlayArrow>
-        )
-    );
+        );
 
     if (triggerElement !== undefined) {
         // Ensure the trigger is a RAC-aware element for accessibility.
-        const trigger = typeof triggerElement === 'string' 
-            ? <AriaButton>{triggerElement}</AriaButton> 
-            : triggerElement;
+        const trigger = typeof triggerElement === 'string' ? <AriaButton>{triggerElement}</AriaButton> : triggerElement;
 
         return (
             <AriaDialogTrigger>
