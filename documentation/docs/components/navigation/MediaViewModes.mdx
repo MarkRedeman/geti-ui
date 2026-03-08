@@ -1,0 +1,124 @@
+---
+title: MediaViewModes
+---
+
+import { MediaViewModes, ViewModes } from '@geti/ui';
+import { ExampleCard } from '../../../theme/ExampleCard';
+
+# MediaViewModes
+
+MediaViewModes provides a compact icon button that opens a menu to switch between grid and list view modes. Use it in media galleries, dataset browsers, and any content grid where users should be able to choose how items are displayed.
+
+```tsx
+import { MediaViewModes, ViewModes } from '@geti/ui';
+```
+
+## Examples
+
+<ExampleCard
+  title="Default (medium thumbnails selected)"
+  code={`<MediaViewModes
+  viewMode={ViewModes.MEDIUM}
+  setViewMode={(mode) => console.log(mode)}
+/>`}
+>
+  <MediaViewModes
+    viewMode={ViewModes.MEDIUM}
+    setViewMode={(mode) => console.log(mode)}
+  />
+</ExampleCard>
+
+<ExampleCard
+  title="Details (list) mode selected"
+  code={`<MediaViewModes
+  viewMode={ViewModes.DETAILS}
+  setViewMode={(mode) => console.log(mode)}
+/>`}
+>
+  <MediaViewModes
+    viewMode={ViewModes.DETAILS}
+    setViewMode={(mode) => console.log(mode)}
+  />
+</ExampleCard>
+
+<ExampleCard
+  title="Disabled"
+  code={`<MediaViewModes
+  viewMode={ViewModes.LARGE}
+  setViewMode={(mode) => console.log(mode)}
+  isDisabled
+/>`}
+>
+  <MediaViewModes
+    viewMode={ViewModes.LARGE}
+    setViewMode={(mode) => console.log(mode)}
+    isDisabled
+  />
+</ExampleCard>
+
+<ExampleCard
+  title="Restricted to two modes"
+  code={`<MediaViewModes
+  items={[ViewModes.DETAILS, ViewModes.MEDIUM]}
+  viewMode={ViewModes.MEDIUM}
+  setViewMode={(mode) => console.log(mode)}
+/>`}
+>
+  <MediaViewModes
+    items={[ViewModes.DETAILS, ViewModes.MEDIUM]}
+    viewMode={ViewModes.MEDIUM}
+    setViewMode={(mode) => console.log(mode)}
+  />
+</ExampleCard>
+
+## Responsibility
+
+`MediaViewModes` is a Geti-specific composite component. It renders a quiet `ActionButton` that shows the icon for the current view mode, wraps it in a `TooltipTrigger`, and opens a `Menu` with all available modes. State management is fully controlled by the caller via `viewMode` and `setViewMode`.
+
+## Variants and states
+
+The displayed icon changes to reflect the current mode:
+
+| ViewMode | Icon | Description |
+|---|---|---|
+| `ViewModes.LARGE` | `ClassicGridView` | Large thumbnail grid |
+| `ViewModes.MEDIUM` | `ModernGridView` | Medium thumbnail grid |
+| `ViewModes.SMALL` | `ViewGrid` | Small thumbnail grid |
+| `ViewModes.DETAILS` | `ViewList` | Detailed list view |
+
+## Props (deep dive)
+
+### Value / state
+
+- `viewMode` (required): the currently active `ViewModes` value. Controls which icon is displayed.
+- `setViewMode` (required): callback called when the user selects a new mode.
+
+### Content
+
+- `items`: subset of `ViewModes` values to show in the menu. Defaults to all four modes.
+
+### Visual
+
+- `isDisabled`: disables the trigger button and prevents the menu from opening.
+
+### Accessibility
+
+- The trigger button has `aria-label="View mode"`.
+- A tooltip labelled `"View mode"` appears on hover/focus.
+- The menu uses `selectionMode="single"` to communicate the active mode.
+
+## Related components
+
+- `Menu` + `MenuTrigger` — use when you need a fully custom view-switcher with different trigger styling.
+- `ToggleButtons` — use for small, always-visible mode switchers (2–3 options) that do not need a dropdown.
+
+## Example use cases
+
+<details>
+  <summary>Typical use cases</summary>
+
+- Media gallery toolbar: switch between large grid, medium grid, small grid, and details list.
+- Dataset browser header: let users choose how uploaded images are displayed.
+- Search results page: toggle between card view and compact list view.
+
+</details>
