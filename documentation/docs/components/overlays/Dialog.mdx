@@ -1,0 +1,158 @@
+---
+title: Dialog
+---
+
+import { Button, Dialog, DialogTrigger } from '@geti/ui';
+import { ButtonGroup, Content, Divider, Heading, Footer } from '@adobe/react-spectrum';
+import { ExampleCard } from '../../../theme/ExampleCard';
+
+# Dialog
+
+Dialog presents content in a modal overlay that requires the user's attention before returning to the page. Use it for confirmation prompts, input forms, detail views, or any workflow that should visually interrupt the current context.
+
+```tsx
+import { Dialog, DialogTrigger } from '@geti/ui';
+```
+
+- [React Spectrum Dialog ↗](https://react-spectrum.adobe.com/react-spectrum/Dialog.html)
+- [Geti UI Theming](/components/theming)
+
+## Examples
+
+<ExampleCard
+  title="Default dialog with footer actions"
+  code={`<DialogTrigger>
+  <Button variant="accent">Open dialog</Button>
+  {(close) => (
+    <Dialog>
+      <Heading>Dialog title</Heading>
+      <Divider />
+      <Content>This is the dialog content.</Content>
+      <Footer>
+        <ButtonGroup>
+          <Button variant="secondary" onPress={close}>Cancel</Button>
+          <Button variant="accent" onPress={close}>Confirm</Button>
+        </ButtonGroup>
+      </Footer>
+    </Dialog>
+  )}
+</DialogTrigger>`}
+>
+  <DialogTrigger>
+    <Button variant="accent">Open dialog</Button>
+    {(close) => (
+      <Dialog>
+        <Heading>Dialog title</Heading>
+        <Divider />
+        <Content>This is the dialog content.</Content>
+        <Footer>
+          <ButtonGroup>
+            <Button variant="secondary" onPress={close}>Cancel</Button>
+            <Button variant="accent" onPress={close}>Confirm</Button>
+          </ButtonGroup>
+        </Footer>
+      </Dialog>
+    )}
+  </DialogTrigger>
+</ExampleCard>
+
+<ExampleCard
+  title="Dismissable (click outside / Escape to close)"
+  code={`<DialogTrigger isDismissable>
+  <Button variant="accent">Open dismissable</Button>
+  <Dialog>
+    <Heading>Dismissable dialog</Heading>
+    <Divider />
+    <Content>Click outside or press Escape to close this dialog.</Content>
+  </Dialog>
+</DialogTrigger>`}
+>
+  <DialogTrigger isDismissable>
+    <Button variant="accent">Open dismissable</Button>
+    <Dialog>
+      <Heading>Dismissable dialog</Heading>
+      <Divider />
+      <Content>Click outside or press Escape to close this dialog.</Content>
+    </Dialog>
+  </DialogTrigger>
+</ExampleCard>
+
+<ExampleCard
+  title="Small dialog"
+  code={`<DialogTrigger>
+  <Button variant="primary">Small dialog</Button>
+  {(close) => (
+    <Dialog size="S">
+      <Heading>Small dialog</Heading>
+      <Divider />
+      <Content>A compact dialog with size S.</Content>
+      <Footer>
+        <Button variant="primary" onPress={close}>OK</Button>
+      </Footer>
+    </Dialog>
+  )}
+</DialogTrigger>`}
+>
+  <DialogTrigger>
+    <Button variant="primary">Small dialog</Button>
+    {(close) => (
+      <Dialog size="S">
+        <Heading>Small dialog</Heading>
+        <Divider />
+        <Content>A compact dialog with size S.</Content>
+        <Footer>
+          <Button variant="primary" onPress={close}>OK</Button>
+        </Footer>
+      </Dialog>
+    )}
+  </DialogTrigger>
+</ExampleCard>
+
+## Responsibility
+
+`Dialog` and `DialogTrigger` are thin wrappers around React Spectrum equivalents. `DialogTrigger` links open/close state to the trigger's press event. `Dialog` renders the modal shell with Spectrum's focus trap, backdrop, and ARIA role management.
+
+## Variants and states
+
+| Prop | Options | Notes |
+|---|---|---|
+| `size` on `Dialog` | `S \| M \| L` | Controls the maximum width of the dialog |
+| `isDismissable` on `DialogTrigger` | boolean | Allows closing via backdrop click or Escape |
+| `type` on `DialogTrigger` | `modal \| fullscreen \| fullscreenTakeover \| tray \| popover` | Defaults to `modal` |
+
+## Props (deep dive)
+
+### Dialog
+
+- `children`: use Spectrum's `Heading`, `Divider`, `Content`, `Footer`, and `ButtonGroup` to compose the dialog body.
+- `size`: `S | M | L` — preferred width.
+
+### DialogTrigger
+
+- `children`: trigger element (first child) and `Dialog` or render-prop returning one (second child).
+- `isDismissable`: allow backdrop/Escape dismiss.
+- `type`: determines the overlay style.
+- `onOpenChange`: called when the dialog opens or closes.
+
+### Accessibility
+
+- `Dialog` renders with `role="dialog"` and `aria-modal="true"`.
+- Focus is trapped inside the dialog while open and restored to the trigger when closed.
+- Always include a visible `Heading` — Spectrum uses it as the dialog's accessible name.
+
+## Related components
+
+- `AlertDialog` — use for short confirmation or destructive-action prompts with structured button labels.
+- `DialogContainer` — use when there is no persistent trigger element (programmatic open).
+- `Popover` — use for smaller contextual overlays that do not require full focus-trap semantics.
+
+## Example use cases
+
+<details>
+  <summary>Typical use cases</summary>
+
+- Create project form opened via a primary button.
+- Edit model configuration in a medium dialog with a form inside.
+- Image preview dialog (dismissable) opened from a gallery card.
+
+</details>
