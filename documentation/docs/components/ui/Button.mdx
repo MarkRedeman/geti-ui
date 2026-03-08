@@ -3,6 +3,7 @@ title: Button
 ---
 
 import { Button, Flex } from '@geti/ui';
+import { ExampleCard } from '../../../theme/ExampleCard';
 
 # Button
 
@@ -17,22 +18,37 @@ import { Button } from '@geti/ui';
 
 ## Examples
 
-### Variants
-
-<Flex gap="size-100" wrap>
+<ExampleCard
+  title="Variants"
+  code={`<Flex gap="size-100" wrap>
   <Button variant="accent">Accent (default)</Button>
   <Button variant="primary">Primary</Button>
   <Button variant="secondary" style="outline">Secondary</Button>
   <Button variant="negative">Delete</Button>
-</Flex>
+</Flex>`}
+>
+  <Flex gap="size-100" wrap>
+    <Button variant="accent">Accent (default)</Button>
+    <Button variant="primary">Primary</Button>
+    <Button variant="secondary" style="outline">Secondary</Button>
+    <Button variant="negative">Delete</Button>
+  </Flex>
+</ExampleCard>
 
-### States
-
-<Flex gap="size-100" wrap>
+<ExampleCard
+  title="States"
+  code={`<Flex gap="size-100" wrap>
   <Button>Default</Button>
   <Button isPending>Saving...</Button>
   <Button isDisabled>Disabled</Button>
-</Flex>
+</Flex>`}
+>
+  <Flex gap="size-100" wrap>
+    <Button>Default</Button>
+    <Button isPending>Saving...</Button>
+    <Button isDisabled>Disabled</Button>
+  </Flex>
+</ExampleCard>
 
 ## Responsibility
 
