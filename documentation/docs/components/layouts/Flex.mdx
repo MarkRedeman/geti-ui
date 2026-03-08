@@ -1,0 +1,106 @@
+---
+title: Flex
+---
+
+import { Flex } from '@geti/ui';
+import { ExampleCard } from '../../../theme/ExampleCard';
+
+# Flex
+
+Flex is a CSS flexbox container that accepts Spectrum dimension tokens for `gap`, `width`, `height`, and other spacing values. Use it to build horizontal or vertical layouts with consistent Spectrum-aligned spacing.
+
+```tsx
+import { Flex } from '@geti/ui';
+```
+
+- [React Spectrum Flex ↗](https://react-spectrum.adobe.com/react-spectrum/Flex.html)
+- [Geti UI Theming](/components/theming)
+
+## Examples
+
+<ExampleCard
+  title="Row with gap"
+  code={`<Flex direction="row" gap="size-200">
+  <div style={{ background: '#3b82f6', padding: '8px 16px', borderRadius: 4 }}>Item 1</div>
+  <div style={{ background: '#3b82f6', padding: '8px 16px', borderRadius: 4 }}>Item 2</div>
+  <div style={{ background: '#3b82f6', padding: '8px 16px', borderRadius: 4 }}>Item 3</div>
+</Flex>`}
+>
+  <Flex direction="row" gap="size-200">
+    <div style={{ background: '#3b82f6', padding: '8px 16px', borderRadius: 4 }}>Item 1</div>
+    <div style={{ background: '#3b82f6', padding: '8px 16px', borderRadius: 4 }}>Item 2</div>
+    <div style={{ background: '#3b82f6', padding: '8px 16px', borderRadius: 4 }}>Item 3</div>
+  </Flex>
+</ExampleCard>
+
+<ExampleCard
+  title="Column layout"
+  code={`<Flex direction="column" gap="size-100">
+  <div style={{ background: '#22c55e', padding: '8px 16px', borderRadius: 4 }}>Row A</div>
+  <div style={{ background: '#22c55e', padding: '8px 16px', borderRadius: 4 }}>Row B</div>
+  <div style={{ background: '#22c55e', padding: '8px 16px', borderRadius: 4 }}>Row C</div>
+</Flex>`}
+>
+  <Flex direction="column" gap="size-100">
+    <div style={{ background: '#22c55e', padding: '8px 16px', borderRadius: 4 }}>Row A</div>
+    <div style={{ background: '#22c55e', padding: '8px 16px', borderRadius: 4 }}>Row B</div>
+    <div style={{ background: '#22c55e', padding: '8px 16px', borderRadius: 4 }}>Row C</div>
+  </Flex>
+</ExampleCard>
+
+<ExampleCard
+  title="Centered alignment"
+  code={`<Flex direction="row" gap="size-200" alignItems="center" justifyContent="center">
+  <div style={{ background: '#a855f7', padding: '4px 12px', borderRadius: 4 }}>Small</div>
+  <div style={{ background: '#a855f7', padding: '16px 12px', borderRadius: 4 }}>Tall</div>
+  <div style={{ background: '#a855f7', padding: '4px 12px', borderRadius: 4 }}>Small</div>
+</Flex>`}
+>
+  <Flex direction="row" gap="size-200" alignItems="center" justifyContent="center">
+    <div style={{ background: '#a855f7', padding: '4px 12px', borderRadius: 4 }}>Small</div>
+    <div style={{ background: '#a855f7', padding: '16px 12px', borderRadius: 4 }}>Tall</div>
+    <div style={{ background: '#a855f7', padding: '4px 12px', borderRadius: 4 }}>Small</div>
+  </Flex>
+</ExampleCard>
+
+## Responsibility
+
+`Flex` is a thin wrapper around React Spectrum `Flex`. It accepts Spectrum dimension tokens (`size-100`, `size-200`, etc.) for spacing props rather than raw CSS values, keeping layouts consistent with the Geti design token system.
+
+## Variants and states
+
+Flex has no visual variants — it is a layout primitive. Behaviour is controlled via props.
+
+## Props (deep dive)
+
+### Layout
+
+- `direction`: `row` (default) | `column` | `row-reverse` | `column-reverse`.
+- `gap`: Spectrum dimension token or CSS value for spacing between children.
+- `wrap`: allows items to wrap onto multiple lines.
+
+### Alignment
+
+- `alignItems`: cross-axis alignment (`start | center | end | stretch | baseline`).
+- `justifyContent`: main-axis distribution (`start | center | end | space-between | space-around | space-evenly`).
+- `alignContent`: multi-line cross-axis alignment.
+
+### Sizing
+
+- `width` / `height` / `minWidth` / `maxWidth`: accept Spectrum dimension tokens.
+
+## Related components
+
+- `Grid` — use for two-dimensional layouts (rows and columns).
+- `View` — use for a single boxed container without flex behaviour.
+
+## Example use cases
+
+<details>
+  <summary>Typical use cases</summary>
+
+- Toolbar with actions aligned to opposite ends: `justifyContent="space-between"`.
+- Form row: label and input side by side with `alignItems="center"`.
+- Stacked card body: title, description, and metadata in a `direction="column"` layout.
+
+</details>
