@@ -3,7 +3,7 @@
 
 import type { Meta, StoryObj } from '@storybook/react';
 
-import { ProgressBar } from './ProgressBar';
+import { ProgressBar } from '@geti/ui';
 
 const meta: Meta<typeof ProgressBar> = {
     tags: ["!dev"],

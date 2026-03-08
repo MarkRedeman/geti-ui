@@ -4,8 +4,7 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import { Button, ButtonGroup, Content, Divider, Footer, Heading } from '@adobe/react-spectrum';
 
-import { Dialog } from './Dialog';
-import { DialogTrigger } from './DialogTrigger';
+import { Dialog, DialogTrigger } from '@geti/ui';
 
 const meta: Meta<typeof Dialog> = {
     tags: ["!dev"],

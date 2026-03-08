@@ -3,8 +3,7 @@
 
 import type { Meta, StoryObj } from '@storybook/react';
 
-import { Button } from '../../ui/Button/Button';
-import { ToastContainer, toast } from './Toast';
+import { Button, ToastContainer, toast } from '@geti/ui';
 
 const meta: Meta<typeof ToastContainer> = {
     tags: ["!dev"],

@@ -4,7 +4,7 @@
 import { Content, Heading } from '@adobe/react-spectrum';
 import type { Meta, StoryObj } from '@storybook/react';
 
-import { InlineAlert } from './InlineAlert';
+import { InlineAlert } from '@geti/ui';
 
 const meta: Meta<typeof InlineAlert> = {
     tags: ["!dev"],

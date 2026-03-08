@@ -201,13 +201,16 @@ function transformContent(raw: string, componentName: string): string {
 }
 
 /**
- * Find the .stories.tsx file inside a component directory.
- * Returns the absolute path if found, or null if not.
+ * Find the stories file for a specific component.
+ *
+ * We intentionally require an exact filename match (`{Component}.stories.tsx`).
+ * This avoids attaching a sibling component's stories when multiple components
+ * live in the same directory (e.g. Avatar + AvatarGroup), which can cause
+ * runtime crashes due to args/component mismatch.
  */
-function findStoriesFile(componentDir: string): string | null {
-  const files = fs.readdirSync(componentDir);
-  const storiesFile = files.find(f => f.endsWith('.stories.tsx'));
-  return storiesFile ? path.join(componentDir, storiesFile) : null;
+function findStoriesFile(componentDir: string, componentName: string): string | null {
+  const exactStoriesFile = path.join(componentDir, `${componentName}.stories.tsx`);
+  return fs.existsSync(exactStoriesFile) ? exactStoriesFile : null;
 }
 
 /**
@@ -226,6 +229,12 @@ function findComponentFile(componentDir: string, componentName: string): string 
  */
 function escapeTemplateLiteral(s: string): string {
   return s.replace(/`/g, '\\`').replace(/\$\{/g, '\\${');
+}
+
+function getPackageComponentImportName(componentName: string): string | null {
+  // Toast docs are backed by ToastContainer in @geti/ui
+  if (componentName === 'Toast') return 'ToastContainer';
+  return componentName;
 }
 
 function discoverComponentMdxFiles(): ComponentPage[] {
@@ -259,7 +268,7 @@ function discoverComponentMdxFiles(): ComponentPage[] {
           componentName,
           category,
           title: componentName,
-          storiesPath: findStoriesFile(componentDir) ?? undefined,
+          storiesPath: findStoriesFile(componentDir, componentName) ?? undefined,
           componentPath: findComponentFile(componentDir, componentName) ?? undefined,
         });
       }
@@ -370,15 +379,20 @@ export function componentDocsPlugin(): RspressPlugin {
           const storiesImportPath = page.storiesPath.replace(/\.tsx$/, '');
           const rawStories = fs.readFileSync(page.storiesPath, 'utf-8');
           const escapedSource = escapeTemplateLiteral(rawStories);
+          const packageComponentImportName = getPackageComponentImportName(page.componentName);
 
           // Build the stories block: imports + JSX
           const storiesImports =
             `import StoriesGallery from '${STORIES_GALLERY_PATH}';\n` +
             `import * as ComponentStories from '${storiesImportPath}';\n` +
-            `import { ${page.componentName} } from '@geti/ui';\n`;
+            (packageComponentImportName
+              ? `import { ${packageComponentImportName} } from '@geti/ui';\n`
+              : '');
 
           const storiesJsx =
-            `<StoriesGallery module={ComponentStories} source={\`${escapedSource}\`} component={${page.componentName}} />\n`;
+            (packageComponentImportName
+              ? `<StoriesGallery module={ComponentStories} source={\`${escapedSource}\`} component={${packageComponentImportName}} />\n`
+              : `<StoriesGallery module={ComponentStories} source={\`${escapedSource}\`} />\n`);
 
           // Insert stories right after the intro section (title + subtitle + import
           // code block + links) and before the first ## heading.

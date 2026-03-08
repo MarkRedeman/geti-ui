@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react';
-import { TreeView } from './TreeView';
-import { Item } from '@adobe/react-spectrum';
+import { Item, Text } from '@adobe/react-spectrum';
+import { TreeView } from '@geti/ui';
 
 const meta: Meta<typeof TreeView> = {
     tags: ["!dev"],
@@ -26,4 +26,3 @@ export const Default: Story = {
         </TreeView>
     ),
 };
-import { Text } from '@adobe/react-spectrum';

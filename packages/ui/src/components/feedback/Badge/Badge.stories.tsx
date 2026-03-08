@@ -4,7 +4,7 @@
 import Checkmark from '@spectrum-icons/workflow/Checkmark';
 import type { Meta, StoryObj } from '@storybook/react';
 
-import { Badge } from './Badge';
+import { Badge } from '@geti/ui';
 
 const meta: Meta<typeof Badge> = {
     tags: ["!dev"],

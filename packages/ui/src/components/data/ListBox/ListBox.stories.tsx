@@ -3,7 +3,7 @@
 
 import type { Meta, StoryObj } from '@storybook/react';
 
-import { ListBox, Item } from './ListBox';
+import { ListBox, ListBoxItem as Item } from '@geti/ui';
 
 const meta: Meta<typeof ListBox> = {
     tags: ["!dev"],

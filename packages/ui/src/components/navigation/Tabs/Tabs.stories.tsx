@@ -4,10 +4,7 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import { Content } from '@adobe/react-spectrum';
 
-import { Item } from './Item';
-import { TabList } from './TabList';
-import { TabPanels } from './TabPanels';
-import { Tabs } from './Tabs';
+import { TabItem as Item, TabList, TabPanels, Tabs } from '@geti/ui';
 
 const meta: Meta<typeof Tabs> = {
     tags: ["!dev"],

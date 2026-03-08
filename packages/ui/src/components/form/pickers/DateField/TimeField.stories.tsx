@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react';
 
-import { TimeField } from './DateField'; // TimeField is exported from DateField.tsx
+import { TimeField } from '@geti/ui'; // TimeField is co-located with DateField
 
 const meta: Meta<typeof TimeField> = {
     tags: ["!dev"],

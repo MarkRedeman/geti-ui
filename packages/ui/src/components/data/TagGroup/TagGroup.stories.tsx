@@ -3,7 +3,7 @@
 
 import type { Meta, StoryObj } from '@storybook/react';
 
-import { TagGroup, Item } from './TagGroup';
+import { TagGroup, TagItem as Item } from '@geti/ui';
 
 const meta: Meta<typeof TagGroup> = {
     tags: ["!dev"],

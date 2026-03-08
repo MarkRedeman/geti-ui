@@ -3,7 +3,7 @@
 
 import type { Meta, StoryObj } from '@storybook/react';
 
-import { Disclosure, DisclosurePanel, DisclosureTitle } from './Disclosure';
+import { Disclosure, DisclosurePanel, DisclosureTitle } from '@geti/ui';
 
 const meta: Meta<typeof Disclosure> = {
     tags: ["!dev"],

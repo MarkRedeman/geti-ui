@@ -3,9 +3,7 @@
 
 import type { Meta, StoryObj } from '@storybook/react';
 
-import { Button } from '../../ui/Button/Button';
-import { TextField } from '../TextField/TextField';
-import { Form } from './Form';
+import { Button, TextField, Form } from '@geti/ui';
 
 const meta: Meta<typeof Form> = {
     tags: ["!dev"],

@@ -2,9 +2,7 @@
 // LIMITED EDGE SOFTWARE DISTRIBUTION LICENSE
 
 import type { Meta, StoryObj } from '@storybook/react';
-import { Disclosure, DisclosurePanel, DisclosureTitle } from '@adobe/react-spectrum';
-
-import { Accordion } from './Accordion';
+import { Accordion, Disclosure, DisclosurePanel, DisclosureTitle } from '@geti/ui';
 
 const meta: Meta<typeof Accordion> = {
     tags: ["!dev"],

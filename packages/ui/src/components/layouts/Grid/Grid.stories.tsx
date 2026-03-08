@@ -3,7 +3,7 @@
 
 import type { Meta, StoryObj } from '@storybook/react';
 
-import { Grid } from './Grid';
+import { Grid } from '@geti/ui';
 
 const meta: Meta<typeof Grid> = {
     tags: ["!dev"],

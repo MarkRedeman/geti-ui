@@ -3,7 +3,7 @@
 
 import type { Meta, StoryObj } from '@storybook/react';
 
-import { View } from './View';
+import { View } from '@geti/ui';
 
 const meta: Meta<typeof View> = {
     tags: ["!dev"],

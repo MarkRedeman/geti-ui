@@ -3,7 +3,7 @@
 
 import type { Meta, StoryObj } from '@storybook/react';
 
-import { Loading } from './Loading';
+import { Loading } from '@geti/ui';
 
 const meta: Meta<typeof Loading> = {
     tags: ["!dev"],

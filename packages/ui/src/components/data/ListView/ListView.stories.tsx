@@ -3,7 +3,7 @@
 
 import type { Meta, StoryObj } from '@storybook/react';
 
-import { ListView, Item } from './ListView';
+import { ListView, ListItem as Item } from '@geti/ui';
 
 const meta: Meta<typeof ListView> = {
     tags: ["!dev"],

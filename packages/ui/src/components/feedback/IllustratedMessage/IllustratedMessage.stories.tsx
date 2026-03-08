@@ -5,7 +5,7 @@ import Alert from '@spectrum-icons/workflow/Alert';
 import type { Meta, StoryObj } from '@storybook/react';
 import { Content, Heading } from '@adobe/react-spectrum';
 
-import { IllustratedMessage } from './IllustratedMessage';
+import { IllustratedMessage } from '@geti/ui';
 
 const meta: Meta<typeof IllustratedMessage> = {
     tags: ["!dev"],

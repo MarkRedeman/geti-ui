@@ -3,7 +3,7 @@
 
 import type { Meta, StoryObj } from '@storybook/react';
 
-import { TextArea } from './TextArea';
+import { TextArea } from '@geti/ui';
 
 const meta: Meta<typeof TextArea> = {
     tags: ["!dev"],

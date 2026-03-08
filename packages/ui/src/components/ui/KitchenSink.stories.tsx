@@ -10,19 +10,7 @@ import ViewGrid from '@spectrum-icons/workflow/ViewGrid';
 import ViewList from '@spectrum-icons/workflow/ViewList';
 import type { Meta, StoryObj } from '@storybook/react';
 
-import { ActionButton } from './ActionButton/ActionButton';
-import { Avatar } from './Avatar/Avatar';
-import { AvatarGroup } from './Avatar/AvatarGroup';
-import { Button } from './Button/Button';
-import { CornerIndicator } from './CornerIndicator/CornerIndicator';
-import { Divider } from './Divider/Divider';
-import { Image } from './Image/Image';
-import { PhotoPlaceholder } from './PhotoPlaceholder/PhotoPlaceholder';
-import { PressableElement } from './PressableElement/PressableElement';
-import { ToggleButton } from './ToggleButton/ToggleButton';
-import { ToggleButtons } from './ToggleButtons/ToggleButtons';
-import { View } from './View/View';
-import { Flex } from '../layouts/Flex/Flex';
+import { ActionButton, Avatar, AvatarGroup, Button, CornerIndicator, Divider, Flex, Image, PhotoPlaceholder, PressableElement, ToggleButton, ToggleButtons, View } from '@geti/ui';
 
 // ---------------------------------------------------------------------------
 // Helpers

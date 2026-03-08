@@ -3,8 +3,7 @@
 
 import type { Meta, StoryObj } from '@storybook/react';
 
-import { Button } from '../../ui/Button/Button';
-import { FileTrigger } from './FileTrigger';
+import { Button, FileTrigger } from '@geti/ui';
 
 const meta: Meta<typeof FileTrigger> = {
     tags: ["!dev"],

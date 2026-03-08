@@ -3,7 +3,7 @@
 
 import type { Meta, StoryObj } from '@storybook/react';
 
-import { ActionButton } from './ActionButton';
+import { ActionButton } from '@geti/ui';
 
 const meta: Meta<typeof ActionButton> = {
     tags: ["!dev"],

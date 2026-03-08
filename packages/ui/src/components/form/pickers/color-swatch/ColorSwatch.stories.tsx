@@ -1,7 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react';
 
-import { ColorSwatch } from './ColorSwatch';
-import { Flex } from '../../../layouts/Flex/Flex';
+import { ColorSwatch, Flex } from '@geti/ui';
 
 const meta: Meta<typeof ColorSwatch> = {
     tags: ["!dev"],

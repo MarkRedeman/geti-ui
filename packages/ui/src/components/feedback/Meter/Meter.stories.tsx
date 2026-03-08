@@ -3,7 +3,7 @@
 
 import type { Meta, StoryObj } from '@storybook/react';
 
-import { Meter } from './Meter';
+import { Meter } from '@geti/ui';
 
 const meta: Meta<typeof Meter> = {
     tags: ["!dev"],

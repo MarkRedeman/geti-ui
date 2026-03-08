@@ -4,10 +4,7 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import { ActionButton } from '@adobe/react-spectrum';
 
-import { Item } from './Item';
-import { Menu } from './Menu';
-import { MenuTrigger } from './MenuTrigger';
-import { Section } from './Section';
+import { MenuItem as Item, Menu, MenuTrigger, MenuSection as Section } from '@geti/ui';
 
 const meta: Meta<typeof Menu> = {
     tags: ["!dev"],

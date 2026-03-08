@@ -3,8 +3,7 @@
 
 import type { Meta, StoryObj } from '@storybook/react';
 
-import { Avatar } from './Avatar';
-import { AvatarGroup } from './AvatarGroup';
+import { Avatar, AvatarGroup } from '@geti/ui';
 
 const avatarMeta: Meta<typeof Avatar> = {
     tags: ['!dev'],
@@ -75,7 +74,10 @@ export const Disabled: AvatarStory = {
 /** Fallback when no valid image src is provided. */
 export const FallbackSrc: AvatarStory = {
     args: {
-        src: 'https://broken-image-url.example.com/avatar.png',
+        // Use a local missing path instead of a non-resolving domain to avoid
+        // noisy DNS errors in docs runtime validation while still exercising
+        // the broken-image fallback behavior.
+        src: '/nonexistent-avatar-image.png',
         alt: 'Broken image avatar',
     },
 };

@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react';
-import { VirtualizedListLayout } from './VirtualizedListLayout';
+import { VirtualizedListLayout } from '@geti/ui';
 import { Flex, Text } from '@adobe/react-spectrum';
 
 interface MockItem {

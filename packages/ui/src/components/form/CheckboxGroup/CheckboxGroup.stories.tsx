@@ -2,9 +2,7 @@
 // LIMITED EDGE SOFTWARE DISTRIBUTION LICENSE
 
 import type { Meta, StoryObj } from '@storybook/react';
-import { Checkbox } from '@adobe/react-spectrum';
-
-import { CheckboxGroup } from './CheckboxGroup';
+import { Checkbox, CheckboxGroup } from '@geti/ui';
 
 const meta: Meta<typeof CheckboxGroup> = {
     tags: ["!dev"],

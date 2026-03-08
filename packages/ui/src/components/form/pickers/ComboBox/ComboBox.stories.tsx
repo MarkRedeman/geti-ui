@@ -3,7 +3,7 @@
 
 import type { Meta, StoryObj } from '@storybook/react';
 
-import { ComboBox, Item } from './ComboBox';
+import { ComboBox, ComboBoxItem as Item } from '@geti/ui';
 
 const meta: Meta<typeof ComboBox> = {
     tags: ["!dev"],

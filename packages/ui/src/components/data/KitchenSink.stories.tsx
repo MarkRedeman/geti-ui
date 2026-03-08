@@ -8,19 +8,19 @@ import type { Meta, StoryObj } from '@storybook/react';
 
 import { Item } from '@adobe/react-spectrum';
 
-import { ActionBar, ActionBarContainer } from './ActionBar/ActionBar';
-import { CardView } from './CardView/CardView';
-import { ListBox, Item as ListBoxItem } from './ListBox/ListBox';
-import { ListView, Item as ListViewItem } from './ListView/ListView';
-import { TableView, TableHeader, TableBody, Column, Row, Cell } from './TableView/TableView';
-import { Tag } from './Tag/Tag';
-import { TagGroup, Item as TagGroupItem } from './TagGroup/TagGroup';
-import { TreeView } from './TreeView/TreeView';
-import { VirtualizedHorizontalGrid } from './VirtualizedHorizontalGrid/VirtualizedHorizontalGrid';
-import { VirtualizedListLayout } from './VirtualizedListLayout/VirtualizedListLayout';
-import { Flex } from '../layouts/Flex/Flex';
-import { Divider } from '../ui/Divider/Divider';
-import { View } from '../ui/View/View';
+import { ActionBar, ActionBarContainer } from '@geti/ui';
+import { CardView } from '@geti/ui';
+import { ListBox, ListBoxItem } from '@geti/ui';
+import { ListView, ListItem } from '@geti/ui';
+import { TableView, TableHeader, TableBody, Column, Row, Cell } from '@geti/ui';
+import { Tag } from '@geti/ui';
+import { TagGroup, TagItem } from '@geti/ui';
+import { TreeView } from '@geti/ui';
+import { VirtualizedHorizontalGrid } from '@geti/ui';
+import { VirtualizedListLayout } from '@geti/ui';
+import { Flex } from '@geti/ui';
+import { Divider } from '@geti/ui';
+import { View } from '@geti/ui';
 
 // ---------------------------------------------------------------------------
 // Helpers
@@ -167,9 +167,9 @@ const DataKitchenSink = () => (
                         selectionMode="multiple"
                         defaultSelectedKeys={['1', '2']}
                     >
-                        <ListViewItem key="1">Item One</ListViewItem>
-                        <ListViewItem key="2">Item Two</ListViewItem>
-                        <ListViewItem key="3">Item Three</ListViewItem>
+                        <ListItem key="1">Item One</ListItem>
+                        <ListItem key="2">Item Two</ListItem>
+                        <ListItem key="3">Item Three</ListItem>
                     </ListView>
                     <ActionBar
                         selectedItemCount={2}
@@ -273,25 +273,25 @@ const DataKitchenSink = () => (
                     <View>
                         <SubLabel>Single select</SubLabel>
                         <ListView aria-label="Single select" selectionMode="single" width="size-3000">
-                            <ListViewItem key="1">Adobe Photoshop</ListViewItem>
-                            <ListViewItem key="2">Adobe XD</ListViewItem>
-                            <ListViewItem key="3">Adobe Illustrator</ListViewItem>
+                            <ListItem key="1">Adobe Photoshop</ListItem>
+                            <ListItem key="2">Adobe XD</ListItem>
+                            <ListItem key="3">Adobe Illustrator</ListItem>
                         </ListView>
                     </View>
                     <View>
                         <SubLabel>Multi select</SubLabel>
                         <ListView aria-label="Multi select" selectionMode="multiple" width="size-3000">
-                            <ListViewItem key="a">Option One</ListViewItem>
-                            <ListViewItem key="b">Option Two</ListViewItem>
-                            <ListViewItem key="c">Option Three</ListViewItem>
+                            <ListItem key="a">Option One</ListItem>
+                            <ListItem key="b">Option Two</ListItem>
+                            <ListItem key="c">Option Three</ListItem>
                         </ListView>
                     </View>
                     <View>
                         <SubLabel>Compact</SubLabel>
                         <ListView aria-label="Compact list" density="compact" selectionMode="single" width="size-3000">
-                            <ListViewItem key="x">Compact Item 1</ListViewItem>
-                            <ListViewItem key="y">Compact Item 2</ListViewItem>
-                            <ListViewItem key="z">Compact Item 3</ListViewItem>
+                            <ListItem key="x">Compact Item 1</ListItem>
+                            <ListItem key="y">Compact Item 2</ListItem>
+                            <ListItem key="z">Compact Item 3</ListItem>
                         </ListView>
                     </View>
                 </Flex>
@@ -391,26 +391,26 @@ const DataKitchenSink = () => (
                     <View>
                         <SubLabel>Default</SubLabel>
                         <TagGroup aria-label="Categories">
-                            <TagGroupItem key="news">News</TagGroupItem>
-                            <TagGroupItem key="travel">Travel</TagGroupItem>
-                            <TagGroupItem key="gaming">Gaming</TagGroupItem>
-                            <TagGroupItem key="shopping">Shopping</TagGroupItem>
+                            <TagItem key="news">News</TagItem>
+                            <TagItem key="travel">Travel</TagItem>
+                            <TagItem key="gaming">Gaming</TagItem>
+                            <TagItem key="shopping">Shopping</TagItem>
                         </TagGroup>
                     </View>
                     <View>
                         <SubLabel>Removable</SubLabel>
                         <TagGroup aria-label="Removable tags" onRemove={(keys) => console.log('removed:', keys)}>
-                            <TagGroupItem key="chocolate">Chocolate</TagGroupItem>
-                            <TagGroupItem key="vanilla">Vanilla</TagGroupItem>
-                            <TagGroupItem key="strawberry">Strawberry</TagGroupItem>
+                            <TagItem key="chocolate">Chocolate</TagItem>
+                            <TagItem key="vanilla">Vanilla</TagItem>
+                            <TagItem key="strawberry">Strawberry</TagItem>
                         </TagGroup>
                     </View>
                     <View>
                         <SubLabel>With label</SubLabel>
                         <TagGroup label="Departments">
-                            <TagGroupItem key="design">Design</TagGroupItem>
-                            <TagGroupItem key="engineering">Engineering</TagGroupItem>
-                            <TagGroupItem key="marketing">Marketing</TagGroupItem>
+                            <TagItem key="design">Design</TagItem>
+                            <TagItem key="engineering">Engineering</TagItem>
+                            <TagItem key="marketing">Marketing</TagItem>
                         </TagGroup>
                     </View>
                 </Flex>

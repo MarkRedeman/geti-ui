@@ -3,7 +3,7 @@
 
 import type { Meta, StoryObj } from '@storybook/react';
 
-import { TableView, TableHeader, TableBody, Column, Row, Cell } from './TableView';
+import { TableView, TableHeader, TableBody, Column, Row, Cell } from '@geti/ui';
 
 const meta: Meta<typeof TableView> = {
     tags: ["!dev"],

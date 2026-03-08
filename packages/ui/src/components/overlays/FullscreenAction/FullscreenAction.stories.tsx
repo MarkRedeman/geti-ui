@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react';
-import { FullscreenAction } from './FullscreenAction';
+import { FullscreenAction } from '@geti/ui';
 import { Flex, Text, View } from '@adobe/react-spectrum';
 
 const meta: Meta<typeof FullscreenAction> = {

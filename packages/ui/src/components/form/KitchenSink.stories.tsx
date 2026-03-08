@@ -4,25 +4,27 @@
 import { Checkbox } from '@adobe/react-spectrum';
 import type { Meta, StoryObj } from '@storybook/react';
 
-import { CheckboxGroup } from './CheckboxGroup/CheckboxGroup';
-import { DropZone } from './DropZone/DropZone';
-import { FileTrigger } from './FileTrigger/FileTrigger';
-import { Form } from './Form/Form';
-import { NumberField } from './NumberField/NumberField';
-import { PasswordField } from './PasswordField/PasswordField';
-import { Radio } from './RadioGroup/Radio';
-import { RadioGroup } from './RadioGroup/RadioGroup';
-import { RangeSlider } from './RangeSlider/RangeSlider';
-import { SearchField } from './SearchField/SearchField';
-import { Slider } from './Slider/Slider';
-import { Switch } from './Switch/Switch';
-import { TextArea } from './TextArea/TextArea';
-import { TextField } from './TextField/TextField';
-import { Button } from '../ui/Button/Button';
-import { Divider } from '../ui/Divider/Divider';
-import { Flex } from '../layouts/Flex/Flex';
-import { Grid } from '../layouts/Grid/Grid';
-import { View } from '../ui/View/View';
+import {
+    CheckboxGroup,
+    DropZone,
+    FileTrigger,
+    Form,
+    NumberField,
+    PasswordField,
+    Radio,
+    RadioGroup,
+    RangeSlider,
+    SearchField,
+    Slider,
+    Switch,
+    TextArea,
+    TextField,
+    Button,
+    Divider,
+    Flex,
+    Grid,
+    View,
+} from '@geti/ui';
 
 // ---------------------------------------------------------------------------
 // Helpers

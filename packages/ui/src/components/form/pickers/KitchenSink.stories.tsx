@@ -3,23 +3,30 @@
 
 import type { Meta, StoryObj } from '@storybook/react';
 
-import { Calendar, RangeCalendar } from './Calendar/Calendar';
-import { ColorArea } from './ColorArea/ColorArea';
-import { ColorField } from './ColorField/ColorField';
-import { ColorPickerDialog } from './ColorPickerDialog/ColorPickerDialog';
-import { ColorSlider } from './ColorSlider/ColorSlider';
-import { ColorSwatch } from './color-swatch/ColorSwatch';
-import { ColorSwatchPicker, ColorSwatchPickerItem } from './color-swatch/ColorSwatchPicker';
-import { ColorWheel } from './ColorWheel/ColorWheel';
-import { ComboBox, Item as ComboBoxItem } from './ComboBox/ComboBox';
-import { DateField, TimeField } from './DateField/DateField';
-import { DatePicker } from './DatePicker/DatePicker';
-import { DateRangePicker } from './DateRangePicker/DateRangePicker';
-import { Item as PickerItem, Picker } from './Picker/Picker';
-import { Divider } from '../../ui/Divider/Divider';
-import { Flex } from '../../layouts/Flex/Flex';
-import { Grid } from '../../layouts/Grid/Grid';
-import { View } from '../../ui/View/View';
+import {
+    Calendar,
+    RangeCalendar,
+    ColorArea,
+    ColorField,
+    ColorPickerDialog,
+    ColorSlider,
+    ColorSwatch,
+    ColorSwatchPicker,
+    ColorSwatchPickerItem,
+    ColorWheel,
+    ComboBox,
+    ComboBoxItem,
+    DateField,
+    TimeField,
+    DatePicker,
+    DateRangePicker,
+    PickerItem,
+    Picker,
+    Divider,
+    Flex,
+    Grid,
+    View,
+} from '@geti/ui';
 
 // ---------------------------------------------------------------------------
 // Helpers

@@ -4,8 +4,7 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import { Button } from '@adobe/react-spectrum';
 
-import { AlertDialog } from './AlertDialog';
-import { DialogTrigger } from '../Dialog/DialogTrigger';
+import { AlertDialog, DialogTrigger } from '@geti/ui';
 
 const meta: Meta<typeof AlertDialog> = {
     tags: ["!dev"],

@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react';
 
-import { ColorPickerDialog } from './ColorPickerDialog';
+import { ColorPickerDialog } from '@geti/ui';
 
 const meta: Meta<typeof ColorPickerDialog> = {
     tags: ["!dev"],

@@ -4,7 +4,7 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import { Content, Flex, Heading, Text } from '@adobe/react-spectrum';
 
-import { ContextualHelp } from './ContextualHelp';
+import { ContextualHelp } from '@geti/ui';
 
 const meta: Meta<typeof ContextualHelp> = {
     tags: ["!dev"],

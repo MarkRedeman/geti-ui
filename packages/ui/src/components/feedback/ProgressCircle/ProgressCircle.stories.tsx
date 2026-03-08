@@ -3,7 +3,7 @@
 
 import type { Meta, StoryObj } from '@storybook/react';
 
-import { ProgressCircle } from './ProgressCircle';
+import { ProgressCircle } from '@geti/ui';
 
 const meta: Meta<typeof ProgressCircle> = {
     tags: ["!dev"],

@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react';
 
-import { Calendar } from './Calendar';
+import { Calendar } from '@geti/ui';
 
 const meta: Meta<typeof Calendar> = {
     tags: ["!dev"],

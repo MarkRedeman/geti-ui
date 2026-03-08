@@ -1,7 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react';
 
-import { ColorSlider } from './ColorSlider';
-import { Flex } from '../../../layouts/Flex/Flex';
+import { ColorSlider, Flex } from '@geti/ui';
 
 const meta: Meta<typeof ColorSlider> = {
     tags: ["!dev"],

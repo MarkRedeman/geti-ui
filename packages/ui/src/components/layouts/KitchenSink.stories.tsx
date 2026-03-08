@@ -4,14 +4,7 @@
 import { Disclosure as SpectrumDisclosure, DisclosurePanel, DisclosureTitle } from '@adobe/react-spectrum';
 import type { Meta, StoryObj } from '@storybook/react';
 
-import { Accordion } from './Accordion/Accordion';
-import { Card } from './Card/Card';
-import { Disclosure } from './Disclosure/Disclosure';
-import { Flex } from './Flex/Flex';
-import { Grid } from './Grid/Grid';
-import { Well } from './Well/Well';
-import { Divider } from '../ui/Divider/Divider';
-import { View } from '../ui/View/View';
+import { Accordion, Card, Disclosure, Flex, Grid, Well, Divider, View } from '@geti/ui';
 
 // ---------------------------------------------------------------------------
 // Helpers

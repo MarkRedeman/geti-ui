@@ -5,22 +5,25 @@ import { Content, Heading } from '@adobe/react-spectrum';
 import Magnify from '@spectrum-icons/workflow/Magnify';
 import type { Meta, StoryObj } from '@storybook/react';
 
-import { Badge } from './Badge/Badge';
-import { IllustratedMessage } from './IllustratedMessage/IllustratedMessage';
-import { InlineAlert } from './InlineAlert/InlineAlert';
-import { IntelBrandedLoading } from './IntelBrandedLoading/IntelBrandedLoading';
-import { Loading } from './Loading/Loading';
-import { Meter } from './Meter/Meter';
-import { ProgressBar } from './ProgressBar/ProgressBar';
-import { ProgressCircle } from './ProgressCircle/ProgressCircle';
-import { Skeleton } from './Skeleton/Skeleton';
-import { StatusLight } from './StatusLight/StatusLight';
-import { ToastContainer, toast } from './Toast/Toast';
-import { Button } from '../ui/Button/Button';
-import { Divider } from '../ui/Divider/Divider';
-import { View } from '../ui/View/View';
-import { Flex } from '../layouts/Flex/Flex';
-import { Grid } from '../layouts/Grid/Grid';
+import {
+    Badge,
+    IllustratedMessage,
+    InlineAlert,
+    IntelBrandedLoading,
+    Loading,
+    Meter,
+    ProgressBar,
+    ProgressCircle,
+    Skeleton,
+    StatusLight,
+    ToastContainer,
+    toast,
+    Button,
+    Divider,
+    View,
+    Flex,
+    Grid,
+} from '@geti/ui';
 
 // ---------------------------------------------------------------------------
 // Helpers

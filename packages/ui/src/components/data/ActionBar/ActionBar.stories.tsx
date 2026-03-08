@@ -1,7 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react';
-import { ActionBar, ActionBarContainer } from './ActionBar';
-import { ListView, Item } from '../ListView/ListView';
-import { Text } from '@adobe/react-spectrum';
+import { ActionBar, ActionBarContainer, ListView, ListItem } from '@geti/ui';
+import { Item, Text } from '@adobe/react-spectrum';
 import Edit from '@spectrum-icons/workflow/Edit';
 import Delete from '@spectrum-icons/workflow/Delete';
 import { Key } from 'react-aria-components';
@@ -18,9 +17,9 @@ export const Default: StoryObj<typeof ActionBar> = {
     render: () => (
         <ActionBarContainer height="size-2400">
             <ListView aria-label="List with Selection" selectionMode="multiple" defaultSelectedKeys={['1', '2']}>
-                <Item key="1">Item One</Item>
-                <Item key="2">Item Two</Item>
-                <Item key="3">Item Three</Item>
+                <ListItem key="1">Item One</ListItem>
+                <ListItem key="2">Item Two</ListItem>
+                <ListItem key="3">Item Three</ListItem>
             </ListView>
             <ActionBar
                 selectedItemCount={2}

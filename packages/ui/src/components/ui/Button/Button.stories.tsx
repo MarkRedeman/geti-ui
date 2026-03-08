@@ -3,7 +3,7 @@
 
 import type { Meta, StoryObj } from '@storybook/react';
 
-import { Button } from './Button';
+import { Button } from '@geti/ui';
 
 const meta: Meta<typeof Button> = {
     tags: ["!dev"],

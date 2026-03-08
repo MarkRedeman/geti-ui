@@ -3,7 +3,7 @@
 
 import type { Meta, StoryObj } from '@storybook/react';
 
-import { Item, Picker } from './Picker';
+import { PickerItem as Item, Picker } from '@geti/ui';
 
 const meta: Meta<typeof Picker> = {
     tags: ["!dev"],

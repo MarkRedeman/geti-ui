@@ -3,7 +3,7 @@
 
 import type { Meta, StoryObj } from '@storybook/react';
 
-import { Flex } from './Flex';
+import { Flex } from '@geti/ui';
 
 const meta: Meta<typeof Flex> = {
     tags: ["!dev"],

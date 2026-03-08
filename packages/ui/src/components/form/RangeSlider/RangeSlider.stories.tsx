@@ -3,7 +3,7 @@
 
 import type { Meta, StoryObj } from '@storybook/react';
 
-import { RangeSlider } from './RangeSlider';
+import { RangeSlider } from '@geti/ui';
 
 const meta: Meta<typeof RangeSlider> = {
     tags: ["!dev"],

@@ -1,7 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react';
 
-import { ColorThumb } from './ColorThumb';
-import { Flex } from '../../../layouts/Flex/Flex';
+import { ColorThumb, Flex } from '@geti/ui';
 
 const meta: Meta<typeof ColorThumb> = {
     tags: ["!dev"],

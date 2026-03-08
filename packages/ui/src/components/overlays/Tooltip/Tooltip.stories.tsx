@@ -3,9 +3,7 @@
 
 import type { Meta, StoryObj } from '@storybook/react';
 
-import { Button } from '../../ui/Button/Button';
-import { Tooltip } from './Tooltip';
-import { TooltipTrigger } from './TooltipTrigger';
+import { Button, Tooltip, TooltipTrigger } from '@geti/ui';
 
 const meta: Meta<typeof Tooltip> = {
     tags: ["!dev"],

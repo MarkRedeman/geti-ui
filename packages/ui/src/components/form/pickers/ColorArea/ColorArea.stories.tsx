@@ -1,7 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react';
 
-import { ColorArea } from './ColorArea';
-import { Flex } from '../../../layouts/Flex/Flex';
+import { ColorArea, Flex } from '@geti/ui';
 
 const meta: Meta<typeof ColorArea> = {
     tags: ["!dev"],

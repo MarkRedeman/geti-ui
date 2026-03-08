@@ -3,8 +3,7 @@
 
 import type { Meta, StoryObj } from '@storybook/react';
 
-import { Radio } from './Radio';
-import { RadioGroup } from './RadioGroup';
+import { Radio, RadioGroup } from '@geti/ui';
 
 const meta: Meta<typeof RadioGroup> = {
     tags: ["!dev"],

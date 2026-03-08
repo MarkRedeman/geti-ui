@@ -3,7 +3,7 @@
 
 import type { Meta, StoryObj } from '@storybook/react';
 
-import { NumberField } from './NumberField';
+import { NumberField } from '@geti/ui';
 
 const meta: Meta<typeof NumberField> = {
     tags: ["!dev"],

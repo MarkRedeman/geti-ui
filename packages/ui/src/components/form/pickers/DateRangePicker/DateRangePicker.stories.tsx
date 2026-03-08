@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react';
 
-import { DateRangePicker } from './DateRangePicker';
+import { DateRangePicker } from '@geti/ui';
 
 const meta: Meta<typeof DateRangePicker> = {
     tags: ["!dev"],

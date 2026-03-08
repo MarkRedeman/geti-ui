@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react';
-import { CornerIndicator } from './CornerIndicator';
+import { CornerIndicator } from '@geti/ui';
 import { View } from '@adobe/react-spectrum';
 
 const meta: Meta<typeof CornerIndicator> = {

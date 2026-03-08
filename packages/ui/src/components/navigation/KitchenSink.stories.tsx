@@ -6,25 +6,27 @@ import { useState } from 'react';
 import { Content, Item, Text } from '@adobe/react-spectrum';
 import type { Meta, StoryObj } from '@storybook/react';
 
-import { ActionMenu } from './ActionMenu/ActionMenu';
-import { Item as BreadcrumbItem } from './Breadcrumbs/Item';
-import { Breadcrumbs } from './Breadcrumbs/Breadcrumbs';
-import { Link } from './Link/Link';
+import {
+    ActionButton,
+    ActionMenu,
+    BreadcrumbItem,
+    Breadcrumbs,
+    Button,
+    Divider,
+    Flex,
+    Link,
+    MenuItem,
+    Menu,
+    MenuSection,
+    MenuTrigger,
+    TabItem,
+    TabList,
+    TabPanels,
+    Tabs,
+    View,
+} from '@geti/ui';
 import { MediaViewModes } from './MediaViewModes/MediaViewModes';
 import { ViewModes } from './MediaViewModes/utils';
-import { Item as MenuItemComponent } from './Menu/Item';
-import { Menu } from './Menu/Menu';
-import { MenuTrigger } from './Menu/MenuTrigger';
-import { Section as MenuSection } from './Menu/Section';
-import { Item as TabItem } from './Tabs/Item';
-import { TabList } from './Tabs/TabList';
-import { TabPanels } from './Tabs/TabPanels';
-import { Tabs } from './Tabs/Tabs';
-import { ActionButton } from '../ui/ActionButton/ActionButton';
-import { Button } from '../ui/Button/Button';
-import { Divider } from '../ui/Divider/Divider';
-import { View } from '../ui/View/View';
-import { Flex } from '../layouts/Flex/Flex';
 
 // ---------------------------------------------------------------------------
 // Helpers
@@ -223,14 +225,14 @@ const NavigationKitchenSink = () => (
                                 <ActionButton>Open menu</ActionButton>
                                 <Menu>
                                     <MenuSection title="Clipboard">
-                                        <MenuItemComponent key="cut">Cut</MenuItemComponent>
-                                        <MenuItemComponent key="copy">Copy</MenuItemComponent>
-                                        <MenuItemComponent key="paste">Paste</MenuItemComponent>
+                                        <MenuItem key="cut">Cut</MenuItem>
+                                        <MenuItem key="copy">Copy</MenuItem>
+                                        <MenuItem key="paste">Paste</MenuItem>
                                     </MenuSection>
                                     <MenuSection title="Document">
-                                        <MenuItemComponent key="bold">Bold</MenuItemComponent>
-                                        <MenuItemComponent key="italic">Italic</MenuItemComponent>
-                                        <MenuItemComponent key="underline">Underline</MenuItemComponent>
+                                        <MenuItem key="bold">Bold</MenuItem>
+                                        <MenuItem key="italic">Italic</MenuItem>
+                                        <MenuItem key="underline">Underline</MenuItem>
                                     </MenuSection>
                                 </Menu>
                             </MenuTrigger>
@@ -238,19 +240,19 @@ const NavigationKitchenSink = () => (
                             <MenuTrigger>
                                 <Button variant="secondary">Sort by</Button>
                                 <Menu selectionMode="single" defaultSelectedKeys={['name']}>
-                                    <MenuItemComponent key="name">Name</MenuItemComponent>
-                                    <MenuItemComponent key="date">Date modified</MenuItemComponent>
-                                    <MenuItemComponent key="size">File size</MenuItemComponent>
+                                    <MenuItem key="name">Name</MenuItem>
+                                    <MenuItem key="date">Date modified</MenuItem>
+                                    <MenuItem key="size">File size</MenuItem>
                                 </Menu>
                             </MenuTrigger>
 
                             <MenuTrigger>
                                 <Button variant="secondary">Multi-select</Button>
                                 <Menu selectionMode="multiple" defaultSelectedKeys={['labels', 'bbox']}>
-                                    <MenuItemComponent key="labels">Show labels</MenuItemComponent>
-                                    <MenuItemComponent key="bbox">Show bounding boxes</MenuItemComponent>
-                                    <MenuItemComponent key="masks">Show masks</MenuItemComponent>
-                                    <MenuItemComponent key="scores">Show scores</MenuItemComponent>
+                                    <MenuItem key="labels">Show labels</MenuItem>
+                                    <MenuItem key="bbox">Show bounding boxes</MenuItem>
+                                    <MenuItem key="masks">Show masks</MenuItem>
+                                    <MenuItem key="scores">Show scores</MenuItem>
                                 </Menu>
                             </MenuTrigger>
                         </Flex>

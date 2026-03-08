@@ -3,7 +3,7 @@
 
 import type { Meta, StoryObj } from '@storybook/react';
 
-import { CardView } from './CardView';
+import { CardView } from '@geti/ui';
 
 interface SampleItem {
     id: number;

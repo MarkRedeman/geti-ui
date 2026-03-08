@@ -5,8 +5,7 @@ import { useState } from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
 import { Button, ButtonGroup, Content, Divider, Heading } from '@adobe/react-spectrum';
 
-import { Dialog } from '../Dialog/Dialog';
-import { DialogContainer } from './DialogContainer';
+import { Dialog, DialogContainer } from '@geti/ui';
 
 const meta: Meta<typeof DialogContainer> = {
     tags: ["!dev"],

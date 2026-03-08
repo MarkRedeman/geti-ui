@@ -3,7 +3,7 @@
 
 import type { Meta, StoryObj } from '@storybook/react';
 
-import { PasswordField } from './PasswordField';
+import { PasswordField } from '@geti/ui';
 
 const meta: Meta<typeof PasswordField> = {
     tags: ["!dev"],

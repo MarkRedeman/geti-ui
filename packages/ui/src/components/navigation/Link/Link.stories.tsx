@@ -3,7 +3,7 @@
 
 import type { Meta, StoryObj } from '@storybook/react';
 
-import { Link } from './Link';
+import { Link } from '@geti/ui';
 
 const meta: Meta<typeof Link> = {
     tags: ["!dev"],
