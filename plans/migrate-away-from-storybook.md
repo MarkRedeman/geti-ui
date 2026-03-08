@@ -241,6 +241,31 @@ After 100% docs coverage:
 
 At this point docs are independent from Storybook code.
 
+### Phase 4 progress update
+
+Implemented now:
+
+- ✅ Removed stories-injection runtime path from `documentation/plugins/component-docs.ts`
+  - no more `storiesPath` discovery/use in page generation
+  - no more injected `StoriesGallery` imports/JSX
+  - sidebar generation kept intact
+- ✅ Removed `documentation/theme/StoriesGallery.tsx`
+- ✅ Rewrote `documentation/docs/examples.mdx` to authored examples using
+  `@geti/ui` + `ExampleCard` (no `.stories` imports)
+- ✅ Removed temporary allowlist exception from
+  `check-docs-no-stories-imports.mjs`
+
+Validation after Phase 4 changes:
+
+- `pnpm docs:check:no-stories-imports` ✅
+- `pnpm docs:build` ✅
+- `pnpm docs:test:e2e` ✅ (83/83 component routes)
+
+Current state:
+
+- Docs runtime is now decoupled from Storybook stories imports.
+- Storybook can remain as an optional component dev sandbox (Phase 5).
+
 ---
 
 ## Phase 5 — Storybook role change (not immediate removal)
