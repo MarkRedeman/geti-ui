@@ -2,7 +2,7 @@
 title: Button
 ---
 
-import { Button, Flex } from '@geti/ui';
+import { Button, ThemeProvider } from '@geti/ui';
 import { ExampleCard } from '../../../theme/ExampleCard';
 
 # Button
@@ -19,35 +19,57 @@ import { Button } from '@geti/ui';
 ## Examples
 
 <ExampleCard
-  title="Variants"
-  code={`<Flex gap="size-100" wrap>
-  <Button variant="accent">Accent (default)</Button>
-  <Button variant="primary">Primary</Button>
-  <Button variant="secondary" style="outline">Secondary</Button>
-  <Button variant="negative">Delete</Button>
-</Flex>`}
+  title="Accent (default)"
+  code={`<Button variant="accent">Save</Button>`}
 >
-  <Flex gap="size-100" wrap>
-    <Button variant="accent">Accent (default)</Button>
-    <Button variant="primary">Primary</Button>
-    <Button variant="secondary" style="outline">Secondary</Button>
-    <Button variant="negative">Delete</Button>
-  </Flex>
+  <ThemeProvider>
+    <Button variant="accent">Save</Button>
+  </ThemeProvider>
 </ExampleCard>
 
 <ExampleCard
-  title="States"
-  code={`<Flex gap="size-100" wrap>
-  <Button>Default</Button>
-  <Button isPending>Saving...</Button>
-  <Button isDisabled>Disabled</Button>
-</Flex>`}
+  title="Primary"
+  code={`<Button variant="primary">Edit</Button>`}
 >
-  <Flex gap="size-100" wrap>
-    <Button>Default</Button>
+  <ThemeProvider>
+    <Button variant="primary">Edit</Button>
+  </ThemeProvider>
+</ExampleCard>
+
+<ExampleCard
+  title="Secondary (outline)"
+  code={`<Button variant="secondary" style="outline">Cancel</Button>`}
+>
+  <ThemeProvider>
+    <Button variant="secondary" style="outline">Cancel</Button>
+  </ThemeProvider>
+</ExampleCard>
+
+<ExampleCard
+  title="Negative"
+  code={`<Button variant="negative">Delete</Button>`}
+>
+  <ThemeProvider>
+    <Button variant="negative">Delete</Button>
+  </ThemeProvider>
+</ExampleCard>
+
+<ExampleCard
+  title="Pending"
+  code={`<Button isPending>Saving...</Button>`}
+>
+  <ThemeProvider>
     <Button isPending>Saving...</Button>
+  </ThemeProvider>
+</ExampleCard>
+
+<ExampleCard
+  title="Disabled"
+  code={`<Button isDisabled>Disabled</Button>`}
+>
+  <ThemeProvider>
     <Button isDisabled>Disabled</Button>
-  </Flex>
+  </ThemeProvider>
 </ExampleCard>
 
 ## Responsibility
