@@ -12,7 +12,7 @@ We use **Zizmor** to audit our GitHub Actions workflows. This identifies potenti
 - Use of unpinned/unverified actions.
 - Potential for command injection.
 
-**Trigger:** Daily schedule and on Pull Requests (enforces failure on new findings).
+**Trigger:** Daily schedule, on push to `main`/`releases/**`, and on Pull Requests targeting those branches. On PRs, only changed workflows are scanned and the job fails on new findings (MEDIUM+ severity/confidence); daily/push runs scan all workflows at LOW severity without blocking.
 
 ### Filesystem & Vulnerability Scanning (Trivy)
 **Trivy** is used to perform comprehensive scans of the repository filesystem. It detects:
@@ -20,12 +20,12 @@ We use **Zizmor** to audit our GitHub Actions workflows. This identifies potenti
 - **Exposed Secrets** (API keys, tokens) accidentally committed to the repo.
 - **Misconfigurations** in project files.
 
-**Trigger:** Daily comprehensive scan.
+**Trigger:** Daily schedule and on push to `main`/`releases/**` only (not on PRs).
 
 ### Semantic Code Analysis (Semgrep)
 **Semgrep** provides advanced static analysis by looking for dangerous code patterns and known security anti-patterns. Unlike simple regex-based tools, Semgrep understands the semantics of the code.
 
-**Trigger:** Daily schedule and on Pull Requests.
+**Trigger:** Daily schedule, on push to `main`/`releases/**`, and on Pull Requests targeting those branches. On PRs, only changed files are scanned and the job fails on HIGH+ severity findings; daily/push runs scan everything at LOW severity without blocking.
 
 ---
 
@@ -52,7 +52,7 @@ The **OSSF Scorecard** automatically assesses the repository against security be
 - Use of signed commits.
 - SAST tool usage.
 
-**Trigger:** Daily analysis with results uploaded to the GitHub Security Dashboard.
+**Trigger:** Daily schedule and on `branch_protection_rule` events (for the Branch Protection check). Results are uploaded to the GitHub Security Dashboard.
 
 ---
 
@@ -62,7 +62,9 @@ The **OSSF Scorecard** automatically assesses the repository against security be
 Results from all security scans (Zizmor, Trivy, Semgrep, Scorecard) are uploaded as **SARIF** files to the GitHub Code Scanning dashboard. This provides a single source of truth for the maintenance team to review and remediate security findings.
 
 ### Branch Protection
-Security checks are mandatory for all Pull Requests. We require:
-- Successful completion of the `Security scan` workflow.
-- Passing `lint` and `type-check` tests.
+Security checks are intended to be mandatory for all Pull Requests. The recommended repository configuration requires:
+- Successful completion of the `Security scan` workflow before merge.
+- Passing `lint` and `type-check` checks.
 - Approval from a maintainer before merging.
+
+> **Note:** These requirements are enforced via GitHub branch-protection rules on the repository. Workflow files alone do not prevent merging; the rules must be configured in `Settings > Branches` to take effect.

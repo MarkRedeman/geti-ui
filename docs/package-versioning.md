@@ -51,7 +51,7 @@ npx changeset
 *   **Conventional Commits**: Ensure your commit messages follow the `type(scope): description` format (e.g., `feat(button): add loading state`).
     *   **Guidance**: When running `git commit`, an automated template will appear in your editor with examples and type definitions.
     *   **Validation**: Commit messages are validated locally via Husky; if a message is invalid, it will be rejected with an error message explaining the requirements.
-*   **CI Verification**: GitHub Actions will run `lint`, `type-check`, `vitest`, and `playwright` visual regression tests.
+*   **CI Verification**: GitHub Actions will run `lint`, `type-check`, `rstest` (unit tests), and `playwright` visual regression tests.
 *   **Visual Comments**: An automated bot will comment on your PR with a list of changed component categories and a link to visual diffs.
 
 ### 3. Merging & Versioning PR
@@ -65,7 +65,7 @@ When a PR with a changeset is merged into `main`:
 When the "Version Packages" PR is merged:
 1.  The `Release` workflow triggers again.
 2.  It runs `npm publish` to push the new version to NPM.
-3.  It creates a git tag (e.g., `@geti/ui@1.2.3`).
+3.  It creates a git tag (e.g., `v1.2.3`).
 4.  **git-cliff** parses the commits since the last tag and generates rich release notes.
 5.  An official **GitHub Release** is created with these notes.
 
