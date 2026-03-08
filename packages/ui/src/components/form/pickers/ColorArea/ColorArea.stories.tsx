@@ -5,7 +5,7 @@ import { ColorArea, Flex } from '@geti/ui';
 const meta: Meta<typeof ColorArea> = {
     tags: ["!dev"],
     component: ColorArea,
-    title: 'Form/Pickers/ColorArea',
+    title: 'Form/Color controls/ColorArea',
     argTypes: {
         xChannel: {
             control: 'select',

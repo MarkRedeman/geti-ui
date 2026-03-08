@@ -5,7 +5,7 @@ import { DateRangePicker } from '@geti/ui';
 const meta: Meta<typeof DateRangePicker> = {
     tags: ["!dev"],
     component: DateRangePicker,
-    title: 'Form/Pickers/DateRangePicker',
+    title: 'Form/Date controls/DateRangePicker',
     argTypes: {
         isDisabled: { control: 'boolean' },
         isReadOnly: { control: 'boolean' },

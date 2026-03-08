@@ -5,7 +5,7 @@ import { ColorWheel } from '@geti/ui';
 const meta: Meta<typeof ColorWheel> = {
     tags: ["!dev"],
     component: ColorWheel,
-    title: 'Form/Pickers/ColorWheel',
+    title: 'Form/Color controls/ColorWheel',
     argTypes: {
         isDisabled: { control: 'boolean' },
         size: {

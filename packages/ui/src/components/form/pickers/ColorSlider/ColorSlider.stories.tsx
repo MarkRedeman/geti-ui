@@ -5,7 +5,7 @@ import { ColorSlider, Flex } from '@geti/ui';
 const meta: Meta<typeof ColorSlider> = {
     tags: ["!dev"],
     component: ColorSlider,
-    title: 'Form/Pickers/ColorSlider',
+    title: 'Form/Color controls/ColorSlider',
     argTypes: {
         channel: {
             control: 'select',

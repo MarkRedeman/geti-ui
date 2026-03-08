@@ -5,7 +5,7 @@ import { ColorSwatch, Flex } from '@geti/ui';
 const meta: Meta<typeof ColorSwatch> = {
     tags: ["!dev"],
     component: ColorSwatch,
-    title: 'Form/Pickers/ColorSwatch',
+    title: 'Form/Color controls/ColorSwatch',
     argTypes: {
         color: { control: 'color' },
         size: {

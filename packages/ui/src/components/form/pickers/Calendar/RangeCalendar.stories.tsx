@@ -5,7 +5,7 @@ import { RangeCalendar } from '@geti/ui';
 const meta: Meta<typeof RangeCalendar> = {
     tags: ["!dev"],
     component: RangeCalendar,
-    title: 'Form/Pickers/RangeCalendar',
+    title: 'Form/Date controls/RangeCalendar',
     argTypes: {
         isDisabled: { control: 'boolean' },
         isReadOnly: { control: 'boolean' },

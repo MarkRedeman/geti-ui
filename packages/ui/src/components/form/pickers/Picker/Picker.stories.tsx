@@ -8,7 +8,7 @@ import { PickerItem as Item, Picker } from '@geti/ui';
 const meta: Meta<typeof Picker> = {
     tags: ["!dev"],
     component: Picker,
-    title: 'Form/Pickers/Picker',
+    title: 'Form/Picker',
     argTypes: {
         label: { control: 'text' },
         isDisabled: { control: 'boolean' },

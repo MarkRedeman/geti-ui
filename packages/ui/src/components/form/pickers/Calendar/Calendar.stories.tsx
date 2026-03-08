@@ -5,7 +5,7 @@ import { Calendar } from '@geti/ui';
 const meta: Meta<typeof Calendar> = {
     tags: ["!dev"],
     component: Calendar,
-    title: 'Form/Pickers/Calendar',
+    title: 'Form/Date controls/Calendar',
     argTypes: {
         isDisabled: { control: 'boolean' },
         isReadOnly: { control: 'boolean' },

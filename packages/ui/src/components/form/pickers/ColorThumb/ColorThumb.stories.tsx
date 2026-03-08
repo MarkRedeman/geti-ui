@@ -5,7 +5,7 @@ import { ColorThumb, Flex } from '@geti/ui';
 const meta: Meta<typeof ColorThumb> = {
     tags: ["!dev"],
     component: ColorThumb,
-    title: 'Form/Pickers/ColorThumb',
+    title: 'Form/Color controls/ColorThumb',
     argTypes: {
         color: { control: 'color' },
         size: { control: 'number' },

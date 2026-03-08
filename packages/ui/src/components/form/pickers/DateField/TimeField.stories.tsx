@@ -5,7 +5,7 @@ import { TimeField } from '@geti/ui'; // TimeField is co-located with DateField
 const meta: Meta<typeof TimeField> = {
     tags: ["!dev"],
     component: TimeField,
-    title: 'Form/Pickers/TimeField',
+    title: 'Form/Date controls/TimeField',
     argTypes: {
         label: { control: 'text' },
         description: { control: 'text' },

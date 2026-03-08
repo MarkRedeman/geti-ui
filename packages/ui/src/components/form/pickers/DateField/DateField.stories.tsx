@@ -5,7 +5,7 @@ import { DateField } from '@geti/ui';
 const meta: Meta<typeof DateField> = {
     tags: ["!dev"],
     component: DateField,
-    title: 'Form/Pickers/DateField',
+    title: 'Form/Date controls/DateField',
     argTypes: {
         label: { control: 'text' },
         description: { control: 'text' },

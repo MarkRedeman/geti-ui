@@ -5,7 +5,7 @@ import { ColorPickerDialog } from '@geti/ui';
 const meta: Meta<typeof ColorPickerDialog> = {
     tags: ["!dev"],
     component: ColorPickerDialog,
-    title: 'Form/Pickers/ColorPickerDialog',
+    title: 'Form/Color controls/ColorPickerDialog',
     argTypes: {
         label: { control: 'text' },
         onColorChange: { action: 'onColorChange' },

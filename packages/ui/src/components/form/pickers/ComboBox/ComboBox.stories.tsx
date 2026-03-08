@@ -8,7 +8,7 @@ import { ComboBox, ComboBoxItem as Item } from '@geti/ui';
 const meta: Meta<typeof ComboBox> = {
     tags: ["!dev"],
     component: ComboBox,
-    title: 'Form/Pickers/ComboBox',
+    title: 'Form/ComboBox',
     argTypes: {
         label: { control: 'text' },
         defaultInputValue: { control: 'text' },

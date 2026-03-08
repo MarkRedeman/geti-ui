@@ -5,7 +5,7 @@ import { ColorField, Flex } from '@geti/ui';
 const meta: Meta<typeof ColorField> = {
     tags: ["!dev"],
     component: ColorField,
-    title: 'Form/Pickers/ColorField',
+    title: 'Form/Color controls/ColorField',
     argTypes: {
         label: { control: 'text' },
         isDisabled: { control: 'boolean' },
