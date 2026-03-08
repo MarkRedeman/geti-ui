@@ -51,10 +51,25 @@ export default defineConfig({
     sidebar: {
       '/examples': [
         {
-          text: 'Examples',
+          text: 'Kitchensinks',
           collapsed: false,
           items: [
-            { text: 'Kitchensink', link: '/examples' },
+            { text: 'Kitchensink', link: '/examples/kitchensink' },
+            { text: 'UI kitchensink', link: '/examples/kitchensink-ui' },
+            { text: 'Form kitchensink', link: '/examples/kitchensink-form' },
+            { text: 'Date controls kitchensink', link: '/examples/kitchensink-date-controls' },
+            { text: 'Color controls kitchensink', link: '/examples/kitchensink-color-controls' },
+            { text: 'Data kitchensink', link: '/examples/kitchensink-data' },
+            { text: 'Overlays kitchensink', link: '/examples/kitchensink-overlays' },
+            { text: 'Feedback kitchensink', link: '/examples/kitchensink-feedback' },
+            { text: 'Navigation kitchensink', link: '/examples/kitchensink-navigation' },
+            { text: 'Layouts kitchensink', link: '/examples/kitchensink-layouts' },
+          ],
+        },
+        {
+          text: 'Composed examples',
+          collapsed: false,
+          items: [
             { text: 'Job management panel', link: '/examples/job-management-panel' },
             { text: 'Model list', link: '/examples/model-list' },
             { text: 'Annotation components', link: '/examples/annotation-components' },
@@ -69,10 +84,25 @@ export default defineConfig({
       ],
       '/examples/': [
         {
-          text: 'Examples',
+          text: 'Kitchensinks',
           collapsed: false,
           items: [
-            { text: 'Kitchensink', link: '/examples' },
+            { text: 'Kitchensink', link: '/examples/kitchensink' },
+            { text: 'UI kitchensink', link: '/examples/kitchensink-ui' },
+            { text: 'Form kitchensink', link: '/examples/kitchensink-form' },
+            { text: 'Date controls kitchensink', link: '/examples/kitchensink-date-controls' },
+            { text: 'Color controls kitchensink', link: '/examples/kitchensink-color-controls' },
+            { text: 'Data kitchensink', link: '/examples/kitchensink-data' },
+            { text: 'Overlays kitchensink', link: '/examples/kitchensink-overlays' },
+            { text: 'Feedback kitchensink', link: '/examples/kitchensink-feedback' },
+            { text: 'Navigation kitchensink', link: '/examples/kitchensink-navigation' },
+            { text: 'Layouts kitchensink', link: '/examples/kitchensink-layouts' },
+          ],
+        },
+        {
+          text: 'Composed examples',
+          collapsed: false,
+          items: [
             { text: 'Job management panel', link: '/examples/job-management-panel' },
             { text: 'Model list', link: '/examples/model-list' },
             { text: 'Annotation components', link: '/examples/annotation-components' },
