@@ -1,0 +1,129 @@
+---
+title: Skeleton
+---
+
+import { Skeleton } from '@geti/ui';
+import { ExampleCard } from '../../../theme/ExampleCard';
+
+# Skeleton
+
+`Skeleton` renders a shimmering placeholder in place of content that is still loading. Use it to preserve the visual structure of a layout before data arrives — preventing jarring layout shifts and reducing perceived wait time.
+
+```tsx
+import { Skeleton } from '@geti/ui';
+```
+
+- [Geti UI Theming](/components/theming)
+
+## Examples
+
+<ExampleCard
+  title="Rectangle — text or card placeholder"
+  code={`<Skeleton width="100%" height={24} />`}
+>
+  <div style={{ width: 300 }}>
+    <Skeleton width="100%" height={24} />
+  </div>
+</ExampleCard>
+
+<ExampleCard
+  title="Circle — avatar or icon placeholder"
+  code={`<Skeleton isCircle width={48} height={48} />`}
+>
+  <Skeleton isCircle width={48} height={48} />
+</ExampleCard>
+
+<ExampleCard
+  title="Square with aspect ratio"
+  code={`<Skeleton isAspectRatioOne width={80} />`}
+>
+  <Skeleton isAspectRatioOne width={80} />
+</ExampleCard>
+
+<ExampleCard
+  title="Multi-line text block"
+  code={`<div style={{ display: 'flex', flexDirection: 'column', gap: 8, width: 300 }}>
+  <Skeleton width="100%" height={16} aria-label="Loading line 1" />
+  <Skeleton width="90%" height={16} aria-label="Loading line 2" />
+  <Skeleton width="75%" height={16} aria-label="Loading line 3" />
+</div>`}
+>
+  <div style={{ display: 'flex', flexDirection: 'column', gap: 8, width: 300 }}>
+    <Skeleton width="100%" height={16} aria-label="Loading line 1" />
+    <Skeleton width="90%" height={16} aria-label="Loading line 2" />
+    <Skeleton width="75%" height={16} aria-label="Loading line 3" />
+  </div>
+</ExampleCard>
+
+<ExampleCard
+  title="Card skeleton with avatar and text"
+  code={`<div style={{ display: 'flex', gap: 12, alignItems: 'flex-start', width: 300 }}>
+  <Skeleton isCircle width={48} height={48} aria-label="Loading avatar" />
+  <div style={{ flex: 1, display: 'flex', flexDirection: 'column', gap: 8 }}>
+    <Skeleton width="80%" height={16} aria-label="Loading name" />
+    <Skeleton width="60%" height={12} aria-label="Loading subtitle" />
+  </div>
+</div>`}
+>
+  <div style={{ display: 'flex', gap: 12, alignItems: 'flex-start', width: 300 }}>
+    <Skeleton isCircle width={48} height={48} aria-label="Loading avatar" />
+    <div style={{ flex: 1, display: 'flex', flexDirection: 'column', gap: 8 }}>
+      <Skeleton width="80%" height={16} aria-label="Loading name" />
+      <Skeleton width="60%" height={12} aria-label="Loading subtitle" />
+    </div>
+  </div>
+</ExampleCard>
+
+## Responsibility
+
+`Skeleton` is a Geti-authored component with no Spectrum equivalent. It renders a `<span>` with an inline shimmer animation applied via a CSS gradient. The shimmer animation (`shimmer 2s ease infinite`) must be defined in the page's stylesheet — it is included in Geti UI's global theme CSS.
+
+Key decisions:
+- Uses Spectrum dimension tokens for sizing when possible.
+- No JavaScript timer — purely CSS-animated.
+- Does not auto-remove; you swap it out when your data arrives.
+
+## Variants and states
+
+| Prop | Effect |
+|---|---|
+| default | Rectangle with rounded corners |
+| `isCircle` | `border-radius: 50%` |
+| `isAspectRatioOne` | Enforces `aspect-ratio: 1` — square |
+
+## Props (deep dive)
+
+### Dimensions
+
+- `width`: any CSS width value or number (converted to px). Defaults to `100%`.
+- `height`: any CSS height value or number. Defaults to `1rem`.
+
+### Shape
+
+- `isCircle`: renders the skeleton as a circle. Set both `width` and `height` to the same value.
+- `isAspectRatioOne`: enforces a 1:1 aspect ratio; set only `width` and let height follow.
+
+### Customisation
+
+- `className` / `style`: additional class or inline CSS for the skeleton element.
+
+### Accessibility
+
+- Renders as `<span role="img" aria-busy="true" aria-label="Loading…">`.
+- Override `aria-label` with a context-specific description: `"Loading project name"`.
+
+## Related components
+
+- `Loading` — use when you cannot predict the shape of the loading content (spinner/overlay).
+- `ProgressBar` — use when progress towards completion can be quantified.
+
+## Example use cases
+
+<details>
+  <summary>Typical use cases</summary>
+
+- Project grid while fetching project list — one `Skeleton` rectangle per card.
+- Annotation panel loading state — circle for the user avatar, lines for annotation text.
+- Image thumbnail while the full image is being fetched.
+
+</details>
