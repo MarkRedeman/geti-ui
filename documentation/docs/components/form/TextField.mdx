@@ -1,0 +1,128 @@
+---
+title: TextField
+---
+
+import { TextField } from '@geti/ui';
+import { ExampleCard } from '../../../theme/ExampleCard';
+
+# TextField
+
+TextField is the standard single-line text input. Use it for names, emails, URLs, short labels, and any field requiring freeform text entry on a single line.
+
+```tsx
+import { TextField } from '@geti/ui';
+```
+
+- [React Spectrum TextField ↗](https://react-spectrum.adobe.com/react-spectrum/TextField.html)
+- [Geti UI Theming](/components/theming)
+
+## Examples
+
+<ExampleCard
+  title="Default"
+  code={`<TextField label="Project name" />`}
+>
+  <TextField label="Project name" />
+</ExampleCard>
+
+<ExampleCard
+  title="With placeholder and description"
+  code={`<TextField
+  label="API endpoint"
+  placeholder="https://example.com/api"
+  description="Full URL including protocol"
+/>`}
+>
+  <TextField
+    label="API endpoint"
+    placeholder="https://example.com/api"
+    description="Full URL including protocol"
+  />
+</ExampleCard>
+
+<ExampleCard
+  title="Required with validation"
+  code={`<TextField
+  label="Email"
+  type="email"
+  isRequired
+  validationState="invalid"
+  errorMessage="Please enter a valid email address"
+/>`}
+>
+  <TextField
+    label="Email"
+    type="email"
+    isRequired
+    validationState="invalid"
+    errorMessage="Please enter a valid email address"
+  />
+</ExampleCard>
+
+<ExampleCard
+  title="Disabled"
+  code={`<TextField label="Username" defaultValue="jsmith" isDisabled />`}
+>
+  <TextField label="Username" defaultValue="jsmith" isDisabled />
+</ExampleCard>
+
+## Responsibility
+
+`TextField` is a thin wrapper around React Spectrum's `TextField`. All props pass through unchanged. The wrapper provides a `@geti/ui` import path and Geti theming.
+
+## Variants and states
+
+| State | Prop | Notes |
+|---|---|---|
+| Invalid | `validationState="invalid"` | Shows error styling and message |
+| Disabled | `isDisabled` | Non-interactive |
+| Read-only | `isReadOnly` | Visible but not editable |
+| Required | `isRequired` | Marks field as required |
+
+## Props (deep dive)
+
+### Content
+
+- `label`: visible field label.
+- `placeholder`: hint text shown when empty.
+- `description`: helper text below the field.
+- `errorMessage`: error message shown when `validationState="invalid"`.
+
+### Value
+
+- `value`: controlled string value.
+- `defaultValue`: uncontrolled initial value.
+- `type`: HTML input type — `'text'` (default), `'email'`, `'url'`, `'tel'`, `'search'`.
+
+### Events
+
+- `onChange`: `(value: string) => void`.
+
+### Validation
+
+- `validationState`: `'valid' | 'invalid'`.
+- `isRequired`: marks as required in form validation.
+
+### Accessibility
+
+- always provide a `label` — it is required for accessible name,
+- use `type="email"` or `type="url"` for appropriate keyboard layout on mobile.
+
+## Related components
+
+- `TextArea` — use for multi-line text inputs.
+- `PasswordField` — use for sensitive single-line inputs with show/hide toggle.
+- `SearchField` — use when the input is specifically for searching/filtering.
+- `NumberField` — use for numeric-only inputs with stepper controls.
+
+## Example use cases
+
+<details>
+  <summary>Typical use cases</summary>
+
+- Project name field in a creation dialog.
+- User profile first name and last name fields.
+- API key or webhook URL configuration.
+- Label name input in an annotation label management panel.
+
+</details>
