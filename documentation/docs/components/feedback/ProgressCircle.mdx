@@ -1,0 +1,82 @@
+---
+title: ProgressCircle
+---
+
+import { ProgressCircle } from '@geti/ui';
+import { ExampleCard } from '../../../theme/ExampleCard';
+
+# ProgressCircle
+
+`ProgressCircle` communicates progress with a circular indicator. Use it in compact spaces such as cards, tiles, and inline status regions where a horizontal bar is too wide.
+
+```tsx
+import { ProgressCircle } from '@geti/ui';
+```
+
+- [React Spectrum ProgressCircle ↗](https://react-spectrum.adobe.com/react-spectrum/ProgressCircle.html)
+- [Geti UI Theming](/components/theming)
+
+## Examples
+
+<ExampleCard
+  title="Determinate"
+  code={`<ProgressCircle aria-label="Training progress" value={64} />`}
+>
+  <ProgressCircle aria-label="Training progress" value={64} />
+</ExampleCard>
+
+<ExampleCard
+  title="Indeterminate"
+  code={`<ProgressCircle aria-label="Loading" isIndeterminate />`}
+>
+  <ProgressCircle aria-label="Loading" isIndeterminate />
+</ExampleCard>
+
+<ExampleCard
+  title="Custom range"
+  code={`<ProgressCircle aria-label="Epoch progress" minValue={0} maxValue={50} value={21} />`}
+>
+  <ProgressCircle aria-label="Epoch progress" minValue={0} maxValue={50} value={21} />
+</ExampleCard>
+
+## Responsibility
+
+`ProgressCircle` is a thin wrapper around React Spectrum `ProgressCircle`.
+It preserves Spectrum behavior and accessibility while keeping imports consistent in `@geti/ui`.
+
+## Variants and states
+
+| State | Prop | Notes |
+|---|---|---|
+| Determinate | `value` | Displays numeric progress in min/max range |
+| Indeterminate | `isIndeterminate` | Animated spinner-style progress |
+
+## Props (deep dive)
+
+### Value / state
+
+- `value`: current progress value.
+- `minValue` / `maxValue`: numeric range.
+- `isIndeterminate`: animation without fixed percentage.
+
+### Accessibility
+
+- `aria-label` is required when no visible label is present.
+- Prefer determinate mode if users can benefit from exact completion status.
+
+## Related components
+
+- `ProgressBar` — use for wider layouts with labels and percentages.
+- `Loading` — use when you need layout-level loading behavior and variants.
+- `IntelBrandedLoading` — use for Intel-branded global loading moments.
+
+## Example use cases
+
+<details>
+  <summary>Typical use cases</summary>
+
+- Inline progress in model cards.
+- Compact progress next to queue/job entries.
+- Spinner inside button-adjacent status area during async actions.
+
+</details>
