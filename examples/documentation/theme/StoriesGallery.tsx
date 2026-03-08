@@ -37,6 +37,7 @@ interface StoriesGalleryProps {
   module: StoriesModule;
   component?: ComponentType<Record<string, unknown>>;
   componentName?: string;
+  storiesSource?: string;
 }
 
 /** Top-level error boundary for the entire StoriesGallery */
@@ -239,19 +240,129 @@ function getStoryCode(
   story: StoryObj,
   meta: StoriesMeta,
   component?: ComponentType<Record<string, unknown>>,
-  componentNameOverride?: string
+  componentNameOverride?: string,
+  storiesSource?: string
 ): string {
+  // 0) Prefer extracting snippet directly from the original stories source text.
+  // This avoids runtime contamination and gives meaningful output for custom render stories.
+  const extracted = extractStoryCodeFromStoriesSource(storiesSource, name);
+  if (extracted?.trim()) return extracted;
+
   // 1) Prefer explicit docs source if provided by the story/meta.
   const explicitCode = story.parameters?.docs?.source?.code ?? meta.parameters?.docs?.source?.code;
   if (explicitCode?.trim()) return explicitCode;
 
   // 2) If story has render fn, show concise render skeleton.
   if (story.render) {
-    return `export const ${name} = {\n  render: (args) => (\n    /* custom render */\n  )\n};`;
+    // Prefer a usable JSX fallback over placeholder skeletons.
+    // This keeps docs examples copy/paste-friendly even when static extraction
+    // from source fails for edge-case render bodies.
+    return buildAutoJsxSnippet(story, meta, component, componentNameOverride);
   }
 
   // 3) Fallback: generate JSX from merged args.
   return buildAutoJsxSnippet(story, meta, component, componentNameOverride);
+}
+
+function extractBalanced(text: string, start: number, open: string, close: string): string | null {
+  let depth = 0;
+  let inSingle = false;
+  let inDouble = false;
+  let inTemplate = false;
+  let escaped = false;
+
+  for (let i = start; i < text.length; i++) {
+    const ch = text[i];
+
+    if (escaped) {
+      escaped = false;
+      continue;
+    }
+
+    if (ch === '\\') {
+      escaped = true;
+      continue;
+    }
+
+    if (!inDouble && !inTemplate && ch === "'") {
+      inSingle = !inSingle;
+      continue;
+    }
+    if (!inSingle && !inTemplate && ch === '"') {
+      inDouble = !inDouble;
+      continue;
+    }
+    if (!inSingle && !inDouble && ch === '`') {
+      inTemplate = !inTemplate;
+      continue;
+    }
+
+    if (inSingle || inDouble || inTemplate) continue;
+
+    if (ch === open) depth++;
+    if (ch === close) {
+      depth--;
+      if (depth === 0) {
+        return text.slice(start, i + 1);
+      }
+    }
+  }
+
+  return null;
+}
+
+function extractStoryCodeFromStoriesSource(storiesSource: string | undefined, storyName: string): string | null {
+  if (!storiesSource) return null;
+
+  const exportRegex = new RegExp(`export\\s+const\\s+${storyName}\\b[\\s\\S]*?=`, 'm');
+  const exportMatch = exportRegex.exec(storiesSource);
+  if (!exportMatch) return null;
+
+  const objectStart = storiesSource.indexOf('{', exportMatch.index);
+  if (objectStart === -1) return null;
+
+  const objectLiteral = extractBalanced(storiesSource, objectStart, '{', '}');
+  if (!objectLiteral) return null;
+
+  // Prefer explicit docs.source.code if present in source
+  const docsTemplate = objectLiteral.match(/docs\s*:\s*\{[\s\S]*?source\s*:\s*\{[\s\S]*?code\s*:\s*`([\s\S]*?)`/m);
+  if (docsTemplate?.[1]?.trim()) return docsTemplate[1].trim();
+  const docsSingle = objectLiteral.match(/docs\s*:\s*\{[\s\S]*?source\s*:\s*\{[\s\S]*?code\s*:\s*'([\s\S]*?)'/m);
+  if (docsSingle?.[1]?.trim()) return docsSingle[1].trim();
+  const docsDouble = objectLiteral.match(/docs\s*:\s*\{[\s\S]*?source\s*:\s*\{[\s\S]*?code\s*:\s*"([\s\S]*?)"/m);
+  if (docsDouble?.[1]?.trim()) return docsDouble[1].trim();
+
+  // Extract render body for `render: (...) => (...)`
+  const renderIdx = objectLiteral.search(/\brender\s*:/);
+  if (renderIdx === -1) return null;
+  const arrowIdx = objectLiteral.indexOf('=>', renderIdx);
+  if (arrowIdx === -1) return null;
+
+  let i = arrowIdx + 2;
+  while (i < objectLiteral.length && /\s/.test(objectLiteral[i])) i++;
+  if (i >= objectLiteral.length) return null;
+
+  const ch = objectLiteral[i];
+  if (ch === '(') {
+    const parenBlock = extractBalanced(objectLiteral, i, '(', ')');
+    if (!parenBlock) return null;
+    return parenBlock.slice(1, -1).trim();
+  }
+
+  if (ch === '<') {
+    const end = objectLiteral.indexOf(',\n', i);
+    const jsx = (end === -1 ? objectLiteral.slice(i) : objectLiteral.slice(i, end)).trim();
+    return jsx;
+  }
+
+  if (ch === '{') {
+    const block = extractBalanced(objectLiteral, i, '{', '}');
+    if (!block) return null;
+    const returnMatch = block.match(/return\s*\(([\s\S]*?)\)\s*;?/m);
+    if (returnMatch?.[1]?.trim()) return returnMatch[1].trim();
+  }
+
+  return null;
 }
 
 function StoryCard({
@@ -260,12 +371,14 @@ function StoryCard({
   meta,
   component,
   componentName,
+  storiesSource,
 }: {
   name: string;
   story: StoryObj;
   meta: StoriesMeta;
   component?: ComponentType<Record<string, unknown>>;
   componentName?: string;
+  storiesSource?: string;
 }) {
   const [showCode, setShowCode] = useState(false);
 
@@ -348,7 +461,7 @@ function StoryCard({
               maxHeight: '400px',
             }}
           >
-            <code>{getStoryCode(name, story, meta, component, componentName)}</code>
+            <code>{getStoryCode(name, story, meta, component, componentName, storiesSource)}</code>
           </pre>
         )}
       </div>
@@ -389,7 +502,7 @@ function StoryContent({
   return <ThemeProvider>{rendered}</ThemeProvider>;
 }
 
-export const StoriesGallery = ({ module, component: explicitComponent, componentName }: StoriesGalleryProps) => {
+export const StoriesGallery = ({ module, component: explicitComponent, componentName, storiesSource }: StoriesGalleryProps) => {
   const meta = module.default as StoriesMeta;
   // Use explicit component if provided, otherwise fall back to meta.component
   const component = explicitComponent ?? meta.component;
@@ -420,6 +533,7 @@ export const StoriesGallery = ({ module, component: explicitComponent, component
             meta={meta}
             component={component}
             componentName={componentName}
+            storiesSource={storiesSource}
           />
         ))}
       </section>

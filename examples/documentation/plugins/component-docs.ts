@@ -249,6 +249,13 @@ function findComponentFile(componentDir: string, componentName: string): string 
   return fs.existsSync(componentFile) ? componentFile : null;
 }
 
+/**
+ * Escape a string for safe embedding into a template literal.
+ */
+function escapeTemplateLiteral(s: string): string {
+  return s.replace(/`/g, '\\`').replace(/\$\{/g, '\\${');
+}
+
 function getPackageComponentImportName(componentName: string): string | null {
   // Toast docs are backed by ToastContainer in @geti/ui
   if (componentName === 'Toast') return 'ToastContainer';
@@ -395,6 +402,8 @@ export function componentDocsPlugin(): RspressPlugin {
 
         if (page.storiesPath) {
           const storiesImportPath = page.storiesPath.replace(/\.tsx$/, '');
+          const rawStoriesSource = fs.readFileSync(page.storiesPath, 'utf-8');
+          const escapedStoriesSource = escapeTemplateLiteral(rawStoriesSource);
           const packageComponentImportName = getPackageComponentImportName(page.componentName);
 
           // Build the stories block: imports + JSX
@@ -407,8 +416,8 @@ export function componentDocsPlugin(): RspressPlugin {
 
           const storiesJsx =
             (packageComponentImportName
-              ? `<StoriesGallery module={ComponentStories} component={${packageComponentImportName}} componentName="${page.componentName}" />\n`
-              : `<StoriesGallery module={ComponentStories} componentName="${page.componentName}" />\n`);
+              ? `<StoriesGallery module={ComponentStories} component={${packageComponentImportName}} componentName="${page.componentName}" storiesSource={\`${escapedStoriesSource}\`} />\n`
+              : `<StoriesGallery module={ComponentStories} componentName="${page.componentName}" storiesSource={\`${escapedStoriesSource}\`} />\n`);
 
           // Insert stories right after the intro section (title + subtitle + import
           // code block + links) and before the first ## heading.
