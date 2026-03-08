@@ -32,7 +32,7 @@ larger UI building blocks and how components fit together.
   title="Filter panel"
   code={`<Flex direction="column" gap="size-150" width="size-3600">
   <SearchField aria-label="Search assets" placeholder="Search assets" />
-  <ComboBox label="Model" defaultItems={[{ id: 'm1', name: 'Vehicle detector' }, { id: 'm2', name: 'Person detector' }] }>
+  <ComboBox label="Model" items={[{ id: 'm1', name: 'Vehicle detector' }, { id: 'm2', name: 'Person detector' }] }>
     {(item) => <ComboBoxItem>{item.name}</ComboBoxItem>}
   </ComboBox>
   <DatePicker label="Created after" />
@@ -42,7 +42,7 @@ larger UI building blocks and how components fit together.
     <SearchField aria-label="Search assets" placeholder="Search assets" />
     <ComboBox
       label="Model"
-      defaultItems={[
+      items={[
         { id: 'm1', name: 'Vehicle detector' },
         { id: 'm2', name: 'Person detector' },
       ]}
@@ -80,7 +80,7 @@ larger UI building blocks and how components fit together.
 
 <ExampleCard
   title="Media list with tags"
-  code={`<ListView aria-label="Media list" width="size-3600" selectionMode="multiple" defaultItems={[{ id: '1', title: 'frame_001.jpg', tags: ['car', 'road'] }, { id: '2', title: 'frame_002.jpg', tags: ['person'] }] }>
+  code={`<ListView aria-label="Media list" width="size-3600" selectionMode="multiple" items={[{ id: '1', title: 'frame_001.jpg', tags: ['car', 'road'] }, { id: '2', title: 'frame_002.jpg', tags: ['person'] }] }>
   {(item) => (
     <ListItem textValue={item.title}>
       <Flex direction="column" gap="size-75">
@@ -97,7 +97,7 @@ larger UI building blocks and how components fit together.
     aria-label="Media list"
     width="size-3600"
     selectionMode="multiple"
-    defaultItems={[
+    items={[
       { id: '1', title: 'frame_001.jpg', tags: ['car', 'road'] },
       { id: '2', title: 'frame_002.jpg', tags: ['person'] },
     ]}
