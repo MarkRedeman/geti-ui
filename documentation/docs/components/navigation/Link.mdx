@@ -1,0 +1,103 @@
+---
+title: Link
+---
+
+import { Link } from '@geti/ui';
+import { ExampleCard } from '../../../theme/ExampleCard';
+
+# Link
+
+Link renders a styled anchor for navigating to internal pages or external URLs. Use it wherever plain text navigation is needed — documentation, breadcrumb helpers, or inline contextual references.
+
+```tsx
+import { Link } from '@geti/ui';
+```
+
+- [React Spectrum Link ↗](https://react-spectrum.adobe.com/react-spectrum/Link.html)
+- [Geti UI Theming](/components/theming)
+
+## Examples
+
+<ExampleCard
+  title="Default (primary)"
+  code={`<Link href="https://example.com">Learn more</Link>`}
+>
+  <Link href="https://example.com">Learn more</Link>
+</ExampleCard>
+
+<ExampleCard
+  title="Primary variant"
+  code={`<Link variant="primary" href="https://example.com">Primary link</Link>`}
+>
+  <Link variant="primary" href="https://example.com">Primary link</Link>
+</ExampleCard>
+
+<ExampleCard
+  title="Secondary variant"
+  code={`<Link variant="secondary" href="https://example.com">Secondary link</Link>`}
+>
+  <Link variant="secondary" href="https://example.com">Secondary link</Link>
+</ExampleCard>
+
+<ExampleCard
+  title="Quiet (no underline)"
+  code={`<Link isQuiet href="https://example.com">Quiet link</Link>`}
+>
+  <Link isQuiet href="https://example.com">Quiet link</Link>
+</ExampleCard>
+
+## Responsibility
+
+`Link` is a thin wrapper around React Spectrum `Link` with no behavioral changes. It inherits Geti theme tokens through `ThemeProvider` and participates in Spectrum's focus/keyboard navigation ring.
+
+## Variants and states
+
+| Variant | Typical use |
+|---|---|
+| `primary` (default) | Standard inline navigation link |
+| `secondary` | De-emphasised secondary references |
+| `overBackground` | Links on non-default coloured backgrounds |
+
+---
+
+| Prop | Notes |
+|---|---|
+| `isQuiet` | Removes underline; use sparingly for dense layouts |
+
+## Props (deep dive)
+
+### Content
+
+- `children`: visible link text.
+- `href`: navigation destination.
+- `target`: e.g. `_blank` for new tab — add `rel="noopener noreferrer"` when opening external links.
+
+### Visual
+
+- `variant`: `primary | secondary | overBackground`.
+- `isQuiet`: suppress underline decoration.
+
+### Events
+
+- `onPress`: preferred handler for press / click interaction.
+
+### Accessibility
+
+- always use descriptive link text (`View project report`, not `click here`),
+- links must have visible focus rings — do not override with custom CSS.
+
+## Related components
+
+- `Breadcrumbs` — hierarchical path navigation using links.
+- `Button` — use when the target triggers an action rather than navigation.
+
+## Example use cases
+
+<details>
+  <summary>Typical use cases</summary>
+
+- Inline documentation references (`See the React Spectrum Button docs`).
+- Secondary navigation within a settings panel.
+- External resource links in help/onboarding tooltips.
+
+</details>
