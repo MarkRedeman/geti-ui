@@ -1,0 +1,261 @@
+---
+title: Images
+---
+
+import {
+  OpenVINOIcon, EmptyActiveSetIcon, MediaUpload, MediaUploadAnomalousIcon,
+  MediaUploadNormalIcon, WorkInProgressIcon, DeploymentImg, PyTorchLogo,
+  OnnxLogo, AccessDenied, Forbidden, ConnectionLost, NotFound, Unauthorized,
+  NoTrainedModels, NoTests, FireWorks, BrokenBulb, ServiceUnavailableIcon,
+  LinkExpiredImage, IntelLoading, LoginBackground, IntelAdminAppBackground,
+  NoProjectsPlaceholder,
+} from '@geti/ui/assets/images';
+import { ToastContainer, toast } from '@geti/ui';
+
+export const CELL = {
+  display: 'flex',
+  flexDirection: 'column',
+  alignItems: 'center',
+  gap: '10px',
+  padding: '20px 12px 16px',
+  background: 'rgba(255,255,255,0.03)',
+  border: '1px solid var(--spectrum-global-color-gray-700)',
+  borderRadius: '8px',
+};
+
+export const LOGO_SVG_FIX = {
+  display: 'block',
+  color: '#ffffff',
+};
+
+export const LABEL = {
+  fontSize: '11px',
+  fontWeight: 600,
+  color: 'var(--spectrum-global-color-gray-500)',
+  textAlign: 'center',
+  lineHeight: 1.3,
+  fontFamily: 'ui-monospace, "Cascadia Code", Menlo, monospace',
+};
+
+export const SECTION_GRID = {
+  display: 'grid',
+  gridTemplateColumns: 'repeat(auto-fill, minmax(160px, 1fr))',
+  gap: '12px',
+  margin: '24px 0',
+};
+
+export const WEBP_GRID = {
+  display: 'grid',
+  gridTemplateColumns: 'repeat(auto-fill, minmax(240px, 1fr))',
+  gap: '12px',
+  margin: '24px 0',
+};
+
+export async function copyImageImport(exportName) {
+  const statement = `import { ${exportName} } from '@geti/ui/assets/images';`;
+  try {
+    await navigator.clipboard.writeText(statement);
+    toast.positive(`Copied import for ${exportName}`);
+  } catch {
+    toast.negative('Failed to copy import');
+  }
+}
+
+export function ClickableCell({ name, children }) {
+  return (
+    <button
+      type="button"
+      onClick={() => copyImageImport(name)}
+      aria-label={`Copy import for ${name}`}
+      style={{
+        ...CELL,
+        width: '100%',
+        cursor: 'copy',
+        textAlign: 'inherit',
+      }}
+    >
+      {children}
+      <code style={LABEL}>{name}</code>
+    </button>
+  );
+}
+
+# Images
+
+<ToastContainer placement="bottom" />
+
+Illustration SVGs and background/loading webp images for common Geti UI states.
+
+```tsx
+import { WorkInProgressIcon, NotFound, ConnectionLost } from '@geti/ui/assets/images';
+import { LoginBackground, IntelLoading } from '@geti/ui/assets/images';
+```
+
+## SVG illustrations
+
+These are inline SVG React components that accept `SVGProps<SVGSVGElement>`. Render them directly with `width` / `height` props:
+
+```tsx
+import { WorkInProgressIcon, NotFound } from '@geti/ui/assets/images';
+
+<WorkInProgressIcon width={200} height={200} />
+<NotFound width={180} height={180} />
+```
+
+### Error & empty states
+
+<div style={SECTION_GRID}>
+  <ClickableCell name="NotFound">
+    <NotFound width={120} height={120} />
+  </ClickableCell>
+  <ClickableCell name="Forbidden">
+    <Forbidden width={120} height={120} />
+  </ClickableCell>
+  <ClickableCell name="Unauthorized">
+    <Unauthorized width={120} height={120} />
+  </ClickableCell>
+  <ClickableCell name="AccessDenied">
+    <AccessDenied width={120} height={120} />
+  </ClickableCell>
+  <ClickableCell name="ConnectionLost">
+    <ConnectionLost width={120} height={120} />
+  </ClickableCell>
+  <ClickableCell name="ServiceUnavailableIcon">
+    <ServiceUnavailableIcon width={120} height={120} />
+  </ClickableCell>
+  <ClickableCell name="BrokenBulb">
+    <BrokenBulb width={120} height={120} />
+  </ClickableCell>
+  <ClickableCell name="LinkExpiredImage">
+    <LinkExpiredImage width={120} height={120} />
+  </ClickableCell>
+</div>
+
+### Placeholder & progress states
+
+<div style={SECTION_GRID}>
+  <ClickableCell name="WorkInProgressIcon">
+    <WorkInProgressIcon width={120} height={120} />
+  </ClickableCell>
+  <ClickableCell name="EmptyActiveSetIcon">
+    <EmptyActiveSetIcon width={120} height={120} />
+  </ClickableCell>
+  <ClickableCell name="NoTrainedModels">
+    <NoTrainedModels width={120} height={120} />
+  </ClickableCell>
+  <ClickableCell name="NoTests">
+    <NoTests width={120} height={120} />
+  </ClickableCell>
+  <ClickableCell name="FireWorks">
+    <FireWorks width={120} height={120} />
+  </ClickableCell>
+  <ClickableCell name="DeploymentImg">
+    <DeploymentImg width={120} height={120} />
+  </ClickableCell>
+</div>
+
+### Media upload states
+
+<div style={SECTION_GRID}>
+  <ClickableCell name="MediaUpload">
+    <MediaUpload width={120} height={120} />
+  </ClickableCell>
+  <ClickableCell name="MediaUploadNormalIcon">
+    <MediaUploadNormalIcon width={120} height={120} />
+  </ClickableCell>
+  <ClickableCell name="MediaUploadAnomalousIcon">
+    <MediaUploadAnomalousIcon width={120} height={120} />
+  </ClickableCell>
+</div>
+
+### Logos & brand marks
+
+<div style={SECTION_GRID}>
+  <ClickableCell name="OpenVINOIcon">
+    <OpenVINOIcon width={140} height={60} style={LOGO_SVG_FIX} />
+  </ClickableCell>
+  <ClickableCell name="PyTorchLogo">
+    <PyTorchLogo width={120} height={60} style={LOGO_SVG_FIX} />
+  </ClickableCell>
+  <ClickableCell name="OnnxLogo">
+    <OnnxLogo width={120} height={60} style={LOGO_SVG_FIX} />
+  </ClickableCell>
+</div>
+
+---
+
+## Static image URLs (webp)
+
+These exports are URL strings — use them in `<img src={…}>` or CSS `background-image`. They are **not** React components.
+
+```tsx
+import { LoginBackground, IntelLoading, IntelAdminAppBackground, NoProjectsPlaceholder } from '@geti/ui/assets/images';
+
+// In JSX
+<img src={LoginBackground} alt="Login background" style={{ width: '100%' }} />
+
+// In CSS-in-JS
+<div style={{ backgroundImage: `url(${LoginBackground})`, backgroundSize: 'cover' }} />
+```
+
+<div style={WEBP_GRID}>
+  <ClickableCell name="IntelLoading">
+    <img
+      src={IntelLoading}
+      alt="Intel loading animation"
+      style={{ width: '100%', maxWidth: '200px', borderRadius: '6px', objectFit: 'cover', pointerEvents: 'none' }}
+    />
+  </ClickableCell>
+  <ClickableCell name="LoginBackground">
+    <img
+      src={LoginBackground}
+      alt="Login background"
+      style={{ width: '100%', maxWidth: '200px', height: '120px', borderRadius: '6px', objectFit: 'cover', pointerEvents: 'none' }}
+    />
+  </ClickableCell>
+  <ClickableCell name="IntelAdminAppBackground">
+    <img
+      src={IntelAdminAppBackground}
+      alt="Intel admin app background"
+      style={{ width: '100%', maxWidth: '200px', height: '120px', borderRadius: '6px', objectFit: 'cover', pointerEvents: 'none' }}
+    />
+  </ClickableCell>
+  <ClickableCell name="NoProjectsPlaceholder">
+    <img
+      src={NoProjectsPlaceholder}
+      alt="No projects placeholder"
+      style={{ width: '100%', maxWidth: '200px', height: '120px', borderRadius: '6px', objectFit: 'cover', pointerEvents: 'none' }}
+    />
+  </ClickableCell>
+</div>
+
+---
+
+## Full export reference
+
+| Export name | Type | File |
+|---|---|---|
+| `OpenVINOIcon` | SVG component | `openvino.svg` |
+| `EmptyActiveSetIcon` | SVG component | `empty-active-set.svg` |
+| `MediaUpload` | SVG component | `media-upload.svg` |
+| `MediaUploadAnomalousIcon` | SVG component | `media-upload-anomalous.svg` |
+| `MediaUploadNormalIcon` | SVG component | `media-upload-normal.svg` |
+| `WorkInProgressIcon` | SVG component | `work-in-progress.svg` |
+| `DeploymentImg` | SVG component | `deploymentImg.svg` |
+| `PyTorchLogo` | SVG component | `pytorch-logo.svg` |
+| `OnnxLogo` | SVG component | `onnx-logo.svg` |
+| `AccessDenied` | SVG component | `access-denied-org.svg` |
+| `Forbidden` | SVG component | `forbidden.svg` |
+| `ConnectionLost` | SVG component | `server-connection-lost.svg` |
+| `NotFound` | SVG component | `not-found.svg` |
+| `Unauthorized` | SVG component | `unauthorized.svg` |
+| `NoTrainedModels` | SVG component | `no-trained-models.svg` |
+| `NoTests` | SVG component | `no-tests.svg` |
+| `FireWorks` | SVG component | `fire-works.svg` |
+| `BrokenBulb` | SVG component | `broken-bulb.svg` |
+| `ServiceUnavailableIcon` | SVG component | `service-unavailable.svg` |
+| `LinkExpiredImage` | SVG component | `link-expired.svg` |
+| `LoginBackground` | URL string | `login_background.webp` |
+| `IntelLoading` | URL string | `intel-loading.webp` |
+| `IntelAdminAppBackground` | URL string | `intel-admin-app-background.webp` |
+| `NoProjectsPlaceholder` | URL string | `no-projects-placeholder.webp` |

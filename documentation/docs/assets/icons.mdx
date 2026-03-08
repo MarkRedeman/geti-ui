@@ -1,0 +1,293 @@
+---
+title: Icons
+---
+
+import { useState } from 'react';
+import { TooltipTrigger, Tooltip, ColorPickerDialog, Slider, ToastContainer, SearchField, toast } from '@geti/ui';
+import * as Icons from '@geti/ui/icons';
+
+export const SVG_ICON_NAMES = [
+  'Adjustments', 'AiIcon', 'AICPUIcon', 'Alert', 'AlertOutlined',
+  'SortDown', 'SortUpDown', 'SortUp', 'Back', 'Copy',
+  'CaretRightIcon', 'Accept', 'AcceptCircle', 'AcceptSmall',
+  'ChevronDownLight', 'ChevronUpLight', 'ChevronLeft', 'ChevronRight',
+  'ChevronDownSmall', 'ChevronDownSmallLight', 'ChevronRightSmallLight',
+  'ChevronUpSmallLight', 'Expanded', 'BoundingCircle', 'Close',
+  'CloseSemiBold', 'CloseSmall', 'BorderClose', 'DatasetImport',
+  'Datasets', 'Reject', 'Selector', 'DownloadIcon', 'MoreMenu', 'Email',
+  'Visible', 'Invisible', 'Expand', 'Collapse', 'EyeSolid', 'Filter',
+  'FitScreen', 'AddGroup', 'Fps', 'Gear', 'GraphChart', 'Grid',
+  'Explanation', 'HelpCircleSolidIcon', 'Hotkeys', 'Human', 'Image',
+  'InfoOutline', 'Info', 'InstallPWA', 'LabelGroup', 'List', 'Lock',
+  'Search', 'Remove', 'Model', 'QuickSelection', 'Edit', 'Play', 'Add',
+  'PointPushPull', 'PointSelector', 'Polygon', 'RotatedBox', 'Rotation',
+  'Redo', 'Refresh', 'Scope', 'StepBackward', 'StepForward',
+  'BoundingBox', 'DetectionTool', 'New', 'Deployments', 'Subtract',
+  'Combine', 'TimeSmall', 'Delete', 'Undo', 'Unlock', 'Unpin', 'Share',
+  'UserIcon', 'UserCircleFilled', 'Users', 'Watershed', 'Pause', 'Pin',
+  'Video', 'Revisit', 'Tag', 'TagHalf', 'Contract', 'SoundOn', 'SoundOff',
+  'Bell', 'MagicWandIcon', 'SegmentAnythingIcon', 'ScoreMetric',
+  'AutoTraining', 'AnalyticsIcon', 'ExternalLinkIcon', 'MetricsIcon',
+  'TracesIcon', 'LogsIcon', 'BulbIcon', 'DocumentIcon', 'ShieldFilled',
+  'Shield', 'GridSmall', 'GridMedium', 'Manifest', 'Stamp', 'NoStamp',
+  'CheckCircleOutlined', 'ExclamationCircleOutlined', 'DatabaseIcon',
+  'PlaybackRate', 'HelpIcon', 'ProjectsIcon', 'SkippedIcon', 'WaitingIcon',
+  'CanceledIcon', 'CrossCircle', 'MinusCircle', 'Time', 'Policy',
+  'CreditCard', 'PieChart', 'VideoThumb', 'StartRageVideoThumb',
+  'EndRangeVideoThumb', 'KeypointDetection', 'CloseBold', 'LeftClick',
+  'RightClick', 'JointConnection', 'LineMappingLight', 'AddCircle',
+  'FolderLight', 'MagnifierMinus', 'MagnifierPlus', 'Squares',
+  'SquareRotate', 'CheckboxSelected',
+];
+
+export const SPECTRUM_ICON_NAMES = [
+  'Checkmark', 'Calendar', 'ChevronDoubleLeft', 'ChevronDoubleRight',
+  'CheckmarkCircleOutline', 'DeleteOutline', 'RemoveCircle', 'AlertCircle',
+  'CloudErrorIcon', 'LinkOut', 'Import', 'Pending', 'Cancel',
+  'Gauge1', 'Gauge2', 'Gauge3', 'Gauge4', 'Gauge5',
+];
+
+export const AVAILABLE_ICON_NAMES = Object.keys(Icons).sort((a, b) => a.localeCompare(b));
+export const AVAILABLE_SPECTRUM_ICON_NAMES = SPECTRUM_ICON_NAMES.filter((name) => AVAILABLE_ICON_NAMES.includes(name));
+export const AVAILABLE_SVG_ICON_NAMES = AVAILABLE_ICON_NAMES.filter((name) => !AVAILABLE_SPECTRUM_ICON_NAMES.includes(name));
+
+export async function copyImport(exportName, importPath) {
+  const statement = `import { ${exportName} } from '${importPath}';`;
+  try {
+    await navigator.clipboard.writeText(statement);
+    toast.positive(`Copied import for ${exportName}`);
+  } catch {
+    toast.negative('Failed to copy import');
+  }
+}
+
+export function IconGrid({ names, iconColor, iconSize, isSpectrum = false }) {
+  const columnMinWidth = Math.max(96, iconSize + 56);
+
+  return (
+    <div style={{
+      display: 'grid',
+      gridTemplateColumns: `repeat(auto-fill, minmax(${columnMinWidth}px, 1fr))`,
+      gap: '8px',
+    }}>
+      {names.map((name) => {
+        const IconComponent = Icons[name];
+        if (!IconComponent) return null;
+        return (
+          <TooltipTrigger key={name} delay={0} placement="top">
+            <button
+              type="button"
+              aria-label={name}
+              onClick={() => copyImport(name, '@geti/ui/icons')}
+              style={{
+                display: 'flex',
+                flexDirection: 'column',
+                alignItems: 'center',
+                justifyContent: 'center',
+                gap: '6px',
+                padding: '12px 8px 10px',
+                background: 'transparent',
+                border: '1px solid transparent',
+                borderRadius: '6px',
+                cursor: 'copy',
+                color: 'var(--spectrum-global-color-gray-200)',
+                transition: 'border-color 120ms ease, background 120ms ease',
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.borderColor = 'var(--spectrum-global-color-gray-500)';
+                e.currentTarget.style.background = 'rgba(255,255,255,0.04)';
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.borderColor = 'transparent';
+                e.currentTarget.style.background = 'transparent';
+              }}
+            >
+              {isSpectrum ? (
+                <span style={{ width: iconSize, height: iconSize, display: 'inline-flex', alignItems: 'center', justifyContent: 'center' }}>
+                  <IconComponent size="M" UNSAFE_style={{ color: iconColor }} />
+                </span>
+              ) : (
+                <IconComponent
+                  width={iconSize}
+                  height={iconSize}
+                  aria-hidden="true"
+                  style={{ fill: iconColor, color: iconColor  }}
+                />
+              )}
+              <span style={{
+                fontSize: '10px',
+                lineHeight: 1.2,
+                textAlign: 'center',
+                color: 'var(--spectrum-global-color-gray-500)',
+                wordBreak: 'break-all',
+                maxWidth: `${Math.max(72, iconSize + 16)}px`,
+                overflow: 'hidden',
+                display: '-webkit-box',
+                WebkitLineClamp: 2,
+                WebkitBoxOrient: 'vertical',
+              }}>
+                {name}
+              </span>
+            </button>
+            <Tooltip>{name}</Tooltip>
+          </TooltipTrigger>
+        );
+      })}
+    </div>
+  );
+}
+
+export function SearchableIconGrid() {
+  const [query, setQuery] = useState('');
+  const [iconColor, setIconColor] = useState('#ffffff');
+  const [iconSize, setIconSize] = useState(20);
+  const normalizedQuery = query.trim().toLowerCase();
+  const allSvg = normalizedQuery
+    ? AVAILABLE_SVG_ICON_NAMES.filter((n) => n.toLowerCase().includes(normalizedQuery))
+    : AVAILABLE_SVG_ICON_NAMES;
+  const allSpectrum = normalizedQuery
+    ? AVAILABLE_SPECTRUM_ICON_NAMES.filter((n) => n.toLowerCase().includes(normalizedQuery))
+    : AVAILABLE_SPECTRUM_ICON_NAMES;
+
+  return (
+    <div>
+      <ToastContainer placement="bottom" />
+      <div style={{ marginBottom: '20px' }}>
+        <div style={{
+          display: 'flex',
+          alignItems: 'center',
+          gap: '12px',
+          marginBottom: '12px',
+          flexWrap: 'wrap',
+        }}>
+          <div style={{ flex: '1 1 320px', minWidth: '240px' }}>
+            <SearchField
+              aria-label="Filter icons"
+              placeholder="Filter icons…"
+              value={query}
+              onChange={setQuery}
+            />
+          </div>
+          <span style={{ fontSize: '12px', color: 'var(--spectrum-global-color-gray-500)' }}>
+            Icon color
+          </span>
+          <ColorPickerDialog
+            label={`Color (${iconColor})`}
+            color={iconColor}
+            onColorChange={(next) => setIconColor(next)}
+          />
+          <div style={{ width: '260px', minWidth: '220px' }}>
+            <Slider
+              label="Icon size"
+              value={iconSize}
+              minValue={12}
+              maxValue={256}
+              step={1}
+              onChange={(value) => setIconSize(Number(value))}
+              getValueLabel={(value) => `${value}px`}
+              isFilled
+            />
+          </div>
+          <button
+            type="button"
+            onClick={() => setIconColor('#ffffff')}
+            style={{
+              height: '32px',
+              padding: '6px 8px',
+              border: '1px solid var(--spectrum-global-color-gray-400)',
+              borderRadius: '6px',
+              background: 'transparent',
+              color: 'var(--spectrum-global-color-gray-200)',
+              fontSize: '12px',
+              cursor: 'pointer',
+            }}
+          >
+            Reset
+          </button>
+        </div>
+        {query && (
+          <p style={{
+            margin: '8px 0 0',
+            fontSize: '12px',
+            color: 'var(--spectrum-global-color-gray-500)',
+          }}>
+            {allSvg.length + allSpectrum.length} result{allSvg.length + allSpectrum.length !== 1 ? 's' : ''}
+          </p>
+        )}
+      </div>
+
+      {allSvg.length > 0 && (
+        <>
+          <h3 style={{ margin: '0 0 12px', fontSize: '13px', fontWeight: 600, color: 'var(--spectrum-global-color-gray-400)', textTransform: 'uppercase', letterSpacing: '0.08em' }}>
+            Custom SVG icons ({allSvg.length})
+          </h3>
+          <IconGrid names={allSvg} iconColor={iconColor} iconSize={iconSize} isSpectrum={false} />
+        </>
+      )}
+
+      {allSpectrum.length > 0 && (
+        <>
+          <h3 style={{ margin: '32px 0 12px', fontSize: '13px', fontWeight: 600, color: 'var(--spectrum-global-color-gray-400)', textTransform: 'uppercase', letterSpacing: '0.08em' }}>
+            Spectrum workflow re-exports ({allSpectrum.length})
+          </h3>
+          <IconGrid names={allSpectrum} iconColor={iconColor} iconSize={iconSize} isSpectrum={true} />
+        </>
+      )}
+
+      {allSvg.length === 0 && allSpectrum.length === 0 && (
+        <p style={{ color: 'var(--spectrum-global-color-gray-500)', fontStyle: 'italic' }}>
+          No icons match "{query}"
+        </p>
+      )}
+    </div>
+  );
+}
+
+# Icons
+
+The icons subpath exports every Geti custom SVG icon as a named React component, plus a curated set of Adobe Spectrum workflow icon re-exports.
+
+```tsx
+import { Add, Delete, Filter, Gear } from '@geti/ui/icons';
+```
+
+## Usage
+
+SVG icons from `@geti/ui/icons` render as inline SVG via SVGR. They accept standard `SVGProps<SVGSVGElement>` props.
+
+```tsx
+import { Add, Delete, Search, Gear } from '@geti/ui/icons';
+
+// Basic usage — size via width/height
+<Add width={16} height={16} />
+
+// With colour and accessible label
+<Delete aria-label="Delete item" style={{ color: 'var(--spectrum-red-600)' }} />
+```
+
+Spectrum re-exports accept the Spectrum `size` prop (`'XS' | 'S' | 'M' | 'L' | 'XL' | 'XXL'`):
+
+```tsx
+import { Checkmark, Calendar } from '@geti/ui/icons';
+
+<Checkmark size="S" />
+<Calendar size="M" />
+```
+
+## Icon catalogue
+
+Hover any icon to see its export name. Use the filter box to search across both sets.
+
+<SearchableIconGrid />
+
+## Import path
+
+```ts
+// Named imports — tree-shaken at build time
+import { Add, Delete, Edit, Filter, Search, Gear } from '@geti/ui/icons';
+
+// Or via the full namespace (not recommended for production bundles)
+import * as Icons from '@geti/ui/icons';
+```
+
+See `packages/ui/src/assets/icons/index.ts` for the authoritative full list.

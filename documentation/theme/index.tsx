@@ -1,5 +1,13 @@
-import { Layout } from '@rspress/core/theme-original';
+import { Layout as OriginalLayout } from '@rspress/core/theme-original';
+import { ThemeProvider } from '@geti/ui';
 import '@geti/ui/styles.css';
 
-export { Layout };
+export const Layout = () => {
+  return (
+    <ThemeProvider>
+      <OriginalLayout />
+    </ThemeProvider>
+  );
+};
+
 export * from '@rspress/core/theme-original';

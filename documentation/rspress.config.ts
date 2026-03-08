@@ -31,10 +31,37 @@ export default defineConfig({
     darkMode: true,
     nav: [
       { text: 'Components', link: '/components/ui/Button' },
+      { text: 'Assets', link: '/assets/' },
       { text: 'Examples', link: '/examples' },
       { text: 'Used By', link: '/used-by' },
     ],
     sidebar: {
+      '/assets': [
+        {
+          text: 'Assets',
+          collapsed: false,
+          items: [
+            { text: 'Overview', link: '/assets/' },
+            { text: 'Icons', link: '/assets/icons' },
+            { text: 'Images', link: '/assets/images' },
+            { text: 'Domains', link: '/assets/domains' },
+            { text: 'Primary Tools', link: '/assets/primary-tools' },
+          ],
+        },
+      ],
+      '/assets/': [
+        {
+          text: 'Assets',
+          collapsed: false,
+          items: [
+            { text: 'Overview', link: '/assets/' },
+            { text: 'Icons', link: '/assets/icons' },
+            { text: 'Images', link: '/assets/images' },
+            { text: 'Domains', link: '/assets/domains' },
+            { text: 'Primary Tools', link: '/assets/primary-tools' },
+          ],
+        },
+      ],
       '/examples': [
         {
           text: 'Kitchensinks',

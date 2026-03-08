@@ -11,8 +11,34 @@
         },
         "./styles.css": {
             "default": "./dist/esm/index.css"
+        },
+        "./icons": {
+            "import": "./dist/esm/icons.js",
+            "require": "./dist/cjs/icons.cjs",
+            "types": "./dist/types/assets/icons/index.d.ts"
+        },
+        "./assets": {
+            "import": "./dist/esm/assets.js",
+            "require": "./dist/cjs/assets.cjs",
+            "types": "./dist/types/assets/index.d.ts"
+        },
+        "./assets/images": {
+            "import": "./dist/esm/assets/images.js",
+            "require": "./dist/cjs/assets/images.cjs",
+            "types": "./dist/types/assets/images/index.d.ts"
+        },
+        "./assets/domains": {
+            "import": "./dist/esm/assets/domains.js",
+            "require": "./dist/cjs/assets/domains.cjs",
+            "types": "./dist/types/assets/domains/index.d.ts"
+        },
+        "./assets/primary-tools": {
+            "import": "./dist/esm/assets/primary-tools.js",
+            "require": "./dist/cjs/assets/primary-tools.cjs",
+            "types": "./dist/types/assets/primary-tools/index.d.ts"
         }
     },
+    "sideEffects": ["*.css"],
     "style": "./dist/esm/index.css",
     "main": "./dist/cjs/index.js",
     "module": "./dist/esm/index.js",
@@ -57,6 +83,7 @@
         "@react-types/textfield": "^3.12.8",
         "@rsbuild/core": "^1.7.3",
         "@rsbuild/plugin-react": "^1.4.5",
+        "@rsbuild/plugin-svgr": "^1.3.0",
         "@rslib/core": "^0.12.2",
         "@rstest/core": "^0.2.2",
         "@storybook/addon-a11y": "10.2.16",

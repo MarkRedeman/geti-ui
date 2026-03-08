@@ -1,0 +1,84 @@
+---
+title: Domains
+---
+
+import {
+  DetectionImg,
+  DetectionRotatedImg,
+  SegmentationImg,
+  SegmentationInstanceImg,
+  ClassificationImg,
+  ClassificationHierarchicalImg,
+  AnomalyClassificationImg,
+  AnomalyDetectionImg,
+  KeypointDetectionImg,
+} from '@geti/ui/assets/domains';
+
+# Domain Images
+
+SVG thumbnails representing each Geti annotation domain type.
+
+```tsx
+import { DetectionImg, ClassificationImg, SegmentationImg } from '@geti/ui/assets/domains';
+```
+
+## Usage
+
+Domain images render as inline SVG React components. Use them to visually represent task or project type:
+
+```tsx
+import { DetectionImg, ClassificationImg } from '@geti/ui/assets/domains';
+
+<DetectionImg width={48} height={48} />
+<ClassificationImg width={48} height={48} />
+```
+
+## Available domain images
+
+<div
+  style={{
+    display: 'grid',
+    gridTemplateColumns: 'repeat(auto-fill, minmax(180px, 1fr))',
+    gap: '12px',
+    marginTop: '16px',
+  }}
+>
+  {[
+    ['DetectionImg', DetectionImg],
+    ['DetectionRotatedImg', DetectionRotatedImg],
+    ['SegmentationImg', SegmentationImg],
+    ['SegmentationInstanceImg', SegmentationInstanceImg],
+    ['ClassificationImg', ClassificationImg],
+    ['ClassificationHierarchicalImg', ClassificationHierarchicalImg],
+    ['AnomalyClassificationImg', AnomalyClassificationImg],
+    ['AnomalyDetectionImg', AnomalyDetectionImg],
+    ['KeypointDetectionImg', KeypointDetectionImg],
+  ].map(([name, Icon]) => (
+    <div
+      key={name}
+      style={{
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+        gap: '10px',
+        padding: '16px 10px',
+        background: 'rgba(255,255,255,0.03)',
+        border: '1px solid var(--spectrum-global-color-gray-700)',
+        borderRadius: '8px',
+      }}
+    >
+      <Icon width={84} height={84} aria-hidden="true" />
+      <code style={{ fontSize: 11 }}>{name}</code>
+    </div>
+  ))}
+</div>
+
+## Import path
+
+```ts
+import { DetectionImg, SegmentationImg } from '@geti/ui/assets/domains';
+
+// Or via the combined namespace
+import { Domains } from '@geti/ui/assets';
+const { DetectionImg } = Domains;
+```

@@ -1,5 +1,6 @@
 import { defineConfig } from "@rslib/core";
 import { pluginReact } from "@rsbuild/plugin-react";
+import { pluginSvgr } from "@rsbuild/plugin-svgr";
 
 export default defineConfig({
   lib: [
@@ -39,10 +40,22 @@ export default defineConfig({
   output: {
     target: "web",
   },
-  plugins: [pluginReact()],
+  plugins: [
+    pluginReact(),
+    pluginSvgr({
+      svgrOptions: {
+        exportType: "named",
+      },
+    }),
+  ],
   source: {
     entry: {
       index: ["./src/index.ts"],
+      icons: ["./src/entries/icons.ts"],
+      "assets/images": ["./src/entries/assets-images.ts"],
+      "assets/domains": ["./src/entries/assets-domains.ts"],
+      "assets/primary-tools": ["./src/entries/assets-primary-tools.ts"],
+      assets: ["./src/entries/assets.ts"],
     },
     exclude: [/\.stories\.(ts|tsx)$/, /\.test\.(ts|tsx)$/, /\.md$/],
   },
