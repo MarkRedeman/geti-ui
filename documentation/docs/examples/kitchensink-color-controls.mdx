@@ -1,10 +1,204 @@
+import {
+  ColorArea,
+  ColorField,
+  ColorPickerDialog,
+  ColorSlider,
+  ColorSwatch,
+  ColorSwatchPicker,
+  ColorSwatchPickerItem,
+  ColorWheel,
+  ComboBox,
+  ComboBoxItem,
+  Divider,
+  Flex,
+  Grid,
+  Picker,
+  PickerItem,
+  View,
+} from '@geti/ui';
 import { ExampleCard } from '../../theme/ExampleCard';
-import { ColorControlsKitchenSinkExample } from '../components/_examples/ColorControlsKitchenSinkExample';
+
+export const FRAMEWORK_OPTIONS = [
+  { key: 'react', label: 'React' },
+  { key: 'vue', label: 'Vue' },
+  { key: 'angular', label: 'Angular' },
+  { key: 'svelte', label: 'Svelte' },
+  { key: 'solid', label: 'Solid' },
+];
+
+export const ANIMAL_OPTIONS = [
+  { key: 'cat', label: 'Cat' },
+  { key: 'dog', label: 'Dog' },
+  { key: 'red-panda', label: 'Red Panda' },
+  { key: 'axolotl', label: 'Axolotl' },
+  { key: 'capybara', label: 'Capybara' },
+];
+
+export const SubLabel = ({ children }) => (
+  <p
+    style={{
+      margin: '0 0 4px 0',
+      fontSize: 'var(--spectrum-global-dimension-font-size-50)',
+      fontWeight: 600,
+      color: 'var(--spectrum-global-color-gray-500)',
+      textTransform: 'uppercase',
+      letterSpacing: '0.08em',
+    }}
+  >
+    {children}
+  </p>
+);
 
 # Color controls kitchensink
 
 Derived from `packages/ui/src/components/form/pickers/KitchenSink.stories.tsx` (color controls split).
 
-<ExampleCard title="Color controls kitchensink" code={`<ColorControlsKitchenSinkExample />`}>
-  <ColorControlsKitchenSinkExample />
+<ExampleCard title="Picker &amp; ComboBox" code={`<Picker label="Framework" defaultSelectedKey="react">...</Picker>`}>
+  <Grid columns={['1fr', '1fr']} gap="size-300" UNSAFE_style={{ alignItems: 'start' }}>
+    <Flex direction="column" gap="size-200">
+      <div>
+        <SubLabel>Picker</SubLabel>
+        <Flex direction="column" gap="size-150">
+          <Picker label="Framework" defaultSelectedKey="react" width="100%">
+            {FRAMEWORK_OPTIONS.map(({ key, label }) => (
+              <PickerItem key={key}>{label}</PickerItem>
+            ))}
+          </Picker>
+          <Picker label="Disabled picker" isDisabled width="100%">
+            {FRAMEWORK_OPTIONS.map(({ key, label }) => (
+              <PickerItem key={key}>{label}</PickerItem>
+            ))}
+          </Picker>
+          <Picker
+            label="Invalid picker"
+            validationState="invalid"
+            errorMessage="Selection required."
+            width="100%"
+          >
+            {FRAMEWORK_OPTIONS.map(({ key, label }) => (
+              <PickerItem key={key}>{label}</PickerItem>
+            ))}
+          </Picker>
+        </Flex>
+      </div>
+    </Flex>
+
+    <Flex direction="column" gap="size-200">
+      <div>
+        <SubLabel>ComboBox</SubLabel>
+        <Flex direction="column" gap="size-150">
+          <ComboBox label="Favorite animal" defaultSelectedKey="cat" width="100%">
+            {ANIMAL_OPTIONS.map(({ key, label }) => (
+              <ComboBoxItem key={key}>{label}</ComboBoxItem>
+            ))}
+          </ComboBox>
+          <ComboBox label="Search animals" defaultInputValue="Cap" width="100%">
+            {ANIMAL_OPTIONS.map(({ key, label }) => (
+              <ComboBoxItem key={key}>{label}</ComboBoxItem>
+            ))}
+          </ComboBox>
+          <ComboBox label="Disabled" isDisabled width="100%">
+            {ANIMAL_OPTIONS.map(({ key, label }) => (
+              <ComboBoxItem key={key}>{label}</ComboBoxItem>
+            ))}
+          </ComboBox>
+        </Flex>
+      </div>
+    </Flex>
+  </Grid>
+</ExampleCard>
+
+<ExampleCard title="Color Controls" code={`<ColorArea defaultValue="hsb(220, 80%, 90%)" xChannel="saturation" yChannel="brightness" />`}>
+  <Flex direction="column" gap="size-300">
+    <div>
+      <SubLabel>ColorArea — 2-D saturation/brightness</SubLabel>
+      <ColorArea
+        defaultValue="hsb(220, 80%, 90%)"
+        xChannel="saturation"
+        yChannel="brightness"
+      />
+    </div>
+
+    <Divider size="S" />
+
+    <div>
+      <SubLabel>ColorSlider — single-channel sliders</SubLabel>
+      <Flex direction="column" gap="size-150">
+        <ColorSlider defaultValue="hsl(0, 100%, 50%)" channel="hue" label="Hue" />
+        <ColorSlider
+          defaultValue="hsla(220, 100%, 50%, 0.5)"
+          channel="alpha"
+          label="Alpha"
+        />
+        <ColorSlider defaultValue="#c04000" channel="red" label="Red channel" />
+      </Flex>
+    </div>
+
+    <Divider size="S" />
+
+    <div>
+      <SubLabel>ColorWheel — circular hue picker</SubLabel>
+      <Flex direction="row" gap="size-300" alignItems="center">
+        <ColorWheel defaultValue="hsl(220, 100%, 50%)" />
+        <ColorWheel defaultValue="hsl(0, 80%, 50%)" isDisabled />
+      </Flex>
+    </div>
+
+    <Divider size="S" />
+
+    <div>
+      <SubLabel>ColorField — hex input</SubLabel>
+      <Flex direction="column" gap="size-150">
+        <ColorField label="Brand color" defaultValue="#0071e3" width="size-2400" />
+        <ColorField
+          label="Invalid"
+          defaultValue="#xyz"
+          validationState="invalid"
+          errorMessage="Enter a valid hex color."
+          width="size-2400"
+        />
+        <ColorField label="Disabled" defaultValue="#888888" isDisabled width="size-2400" />
+      </Flex>
+    </div>
+
+    <Divider size="S" />
+
+    <div>
+      <SubLabel>ColorSwatchPicker — preset swatches</SubLabel>
+      <ColorSwatchPicker aria-label="Label colors" defaultValue="#ff0000">
+        <ColorSwatchPickerItem color="#ff0000" aria-label="Red" />
+        <ColorSwatchPickerItem color="#ff8800" aria-label="Orange" />
+        <ColorSwatchPickerItem color="#ffee00" aria-label="Yellow" />
+        <ColorSwatchPickerItem color="#00cc44" aria-label="Green" />
+        <ColorSwatchPickerItem color="#0071e3" aria-label="Blue" />
+        <ColorSwatchPickerItem color="#9b30ff" aria-label="Purple" />
+        <ColorSwatchPickerItem color="#ff2d78" aria-label="Pink" />
+        <ColorSwatchPickerItem color="#888888" aria-label="Grey" />
+      </ColorSwatchPicker>
+    </div>
+
+    <Divider size="S" />
+
+    <div>
+      <SubLabel>ColorPickerDialog — full picker in a dialog</SubLabel>
+      <Flex direction="row" gap="size-200" wrap>
+        <ColorPickerDialog label="Pick annotation color" color="#0071e3" />
+        <ColorPickerDialog label="Background fill" color="#00cc44" />
+      </Flex>
+    </div>
+
+    <Divider size="S" />
+
+    <div>
+      <SubLabel>ColorSwatch — inline at multiple sizes</SubLabel>
+      <Flex direction="row" gap="size-150" alignItems="center" wrap>
+        <ColorSwatch color="#ff0000" size="XS" aria-label="Red XS" />
+        <ColorSwatch color="#ff8800" size="S" aria-label="Orange S" />
+        <ColorSwatch color="#0071e3" size="M" aria-label="Blue M" />
+        <ColorSwatch color="#9b30ff" size="L" aria-label="Purple L" />
+        <ColorSwatch color="#00cc44" rounding="full" size="M" aria-label="Green round" />
+        <ColorSwatch color="#888888" rounding="none" size="M" aria-label="Grey square" />
+      </Flex>
+    </div>
+  </Flex>
 </ExampleCard>

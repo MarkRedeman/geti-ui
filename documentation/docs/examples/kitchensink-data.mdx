@@ -1,10 +1,414 @@
+import { Item, Text } from '@adobe/react-spectrum';
+import {
+  ActionBar,
+  ActionBarContainer,
+  CardView,
+  Cell,
+  Column,
+  Divider,
+  Flex,
+  ListBox,
+  ListBoxItem,
+  ListItem,
+  ListView,
+  Row,
+  TableBody,
+  TableHeader,
+  TableView,
+  Tag,
+  TagGroup,
+  TagItem,
+  TreeView,
+  View,
+  VirtualizedHorizontalGrid,
+  VirtualizedListLayout,
+} from '@geti/ui';
 import { ExampleCard } from '../../theme/ExampleCard';
-import { DataKitchenSinkExample } from '../components/_examples/DataKitchenSinkExample';
+
+export const sampleProjects = [
+  { id: 1, name: 'Project Alpha', description: 'Detection · 94% accuracy' },
+  { id: 2, name: 'Project Beta', description: 'Classification · 87% accuracy' },
+  { id: 3, name: 'Project Gamma', description: 'Segmentation · 91% accuracy' },
+  { id: 4, name: 'Project Delta', description: 'Detection · 78% accuracy' },
+];
+
+export const tableColumns = [
+  { name: 'Name', uid: 'name' },
+  { name: 'Type', uid: 'type' },
+  { name: 'Date Modified', uid: 'date' },
+];
+
+export const tableRows = [
+  { id: 1, name: 'Games', type: 'File folder', date: '6/7/2020' },
+  { id: 2, name: 'Program Files', type: 'File folder', date: '4/7/2021' },
+  { id: 3, name: 'bootmgr', type: 'System file', date: '11/20/2010' },
+  { id: 4, name: 'log.txt', type: 'Text document', date: '1/18/2016' },
+];
+
+export const gridItems = Array.from({ length: 20 }, (_, i) => ({
+  id: `item-${i}`,
+  title: `Image ${i + 1}`,
+}));
+
+export const listItems = Array.from({ length: 30 }, (_, i) => ({
+  id: `list-${i}`,
+  name: `Item ${i + 1}`,
+  description: `Description for item ${i + 1}`,
+}));
+
+export const SubLabel = ({ children }) => (
+  <p
+    style={{
+      margin: '0 0 4px 0',
+      fontSize: 'var(--spectrum-global-dimension-font-size-50)',
+      fontWeight: 600,
+      color: 'var(--spectrum-global-color-gray-500)',
+      textTransform: 'uppercase',
+      letterSpacing: '0.08em',
+    }}
+  >
+    {children}
+  </p>
+);
 
 # Data kitchensink
 
 Mirrors `packages/ui/src/components/data/KitchenSink.stories.tsx`.
 
-<ExampleCard title="Data kitchensink" code={`<DataKitchenSinkExample />`}>
-  <DataKitchenSinkExample />
+<ExampleCard title="ActionBar" description="contextual action bar with multi-select list view">
+  <ActionBarContainer height="size-2400">
+    <ListView
+      aria-label="List with Selection"
+      selectionMode="multiple"
+      defaultSelectedKeys={['1', '2']}
+    >
+      <ListItem key="1">Item One</ListItem>
+      <ListItem key="2">Item Two</ListItem>
+      <ListItem key="3">Item Three</ListItem>
+    </ListView>
+    <ActionBar
+      selectedItemCount={2}
+      onAction={(key) => console.log('action:', key)}
+      onClearSelection={() => console.log('clear')}
+    >
+      <Item key="edit">
+        <Text>Edit</Text>
+      </Item>
+      <Item key="delete">
+        <Text>Delete</Text>
+      </Item>
+    </ActionBar>
+  </ActionBarContainer>
+</ExampleCard>
+
+<ExampleCard title="CardView" description="grid of summary cards with default and selectable states">
+  <Flex direction="row" gap="size-400" wrap>
+    <View>
+      <SubLabel>Default (3 columns)</SubLabel>
+      <CardView
+        items={sampleProjects}
+        aria-label="Project collection"
+        columns={3}
+        gap="16px"
+        renderCard={(item) => ({
+          'aria-label': item.name,
+          children: (
+            <div>
+              <strong>{item.name}</strong>
+              <p style={{ margin: 0, fontSize: '0.8em' }}>{item.description}</p>
+            </div>
+          ),
+        })}
+      />
+    </View>
+    <View>
+      <SubLabel>Selectable (2 columns)</SubLabel>
+      <CardView
+        items={sampleProjects.slice(0, 2)}
+        aria-label="Select a project"
+        columns={2}
+        gap="12px"
+        renderCard={(item, index) => ({
+          'aria-label': item.name,
+          isSelected: index === 0,
+          onPress: () => {},
+          children: (
+            <div>
+              <strong>{item.name}</strong>
+              <p style={{ margin: 0, fontSize: '0.8em' }}>{item.description}</p>
+            </div>
+          ),
+        })}
+      />
+    </View>
+  </Flex>
+</ExampleCard>
+
+<ExampleCard title="ListBox" description="none, single, and multiple selection modes">
+  <Flex direction="row" gap="size-400" wrap alignItems="start">
+    <View>
+      <SubLabel>No selection</SubLabel>
+      <ListBox aria-label="Alignment" width="size-2400">
+        <ListBoxItem key="left">Left</ListBoxItem>
+        <ListBoxItem key="center">Center</ListBoxItem>
+        <ListBoxItem key="right">Right</ListBoxItem>
+      </ListBox>
+    </View>
+    <View>
+      <SubLabel>Single selection</SubLabel>
+      <ListBox aria-label="Pick a color" selectionMode="single" width="size-2400">
+        <ListBoxItem key="red">Red</ListBoxItem>
+        <ListBoxItem key="orange">Orange</ListBoxItem>
+        <ListBoxItem key="yellow">Yellow</ListBoxItem>
+        <ListBoxItem key="green">Green</ListBoxItem>
+      </ListBox>
+    </View>
+    <View>
+      <SubLabel>Multiple selection</SubLabel>
+      <ListBox aria-label="Select toppings" selectionMode="multiple" width="size-2400">
+        <ListBoxItem key="cheese">Cheese</ListBoxItem>
+        <ListBoxItem key="mushrooms">Mushrooms</ListBoxItem>
+        <ListBoxItem key="olives">Olives</ListBoxItem>
+        <ListBoxItem key="peppers">Peppers</ListBoxItem>
+      </ListBox>
+    </View>
+  </Flex>
+</ExampleCard>
+
+<ExampleCard title="ListView" description="single/multi-select and compact/spacious density">
+  <Flex direction="row" gap="size-400" wrap alignItems="start">
+    <View>
+      <SubLabel>Single select</SubLabel>
+      <ListView aria-label="Single select" selectionMode="single" width="size-3000">
+        <ListItem key="1">Adobe Photoshop</ListItem>
+        <ListItem key="2">Adobe XD</ListItem>
+        <ListItem key="3">Adobe Illustrator</ListItem>
+      </ListView>
+    </View>
+    <View>
+      <SubLabel>Multi select</SubLabel>
+      <ListView aria-label="Multi select" selectionMode="multiple" width="size-3000">
+        <ListItem key="a">Option One</ListItem>
+        <ListItem key="b">Option Two</ListItem>
+        <ListItem key="c">Option Three</ListItem>
+      </ListView>
+    </View>
+    <View>
+      <SubLabel>Compact</SubLabel>
+      <ListView
+        aria-label="Compact list"
+        density="compact"
+        selectionMode="single"
+        width="size-3000"
+      >
+        <ListItem key="x">Compact Item 1</ListItem>
+        <ListItem key="y">Compact Item 2</ListItem>
+        <ListItem key="z">Compact Item 3</ListItem>
+      </ListView>
+    </View>
+  </Flex>
+</ExampleCard>
+
+<ExampleCard title="TableView" description="default, multi-select, and compact density">
+  <Flex direction="column" gap="size-300">
+    <View>
+      <SubLabel>Default (sortable)</SubLabel>
+      <TableView aria-label="Example table" height="size-2400" width="size-6000">
+        <TableHeader columns={tableColumns}>
+          {(col) => (
+            <Column key={col.uid} allowsSorting>
+              {col.name}
+            </Column>
+          )}
+        </TableHeader>
+        <TableBody items={tableRows}>
+          {(item) => (
+            <Row>{(columnKey) => <Cell>{item[columnKey]}</Cell>}</Row>
+          )}
+        </TableBody>
+      </TableView>
+    </View>
+    <View>
+      <SubLabel>Multi-select + compact</SubLabel>
+      <TableView
+        aria-label="Compact selectable table"
+        selectionMode="multiple"
+        density="compact"
+        height="size-2400"
+        width="size-6000"
+      >
+        <TableHeader columns={tableColumns}>
+          {(col) => <Column key={col.uid}>{col.name}</Column>}
+        </TableHeader>
+        <TableBody items={tableRows}>
+          {(item) => (
+            <Row>{(columnKey) => <Cell>{item[columnKey]}</Cell>}</Row>
+          )}
+        </TableBody>
+      </TableView>
+    </View>
+  </Flex>
+</ExampleCard>
+
+<ExampleCard title="Tag" description="dot, no-dot, tooltip, and dark mode variants">
+  <Flex direction="row" gap="size-200" wrap alignItems="center">
+    <View>
+      <SubLabel>Default (with dot)</SubLabel>
+      <Tag text="Label" />
+    </View>
+    <View>
+      <SubLabel>No dot</SubLabel>
+      <Tag text="No Dot" withDot={false} />
+    </View>
+    <View>
+      <SubLabel>With tooltip</SubLabel>
+      <Tag text="Hover me" tooltip="This is a tooltip" />
+    </View>
+    <View>
+      <SubLabel>Dark mode</SubLabel>
+      <Tag text="Dark Mode" darkMode />
+    </View>
+    <View>
+      <SubLabel>With prefix</SubLabel>
+      <Tag
+        text="Prefix"
+        prefix={
+          <span
+            style={{
+              width: 10,
+              height: 10,
+              background: 'currentColor',
+              borderRadius: '50%',
+              display: 'inline-block',
+            }}
+          />
+        }
+      />
+    </View>
+    <View>
+      <SubLabel>With suffix</SubLabel>
+      <Tag
+        text="Suffix"
+        suffix={<span style={{ fontSize: '0.75rem', marginLeft: 4 }}>✕</span>}
+      />
+    </View>
+  </Flex>
+</ExampleCard>
+
+<ExampleCard title="TagGroup" description="default, removable, and labelled groups">
+  <Flex direction="column" gap="size-200">
+    <View>
+      <SubLabel>Default</SubLabel>
+      <TagGroup aria-label="Categories">
+        <TagItem key="news">News</TagItem>
+        <TagItem key="travel">Travel</TagItem>
+        <TagItem key="gaming">Gaming</TagItem>
+        <TagItem key="shopping">Shopping</TagItem>
+      </TagGroup>
+    </View>
+    <View>
+      <SubLabel>Removable</SubLabel>
+      <TagGroup
+        aria-label="Removable tags"
+        onRemove={(keys) => console.log('removed:', keys)}
+      >
+        <TagItem key="chocolate">Chocolate</TagItem>
+        <TagItem key="vanilla">Vanilla</TagItem>
+        <TagItem key="strawberry">Strawberry</TagItem>
+      </TagGroup>
+    </View>
+    <View>
+      <SubLabel>With label</SubLabel>
+      <TagGroup label="Departments">
+        <TagItem key="design">Design</TagItem>
+        <TagItem key="engineering">Engineering</TagItem>
+        <TagItem key="marketing">Marketing</TagItem>
+      </TagGroup>
+    </View>
+  </Flex>
+</ExampleCard>
+
+<ExampleCard title="TreeView" description="hierarchical file-tree structure">
+  <TreeView aria-label="Files">
+    <Item textValue="Documents">
+      <Text>Documents</Text>
+      <Item textValue="Project.docx">Project.docx</Item>
+      <Item textValue="Budget.xlsx">Budget.xlsx</Item>
+    </Item>
+    <Item textValue="Images">
+      <Text>Images</Text>
+      <Item textValue="logo.png">logo.png</Item>
+      <Item textValue="banner.jpg">banner.jpg</Item>
+    </Item>
+    <Item textValue="Videos">
+      <Text>Videos</Text>
+      <Item textValue="intro.mp4">intro.mp4</Item>
+    </Item>
+  </TreeView>
+</ExampleCard>
+
+<ExampleCard title="VirtualizedHorizontalGrid" description="horizontally scrollable virtualized grid of items">
+  <View width="100%" UNSAFE_style={{ maxWidth: '760px' }}>
+    <VirtualizedHorizontalGrid
+      items={gridItems}
+      height="size-2000"
+      layoutOptions={{ size: 160, gap: 8 }}
+      idFormatter={(item) => item.id}
+      textValueFormatter={(item) => item.title}
+      renderItem={(item) => (
+        <Flex direction="column" gap="size-50" alignItems="center">
+          <View
+            width="size-1600"
+            height="size-1200"
+            backgroundColor="gray-200"
+            borderRadius="regular"
+          />
+          <Text>{item.title}</Text>
+        </Flex>
+      )}
+    />
+  </View>
+</ExampleCard>
+
+<ExampleCard title="VirtualizedListLayout" description="vertically scrollable virtualized list with loading state">
+  <Flex direction="row" gap="size-400" wrap>
+    <View width="100%" UNSAFE_style={{ maxWidth: '420px' }}>
+      <SubLabel>Default (30 items)</SubLabel>
+      <VirtualizedListLayout
+        items={listItems}
+        ariaLabel="Virtualized list"
+        containerHeight="size-3000"
+        layoutOptions={{ rowHeight: 52 }}
+        idFormatter={(item) => item.id}
+        textValueFormatter={(item) => item.name}
+        renderItem={(item) => (
+          <Flex
+            direction="column"
+            UNSAFE_style={{
+              padding: '8px 12px',
+              borderBottom: '1px solid var(--spectrum-global-color-gray-200)',
+            }}
+          >
+            <Text>
+              <strong>{item.name}</strong>
+            </Text>
+            <Text>{item.description}</Text>
+          </Flex>
+        )}
+      />
+    </View>
+    <View width="100%" UNSAFE_style={{ maxWidth: '420px' }}>
+      <SubLabel>Loading state</SubLabel>
+      <VirtualizedListLayout
+        items={[]}
+        ariaLabel="Loading list"
+        containerHeight="size-3000"
+        layoutOptions={{ rowHeight: 52 }}
+        isLoading
+        idFormatter={(item) => item.id}
+        textValueFormatter={(item) => item.name}
+        renderItem={(item) => <Text>{item.name}</Text>}
+      />
+    </View>
+  </Flex>
 </ExampleCard>

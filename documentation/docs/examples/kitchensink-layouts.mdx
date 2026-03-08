@@ -1,10 +1,318 @@
 import { ExampleCard } from '../../theme/ExampleCard';
-import { LayoutsKitchenSinkExample } from '../components/_examples/LayoutsKitchenSinkExample';
+import {
+  Accordion,
+  Card,
+  Disclosure,
+  DisclosurePanel,
+  DisclosureTitle,
+  Divider,
+  Flex,
+  Grid,
+  View,
+  Well,
+} from '@geti/ui';
+
+export const cellStyle = {
+  background: 'var(--spectrum-global-color-blue-400)',
+  padding: '8px 16px',
+  textAlign: 'center',
+  color: 'white',
+  borderRadius: 4,
+};
 
 # Layouts kitchensink
 
 Mirrors `packages/ui/src/components/layouts/KitchenSink.stories.tsx`.
 
-<ExampleCard title="Layouts kitchensink" code={`<LayoutsKitchenSinkExample />`}>
-  <LayoutsKitchenSinkExample />
+## Accordion
+
+default, multiple-expanded, and quiet variants
+
+<ExampleCard title="Accordion" code={`<Accordion>
+  <Disclosure>
+    <DisclosureTitle>Section One</DisclosureTitle>
+    <DisclosurePanel><p>Content for section one.</p></DisclosurePanel>
+  </Disclosure>
+  <Disclosure>
+    <DisclosureTitle>Section Two</DisclosureTitle>
+    <DisclosurePanel><p>Content for section two.</p></DisclosurePanel>
+  </Disclosure>
+</Accordion>`}>
+  <Flex direction="row" gap="size-400" wrap alignItems="start">
+    <View minWidth="size-4600">
+      <p style={{ margin: '0 0 4px 0', fontSize: 'var(--spectrum-global-dimension-font-size-50)', fontWeight: 600, color: 'var(--spectrum-global-color-gray-500)', textTransform: 'uppercase', letterSpacing: '0.08em' }}>Default (single expand)</p>
+      <Accordion>
+        <Disclosure>
+          <DisclosureTitle>Section One</DisclosureTitle>
+          <DisclosurePanel>
+            <p>Content for section one.</p>
+          </DisclosurePanel>
+        </Disclosure>
+        <Disclosure>
+          <DisclosureTitle>Section Two</DisclosureTitle>
+          <DisclosurePanel>
+            <p>Content for section two.</p>
+          </DisclosurePanel>
+        </Disclosure>
+        <Disclosure>
+          <DisclosureTitle>Section Three</DisclosureTitle>
+          <DisclosurePanel>
+            <p>Content for section three.</p>
+          </DisclosurePanel>
+        </Disclosure>
+      </Accordion>
+    </View>
+    <View minWidth="size-4600">
+      <p style={{ margin: '0 0 4px 0', fontSize: 'var(--spectrum-global-dimension-font-size-50)', fontWeight: 600, color: 'var(--spectrum-global-color-gray-500)', textTransform: 'uppercase', letterSpacing: '0.08em' }}>Multiple expanded</p>
+      <Accordion allowsMultipleExpanded>
+        <Disclosure>
+          <DisclosureTitle>First Item</DisclosureTitle>
+          <DisclosurePanel>
+            <p>First item content — stays open when others open.</p>
+          </DisclosurePanel>
+        </Disclosure>
+        <Disclosure>
+          <DisclosureTitle>Second Item</DisclosureTitle>
+          <DisclosurePanel>
+            <p>Second item content.</p>
+          </DisclosurePanel>
+        </Disclosure>
+      </Accordion>
+    </View>
+    <View minWidth="size-4600">
+      <p style={{ margin: '0 0 4px 0', fontSize: 'var(--spectrum-global-dimension-font-size-50)', fontWeight: 600, color: 'var(--spectrum-global-color-gray-500)', textTransform: 'uppercase', letterSpacing: '0.08em' }}>Quiet</p>
+      <Accordion isQuiet>
+        <Disclosure>
+          <DisclosureTitle>Quiet Section A</DisclosureTitle>
+          <DisclosurePanel>
+            <p>Quiet accordion panel A.</p>
+          </DisclosurePanel>
+        </Disclosure>
+        <Disclosure>
+          <DisclosureTitle>Quiet Section B</DisclosureTitle>
+          <DisclosurePanel>
+            <p>Quiet accordion panel B.</p>
+          </DisclosurePanel>
+        </Disclosure>
+      </Accordion>
+    </View>
+  </Flex>
+</ExampleCard>
+
+## Card
+
+default, selectable, selected, and disabled states
+
+<ExampleCard title="Card" code={`<Card aria-label="Model card">
+  <div>
+    <strong>Model Name</strong>
+    <p style={{ margin: 0, fontSize: '0.85em' }}>Detection · 94.2% accuracy</p>
+  </div>
+</Card>`}>
+  <Flex direction="row" gap="size-200" wrap alignItems="start">
+    <View>
+      <p style={{ margin: '0 0 4px 0', fontSize: 'var(--spectrum-global-dimension-font-size-50)', fontWeight: 600, color: 'var(--spectrum-global-color-gray-500)', textTransform: 'uppercase', letterSpacing: '0.08em' }}>Default</p>
+      <Card aria-label="Model card">
+        <div>
+          <strong>Model Name</strong>
+          <p style={{ margin: 0, fontSize: '0.85em' }}>Detection · 94.2% accuracy</p>
+        </div>
+      </Card>
+    </View>
+    <View>
+      <p style={{ margin: '0 0 4px 0', fontSize: 'var(--spectrum-global-dimension-font-size-50)', fontWeight: 600, color: 'var(--spectrum-global-color-gray-500)', textTransform: 'uppercase', letterSpacing: '0.08em' }}>Selectable</p>
+      <Card aria-label="Select project" onPress={() => {}}>
+        <div>
+          <strong>Project Alpha</strong>
+          <p style={{ margin: 0, fontSize: '0.85em' }}>Classification · 3 tasks</p>
+        </div>
+      </Card>
+    </View>
+    <View>
+      <p style={{ margin: '0 0 4px 0', fontSize: 'var(--spectrum-global-dimension-font-size-50)', fontWeight: 600, color: 'var(--spectrum-global-color-gray-500)', textTransform: 'uppercase', letterSpacing: '0.08em' }}>Selected</p>
+      <Card aria-label="Selected project" isSelected onPress={() => {}}>
+        <div>
+          <strong>Project Beta</strong>
+          <p style={{ margin: 0, fontSize: '0.85em' }}>Detection · 5 tasks</p>
+        </div>
+      </Card>
+    </View>
+    <View>
+      <p style={{ margin: '0 0 4px 0', fontSize: 'var(--spectrum-global-dimension-font-size-50)', fontWeight: 600, color: 'var(--spectrum-global-color-gray-500)', textTransform: 'uppercase', letterSpacing: '0.08em' }}>Disabled</p>
+      <Card aria-label="Disabled project" isDisabled onPress={() => {}}>
+        <div>
+          <strong>Project Gamma</strong>
+          <p style={{ margin: 0, fontSize: '0.85em' }}>Segmentation · unavailable</p>
+        </div>
+      </Card>
+    </View>
+  </Flex>
+</ExampleCard>
+
+## Disclosure
+
+collapsed, expanded, quiet, and disabled states
+
+<ExampleCard title="Disclosure" code={`<Disclosure>
+  <DisclosureTitle>Section Title</DisclosureTitle>
+  <DisclosurePanel>
+    <p>This is the collapsible content of the disclosure panel.</p>
+  </DisclosurePanel>
+</Disclosure>`}>
+  <Flex direction="row" gap="size-400" wrap alignItems="start">
+    <View minWidth="size-4600">
+      <p style={{ margin: '0 0 4px 0', fontSize: 'var(--spectrum-global-dimension-font-size-50)', fontWeight: 600, color: 'var(--spectrum-global-color-gray-500)', textTransform: 'uppercase', letterSpacing: '0.08em' }}>Default (collapsed)</p>
+      <Disclosure>
+        <DisclosureTitle>Section Title</DisclosureTitle>
+        <DisclosurePanel>
+          <p>This is the collapsible content of the disclosure panel.</p>
+        </DisclosurePanel>
+      </Disclosure>
+    </View>
+    <View minWidth="size-4600">
+      <p style={{ margin: '0 0 4px 0', fontSize: 'var(--spectrum-global-dimension-font-size-50)', fontWeight: 600, color: 'var(--spectrum-global-color-gray-500)', textTransform: 'uppercase', letterSpacing: '0.08em' }}>Expanded</p>
+      <Disclosure isExpanded>
+        <DisclosureTitle>Expanded Section</DisclosureTitle>
+        <DisclosurePanel>
+          <p>This panel is open by default.</p>
+        </DisclosurePanel>
+      </Disclosure>
+    </View>
+    <View minWidth="size-4600">
+      <p style={{ margin: '0 0 4px 0', fontSize: 'var(--spectrum-global-dimension-font-size-50)', fontWeight: 600, color: 'var(--spectrum-global-color-gray-500)', textTransform: 'uppercase', letterSpacing: '0.08em' }}>Quiet</p>
+      <Disclosure isQuiet>
+        <DisclosureTitle>Quiet Disclosure</DisclosureTitle>
+        <DisclosurePanel>
+          <p>Quiet variant with reduced visual weight.</p>
+        </DisclosurePanel>
+      </Disclosure>
+    </View>
+    <View minWidth="size-4600">
+      <p style={{ margin: '0 0 4px 0', fontSize: 'var(--spectrum-global-dimension-font-size-50)', fontWeight: 600, color: 'var(--spectrum-global-color-gray-500)', textTransform: 'uppercase', letterSpacing: '0.08em' }}>Disabled</p>
+      <Disclosure isDisabled>
+        <DisclosureTitle>Disabled Section</DisclosureTitle>
+        <DisclosurePanel>
+          <p>This disclosure cannot be toggled.</p>
+        </DisclosurePanel>
+      </Disclosure>
+    </View>
+  </Flex>
+</ExampleCard>
+
+## Flex
+
+row, column, centered alignment, and wrapping layouts
+
+<ExampleCard title="Flex" code={`<Flex direction="row" gap="size-200">
+  <div>Item 1</div>
+  <div>Item 2</div>
+  <div>Item 3</div>
+</Flex>`}>
+  <Flex direction="column" gap="size-300">
+    <View>
+      <p style={{ margin: '0 0 4px 0', fontSize: 'var(--spectrum-global-dimension-font-size-50)', fontWeight: 600, color: 'var(--spectrum-global-color-gray-500)', textTransform: 'uppercase', letterSpacing: '0.08em' }}>Row (gap size-200)</p>
+      <Flex direction="row" gap="size-200">
+        <div style={cellStyle}>Item 1</div>
+        <div style={cellStyle}>Item 2</div>
+        <div style={cellStyle}>Item 3</div>
+      </Flex>
+    </View>
+    <View>
+      <p style={{ margin: '0 0 4px 0', fontSize: 'var(--spectrum-global-dimension-font-size-50)', fontWeight: 600, color: 'var(--spectrum-global-color-gray-500)', textTransform: 'uppercase', letterSpacing: '0.08em' }}>Column (gap size-100)</p>
+      <Flex direction="column" gap="size-100">
+        <div style={{ ...cellStyle, background: 'var(--spectrum-global-color-green-400)' }}>Row A</div>
+        <div style={{ ...cellStyle, background: 'var(--spectrum-global-color-green-400)' }}>Row B</div>
+        <div style={{ ...cellStyle, background: 'var(--spectrum-global-color-green-400)' }}>Row C</div>
+      </Flex>
+    </View>
+    <View>
+      <p style={{ margin: '0 0 4px 0', fontSize: 'var(--spectrum-global-dimension-font-size-50)', fontWeight: 600, color: 'var(--spectrum-global-color-gray-500)', textTransform: 'uppercase', letterSpacing: '0.08em' }}>Centered (alignItems + justifyContent center)</p>
+      <Flex direction="row" gap="size-200" alignItems="center" justifyContent="center">
+        <div style={{ ...cellStyle, background: 'var(--spectrum-global-color-magenta-400)', padding: '4px 12px' }}>Small</div>
+        <div style={{ ...cellStyle, background: 'var(--spectrum-global-color-magenta-400)', padding: '16px 12px' }}>Tall</div>
+        <div style={{ ...cellStyle, background: 'var(--spectrum-global-color-magenta-400)', padding: '4px 12px' }}>Small</div>
+      </Flex>
+    </View>
+    <View>
+      <p style={{ margin: '0 0 4px 0', fontSize: 'var(--spectrum-global-dimension-font-size-50)', fontWeight: 600, color: 'var(--spectrum-global-color-gray-500)', textTransform: 'uppercase', letterSpacing: '0.08em' }}>Wrapping (8 boxes in 400px)</p>
+      <Flex direction="row" gap="size-150" wrap width="size-4600">
+        {Array.from({ length: 8 }, (_, i) => (
+          <div key={i} style={{ ...cellStyle, background: 'var(--spectrum-global-color-purple-400)' }}>
+            Box {i + 1}
+          </div>
+        ))}
+      </Flex>
+    </View>
+  </Flex>
+</ExampleCard>
+
+## Grid
+
+3-column, 2-column, and centered alignment
+
+<ExampleCard title="Grid" code={`<Grid columns="repeat(3, 1fr)" gap="size-200">
+  <div>Cell 1</div>
+  <div>Cell 2</div>
+  <div>Cell 3</div>
+</Grid>`}>
+  <Flex direction="column" gap="size-300">
+    <View>
+      <p style={{ margin: '0 0 4px 0', fontSize: 'var(--spectrum-global-dimension-font-size-50)', fontWeight: 600, color: 'var(--spectrum-global-color-gray-500)', textTransform: 'uppercase', letterSpacing: '0.08em' }}>3 columns (repeat(3, 1fr))</p>
+      <Grid columns="repeat(3, 1fr)" gap="size-200">
+        <div style={cellStyle}>Cell 1</div>
+        <div style={cellStyle}>Cell 2</div>
+        <div style={cellStyle}>Cell 3</div>
+        <div style={cellStyle}>Cell 4</div>
+        <div style={cellStyle}>Cell 5</div>
+        <div style={cellStyle}>Cell 6</div>
+      </Grid>
+    </View>
+    <View>
+      <p style={{ margin: '0 0 4px 0', fontSize: 'var(--spectrum-global-dimension-font-size-50)', fontWeight: 600, color: 'var(--spectrum-global-color-gray-500)', textTransform: 'uppercase', letterSpacing: '0.08em' }}>2 columns</p>
+      <Grid columns="repeat(2, 1fr)" gap="size-100">
+        <div style={{ ...cellStyle, background: 'var(--spectrum-global-color-green-400)' }}>Alpha</div>
+        <div style={{ ...cellStyle, background: 'var(--spectrum-global-color-green-400)' }}>Beta</div>
+        <div style={{ ...cellStyle, background: 'var(--spectrum-global-color-green-400)' }}>Gamma</div>
+        <div style={{ ...cellStyle, background: 'var(--spectrum-global-color-green-400)' }}>Delta</div>
+      </Grid>
+    </View>
+    <View>
+      <p style={{ margin: '0 0 4px 0', fontSize: 'var(--spectrum-global-dimension-font-size-50)', fontWeight: 600, color: 'var(--spectrum-global-color-gray-500)', textTransform: 'uppercase', letterSpacing: '0.08em' }}>Centered items</p>
+      <Grid columns="repeat(3, size-1600)" gap="size-200" justifyItems="center" alignItems="center">
+        <div style={{ ...cellStyle, background: 'var(--spectrum-global-color-purple-400)' }}>A</div>
+        <div style={{ ...cellStyle, background: 'var(--spectrum-global-color-purple-400)', padding: '24px' }}>B</div>
+        <div style={{ ...cellStyle, background: 'var(--spectrum-global-color-purple-400)' }}>C</div>
+      </Grid>
+    </View>
+  </Flex>
+</ExampleCard>
+
+## Well
+
+default, code example, and region role
+
+<ExampleCard title="Well" code={`<Well>Non-editable content displayed separately from other content on the screen.</Well>`}>
+  <Flex direction="column" gap="size-200">
+    <View>
+      <p style={{ margin: '0 0 4px 0', fontSize: 'var(--spectrum-global-dimension-font-size-50)', fontWeight: 600, color: 'var(--spectrum-global-color-gray-500)', textTransform: 'uppercase', letterSpacing: '0.08em' }}>Default</p>
+      <Well>
+        This is a standard well. It displays non-editable content separately from other content on
+        the screen.
+      </Well>
+    </View>
+    <View>
+      <p style={{ margin: '0 0 4px 0', fontSize: 'var(--spectrum-global-dimension-font-size-50)', fontWeight: 600, color: 'var(--spectrum-global-color-gray-500)', textTransform: 'uppercase', letterSpacing: '0.08em' }}>Code example</p>
+      <Well>
+        <pre style={{ margin: 0 }}>
+          <code>{`import { Well } from '@geti/ui';\n\n<Well>Content goes here</Well>`}</code>
+        </pre>
+      </Well>
+    </View>
+    <View>
+      <p style={{ margin: '0 0 4px 0', fontSize: 'var(--spectrum-global-dimension-font-size-50)', fontWeight: 600, color: 'var(--spectrum-global-color-gray-500)', textTransform: 'uppercase', letterSpacing: '0.08em' }}>With region role</p>
+      <Well role="region" aria-label="Notes section">
+        This well has an explicit region role for accessibility.
+      </Well>
+    </View>
+  </Flex>
 </ExampleCard>
