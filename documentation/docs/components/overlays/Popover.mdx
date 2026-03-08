@@ -1,0 +1,155 @@
+---
+title: Popover
+---
+
+import { ActionButton, Content, Dialog, Heading } from '@adobe/react-spectrum';
+import { Popover } from '@geti/ui';
+import { ExampleCard } from '../../../theme/ExampleCard';
+
+# Popover
+
+Popover is a floating overlay that anchors to a trigger element and displays contextual content without leaving the current page. It is a thin wrapper around React Spectrum's `DialogTrigger` with `type="popover"` defaulted.
+
+```tsx
+import { Popover } from '@geti/ui';
+import { ActionButton, Content, Dialog, Heading } from '@adobe/react-spectrum';
+```
+
+- [React Spectrum DialogTrigger ↗](https://react-spectrum.adobe.com/react-spectrum/DialogTrigger.html)
+- [Geti UI Theming](/components/theming)
+
+## Examples
+
+<ExampleCard
+  title="Default"
+  code={`<Popover>
+  <ActionButton>Open popover</ActionButton>
+  <Dialog>
+    <Heading>Popover title</Heading>
+    <Content>This is the popover content.</Content>
+  </Dialog>
+</Popover>`}
+>
+  <Popover>
+    <ActionButton>Open popover</ActionButton>
+    <Dialog>
+      <Heading>Popover title</Heading>
+      <Content>This is the popover content.</Content>
+    </Dialog>
+  </Popover>
+</ExampleCard>
+
+<ExampleCard
+  title="Bottom placement"
+  code={`<Popover placement="bottom">
+  <ActionButton>Bottom popover</ActionButton>
+  <Dialog>
+    <Heading>Bottom</Heading>
+    <Content>Popover placed at the bottom.</Content>
+  </Dialog>
+</Popover>`}
+>
+  <Popover placement="bottom">
+    <ActionButton>Bottom popover</ActionButton>
+    <Dialog>
+      <Heading>Bottom</Heading>
+      <Content>Popover placed at the bottom.</Content>
+    </Dialog>
+  </Popover>
+</ExampleCard>
+
+<ExampleCard
+  title="Start placement"
+  code={`<Popover placement="start">
+  <ActionButton>Start popover</ActionButton>
+  <Dialog>
+    <Heading>Start</Heading>
+    <Content>Popover placed at the start.</Content>
+  </Dialog>
+</Popover>`}
+>
+  <Popover placement="start">
+    <ActionButton>Start popover</ActionButton>
+    <Dialog>
+      <Heading>Start</Heading>
+      <Content>Popover placed at the start.</Content>
+    </Dialog>
+  </Popover>
+</ExampleCard>
+
+<ExampleCard
+  title="With arrow"
+  code={`<Popover hideArrow={false}>
+  <ActionButton>With arrow</ActionButton>
+  <Dialog>
+    <Heading>Arrow popover</Heading>
+    <Content>This popover has a directional arrow.</Content>
+  </Dialog>
+</Popover>`}
+>
+  <Popover hideArrow={false}>
+    <ActionButton>With arrow</ActionButton>
+    <Dialog>
+      <Heading>Arrow popover</Heading>
+      <Content>This popover has a directional arrow.</Content>
+    </Dialog>
+  </Popover>
+</ExampleCard>
+
+## Responsibility
+
+`Popover` wraps React Spectrum `DialogTrigger` with `type` defaulted to `"popover"`. It pairs a trigger element with a `Dialog` child and handles open/close state, positioning, and focus management automatically. For cases where you need full styling control over the popover panel itself, use `CustomPopover` instead.
+
+## Variants and states
+
+| Placement | Description |
+|---|---|
+| `top` (default) | Popover appears above the trigger |
+| `bottom` | Popover appears below the trigger |
+| `start` | Popover appears to the left (RTL: right) |
+| `end` | Popover appears to the right (RTL: left) |
+| `top start`, `top end`, `bottom start`, `bottom end` | Corner placements |
+
+The `hideArrow` prop (default `true`) controls whether a directional arrow is shown between the popover and its trigger.
+
+## Props (deep dive)
+
+### Trigger
+
+The first child must be a pressable element (e.g. `ActionButton`, `Button`). It receives the trigger ARIA attributes automatically.
+
+### Content
+
+The second child must be a `Dialog`. Use `Heading` and `Content` from `@adobe/react-spectrum` inside.
+
+### Placement
+
+- `placement`: controls which side of the trigger the popover appears on. Defaults to `"top"`.
+- `hideArrow`: hides the directional arrow connecting the popover to its trigger. Defaults to `true`.
+
+### Overlay type
+
+- `type`: although the default is `"popover"`, you can pass `"modal"`, `"tray"`, `"fullscreen"`, or `"fullscreenTakeover"` to change the overlay behaviour entirely.
+
+### Accessibility
+
+- Focus moves into the popover when opened and returns to the trigger on close.
+- Pressing `Escape` closes the popover.
+- The trigger receives `aria-expanded` and `aria-haspopup="dialog"` automatically.
+
+## Related components
+
+- `CustomPopover` — use when you need full control over popover panel styling and don't need a `Dialog` structure.
+- `ContextualHelp` — use for inline help icons with a fixed popover layout.
+- `Dialog` — the content container used inside Popover.
+
+## Example use cases
+
+<details>
+  <summary>Typical use cases</summary>
+
+- Showing filter options anchored to a filter button in a toolbar.
+- Displaying a colour picker triggered by a swatch button.
+- Showing a date picker calendar panel next to a date input field.
+
+</details>
