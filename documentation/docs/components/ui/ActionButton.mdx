@@ -1,0 +1,118 @@
+---
+title: ActionButton
+---
+
+import { ActionButton } from '@geti/ui';
+import { ExampleCard } from '../../../theme/ExampleCard';
+
+# ActionButton
+
+ActionButton is a compact, icon-friendly button for toolbar actions, inline controls, and context menus. Use it when you need a low-footprint pressable action — not a primary page-level CTA.
+
+```tsx
+import { ActionButton } from '@geti/ui';
+```
+
+- [React Spectrum ActionButton ↗](https://react-spectrum.adobe.com/react-spectrum/ActionButton.html)
+- [Geti UI Theming](/components/theming)
+
+## Examples
+
+<ExampleCard
+  title="Default"
+  code={`<ActionButton>Action</ActionButton>`}
+>
+  <ActionButton>Action</ActionButton>
+</ExampleCard>
+
+<ExampleCard
+  title="Dark variant"
+  code={`<ActionButton colorVariant="dark">Dark</ActionButton>`}
+>
+  <ActionButton colorVariant="dark">Dark</ActionButton>
+</ExampleCard>
+
+<ExampleCard
+  title="Blue variant"
+  code={`<ActionButton colorVariant="blue">Blue</ActionButton>`}
+>
+  <ActionButton colorVariant="blue">Blue</ActionButton>
+</ExampleCard>
+
+<ExampleCard
+  title="Quiet"
+  code={`<ActionButton isQuiet>Quiet</ActionButton>`}
+>
+  <ActionButton isQuiet>Quiet</ActionButton>
+</ExampleCard>
+
+<ExampleCard
+  title="Disabled"
+  code={`<ActionButton isDisabled>Disabled</ActionButton>`}
+>
+  <ActionButton isDisabled>Disabled</ActionButton>
+</ExampleCard>
+
+## Responsibility
+
+`ActionButton` wraps React Spectrum's `ActionButton` with an additional `colorVariant` prop for Geti-specific visual styles.
+
+What this wrapper adds:
+
+- `colorVariant="dark"` — subtle border on hover/active, suitable for dark panels.
+- `colorVariant="light"` — blue-tinted hover/active, for light header areas.
+- `colorVariant="blue"` — transparent background with blue text, for emphasis in sidebars.
+- All standard Spectrum ActionButton features (quiet, disabled, icon support) pass through unchanged.
+
+## Variants and states
+
+| Variant | When to use |
+|---|---|
+| default | Neutral toolbar or panel actions |
+| `dark` | Dark-background contexts (canvas toolbars) |
+| `light` | Light-background header controls |
+| `blue` | Accent-colored sidebar or secondary panel actions |
+
+| State | Prop | Notes |
+|---|---|---|
+| Quiet | `isQuiet` | No border at rest; border on hover |
+| Disabled | `isDisabled` | Non-interactive and visually muted |
+
+## Props (deep dive)
+
+### Content
+
+- `children`: label text or icon node.
+- `icon`: icon element shown before the label (standard Spectrum pattern).
+
+### Visual
+
+- `colorVariant`: `'dark' | 'light' | 'blue'` — Geti visual skin applied via CSS class.
+- `isQuiet`: removes border at rest for a minimal look.
+
+### Events
+
+- `onPress`: primary action handler (keyboard and mouse safe).
+
+### Accessibility
+
+- always provide a text label or `aria-label` when using icon-only buttons,
+- `isDisabled` correctly exposes disabled semantics to screen readers.
+
+## Related components
+
+- `Button` — use for primary page-level CTAs (`Save`, `Delete`).
+- `ToggleButton` — use when the button has persistent selected/unselected state.
+- `PressableElement` — use press semantics on arbitrary non-button containers.
+
+## Example use cases
+
+<details>
+  <summary>Typical use cases</summary>
+
+- Toolbar actions on an annotation canvas (`Zoom in`, `Reset view`).
+- Inline row actions in a data table (`Edit`, `Duplicate`).
+- Panel header controls in a settings sidebar.
+- Icon-only actions in a media viewer with a `dark` variant.
+
+</details>
