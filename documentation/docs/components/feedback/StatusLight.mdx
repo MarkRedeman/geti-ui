@@ -1,0 +1,114 @@
+---
+title: StatusLight
+---
+
+import { StatusLight } from '@geti/ui';
+import { ExampleCard } from '../../../theme/ExampleCard';
+
+# StatusLight
+
+`StatusLight` pairs a coloured dot with a text label to communicate the state of an entity. Use it in data rows, dashboards, and detail panels to show at a glance whether something is active, failed, in progress, or in another named state.
+
+```tsx
+import { StatusLight } from '@geti/ui';
+```
+
+- [React Spectrum StatusLight ↗](https://react-spectrum.adobe.com/react-spectrum/StatusLight.html)
+- [Geti UI Theming](/components/theming)
+
+## Examples
+
+<ExampleCard
+  title="Neutral"
+  code={`<StatusLight variant="neutral">Neutral</StatusLight>`}
+>
+  <StatusLight variant="neutral">Neutral</StatusLight>
+</ExampleCard>
+
+<ExampleCard
+  title="Positive — active or healthy"
+  code={`<StatusLight variant="positive">Active</StatusLight>`}
+>
+  <StatusLight variant="positive">Active</StatusLight>
+</ExampleCard>
+
+<ExampleCard
+  title="Negative — error or failure"
+  code={`<StatusLight variant="negative">Error</StatusLight>`}
+>
+  <StatusLight variant="negative">Error</StatusLight>
+</ExampleCard>
+
+<ExampleCard
+  title="Notice — warning"
+  code={`<StatusLight variant="notice">Warning</StatusLight>`}
+>
+  <StatusLight variant="notice">Warning</StatusLight>
+</ExampleCard>
+
+<ExampleCard
+  title="Info"
+  code={`<StatusLight variant="info">Processing</StatusLight>`}
+>
+  <StatusLight variant="info">Processing</StatusLight>
+</ExampleCard>
+
+<ExampleCard
+  title="Disabled"
+  code={`<StatusLight variant="positive" isDisabled>Disabled</StatusLight>`}
+>
+  <StatusLight variant="positive" isDisabled>Disabled</StatusLight>
+</ExampleCard>
+
+## Responsibility
+
+`StatusLight` is a thin wrapper around React Spectrum's `StatusLight`. All styling, dot colours, and accessibility behaviour come from Spectrum. The wrapper keeps the import path consistent with the rest of `@geti/ui`.
+
+## Variants and states
+
+**Semantic variants** (use these when the status carries meaning):
+
+| Variant | Meaning |
+|---|---|
+| `neutral` | No specific meaning |
+| `positive` | Active, healthy, success |
+| `negative` | Failed, error, inactive |
+| `notice` | Warning, attention needed |
+| `info` | In progress, informational |
+
+**Categorical variants** (use for data-visualisation colour coding without semantic meaning):
+
+`celery` · `chartreuse` · `yellow` · `magenta` · `fuchsia` · `purple` · `indigo` · `seafoam`
+
+## Props (deep dive)
+
+### Content
+
+- `children`: the text label shown next to the dot.
+- `variant`: semantic or categorical colour name.
+
+### State
+
+- `isDisabled`: dims the light and text to communicate inactivity.
+
+### Accessibility
+
+- The `children` text is the accessible label — always provide meaningful text.
+- `StatusLight` does not have an interactive role; if clicking it triggers navigation, use a different component.
+
+## Related components
+
+- `Badge` — use when you need a filled chip rather than a dot-and-label pair.
+- `Tag` — use for Geti-styled category chips inside data rows.
+- `InlineAlert` — use when a status requires explanatory body text alongside the signal.
+
+## Example use cases
+
+<details>
+  <summary>Typical use cases</summary>
+
+- Model status in a project overview (`Active`, `Training`, `Error`).
+- Dataset readiness indicator in a pipeline configuration screen.
+- Service health indicator in a system status panel.
+
+</details>
