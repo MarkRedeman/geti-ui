@@ -1,0 +1,101 @@
+---
+title: ColorSwatch
+---
+
+import { ColorSwatch, Flex } from '@geti/ui';
+import { ExampleCard } from '../../../../theme/ExampleCard';
+
+# ColorSwatch
+
+`ColorSwatch` renders a small filled square that previews a color value. Use it anywhere a color needs a visual representation — in pickers, palettes, or alongside labels.
+
+```tsx
+import { ColorSwatch } from '@geti/ui';
+```
+
+- [React Spectrum ColorSwatch ↗](https://react-spectrum.adobe.com/react-spectrum/ColorSwatch.html)
+- [Geti UI Theming](/components/theming)
+
+## Examples
+
+<ExampleCard
+  title="Default"
+  code={`<ColorSwatch color="#ff0000" aria-label="Red" />`}
+>
+  <ColorSwatch color="#ff0000" aria-label="Red" />
+</ExampleCard>
+
+<ExampleCard
+  title="Sizes"
+  code={`<Flex gap="size-200">
+  <ColorSwatch size="S" color="#ff0000" aria-label="Small red" />
+  <ColorSwatch size="M" color="#00ff00" aria-label="Medium green" />
+  <ColorSwatch size="L" color="#0000ff" aria-label="Large blue" />
+</Flex>`}
+>
+  <Flex gap="size-200">
+    <ColorSwatch size="S" color="#ff0000" aria-label="Small red" />
+    <ColorSwatch size="M" color="#00ff00" aria-label="Medium green" />
+    <ColorSwatch size="L" color="#0000ff" aria-label="Large blue" />
+  </Flex>
+</ExampleCard>
+
+<ExampleCard
+  title="Rounding variants"
+  code={`<Flex gap="size-200">
+  <ColorSwatch rounding="none" color="#ff0000" aria-label="Square" />
+  <ColorSwatch rounding="default" color="#00ff00" aria-label="Rounded" />
+  <ColorSwatch rounding="full" color="#0000ff" aria-label="Circle" />
+</Flex>`}
+>
+  <Flex gap="size-200">
+    <ColorSwatch rounding="none" color="#ff0000" aria-label="Square" />
+    <ColorSwatch rounding="default" color="#00ff00" aria-label="Rounded" />
+    <ColorSwatch rounding="full" color="#0000ff" aria-label="Circle" />
+  </Flex>
+</ExampleCard>
+
+## Responsibility
+
+`ColorSwatch` is a direct pass-through of React Spectrum's `ColorSwatch`. It accepts any CSS or Spectrum color string.
+
+## Variants and states
+
+| Prop | Values | Notes |
+|---|---|---|
+| `size` | `"S"`, `"M"`, `"L"` | Controls physical dimensions |
+| `rounding` | `"none"`, `"default"`, `"full"` | Corner radius |
+
+## Props (deep dive)
+
+### Content
+
+- `color`: any valid CSS color string, Spectrum color string, or `Color` object.
+- `aria-label`: **required** — the swatch is a visual-only element and needs an accessible name.
+
+### Visual
+
+- `size`: `"S" | "M" | "L"` — swatch dimensions.
+- `rounding`: `"none" | "default" | "full"` — corner radius.
+
+### Accessibility
+
+- Always provide `aria-label` describing the color (e.g. `"Red"`).
+- When used inside `ColorSwatchPicker`, selection state is announced automatically.
+
+## Related components
+
+- `ColorSwatchPicker` — a selectable group of `ColorSwatch` items.
+- `ColorThumb` — a simpler non-Spectrum color preview square (Geti custom).
+- `ColorPickerDialog` — full color picker dialog combining all color controls.
+
+## Example use cases
+
+<details>
+  <summary>Typical use cases</summary>
+
+- Showing the currently selected annotation label color next to the label name.
+- Rendering a color chip in a palette row before the user selects one.
+- Displaying a project theme color in settings.
+
+</details>
