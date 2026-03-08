@@ -1,0 +1,148 @@
+---
+title: CardView
+---
+
+import { CardView } from '@geti/ui';
+import { ExampleCard } from '../../../theme/ExampleCard';
+
+# CardView
+
+`CardView` renders a responsive grid of `Card` components from a data array. Use it when you need to display a collection of summary items — projects, models, datasets — in a fixed-column grid layout.
+
+```tsx
+import { CardView } from '@geti/ui';
+```
+
+- [Geti UI Theming](/components/theming)
+
+## Examples
+
+<ExampleCard
+  title="Default 3-column grid"
+  code={`const items = [
+  { id: 1, name: 'Project Alpha', description: 'Detection · 94% accuracy' },
+  { id: 2, name: 'Project Beta', description: 'Classification · 87% accuracy' },
+  { id: 3, name: 'Project Gamma', description: 'Segmentation · 91% accuracy' },
+];
+
+<CardView
+  items={items}
+  aria-label="Projects"
+  renderCard={(item) => ({
+    'aria-label': item.name,
+    children: (
+      <div>
+        <strong>{item.name}</strong>
+        <p>{item.description}</p>
+      </div>
+    ),
+  })}
+/>`}
+>
+  <CardView
+    items={[
+      { id: 1, name: 'Project Alpha', description: 'Detection · 94% accuracy' },
+      { id: 2, name: 'Project Beta', description: 'Classification · 87% accuracy' },
+      { id: 3, name: 'Project Gamma', description: 'Segmentation · 91% accuracy' },
+    ]}
+    aria-label="Projects"
+    renderCard={(item) => ({
+      'aria-label': item.name,
+      children: (
+        <div>
+          <strong>{item.name}</strong>
+          <p style={{ margin: '4px 0 0', opacity: 0.7 }}>{item.description}</p>
+        </div>
+      ),
+    })}
+  />
+</ExampleCard>
+
+<ExampleCard
+  title="2-column selectable cards"
+  code={`<CardView
+  items={items}
+  aria-label="Select a project"
+  columns={2}
+  gap="12px"
+  renderCard={(item, index) => ({
+    'aria-label': item.name,
+    isSelected: index === 0,
+    onPress: () => {},
+    children: <strong>{item.name}</strong>,
+  })}
+/>`}
+>
+  <CardView
+    items={[
+      { id: 1, name: 'Detection Project' },
+      { id: 2, name: 'Classification Project' },
+      { id: 3, name: 'Segmentation Project' },
+      { id: 4, name: 'Anomaly Project' },
+    ]}
+    aria-label="Select a project"
+    columns={2}
+    gap="12px"
+    renderCard={(item, index) => ({
+      'aria-label': item.name,
+      isSelected: index === 0,
+      onPress: () => {},
+      children: <strong style={{ display: 'block', padding: '8px 0' }}>{item.name}</strong>,
+    })}
+  />
+</ExampleCard>
+
+## Responsibility
+
+`CardView` is a Geti-authored layout component with no upstream Spectrum equivalent. It wraps the `Card` component and arranges items into a CSS grid. The `renderCard` function gives you full control over each card's content and interactive state.
+
+`CardView` itself handles:
+- grid layout and gap via CSS `grid-template-columns`,
+- `role="list"` / `role="listitem"` semantics for the collection,
+- stable keying via `getItemKey` (falls back to index).
+
+It does **not** manage selection state — pass `isSelected` through `renderCard` from your own state.
+
+## Variants and states
+
+| Prop | Default | Notes |
+|---|---|---|
+| `columns` | `3` | Number of equal-width grid columns |
+| `gap` | `'16px'` | Gap between cards, any CSS value |
+
+Individual `Card` states (`isSelected`, `isDisabled`, `onPress`) are configured per-card through `renderCard`.
+
+## Props (deep dive)
+
+### Content
+
+- `items`: the array of data items to render.
+- `renderCard(item, index)`: returns a `CardProps` object for each item — controls `children`, `aria-label`, `isSelected`, `isDisabled`, and `onPress`.
+- `getItemKey(item, index)`: optional stable key extractor; defaults to the item's array index.
+
+### Layout
+
+- `columns`: integer number of grid columns.
+- `gap`: any valid CSS gap value.
+
+### Accessibility
+
+- `aria-label`: labels the collection as a whole (`role="list"`).
+- Set `aria-label` on each card via `renderCard` so screen readers identify each item.
+
+## Related components
+
+- `Card` — the individual card unit; use directly when you are not rendering from a data array.
+- `ListView` — use when items need keyboard selection with built-in focus management.
+- `TableView` — use when items are tabular with sortable columns.
+
+## Example use cases
+
+<details>
+  <summary>Typical use cases</summary>
+
+- Project browser: show all projects as summary cards with name, task type, and model accuracy.
+- Model selection: display available models in a 2-column grid with the currently active one highlighted.
+- Dataset overview: grid of dataset tiles with image count and annotation status.
+
+</details>
