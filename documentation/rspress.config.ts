@@ -49,6 +49,44 @@ export default defineConfig({
       { text: 'Examples', link: '/examples' },
       { text: 'Used By', link: '/used-by' },
     ],
+    sidebar: {
+      '/examples': [
+        {
+          text: 'Examples',
+          collapsed: false,
+          items: [
+            { text: 'Kitchensink', link: '/examples' },
+            { text: 'Job management panel', link: '/examples/job-management-panel' },
+            { text: 'Model list', link: '/examples/model-list' },
+            { text: 'Annotation components', link: '/examples/annotation-components' },
+            { text: 'Media filter', link: '/examples/media-filter' },
+            { text: 'Media grid', link: '/examples/media-grid' },
+            { text: 'Toolbar', link: '/examples/toolbar' },
+            { text: 'Project list', link: '/examples/project-list' },
+            { text: 'Project menu', link: '/examples/project-menu' },
+            { text: 'Advanced parameters', link: '/examples/advanced-parameters' },
+          ],
+        },
+      ],
+      '/examples/': [
+        {
+          text: 'Examples',
+          collapsed: false,
+          items: [
+            { text: 'Kitchensink', link: '/examples' },
+            { text: 'Job management panel', link: '/examples/job-management-panel' },
+            { text: 'Model list', link: '/examples/model-list' },
+            { text: 'Annotation components', link: '/examples/annotation-components' },
+            { text: 'Media filter', link: '/examples/media-filter' },
+            { text: 'Media grid', link: '/examples/media-grid' },
+            { text: 'Toolbar', link: '/examples/toolbar' },
+            { text: 'Project list', link: '/examples/project-list' },
+            { text: 'Project menu', link: '/examples/project-menu' },
+            { text: 'Advanced parameters', link: '/examples/advanced-parameters' },
+          ],
+        },
+      ],
+    },
     socialLinks: [
       {
         icon: 'github',
