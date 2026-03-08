@@ -15,7 +15,7 @@ concurrency:
 
 jobs:
     deploy:
-        name: Deploy Storybook to GitHub Pages
+        name: Deploy documentation to GitHub Pages
         runs-on: ubuntu-latest
         environment:
             name: github-pages
@@ -35,14 +35,16 @@ jobs:
             - name: Install dependencies
               run: pnpm install --frozen-lockfile
 
-            - name: Build Storybook
-              run: pnpm storybook:build
-              working-directory: packages/ui
+            - name: Build documentation
+              run: pnpm docs:build
+
+            - name: Configure GitHub Pages
+              uses: actions/configure-pages@v5
 
             - name: Upload Pages artifact
               uses: actions/upload-pages-artifact@v3
               with:
-                  path: packages/ui/storybook-static
+                  path: documentation/doc_build
 
             - name: Deploy to GitHub Pages
               id: deploy

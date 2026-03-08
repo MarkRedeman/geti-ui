@@ -280,6 +280,36 @@ Remove from critical CI path only after stability period:
 - Storybook build as required gate,
 - any docs dependencies on Storybook output.
 
+### Phase 5 progress update
+
+Implemented now:
+
+- ✅ Removed Storybook build and Storybook-based Playwright job from `.github/workflows/ci.yml`
+  - Storybook static artifact is no longer produced/consumed in the main CI workflow.
+  - Docs validation remains covered by the `docs` job (`coverage`, `no-stories-imports`, `docs build`, `docs smoke`).
+
+Remaining in Phase 5:
+
+- keep Storybook-focused workflows that are intentionally optional/non-docs-critical
+  (`visual.yml`, `deploy-main.yml`, `deploy-preview.yml`) unless we explicitly migrate
+  those flows to docs-site equivalents.
+
+Implemented in current batch:
+
+- ✅ Migrated GitHub Pages deploy workflows to documentation site output:
+  - `.github/workflows/deploy-main.yml`
+  - `.github/workflows/deploy-preview.yml`
+  - both now build docs via `pnpm docs:build` and upload `documentation/doc_build`
+- ✅ Kept Playwright check in CI, but switched it to docs-site validation:
+  - `.github/workflows/ci.yml` now runs docs Playwright in dedicated
+    `Playwright E2E (docs)` job
+  - docs smoke test is no longer embedded directly inside `docs` job
+
+Remaining in Phase 5 after current batch:
+
+- decide whether to retain Storybook-only visual regression workflow (`visual.yml`) as
+  optional sandbox quality gate, or migrate it to docs-driven visual checks.
+
 ---
 
 ## Acceptance criteria

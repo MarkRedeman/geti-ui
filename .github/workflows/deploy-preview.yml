@@ -16,7 +16,7 @@ concurrency:
 
 jobs:
     deploy-preview:
-        name: Deploy Storybook Preview
+        name: Deploy documentation preview
         runs-on: ubuntu-latest
         environment:
             name: preview
@@ -36,14 +36,16 @@ jobs:
             - name: Install dependencies
               run: pnpm install --frozen-lockfile
 
-            - name: Build Storybook
-              run: pnpm storybook:build
-              working-directory: packages/ui
+            - name: Build documentation
+              run: pnpm docs:build
+
+            - name: Configure GitHub Pages
+              uses: actions/configure-pages@v5
 
             - name: Upload Pages artifact
               uses: actions/upload-pages-artifact@v3
               with:
-                  path: packages/ui/storybook-static
+                  path: documentation/doc_build
 
             - name: Deploy to GitHub Pages
               id: deploy
@@ -58,5 +60,5 @@ jobs:
                         issue_number: context.issue.number,
                         owner: context.repo.owner,
                         repo: context.repo.repo,
-                        body: `## Storybook Preview\n\n🚀 Deployed to: ${url}\n\nGenerated from commit \`${{ github.sha }}\``
+                        body: `## Documentation Preview\n\n🚀 Deployed to: ${url}\n\nGenerated from commit \`${{ github.sha }}\``
                       });
