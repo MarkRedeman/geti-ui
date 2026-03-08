@@ -1,0 +1,90 @@
+---
+title: RangeCalendar
+---
+
+import { RangeCalendar } from '@geti/ui';
+import { ExampleCard } from '../../../../theme/ExampleCard';
+
+# RangeCalendar
+
+`RangeCalendar` is a standalone calendar for selecting a start and end date.
+Use it when range selection should be visible inline, rather than hidden in a popover.
+
+```tsx
+import { RangeCalendar } from '@geti/ui';
+```
+
+- [React Spectrum RangeCalendar ↗](https://react-spectrum.adobe.com/react-spectrum/RangeCalendar.html)
+- [Geti UI Theming](/components/theming)
+
+## Examples
+
+<ExampleCard
+  title="Default"
+  code={`<RangeCalendar aria-label="Date range" />`}
+>
+  <RangeCalendar aria-label="Date range" />
+</ExampleCard>
+
+<ExampleCard
+  title="Two months"
+  code={`<RangeCalendar aria-label="Date range" visibleMonths={2} />`}
+>
+  <RangeCalendar aria-label="Date range" visibleMonths={2} />
+</ExampleCard>
+
+<ExampleCard
+  title="Disabled"
+  code={`<RangeCalendar aria-label="Date range" isDisabled />`}
+>
+  <RangeCalendar aria-label="Date range" isDisabled />
+</ExampleCard>
+
+## Responsibility
+
+`RangeCalendar` is a direct pass-through wrapper for React Spectrum `RangeCalendar`.
+It keeps behavior and keyboard support unchanged while standardizing imports.
+
+## Variants and states
+
+| State | Prop | Notes |
+|---|---|---|
+| Active selection | `value` / `defaultValue` | Date interval with `start` and `end` |
+| Disabled | `isDisabled` | Non-interactive |
+| Read-only | `isReadOnly` | View-only range |
+| Multi-month | `visibleMonths` | Show months side-by-side |
+
+## Props (deep dive)
+
+### Value / state
+
+- `value` / `defaultValue`: `{ start, end }` range value.
+- `minValue` / `maxValue`: restrict selectable dates.
+- `visibleMonths`: number of rendered months.
+- `isDisabled`, `isReadOnly`.
+
+### Events
+
+- `onChange(range)`: called when range selection changes.
+
+### Accessibility
+
+- Provide `aria-label` since the control has no built-in visible label.
+- Keyboard navigation is inherited from Spectrum calendar semantics.
+
+## Related components
+
+- `DateRangePicker` — use when you need an input + popover combination.
+- `Calendar` — use when selecting a single date only.
+- `DateField` — use for segmented text entry without visible calendar grid.
+
+## Example use cases
+
+<details>
+  <summary>Typical use cases</summary>
+
+- Date-range filtering for analytics reports.
+- Scheduling windows in job configuration workflows.
+- Availability selection in project timeline panels.
+
+</details>
