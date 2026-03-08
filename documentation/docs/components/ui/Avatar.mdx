@@ -1,0 +1,98 @@
+---
+title: Avatar
+---
+
+import { Avatar } from '@geti/ui';
+import { ExampleCard } from '../../../theme/ExampleCard';
+
+# Avatar
+
+Avatar displays a thumbnail representation of a user or entity. Use it in user profile headers, comment threads, collaboration panels, and anywhere a face or identity needs visual context.
+
+```tsx
+import { Avatar } from '@geti/ui';
+```
+
+- [React Spectrum Avatar ↗](https://react-spectrum.adobe.com/react-spectrum/Avatar.html)
+- [Geti UI Theming](/components/theming)
+
+## Examples
+
+<ExampleCard
+  title="Default"
+  code={`<Avatar src="https://i.pravatar.cc/150?img=1" alt="User avatar" />`}
+>
+  <Avatar src="https://i.pravatar.cc/150?img=1" alt="User avatar" />
+</ExampleCard>
+
+<ExampleCard
+  title="Small (avatar-size-50)"
+  code={`<Avatar src="https://i.pravatar.cc/150?img=2" alt="Small avatar" size="avatar-size-50" />`}
+>
+  <Avatar src="https://i.pravatar.cc/150?img=2" alt="Small avatar" size="avatar-size-50" />
+</ExampleCard>
+
+<ExampleCard
+  title="Large (avatar-size-700)"
+  code={`<Avatar src="https://i.pravatar.cc/150?img=3" alt="Large avatar" size="avatar-size-700" />`}
+>
+  <Avatar src="https://i.pravatar.cc/150?img=3" alt="Large avatar" size="avatar-size-700" />
+</ExampleCard>
+
+<ExampleCard
+  title="Disabled"
+  code={`<Avatar src="https://i.pravatar.cc/150?img=4" alt="Disabled avatar" isDisabled />`}
+>
+  <Avatar src="https://i.pravatar.cc/150?img=4" alt="Disabled avatar" isDisabled />
+</ExampleCard>
+
+## Responsibility
+
+`Avatar` is a thin wrapper around React Spectrum's `Avatar` — it passes all props through without modification. The wrapper exists to provide a consistent import path via `@geti/ui` and to participate in Geti theming via `ThemeProvider`.
+
+## Variants and states
+
+| Size token | Approximate px | Typical use |
+|---|---|---|
+| `avatar-size-50` | 16px | Dense lists, tooltips |
+| `avatar-size-100` | 24px | Table rows |
+| `avatar-size-200` | 32px (default) | Standard use |
+| `avatar-size-400` | 48px | Profile cards |
+| `avatar-size-700` | 96px | Profile headers |
+
+| State | Prop | Notes |
+|---|---|---|
+| Disabled | `isDisabled` | Visually dimmed; not interactive |
+
+## Props (deep dive)
+
+### Content
+
+- `src`: image URL for the avatar.
+- `alt`: required descriptive text for screen readers. Use the person's name.
+
+### Visual
+
+- `size`: token string controlling rendered diameter (see size table above).
+
+### Accessibility
+
+- always provide a meaningful `alt` — use the person's full name or a descriptive phrase,
+- broken image (`src` not found) renders an empty circle; consider pairing with `PhotoPlaceholder` as a fallback strategy.
+
+## Related components
+
+- `AvatarGroup` — renders multiple avatars in a row with overflow count.
+- `PhotoPlaceholder` — renders initials with a deterministic background when no image is available.
+
+## Example use cases
+
+<details>
+  <summary>Typical use cases</summary>
+
+- User profile picture in the top navigation bar.
+- Comment thread authors next to timestamps.
+- Assigned-to indicators in project task lists.
+- Team member list in a collaboration panel.
+
+</details>
