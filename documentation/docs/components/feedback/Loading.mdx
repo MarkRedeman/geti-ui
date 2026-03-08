@@ -1,0 +1,124 @@
+---
+title: Loading
+---
+
+import { Loading } from '@geti/ui';
+import { ExampleCard } from '../../../theme/ExampleCard';
+
+# Loading
+
+`Loading` renders a progress spinner (or the Intel branded animation) in one of three layout modes: inline within a container, as a full-screen overlay, or as an absolutely-positioned overlay over a parent. Use it consistently for all loading states across Geti.
+
+```tsx
+import { Loading } from '@geti/ui';
+```
+
+- [Geti UI Theming](/components/theming)
+
+## Examples
+
+<ExampleCard
+  title="Inline spinner (medium)"
+  code={`<Loading mode="inline" size="M" />`}
+>
+  <Loading mode="inline" size="M" />
+</ExampleCard>
+
+<ExampleCard
+  title="Inline spinner (small)"
+  code={`<Loading mode="inline" size="S" />`}
+>
+  <Loading mode="inline" size="S" />
+</ExampleCard>
+
+<ExampleCard
+  title="Inline spinner (large)"
+  code={`<Loading mode="inline" size="L" />`}
+>
+  <Loading mode="inline" size="L" />
+</ExampleCard>
+
+<ExampleCard
+  title="Intel branded animation"
+  code={`<Loading variant="intel" mode="inline" size="M" />`}
+>
+  <Loading variant="intel" mode="inline" size="M" />
+</ExampleCard>
+
+<ExampleCard
+  title="Overlay over a container"
+  code={`<div style={{ position: 'relative', width: 300, height: 150, border: '1px dashed #555' }}>
+  <p style={{ padding: 16 }}>Content underneath</p>
+  <Loading mode="overlay" style={{ backgroundColor: 'rgba(0,0,0,0.5)' }} />
+</div>`}
+>
+  <div style={{ position: 'relative', width: 300, height: 150, border: '1px dashed #555' }}>
+    <p style={{ padding: 16 }}>Content underneath</p>
+    <Loading mode="overlay" style={{ backgroundColor: 'rgba(0,0,0,0.5)' }} />
+  </div>
+</ExampleCard>
+
+## Responsibility
+
+`Loading` is a Geti-authored component with no direct Spectrum equivalent. It provides:
+
+- a unified entry point for all loading states so the codebase uses one component everywhere,
+- three layout modes (inline, overlay, fullscreen) without requiring consumers to write positioning CSS,
+- the Intel branded animation as an alternative to the default spinner.
+
+The spinner itself is Geti's `ProgressCircle` (wrapped Spectrum `ProgressCircle`).
+
+## Variants and states
+
+| `mode` | Layout |
+|---|---|
+| `inline` | Centered flex inside its natural document flow position |
+| `overlay` | `position: absolute; inset: 0` — covers nearest positioned ancestor |
+| `fullscreen` (default) | `position: fixed; inset: 0` — covers the entire viewport |
+
+| `variant` | Visual |
+|---|---|
+| `spinner` (default) | Adobe Spectrum progress circle |
+| `intel` | Intel branded animated WebP |
+
+| `size` | Diameter |
+|---|---|
+| `S` | 24 px (Intel: 24 px) |
+| `M` | Standard medium |
+| `L` (default) | Large — 192 px for Intel variant |
+
+## Props (deep dive)
+
+### Display
+
+- `mode`: layout mode — `inline | overlay | fullscreen`.
+- `variant`: spinner style — `spinner | intel`.
+- `size`: `S | M | L`.
+
+### Customisation
+
+- `style`: additional inline CSS applied to the wrapper `<div>`.
+- `className`: additional class names on the wrapper.
+
+### Accessibility
+
+- The spinner renders `<ProgressCircle aria-label="Loading..." isIndeterminate />`.
+- The Intel variant renders `<img role="progressbar" alt="Loading" />`.
+- For `overlay` / `fullscreen` modes, consider also setting `aria-busy="true"` on the blocked region.
+
+## Related components
+
+- `ProgressCircle` — use directly when you need just the circle without layout wrapping.
+- `ProgressBar` — use when you can show progress as a percentage.
+- `Skeleton` — use when you want to preview the shape of loading content rather than a spinner.
+
+## Example use cases
+
+<details>
+  <summary>Typical use cases</summary>
+
+- Full-page loading on initial app load (`mode="fullscreen"`, `variant="intel"`).
+- Panel spinner while fetching model details (`mode="inline"`).
+- Semi-transparent overlay blocking a form during submission (`mode="overlay"`).
+
+</details>
