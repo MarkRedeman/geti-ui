@@ -7,6 +7,7 @@
     "dev": "rspress dev",
     "prebuild": "pnpm --filter @geti/ui build",
     "build": "rspress build",
+    "pretest:e2e": "pnpm build",
     "preview": "rspress preview",
     "check:coverage": "node ./scripts/check-docs-coverage.mjs",
     "check:no-stories-imports": "node ./scripts/check-docs-no-stories-imports.mjs",

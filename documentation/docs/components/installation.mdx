@@ -28,11 +28,21 @@ yarn add @geti/ui
 
 ## Wrap your app with `ThemeProvider`
 
-`@geti/ui` components rely on the Geti theme context. Wrap your app once at the root:
+`@geti/ui` components require both:
+
+1. the package stylesheet (design tokens + component styles), and
+2. `ThemeProvider` at app root.
+
+```tsx
+import '@geti/ui/styles.css';
+```
+
+Then wrap your app once at the root:
 
 ```tsx
 import React from 'react';
 import ReactDOM from 'react-dom/client';
+import '@geti/ui/styles.css';
 import { ThemeProvider } from '@geti/ui';
 import { App } from './App';
 
