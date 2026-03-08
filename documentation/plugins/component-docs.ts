@@ -18,6 +18,7 @@ const COMPONENT_ROOT = path.resolve(
 );
 
 const STORIES_GALLERY_PATH = path.resolve(__dirname, '../theme/StoriesGallery');
+const DOCS_COMPONENTS_ROOT = path.resolve(__dirname, '../docs/components');
 
 const CATEGORY_LABELS: Record<string, string> = {
   ui: 'UI',
@@ -250,6 +251,15 @@ function findComponentFile(componentDir: string, componentName: string): string 
 }
 
 /**
+ * Return authored docs page path when available.
+ * Authored pages live in documentation/docs/components/{category}/{Component}.mdx
+ */
+function findAuthoredPage(category: string, componentName: string): string | null {
+  const authoredPath = path.join(DOCS_COMPONENTS_ROOT, category, `${componentName}.mdx`);
+  return fs.existsSync(authoredPath) ? authoredPath : null;
+}
+
+/**
  * Escape a string for safe embedding into a template literal.
  */
 function escapeTemplateLiteral(s: string): string {
@@ -410,7 +420,17 @@ export function componentDocsPlugin(): RspressPlugin {
   return {
     name: 'component-docs',
     addPages() {
-      return pages.map((page) => {
+      return pages
+        .map((page) => {
+        // Phase 1 dual-mode routing:
+        // Prefer authored docs pages in documentation/docs/components/**.
+        // If present, skip virtual page injection and let the docs-root page
+        // be served directly by Rspress.
+        const authoredPage = findAuthoredPage(page.category, page.componentName);
+        if (authoredPage) {
+          return null;
+        }
+
         const raw = fs.readFileSync(page.filepath, 'utf-8');
         let content = transformContent(raw, page.componentName);
 
@@ -443,7 +463,8 @@ export function componentDocsPlugin(): RspressPlugin {
           routePath: page.routePath,
           content,
         };
-      });
+      })
+      .filter((page): page is { routePath: string; content: string } => page !== null);
     },
     config(config) {
       config.themeConfig = config.themeConfig || {};

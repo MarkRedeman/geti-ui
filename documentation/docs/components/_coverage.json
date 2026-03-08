@@ -1,0 +1,588 @@
+{
+  "generatedAt": "2026-03-08T14:37:40.501Z",
+  "total": 83,
+  "migrated": 0,
+  "components": [
+    {
+      "category": "data",
+      "componentName": "ActionBar",
+      "route": "/components/data/ActionBar",
+      "targetDocsPath": "documentation/docs/components/data/ActionBar.mdx",
+      "migrated": false
+    },
+    {
+      "category": "data",
+      "componentName": "CardView",
+      "route": "/components/data/CardView",
+      "targetDocsPath": "documentation/docs/components/data/CardView.mdx",
+      "migrated": false
+    },
+    {
+      "category": "data",
+      "componentName": "ListBox",
+      "route": "/components/data/ListBox",
+      "targetDocsPath": "documentation/docs/components/data/ListBox.mdx",
+      "migrated": false
+    },
+    {
+      "category": "data",
+      "componentName": "ListView",
+      "route": "/components/data/ListView",
+      "targetDocsPath": "documentation/docs/components/data/ListView.mdx",
+      "migrated": false
+    },
+    {
+      "category": "data",
+      "componentName": "TableView",
+      "route": "/components/data/TableView",
+      "targetDocsPath": "documentation/docs/components/data/TableView.mdx",
+      "migrated": false
+    },
+    {
+      "category": "data",
+      "componentName": "Tag",
+      "route": "/components/data/Tag",
+      "targetDocsPath": "documentation/docs/components/data/Tag.mdx",
+      "migrated": false
+    },
+    {
+      "category": "data",
+      "componentName": "TagGroup",
+      "route": "/components/data/TagGroup",
+      "targetDocsPath": "documentation/docs/components/data/TagGroup.mdx",
+      "migrated": false
+    },
+    {
+      "category": "data",
+      "componentName": "TreeView",
+      "route": "/components/data/TreeView",
+      "targetDocsPath": "documentation/docs/components/data/TreeView.mdx",
+      "migrated": false
+    },
+    {
+      "category": "data",
+      "componentName": "VirtualizedHorizontalGrid",
+      "route": "/components/data/VirtualizedHorizontalGrid",
+      "targetDocsPath": "documentation/docs/components/data/VirtualizedHorizontalGrid.mdx",
+      "migrated": false
+    },
+    {
+      "category": "data",
+      "componentName": "VirtualizedListLayout",
+      "route": "/components/data/VirtualizedListLayout",
+      "targetDocsPath": "documentation/docs/components/data/VirtualizedListLayout.mdx",
+      "migrated": false
+    },
+    {
+      "category": "feedback",
+      "componentName": "Badge",
+      "route": "/components/feedback/Badge",
+      "targetDocsPath": "documentation/docs/components/feedback/Badge.mdx",
+      "migrated": false
+    },
+    {
+      "category": "feedback",
+      "componentName": "IllustratedMessage",
+      "route": "/components/feedback/IllustratedMessage",
+      "targetDocsPath": "documentation/docs/components/feedback/IllustratedMessage.mdx",
+      "migrated": false
+    },
+    {
+      "category": "feedback",
+      "componentName": "InlineAlert",
+      "route": "/components/feedback/InlineAlert",
+      "targetDocsPath": "documentation/docs/components/feedback/InlineAlert.mdx",
+      "migrated": false
+    },
+    {
+      "category": "feedback",
+      "componentName": "IntelBrandedLoading",
+      "route": "/components/feedback/IntelBrandedLoading",
+      "targetDocsPath": "documentation/docs/components/feedback/IntelBrandedLoading.mdx",
+      "migrated": false
+    },
+    {
+      "category": "feedback",
+      "componentName": "Loading",
+      "route": "/components/feedback/Loading",
+      "targetDocsPath": "documentation/docs/components/feedback/Loading.mdx",
+      "migrated": false
+    },
+    {
+      "category": "feedback",
+      "componentName": "Meter",
+      "route": "/components/feedback/Meter",
+      "targetDocsPath": "documentation/docs/components/feedback/Meter.mdx",
+      "migrated": false
+    },
+    {
+      "category": "feedback",
+      "componentName": "ProgressBar",
+      "route": "/components/feedback/ProgressBar",
+      "targetDocsPath": "documentation/docs/components/feedback/ProgressBar.mdx",
+      "migrated": false
+    },
+    {
+      "category": "feedback",
+      "componentName": "ProgressCircle",
+      "route": "/components/feedback/ProgressCircle",
+      "targetDocsPath": "documentation/docs/components/feedback/ProgressCircle.mdx",
+      "migrated": false
+    },
+    {
+      "category": "feedback",
+      "componentName": "Skeleton",
+      "route": "/components/feedback/Skeleton",
+      "targetDocsPath": "documentation/docs/components/feedback/Skeleton.mdx",
+      "migrated": false
+    },
+    {
+      "category": "feedback",
+      "componentName": "StatusLight",
+      "route": "/components/feedback/StatusLight",
+      "targetDocsPath": "documentation/docs/components/feedback/StatusLight.mdx",
+      "migrated": false
+    },
+    {
+      "category": "feedback",
+      "componentName": "Toast",
+      "route": "/components/feedback/Toast",
+      "targetDocsPath": "documentation/docs/components/feedback/Toast.mdx",
+      "migrated": false
+    },
+    {
+      "category": "form",
+      "componentName": "Checkbox",
+      "route": "/components/form/Checkbox",
+      "targetDocsPath": "documentation/docs/components/form/Checkbox.mdx",
+      "migrated": false
+    },
+    {
+      "category": "form",
+      "componentName": "CheckboxGroup",
+      "route": "/components/form/CheckboxGroup",
+      "targetDocsPath": "documentation/docs/components/form/CheckboxGroup.mdx",
+      "migrated": false
+    },
+    {
+      "category": "form/color-controls",
+      "componentName": "ColorArea",
+      "route": "/components/form/color-controls/ColorArea",
+      "targetDocsPath": "documentation/docs/components/form/color-controls/ColorArea.mdx",
+      "migrated": false
+    },
+    {
+      "category": "form/color-controls",
+      "componentName": "ColorField",
+      "route": "/components/form/color-controls/ColorField",
+      "targetDocsPath": "documentation/docs/components/form/color-controls/ColorField.mdx",
+      "migrated": false
+    },
+    {
+      "category": "form/color-controls",
+      "componentName": "ColorPickerDialog",
+      "route": "/components/form/color-controls/ColorPickerDialog",
+      "targetDocsPath": "documentation/docs/components/form/color-controls/ColorPickerDialog.mdx",
+      "migrated": false
+    },
+    {
+      "category": "form/color-controls",
+      "componentName": "ColorSlider",
+      "route": "/components/form/color-controls/ColorSlider",
+      "targetDocsPath": "documentation/docs/components/form/color-controls/ColorSlider.mdx",
+      "migrated": false
+    },
+    {
+      "category": "form/color-controls",
+      "componentName": "ColorSwatch",
+      "route": "/components/form/color-controls/ColorSwatch",
+      "targetDocsPath": "documentation/docs/components/form/color-controls/ColorSwatch.mdx",
+      "migrated": false
+    },
+    {
+      "category": "form/color-controls",
+      "componentName": "ColorSwatchPicker",
+      "route": "/components/form/color-controls/ColorSwatchPicker",
+      "targetDocsPath": "documentation/docs/components/form/color-controls/ColorSwatchPicker.mdx",
+      "migrated": false
+    },
+    {
+      "category": "form/color-controls",
+      "componentName": "ColorThumb",
+      "route": "/components/form/color-controls/ColorThumb",
+      "targetDocsPath": "documentation/docs/components/form/color-controls/ColorThumb.mdx",
+      "migrated": false
+    },
+    {
+      "category": "form/color-controls",
+      "componentName": "ColorWheel",
+      "route": "/components/form/color-controls/ColorWheel",
+      "targetDocsPath": "documentation/docs/components/form/color-controls/ColorWheel.mdx",
+      "migrated": false
+    },
+    {
+      "category": "form/date-controls",
+      "componentName": "Calendar",
+      "route": "/components/form/date-controls/Calendar",
+      "targetDocsPath": "documentation/docs/components/form/date-controls/Calendar.mdx",
+      "migrated": false
+    },
+    {
+      "category": "form/date-controls",
+      "componentName": "DateField",
+      "route": "/components/form/date-controls/DateField",
+      "targetDocsPath": "documentation/docs/components/form/date-controls/DateField.mdx",
+      "migrated": false
+    },
+    {
+      "category": "form/date-controls",
+      "componentName": "DatePicker",
+      "route": "/components/form/date-controls/DatePicker",
+      "targetDocsPath": "documentation/docs/components/form/date-controls/DatePicker.mdx",
+      "migrated": false
+    },
+    {
+      "category": "form/date-controls",
+      "componentName": "DateRangePicker",
+      "route": "/components/form/date-controls/DateRangePicker",
+      "targetDocsPath": "documentation/docs/components/form/date-controls/DateRangePicker.mdx",
+      "migrated": false
+    },
+    {
+      "category": "form/date-controls",
+      "componentName": "RangeCalendar",
+      "route": "/components/form/date-controls/RangeCalendar",
+      "targetDocsPath": "documentation/docs/components/form/date-controls/RangeCalendar.mdx",
+      "migrated": false
+    },
+    {
+      "category": "form/date-controls",
+      "componentName": "TimeField",
+      "route": "/components/form/date-controls/TimeField",
+      "targetDocsPath": "documentation/docs/components/form/date-controls/TimeField.mdx",
+      "migrated": false
+    },
+    {
+      "category": "form",
+      "componentName": "DropZone",
+      "route": "/components/form/DropZone",
+      "targetDocsPath": "documentation/docs/components/form/DropZone.mdx",
+      "migrated": false
+    },
+    {
+      "category": "form",
+      "componentName": "FileTrigger",
+      "route": "/components/form/FileTrigger",
+      "targetDocsPath": "documentation/docs/components/form/FileTrigger.mdx",
+      "migrated": false
+    },
+    {
+      "category": "form",
+      "componentName": "Form",
+      "route": "/components/form/Form",
+      "targetDocsPath": "documentation/docs/components/form/Form.mdx",
+      "migrated": false
+    },
+    {
+      "category": "form",
+      "componentName": "NumberField",
+      "route": "/components/form/NumberField",
+      "targetDocsPath": "documentation/docs/components/form/NumberField.mdx",
+      "migrated": false
+    },
+    {
+      "category": "form",
+      "componentName": "PasswordField",
+      "route": "/components/form/PasswordField",
+      "targetDocsPath": "documentation/docs/components/form/PasswordField.mdx",
+      "migrated": false
+    },
+    {
+      "category": "form/pickers",
+      "componentName": "ComboBox",
+      "route": "/components/form/pickers/ComboBox",
+      "targetDocsPath": "documentation/docs/components/form/pickers/ComboBox.mdx",
+      "migrated": false
+    },
+    {
+      "category": "form/pickers",
+      "componentName": "Picker",
+      "route": "/components/form/pickers/Picker",
+      "targetDocsPath": "documentation/docs/components/form/pickers/Picker.mdx",
+      "migrated": false
+    },
+    {
+      "category": "form",
+      "componentName": "RadioGroup",
+      "route": "/components/form/RadioGroup",
+      "targetDocsPath": "documentation/docs/components/form/RadioGroup.mdx",
+      "migrated": false
+    },
+    {
+      "category": "form",
+      "componentName": "RangeSlider",
+      "route": "/components/form/RangeSlider",
+      "targetDocsPath": "documentation/docs/components/form/RangeSlider.mdx",
+      "migrated": false
+    },
+    {
+      "category": "form",
+      "componentName": "SearchField",
+      "route": "/components/form/SearchField",
+      "targetDocsPath": "documentation/docs/components/form/SearchField.mdx",
+      "migrated": false
+    },
+    {
+      "category": "form",
+      "componentName": "Slider",
+      "route": "/components/form/Slider",
+      "targetDocsPath": "documentation/docs/components/form/Slider.mdx",
+      "migrated": false
+    },
+    {
+      "category": "form",
+      "componentName": "Switch",
+      "route": "/components/form/Switch",
+      "targetDocsPath": "documentation/docs/components/form/Switch.mdx",
+      "migrated": false
+    },
+    {
+      "category": "form",
+      "componentName": "TextArea",
+      "route": "/components/form/TextArea",
+      "targetDocsPath": "documentation/docs/components/form/TextArea.mdx",
+      "migrated": false
+    },
+    {
+      "category": "form",
+      "componentName": "TextField",
+      "route": "/components/form/TextField",
+      "targetDocsPath": "documentation/docs/components/form/TextField.mdx",
+      "migrated": false
+    },
+    {
+      "category": "layouts",
+      "componentName": "Accordion",
+      "route": "/components/layouts/Accordion",
+      "targetDocsPath": "documentation/docs/components/layouts/Accordion.mdx",
+      "migrated": false
+    },
+    {
+      "category": "layouts",
+      "componentName": "Card",
+      "route": "/components/layouts/Card",
+      "targetDocsPath": "documentation/docs/components/layouts/Card.mdx",
+      "migrated": false
+    },
+    {
+      "category": "layouts",
+      "componentName": "Disclosure",
+      "route": "/components/layouts/Disclosure",
+      "targetDocsPath": "documentation/docs/components/layouts/Disclosure.mdx",
+      "migrated": false
+    },
+    {
+      "category": "layouts",
+      "componentName": "Flex",
+      "route": "/components/layouts/Flex",
+      "targetDocsPath": "documentation/docs/components/layouts/Flex.mdx",
+      "migrated": false
+    },
+    {
+      "category": "layouts",
+      "componentName": "Grid",
+      "route": "/components/layouts/Grid",
+      "targetDocsPath": "documentation/docs/components/layouts/Grid.mdx",
+      "migrated": false
+    },
+    {
+      "category": "layouts",
+      "componentName": "Well",
+      "route": "/components/layouts/Well",
+      "targetDocsPath": "documentation/docs/components/layouts/Well.mdx",
+      "migrated": false
+    },
+    {
+      "category": "navigation",
+      "componentName": "ActionMenu",
+      "route": "/components/navigation/ActionMenu",
+      "targetDocsPath": "documentation/docs/components/navigation/ActionMenu.mdx",
+      "migrated": false
+    },
+    {
+      "category": "navigation",
+      "componentName": "Breadcrumbs",
+      "route": "/components/navigation/Breadcrumbs",
+      "targetDocsPath": "documentation/docs/components/navigation/Breadcrumbs.mdx",
+      "migrated": false
+    },
+    {
+      "category": "navigation",
+      "componentName": "Link",
+      "route": "/components/navigation/Link",
+      "targetDocsPath": "documentation/docs/components/navigation/Link.mdx",
+      "migrated": false
+    },
+    {
+      "category": "navigation",
+      "componentName": "MediaViewModes",
+      "route": "/components/navigation/MediaViewModes",
+      "targetDocsPath": "documentation/docs/components/navigation/MediaViewModes.mdx",
+      "migrated": false
+    },
+    {
+      "category": "navigation",
+      "componentName": "Menu",
+      "route": "/components/navigation/Menu",
+      "targetDocsPath": "documentation/docs/components/navigation/Menu.mdx",
+      "migrated": false
+    },
+    {
+      "category": "navigation",
+      "componentName": "Tabs",
+      "route": "/components/navigation/Tabs",
+      "targetDocsPath": "documentation/docs/components/navigation/Tabs.mdx",
+      "migrated": false
+    },
+    {
+      "category": "overlays",
+      "componentName": "AlertDialog",
+      "route": "/components/overlays/AlertDialog",
+      "targetDocsPath": "documentation/docs/components/overlays/AlertDialog.mdx",
+      "migrated": false
+    },
+    {
+      "category": "overlays",
+      "componentName": "ContextualHelp",
+      "route": "/components/overlays/ContextualHelp",
+      "targetDocsPath": "documentation/docs/components/overlays/ContextualHelp.mdx",
+      "migrated": false
+    },
+    {
+      "category": "overlays",
+      "componentName": "CustomPopover",
+      "route": "/components/overlays/CustomPopover",
+      "targetDocsPath": "documentation/docs/components/overlays/CustomPopover.mdx",
+      "migrated": false
+    },
+    {
+      "category": "overlays",
+      "componentName": "Dialog",
+      "route": "/components/overlays/Dialog",
+      "targetDocsPath": "documentation/docs/components/overlays/Dialog.mdx",
+      "migrated": false
+    },
+    {
+      "category": "overlays",
+      "componentName": "DialogContainer",
+      "route": "/components/overlays/DialogContainer",
+      "targetDocsPath": "documentation/docs/components/overlays/DialogContainer.mdx",
+      "migrated": false
+    },
+    {
+      "category": "overlays",
+      "componentName": "FullscreenAction",
+      "route": "/components/overlays/FullscreenAction",
+      "targetDocsPath": "documentation/docs/components/overlays/FullscreenAction.mdx",
+      "migrated": false
+    },
+    {
+      "category": "overlays",
+      "componentName": "Popover",
+      "route": "/components/overlays/Popover",
+      "targetDocsPath": "documentation/docs/components/overlays/Popover.mdx",
+      "migrated": false
+    },
+    {
+      "category": "overlays",
+      "componentName": "Tooltip",
+      "route": "/components/overlays/Tooltip",
+      "targetDocsPath": "documentation/docs/components/overlays/Tooltip.mdx",
+      "migrated": false
+    },
+    {
+      "category": "ui",
+      "componentName": "ActionButton",
+      "route": "/components/ui/ActionButton",
+      "targetDocsPath": "documentation/docs/components/ui/ActionButton.mdx",
+      "migrated": false
+    },
+    {
+      "category": "ui",
+      "componentName": "Avatar",
+      "route": "/components/ui/Avatar",
+      "targetDocsPath": "documentation/docs/components/ui/Avatar.mdx",
+      "migrated": false
+    },
+    {
+      "category": "ui",
+      "componentName": "AvatarGroup",
+      "route": "/components/ui/AvatarGroup",
+      "targetDocsPath": "documentation/docs/components/ui/AvatarGroup.mdx",
+      "migrated": false
+    },
+    {
+      "category": "ui",
+      "componentName": "Button",
+      "route": "/components/ui/Button",
+      "targetDocsPath": "documentation/docs/components/ui/Button.mdx",
+      "migrated": false
+    },
+    {
+      "category": "ui",
+      "componentName": "CornerIndicator",
+      "route": "/components/ui/CornerIndicator",
+      "targetDocsPath": "documentation/docs/components/ui/CornerIndicator.mdx",
+      "migrated": false
+    },
+    {
+      "category": "ui",
+      "componentName": "Divider",
+      "route": "/components/ui/Divider",
+      "targetDocsPath": "documentation/docs/components/ui/Divider.mdx",
+      "migrated": false
+    },
+    {
+      "category": "ui",
+      "componentName": "Image",
+      "route": "/components/ui/Image",
+      "targetDocsPath": "documentation/docs/components/ui/Image.mdx",
+      "migrated": false
+    },
+    {
+      "category": "ui",
+      "componentName": "PhotoPlaceholder",
+      "route": "/components/ui/PhotoPlaceholder",
+      "targetDocsPath": "documentation/docs/components/ui/PhotoPlaceholder.mdx",
+      "migrated": false
+    },
+    {
+      "category": "ui",
+      "componentName": "PressableElement",
+      "route": "/components/ui/PressableElement",
+      "targetDocsPath": "documentation/docs/components/ui/PressableElement.mdx",
+      "migrated": false
+    },
+    {
+      "category": "ui",
+      "componentName": "ToggleButton",
+      "route": "/components/ui/ToggleButton",
+      "targetDocsPath": "documentation/docs/components/ui/ToggleButton.mdx",
+      "migrated": false
+    },
+    {
+      "category": "ui",
+      "componentName": "ToggleButtons",
+      "route": "/components/ui/ToggleButtons",
+      "targetDocsPath": "documentation/docs/components/ui/ToggleButtons.mdx",
+      "migrated": false
+    },
+    {
+      "category": "ui",
+      "componentName": "View",
+      "route": "/components/ui/View",
+      "targetDocsPath": "documentation/docs/components/ui/View.mdx",
+      "migrated": false
+    }
+  ]
+}
