@@ -310,6 +310,15 @@ Remaining in Phase 5 after current batch:
 - decide whether to retain Storybook-only visual regression workflow (`visual.yml`) as
   optional sandbox quality gate, or migrate it to docs-driven visual checks.
 
+Implemented in follow-up batch:
+
+- ✅ Migrated `.github/workflows/visual.yml` to docs-site checks:
+  - builds docs with `pnpm docs:build` instead of Storybook
+  - runs Playwright from `documentation/` against docs routes
+  - preserves targeted category filtering by mapping changed paths to top-level
+    category grep patterns
+  - uploads docs Playwright report artifact (`documentation/playwright-report`)
+
 ---
 
 ## Acceptance criteria

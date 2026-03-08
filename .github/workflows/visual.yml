@@ -43,26 +43,24 @@ jobs:
 
       - run: pnpm install --frozen-lockfile
 
-      - run: pnpm storybook:build
-        working-directory: packages/ui
+      - run: pnpm docs:build
 
       - name: Install Playwright
-        run: pnpm exec playwright install --with-deps chromium
-        working-directory: packages/ui
+        run: pnpm --filter @geti/documentation exec playwright install --with-deps chromium
 
       - name: Run targeted visual tests
-        working-directory: packages/ui
+        working-directory: documentation
         env:
           CHANGED: ${{ needs.detect-changes.outputs.components }}
         run: |
-          PATTERN=$(echo "$CHANGED" | jq -r '. | join("|")')
+          PATTERN=$(echo "$CHANGED" | jq -r '[.[] | split("/")[0]] | unique | join("|")')
           pnpm exec playwright test --grep "$PATTERN"
 
       - uses: actions/upload-artifact@v4
         if: always()
         with:
           name: visual-regression-report
-          path: packages/ui/playwright-report/
+          path: documentation/playwright-report/
 
       - uses: actions/github-script@v7
         with:
