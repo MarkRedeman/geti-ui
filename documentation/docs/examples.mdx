@@ -1,4 +1,4 @@
-import { View, Flex, Divider, Button, ActionButton, ToggleButton, Tag, TagGroup, ListView, ListItem, Badge, StatusLight, SearchField, ComboBox, ComboBoxItem, DatePicker, ProgressBar, InlineAlert, Tabs, TabList, TabPanels, TabItem as Item, DialogTrigger, Popover, Dialog } from '@geti/ui';
+import { View, Flex, Divider, Button, ActionButton, ToggleButton, TagGroup, TagItem, ListView, ListItem, Badge, StatusLight, SearchField, ComboBox, ComboBoxItem, DatePicker, ProgressBar, InlineAlert, Tabs, TabList, TabPanels, TabItem as Item, DialogTrigger, Popover, Dialog } from '@geti/ui';
 import { Heading, Text, Content } from '@adobe/react-spectrum';
 import { ExampleCard } from '../theme/ExampleCard';
 
@@ -85,8 +85,8 @@ larger UI building blocks and how components fit together.
     <ListItem textValue={item.title}>
       <Flex direction="column" gap="size-75">
         <Text>{item.title}</Text>
-        <TagGroup>
-          {item.tags.map((tag) => <Tag key={tag} text={tag} />)}
+        <TagGroup aria-label="Item tags">
+          {item.tags.map((tag) => <TagItem key={tag}>{tag}</TagItem>)}
         </TagGroup>
       </Flex>
     </ListItem>
@@ -106,8 +106,8 @@ larger UI building blocks and how components fit together.
       <ListItem textValue={item.title}>
         <Flex direction="column" gap="size-75">
           <Text>{item.title}</Text>
-          <TagGroup>
-            {item.tags.map((tag) => <Tag key={tag} text={tag} />)}
+          <TagGroup aria-label="Item tags">
+            {item.tags.map((tag) => <TagItem key={tag}>{tag}</TagItem>)}
           </TagGroup>
         </Flex>
       </ListItem>
