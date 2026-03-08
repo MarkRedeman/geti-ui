@@ -1,4 +1,4 @@
-import { Meta, Title, Subtitle, Description, Primary, Controls, Stories } from '@storybook/addon-docs/blocks';
+import { Meta, Subtitle, Stories } from '@storybook/addon-docs/blocks';
 import * as DocStories from './DatePicker.stories';
 
 <Meta of={DocStories} />
@@ -51,7 +51,9 @@ export type { SpectrumDatePickerProps as DatePickerProps };
 
 Because `width="size-2400"` appears before `{...props}`, any `width` the caller provides will override it. No CSS modules, no local state, no custom logic.
 
-## Flow
+## Integration
+
+### Usage examples
 
 ```tsx
 // Uncontrolled
@@ -83,8 +85,6 @@ const [date, setDate] = useState(today(getLocalTimeZone()));
   validationState="invalid"
 />
 ```
-
-## Integration
 
 - **Depends on**: `@adobe/react-spectrum` — `DatePicker`, `SpectrumDatePickerProps`; `@react-types/datepicker` — `DateValue`
 - **Peer imports**: `@internationalized/date` — `CalendarDate`, `today`, `getLocalTimeZone` for constructing typed date values
@@ -119,6 +119,18 @@ const [date, setDate] = useState(today(getLocalTimeZone()));
 - **Error announcements**: `errorMessage` is linked to the field via `aria-describedby` and announced by screen readers when validation fails.
 - **Labels**: Always provide `label`. If a visible label is not desired, use `aria-label` or `aria-labelledby` to maintain an accessible name for the `group`.
 
-<Primary />
+## Related components
+- `DateRangePicker` — use instead when users must select both a start and an end date.
+- `DateField` — use instead when a calendar popover is not needed and keyboard-only segment input is preferred.
+- `Calendar` — use instead when the date picker must be permanently visible rather than in a popover.
 
-<Controls />
+## Example use cases
+<details>
+  <summary>Typical use cases</summary>
+
+- Selecting a project creation date or dataset release date in a metadata form.
+- Picking a scheduled model training run date in a job configuration panel.
+- Choosing a report generation date in an analytics or export settings dialog.
+- Setting a deadline or review date for an annotation task in a task management interface.
+
+</details>

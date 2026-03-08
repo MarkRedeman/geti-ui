@@ -1,11 +1,11 @@
-import { Meta, Title, Subtitle, Description, Primary, Controls, Stories } from '@storybook/addon-docs/blocks';
+import { Meta, Stories } from '@storybook/addon-docs/blocks';
 import * as DocStories from './Grid.stories';
 
 <Meta of={DocStories} />
 
 # Grid
 
-<Subtitle>Grid is a layout container that uses CSS Grid to create complex two-dimensional layouts with precisely controlled rows and columns.</Subtitle>
+Grid is a layout container that uses CSS Grid to create complex two-dimensional layouts with precisely controlled rows and columns.
 
 ```tsx
 import { Grid } from '@geti/ui';
@@ -53,29 +53,6 @@ export const Grid = (props: GridComponentProps) => <SpectrumGrid {...props} />;
 ```
 
 The thin-wrapper pattern provides namespace isolation — consuming code imports from `@geti/ui` — while keeping maintenance cost at zero: every Spectrum Grid improvement flows through automatically.
-
-## Flow
-
-```
-<Grid columns={['200px', '1fr']} gap="size-200">
-        │
-        ▼
-  GridComponentProps (geti-ui re-export of GridProps)
-        │
-        ▼
-  <SpectrumGrid> (Adobe React Spectrum)
-        │
-        ▼
-  Resolves "size-200" → var(--spectrum-global-dimension-size-200) → 16px
-  Resolves DimensionValue array → "200px 1fr"
-        │
-        ▼
-  Renders <div style="display:grid; grid-template-columns:200px 1fr; gap:16px;">
-```
-
-- **Dimension tokens** in track arrays (e.g., `['size-2000', '1fr']`) are resolved by Spectrum against the active theme variables before being passed to CSS.
-- **Named areas** are written as an array of strings — each string is one row — and Spectrum translates them into the `grid-template-areas` CSS property.
-- **Responsive objects** (e.g., `columns={{ base: '1fr', L: 'repeat(3, 1fr)' }}`) use Spectrum's CSS media-query system; no JavaScript breakpoint listeners.
 
 ## Variants
 
@@ -231,3 +208,23 @@ import { Grid, View } from '@geti/ui';
 ```
 
 - **Focus Management**: Grid layout does not affect focus order. Items are focused in DOM order regardless of their visual position. Plan your DOM order to match the intended Tab sequence.
+
+## Related components
+
+- **`Flex`** — use for single-axis stacks (row or column); prefer `Grid` when alignment across both axes is required.
+- **`View`** — the go-to primitive for adding background, border, or padding to an individual grid cell or area.
+- **`Card`** — the most common direct child in gallery grids; combine `Card` inside `Grid` for responsive item collections.
+- **`Well`** — use for supplementary inset blocks that live within a grid layout but should visually recede.
+
+## Example use cases
+
+<details>
+  <summary>Typical use cases</summary>
+
+- **Page skeleton**: Use named `areas` (`header`, `sidebar`, `content`, `footer`) with fixed rows/columns to scaffold an application shell inside `height="100vh"`.
+- **Responsive card gallery**: `columns="repeat(auto-fill, minmax(260px, 1fr))"` automatically flows project or dataset cards across the available width.
+- **Settings panel**: A two-column grid (`['180px', '1fr']`) keeps labels left-aligned and inputs right-aligned across multiple form rows without manual spacing.
+- **Dashboard panels**: Fixed column widths for stat tiles alongside a fluid `1fr` chart region give a dashboard a structured, predictable layout.
+- **Comparison view**: A `columns={['1fr', '1fr']}` grid places two images or annotation previews side by side for before/after review.
+
+</details>

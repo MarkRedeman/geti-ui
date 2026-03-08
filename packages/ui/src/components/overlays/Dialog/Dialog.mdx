@@ -1,11 +1,11 @@
-import { Meta, Title, Subtitle, Controls, Stories } from '@storybook/addon-docs/blocks';
+import { Meta, Stories } from '@storybook/addon-docs/blocks';
 import * as DocStories from './Dialog.stories';
 
 <Meta of={DocStories} />
 
 # Dialog
 
-<Subtitle>Dialogs are windows containing contextual information or tasks that appear over the main UI content.</Subtitle>
+Dialogs are windows containing contextual information or tasks that appear over the main UI content.
 
 ```tsx
 import { Dialog, DialogTrigger } from '@geti/ui';
@@ -160,73 +160,6 @@ Renders a close ("×") button in the corner of the dialog, giving users a clear 
 
 ---
 
-## Flow
-
-Understanding who owns what is key to working with `Dialog` correctly.
-
-```
-DialogTrigger (open state owner)
-    │
-    ├── isOpen / defaultOpen ──► controls whether the overlay is rendered
-    ├── onOpenChange ──────────► notifies you when open state changes
-    │
-    ▼
-Trigger element (Button)
-    │  onPress → DialogTrigger opens the overlay
-    ▼
-Dialog (content only — no state)
-    │
-    ├── children: ReactNode  ──► static content (no close access)
-    └── children: (close) => ReactNode  ──► function receives close() callback
-```
-
-**Controlled vs uncontrolled**
-
-`DialogTrigger` supports both patterns:
-
-```tsx
-// Uncontrolled — DialogTrigger manages open state internally
-<DialogTrigger defaultOpen={false}>
-    <Button>Open</Button>
-    <Dialog>...</Dialog>
-</DialogTrigger>
-
-// Controlled — you own the state
-const [isOpen, setIsOpen] = useState(false);
-
-<DialogTrigger isOpen={isOpen} onOpenChange={setIsOpen}>
-    <Button onPress={() => setIsOpen(true)}>Open</Button>
-    <Dialog>...</Dialog>
-</DialogTrigger>
-```
-
-Use the **controlled** pattern when you need to open or close the dialog programmatically (e.g., from a form validation result, a keyboard shortcut, or a parent component's state machine).
-
-**The `close` callback**
-
-When `children` is a render function, `DialogTrigger` injects a `close()` callback. Calling it transitions the open state to `false` and triggers `onOpenChange(false)`. This is the recommended way to close a dialog from action buttons inside it:
-
-```tsx
-<DialogTrigger>
-    <Button>Open</Button>
-    {(close) => (
-        <Dialog>
-            <Content>Are you sure?</Content>
-            <Footer>
-                <ButtonGroup>
-                    <Button variant="secondary" onPress={close}>Cancel</Button>
-                    <Button variant="negative" onPress={() => { handleDelete(); close(); }}>
-                        Delete
-                    </Button>
-                </ButtonGroup>
-            </Footer>
-        </Dialog>
-    )}
-</DialogTrigger>
-```
-
----
-
 ## Props
 
 ### Dialog Props
@@ -278,3 +211,68 @@ When `children` is a render function, `DialogTrigger` injects a `close()` callba
 - **ThemeProvider**: Must be present in the React tree. The overlay background, border radius, and shadow all derive from Spectrum tokens resolved by `ThemeProvider`.
 - **Button**: Use `@geti/ui`'s `Button` for all action buttons inside a `Dialog`. This ensures consistent `accent` defaults and correct focus ref types.
 - **z-index and stacking**: Spectrum manages overlay z-index automatically via its `OverlayProvider`. Ensure your application root includes `Provider` (or `ThemeProvider`, which wraps it) at the top level to avoid stacking context conflicts.
+
+### Controlled vs. uncontrolled
+
+`DialogTrigger` supports both patterns:
+
+```tsx
+// Uncontrolled — DialogTrigger manages open state internally
+<DialogTrigger defaultOpen={false}>
+    <Button>Open</Button>
+    <Dialog>...</Dialog>
+</DialogTrigger>
+
+// Controlled — you own the state
+const [isOpen, setIsOpen] = useState(false);
+
+<DialogTrigger isOpen={isOpen} onOpenChange={setIsOpen}>
+    <Button onPress={() => setIsOpen(true)}>Open</Button>
+    <Dialog>...</Dialog>
+</DialogTrigger>
+```
+
+Use the **controlled** pattern when you need to open or close the dialog programmatically (e.g., from a form validation result, a keyboard shortcut, or a parent component's state machine).
+
+### The `close` callback
+
+When `children` is a render function, `DialogTrigger` injects a `close()` callback. Calling it transitions the open state to `false` and triggers `onOpenChange(false)`. This is the recommended way to close a dialog from action buttons inside it:
+
+```tsx
+<DialogTrigger>
+    <Button>Open</Button>
+    {(close) => (
+        <Dialog>
+            <Content>Are you sure?</Content>
+            <Footer>
+                <ButtonGroup>
+                    <Button variant="secondary" onPress={close}>Cancel</Button>
+                    <Button variant="negative" onPress={() => { handleDelete(); close(); }}>
+                        Delete
+                    </Button>
+                </ButtonGroup>
+            </Footer>
+        </Dialog>
+    )}
+</DialogTrigger>
+```
+
+## Related components
+
+- **`AlertDialog`** — use for fixed-structure confirmation prompts (title + body text + primary/cancel buttons); use `Dialog` when you need custom slot composition, embedded forms, or a dismissible close button.
+- **`DialogContainer`** — use when the trigger element may unmount before the dialog closes, or when the dialog is opened programmatically without a persistent trigger button.
+- **`Popover`** — use for non-blocking, light-dismiss overlays anchored to a trigger; reserve `Dialog` for interactions that must block the rest of the UI.
+- **`FullscreenAction`** — use when the dialog should occupy the full viewport; `FullscreenAction` composes the fullscreen trigger, tooltip, and dialog structure in one component.
+
+## Example use cases
+
+<details>
+  <summary>Typical use cases</summary>
+
+- **Create / rename form**: A "New project" or "Rename dataset" dialog contains a text field and Save/Cancel buttons, keeping the main view intact while the user enters a name.
+- **Destructive confirmation with extra context**: Use when the confirmation message includes multiple paragraphs, a code block, or an embedded preview that `AlertDialog`'s plain text body cannot accommodate.
+- **Detail view overlay**: Clicking a thumbnail opens a `Dialog size="L"` containing a full-resolution image viewer and annotation summary.
+- **Multi-field settings form**: A `Dialog` with several form fields (dropdowns, sliders, checkboxes) for configuring export options or inference parameters.
+- **Permission / terms acknowledgement**: An `isDismissable={false}` modal that the user must explicitly accept before proceeding.
+
+</details>

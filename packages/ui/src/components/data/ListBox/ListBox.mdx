@@ -1,11 +1,11 @@
-import { Meta, Title, Subtitle, Description, Primary, Controls, Stories } from '@storybook/addon-docs/blocks';
+import { Meta, Stories } from '@storybook/addon-docs/blocks';
 import * as DocStories from './ListBox.stories';
 
 <Meta of={DocStories} />
 
-<Title>ListBox</Title>
+# ListBox
 
-<Subtitle>A permanently visible list of selectable options.</Subtitle>
+A permanently visible list of selectable options.
 
 ```tsx
 import { ListBox, Item } from '@geti/ui';
@@ -63,4 +63,24 @@ Items can be grouped into sections using the `Section` component (re-exported fr
 
 ### Constraints
 - **No nested interactivity**: Do not place buttons, links, or inputs inside a `ListBoxItem`. This breaks the ARIA model and keyboard navigation for screen readers.
+
+## Related components
+
+- **`ListView`** — use instead when items contain complex layouts, inline actions, or drag-and-drop reordering; `ListView` uses `role="grid"` and supports nested interactive cells.
+- **`Menu`** — use for command lists or selection options inside a popover overlay triggered by a button; `Menu` manages its own open/close lifecycle.
+- **`TagGroup`** — use when the selected options should appear as removable chip tags rather than highlighted list rows.
+- **`Tabs`** — use when options represent navigable content sections rather than a selection value.
+
+## Example use cases
+
+<details>
+  <summary>Typical use cases</summary>
+
+- A sidebar filter panel showing a permanently-visible list of label categories that users can single- or multi-select to filter results.
+- A label assignment dropdown replacement where the list is always visible in a side panel rather than hidden behind a trigger.
+- A dataset type selector (Classification, Detection, Segmentation) that stays open on a settings page.
+- A language or locale picker panel where all supported options are displayed without requiring a dropdown interaction.
+- An annotation class selection list inside a constrained panel where only one class can be active at a time.
+
+</details>
 

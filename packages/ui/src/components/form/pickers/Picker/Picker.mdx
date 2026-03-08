@@ -1,14 +1,14 @@
-import { Meta, Title, Subtitle, Description, Primary, Controls, Stories } from '@storybook/addon-docs/blocks';
+import { Meta, Subtitle, Stories } from '@storybook/addon-docs/blocks';
 import * as DocStories from './Picker.stories';
 
 <Meta of={DocStories} />
 
 # Picker
 
-<Subtitle>A select-only dropdown that lets users choose a single value from a predefined, fixed list of options.</Subtitle>
+<Subtitle>A select-only dropdown that enforces a closed choice from a fixed, predefined list of options.</Subtitle>
 
 ```tsx
-import { Picker, Item } from '@geti/ui';
+import { Picker, PickerItem as Item } from '@geti/ui';
 ```
 
 - [React Spectrum Picker](https://react-spectrum.adobe.com/react-spectrum/Picker.html)
@@ -17,43 +17,81 @@ import { Picker, Item } from '@geti/ui';
 
 ## Responsibility
 
-`Picker` is a pure pass-through wrapper around Adobe React Spectrum's `Picker`, co-exporting `Item` from the same import. It is the correct choice when the set of valid options is known at design time and the user may not type arbitrary input — the dropdown enforces a closed selection.
+`Picker` is a pure pass-through wrapper around Adobe React Spectrum's `Picker`. It is the correct choice when the set of valid options is known at design time and the user may **not** type arbitrary input — the dropdown enforces a closed selection with no free-text fallback.
 
 Key responsibilities:
-- **Closed Selection**: Users can only choose from the options provided as `<Item>` children or via the `items` prop. There is no free-text fallback.
-- **Typed Generic**: The `<T extends object>` generic allows the item type to be inferred from `items`, giving full TypeScript type safety on `selectedKey`, `defaultSelectedKey`, and `onSelectionChange`.
-- **Full Spectrum API**: No props are removed or defaulted. Every Spectrum `Picker` prop — `label`, `placeholder`, `isRequired`, `isDisabled`, `validationState`, `width`, `items`, `disabledKeys`, `sections`, and more — is available.
-- **Static and Dynamic Options**: Supports both JSX children (`<Item key="x">Label</Item>`) and dynamic `items` prop with a render function for data-driven lists.
+
+- **Closed selection**: Users can only choose from the options provided as `<Item>` children or via the `items` prop.
+- **Typed generic**: `<T extends object>` allows the item type to be inferred from `items`, giving full TypeScript type safety on `selectedKey`, `defaultSelectedKey`, and `onSelectionChange`.
+- **Full Spectrum API**: No props are removed or defaulted. Every Spectrum `Picker` prop — `label`, `placeholder`, `isRequired`, `isDisabled`, `validationState`, `width`, `items`, `disabledKeys`, `sections` — is available.
+- **Static and dynamic options**: Supports both JSX children (`<Item key="x">Label</Item>`) and the dynamic `items` prop with a render function for data-driven lists.
 
 ### When to use
-- When the list of options is fixed and exhaustive — model types, export formats, locale settings, sort orders.
-- When the user should not be able to enter a value outside the defined set.
-- When there are more than ~4 options (use `RadioGroup` for 4 or fewer options in a form).
-- When the options list is too long to display inline but does not require search/filter — up to ~20 items is a comfortable Picker range.
+
+- The list of options is **fixed and exhaustive** — model types, export formats, locale settings, sort orders.
+- The user should **not** be able to enter a value outside the defined set.
+- There are **more than ~4 options** (use `RadioGroup` for 4 or fewer inline options).
+- The options list is up to ~20 items and does not require filtering — above that, reach for `ComboBox`.
 
 ### When to avoid
-- When users need to type a value or filter a long list — use `ComboBox` instead.
-- When the list has fewer than 3 options and all should be visible at once — use `RadioGroup`.
-- When multiple items can be selected simultaneously — Spectrum does not support multi-select in `Picker`; use a `ListBox` with `selectionMode="multiple"`.
-- When the options are user-generated or unbounded — `ComboBox` is the appropriate control.
 
-## Design
+- Users need to filter a long list — use `ComboBox` instead.
+- Fewer than 3 options that should all be visible at once — use `RadioGroup`.
+- Multiple items can be selected simultaneously — use a `ListBox` with `selectionMode="multiple"`.
+- Options are user-generated or unbounded — `ComboBox` is the appropriate control.
 
-Generic thin wrapper with a co-exported `Item`:
+## Variants and states
 
-```tsx
-export interface PickerProps<T extends object> extends SpectrumPickerProps<T> {}
+### Default (no selection)
+Renders the `placeholder` text (or an empty trigger) until the user makes a choice.
 
-export const Picker = <T extends object>(props: PickerProps<T>) => (
-  <SpectrumPicker {...props} />
-);
+### Default selected
+Pass `defaultSelectedKey` to pre-select an item in uncontrolled usage. The key must match one of the item keys in the collection.
 
-export { Item } from '@adobe/react-spectrum';
-```
+### Disabled
+`isDisabled` grays out the trigger and removes it from the tab order. Use when the value is locked or context-dependent (e.g., a field that is only editable after another choice is made).
 
-No CSS overrides, no local state. Always import `Item` from `@geti/ui` alongside `Picker` — do not import it directly from `@adobe/react-spectrum` in application code, to keep the dependency abstraction consistent.
+### Required with validation
+Combine `isRequired`, `validationState`, and `errorMessage` to surface form-level errors. The trigger border turns red and the message appears below.
 
-## Flow
+### Grouped options (Sections)
+Use `Section` from `@adobe/react-spectrum` as a child of `Picker` to add visual groupings with headings. Sections are purely presentational — keys must still be unique across all sections.
+
+## Props
+
+### Content
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `label` | `ReactNode` | — | Visible label rendered above the trigger. Omit only when providing `aria-label`. |
+| `placeholder` | `string` | — | Text shown in the trigger when no item is selected. |
+| `items` | `Iterable<T>` | — | Data source for dynamic collections. Pair with a render-function `children`. |
+| `disabledKeys` | `Iterable<Key>` | — | Keys of items that are shown but cannot be selected. |
+
+### Value
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `selectedKey` | `Key \| null` | — | The currently selected item key (controlled). |
+| `defaultSelectedKey` | `Key` | — | The initially selected key (uncontrolled). |
+| `onSelectionChange` | `(key: Key) => void` | — | Called when the user selects an item. |
+
+### Validation
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `isRequired` | `boolean` | `false` | Marks the field required; sets `aria-required`. |
+| `isDisabled` | `boolean` | `false` | Disables the entire picker. |
+| `validationState` | `'valid' \| 'invalid'` | — | Controls inline validation styling. |
+| `errorMessage` | `ReactNode` | — | Error text shown when `validationState="invalid"`. |
+
+### Layout
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `width` | `DimensionValue` | — | Width of the trigger button. |
+
+## Usage examples
 
 ```tsx
 // Static children (most common)
@@ -76,15 +114,11 @@ const [sortKey, setSortKey] = useState<Key>('date-desc');
 </Picker>
 
 // Dynamic items from data
-<Picker
-  label="Model type"
-  items={modelTypes}
-  onSelectionChange={handleModelChange}
->
+<Picker label="Model type" items={modelTypes} onSelectionChange={handleModelChange}>
   {(model) => <Item key={model.id}>{model.name}</Item>}
 </Picker>
 
-// With placeholder and validation
+// Required with validation
 <Picker
   label="Region"
   placeholder="Select a region…"
@@ -98,40 +132,31 @@ const [sortKey, setSortKey] = useState<Key>('date-desc');
 </Picker>
 ```
 
-## Integration
-
-- **Depends on**: `@adobe/react-spectrum` — `Picker`, `SpectrumPickerProps`, `Item`
-- **Always pair with**: `Item` — co-exported from `@geti/ui` to define individual options
-- **Contrast**: `ComboBox` (free-form text + filtered suggestions) vs `Picker` (strictly closed option set)
-- **Sections**: For grouped options, use `Section` from `@adobe/react-spectrum` as a child of `Picker` to add visual groupings with headings
-
-### Props
-
-| Prop | Type | Default | Description |
-|------|------|---------|-------------|
-| `label` | `string` | — | The visible label for the picker. |
-| `placeholder` | `string` | — | Placeholder text shown when no option is selected. |
-| `selectedKey` | `Key` | — | The key of the currently selected item (controlled). |
-| `defaultSelectedKey` | `Key` | — | The initially selected key (uncontrolled). |
-| `onSelectionChange` | `(key: Key) => void` | — | Called when the selection changes. |
-| `items` | `Iterable<T>` | — | Data source for dynamic item lists. Use with a render function as `children`. |
-| `disabledKeys` | `Iterable<Key>` | — | Keys of items that should be disabled. |
-| `isDisabled` | `boolean` | `false` | Disables the entire picker. |
-| `isRequired` | `boolean` | `false` | Marks the field as required in a form. |
-| `validationState` | `'valid' \| 'invalid'` | — | Controls inline validation styling. |
-| `errorMessage` | `ReactNode` | — | Error message shown when `validationState="invalid"`. |
-| `width` | `DimensionValue` | — | The width of the trigger button. |
-
 ## Accessibility
 
-- **ARIA pattern**: Spectrum implements `Picker` using the **ARIA Listbox** pattern. The trigger button has `role="button"` with `aria-haspopup="listbox"` and `aria-expanded` reflecting open state. The dropdown renders as `role="listbox"` with each option as `role="option"`.
+- **ARIA pattern**: Spectrum implements `Picker` using the ARIA Listbox pattern. The trigger has `role="button"` with `aria-haspopup="listbox"` and `aria-expanded` reflecting open state. The dropdown renders as `role="listbox"` with each option as `role="option"`.
 - **Labels**: The `label` prop renders a visible `<label>` element associated with the trigger via `for`/`id`. If `label` is omitted, provide `aria-label` on the `Picker` to maintain an accessible name.
-- **Keyboard — trigger**: **Space**, **Enter**, or **Arrow Down** opens the listbox. **Alt + Arrow Down** opens without moving selection.
-- **Keyboard — listbox**: **Arrow Up/Down** moves focus between options. **Enter** or **Space** selects the focused option and closes the listbox. **Escape** or **Tab** closes the listbox without changing selection.
-- **Type-ahead**: Pressing alphanumeric keys while the listbox is open moves focus to the first option starting with that character.
-- **Disabled options**: Items listed in `disabledKeys` have `aria-disabled="true"` and are skipped during keyboard navigation.
-- **Required and validation**: `isRequired` sets `aria-required="true"`. `validationState="invalid"` sets `aria-invalid="true"` and `errorMessage` is linked via `aria-describedby`.
+- **Keyboard — trigger**: `Space`, `Enter`, or `Arrow Down` opens the listbox. `Alt + Arrow Down` opens without moving selection.
+- **Keyboard — listbox**: `Arrow Up/Down` moves focus between options. `Enter` or `Space` selects the focused option and closes. `Escape` or `Tab` closes without changing selection.
+- **Type-ahead**: Alphanumeric keys while the listbox is open move focus to the first matching option.
+- **Disabled options**: Items in `disabledKeys` have `aria-disabled="true"` and are skipped during keyboard navigation.
+- **Validation**: `isRequired` sets `aria-required="true"`. `validationState="invalid"` sets `aria-invalid="true"` and `errorMessage` is linked via `aria-describedby`.
 
-<Primary />
+## Related components
 
-<Controls />
+- **`ComboBox`** — use instead when users need to type or filter a long or dynamic list of options.
+- **`RadioGroup`** — use instead when there are 3 or fewer options and displaying them all inline is preferred.
+- **`CheckboxGroup`** — use instead when multiple options may be selected simultaneously.
+
+## Example use cases
+
+<details>
+  <summary>Typical use cases</summary>
+
+- Selecting an export format (PNG, JPEG, TIFF, WebP) from a fixed list in a download settings dialog.
+- Choosing a project's annotation type (Detection, Segmentation, Classification) in a creation wizard.
+- Picking a display language from a fixed locale list in a user preferences panel.
+- Selecting a model architecture type from a predefined catalogue in a training configuration form.
+- Choosing a default label from a managed set of options in a task assignment form.
+
+</details>

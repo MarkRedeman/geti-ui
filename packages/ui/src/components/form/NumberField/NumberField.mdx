@@ -1,11 +1,11 @@
-import { Meta, Title, Subtitle, Controls, Stories } from '@storybook/addon-docs/blocks';
+import { Meta, Controls, Stories } from '@storybook/addon-docs/blocks';
 import * as DocStories from './NumberField.stories';
 
 <Meta of={DocStories} />
 
 # NumberField
 
-<Subtitle>A numeric input field with stepper buttons, range constraints, and locale-aware formatting for currencies, percentages, and units.</Subtitle>
+A numeric input field with stepper buttons, range constraints, and locale-aware formatting for currencies, percentages, and units.
 
 ```tsx
 import { NumberField } from '@geti/ui';
@@ -17,253 +17,45 @@ import { NumberField } from '@geti/ui';
 
 ## Responsibility
 
-The `NumberField` component provides a fully accessible numeric input. It is a transparent wrapper around Adobe React Spectrum's `NumberField`, inheriting Spectrum's built-in behaviour: stepper buttons, strict numeric validation, locale-aware formatting, range enforcement, and keyboard interactions — without requiring any additional configuration.
-
-Key responsibilities:
-- **Stepper Buttons**: Renders increment and decrement buttons alongside the input for quick, touch-friendly, and keyboard-accessible adjustments.
-- **Strict Numeric Validation**: Prevents users from entering non-numeric characters (except locale-specific decimal and grouping separators) and clamps values to `minValue`/`maxValue` on blur.
-- **Locale-aware Formatting**: Uses `Intl.NumberFormat` (via the `formatOptions` prop) to display values as currencies, percentages, or units in the user's locale. The raw number is always what `onChange` receives.
-- **Labeling**: Associates a visible `label` with the underlying `<input>` via `aria-labelledby`, eliminating the need for manual `htmlFor`/`id` wiring.
-- **Validation Feedback**: Surfaces `validationState="invalid"` with red border styling and renders an `errorMessage` below the field.
-- **Controlled and Uncontrolled**: Supports both patterns with `value`/`onChange` (controlled) and `defaultValue` (uncontrolled).
-- **Theme Integration**: Inherits all Spectrum colour, spacing, and typography tokens from `ThemeProvider`, ensuring it looks correct in the Geti dark theme without extra CSS.
+`NumberField` is a transparent wrapper around Adobe React Spectrum's `NumberField`. It provides stepper buttons, strict numeric validation (non-numeric characters are rejected), automatic value clamping to `minValue`/`maxValue` on blur, and locale-aware display formatting via `Intl.NumberFormat`. The raw `number` is always what `onChange` delivers — formatting is display-only.
 
 ### When to use
 - For any input that must be a number: quantities, thresholds, confidence values, budgets, or counts.
-- When you need to enforce a minimum and/or maximum value (use `minValue` and `maxValue`).
-- When the value should be displayed with locale-aware formatting — currency symbols, percent signs, or unit suffixes — while the raw number is used internally.
-- When stepper buttons improve discoverability and usability (e.g., adjusting a threshold by small increments).
-- Inside forms where labeling, validation messaging, and keyboard navigation need to work correctly out of the box.
+- When you need to enforce a min/max range.
+- When stepper buttons improve discoverability (e.g., adjusting a threshold by small increments).
+- When locale-aware formatting (currency, percent, units) is required.
 
 ### When to avoid
-- **General text entry** — use `TextField`. `NumberField` rejects all non-numeric input.
-- **Continuous range selection** — use `Slider` when the user benefits from a visual track and dragging gesture rather than typing a value.
-- **Integer-only lists** — if the user is selecting from a discrete set of options (e.g., "1, 2, 5, 10"), consider `Picker` or `ComboBox` for clearer affordance.
+- **General text entry** — use `TextField`.
+- **Continuous range selection** — use `Slider` when a visual track is more intuitive.
 - **Search inputs** — use `SearchField`.
-- **When no label is feasible** — `NumberField` requires either a `label` prop or an explicit `aria-label`. Do not render a `NumberField` with neither.
+- **When no label is feasible** — always provide `label` or `aria-label`.
 
----
-
-## Design
-
-`NumberField` follows the *transparent wrapper* pattern: it extends `SpectrumNumberFieldProps` without modification and delegates all rendering directly to Spectrum.
-
-```tsx
-// packages/ui/src/components/form/NumberField/NumberField.tsx
-
-export interface NumberFieldProps extends SpectrumNumberFieldProps {}
-
-export const NumberField = (props: NumberFieldProps) => <SpectrumNumberField {...props} />;
-```
-
-This means `NumberField` accepts the complete Spectrum `NumberField` API. The wrapper exists as an integration boundary: future Geti-specific defaults, additional props, or migration to `react-aria-components` can be introduced here without changing the consumer import path.
-
-**Prop mapping**
-
-All props pass through to Spectrum unchanged:
-
-| Geti `NumberFieldProps` | Spectrum `SpectrumNumberFieldProps` | Notes |
-|-------------------------|-------------------------------------|-------|
-| `label` | `label` | Associates with `<input>` via `aria-labelledby` |
-| `value` / `defaultValue` | `value` / `defaultValue` | Controlled / uncontrolled — type is `number` |
-| `minValue` | `minValue` | Lower bound; clamped on blur |
-| `maxValue` | `maxValue` | Upper bound; clamped on blur |
-| `step` | `step` | Stepper increment/decrement interval (default `1`) |
-| `formatOptions` | `formatOptions` | `Intl.NumberFormatOptions` for display formatting |
-| `hideStepper` | `hideStepper` | Removes increment/decrement buttons |
-| `validationState` | `validationState` | `'invalid'` triggers error styles and `aria-invalid` |
-| `errorMessage` | `errorMessage` | Rendered below the field when `validationState="invalid"` |
-| `description` | `description` | Always-visible helper text below the field |
-| `isRequired` | `isRequired` | Adds a visual indicator and `aria-required` |
-| `...rest` | all other props | Passed through without transformation |
-
-**Theme integration**
-
-`NumberField` inherits Spectrum's input tokens (border colour, focus ring, stepper button styling, error red) from `ThemeProvider`. In Geti's dark theme, these tokens are overridden in `src/theme/tokens.css` — no per-component CSS is required.
-
----
-
-## Variants
-
-### Value constraints
-
-Use `minValue` and `maxValue` to define the allowed range. The value is **clamped** to the range on blur — if the user types a value outside the bounds, it will snap to the nearest boundary when focus leaves the field.
-
-```tsx
-<NumberField label="Confidence threshold" minValue={0} maxValue={100} step={5} defaultValue={50} />
-```
-
-Use `step` to control the increment/decrement interval for the stepper buttons and `ArrowUp`/`ArrowDown` keyboard interaction. Defaults to `1`.
-
-### Formatting
-
-The `formatOptions` prop accepts an `Intl.NumberFormatOptions` object and controls how the displayed value is formatted. The underlying `number` value is always what `onChange` receives — formatting is display-only.
-
-```tsx
-// Currency
-<NumberField
-    label="Price"
-    formatOptions={{ style: 'currency', currency: 'USD' }}
-    defaultValue={9.99}
-/>
-
-// Percentage (input value is 0–1, displayed as 0%–100%)
-<NumberField
-    label="Discount"
-    formatOptions={{ style: 'percent' }}
-    minValue={0}
-    maxValue={1}
-    step={0.01}
-    defaultValue={0.1}
-/>
-
-// Fixed decimal places
-<NumberField
-    label="Weight (kg)"
-    formatOptions={{ minimumFractionDigits: 2, maximumFractionDigits: 2 }}
-    defaultValue={1.5}
-/>
-```
-
-### Hiding the stepper
-
-Set `hideStepper` to remove the increment/decrement buttons while retaining all numeric validation and formatting logic. Useful in dense layouts where the buttons are redundant or distracting.
-
-```tsx
-<NumberField label="Quantity" hideStepper />
-```
-
-### Visual styles
+## States
 
 | State | Prop | Description |
 |-------|------|-------------|
-| Default | — | Standard interactive field with stepper buttons. |
-| Invalid | `validationState="invalid"` | Red border, error icon. Renders `errorMessage` below the field. |
-| Valid | `validationState="valid"` | Green border, checkmark icon. Use sparingly. |
+| Default | — | Interactive field with stepper buttons. |
+| Invalid | `validationState="invalid"` | Red border, error icon, `errorMessage` below the field. |
+| Valid | `validationState="valid"` | Green border, checkmark. Use sparingly. |
 | Disabled | `isDisabled={true}` | Non-focusable, visually dimmed. |
-| Read-only | `isReadOnly={true}` | Focusable and copy-able, but not editable. Stepper buttons are hidden. |
-| Required | `isRequired={true}` | Adds a visual asterisk and `aria-required="true"`. |
-| Quiet | `isQuiet={true}` | Underline-only border style for dense layouts. |
-
----
-
-## Flow
-
-### Controlled vs uncontrolled
-
-```tsx
-// Uncontrolled — NumberField manages its own value
-<NumberField label="Quantity" defaultValue={1} minValue={1} maxValue={99} />
-
-// Controlled — you own the value state
-const [qty, setQty] = useState(1);
-<NumberField label="Quantity" value={qty} onChange={setQty} minValue={1} maxValue={99} />
-```
-
-Note that `value` and `onChange` work with **`number`** (not `string`). When the field is empty, `onChange` is called with `NaN`.
-
-Use the **controlled** pattern when:
-- The value must be synchronised with external state (e.g., a form library, a URL parameter, or a sibling component like a `Slider`).
-- You need to programmatically reset or clamp the value beyond `minValue`/`maxValue`.
-
-Use the **uncontrolled** pattern when:
-- The value is only needed at form submission.
-- You want simpler code and the field is self-contained.
-
-### Stepper button interactions
-
-The increment and decrement buttons fire `onChange` with the new clamped value. They respect `step`, `minValue`, and `maxValue`. When the value is already at the boundary, the corresponding button is automatically disabled.
-
-### Validation flow
-
-```
-User types / uses stepper → onChange(number) → your state updates
-    │
-    ▼
-Validate (on blur, on submit, or on change)
-    │
-    ├── valid   → validationState="valid"   (optional)
-    └── invalid → validationState="invalid" + errorMessage="..."
-                      │
-                      ▼
-                  Spectrum renders red border + error text
-                  aria-invalid="true" set on <input>
-                  errorMessage announced by screen reader
-```
-
-```tsx
-const [threshold, setThreshold] = useState<number>(50);
-const isInvalid = threshold < 10 || threshold > 90;
-
-<NumberField
-    label="Detection threshold"
-    value={threshold}
-    onChange={setThreshold}
-    minValue={0}
-    maxValue={100}
-    step={1}
-    validationState={isInvalid ? 'invalid' : undefined}
-    errorMessage="Threshold must be between 10 and 90."
-    description="Values outside this range may produce unreliable results."
-/>
-```
-
-**Key points:**
-- `onChange` receives a **`number`**, not a string — no parsing required.
-- When the field is empty, `onChange` receives `NaN`. Guard against this in your state if needed.
-- `minValue`/`maxValue` clamp the value automatically on blur — `onChange` will fire with the clamped value.
-- `validationState` controls the visual and ARIA state independently of the built-in range enforcement.
-
-### Form integration
-
-`NumberField` integrates naturally with React form libraries using the controlled pattern:
-
-```tsx
-// React Hook Form example
-const { register, watch, setValue, formState: { errors } } = useForm<{ count: number }>();
-
-<NumberField
-    label="Item count"
-    value={watch('count')}
-    onChange={(val) => setValue('count', val)}
-    minValue={1}
-    validationState={errors.count ? 'invalid' : undefined}
-    errorMessage={errors.count?.message}
-/>
-```
-
-When using Spectrum's built-in `Form` component, `NumberField` participates in its layout grid automatically:
-
-```tsx
-<Form>
-    <TextField label="Name" isRequired />
-    <NumberField
-        label="Quantity"
-        isRequired
-        minValue={1}
-        maxValue={1000}
-        validationState={qtyError ? 'invalid' : undefined}
-        errorMessage={qtyError}
-    />
-    <Button type="submit" variant="cta">Submit</Button>
-</Form>
-```
-
----
+| Read-only | `isReadOnly={true}` | Focusable and copy-able; stepper buttons hidden. |
+| Required | `isRequired={true}` | Visual asterisk and `aria-required="true"`. |
+| Quiet | `isQuiet={true}` | Underline-only border for dense layouts. |
 
 ## Props
 
-<Controls />
+<Controls of={DocStories.Default} />
 
 ### Content
 
 | Prop | Type | Description |
 |------|------|-------------|
-| `label` | `ReactNode` | The label displayed above (or beside) the field. Required for accessibility unless `aria-label` is provided. |
-| `placeholder` | `string` | Placeholder text shown when the field is empty. Supplement labels — do not use as a label substitute. |
-| `description` | `ReactNode` | Persistent helper text displayed below the field. |
-| `errorMessage` | `ReactNode` | Error message displayed below the field when `validationState="invalid"`. |
-| `contextualHelp` | `ReactNode` | A `<ContextualHelp>` element rendered next to the label for supplementary guidance. |
+| `label` | `ReactNode` | The label above or beside the field. Required for accessibility unless `aria-label` is provided. |
+| `placeholder` | `string` | Placeholder text when the field is empty. Supplement labels — do not use as a substitute. |
+| `description` | `ReactNode` | Persistent helper text below the field. |
+| `errorMessage` | `ReactNode` | Error message shown when `validationState="invalid"`. |
+| `contextualHelp` | `ReactNode` | A `<ContextualHelp>` element next to the label. |
 
 ### Value / State
 
@@ -275,65 +67,39 @@ When using Spectrum's built-in `Form` component, `NumberField` participates in i
 | `maxValue` | `number` | — | The maximum allowed value. Clamped on blur. |
 | `step` | `number` | `1` | The increment/decrement amount for stepper buttons and arrow keys. |
 | `formatOptions` | `Intl.NumberFormatOptions` | — | Locale-aware display formatting (currency, percent, units, decimal places). |
-| `validationState` | `'valid' \| 'invalid'` | — | Whether the input is in a valid or invalid state. Drives border colour and ARIA attributes. |
-| `isRequired` | `boolean` | `false` | Whether user input is required. Adds a visual asterisk and `aria-required`. |
-| `isReadOnly` | `boolean` | `false` | Whether the value can be read but not edited. Hides stepper buttons. |
-| `isDisabled` | `boolean` | `false` | Whether the field is non-interactive and visually dimmed. |
-| `hideStepper` | `boolean` | `false` | Whether to hide the increment/decrement stepper buttons. |
+| `hideStepper` | `boolean` | `false` | Hides the increment/decrement stepper buttons. |
+| `validationState` | `'valid' \| 'invalid'` | — | Visual and ARIA validation state. |
+| `isRequired` | `boolean` | `false` | Adds a visual asterisk and `aria-required`. |
+| `isReadOnly` | `boolean` | `false` | Value visible but not editable. Hides stepper buttons. |
+| `isDisabled` | `boolean` | `false` | Non-interactive and visually dimmed. |
+| `isQuiet` | `boolean` | `false` | Underline-only border style. |
 
 ### Events
 
 | Prop | Type | Description |
 |------|------|-------------|
-| `onChange` | `(value: number) => void` | Called when the value changes. Receives the raw `number` — not a string. `NaN` when the field is empty. |
-| `onFocus` | `(e: FocusEvent) => void` | Called when the field receives focus. |
-| `onBlur` | `(e: FocusEvent) => void` | Called when the field loses focus. The value is clamped to `minValue`/`maxValue` at this point. |
+| `onChange` | `(value: number) => void` | Called when the value changes. Receives a `number` — not a string. `NaN` when empty. |
+| `onBlur` | `(e: FocusEvent) => void` | Called when the field loses focus. Value is clamped to `minValue`/`maxValue` at this point. |
 
 ### Layout
 
 | Prop | Type | Description |
 |------|------|-------------|
-| `labelPosition` | `'top' \| 'side'` | The position of the label relative to the input. |
-| `labelAlign` | `'start' \| 'end'` | The horizontal alignment of the label when `labelPosition="side"`. |
-| `width` | `DimensionValue` | The width of the entire component (label + input). |
-| `isQuiet` | `boolean` | Whether to render the quiet (underline-only) style. |
+| `labelPosition` | `'top' \| 'side'` | Label position relative to the input. |
+| `width` | `DimensionValue` | The width of the entire component. |
 
----
+## Related components
+- `Slider` — use instead when a visual range track is more intuitive than typing a value.
+- `RangeSlider` — use instead when both a minimum and maximum numeric value must be selected.
+- `TextField` — use instead for general text input.
 
-## Accessibility
+## Example use cases
+<details>
+  <summary>Typical use cases</summary>
 
-- **ARIA role**: The underlying `<input>` renders with `role="spinbutton"`, which communicates numeric input with increment/decrement actions to assistive technologies. Spectrum sets `aria-labelledby` to link the rendered `<label>` to the `<input>` automatically — no manual `id`/`htmlFor` pairing is needed.
-- **Stepper buttons**: The increment and decrement buttons are automatically labeled for screen readers ("Increment" / "Decrement") and are hidden from the accessibility tree when `hideStepper` is true or the field is read-only.
-- **Range announcement**: `aria-valuemin`, `aria-valuemax`, and `aria-valuenow` are set on the spinbutton to communicate the current value and its bounds to screen readers.
-- **Validation state**: When `validationState="invalid"`, Spectrum sets `aria-invalid="true"` on the `<input>`. The `errorMessage` is linked via `aria-describedby` and announced by screen readers when focus enters the field or the state changes.
-- **Required fields**: `isRequired` sets `aria-required="true"` and renders a visible asterisk (`*`) next to the label. Do not rely solely on the asterisk — also describe the requirement in the `description` text when possible.
-- **Description**: The `description` prop is rendered in an element linked to the `<input>` via `aria-describedby`. This provides persistent context (e.g., allowed range, unit) for screen reader users beyond the label.
-- **Keyboard interactions**:
+- Setting the maximum number of annotations per image in a dataset configuration form.
+- Specifying a learning rate or batch size in a model training hyperparameter panel.
+- Entering a pixel dimension (width/height) for an image resize operation.
+- Configuring a timeout duration in seconds in an API integration settings form.
 
-| Key | Behaviour |
-|-----|-----------|
-| `Tab` | Move focus to the field |
-| `Shift + Tab` | Move focus away from the field |
-| `ArrowUp` | Increment value by `step` |
-| `ArrowDown` | Decrement value by `step` |
-| `PageUp` | Increment by a larger amount (10× `step` or first `step` beyond `minValue`) |
-| `PageDown` | Decrement by a larger amount (10× `step` or first `step` below `maxValue`) |
-| `Home` | Set value to `minValue` (if defined) |
-| `End` | Set value to `maxValue` (if defined) |
-
-- **Labeling requirements**: Every `NumberField` must have an accessible name. Provide one of:
-  - `label` prop — preferred, renders a visible label
-  - `aria-label` prop — for visually hidden labels (e.g., inside a table cell)
-  - `aria-labelledby` — to reference an external element
-
----
-
-## Integration
-
-- **Dependency**: `@adobe/react-spectrum` — `NumberField` and `SpectrumNumberFieldProps` are imported from this package.
-- **ThemeProvider**: Must be present in the React tree for Spectrum tokens (border, focus ring, error colour, stepper button styles, typography) to resolve correctly.
-- **Forms**: `NumberField` works well with React form libraries such as React Hook Form and Formik. Use the controlled pattern (`value` + `onChange`) and drive `validationState` and `errorMessage` from the library's field state.
-- **Validation libraries**: Zod's `z.number().min().max()` and similar constraints return error messages as strings. Pass them directly to `errorMessage` when `validationState="invalid"`.
-- **Slider**: For continuous range selection with a visual track, prefer `Slider`. Use `NumberField` when the user needs to type a precise value or when the range is large and dragging is impractical.
-- **TextField**: For general text input, use `TextField`. Never use `type="number"` on `TextField` — use `NumberField` instead, which provides a superior numeric UX with stepper buttons and proper `role="spinbutton"` semantics.
-- **SearchField / TextArea**: These are purpose-built variants for search and multi-line text respectively. Prefer them over `NumberField` when the semantic meaning of the input is search or prose.
+</details>

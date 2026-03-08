@@ -1,11 +1,11 @@
-import { Meta, Title, Subtitle, Description, Primary, Controls, Stories } from '@storybook/addon-docs/blocks';
+import { Meta, Stories } from '@storybook/addon-docs/blocks';
 import * as DocStories from './Accordion.stories';
 
 <Meta of={DocStories} />
 
 # Accordion
 
-<Subtitle>An Accordion organizes a collection of related sections into a vertically stacked list of collapsible items.</Subtitle>
+An Accordion organizes a collection of related sections into a vertically stacked list of collapsible items.
 
 ```tsx
 import { Accordion, Disclosure, DisclosureTitle, DisclosurePanel } from '@geti/ui';
@@ -64,77 +64,6 @@ Accordion (state machine, key set)
   └─ Disclosure key="advanced"
        ├─ DisclosureTitle
        └─ DisclosurePanel
-```
-
-## Flow
-
-```
-User clicks a DisclosureTitle inside Accordion
-         │
-         ▼
-   Accordion's selection handler fires
-         │
-         ├─── Single mode (default):
-         │       New key selected → previous key deselected
-         │       expandedKeys = { clickedKey }
-         │
-         └─── Multiple mode (allowsMultipleExpanded):
-                 Clicked key toggled in the set
-                 expandedKeys = previous set ± clickedKey
-         │
-         ▼
-   Controlled: onExpandedChange(newKeys) fires → parent updates expandedKeys
-   Uncontrolled: Accordion updates internal key set
-         │
-         ▼
-   Each Disclosure reads its own key from accordion context
-   → isExpanded = expandedKeys.has(myKey)
-   → DisclosurePanel animates open or closed
-```
-
-**Uncontrolled (default)**
-
-Accordion owns the expanded key set internally. Use `defaultExpandedKeys` to pre-open specific sections.
-
-```tsx
-<Accordion defaultExpandedKeys={['general']}>
-    <Disclosure key="general">
-        <DisclosureTitle>General</DisclosureTitle>
-        <DisclosurePanel>...</DisclosurePanel>
-    </Disclosure>
-    <Disclosure key="advanced">
-        <DisclosureTitle>Advanced</DisclosureTitle>
-        <DisclosurePanel>...</DisclosurePanel>
-    </Disclosure>
-</Accordion>
-```
-
-**Controlled**
-
-The parent owns `expandedKeys`. Use this when expansion state must be persisted, synchronised with a URL, or driven from external triggers (e.g., a "Expand All" button).
-
-```tsx
-const [openKeys, setOpenKeys] = useState<Selection>(new Set(['general']));
-
-<>
-    <Button onPress={() => setOpenKeys(new Set(['general', 'advanced', 'notifications']))}>
-        Expand All
-    </Button>
-    <Accordion expandedKeys={openKeys} onExpandedChange={setOpenKeys}>
-        <Disclosure key="general">
-            <DisclosureTitle>General</DisclosureTitle>
-            <DisclosurePanel>...</DisclosurePanel>
-        </Disclosure>
-        <Disclosure key="advanced">
-            <DisclosureTitle>Advanced</DisclosureTitle>
-            <DisclosurePanel>...</DisclosurePanel>
-        </Disclosure>
-        <Disclosure key="notifications">
-            <DisclosureTitle>Notifications</DisclosureTitle>
-            <DisclosurePanel>...</DisclosurePanel>
-        </Disclosure>
-    </Accordion>
-</>
 ```
 
 ## Variants
@@ -328,3 +257,23 @@ import { Accordion, Disclosure, DisclosureTitle, DisclosurePanel } from '@geti/u
     <Disclosure><DisclosureTitle>Settings</DisclosureTitle>...</Disclosure>
 </Accordion>
 ```
+
+## Related components
+
+- **`Disclosure`** — the single-section building block; use standalone `Disclosure` when only one collapsible section is needed, and `Accordion` when two or more sections are logically grouped.
+- **`Flex`** / **`Grid`** — use inside each `DisclosurePanel` to lay out the panel's content with consistent spacing.
+- **`Well`** — place a `Well` inside a `DisclosurePanel` for supplementary read-only content within an accordion section.
+- **`Card`** — use an `Accordion` inside a `Card` when a card item itself needs expandable sub-sections.
+
+## Example use cases
+
+<details>
+  <summary>Typical use cases</summary>
+
+- **Settings panel**: Group model configuration options into "General", "Training Parameters", and "Export Options" sections — single-select ensures users review one group at a time.
+- **FAQ list**: Map a list of questions to `Disclosure` children with `allowsMultipleExpanded` so users can read several answers simultaneously.
+- **Sidebar filters**: A quiet `Accordion` in a filter sidebar lets users expand only the filter categories they need (label class, date range, status).
+- **Step-by-step guide**: Pre-open the first section with `defaultExpandedKeys` and let users work through each section sequentially.
+- **Controlled expand-all**: Drive `expandedKeys` from a parent "Expand All / Collapse All" toggle button to show or hide all sections at once.
+
+</details>

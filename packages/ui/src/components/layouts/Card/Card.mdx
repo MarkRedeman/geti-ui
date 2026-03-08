@@ -1,11 +1,11 @@
-import { Meta, Title, Subtitle, Description, Primary, Controls, Stories } from '@storybook/addon-docs/blocks';
+import { Meta, Stories } from '@storybook/addon-docs/blocks';
 import * as DocStories from './Card.stories';
 
 <Meta of={DocStories} />
 
 # Card
 
-<Subtitle>A Card is a flexible content container used to group related information and actions into a single, cohesive unit.</Subtitle>
+A Card is a flexible content container used to group related information and actions into a single, cohesive unit.
 
 ```tsx
 import { Card } from '@geti/ui';
@@ -95,44 +95,6 @@ export const Card = ({
 **Why `View` for the outer shell?** Spectrum's `View` resolves semantic colour aliases (`'focus'`, `'informative'`, `'mid'`, `'default'`) against the active theme's CSS custom properties. This means `borderColor="focus"` renders the correct focus-ring colour in dark mode without any hardcoded hex values.
 
 **Why a native `<button>` inside `View`?** Spectrum does not ship a full-surface card button primitive. Using a native `<button>` with `style={{ all: 'unset' }}` gives us full browser keyboard and pointer semantics (click, Enter, Space, disabled) without fighting Spectrum's own focus-ring or padding system. The `View` shell retains all the visual border/background token resolution.
-
-## Flow
-
-```
-<Card onPress={handleSelect} isSelected={isSelected}>
-         │
-         ▼
-   isInteractive = typeof onPress === 'function'  →  true
-         │
-         ├─── Outer: <View borderColor="focus|mid" backgroundColor="informative|default">
-         │              (token values resolved by Spectrum against active theme CSS vars)
-         │
-         └─── Inner: <button aria-pressed={isSelected} disabled={isDisabled}>
-                        │
-                        ▼
-                     onClick fires onPress (unless isDisabled)
-                        │
-                        ▼
-                     Parent updates isSelected  →  re-render  →  View tokens update
-```
-
-**Static path** (no `onPress`):
-
-```
-<Card isSelected={false}>
-         │
-         ▼
-   isInteractive = false
-         │
-         └─── <View borderColor="mid" backgroundColor="default">
-                └─── <article aria-label={ariaLabel}>
-                         {children}
-                     </article>
-```
-
-- **`onPress` is the branch switch**: The component checks `typeof onPress === 'function'` once per render. No state is involved in the branching decision.
-- **`isSelected` is always externally controlled**: `Card` holds no internal selection state. The parent owns the source of truth (typically a `Set<id>` or a single `selectedId` state variable).
-- **`isDisabled` only applies in interactive mode**: In static mode, disabling a card has no built-in effect. Pass `isDisabled` only when `onPress` is also provided.
 
 ## Variants
 
@@ -289,3 +251,23 @@ import { Grid } from '@geti/ui';
     <Button onPress={handleDelete}>Delete</Button> {/* ❌ button inside button */}
 </Card>
 ```
+
+## Related components
+
+- **`Grid`** — the standard layout container for card galleries; use `Grid columns="repeat(auto-fill, minmax(260px, 1fr))"` to create a responsive `Card` grid.
+- **`Flex`** — use inside a `Card` to compose the card's internal layout (thumbnail, text, action row).
+- **`Well`** — use instead of `Card` when content should recede visually and does not need a prominent bordered surface.
+- **`ActionButton`** — place inside a static `Card` (no `onPress`) when only specific elements within the card need to be interactive.
+
+## Example use cases
+
+<details>
+  <summary>Typical use cases</summary>
+
+- **Project gallery**: Render one `Card` per project with a thumbnail, title, and task-count summary; drive `isSelected` from a selected-id state to highlight the active project.
+- **Model selection list**: Display a set of trained models as selectable cards; selecting a card sets it as the inference target.
+- **Dataset browser**: Show dataset preview image, name, and annotation count; use a static card with inner `ActionButton` elements for "Open" and "Delete" actions.
+- **Task pipeline step**: Represent each pipeline stage as a card in a `Grid`; mark completed stages with `isSelected`.
+- **Annotation class picker**: Lay out label classes as a grid of interactive cards, allowing the user to click one to activate it.
+
+</details>

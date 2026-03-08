@@ -1,11 +1,11 @@
-import { Meta, Title, Subtitle, Description, Primary, Controls, Stories } from '@storybook/addon-docs/blocks';
+import { Meta, Stories } from '@storybook/addon-docs/blocks';
 import * as DocStories from './TreeView.stories';
 
 <Meta of={DocStories} />
 
-<Title>TreeView</Title>
+# TreeView
 
-<Subtitle>A hierarchical, expandable/collapsible tree for navigating nested data structures.</Subtitle>
+A hierarchical, expandable/collapsible tree for navigating nested data structures.
 
 ```tsx
 import { TreeView, Item } from '@geti/ui';
@@ -69,4 +69,24 @@ Supports `none` (default), `single`, and `multiple` selection modes.
 
 ### Labelling Requirement
 An `aria-label` or `aria-labelledby` is **mandatory** on the `<TreeView>` root, as it is a landmark that provides context for the entire collection.
+
+## Related components
+
+- **`ListView`** — use instead for flat item collections where hierarchy is absent or not meaningful to users.
+- **`Menu`** — use when nested items represent commands or navigation options rather than navigable data records.
+- **`Tabs`** — use when sibling sections share equal prominence and don't need parent-child expand/collapse semantics.
+- **`ListBox`** — use for simple flat selection lists without nesting or expand/collapse behaviour.
+
+## Example use cases
+
+<details>
+  <summary>Typical use cases</summary>
+
+- A label taxonomy browser showing top-level categories (Vehicle, Animal) with nested sub-classes (Car, Truck; Dog, Cat).
+- A project file explorer displaying workspace → project → dataset → image folder hierarchy.
+- A nested annotation class selector where users expand category groups to choose specific annotation types.
+- An organizational chart or team hierarchy view where users can expand departments to see individual members.
+- A configuration tree showing pipeline stages, each expandable to reveal individual step parameters.
+
+</details>
 

@@ -1,4 +1,4 @@
-import { Meta, Title, Subtitle, Description, Primary, Controls, Stories } from '@storybook/addon-docs/blocks';
+import { Meta, Subtitle, Stories } from '@storybook/addon-docs/blocks';
 import * as DocStories from './ColorSlider.stories';
 
 <Meta of={DocStories} />
@@ -49,7 +49,15 @@ export const ColorSlider = (props: ColorSliderProps) => (
 
 The `channel` prop is required. Spectrum's renderer draws a gradient that interpolates that channel from minimum to maximum at the current values of all other channels — giving users immediate visual feedback on the impact of each position.
 
-## Flow
+## Integration
+
+- **Depends on**: `@adobe/react-spectrum` — `ColorSlider`, `SpectrumColorSliderProps`
+- **Peer import**: `parseColor`, `Color` from `@adobe/react-spectrum` for typed state
+- **Composed into**: `ColorPickerDialog` — uses two `ColorSlider` instances: `channel="hue"` and `channel="alpha"`, both wired to the shared `Color` draft state
+- **Used alongside**: `ColorArea` (2D saturation/brightness) and `ColorWheel` (circular hue)
+- **Does not own**: color state — always controlled externally
+
+### Usage examples
 
 ```tsx
 // Controlled — single hue slider
@@ -78,14 +86,6 @@ const [color, setColor] = useState<Color>(parseColor('hsl(0, 100%, 50%)'));
 </Flex>
 ```
 
-## Integration
-
-- **Depends on**: `@adobe/react-spectrum` — `ColorSlider`, `SpectrumColorSliderProps`
-- **Peer import**: `parseColor`, `Color` from `@adobe/react-spectrum` for typed state
-- **Composed into**: `ColorPickerDialog` — uses two `ColorSlider` instances: `channel="hue"` and `channel="alpha"`, both wired to the shared `Color` draft state
-- **Used alongside**: `ColorArea` (2D saturation/brightness) and `ColorWheel` (circular hue)
-- **Does not own**: color state — always controlled externally
-
 ### Props
 
 | Prop | Type | Default | Description |
@@ -107,6 +107,18 @@ const [color, setColor] = useState<Color>(parseColor('hsl(0, 100%, 50%)'));
 - **Orientation**: When `orientation="vertical"`, Up/Down arrows increase/decrease value respectively, matching standard slider conventions.
 - **Labels**: If `label={null}` is used (e.g., inside `ColorPickerDialog`), always ensure the slider is identifiable from its surrounding context or supply `aria-label` directly on the `channel` channel to avoid an unlabelled control.
 
-<Primary />
+## Related components
+- `ColorArea` — use alongside `ColorSlider` to give users 2D spatial saturation/brightness control while the slider handles alpha or hue.
+- `ColorWheel` — use instead of `ColorSlider` for hue selection when a circular, intuitive rotation gesture is preferred.
+- `ColorPickerDialog` — use instead for a complete, assembled color picker that includes `ColorSlider` pre-composed.
 
-<Controls />
+## Example use cases
+<details>
+  <summary>Typical use cases</summary>
+
+- Adjusting the alpha (opacity) of an annotation fill color in a shape styling panel.
+- Controlling the hue of a label color when a linear hue gradient is preferred over a wheel.
+- Setting the red, green, or blue channel value individually in an RGB color editor.
+- Providing fine-grained brightness control in a custom color picker for canvas overlays.
+
+</details>

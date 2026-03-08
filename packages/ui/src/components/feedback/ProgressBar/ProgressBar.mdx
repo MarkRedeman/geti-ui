@@ -1,11 +1,11 @@
-import { Meta, Title, Subtitle, Controls, Stories, Source } from '@storybook/addon-docs/blocks';
+import { Meta, Stories } from '@storybook/addon-docs/blocks';
 import * as DocStories from './ProgressBar.stories';
 
 <Meta of={DocStories} />
 
 # ProgressBar
 
-<Subtitle>A horizontal bar that communicates the progress of an ongoing operation, supporting both determinate and indeterminate states.</Subtitle>
+A horizontal bar that communicates the progress of an ongoing operation, supporting both determinate and indeterminate states.
 
 ```tsx
 import { ProgressBar } from '@geti/ui';
@@ -53,7 +53,7 @@ export const ProgressBar = (props: ProgressBarProps) => <SpectrumProgressBar {..
 
 No state, no effects, no refs. Spectrum manages fill width, animation, and label layout internally.
 
-## Flow
+## Integration
 
 ```tsx
 // Determinate — known progress
@@ -85,8 +85,6 @@ No state, no effects, no refs. Spectrum manages fill width, animation, and label
 />
 ```
 
-## Integration
-
 | Concern | Detail |
 |---------|--------|
 | **Package** | `@adobe/react-spectrum` — `ProgressBar` |
@@ -115,3 +113,21 @@ All `SpectrumProgressBarProps` are accepted as-is. The primary props are:
 - **`aria-valuetext`**: When `valueLabel` is set (e.g. `"3 of 10 files"`), Spectrum uses it as `aria-valuetext`, giving screen reader users a domain-specific reading rather than a raw percentage.
 - **Live regions**: Spectrum does not automatically announce progress changes. For operations with discrete milestones, consider pairing with an `aria-live` region that announces key transitions (e.g. `"Upload complete"`).
 - **No keyboard interaction**: `ProgressBar` is a read-only display element. It is not focusable and does not respond to keyboard or pointer events.
+
+## Related components
+- **`Meter`** — use for a static quantity level at a point in time (e.g. storage usage, annotation coverage) rather than an in-progress operation.
+- **`ProgressCircle`** — use when a compact circular indicator is sufficient and a horizontal bar would be too wide for the available space.
+- **`Loading`** — use for full-area or overlay loading states where no percentage context is needed.
+- **`Skeleton`** — use when layout preservation matters during initial data load and the content shape is known.
+
+## Example use cases
+<details>
+  <summary>Typical use cases</summary>
+
+- Tracking a multi-file upload — `<ProgressBar label="Uploading" value={3} maxValue={10} valueLabel="3 of 10 files" />`.
+- Showing model training epoch progress — `<ProgressBar label="Training epoch 4 of 20" value={20} />`.
+- Indicating an indeterminate server-side processing step — `<ProgressBar label="Processing annotations…" isIndeterminate />`.
+- Displaying export completion percentage in a modal footer during a large dataset export job.
+- Showing batch auto-labelling progress in a job status row within a project dashboard.
+
+</details>

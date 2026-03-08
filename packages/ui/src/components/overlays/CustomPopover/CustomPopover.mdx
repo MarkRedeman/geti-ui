@@ -1,11 +1,11 @@
-import { Meta, Title, Subtitle, Description, Primary, Controls, Stories } from '@storybook/addon-docs/blocks';
+import { Meta, Stories } from '@storybook/addon-docs/blocks';
 import * as DocStories from './CustomPopover.stories';
 
 <Meta of={DocStories} />
 
 # CustomPopover
 
-<Subtitle>A lower-level, layout-accurate popover built on `react-aria-components` — use when Spectrum's Popover doesn't offer sufficient positioning control or when a directional arrow is required.</Subtitle>
+A lower-level, layout-accurate popover built on `react-aria-components` — use when Spectrum's Popover doesn't offer sufficient positioning control or when a directional arrow is required.
 
 ```tsx
 import { CustomPopover } from '@geti/ui';
@@ -108,27 +108,6 @@ Built entirely on RAC primitives: `Popover`, `DialogTrigger`, `OverlayArrow`, an
 
 Callers are responsible for **all visual styling** of the popover surface — background, border, shadow, padding, and typography. `CustomPopover` does not inject any background or border CSS, unlike Spectrum's `Popover`.
 
-## Flow
-
-```
-// Uncontrolled (triggerElement provided):
-props { triggerElement, children, showArrow, width, placement, ...rest }
-  → <AriaDialogTrigger>
-      {triggerElement}
-      <AriaPopover style={{ width, minWidth: width, ...style }} {...rest}>
-        {showArrow && <OverlayArrow><svg .../></OverlayArrow>}
-        <AriaDialog>{children}</AriaDialog>
-      </AriaPopover>
-    </AriaDialogTrigger>
-
-// Controlled (no triggerElement):
-props { isOpen, onOpenChange, children, showArrow, width, placement, ...rest }
-  → <AriaPopover isOpen={isOpen} onOpenChange={onOpenChange} style={...} {...rest}>
-      {showArrow && <OverlayArrow><svg .../></OverlayArrow>}
-      <AriaDialog>{children}</AriaDialog>
-    </AriaPopover>
-```
-
 ## Integration
 
 - Depends on `react-aria-components` (`Popover`, `DialogTrigger`, `OverlayArrow`, `Dialog`). It does **not** use `@adobe/react-spectrum`.
@@ -168,6 +147,22 @@ All other `react-aria-components` `PopoverProps` (e.g., `offset`, `crossOffset`,
 
 ---
 
-<Primary />
+## Related components
 
-<Controls />
+- **`Popover`** — prefer for standard button-triggered popovers where Spectrum theming is acceptable; use `CustomPopover` only when you need extra DOM control or a directional arrow.
+- **`Dialog`** / **`DialogContainer`** — use when the overlay requires a title, structured layout, and full modal semantics rather than a lightweight floating panel.
+- **`ContextualHelp`** — use for the standard "info / help icon opens a brief explanation" pattern; `CustomPopover` is better suited to canvas or programmatic scenarios.
+- **`Tooltip`** — use for non-interactive single-line labels; `CustomPopover` is the right choice when the floating panel needs interactive content.
+
+## Example use cases
+
+<details>
+  <summary>Typical use cases</summary>
+
+- **Annotation canvas context menu**: A canvas click event opens a `CustomPopover` in controlled mode at precise viewport coordinates with annotation edit options.
+- **Inline color picker**: A swatch trigger opens a `CustomPopover` with `showArrow` to ensure the picker floats visually connected to the swatch.
+- **Keyboard-shortcut panel**: A global shortcut opens a controlled `CustomPopover` (no button trigger) anchored to a specific element via `triggerRef`.
+- **Fixed-width detail card**: Use `width={320}` to present a structured data summary card next to a table row with consistent sizing regardless of content length.
+- **Programmatic label editor**: A canvas label click opens a controlled popover with a text input for renaming; `onOpenChange` handles dismiss-on-outside-click automatically.
+
+</details>

@@ -1,11 +1,11 @@
-import { Meta, Title, Subtitle, Description, Primary, Controls, Stories } from '@storybook/addon-docs/blocks';
+import { Meta, Stories } from '@storybook/addon-docs/blocks';
 import * as DocStories from './IntelBrandedLoading.stories';
 
 <Meta of={DocStories} />
 
 # IntelBrandedLoading
 
-<Subtitle>A deprecated convenience wrapper that centres the Intel-branded loading animation in a full-height container — use `Loading` directly in new code.</Subtitle>
+A deprecated convenience wrapper that centres the Intel-branded loading animation in a full-height container — use `Loading` directly in new code.
 
 ```tsx
 // New code — preferred
@@ -59,17 +59,6 @@ The `height` prop is passed to both the `Flex` container and the inner `Loading`
 </div>
 ```
 
-## Flow
-
-```
-props { height = '100vh' }
-  → <Flex justifyContent="center" alignItems="center" height={height} direction="column">
-      → <Loading variant="intel" mode="inline" size="L" style={{ height }} />
-    </Flex>
-```
-
-No state, no effects, no refs.
-
 ## Integration
 
 - Delegates all rendering to `Loading` in the sibling `Loading/` folder.
@@ -88,8 +77,16 @@ No state, no effects, no refs.
 - The outer `Flex` container is a generic `<div>` and carries no ARIA role.
 - See the [Loading accessibility section](/docs/feedback-loading--docs) for complete guidance on announcing loading states to screen readers.
 
----
+## Related components
+- **`Loading`** — the replacement for `IntelBrandedLoading`; use `<Loading variant="intel" mode="inline" size="L" />` in all new code.
+- **`ProgressCircle`** — the underlying spinner primitive used by `Loading`'s default (`spinner`) variant for compact inline or overlay states.
+- **`Skeleton`** — use for layout-preserving content placeholders during data fetching rather than a full-area branded animation.
 
-<Primary />
+## Example use cases
+<details>
+  <summary>Typical use cases</summary>
 
-<Controls />
+- **Legacy support only**: Maintaining an existing splash screen that already renders `<IntelBrandedLoading />` without time to migrate.
+- **Migration reference**: Using the component as a before/after reference when updating legacy code to `<Loading variant="intel" mode="inline" size="L" />`.
+
+</details>

@@ -1,11 +1,11 @@
-import { Meta, Title, Subtitle, Controls, Stories } from '@storybook/addon-docs/blocks';
+import { Meta, Stories } from '@storybook/addon-docs/blocks';
 import * as DocStories from './Breadcrumbs.stories';
 
 <Meta of={DocStories} />
 
 # Breadcrumbs
 
-<Subtitle>Breadcrumbs display a hierarchical navigation path, helping users understand their current location and navigate back up the structure.</Subtitle>
+Breadcrumbs display a hierarchical navigation path, helping users understand their current location and navigate back up the structure.
 
 ```tsx
 import { Breadcrumbs, Item } from '@geti/ui';
@@ -114,130 +114,6 @@ Set `showRoot={true}` to keep the first item pinned in the visible portion of th
 
 ---
 
-## Flow
-
-`Breadcrumbs` fires `onAction(key)` when a breadcrumb item is pressed. The component itself does **not** perform navigation — routing is entirely the consumer's responsibility.
-
-```
-User clicks a breadcrumb item
-        │
-        ▼
-  onAction(key)        ◄── fired by Breadcrumbs
-        │
-        ▼
-  Consumer handler     ◄── your routing logic
-        │
-        ▼
-  Router.push(path)    ◄── React Router / Next.js / etc.
-        │
-        ▼
-  New page renders
-```
-
-**Basic navigation example**
-
-```tsx
-import { useNavigate } from 'react-router-dom';
-import { Breadcrumbs, Item } from '@geti/ui';
-
-const pathMap: Record<string, string> = {
-    home:     '/',
-    projects: '/projects',
-    dataset:  '/projects/my-project/dataset',
-};
-
-export const PageBreadcrumbs = () => {
-    const navigate = useNavigate();
-
-    return (
-        <Breadcrumbs onAction={(key) => navigate(pathMap[key as string])}>
-            <Item key="home">Home</Item>
-            <Item key="projects">Projects</Item>
-            <Item key="dataset">My Dataset</Item>
-        </Breadcrumbs>
-    );
-};
-```
-
-### Router integration
-
-Modern routers (React Router v6, Next.js App Router) expose a programmatic navigation function. Wire it to `onAction` and maintain a lookup from breadcrumb key to route path. Avoid using `href` on `Item` when you also provide `onAction` — Spectrum will follow the `href` before your handler fires, causing a full page reload in SPA setups.
-
-**React Router v6**
-
-```tsx
-import { useNavigate } from 'react-router-dom';
-import { Breadcrumbs, Item } from '@geti/ui';
-import type { Key } from '@adobe/react-spectrum';
-
-interface Crumb {
-    key: string;
-    label: string;
-    path: string;
-}
-
-interface AppBreadcrumbsProps {
-    crumbs: Crumb[];
-}
-
-export const AppBreadcrumbs = ({ crumbs }: AppBreadcrumbsProps) => {
-    const navigate = useNavigate();
-
-    const handleAction = (key: Key) => {
-        const crumb = crumbs.find((c) => c.key === key);
-        // Last item has no path — it represents the current page and is non-interactive.
-        if (crumb?.path) {
-            navigate(crumb.path);
-        }
-    };
-
-    return (
-        <nav aria-label="Breadcrumb">
-            <Breadcrumbs onAction={handleAction}>
-                {crumbs.map((crumb) => (
-                    <Item key={crumb.key}>{crumb.label}</Item>
-                ))}
-            </Breadcrumbs>
-        </nav>
-    );
-};
-```
-
-**Next.js App Router**
-
-```tsx
-'use client';
-
-import { useRouter } from 'next/navigation';
-import { Breadcrumbs, Item } from '@geti/ui';
-import type { Key } from '@adobe/react-spectrum';
-
-const crumbs = [
-    { key: 'home',    label: 'Home',    path: '/' },
-    { key: 'models',  label: 'Models',  path: '/models' },
-    { key: 'current', label: 'ResNet50' },  // no path — current page
-];
-
-export const ModelBreadcrumbs = () => {
-    const router = useRouter();
-
-    return (
-        <nav aria-label="Breadcrumb">
-            <Breadcrumbs onAction={(key: Key) => {
-                const crumb = crumbs.find((c) => c.key === key);
-                if (crumb?.path) router.push(crumb.path);
-            }}>
-                {crumbs.map((crumb) => (
-                    <Item key={crumb.key}>{crumb.label}</Item>
-                ))}
-            </Breadcrumbs>
-        </nav>
-    );
-};
-```
-
----
-
 ## Props
 
 | Prop | Type | Default | Description |
@@ -316,6 +192,85 @@ When items are collapsed into the overflow menu, keyboard users navigate to the 
 - **Dependencies**: `@adobe/react-spectrum` — `Breadcrumbs` (as `SpectrumBreadcrumbs`) and `SpectrumBreadcrumbsProps` are imported from this package. `Item` is re-exported from `@adobe/react-spectrum` via the co-located `Item.tsx`.
 - **ThemeProvider**: Must be present in the React tree. Link colour, separator colour, typography, and spacing all derive from Spectrum design tokens resolved by `ThemeProvider`.
 
+### Router integration
+
+`Breadcrumbs` fires `onAction(key)` when a breadcrumb item is pressed. The component itself does **not** perform navigation — routing is entirely the consumer's responsibility.
+
+Modern routers (React Router v6, Next.js App Router) expose a programmatic navigation function. Wire it to `onAction` and maintain a lookup from breadcrumb key to route path. Avoid using `href` on `Item` when you also provide `onAction` — Spectrum will follow the `href` before your handler fires, causing a full page reload in SPA setups.
+
+**React Router v6**
+
+```tsx
+import { useNavigate } from 'react-router-dom';
+import { Breadcrumbs, Item } from '@geti/ui';
+import type { Key } from '@adobe/react-spectrum';
+
+interface Crumb {
+    key: string;
+    label: string;
+    path: string;
+}
+
+interface AppBreadcrumbsProps {
+    crumbs: Crumb[];
+}
+
+export const AppBreadcrumbs = ({ crumbs }: AppBreadcrumbsProps) => {
+    const navigate = useNavigate();
+
+    const handleAction = (key: Key) => {
+        const crumb = crumbs.find((c) => c.key === key);
+        // Last item has no path — it represents the current page and is non-interactive.
+        if (crumb?.path) {
+            navigate(crumb.path);
+        }
+    };
+
+    return (
+        <nav aria-label="Breadcrumb">
+            <Breadcrumbs onAction={handleAction}>
+                {crumbs.map((crumb) => (
+                    <Item key={crumb.key}>{crumb.label}</Item>
+                ))}
+            </Breadcrumbs>
+        </nav>
+    );
+};
+```
+
+**Next.js App Router**
+
+```tsx
+'use client';
+
+import { useRouter } from 'next/navigation';
+import { Breadcrumbs, Item } from '@geti/ui';
+import type { Key } from '@adobe/react-spectrum';
+
+const crumbs = [
+    { key: 'home',    label: 'Home',    path: '/' },
+    { key: 'models',  label: 'Models',  path: '/models' },
+    { key: 'current', label: 'ResNet50' },  // no path — current page
+];
+
+export const ModelBreadcrumbs = () => {
+    const router = useRouter();
+
+    return (
+        <nav aria-label="Breadcrumb">
+            <Breadcrumbs onAction={(key: Key) => {
+                const crumb = crumbs.find((c) => c.key === key);
+                if (crumb?.path) router.push(crumb.path);
+            }}>
+                {crumbs.map((crumb) => (
+                    <Item key={crumb.key}>{crumb.label}</Item>
+                ))}
+            </Breadcrumbs>
+        </nav>
+    );
+};
+```
+
 **Pairing with a page header**
 
 Breadcrumbs are most commonly placed directly above the page title, giving users both positional context and the page heading in a single glance.
@@ -371,4 +326,23 @@ export const DatasetToolbar = () => (
         </Flex>
     </Flex>
 );
+```
+
+## Related components
+- **`Link`** — use for standalone inline text navigation links; `Breadcrumbs` is purpose-built for structured multi-level navigation trails.
+- **`Tabs`** — use when switching between sibling sections at the same level; `Breadcrumbs` is for navigating up through parent levels in a hierarchy.
+- **`Menu`** — use when navigation targets should be grouped behind a single trigger; `Breadcrumbs` keeps all visible levels in the primary view.
+- **`ActionButton`** — use alongside `Breadcrumbs` in a flex row for "Back" navigation patterns when only a single ancestor level needs to be accessible.
+
+## Example use cases
+<details>
+  <summary>Typical use cases</summary>
+
+- Showing the navigation trail on a dataset detail page — Workspace → Project → Dataset → current dataset name.
+- Providing a quick route back to the workspace root from deeply nested model or annotation views.
+- Displaying breadcrumbs in the page header above the page title to give users both positional context and the current page heading in one glance.
+- Building a `DatasetToolbar` with `Breadcrumbs` on the left and action buttons (Filter, Export) on the right, aligned with `Flex justifyContent="space-between"`.
+- Implementing an application-wide breadcrumb bar that reads the current URL segments and maps them to labels via `useNavigate` and `onAction`.
+
+</details>
 ```

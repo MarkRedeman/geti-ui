@@ -1,4 +1,4 @@
-import { Meta, Title, Subtitle, Description, Primary, Controls, Stories } from '@storybook/addon-docs/blocks';
+import { Meta, Subtitle, Stories } from '@storybook/addon-docs/blocks';
 import * as DocStories from './ColorThumb.stories';
 
 <Meta of={DocStories} />
@@ -60,7 +60,14 @@ export const ColorThumb = ({
 
 `ColorThumb.module.css` owns the `background-color: var(--color-thumb-bg)` declaration. This keeps the dynamic color value out of inline styles while remaining fully compatible with TypeScript's `CSSProperties` type via the `CSSPropertiesWithVars` alias (`CSSProperties & Record<\`--${string}\`, string>`).
 
-## Flow
+## Integration
+
+- **Depends on**: library's own `View` (`../../../ui/View/View`), `clsx`, `ColorThumb.module.css`
+- **Does not depend on**: `@adobe/react-spectrum` directly — `View` is the only dependency, and `View` wraps Spectrum's `View`
+- **Used by**: `ColorPickerDialog` uses the related `ColorSwatch` (a Spectrum component) for its trigger; `ColorThumb` is available for all other inline color indicator use cases
+- **Not interactive**: `ColorThumb` renders no button, no press handler, and no focusable element. If you need a clickable swatch, wrap it in a `PressableElement` or use `ColorSwatch` within `ColorSwatchPicker`.
+
+### Usage examples
 
 ```tsx
 // Inside a trigger button — show current color at a glance
@@ -83,13 +90,6 @@ export const ColorThumb = ({
 <ColorThumb color="#4a90e2" size={40} />
 ```
 
-## Integration
-
-- **Depends on**: library's own `View` (`../../../ui/View/View`), `clsx`, `ColorThumb.module.css`
-- **Does not depend on**: `@adobe/react-spectrum` directly — `View` is the only dependency, and `View` wraps Spectrum's `View`
-- **Used by**: `ColorPickerDialog` uses the related `ColorSwatch` (a Spectrum component) for its trigger; `ColorThumb` is available for all other inline color indicator use cases
-- **Not interactive**: `ColorThumb` renders no button, no press handler, and no focusable element. If you need a clickable swatch, wrap it in a `PressableElement` or use `ColorSwatch` within `ColorSwatchPicker`.
-
 ### Props
 
 | Prop | Type | Default | Description |
@@ -108,6 +108,17 @@ All `ViewProps` layout and spacing props (`margin`, `flex`, `alignSelf`, `positi
 - **Screen reader treatment**: Because it carries no accessible label, screen readers will typically skip it. If the thumb is meaningful in isolation (e.g., inside a button), add `aria-label` to the **parent button**, not to the thumb itself.
 - **Do not focus**: `ColorThumb` is not in the tab order. Never add a `tabIndex` or `onPress` handler directly to it.
 
-<Primary />
+## Related components
+- `ColorSwatch` — use instead when the color display needs a standardized size, shape, and optional interactivity in a `ColorSwatchPicker`.
+- `ColorPickerDialog` — use `ColorThumb` as the visual swatch inside the trigger `ActionButton` of a color picker.
+- `ActionButton` — the typical parent element; wrap an `ActionButton` around `ColorThumb` to create a compact color picker trigger.
 
-<Controls />
+## Example use cases
+<details>
+  <summary>Typical use cases</summary>
+
+- Displaying the currently selected annotation label color inside a trigger button that opens `ColorPickerDialog`.
+- Showing the active stroke or fill color in a compact canvas toolbar button.
+- Rendering a color preview chip alongside a hex value label in a color list or settings panel row.
+
+</details>

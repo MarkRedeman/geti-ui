@@ -1,4 +1,4 @@
-import { Meta, Title, Subtitle, Description, Primary, Controls, Stories } from '@storybook/addon-docs/blocks';
+import { Meta, Subtitle, Stories } from '@storybook/addon-docs/blocks';
 import * as DocStories from './ColorWheel.stories';
 
 <Meta of={DocStories} />
@@ -48,31 +48,6 @@ export const ColorWheel = (props: ColorWheelProps) => (
 
 Spectrum renders the wheel as an SVG-backed circular gradient with a draggable thumb positioned at the current hue angle. The thumb's position is calculated as `(hue / 360) * 2π` radians from the top of the circle.
 
-## Flow
-
-```tsx
-// Controlled — wheel drives shared color state
-const [color, setColor] = useState<Color>(parseColor('hsl(0, 100%, 50%)'));
-
-<ColorWheel
-  value={color}
-  onChange={(c) => c && setColor(c)}
-/>
-// → user rotates thumb to 120° → onChange: Color { hue: 120, saturation: 100%, lightness: 50% }
-
-// Custom size
-<ColorWheel
-  defaultValue="hsl(240, 100%, 50%)"
-  size={300}
-/>
-
-// Disabled preview
-<ColorWheel
-  value={parseColor('hsl(60, 100%, 50%)')}
-  isDisabled
-/>
-```
-
 ## Integration
 
 - **Depends on**: `@adobe/react-spectrum` — `ColorWheel`, `SpectrumColorWheelProps`
@@ -99,6 +74,18 @@ const [color, setColor] = useState<Color>(parseColor('hsl(0, 100%, 50%)'));
 - **Focus indicator**: The thumb receives a visible focus ring when navigated by keyboard. Do not suppress this ring with CSS overrides.
 - **Disabled state**: `isDisabled` adds `aria-disabled="true"` and removes the thumb from the tab order.
 
-<Primary />
+## Related components
+- `ColorArea` — compose alongside `ColorWheel` so the wheel selects hue while the area selects saturation/brightness.
+- `ColorSlider` — use instead for hue when a linear horizontal gradient is preferred over a circular wheel.
+- `ColorPickerDialog` — use instead for a complete, assembled color picker that includes `ColorWheel` pre-composed.
 
-<Controls />
+## Example use cases
+<details>
+  <summary>Typical use cases</summary>
+
+- Selecting the hue for an annotation label color in a label management dialog.
+- Providing intuitive circular hue navigation in a custom color picker for canvas shape styling.
+- Combining with a `ColorArea` to build a compact HSB color picker embedded in a floating panel.
+- Offering a self-contained hue ring in a color theme editor for branding configuration.
+
+</details>

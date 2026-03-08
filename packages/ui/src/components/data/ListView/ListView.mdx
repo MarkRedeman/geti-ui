@@ -1,11 +1,11 @@
-import { Meta, Title, Subtitle, Controls, Stories } from '@storybook/addon-docs/blocks';
+import { Meta, Stories } from '@storybook/addon-docs/blocks';
 import * as DocStories from './ListView.stories';
 
 <Meta of={DocStories} />
 
 # ListView
 
-<Subtitle>An interactive collection of items with support for selection, actions, and drag-and-drop reordering.</Subtitle>
+An interactive collection of items with support for selection, actions, and drag-and-drop reordering.
 
 ```tsx
 import { ListView, Item } from '@geti/ui';
@@ -124,167 +124,6 @@ The `loadingState` prop communicates async status to both the UI and assistive t
 
 ---
 
-## Flow
-
-Understanding the two distinct interaction channels — **selection** and **action** — is key to working with `ListView` correctly.
-
-```
-User Click / Keyboard
-        │
-        ├─── Selects row ──────► selectionChange(keys)  ─► Parent updates selectedKeys state
-        │                                                        │
-        │                                                        ▼
-        │                                               ListView re-renders
-        │                                            (checked rows, batch toolbar)
-        │
-        └─── Activates row ────► onAction(key)  ──────── Parent navigates / opens item
-```
-
-### Selection vs. Action
-
-`selectionMode` and `onAction` serve different purposes and can be used together or independently:
-
-| Intent | Mechanism | Typical use |
-|--------|-----------|-------------|
-| Mark items for a batch operation | `selectionMode` + `onSelectionChange` | "Select 3 files → Delete" |
-| Open / navigate to a single item | `onAction` | "Click row → open detail panel" |
-| Both at the same time | `selectionMode` + `onAction` | "Checkbox to select, click row to open" |
-
-```tsx
-import { useState } from 'react';
-import type { Key, Selection } from '@adobe/react-spectrum';
-import { ListView, Item } from '@geti/ui';
-
-const files = [
-    { id: 'f1', name: 'dataset-v1.zip' },
-    { id: 'f2', name: 'dataset-v2.zip' },
-    { id: 'f3', name: 'annotations.json' },
-];
-
-export function FileManager() {
-    const [selectedKeys, setSelectedKeys] = useState<Selection>(new Set());
-
-    const handleAction = (key: Key) => {
-        // Fired when a row is "activated" (Enter key or single-click in action mode).
-        // Independent of selection — this navigates, not selects.
-        console.log('Open file:', key);
-    };
-
-    return (
-        <ListView<typeof files[number]>
-            items={files}
-            aria-label="Project files"
-            selectionMode="multiple"
-            selectedKeys={selectedKeys}
-            onSelectionChange={setSelectedKeys}
-            onAction={handleAction}
-            width="size-6000"
-        >
-            {(file) => <Item key={file.id}>{file.name}</Item>}
-        </ListView>
-    );
-}
-```
-
-> **Tip:** When `selectionMode="multiple"`, clicking a row selects it. `onAction` is triggered by pressing `Enter` (or double-clicking, depending on the `selectionBehavior` prop). Set `selectionBehavior="replace"` to make single-click activate rows and use checkboxes for selection.
-
-### Controlled vs. Uncontrolled selection
-
-```tsx
-// Uncontrolled — ListView manages selected keys internally
-<ListView aria-label="Files" selectionMode="multiple" defaultSelectedKeys={['f1']}>
-    <Item key="f1">dataset-v1.zip</Item>
-    <Item key="f2">dataset-v2.zip</Item>
-</ListView>
-
-// Controlled — you own the state
-const [selected, setSelected] = useState<Selection>(new Set(['f1']));
-
-<ListView
-    aria-label="Files"
-    selectionMode="multiple"
-    selectedKeys={selected}
-    onSelectionChange={setSelected}
->
-    <Item key="f1">dataset-v1.zip</Item>
-    <Item key="f2">dataset-v2.zip</Item>
-</ListView>
-```
-
-Use `defaultSelectedKeys` (uncontrolled) when no sibling component needs to react to the selection. Use `selectedKeys` + `onSelectionChange` (controlled) when:
-- A toolbar or action bar needs to read the current selection to enable/disable batch actions.
-- The selection is derived from or persisted in application state (e.g., a Redux store).
-- You need to constrain or validate which items can be selected.
-
-### Drag and Drop
-
-`ListView` supports drag-and-drop reordering via the `dragAndDropHooks` prop. The hooks are provided by the `useDragAndDrop` utility from `@adobe/react-spectrum`, which accepts handlers for the full drag lifecycle.
-
-```tsx
-import { useDragAndDrop } from '@adobe/react-spectrum';
-import type { Key } from '@adobe/react-spectrum';
-import { useState } from 'react';
-import { ListView, Item } from '@geti/ui';
-
-interface FileItem {
-    id: string;
-    name: string;
-}
-
-export function ReorderableList() {
-    const [items, setItems] = useState<FileItem[]>([
-        { id: 'f1', name: 'dataset-v1.zip' },
-        { id: 'f2', name: 'dataset-v2.zip' },
-        { id: 'f3', name: 'annotations.json' },
-        { id: 'f4', name: 'model-weights.pt' },
-    ]);
-
-    const { dragAndDropHooks } = useDragAndDrop({
-        // Allow items to be moved within the same list
-        getItems: (keys) =>
-            [...keys].map((key) => ({
-                'text/plain': items.find((item) => item.id === key)?.name ?? String(key),
-            })),
-
-        onReorder(event) {
-            const { keys, target } = event;
-            const movedIds = [...keys] as string[];
-            const targetId = target.key as string;
-            const targetPos = target.dropPosition; // 'before' | 'after'
-
-            setItems((prev) => {
-                const moved = prev.filter((item) => movedIds.includes(item.id));
-                const remaining = prev.filter((item) => !movedIds.includes(item.id));
-                const insertIndex = remaining.findIndex((item) => item.id === targetId);
-                const offset = targetPos === 'before' ? 0 : 1;
-                const next = [...remaining];
-                next.splice(insertIndex + offset, 0, ...moved);
-                return next;
-            });
-        },
-    });
-
-    return (
-        <ListView<FileItem>
-            items={items}
-            aria-label="Reorderable file list"
-            dragAndDropHooks={dragAndDropHooks}
-            selectionMode="multiple"
-            width="size-6000"
-        >
-            {(item) => <Item key={item.id}>{item.name}</Item>}
-        </ListView>
-    );
-}
-```
-
-> **Key points:**
-> - `getItems` serialises the dragged rows into a transfer format (here `text/plain`). Use a structured MIME type (e.g., `application/vnd.geti.file`) for cross-list transfers.
-> - `onReorder` fires only when items are dropped back into the **same** list. Use `onInsert` for drops from an external source.
-> - Pass `selectionMode="multiple"` alongside `dragAndDropHooks` to allow dragging multiple selected rows at once.
-
----
-
 ## Props
 
 | Prop | Type | Default | Description |
@@ -363,6 +202,148 @@ Always provide `aria-label` (or `aria-labelledby`) on `ListView`. Without it, th
 
 - **Dependencies**: `@adobe/react-spectrum` — `ListView`, `Item`, `SpectrumListViewProps`, and `useDragAndDrop` are all sourced from this package. `Item` is re-exported from `@geti/ui` as a convenience so consumers only need one import.
 - **ThemeProvider**: Must be present in the React tree. Row height, selection colour, focus ring, and drag indicator all derive from Spectrum tokens resolved by `ThemeProvider`.
+
+### Selection vs. Action
+
+`selectionMode` and `onAction` serve different purposes and can be used together or independently:
+
+| Intent | Mechanism | Typical use |
+|--------|-----------|-------------|
+| Mark items for a batch operation | `selectionMode` + `onSelectionChange` | "Select 3 files → Delete" |
+| Open / navigate to a single item | `onAction` | "Click row → open detail panel" |
+| Both at the same time | `selectionMode` + `onAction` | "Checkbox to select, click row to open" |
+
+```tsx
+import { useState } from 'react';
+import type { Key, Selection } from '@adobe/react-spectrum';
+import { ListView, Item } from '@geti/ui';
+
+const files = [
+    { id: 'f1', name: 'dataset-v1.zip' },
+    { id: 'f2', name: 'dataset-v2.zip' },
+    { id: 'f3', name: 'annotations.json' },
+];
+
+export function FileManager() {
+    const [selectedKeys, setSelectedKeys] = useState<Selection>(new Set());
+
+    const handleAction = (key: Key) => {
+        // Fired when a row is "activated" (Enter key or single-click in action mode).
+        // Independent of selection — this navigates, not selects.
+        console.log('Open file:', key);
+    };
+
+    return (
+        <ListView<typeof files[number]>
+            items={files}
+            aria-label="Project files"
+            selectionMode="multiple"
+            selectedKeys={selectedKeys}
+            onSelectionChange={setSelectedKeys}
+            onAction={handleAction}
+            width="size-6000"
+        >
+            {(file) => <Item key={file.id}>{file.name}</Item>}
+        </ListView>
+    );
+}
+```
+
+> **Tip:** When `selectionMode="multiple"`, clicking a row selects it. `onAction` is triggered by pressing `Enter` (or double-clicking, depending on the `selectionBehavior` prop). Set `selectionBehavior="replace"` to make single-click activate rows and use checkboxes for selection.
+
+### Controlled vs. uncontrolled selection
+
+```tsx
+// Uncontrolled — ListView manages selected keys internally
+<ListView aria-label="Files" selectionMode="multiple" defaultSelectedKeys={['f1']}>
+    <Item key="f1">dataset-v1.zip</Item>
+    <Item key="f2">dataset-v2.zip</Item>
+</ListView>
+
+// Controlled — you own the state
+const [selected, setSelected] = useState<Selection>(new Set(['f1']));
+
+<ListView
+    aria-label="Files"
+    selectionMode="multiple"
+    selectedKeys={selected}
+    onSelectionChange={setSelected}
+>
+    <Item key="f1">dataset-v1.zip</Item>
+    <Item key="f2">dataset-v2.zip</Item>
+</ListView>
+```
+
+Use `defaultSelectedKeys` (uncontrolled) when no sibling component needs to react to the selection. Use `selectedKeys` + `onSelectionChange` (controlled) when:
+- A toolbar or action bar needs to read the current selection to enable/disable batch actions.
+- The selection is derived from or persisted in application state (e.g., a Redux store).
+- You need to constrain or validate which items can be selected.
+
+### Drag and Drop
+
+`ListView` supports drag-and-drop reordering via the `dragAndDropHooks` prop. The hooks are provided by the `useDragAndDrop` utility from `@adobe/react-spectrum`, which accepts handlers for the full drag lifecycle.
+
+```tsx
+import { useDragAndDrop } from '@adobe/react-spectrum';
+import type { Key } from '@adobe/react-spectrum';
+import { useState } from 'react';
+import { ListView, Item } from '@geti/ui';
+
+interface FileItem {
+    id: string;
+    name: string;
+}
+
+export function ReorderableList() {
+    const [items, setItems] = useState<FileItem[]>([
+        { id: 'f1', name: 'dataset-v1.zip' },
+        { id: 'f2', name: 'dataset-v2.zip' },
+        { id: 'f3', name: 'annotations.json' },
+        { id: 'f4', name: 'model-weights.pt' },
+    ]);
+
+    const { dragAndDropHooks } = useDragAndDrop({
+        getItems: (keys) =>
+            [...keys].map((key) => ({
+                'text/plain': items.find((item) => item.id === key)?.name ?? String(key),
+            })),
+
+        onReorder(event) {
+            const { keys, target } = event;
+            const movedIds = [...keys] as string[];
+            const targetId = target.key as string;
+            const targetPos = target.dropPosition; // 'before' | 'after'
+
+            setItems((prev) => {
+                const moved = prev.filter((item) => movedIds.includes(item.id));
+                const remaining = prev.filter((item) => !movedIds.includes(item.id));
+                const insertIndex = remaining.findIndex((item) => item.id === targetId);
+                const offset = targetPos === 'before' ? 0 : 1;
+                const next = [...remaining];
+                next.splice(insertIndex + offset, 0, ...moved);
+                return next;
+            });
+        },
+    });
+
+    return (
+        <ListView<FileItem>
+            items={items}
+            aria-label="Reorderable file list"
+            dragAndDropHooks={dragAndDropHooks}
+            selectionMode="multiple"
+            width="size-6000"
+        >
+            {(item) => <Item key={item.id}>{item.name}</Item>}
+        </ListView>
+    );
+}
+```
+
+> **Key points:**
+> - `getItems` serialises the dragged rows into a transfer format (here `text/plain`). Use a structured MIME type (e.g., `application/vnd.geti.file`) for cross-list transfers.
+> - `onReorder` fires only when items are dropped back into the **same** list. Use `onInsert` for drops from an external source.
+> - Pass `selectionMode="multiple"` alongside `dragAndDropHooks` to allow dragging multiple selected rows at once.
 
 ### Pairing with a search/filter bar
 
@@ -445,3 +426,23 @@ export function ListWithToolbar() {
     );
 }
 ```
+
+## Related components
+
+- **`TableView`** — use instead when data is multi-column and users need to sort, compare, or resize columns; `TableView` virtualises structured tabular data.
+- **`CardView`** — use when visual thumbnails are the primary affordance and a 2D grid layout is preferred over a linear list.
+- **`ListBox`** — use for simple option selection inside a form or dropdown where no nested interactive elements, row actions, or drag-and-drop are needed.
+- **`ActionBar`** — pair with `ListView` inside `ActionBarContainer` to present bulk-action buttons when rows are selected.
+
+## Example use cases
+
+<details>
+  <summary>Typical use cases</summary>
+
+- A model list where each row shows a model name, framework, and creation date, with a click to open the model detail panel.
+- A dataset browser with multi-select checkboxes and a "Delete selected" / "Export" toolbar that activates when rows are selected.
+- An annotation queue where reviewers see item thumbnails and labels, and can drag to reorder priority.
+- A file manager for uploaded training data showing name, size, and upload status with infinite-scroll pagination.
+- A notification inbox where each row shows message, sender, and timestamp, with `onAction` opening the detail view.
+
+</details>

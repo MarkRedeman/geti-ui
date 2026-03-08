@@ -1,11 +1,11 @@
-import { Meta, Title, Subtitle, Description, Primary, Controls, Stories } from '@storybook/addon-docs/blocks';
+import { Meta, Stories } from '@storybook/addon-docs/blocks';
 import * as DocStories from './Loading.stories';
 
 <Meta of={DocStories} />
 
 # Loading
 
-<Subtitle>The canonical, multi-mode loading indicator for Geti — combines a Spectrum progress spinner and the Intel-branded animation into a single, placement-aware component.</Subtitle>
+The canonical, multi-mode loading indicator for Geti — combines a Spectrum progress spinner and the Intel-branded animation into a single, placement-aware component.
 
 ```tsx
 import { Loading } from '@geti/ui';
@@ -76,20 +76,6 @@ Two orthogonal axes — `mode` and `variant` — are resolved independently at r
 <Loading variant="intel" mode="inline" size="L" />
 ```
 
-## Flow
-
-```
-props { mode = 'fullscreen', variant = 'spinner', size = 'L', style, className, ...rest }
-  → baseStyle = INLINE_STYLE | OVERLAY_STYLE | FULLSCREEN_STYLE
-  → <div style={{ ...baseStyle, ...style }} className={className}>
-      → if variant === 'intel':
-          px = INTEL_SIZE_MAP[size]  // 24 | 48 | 192
-          <img src={IntelLoadingWebp} role="progressbar" alt="Loading" width={px} height={px} />
-      → if variant === 'spinner':
-          <ProgressCircle aria-label="Loading..." isIndeterminate size={size} {...rest} />
-    </div>
-```
-
 ## Integration
 
 - **`VirtualizedListLayout`** uses `Loading` as the default `renderLoading` sentinel when `isLoading` is true.
@@ -118,8 +104,20 @@ All other props from `SpectrumProgressCircleProps` are forwarded to `ProgressCir
 - **Focus trapping**: `Loading` does not trap focus. For modal loading states where user interaction must be blocked, wrap the content in a `Dialog` or use the application-level state management to prevent tab navigation.
 - **Keyboard**: The loading indicator itself is not interactive and receives no focus.
 
----
+## Related components
+- **`Skeleton`** — use when the content shape is known and layout preservation reduces perceived load time; `Skeleton` complements `Loading` for structured placeholder UIs.
+- **`ProgressBar`** — use when the loading operation has a measurable completion percentage that should be communicated to the user.
+- **`ProgressCircle`** — use as the raw spinner primitive in tight layout slots (e.g. inside a button, table cell) without `Loading`'s positioning wrapper.
+- **`IntelBrandedLoading`** — deprecated; use `<Loading variant="intel" mode="inline" size="L" />` for the Intel-branded animation in new code.
 
-<Primary />
+## Example use cases
+<details>
+  <summary>Typical use cases</summary>
 
-<Controls />
+- Blocking a project settings panel while configuration data is being fetched — `<Loading mode="overlay" style={{ backgroundColor: 'rgba(0,0,0,0.4)' }} />`.
+- Displaying a fullscreen spinner during the initial application bootstrap sequence — `<Loading mode="fullscreen" />`.
+- Showing a small inline spinner next to a "Save" button label while the save request is in flight — `<Loading mode="inline" size="S" />`.
+- Rendering the Intel-branded animation on a prominent splash screen — `<Loading variant="intel" mode="inline" size="L" />`.
+- Overlaying a loading indicator on a `VirtualizedListLayout` canvas while annotation data is paged in.
+
+</details>

@@ -1,11 +1,11 @@
-import { Meta, Title, Subtitle, Description, Primary, Controls, Stories } from '@storybook/addon-docs/blocks';
+import { Meta, Stories } from '@storybook/addon-docs/blocks';
 import * as DocStories from './Popover.stories';
 
 <Meta of={DocStories} />
 
 # Popover
 
-<Subtitle>Popovers are small, anchored overlays that appear relative to a trigger element and do not block the rest of the UI.</Subtitle>
+Popovers are small, anchored overlays that appear relative to a trigger element and do not block the rest of the UI.
 
 ```tsx
 import { Popover } from '@geti/ui';
@@ -59,4 +59,24 @@ For cases requiring even more control over the overlay structure (e.g., adding a
 - **Keyboard Support**: `Esc` closes the popover. Focus is automatically managed within the popover content.
 - **Aria Roles**: The trigger and overlay are linked via `aria-haspopup` and `aria-controls`.
 - **Dismissal**: Clicking outside the popover follows the "light dismiss" pattern, which is standard for non-modal overlays.
+
+## Related components
+
+- **`Tooltip`** — use for brief, non-interactive single-line labels; switch to `Popover` when the content is interactive or requires more than one line.
+- **`Dialog`** — use when the content demands the user's full attention and interaction with the rest of the UI should be blocked.
+- **`CustomPopover`** — use when pixel-accurate placement, a directional arrow, or external trigger control is required beyond what the Spectrum-based `Popover` provides.
+- **`ContextualHelp`** — use for the specific "question mark / info icon opens a help popover" pattern; `ContextualHelp` composes this entirely for you.
+
+## Example use cases
+
+<details>
+  <summary>Typical use cases</summary>
+
+- **Column filter panel**: A toolbar filter button opens a popover containing checkboxes or a date-range picker, keeping the main table visible while the user configures filters.
+- **Inline quick-edit**: Clicking a field value opens a small popover form (text input + Save/Cancel) for editing without navigating away from the list view.
+- **Color or label picker**: A swatch or tag opens a popover grid of selectable options positioned near the trigger.
+- **Context details panel**: Hovering or clicking an annotation label opens a popover showing confidence score, class name, and edit actions.
+- **Overflow menu**: A "more actions" (`…`) icon button opens a popover with additional actions for a row or card item.
+
+</details>
 

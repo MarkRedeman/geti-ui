@@ -1,11 +1,11 @@
-import { Meta, Title, Subtitle, Controls, Stories } from '@storybook/addon-docs/blocks';
+import { Meta, Stories } from '@storybook/addon-docs/blocks';
 import * as DocStories from './Tag.stories';
 
 <Meta of={DocStories} />
 
 # Tag
 
-<Subtitle>A compact, chip-style label for displaying categorized metadata such as annotation classes, classification results, and taxonomy entries.</Subtitle>
+A compact, chip-style label for displaying categorized metadata such as annotation classes, classification results, and taxonomy entries.
 
 ```tsx
 import { Tag } from '@geti/ui';
@@ -141,46 +141,7 @@ Wraps the chip in a Spectrum `TooltipTrigger`. Useful when the label text is tru
 
 ---
 
-## Flow
-
-### Render path
-
-```
-props { text, prefix, suffix, withDot, darkMode, tooltip, id, className, style }
-  │
-  ├── hasPrefix = !!(withDot || prefix)
-  ├── containerStyle = { ...baseStyle, backgroundColor (dark/light), ...style }
-  │
-  └── chipElement =
-        <div style={containerStyle} aria-label={text} title={tooltip} ...rest>
-          {hasPrefix &&
-            <span style={prefixWrapper}>
-              {prefix ?? (withDot ? <span style={dot} aria-hidden /> : null)}
-            </span>}
-          <span>{text}</span>
-          {suffix && <span style={suffixWrapper}>{suffix}</span>}
-        </div>
-  │
-  └── if tooltip:
-        <TooltipTrigger>
-          {chipElement}
-          <Tooltip>{tooltip}</Tooltip>
-        </TooltipTrigger>
-      else:
-        {chipElement}
-```
-
-### Interaction patterns
-
-`Tag` is **non-interactive by default** — the container `<div>` is not focusable and has no click handler. All interaction belongs to elements passed via `prefix` or `suffix` (e.g., a remove `<button>` in the suffix slot).
-
-If you need an entire tag to be clickable or removable as a first-class keyboard interaction, use `TagGroup` which manages roving `tabindex`, `Arrow` key navigation, and `Backspace`/`Delete` removal — all as built-in Spectrum behavior.
-
----
-
 ## Props
-
-<Controls />
 
 | Prop | Type | Default | Description |
 |------|------|---------|-------------|
@@ -218,4 +179,22 @@ If you need an entire tag to be clickable or removable as a first-class keyboard
 
 ---
 
-<Controls />
+## Related components
+
+- **`TagGroup`** — use instead when tags must be selectable, removable, or keyboard-navigable; `TagGroup` wraps Spectrum's interactive collection.
+- **`Badge`** — use for lifecycle or status labels (`"Beta"`, `"Active"`) where semantic colour drives meaning rather than an annotation dot.
+- **`StatusLight`** — use to represent a live operational state that may change at runtime, rather than a static classification label.
+- **`Tooltip`** (via Spectrum) — `Tag` integrates Spectrum `TooltipTrigger` when `tooltip` is provided; use it for additional context on hover.
+
+## Example use cases
+
+<details>
+  <summary>Typical use cases</summary>
+
+- Displaying an annotation class label (e.g., "Person", "Vehicle") next to a bounding box or segmentation mask in a canvas overlay.
+- Rendering label chips in a classification result list, each chip showing the predicted class with a confidence score suffix.
+- Populating a label palette sidebar where each taxonomy entry is shown as a compact chip with its assigned colour dot.
+- Embedding inline chips inside a `TableView` cell to show multiple assigned labels per dataset image row.
+- Showing predicted class names inside a hover tooltip on model output thumbnails.
+
+</details>

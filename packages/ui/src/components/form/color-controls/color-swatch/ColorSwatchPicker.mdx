@@ -1,4 +1,4 @@
-import { Meta, Title, Subtitle, Description, Primary, Controls, Stories } from '@storybook/addon-docs/blocks';
+import { Meta, Subtitle, Stories } from '@storybook/addon-docs/blocks';
 import * as DocStories from './ColorSwatchPicker.stories';
 
 <Meta of={DocStories} />
@@ -118,16 +118,6 @@ Use inside `ColorPickerDialog` as a presets row:
 
 ---
 
-## Flow
-
-1. `ColorSwatchPicker` renders a list of `ColorSwatchPickerItem` (or `ColorSwatch`) children.
-2. The currently selected swatch (matched by color value against `value`) receives a visible selection ring.
-3. User clicks on a swatch — or navigates with `←` / `→` arrow keys and presses `Enter` / `Space`.
-4. `onChange(Color)` fires with the `Color` object of the chosen swatch.
-5. The parent updates its state; the selection ring moves to the newly selected swatch.
-
----
-
 ## Integration
 
 - **Depends on**: `@adobe/react-spectrum` (`ColorSwatchPicker`, `ColorSwatch`, `SpectrumColorSwatchPickerProps`, `SpectrumColorSwatchProps`)
@@ -141,8 +131,6 @@ Use inside `ColorPickerDialog` as a presets row:
 ## Props
 
 ### ColorSwatchPicker
-
-<Controls of={DocStories.Default} />
 
 | Prop | Type | Default | Description |
 |------|------|---------|-------------|
@@ -185,3 +173,19 @@ Use inside `ColorPickerDialog` as a presets row:
 
 - **Single tab stop**: The picker group is a single tab stop — internal navigation uses arrow keys, not `Tab`. This follows standard `radiogroup` convention and prevents users from having to tab through every color option.
 - **Focus management**: Focus stays within the group until `Tab` is pressed to move to the next focusable element in the page.
+
+## Related components
+- `ColorSwatch` — the non-interactive display variant used when swatches do not need to be selectable.
+- `ColorPickerDialog` — the `ColorSwatchPicker` preset strip is assembled inside this dialog.
+- `RadioGroup` — the semantic model underlying `ColorSwatchPicker`; use `RadioGroup` instead for text-based single-selection.
+
+## Example use cases
+<details>
+  <summary>Typical use cases</summary>
+
+- Providing a preset color palette for annotation label color selection in a label editor.
+- Offering theme color presets in a branding or appearance configuration panel.
+- Showing a fixed set of highlight or mask colors in an annotation canvas toolbar.
+- Embedding a swatch strip of recently used colors inside a `ColorPickerDialog`.
+
+</details>

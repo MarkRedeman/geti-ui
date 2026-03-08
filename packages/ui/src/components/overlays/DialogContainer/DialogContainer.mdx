@@ -1,11 +1,11 @@
-import { Meta, Title, Subtitle, Description, Primary, Controls, Stories } from '@storybook/addon-docs/blocks';
+import { Meta, Stories } from '@storybook/addon-docs/blocks';
 import * as DocStories from './DialogContainer.stories';
 
 <Meta of={DocStories} />
 
 # DialogContainer
 
-<Subtitle>A controlled dialog host that renders a modal independently of any trigger element — the correct choice when the trigger may unmount while the dialog is still open, or when dialogs are spawned programmatically.</Subtitle>
+A controlled dialog host that renders a modal independently of any trigger element — the correct choice when the trigger may unmount while the dialog is still open, or when dialogs are spawned programmatically.
 
 ```tsx
 import { DialogContainer } from '@geti/ui';
@@ -59,30 +59,6 @@ const [isOpen, setIsOpen] = useState(false);
 </DialogContainer>
 ```
 
-## Flow
-
-```
-// Parent manages open state
-const [isOpen, setIsOpen] = useState(false);
-
-→ some trigger (button, shortcut, context menu item, Redux action)
-    → setIsOpen(true)
-
-<DialogContainer isOpen={isOpen} onDismiss={() => setIsOpen(false)}>
-  <Dialog>
-    …
-    <Button onPress={() => setIsOpen(false)}>Close</Button>
-  </Dialog>
-</DialogContainer>
-
-→ user presses Escape or calls onDismiss
-    → setIsOpen(false)
-    → DialogContainer unmounts the modal overlay
-    → focus returns to the last focused element before the dialog opened
-```
-
-No state, no effects, no refs in the `DialogContainer` wrapper itself — all lifecycle logic is in Spectrum.
-
 ## Integration
 
 - Used when the trigger is transient (disappears after click) or when dialogs are opened programmatically (e.g., from a context menu, keyboard shortcut, or Redux action).
@@ -112,6 +88,22 @@ No state, no effects, no refs in the `DialogContainer` wrapper itself — all li
 
 ---
 
-<Primary />
+## Related components
 
-<Controls />
+- **`DialogTrigger`** — use when a stable trigger button exists in the component tree; `DialogContainer` is specifically for trigger-less or transient-trigger scenarios.
+- **`AlertDialog`** — pass as the child of `DialogContainer` for fixed-structure confirmation prompts; the container manages the overlay lifecycle while `AlertDialog` defines the content.
+- **`Dialog`** — pass as the child when a custom-slotted dialog layout (headings, forms, footers) is required.
+- **`Popover`** — use for non-blocking overlays that do not need to trap focus or block interaction with the rest of the UI.
+
+## Example use cases
+
+<details>
+  <summary>Typical use cases</summary>
+
+- **Context-menu action dialog**: A right-click context menu item triggers a delete confirmation; the context menu closes before the dialog opens, making `DialogContainer` the correct choice over `DialogTrigger`.
+- **Keyboard shortcut dialog**: A global `Cmd+K` / `Ctrl+K` handler opens a search or command palette modal without any button trigger in the component tree.
+- **Redux / state-machine driven dialog**: A saga or state action sets `isOpen: true` to show a progress or error dialog from outside any React subtree that contains a trigger element.
+- **Row-action dialog in a table**: Clicking "Delete" in a table row opens a `DialogContainer` confirmation; the row may be removed from the DOM before the dialog closes.
+- **Canvas event dialog**: A double-click on a canvas annotation opens an edit dialog; `triggerRef` is unavailable and state is managed at the canvas controller level.
+
+</details>

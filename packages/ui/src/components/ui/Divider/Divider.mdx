@@ -1,18 +1,17 @@
-import { Meta, Title, Subtitle, Description, Primary, Controls, Stories, Source } from '@storybook/addon-docs/blocks';
+import { Meta, Controls, Stories } from '@storybook/addon-docs/blocks';
 import * as DocStories from './Divider.stories';
 
 <Meta of={DocStories} />
 
 # Divider
 
-<Subtitle>Dividers bring clarity to a layout by visually grouping or separating content in close proximity.</Subtitle>
+Dividers bring clarity to a layout by visually grouping or separating content in close proximity.
 
 ```tsx
 import { Divider } from '@geti/ui';
 ```
 
 - [React Spectrum V3 Divider](https://react-spectrum.adobe.com/react-spectrum/Divider.html)
-
 
 <Stories />
 
@@ -49,15 +48,26 @@ The `size` prop controls the thickness of the divider line:
 
 ## Props
 
+<Controls of={DocStories.Default} />
+
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
 | `orientation` | `'horizontal' \| 'vertical'` | `'horizontal'` | The axis the divider aligns to. |
 | `size` | `'S' \| 'M' \| 'L'` | `'L'` | Controls the thickness of the divider line. |
 
-## Accessibility
+Renders as an `<hr>` element with `role="separator"`. If the divider is purely decorative, mark it with `aria-hidden="true"`. An `aria-label` can describe the nature of the separation for screen reader users in complex layouts.
 
-- **Roles**: Renders as an `<hr>` element with `role="separator"`.
-- **Aria Hidden**: If the divider is purely decorative and does not represent a meaningful separation in the content structure, it should be marked with `aria-hidden="true"`.
-- **Labeling**: For complex layouts, an `aria-label` can be added to the divider to describe the nature of the separation for screen reader users.
+## Related components
+- `View` — use instead (with `borderWidth`) when the separator is part of a styled container boundary rather than a standalone rule.
+- `Flex` — use instead (with `gap`) when spacing alone is sufficient to separate content without a visible line.
 
+## Example use cases
+<details>
+  <summary>Typical use cases</summary>
 
+- Separating the header section from the body content inside a settings panel.
+- Grouping toolbar actions by function — e.g., drawing tools vs. selection tools — with a vertical divider between groups.
+- Adding a horizontal separator between sections in a drop-down menu or context menu.
+- Visually marking the boundary between a filter sidebar and a main content area.
+
+</details>

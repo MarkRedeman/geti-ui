@@ -1,11 +1,11 @@
-import { Meta, Title, Subtitle, Description, Primary, Controls, Stories } from '@storybook/addon-docs/blocks';
+import { Meta, Stories } from '@storybook/addon-docs/blocks';
 import * as DocStories from './TableView.stories';
 
 <Meta of={DocStories} />
 
 # TableView
 
-<Subtitle>A fully virtualised, interactive data table with built-in sorting, multi-row selection, column resizing, and async loading — the right choice whenever structured multi-column data must be scanned, compared, and acted upon.</Subtitle>
+A fully virtualised, interactive data table with built-in sorting, multi-row selection, column resizing, and async loading — the right choice whenever structured multi-column data must be scanned, compared, and acted upon.
 
 ```tsx
 import { TableView, TableHeader, TableBody, Column, Row, Cell } from '@geti/ui';
@@ -73,16 +73,24 @@ The design choice to export everything from one file ensures callers only need a
 </TableView>
 ```
 
-## Flow
+## Integration
 
-```
+- Used in dataset management, model comparison, audit log, and annotation review views where tabular data with sorting and multi-select is required.
+- **vs. `ListView`**: Use `TableView` for multi-column structured data; use `ListView` for single-column item collections where visual richness matters more than column comparison.
+- `Column` supports `allowsSorting`, `width`, `minWidth`, `maxWidth`, and `isRowHeader`. `TableView` surfaces `sortDescriptor` and `onSortChange` for server-side sort integration.
+- `TableBody` accepts `loadingState` (`'loading' | 'loadingMore' | 'loading' | 'idle' | 'error' | 'filtering'`) and `onLoadMore` for async pagination.
+- `Row` supports `textValue` for screen reader row descriptions, and `href` for link rows.
+
+### Full async + sort example
+
+```tsx
 <TableView selectionMode="multiple" sortDescriptor={sort} onSortChange={setSort}>
   <TableHeader columns={columns}>
     {col => <Column key={col.key} allowsSorting={col.sortable}>{col.name}</Column>}
   </TableHeader>
   <TableBody
     items={rows}
-    loadingState={loadingState}   // 'loading' | 'loadingMore' | 'idle' | 'error'
+    loadingState={loadingState}
     onLoadMore={fetchNextPage}
   >
     {row => (
@@ -93,14 +101,6 @@ The design choice to export everything from one file ensures callers only need a
   </TableBody>
 </TableView>
 ```
-
-## Integration
-
-- Used in dataset management, model comparison, audit log, and annotation review views where tabular data with sorting and multi-select is required.
-- **vs. `ListView`**: Use `TableView` for multi-column structured data; use `ListView` for single-column item collections where visual richness matters more than column comparison.
-- `Column` supports `allowsSorting`, `width`, `minWidth`, `maxWidth`, and `isRowHeader`. `TableView` surfaces `sortDescriptor` and `onSortChange` for server-side sort integration.
-- `TableBody` accepts `loadingState` (`'loading' | 'loadingMore' | 'loading' | 'idle' | 'error' | 'filtering'`) and `onLoadMore` for async pagination.
-- `Row` supports `textValue` for screen reader row descriptions, and `href` for link rows.
 
 ## Props
 
@@ -202,8 +202,22 @@ For cells whose visual content is ambiguous (e.g., icon-only status indicators),
 </Cell>
 ```
 
----
+## Related components
 
-<Primary />
+- **`ListView`** — use instead for single-column collections where item richness (thumbnails, descriptions) matters more than column comparison.
+- **`TreeView`** — use when data is hierarchical and parent-child expand/collapse is required rather than flat rows.
+- **`CardView`** — use for visual asset browsing where image thumbnails are the primary affordance rather than structured column data.
+- **`ActionBar`** — pair with `TableView` inside an `ActionBarContainer` to surface bulk actions when rows are selected.
 
-<Controls />
+## Example use cases
+
+<details>
+  <summary>Typical use cases</summary>
+
+- A model comparison dashboard listing model name, accuracy, dataset, training date, and status with sortable columns.
+- A dataset management table showing dataset name, image count, label count, last modified, and export format with multi-row delete.
+- An audit log of user actions with timestamp, user, action type, and resource columns filterable by date.
+- A training jobs overview with epoch, loss, accuracy, and elapsed time columns that sort by metric performance.
+- A bulk annotation review table where reviewers select rows and approve or reject annotations in batch.
+
+</details>

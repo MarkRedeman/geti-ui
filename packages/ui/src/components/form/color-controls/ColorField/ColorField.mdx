@@ -1,4 +1,4 @@
-import { Meta, Title, Subtitle, Description, Primary, Controls, Stories } from '@storybook/addon-docs/blocks';
+import { Meta, Subtitle, Stories } from '@storybook/addon-docs/blocks';
 import * as DocStories from './ColorField.stories';
 
 <Meta of={DocStories} />
@@ -50,7 +50,14 @@ export const ColorField = (props: ColorFieldProps) => (
 
 Spectrum's `ColorField` internally uses `@react-aria/color` to parse the entered string into a `Color` object on commit (blur or Enter). If parsing fails, it does not call `onChange` and restores the previous value.
 
-## Flow
+## Integration
+
+- **Depends on**: `@adobe/react-spectrum` — `ColorField`, `SpectrumColorFieldProps`
+- **Peer import**: `parseColor`, `Color` from `@adobe/react-spectrum` for typed initial state
+- **Composed into**: `ColorPickerDialog` renders `<ColorField label="Hex" />` alongside `ColorWheel` — the hex input and the wheel are kept in sync via shared `Color` state
+- **Used alongside**: `ColorArea`, `ColorSlider`, `ColorWheel` in composite color pickers
+
+### Usage examples
 
 ```tsx
 // Controlled hex input
@@ -72,13 +79,6 @@ const [color, setColor] = useState<Color>(parseColor('#e73623'));
   errorMessage="Please enter a valid hex color."
 />
 ```
-
-## Integration
-
-- **Depends on**: `@adobe/react-spectrum` — `ColorField`, `SpectrumColorFieldProps`
-- **Peer import**: `parseColor`, `Color` from `@adobe/react-spectrum` for typed initial state
-- **Composed into**: `ColorPickerDialog` renders `<ColorField label="Hex" />` alongside `ColorWheel` — the hex input and the wheel are kept in sync via shared `Color` state
-- **Used alongside**: `ColorArea`, `ColorSlider`, `ColorWheel` in composite color pickers
 
 ### Props
 
@@ -102,6 +102,18 @@ const [color, setColor] = useState<Color>(parseColor('#e73623'));
 - **Error announcement**: When `validationState="invalid"` and `errorMessage` is set, Spectrum renders the message in an `aria-live` region linked to the input via `aria-describedby`, ensuring screen readers announce errors without focus movement.
 - **Required state**: `isRequired` adds `aria-required="true"` to the underlying input.
 
-<Primary />
+## Related components
+- `ColorSlider` — use alongside `ColorField` to offer both drag and type input for the same channel.
+- `ColorArea` — use alongside `ColorField` for a spatial 2D color selection surface with precise hex entry.
+- `ColorPickerDialog` — use instead for a complete, assembled color picker that includes `ColorField` pre-composed.
 
-<Controls />
+## Example use cases
+<details>
+  <summary>Typical use cases</summary>
+
+- Entering an exact hex color code for a brand color in a theme configuration form.
+- Providing precise RGBA values for an annotation label color in a label management dialog.
+- Typing a specific hue degree value alongside a `ColorWheel` in a custom color picker layout.
+- Editing a color channel value (e.g., red 0–255) directly when pixel-perfect control is needed.
+
+</details>

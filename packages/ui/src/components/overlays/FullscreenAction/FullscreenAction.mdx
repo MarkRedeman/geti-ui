@@ -1,11 +1,11 @@
-import { Meta, Title, Subtitle, Description, Primary, Controls, Stories } from '@storybook/addon-docs/blocks';
+import { Meta, Stories } from '@storybook/addon-docs/blocks';
 import * as DocStories from './FullscreenAction.stories';
 
 <Meta of={DocStories} />
 
 # FullscreenAction
 
-<Subtitle>A composite trigger that promotes any content into a fullscreen takeover dialog — combining a quiet icon button, a tooltip, and a structured fullscreen dialog with a close control into a single, reusable unit.</Subtitle>
+A composite trigger that promotes any content into a fullscreen takeover dialog — combining a quiet icon button, a tooltip, and a structured fullscreen dialog with a close control into a single, reusable unit.
 
 ```tsx
 import { FullscreenAction } from '@geti/ui';
@@ -76,43 +76,6 @@ Fully custom composite — not a Spectrum pass-through. Composes Spectrum primit
 </FullscreenAction>
 ```
 
-## Flow
-
-```
-props { title, children, actionButton, id }
-  → containerRef = useRef<DOMRefValue<HTMLElement>>(null)
-
-  → <DialogTrigger type="fullscreenTakeover">
-      → <TooltipTrigger placement="bottom">
-          → <ActionButton isQuiet id={`${id}-open-fullscreen`} aria-label="Open in fullscreen {title}">
-              <FullScreen />
-            </ActionButton>
-          → <Tooltip>Fullscreen</Tooltip>
-        </TooltipTrigger>
-
-      → {(close) => (
-          <Dialog aria-label="{title} fullscreen">
-            <Heading>{title}</Heading>
-            <Divider />
-            <Content ref={containerRef}>
-              {children}
-            </Content>
-            <ButtonGroup>
-              {typeof actionButton === 'function'
-                ? actionButton(containerRef.current)   // factory — passes DOM ref
-                : actionButton}                        // static node
-              <TooltipTrigger placement="bottom">
-                <ActionButton isQuiet onPress={close} aria-label="Close fullscreen">
-                  <FullScreenExit />
-                </ActionButton>
-                <Tooltip>Close fullscreen</Tooltip>
-              </TooltipTrigger>
-            </ButtonGroup>
-          </Dialog>
-        )}
-    </DialogTrigger>
-```
-
 ## Integration
 
 - Depends on `@adobe/react-spectrum`: `ActionButton`, `ButtonGroup`, `Content`, `Dialog`, `DialogTrigger`, `Divider`, `Heading`, `Tooltip`, `TooltipTrigger`.
@@ -143,6 +106,22 @@ props { title, children, actionButton, id }
 
 ---
 
-<Primary />
+## Related components
 
-<Controls />
+- **`Dialog`** / **`DialogTrigger`** — use directly when the fullscreen trigger is not a `FullScreen` icon button or when you need a custom trigger shape.
+- **`Tooltip`** / **`TooltipTrigger`** — `FullscreenAction` composes these internally; use them standalone when the fullscreen pattern is not needed.
+- **`ActionButton`** — the underlying trigger primitive; `FullscreenAction` wraps it with icon, tooltip, and dialog lifecycle automatically.
+- **`DialogContainer`** — use when the fullscreen dialog must be opened programmatically without a persistent trigger button.
+
+## Example use cases
+
+<details>
+  <summary>Typical use cases</summary>
+
+- **Image viewer**: An `<img>` or annotation preview inside a card includes a `FullscreenAction` to expand the image into a full-viewport view for detailed inspection.
+- **Canvas editor**: A drawing or annotation canvas is promoted to fullscreen mode via `FullscreenAction`, with the `actionButton` factory used to mount the renderer into the fullscreen container DOM node.
+- **Chart / data visualization**: A compact inline chart has a fullscreen expand button so analysts can inspect details without leaving the current page context.
+- **Dataset preview table**: A condensed data table inside a panel is expanded to fullscreen for side-by-side comparison, with an "Export CSV" action button provided via the `actionButton` slot.
+- **Model output review**: An inference result panel (bounding boxes overlaid on an image) offers a fullscreen mode with a "Download result" action button in the dialog toolbar.
+
+</details>

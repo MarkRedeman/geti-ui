@@ -1,18 +1,17 @@
-import { Meta, Title, Subtitle, Description, Primary, Controls, Stories, Source } from '@storybook/addon-docs/blocks';
+import { Meta, Controls, Stories } from '@storybook/addon-docs/blocks';
 import * as DocStories from './View.stories';
 
 <Meta of={DocStories} />
 
 # View
 
-<Subtitle>View is a general-purpose layout container that provides direct access to Spectrum's design tokens as JSX props.</Subtitle>
+View is a general-purpose layout container that provides direct access to Spectrum's design tokens as JSX props.
 
 ```tsx
 import { View } from '@geti/ui';
 ```
 
 - [React Spectrum V3 View](https://react-spectrum.adobe.com/react-spectrum/View.html)
-
 
 <Stories />
 
@@ -46,6 +45,8 @@ Use the `elementType` prop to render the `View` as a specific HTML element, such
 
 ## Props
 
+<Controls of={DocStories.Default} />
+
 ### Content & Structure
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
@@ -67,10 +68,20 @@ Use the `elementType` prop to render the `View` as a specific HTML element, such
 | `position` | `'static' \| 'relative' \| ...` | `'static'` | CSS positioning mode. |
 | `top` / `bottom` / `left` / `right` | `DimensionValue` | - | Positional offsets using Spectrum tokens. |
 
-## Accessibility
+By default, `View` renders as a `div` with no ARIA role. Use the `elementType` prop to render more descriptive HTML5 landmark elements (e.g., `elementType="section"`) when appropriate for document structure. Standard ARIA attributes (e.g., `role`, `aria-label`) can be passed through via DOM props.
 
-- **Generic Semantics**: By default, `View` renders as a `div` with no ARIA role.
-- **Semantic Overrides**: Use the `elementType` prop to render more descriptive HTML5 landmark elements (e.g., `elementType="section"` or `elementType="main"`) when appropriate for document structure.
-- **Roles**: Standard ARIA attributes (e.g., `role`, `aria-label`) can be passed through via DOM props.
+## Related components
+- `Flex` — use for one-dimensional (row or column) flex layouts with Spectrum tokens.
+- `Grid` — use for two-dimensional grid layouts with Spectrum tokens.
+- `PressableElement` — use when the container itself must be interactive (pressable/clickable).
 
+## Example use cases
+<details>
+  <summary>Typical use cases</summary>
 
+- Wrapping a sidebar panel section with a bordered `View` to visually separate it from adjacent panels.
+- Creating a padded card container with a `backgroundColor` token for a subtle raised appearance.
+- Using `elementType="section"` to give a major content block the correct HTML5 landmark semantics.
+- Applying responsive `width` or `height` tokens to a container that adjusts between breakpoints.
+
+</details>

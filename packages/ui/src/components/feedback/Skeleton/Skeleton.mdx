@@ -1,11 +1,11 @@
-import { Meta, Title, Subtitle, Description, Primary, Controls, Stories } from '@storybook/addon-docs/blocks';
+import { Meta, Stories } from '@storybook/addon-docs/blocks';
 import * as DocStories from './Skeleton.stories';
 
 <Meta of={DocStories} />
 
 # Skeleton
 
-<Subtitle>An animated shimmer placeholder that reserves layout space and communicates to users that content is on its way.</Subtitle>
+An animated shimmer placeholder that reserves layout space and communicates to users that content is on its way.
 
 ```tsx
 import { Skeleton } from '@geti/ui';
@@ -70,30 +70,6 @@ The `shimmer` keyframe is defined in `geti-global.module.css` (a global styleshe
 </div>
 ```
 
-## Flow
-
-```
-props { width, height, isCircle, isAspectRatioOne, style, className, aria-label }
-  → computedStyle = {
-      ...shimmerStyle,            // linear-gradient + animation: 'shimmer 2s ease infinite'
-      width  = width  ?? '100%',  // string | number → CSS value
-      height = height ?? '1rem',
-      borderRadius = isCircle ? '50%' : '4px',
-      aspectRatio  = isAspectRatioOne ? '1' : undefined,
-      display: 'block',
-      ...style,                   // caller overrides applied last
-    }
-  → <span
-      role="img"
-      aria-label={aria-label ?? 'Loading…'}
-      aria-busy="true"
-      className={className}
-      style={computedStyle}
-    />
-```
-
-No state, no effects, no refs.
-
 ## Integration
 
 - The **`shimmer` keyframe** must be present globally (defined in `geti-global.module.css`) for the animation to run. The Skeleton component references `animation: 'shimmer 2s ease infinite'` as a plain string — if the keyframe is missing, the element renders correctly but without animation.
@@ -120,8 +96,20 @@ No state, no effects, no refs.
 - **`aria-label`**: Defaults to `'Loading…'` but should be overridden with a context-specific label (e.g., `'Loading user name'`, `'Loading project thumbnail'`) whenever the content type is known, so screen reader users understand what they are waiting for.
 - **Animation**: The shimmer animation is driven by CSS `animation`. Users who have set `prefers-reduced-motion` in their OS will not see the animation suppressed automatically — if your product has a strict motion policy, add a `@media (prefers-reduced-motion: reduce)` override to the global `shimmer` keyframe definition to pause or remove it.
 
----
+## Related components
+- **`Loading`** — use when the content dimensions are unknown or for full-area/overlay loading states; `Loading` complements `Skeleton` by covering unbounded spaces.
+- **`ProgressBar`** — use when the load operation has a measurable completion percentage that should be communicated to the user.
+- **`ProgressCircle`** — use as a compact spinner in tight spaces where a skeleton layout placeholder is not appropriate.
+- **`IllustratedMessage`** — use when the content area is empty due to a persistent condition (no results, first-use state) rather than a transient loading state.
 
-<Primary />
+## Example use cases
+<details>
+  <summary>Typical use cases</summary>
 
-<Controls />
+- Replacing a project card grid with skeleton cards (matching card dimensions) while the project list is fetched on initial load.
+- Showing a circle skeleton placeholder for user avatar images in a list view during profile data loading.
+- Composing a multi-line text block skeleton — three rectangles of decreasing width — where a dataset description will appear.
+- Reserving space for a thumbnail image in a gallery grid while annotation images are loaded lazily.
+- Providing a full-width rectangle skeleton inside a `TableView` row for each expected text cell during paginated data load.
+
+</details>

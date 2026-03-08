@@ -1,11 +1,11 @@
-import { Meta, Subtitle, Primary, Controls, Stories } from '@storybook/addon-docs/blocks';
+import { Meta, Stories } from '@storybook/addon-docs/blocks';
 import * as DocStories from '../KitchenSink.stories';
 
 <Meta of={DocStories} name="MediaViewModes" />
 
 # MediaViewModes
 
-<Subtitle>View mode switcher between Grid and List layouts.</Subtitle>
+View mode switcher between Grid and List layouts.
 
 ```tsx
 import { MediaViewModes, ViewModes, INITIAL_VIEW_MODE } from '@geti/ui';
@@ -49,15 +49,6 @@ Key responsibilities:
 | `DETAILS` | `ViewList` | Single-column detailed list view |
 
 - **Quiet Trigger**: The `ActionButton` uses `isQuiet={true}` by default to minimize visual weight in toolbars.
-
-## Flow
-
-1. **User Interaction**: User clicks the `ActionButton` trigger.
-2. **Trigger**: `MenuTrigger` opens the selection menu.
-3. **Selection**: User selects a new mode (e.g., `DETAILS`) from the menu.
-4. **Guard**: `handleAction` verifies that the selected key is different from the current `viewMode` and exists in the `items` array.
-5. **Callback**: `setViewMode(newMode)` is called, notifying the parent to update its state.
-6. **Re-render**: Parent updates `viewMode` prop; `MediaViewModes` re-renders with the new active icon.
 
 ## Integration
 
@@ -103,3 +94,20 @@ export enum ViewModes {
 - **Tooltip**: A `TooltipTrigger` wraps the button to surface a `"View mode"` tooltip on hover and focus, aiding discoverability for keyboard and pointer users alike.
 - **Single-Selection Menu**: The inner `Menu` uses `selectionMode="single"` and `selectedKeys` driven by `viewMode`, ensuring the currently active mode is reflected as `aria-selected` for assistive technologies.
 - **MenuTrigger Management**: Open/close state and focus return are handled entirely by React Spectrum's `MenuTrigger`, providing correct focus management out of the box.
+
+## Related components
+- **`Menu`** / **`MenuTrigger`** — the underlying primitives that `MediaViewModes` composes; use them directly when you need a custom trigger icon or a non-standard layout.
+- **`ActionGroup`** — use when all view mode options should be permanently visible as a segmented button row rather than hidden behind a single icon trigger.
+- **`Tabs`** — use when each mode corresponds to a distinct content panel that should be rendered inline; prefer `MediaViewModes` when modes control only the presentation of the same data.
+- **`ActionMenu`** — use for general-purpose contextual actions behind a "three dots" trigger; `MediaViewModes` is purpose-built for display-mode switching with a mode-aware trigger icon.
+
+## Example use cases
+<details>
+  <summary>Typical use cases</summary>
+
+- Providing a view mode switcher in the toolbar of an image gallery — allowing users to choose between Large, Medium, Small thumbnail grids and a Details list.
+- Adding a display mode selector to a dataset browser where the same images can be viewed as a compact grid or a detailed single-column list.
+- Embedding `MediaViewModes` in a right-aligned toolbar row alongside Search and Sort controls for a project media panel.
+- Persisting the selected `ViewModes` value in component state with `useState(INITIAL_VIEW_MODE)` and passing it to a `VirtualizedListLayout` or `CardView` to drive layout changes.
+
+</details>

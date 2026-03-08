@@ -1,13 +1,11 @@
-import { Meta, Title, Subtitle, Description, Primary, Controls, Stories, Source } from '@storybook/addon-docs/blocks';
+import { Meta, Controls, Stories } from '@storybook/addon-docs/blocks';
 import * as DocStories from './ToggleButtons.stories';
 
 <Meta of={DocStories} />
 
-<Title>ToggleButtons</Title>
+# ToggleButtons
 
-<Subtitle>
-  A mutually exclusive group of buttons used for switching between views, modes, or categories.
-</Subtitle>
+A mutually exclusive group of buttons used for switching between views, modes, or categories.
 
 ```tsx
 import { ToggleButtons } from '@geti/ui';
@@ -29,8 +27,6 @@ import { ToggleButtons } from '@geti/ui';
 - **Single Selection**: This component is strictly mutually exclusive. It does not support multiple simultaneous selections.
 - **Controlled State**: The component is fully controlled. The caller must provide the `selectedOption` and handle the `onOptionChange` callback.
 
----
-
 ## Variants
 
 ### Text Options
@@ -41,8 +37,6 @@ Use the `getLabel` prop to map option values to icons or custom elements. This i
 
 ### Disabled Group
 Set `isDisabled` to `true` to disable all buttons in the group simultaneously.
-
----
 
 ## Props
 
@@ -63,16 +57,20 @@ Set `isDisabled` to `true` to disable all buttons in the group simultaneously.
 |------|------|---------|-------------|
 | `isDisabled` | `boolean` | `false` | Whether the entire group is disabled. |
 
----
+The component uses `role="group"` and `aria-label="Selection options"` to identify the collection. Individual buttons use `aria-pressed` to signal their selection status. Note: this custom implementation does not currently support arrow-key navigation within the group; each button remains an independent tab stop.
 
-## Implementation Details
+## Related components
+- `ToggleButton` — use instead for a single independent on/off toggle (not a group).
+- `RadioGroup` — use instead when the options are form fields that participate in validation and submission.
+- `Picker` — use instead when there are many options that don't fit inline as a button row.
 
-### Styling
-The component uses a custom CSS module (`ToggleButtons.module.css`) to join the buttons into a single visual unit by removing inner border radii and adjacent borders.
+## Example use cases
+<details>
+  <summary>Typical use cases</summary>
 
-### Accessibility
-- **Group Role**: The container uses `role="group"` and `aria-label="Selection options"` to identify the collection.
-- **Pressed State**: Individual buttons use `aria-pressed` to signal their selection status.
-- **Note**: This custom implementation does not currently support arrow-key navigation within the group (roving tab index); each button remains an independent tab stop.
+- Switching between Grid, List, and Table views in a dataset browser.
+- Selecting a prediction confidence threshold level (Low, Medium, High) in an AI model dashboard.
+- Choosing an export format (PNG, JPEG, TIFF) in a download panel.
+- Toggling between annotation tool modes (Draw, Edit, Select) in a canvas toolbar.
 
-
+</details>

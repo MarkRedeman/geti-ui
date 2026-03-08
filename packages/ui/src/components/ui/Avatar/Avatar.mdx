@@ -1,13 +1,11 @@
-import { Meta, Title, Subtitle, Description, Primary, Controls, Stories, Source } from '@storybook/addon-docs/blocks';
+import { Meta, Controls, Stories } from '@storybook/addon-docs/blocks';
 import * as DocStories from './Avatar.stories';
 
 <Meta of={DocStories} />
 
-<Title>Avatar</Title>
+# Avatar
 
-<Subtitle>
-  An avatar component that displays a thumbnail representation of an entity, such as a user or organization.
-</Subtitle>
+An avatar component that displays a thumbnail representation of an entity, such as a user or organization.
 
 ```tsx
 import { Avatar, AvatarGroup } from '@geti/ui';
@@ -22,8 +20,6 @@ import { Avatar, AvatarGroup } from '@geti/ui';
 The `Avatar` component is a lightweight wrapper around Adobe's React Spectrum `Avatar`. It ensures consistent styling and a centralized import point for the Geti UI design system.
 
 The `AvatarGroup` is a custom layout component that manages a collection of avatars, providing an overlapping stack effect and an automatic overflow badge.
-
----
 
 ## Avatar
 
@@ -70,11 +66,7 @@ If the `src` URL is invalid or the image fails to load, a generic silhouette pla
 | `size` | `string \| number` | `'avatar-size-100'` | Size token or custom pixel number. |
 | `isDisabled` | `boolean` | `false` | Whether the avatar is visually disabled. |
 
-#### Styles
-
-The `Avatar` component accepts all standard [Spectrum layout and spacing props](https://react-spectrum.adobe.com/react-spectrum/styling.html), including `margin`, `position`, and `flex` properties.
-
----
+The `Avatar` component accepts all standard [Spectrum layout and spacing props](https://react-spectrum.adobe.com/react-spectrum/styling.html), including `margin`, `position`, and `flex` properties. Standalone avatars must provide a meaningful `alt` description for screen readers.
 
 ## AvatarGroup
 
@@ -105,10 +97,20 @@ Providing a `size` prop to the `AvatarGroup` will override the sizes of all indi
 | `max` | `number` | `3` | Maximum number of avatars to display before showing an overflow badge. |
 | `size` | `string \| number` | — | Uniform size override for all avatars in the group. |
 
----
+`AvatarGroup` uses `role="group"` and `aria-label` to identify the collection of users. The overflow badge includes an `aria-label` (e.g., "2 more") to ensure the total count is accessible.
 
-## Accessibility
+## Related components
+- `AvatarGroup` — use when you need to display a compact overlapping stack of multiple avatars.
+- `PhotoPlaceholder` — use when a user photo is unavailable and a deterministic initials/color placeholder is needed.
+- `Image` — use for non-person, non-avatar imagery where `objectFit` and layout props matter more than person semantics.
 
-- **Alt Text**: Standalone avatars must provide a meaningful `alt` description for screen readers.
-- **Group Labeling**: `AvatarGroup` uses `role="group"` and `aria-label` to identify the collection of users.
-- **Overflow Badge**: The overflow badge includes an `aria-label` (e.g., "2 more") to ensure the total count is accessible.
+## Example use cases
+<details>
+  <summary>Typical use cases</summary>
+
+- Displaying the current user's profile photo in a top navigation bar or user menu.
+- Showing a project owner or assignee in a project card header.
+- Rendering commenter avatars alongside annotation comments in a side panel.
+- Representing organization logos (non-person entities) at a uniform size in a list.
+
+</details>

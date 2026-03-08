@@ -1,11 +1,11 @@
-import { Meta, Title, Subtitle, Controls, Stories, Source } from '@storybook/addon-docs/blocks';
+import { Meta, Stories } from '@storybook/addon-docs/blocks';
 import * as DocStories from './ProgressCircle.stories';
 
 <Meta of={DocStories} />
 
 # ProgressCircle
 
-<Subtitle>A circular spinner that communicates the progress of an operation in a compact form, supporting both determinate and indeterminate states.</Subtitle>
+A circular spinner that communicates the progress of an operation in a compact form, supporting both determinate and indeterminate states.
 
 ```tsx
 import { ProgressCircle } from '@geti/ui';
@@ -53,7 +53,7 @@ export const ProgressCircle = (props: ProgressCircleProps) => <SpectrumProgressC
 
 No state, no effects, no refs. Spectrum manages SVG arc rendering, animation, and ARIA attributes.
 
-## Flow
+## Integration
 
 ```tsx
 // Standard indeterminate spinner — always requires aria-label
@@ -79,8 +79,6 @@ No state, no effects, no refs. Spectrum manages SVG arc rendering, animation, an
 // <Loading mode="inline" size="M" /> renders:
 <ProgressCircle aria-label="Loading..." isIndeterminate size="M" />
 ```
-
-## Integration
 
 | Concern | Detail |
 |---------|--------|
@@ -108,3 +106,20 @@ All `SpectrumProgressCircleProps` are accepted as-is. The primary props are:
 - **Indeterminate state**: When `isIndeterminate` is `true`, the element is announced as an active, in-progress indicator. Screen readers do not repeat the announcement as the animation runs.
 - **Animation and motion**: The spinning arc is a CSS animation. Users who have `prefers-reduced-motion` enabled will see Spectrum's reduced-motion variant automatically (a static arc or subtler animation depending on the Spectrum version).
 - **No keyboard interaction**: `ProgressCircle` is a read-only display element. It is not focusable and does not respond to keyboard or pointer events.
+
+## Related components
+- **`Loading`** — use instead of a raw `ProgressCircle` when you need placement control (overlay, fullscreen, inline); `Loading` wraps `ProgressCircle` internally for its spinner variant.
+- **`ProgressBar`** — use when the operation has a measurable completion percentage or needs a visible text label alongside the indicator.
+- **`Meter`** — use for static quantity levels (storage usage, resource utilisation) rather than active operation progress.
+- **`Skeleton`** — use when the content shape is known and layout preservation matters more than showing a spinner.
+
+## Example use cases
+<details>
+  <summary>Typical use cases</summary>
+
+- Displaying a small spinner inside a `Button` while an async save operation is pending — `<ProgressCircle aria-label="Saving" isIndeterminate size="S" />`.
+- Embedding a compact circular indicator in a table row cell during an inline status refresh.
+- Showing a determinate arc for a known-duration model evaluation step alongside a percentage label — `<ProgressCircle aria-label="Evaluating model" value={72} />`.
+- Providing a medium-sized spinner inside a card body while its data is fetched on initial mount.
+
+</details>

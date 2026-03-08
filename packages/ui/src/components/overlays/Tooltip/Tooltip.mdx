@@ -1,11 +1,11 @@
-import { Meta, Title, Subtitle, Controls, Stories } from '@storybook/addon-docs/blocks';
+import { Meta, Stories } from '@storybook/addon-docs/blocks';
 import * as DocStories from './Tooltip.stories';
 
 <Meta of={DocStories} />
 
 # Tooltip
 
-<Subtitle>Tooltips are brief, non-interactive labels that appear on hover or focus of a trigger element.</Subtitle>
+Tooltips are brief, non-interactive labels that appear on hover or focus of a trigger element.
 
 ```tsx
 import { Tooltip, TooltipTrigger } from '@geti/ui';
@@ -118,37 +118,6 @@ React Spectrum V3 supports semantic variants that add a coloured background and 
 
 ---
 
-## Flow
-
-`Tooltip` is **stateless** — it has no concept of open or closed. All visibility is owned and driven by `TooltipTrigger`.
-
-```
-User hovers or focuses Trigger
-    │
-    ▼
-TooltipTrigger starts warmup timer (delay ms)
-    │
-    ▼  (timer elapses, or warmup skipped during cooldown period)
-TooltipTrigger renders Tooltip into the overlay layer
-    │
-    ▼
-Tooltip fades in at the configured placement
-    │
-    ▼  (user moves away or trigger loses focus)
-Tooltip fades out → TooltipTrigger unmounts it
-```
-
-Because `Tooltip` carries no state, you cannot control its visibility directly. To conditionally prevent a tooltip from showing, use `isDisabled` on `TooltipTrigger`:
-
-```tsx
-<TooltipTrigger isDisabled={!showHint}>
-    <ActionButton aria-label="Filter"><Filter /></ActionButton>
-    <Tooltip>Apply filters</Tooltip>
-</TooltipTrigger>
-```
-
----
-
 ## Props
 
 ### Tooltip Props
@@ -190,6 +159,15 @@ Because `Tooltip` carries no state, you cannot control its visibility directly. 
 
 - **Dependencies**: `@adobe/react-spectrum` — `Tooltip`, `TooltipTrigger`, and their Spectrum prop types are imported from this package.
 - **ThemeProvider**: Must be present in the React tree. Tooltip colours, border radius, and shadow all derive from Spectrum tokens resolved by `ThemeProvider`.
+- **Conditionally suppressing a tooltip**: `Tooltip` carries no state — you cannot control its visibility directly. To conditionally prevent a tooltip from showing, use `isDisabled` on `TooltipTrigger`:
+
+```tsx
+<TooltipTrigger isDisabled={!showHint}>
+    <ActionButton aria-label="Filter"><Filter /></ActionButton>
+    <Tooltip>Apply filters</Tooltip>
+</TooltipTrigger>
+```
+
 - **ActionButton pairing**: The most common usage pattern is pairing `TooltipTrigger` with `ActionButton` to label icon-only controls. Always provide an `aria-label` on the `ActionButton` so the button has an accessible name independent of the tooltip:
 
 ```tsx
@@ -206,3 +184,23 @@ import Edit from '@spectrum-icons/workflow/Edit';
 ```
 
 - **z-index and stacking**: Spectrum manages overlay z-index automatically. Ensure your application root includes `ThemeProvider` (which wraps Spectrum's `Provider`) to avoid stacking context conflicts.
+
+## Related components
+
+- **`ContextualHelp`** — use when the explanation requires more than a single line, a heading, or a "Learn more" link; tooltips must stay non-interactive and brief.
+- **`Popover`** — use when the revealed content is interactive (includes buttons, inputs, or links) or too long for a tooltip.
+- **`ActionButton`** — the most common tooltip trigger; always pair icon-only `ActionButton` elements with a `TooltipTrigger` to provide an accessible name.
+- **`FullscreenAction`** — `FullscreenAction` composes `TooltipTrigger` internally; prefer it over building the trigger manually when opening a fullscreen dialog.
+
+## Example use cases
+
+<details>
+  <summary>Typical use cases</summary>
+
+- **Icon-only toolbar buttons**: Wrap every icon-only `ActionButton` (Edit, Delete, Download, Export) with `TooltipTrigger` so hovering or focusing the button reveals its label.
+- **Keyboard shortcut hint**: Surface a shortcut hint alongside the action name — e.g., `"Save (Ctrl+S)"` — without cluttering the button label.
+- **Status badge clarification**: Attach a `negative` variant tooltip to a warning badge to explain what the warning means.
+- **Truncated text**: Show the full value in a tooltip when a cell or label is truncated by overflow.
+- **Disabled-button explanation**: Wrap a disabled control in a span and attach a tooltip explaining why it is currently unavailable (e.g., "No changes to save").
+
+</details>

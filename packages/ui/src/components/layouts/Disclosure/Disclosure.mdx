@@ -1,11 +1,11 @@
-import { Meta, Title, Subtitle, Description, Primary, Controls, Stories } from '@storybook/addon-docs/blocks';
+import { Meta, Stories } from '@storybook/addon-docs/blocks';
 import * as DocStories from './Disclosure.stories';
 
 <Meta of={DocStories} />
 
 # Disclosure
 
-<Subtitle>A Disclosure is a collapsible section that allows users to show or hide content as needed.</Subtitle>
+A Disclosure is a collapsible section that allows users to show or hide content as needed.
 
 ```tsx
 import { Disclosure, DisclosureTitle, DisclosurePanel } from '@geti/ui';
@@ -64,52 +64,6 @@ The thin-wrapper pattern has two benefits:
 2. **Namespace isolation** — product code imports from `@geti/ui`, so the underlying Spectrum dependency can be swapped in the future without changes in product code.
 
 **Sub-component relationship**: `DisclosureTitle` renders as a styled `<button>` heading. `DisclosurePanel` renders as a `<div>` with a `role="group"` (or `role="region"` when significant content warrants a landmark). Spectrum wires the `id`/`aria-controls` relationship between the two automatically — you never set these manually.
-
-## Flow
-
-```
-User clicks DisclosureTitle
-         │
-         ▼
-   Spectrum's internal handler fires
-         │
-         ├─── Uncontrolled: Disclosure toggles its own isExpanded state
-         │         └──→ DisclosurePanel animates open/closed
-         │
-         └─── Controlled: onExpandedChange(newValue) fires
-                   └──→ Parent updates isExpanded prop
-                             └──→ DisclosurePanel animates open/closed
-```
-
-**Uncontrolled (default)**
-
-State is owned internally by Spectrum's `Disclosure`. Use `defaultExpanded` to set the initial state. No parent re-render is triggered on toggle.
-
-```tsx
-<Disclosure defaultExpanded>
-    <DisclosureTitle>Advanced Settings</DisclosureTitle>
-    <DisclosurePanel>
-        <TextField label="Timeout (ms)" />
-    </DisclosurePanel>
-</Disclosure>
-```
-
-**Controlled**
-
-The parent owns `isExpanded`. Spectrum calls `onExpandedChange` with the next value; the parent must update its own state to reflect it. Use this when you need to programmatically open/close the section, synchronise it with other UI (e.g., a "Expand All" button), or persist the state to a URL or storage.
-
-```tsx
-const [isOpen, setIsOpen] = useState(false);
-
-<Disclosure isExpanded={isOpen} onExpandedChange={setIsOpen}>
-    <DisclosureTitle>Filter Options</DisclosureTitle>
-    <DisclosurePanel>
-        <FilterForm />
-    </DisclosurePanel>
-</Disclosure>
-```
-
-**`isExpanded` vs `defaultExpanded`**: Never mix the two. If you pass `isExpanded`, the component is fully controlled and `defaultExpanded` is ignored. If you only pass `defaultExpanded`, the component is uncontrolled and Spectrum manages all subsequent state internally.
 
 ## Variants
 
@@ -268,3 +222,23 @@ import { Disclosure, DisclosureTitle, DisclosurePanel } from '@geti/ui';
     <DisclosurePanel>...</DisclosurePanel>
 </Disclosure>
 ```
+
+## Related components
+
+- **`Accordion`** — the coordination layer for two or more related `Disclosure` items; use `Accordion` when sections share a container and benefit from single-select or multi-select state.
+- **`Well`** — use inside a `DisclosurePanel` when panel content should appear in a muted inset container.
+- **`Flex`** / **`Grid`** — the usual layout primitives for arranging content inside a `DisclosurePanel`.
+- **`Card`** — use `Disclosure` inside a `Card` to offer an optional details section within an item surface.
+
+## Example use cases
+
+<details>
+  <summary>Typical use cases</summary>
+
+- **Advanced settings section**: Hide optional training parameters (learning rate, batch size, augmentation flags) behind a "Advanced Configuration" title to keep the default form view clean.
+- **Filter panel**: A collapsible "Filters" section in a sidebar that users can open when they want to refine search results.
+- **Help/explanation block**: Wrap a step-by-step guidance paragraph in a quiet `Disclosure` so it is available on demand without cluttering the main UI.
+- **Inline details**: Show additional metadata about a selected item (annotation statistics, model version history) below the main view, collapsed by default.
+- **Programmatic reveal**: Open a section automatically (controlled `isExpanded`) when a validation error occurs inside it so the user sees the relevant fields.
+
+</details>

@@ -1,20 +1,17 @@
-import { Meta, Title, Subtitle, Description, Primary, Controls, Stories, Source } from '@storybook/addon-docs/blocks';
+import { Meta, Controls, Stories } from '@storybook/addon-docs/blocks';
 import * as DocStories from './ToggleButton.stories';
 
 <Meta of={DocStories} />
 
-<Title>ToggleButton</Title>
+# ToggleButton
 
-<Subtitle>
-  A toggle button allows users to switch between two mutually exclusive states, such as on and off.
-</Subtitle>
+A toggle button allows users to switch between two mutually exclusive states, such as on and off.
 
 ```tsx
 import { ToggleButton } from '@geti/ui';
 ```
 
 - [React Spectrum ToggleButton](https://react-spectrum.adobe.com/react-spectrum/ToggleButton.html)
-
 
 <Stories />
 
@@ -29,8 +26,6 @@ It is important to distinguish `ToggleButton` from a standard `Button`:
 
 > **Note**: If the label or icon of the button changes based on its state (e.g., "Play" becoming "Pause"), Adobe recommends using a standard `ActionButton` with changing props instead of a `ToggleButton`.
 
----
-
 ## Variants
 
 ### Emphasis
@@ -38,8 +33,6 @@ Use the `isEmphasized` prop to apply the Geti accent color (blue) when the butto
 
 ### Quiet
 The `isQuiet` prop removes the standard button background and border, rendering a minimal style that only appears on hover or selection. This is ideal for dense toolbars.
-
----
 
 ## Props
 
@@ -67,16 +60,20 @@ The `isQuiet` prop removes the standard button background and border, rendering 
 | `onChange` | `(isSelected: boolean) => void` | Primary handler called when the toggle state changes. |
 | `onPress` | `(e: PressEvent) => void` | Handler called when the button is pressed. |
 
-### Styles
+The `ToggleButton` component accepts all standard [Spectrum layout and spacing props](https://react-spectrum.adobe.com/react-spectrum/styling.html). For icon-only buttons, `aria-label` is strictly required. Uses `aria-pressed` to inform screen readers of the current toggle state. Fully navigable and activatable via the Space and Enter keys.
 
-The `ToggleButton` component accepts all standard [Spectrum layout and spacing props](https://react-spectrum.adobe.com/react-spectrum/styling.html).
+## Related components
+- `Button` — use instead for one-shot actions with no persistent selected state.
+- `ActionButton` — use instead when the button changes label or icon based on state (e.g., Play→Pause).
+- `ToggleButtons` — use instead when only one option from a set may be active at a time (mutually exclusive group).
 
----
+## Example use cases
+<details>
+  <summary>Typical use cases</summary>
 
-## Accessibility
+- Toggling a "Bold" or "Italic" formatting mode in a text annotation editor.
+- Showing or hiding a side panel by toggling a sidebar control in a persistent layout.
+- Activating or deactivating a drawing tool (e.g., polygon, brush) on an annotation canvas.
+- Muting/unmuting audio in a media playback toolbar.
 
-- **State Announcement**: Uses `aria-pressed` to inform screen readers of the current toggle state.
-- **Icon-Only Buttons**: If no text label is provided, an `aria-label` is strictly required.
-- **Keyboard Support**: Fully navigable and activatable via the Space and Enter keys.
-
-
+</details>

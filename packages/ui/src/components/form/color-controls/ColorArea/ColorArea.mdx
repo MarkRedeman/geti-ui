@@ -1,4 +1,4 @@
-import { Meta, Title, Subtitle, Description, Primary, Controls, Stories } from '@storybook/addon-docs/blocks';
+import { Meta, Subtitle, Stories } from '@storybook/addon-docs/blocks';
 import * as DocStories from './ColorArea.stories';
 
 <Meta of={DocStories} />
@@ -48,7 +48,15 @@ export const ColorArea = (props: ColorAreaProps) => (
 
 The `size` prop controls both width and height (square). The rendered gradient adjusts live as the `value` changes — for example, when `ColorWheel` changes the hue, the entire ColorArea gradient re-renders to reflect the new hue while preserving the thumb's saturation/brightness position.
 
-## Flow
+## Integration
+
+- **Depends on**: `@adobe/react-spectrum` — `ColorArea`, `SpectrumColorAreaProps`
+- **Peer import**: `parseColor`, `Color` from `@adobe/react-spectrum` for typed color state
+- **Composed into**: `ColorPickerDialog` — uses `ColorArea` as the central saturation/brightness selector, wired to the shared `Color` draft state
+- **Used alongside**: `ColorWheel` (hue ring), `ColorSlider` (single channel), `ColorField` (hex input)
+- **Does not own**: the `Color` state — always lift it to the nearest composite or form parent
+
+### Usage examples
 
 ```tsx
 // Typical usage inside a custom color picker
@@ -63,14 +71,6 @@ const [color, setColor] = useState<Color>(parseColor('hsb(0, 100%, 50%)'));
 // → user drags thumb to upper-right corner
 // → onChange fires: Color { hue: 0, saturation: 100, brightness: 95 }
 ```
-
-## Integration
-
-- **Depends on**: `@adobe/react-spectrum` — `ColorArea`, `SpectrumColorAreaProps`
-- **Peer import**: `parseColor`, `Color` from `@adobe/react-spectrum` for typed color state
-- **Composed into**: `ColorPickerDialog` — uses `ColorArea` as the central saturation/brightness selector, wired to the shared `Color` draft state
-- **Used alongside**: `ColorWheel` (hue ring), `ColorSlider` (single channel), `ColorField` (hex input)
-- **Does not own**: the `Color` state — always lift it to the nearest composite or form parent
 
 ### Props
 
@@ -92,6 +92,18 @@ const [color, setColor] = useState<Color>(parseColor('hsb(0, 100%, 50%)'));
 - **Keyboard navigation**: Each channel is independently controlled with arrow keys. Left/Right arrows adjust `xChannel`; Up/Down arrows adjust `yChannel`. Page Up/Down and Home/End jump to the channel's min/max.
 - **Visual contrast**: The thumb has a white border and drop shadow, ensuring it remains visible across the full gradient range without relying on color alone.
 
-<Primary />
+## Related components
+- `ColorWheel` — compose alongside `ColorArea` to provide hue selection (wheel) + saturation/brightness (area).
+- `ColorSlider` — use instead for precise linear control of a single channel on a gradient track.
+- `ColorPickerDialog` — use instead for a complete, assembled color picker with all primitives pre-composed.
 
-<Controls />
+## Example use cases
+<details>
+  <summary>Typical use cases</summary>
+
+- Selecting saturation and brightness within a hue-saturation-brightness (HSB) color picker dialog.
+- Allowing users to fine-tune the fill color of an annotation shape in an annotation canvas toolbar.
+- Providing a 2D gradient surface inside a custom branding or theme configuration panel.
+- Embedding within `ColorPickerDialog` to give users spatial color exploration for label color assignment.
+
+</details>

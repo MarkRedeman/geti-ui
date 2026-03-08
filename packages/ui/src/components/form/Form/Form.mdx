@@ -1,11 +1,11 @@
-import { Meta, Title, Subtitle, Controls, Stories } from '@storybook/addon-docs/blocks';
+import { Meta, Controls, Stories } from '@storybook/addon-docs/blocks';
 import * as DocStories from './Form.stories';
 
 <Meta of={DocStories} />
 
 # Form
 
-<Subtitle>A semantic container for grouping related form fields with shared layout, validation, and state propagation.</Subtitle>
+A semantic container for grouping related form fields with shared layout, validation, and state propagation.
 
 ```tsx
 import { Form } from '@geti/ui';
@@ -25,7 +25,6 @@ Key responsibilities:
 - **Shared disabled / required state**: `isDisabled` and `isRequired` cascade to every child Spectrum component, simplifying bulk state changes (e.g., disabling all fields during submission).
 - **Validation orchestration**: `validationBehavior` switches between ARIA-only validation (default) and native HTML5 constraint validation. `validationErrors` lets you inject server-side error messages by field name.
 - **Focus management on error**: When `validationBehavior="native"` and submission fails, Spectrum automatically moves focus to the first invalid field — no manual `ref` management needed.
-- **Theme integration**: Inherits Spectrum's spacing, alignment, and colour tokens from `ThemeProvider` so field layout and validation colour are consistent with the Geti dark theme.
 
 ### When to use
 - When you have **two or more related input fields** that should be submitted together.
@@ -39,71 +38,11 @@ Key responsibilities:
 - **Non-submission groupings** — if you're visually grouping fields but there is no submit action, use a plain `<div>`, `Flex`, or `Grid` container instead to avoid creating a spurious `<form>` landmark.
 - **Purely decorative containers** — do not use `Form` to get consistent spacing; use layout primitives.
 
----
-
-## Design
-
-`Form` follows the *transparent wrapper* pattern: it extends `SpectrumFormProps` without modification and delegates all rendering to Spectrum.
-
-```tsx
-// packages/ui/src/components/form/Form/Form.tsx
-
-export interface FormProps extends SpectrumFormProps {}
-
-export const Form = (props: FormProps) => <SpectrumForm {...props} />;
-```
-
-The wrapper provides the stable `@geti/ui` import path. Future Geti-specific defaults (e.g., a standard spacing token, a default `validationBehavior`, or migration to `react-aria-components`) can be introduced here without changing call sites.
-
-**Prop mapping**
-
-All props pass through to Spectrum unchanged:
-
-| Geti `FormProps` | Spectrum `SpectrumFormProps` | Notes |
-|------------------|------------------------------|-------|
-| `labelPosition` | `labelPosition` | `'top'` (default) or `'side'` — cascades to all child fields |
-| `labelAlign` | `labelAlign` | `'start'` or `'end'` — alignment when `labelPosition="side"` |
-| `necessityIndicator` | `necessityIndicator` | `'icon'` (asterisk) or `'label'` ("required"/"optional" text) |
-| `isDisabled` | `isDisabled` | Disables all child Spectrum components |
-| `isRequired` | `isRequired` | Marks all child Spectrum components as required |
-| `validationBehavior` | `validationBehavior` | `'aria'` (default) or `'native'` |
-| `validationErrors` | `validationErrors` | Map of field names to error strings from a server response |
-| `onSubmit` | `onSubmit` | Native form submit handler |
-| `onReset` | `onReset` | Native form reset handler |
-| `...rest` | all other props | Passed through without transformation |
-
-**Context propagation**
-
-When `Form` renders `<SpectrumForm>`, Spectrum injects a React context that all descendant Spectrum form components read. This means you can write:
-
-```tsx
-<Form labelPosition="side" isDisabled={isSubmitting}>
-    <TextField label="Project name" name="name" />
-    <TextField label="Description" name="description" />
-    <NumberField label="Max annotations" name="maxAnnotations" />
-</Form>
-```
-
-…and every field automatically renders with side labels and is disabled during submission, without passing those props to each field individually.
-
-**Theme integration**
-
-`Form` inherits Spectrum's form layout tokens (label width, field gap, focus colour, error red) from `ThemeProvider`. In Geti's dark theme these are resolved via `src/theme/tokens.css` — no per-component CSS is required.
-
----
-
 ## Variants
 
 ### Label layout
 
 **Top labels (default)**: Each label appears above its field. Best for most general forms and narrow viewports.
-
-```tsx
-<Form labelPosition="top">
-    <TextField label="Name" />
-    <TextField label="Email" />
-</Form>
-```
 
 **Side labels**: Each label appears to the left of its field. Ideal for settings panels, aligned property forms, and dense layouts with short labels.
 
@@ -128,23 +67,9 @@ When `Form` renders `<SpectrumForm>`, Spectrum injects a React context that all 
 </Form>
 ```
 
-### Shared disabled state
-
-Disable the entire form during an async operation:
-
-```tsx
-const [isSubmitting, setIsSubmitting] = useState(false);
-
-<Form isDisabled={isSubmitting} onSubmit={handleSubmit}>
-    <TextField label="Name" />
-    <Button type="submit">Save</Button>
-</Form>
-```
-
 ### Server-side validation errors
 
 ```tsx
-// After a failed API call:
 const serverErrors = {
     name: 'A project with this name already exists.',
     email: ['Must be a valid Intel email address.'],
@@ -156,113 +81,13 @@ const serverErrors = {
 </Form>
 ```
 
-Each field whose `name` matches a key in `validationErrors` will automatically render in an invalid state with the provided error message — no `validationState` or `errorMessage` props are needed on the individual fields.
+Each field whose `name` matches a key in `validationErrors` will automatically render in an invalid state with the provided error message.
 
----
-
-## Flow
-
-### Controlled submission pattern
-
-```tsx
-const [values, setValues] = useState({ name: '', email: '' });
-const [errors, setErrors] = useState<Record<string, string>>({});
-const [isSubmitting, setIsSubmitting] = useState(false);
-
-const handleSubmit = async (e: FormEvent) => {
-    e.preventDefault();
-    setIsSubmitting(true);
-    try {
-        await api.createProject(values);
-    } catch (apiError) {
-        setErrors(apiError.fieldErrors);   // e.g. { name: 'Already taken.' }
-    } finally {
-        setIsSubmitting(false);
-    }
-};
-
-<Form
-    onSubmit={handleSubmit}
-    validationErrors={errors}
-    isDisabled={isSubmitting}
-    aria-label="Create project"
->
-    <TextField
-        label="Project name"
-        name="name"
-        value={values.name}
-        onChange={(v) => setValues((p) => ({ ...p, name: v }))}
-        isRequired
-    />
-    <TextField
-        label="Email"
-        name="email"
-        type="email"
-        value={values.email}
-        onChange={(v) => setValues((p) => ({ ...p, email: v }))}
-        isRequired
-    />
-    <Button type="submit">Create project</Button>
-</Form>
-```
-
-### Validation flow
-
-```
-User fills fields and submits
-    │
-    ▼
-onSubmit(e) fires
-    │
-    ├── Client-side validation (optional, in handler)
-    │       └── invalid → setErrors({...}) → validationErrors renders field errors
-    │
-    └── API call
-            ├── success → navigate / reset form
-            └── failure → setErrors(apiError.fieldErrors)
-                              │
-                              ▼
-                          validationErrors prop updates
-                              │
-                              ▼
-                          Spectrum propagates errors to matching fields (by `name`)
-                              │
-                              ▼
-                          Fields render in invalid state with error messages
-                          aria-invalid="true" set on each affected <input>
-                          Error messages linked via aria-describedby
-```
-
-**Key points:**
-- `validationErrors` is a `Record<string, string | string[]>` where keys are the `name` attributes on child fields.
-- When `validationBehavior="native"`, Spectrum blocks form submission and moves focus to the first invalid field automatically.
-- When `validationBehavior="aria"` (default), submission is not blocked — validation is communicated via ARIA attributes only. Use this when you handle validation in your `onSubmit` handler.
-
-### Group-level vs field-level validation
-
-`Form` handles **group-level** concerns:
-
-| Concern | Mechanism |
-|---------|-----------|
-| Server errors by field name | `validationErrors` prop on `Form` |
-| All fields required | `isRequired` on `Form` |
-| All fields disabled | `isDisabled` on `Form` |
-| Layout and labeling | `labelPosition`, `labelAlign` on `Form` |
-
-Individual **field-level** concerns override the group defaults:
-
-```tsx
-<Form isRequired labelPosition="side">
-    <TextField label="Name" />           {/* inherits isRequired="true" */}
-    <TextField label="Notes" isRequired={false} />  {/* override: optional */}
-</Form>
-```
-
----
+`Form` renders a native `<form>` element — an ARIA form landmark. Always provide `aria-label` or `aria-labelledby` to name it for screen readers. Context propagation ensures consistent `aria-invalid`, `aria-required`, and `aria-disabled` across all child fields automatically.
 
 ## Props
 
-<Controls />
+<Controls of={DocStories.Default} />
 
 ### Layout
 
@@ -292,7 +117,7 @@ Individual **field-level** concerns override the group defaults:
 | Prop | Type | Description |
 |------|------|-------------|
 | `onSubmit` | `(e: FormEvent) => void` | Called when the form's submit button is activated. |
-| `onReset` | `(e: FormEvent) => void` | Called when the form is reset (e.g., via a reset button or programmatically). |
+| `onReset` | `(e: FormEvent) => void` | Called when the form is reset. |
 
 ### Content
 
@@ -300,36 +125,19 @@ Individual **field-level** concerns override the group defaults:
 |------|------|-------------|
 | `children` | `ReactNode` | The form fields and controls. |
 
----
+## Related components
+- `TextField` — a common field child; participates in `Form` label alignment and validation context.
+- `Picker` — use for fixed-option select fields inside `Form`.
+- `ComboBox` — use for searchable or dynamic-option fields inside `Form`.
+- `Button` — use with `type="submit"` as the primary `Form` submission trigger.
 
-## Accessibility
+## Example use cases
+<details>
+  <summary>Typical use cases</summary>
 
-- **ARIA landmark**: `Form` renders a native `<form>` element, which browsers expose as an `ARIA form` landmark. Screen reader users can jump directly to the form via landmark navigation.
-- **Landmark naming**: To be correctly identified by screen readers, the `<form>` landmark must have an accessible name. Always provide either:
-  - `aria-label` — for a self-contained, visually unlabeled form (e.g., `aria-label="Create project"`)
-  - `aria-labelledby` — to reference a visible heading that titles the form section
-- **Context propagation**: `Form` propagates `isDisabled`, `isRequired`, and validation state to all child Spectrum components via React context, ensuring consistent ARIA attributes across all fields automatically.
-- **Validation state**: When `validationErrors` is set, Spectrum sets `aria-invalid="true"` on each affected field and links the error message via `aria-describedby`. This ensures screen readers announce the error when focus enters the field.
-- **Focus on error**: With `validationBehavior="native"`, Spectrum moves focus to the first invalid field after a failed submission. This is critical for keyboard users who would otherwise receive no indication that submission failed.
-- **Required fields**: When `isRequired` is set on `Form` (or on individual fields), Spectrum sets `aria-required="true"` on each input and renders a visual indicator (asterisk or text) next to the label.
-- **Keyboard interactions**:
+- A project creation form with name, description, and type fields collected and submitted together.
+- A user profile update form containing name, email, and notification preference fields.
+- A model training configuration form grouping hyperparameters and dataset selection before starting a run.
+- An API integration setup form capturing endpoint URL, API key, and polling interval in one submission.
 
-| Key | Behaviour |
-|-----|-----------|
-| `Tab` / `Shift+Tab` | Navigate between fields in the form |
-| `Enter` (in text field) | May submit the form if there is a single submit button (browser default) |
-| `Space` / `Enter` (on submit button) | Submits the form |
-
-- **Labeling requirements**: Every form field inside `Form` still requires its own `label` prop or `aria-label`. `Form` does not generate labels for its children — it only aligns and positions the labels they provide.
-
----
-
-## Integration
-
-- **Dependency**: `@adobe/react-spectrum` — `Form` and `SpectrumFormProps` are imported from this package.
-- **`ThemeProvider`**: Must be present in the React tree for Spectrum tokens (label spacing, focus colour, error red, alignment) to resolve correctly.
-- **React Hook Form**: Use the controlled pattern — drive each field with `value` + `onChange` from `useController` or `register`. Pass server errors to `validationErrors` after a failed submission. Use `handleSubmit` from React Hook Form as the `onSubmit` handler.
-- **Formik**: Use `useFormikContext` inside child fields to read values and errors. Pass `formik.errors` to `validationErrors` after submit, and set `isDisabled={formik.isSubmitting}` on `Form`.
-- **Native form submission**: If using `validationBehavior="native"` without JavaScript handling, ensure all fields have `name` attributes and that submit buttons are `type="submit"`. `Form` wraps a native `<form>`, so standard HTML form semantics apply.
-- **Spacing and layout**: `Form` does not inject margins between fields — this is handled by Spectrum's layout context internally. Do not wrap fields in extra `<div>` elements for spacing; let `Form`'s context manage field alignment.
-- **`TextField` / `Select` / `NumberField`**: These Spectrum-based components are the natural children of `Form`. They all read from the same React context that `Form` provides, making label layout, necessity indicators, and validation state automatic.
+</details>

@@ -1,4 +1,4 @@
-import { Meta, Title, Subtitle, Description, Primary, Controls, Stories } from '@storybook/addon-docs/blocks';
+import { Meta, Subtitle, Stories } from '@storybook/addon-docs/blocks';
 import * as DocStories from './DateField.stories';
 
 <Meta of={DocStories} />
@@ -99,17 +99,6 @@ import { CalendarDateTime } from '@internationalized/date';
 
 ---
 
-## Flow
-
-1. `DateField` renders a labelled row of segments (e.g., `MM / DD / YYYY`).
-2. User clicks a segment, or tabs to the field — focus enters the first empty or highlighted segment.
-3. User types digits: Spectrum auto-advances focus to the next segment once a valid value is entered (e.g., typing `03` in the month segment moves focus to the day segment).
-4. Alternatively, user presses `↑` / `↓` to increment/decrement the focused segment's value by one.
-5. Once all segments are filled, `onChange(DateValue)` fires with the complete typed value.
-6. If `validationState="invalid"`, the error message is rendered and `aria-invalid` is applied.
-
----
-
 ## Integration
 
 - **Depends on**: `@adobe/react-spectrum` (`DateField`, `SpectrumDateFieldProps`), `@react-types/datepicker` (`DateValue`)
@@ -121,8 +110,6 @@ import { CalendarDateTime } from '@internationalized/date';
 ---
 
 ## Props
-
-<Controls of={DocStories.Default} />
 
 ### Key props
 
@@ -165,3 +152,19 @@ import { CalendarDateTime } from '@internationalized/date';
 
 - **Auto-advance**: Spectrum auto-advances focus to the next segment as soon as a complete, valid unit is entered (e.g., typing `1` then `2` in the month segment completes it and moves to the day segment). This removes the need to press `Tab` between every segment.
 - **Placeholder communication**: Unfilled segments announce their placeholder (e.g., "month") so screen reader users know which segment they are on and what to type.
+
+## Related components
+- `DatePicker` — use instead when a calendar popover is needed alongside the field for visual date selection.
+- `TimeField` — use alongside `DateField` when both a date and a time must be entered independently.
+- `Calendar` — use instead when a standalone always-visible calendar grid is preferred over a segmented input.
+
+## Example use cases
+<details>
+  <summary>Typical use cases</summary>
+
+- Entering a specific date for a scheduled batch inference job without a calendar popover.
+- Providing a date-of-birth or document date in a registration or verification form.
+- Setting a model checkpoint expiry date in an administrative settings panel.
+- Entering an annotation deadline date directly by keyboard in a task creation form.
+
+</details>

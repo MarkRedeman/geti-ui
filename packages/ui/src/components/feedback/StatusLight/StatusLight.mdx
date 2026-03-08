@@ -1,11 +1,11 @@
-import { Meta, Title, Subtitle, Controls, Stories, Source } from '@storybook/addon-docs/blocks';
+import { Meta, Stories } from '@storybook/addon-docs/blocks';
 import * as DocStories from './StatusLight.stories';
 
 <Meta of={DocStories} />
 
 # StatusLight
 
-<Subtitle>A small coloured dot paired with a label that communicates the live operational state of a resource, device, or process.</Subtitle>
+A small coloured dot paired with a label that communicates the live operational state of a resource, device, or process.
 
 ```tsx
 import { StatusLight } from '@geti/ui';
@@ -53,7 +53,7 @@ export const StatusLight = (props: StatusLightProps) => <SpectrumStatusLight {..
 
 No state, no effects, no refs. Spectrum handles dot colour, label alignment, and disabled rendering.
 
-## Flow
+## Integration
 
 ```tsx
 // Operational state indicators
@@ -82,8 +82,6 @@ No state, no effects, no refs. Spectrum handles dot colour, label alignment, and
 </Flex>
 ```
 
-## Integration
-
 | Concern | Detail |
 |---------|--------|
 | **Package** | `@adobe/react-spectrum` — `StatusLight` |
@@ -108,3 +106,21 @@ All `SpectrumStatusLightProps` are accepted as-is. The primary props are:
 - **Disabled state**: `isDisabled` applies `aria-disabled="true"` and mutes the visual style. It communicates that the status is unavailable, not that the element is inactive UI.
 - **No keyboard interaction**: `StatusLight` is not focusable and does not respond to keyboard or pointer events. If you need a clickable status indicator, combine it with a `Button` or `Link` wrapper.
 - **Live state updates**: When `StatusLight` reflects a value that changes at runtime (e.g. polling a device status), wrap it in an `aria-live="polite"` region so screen reader users are notified of changes without interruption.
+
+## Related components
+- **`Badge`** — use for static categorical metadata (e.g. "Beta", "Archived") attached to an entity rather than a live, changeable operational state.
+- **`InlineAlert`** — use when the status message requires a title, body copy, and/or an action button (e.g. a persistent error explanation).
+- **`Toast`** — use for transient, event-driven notifications triggered after async operations complete rather than for displaying a continuous live state.
+- **`Meter`** — use when the state is a measurable quantity within a known range (e.g. 72% storage used) rather than a categorical health label.
+
+## Example use cases
+<details>
+  <summary>Typical use cases</summary>
+
+- Showing the live deployment status of each model in a deployment list — `<StatusLight variant="positive">Active</StatusLight>`.
+- Indicating that an edge device is unreachable in a device management table — `<StatusLight variant="negative">Unreachable</StatusLight>`.
+- Colour-coding dataset categories in a data visualisation legend using accent variants (`indigo`, `seafoam`, `magenta`).
+- Displaying a training pipeline's current phase in a job status row — `<StatusLight variant="notice">Training</StatusLight>`.
+- Representing an unknown or stale connection state — `<StatusLight variant="neutral" isDisabled>Unknown</StatusLight>`.
+
+</details>

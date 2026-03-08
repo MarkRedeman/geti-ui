@@ -1,11 +1,11 @@
-import { Meta, Title, Subtitle, Controls, Stories } from '@storybook/addon-docs/blocks';
+import { Meta, Stories } from '@storybook/addon-docs/blocks';
 import * as DocStories from './Tabs.stories';
 
 <Meta of={DocStories} />
 
 # Tabs
 
-<Subtitle>Tabs organize content into sibling sections, allowing users to view one section at a time while maintaining the overall context.</Subtitle>
+Tabs organize content into sibling sections, allowing users to view one section at a time while maintaining the overall context.
 
 ```tsx
 import { Tabs, TabList, TabPanels, Item } from '@geti/ui';
@@ -135,96 +135,6 @@ Individual tabs can be disabled via the `disabledKeys` prop on `Tabs`, leaving t
 
 ---
 
-## Flow
-
-Understanding selection ownership is key to working with `Tabs` correctly.
-
-```
-User clicks tab / presses Arrow key
-        │
-        ▼
-  onSelectionChange(key)   ◄── fired by Tabs
-        │
-        ▼
-  Parent updates state     ◄── your useState / store
-        │
-        ▼
-  selectedKey prop         ◄── passed back to Tabs
-        │
-        ▼
-  Active panel re-renders
-```
-
-**Uncontrolled vs. controlled**
-
-`Tabs` supports both patterns:
-
-```tsx
-// Uncontrolled — Tabs manages selected key internally
-<Tabs defaultSelectedKey="general" aria-label="Settings">
-    <TabList>
-        <Item key="general">General</Item>
-        <Item key="security">Security</Item>
-    </TabList>
-    <TabPanels>
-        <Item key="general"><Content>General…</Content></Item>
-        <Item key="security"><Content>Security…</Content></Item>
-    </TabPanels>
-</Tabs>
-
-// Controlled — you own the state
-const [selected, setSelected] = useState<Key>('general');
-
-<Tabs selectedKey={selected} onSelectionChange={setSelected} aria-label="Settings">
-    <TabList>
-        <Item key="general">General</Item>
-        <Item key="security">Security</Item>
-    </TabList>
-    <TabPanels>
-        <Item key="general"><Content>General…</Content></Item>
-        <Item key="security"><Content>Security…</Content></Item>
-    </TabPanels>
-</Tabs>
-```
-
-Use `defaultSelectedKey` (uncontrolled) when no external state needs to react to the selection. Use `selectedKey` + `onSelectionChange` (controlled) when:
-- A sibling component needs to read or update the active tab (e.g., a "Next" button that advances through tabs).
-- The active tab is derived from a URL parameter or persisted in application state.
-- You need to prevent or delay a tab switch (e.g., after form validation).
-
-**`keyboardActivation="manual"` — when and why**
-
-By default, arrow-key navigation immediately activates each tab as it receives focus. This is fine for lightweight content, but can cause problems when each tab triggers an **expensive data fetch or complex re-render** — every arrow key press would fire a network request before the user has confirmed their choice.
-
-Set `keyboardActivation="manual"` to decouple focus movement from activation:
-
-```tsx
-// Each arrow key moves focus without selecting.
-// Only Enter / Space confirms the selection and fires onSelectionChange.
-<Tabs
-    keyboardActivation="manual"
-    selectedKey={activeTab}
-    onSelectionChange={(key) => {
-        setActiveTab(key);
-        fetchTabData(key);   // only fires on explicit confirmation
-    }}
-    aria-label="Analytics dashboard"
->
-    <TabList>
-        <Item key="traffic">Traffic</Item>
-        <Item key="conversions">Conversions</Item>
-        <Item key="revenue">Revenue</Item>
-    </TabList>
-    <TabPanels>
-        <Item key="traffic"><Content>{trafficData}</Content></Item>
-        <Item key="conversions"><Content>{conversionData}</Content></Item>
-        <Item key="revenue"><Content>{revenueData}</Content></Item>
-    </TabPanels>
-</Tabs>
-```
-
----
-
 ## Props
 
 ### Tabs Props
@@ -319,6 +229,76 @@ When a tab is selected, the screen reader announces the tab label, its position 
 - **ThemeProvider**: Must be present in the React tree. Tab indicator colour, typography, and spacing all derive from Spectrum tokens resolved by `ThemeProvider`.
 - **Layout with `Flex`**: To place tabs inside a flex layout or control their width, wrap in a `Flex` container. The `Tabs` component itself does not constrain its width.
 
+### Controlled vs. uncontrolled
+
+`Tabs` supports both patterns:
+
+```tsx
+// Uncontrolled — Tabs manages selected key internally
+<Tabs defaultSelectedKey="general" aria-label="Settings">
+    <TabList>
+        <Item key="general">General</Item>
+        <Item key="security">Security</Item>
+    </TabList>
+    <TabPanels>
+        <Item key="general"><Content>General…</Content></Item>
+        <Item key="security"><Content>Security…</Content></Item>
+    </TabPanels>
+</Tabs>
+
+// Controlled — you own the state
+const [selected, setSelected] = useState<Key>('general');
+
+<Tabs selectedKey={selected} onSelectionChange={setSelected} aria-label="Settings">
+    <TabList>
+        <Item key="general">General</Item>
+        <Item key="security">Security</Item>
+    </TabList>
+    <TabPanels>
+        <Item key="general"><Content>General…</Content></Item>
+        <Item key="security"><Content>Security…</Content></Item>
+    </TabPanels>
+</Tabs>
+```
+
+Use `defaultSelectedKey` (uncontrolled) when no external state needs to react to the selection. Use `selectedKey` + `onSelectionChange` (controlled) when:
+- A sibling component needs to read or update the active tab (e.g., a "Next" button that advances through tabs).
+- The active tab is derived from a URL parameter or persisted in application state.
+- You need to prevent or delay a tab switch (e.g., after form validation).
+
+### `keyboardActivation="manual"` — when and why
+
+By default, arrow-key navigation immediately activates each tab as it receives focus. This is fine for lightweight content, but can cause problems when each tab triggers an **expensive data fetch or complex re-render** — every arrow key press would fire a network request before the user has confirmed their choice.
+
+Set `keyboardActivation="manual"` to decouple focus movement from activation:
+
+```tsx
+// Each arrow key moves focus without selecting.
+// Only Enter / Space confirms the selection and fires onSelectionChange.
+<Tabs
+    keyboardActivation="manual"
+    selectedKey={activeTab}
+    onSelectionChange={(key) => {
+        setActiveTab(key);
+        fetchTabData(key);   // only fires on explicit confirmation
+    }}
+    aria-label="Analytics dashboard"
+>
+    <TabList>
+        <Item key="traffic">Traffic</Item>
+        <Item key="conversions">Conversions</Item>
+        <Item key="revenue">Revenue</Item>
+    </TabList>
+    <TabPanels>
+        <Item key="traffic"><Content>{trafficData}</Content></Item>
+        <Item key="conversions"><Content>{conversionData}</Content></Item>
+        <Item key="revenue"><Content>{revenueData}</Content></Item>
+    </TabPanels>
+</Tabs>
+```
+
+### Flex layout example
+
 ```tsx
 import { Flex } from '@adobe/react-spectrum';
 import { Tabs, TabList, TabPanels, Item } from '@geti/ui';
@@ -340,3 +320,21 @@ import { Tabs, TabList, TabPanels, Item } from '@geti/ui';
 
 - **Pairing with `Card`**: Place `Tabs` inside a `Card` to create a contained tabbed panel. Use `isQuiet` to remove the tab bar border so it blends naturally with the card surface.
 - **Content slot**: Panel content is conventionally wrapped in the Spectrum `<Content>` slot component for correct padding and typography. Import it directly from `@adobe/react-spectrum`.
+
+## Related components
+- **`Menu`** — use when options represent commands or actions rather than co-equal sibling content views; `Menu` overlays are ephemeral, whereas `Tabs` panels are always mounted.
+- **`ActionGroup`** — use for a set of toggle buttons that filter or change a view without hiding/showing separate panels.
+- **`Breadcrumbs`** — use alongside `Tabs` in deep hierarchies where breadcrumbs communicate positional context and tabs switch between sibling sections of the current level.
+- **`Link`** — use for navigation that changes the URL and requires browser history support; prefer `Tabs` only when switching between in-page sections without route changes.
+
+## Example use cases
+<details>
+  <summary>Typical use cases</summary>
+
+- Organising a project settings page into "General", "Security", and "Notifications" sections — each panel renders only when its tab is selected.
+- Switching between "Overview", "Annotations", and "Models" views in a dataset detail page using horizontal tabs.
+- Providing a compact vertical tab list in a right-hand properties panel to separate "Appearance", "Labels", and "Metadata" attribute groups.
+- Building a controlled tabbed interface where the active tab is persisted in the URL query string for deep-linking.
+- Displaying analytics dashboards — "Traffic", "Conversions", "Revenue" — with `keyboardActivation="manual"` to avoid triggering expensive data fetches on every arrow key press.
+
+</details>

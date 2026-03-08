@@ -1,4 +1,4 @@
-import { Meta, Title, Subtitle, Description, Primary, Controls, Stories } from '@storybook/addon-docs/blocks';
+import { Meta, Subtitle, Stories } from '@storybook/addon-docs/blocks';
 import * as DocStories from './RangeCalendar.stories';
 
 <Meta of={DocStories} />
@@ -82,16 +82,6 @@ const [range, setRange] = useState<RangeValue<CalendarDate> | null>(null);
 
 ---
 
-## Flow
-
-1. `RangeCalendar` mounts and renders the month grid(s).
-2. User clicks (or presses `Enter`) on the **start date** — it gains a filled selection highlight.
-3. User moves the cursor (or navigates with arrow keys) toward the end date — the provisional span is highlighted dynamically.
-4. User clicks (or presses `Enter`) on the **end date** — `onChange({ start, end })` fires with both `CalendarDate` values.
-5. The full span between start and end is rendered with a continuous highlight; start and end cells receive filled caps.
-
----
-
 ## Integration
 
 - **Depends on**: `@adobe/react-spectrum` (`RangeCalendar`, `SpectrumRangeCalendarProps`)
@@ -103,8 +93,6 @@ const [range, setRange] = useState<RangeValue<CalendarDate> | null>(null);
 ---
 
 ## Props
-
-<Controls of={DocStories.Default} />
 
 ### Key props
 
@@ -150,3 +138,19 @@ const [range, setRange] = useState<RangeValue<CalendarDate> | null>(null);
 | `Enter` / `Space` | Commit the focused date as the start or end of the range |
 
 - **Two-step selection**: Screen readers are informed whether they are selecting the start or end of the range so the two-click model is not ambiguous.
+
+## Related components
+- `Calendar` — use instead when only a single date (not a range) needs to be selected.
+- `DateRangePicker` — use instead when the range calendar should be hidden in a popover rather than always visible.
+- `RangeSlider` — use instead when the range is a continuous numeric value rather than calendar dates.
+
+## Example use cases
+<details>
+  <summary>Typical use cases</summary>
+
+- An embedded date-range picker in a reporting dashboard for selecting the analytics period.
+- Choosing a training data window (start to end date) in a model training configuration panel.
+- Selecting an availability or scheduling window in a resource booking interface.
+- Picking a sprint or release period in a project planning or milestone management view.
+
+</details>

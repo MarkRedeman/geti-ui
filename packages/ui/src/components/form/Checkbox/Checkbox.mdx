@@ -1,11 +1,11 @@
-import { Meta, Title, Subtitle, Controls, Stories } from '@storybook/addon-docs/blocks';
+import { Meta, Controls, Stories } from '@storybook/addon-docs/blocks';
 import * as DocStories from './Checkbox.stories';
 
 <Meta of={DocStories} />
 
 # Checkbox
 
-<Subtitle>A binary selection input for toggling a single value or building multi-item selection lists.</Subtitle>
+A binary selection input for toggling a single value or building multi-item selection lists.
 
 ```tsx
 import { Checkbox } from '@geti/ui';
@@ -17,241 +17,67 @@ import { Checkbox } from '@geti/ui';
 
 ## Responsibility
 
-The `Checkbox` component is a transparent wrapper around Adobe React Spectrum's `Checkbox`. It inherits the full Spectrum API — labeling, validation state, keyboard handling, and ARIA wiring — with no additional configuration required.
+`Checkbox` is a transparent wrapper around Adobe React Spectrum's `Checkbox`. It inherits the full Spectrum API — labeling, validation state, keyboard handling, and ARIA wiring — with no additional configuration required.
 
-Key responsibilities:
 - **Binary Toggle**: Captures a single boolean value (`true`/`false`) for an individual on/off choice.
 - **Indeterminate State**: Renders a visual "dash" indicator for parent checkboxes in hierarchical selection trees. This state is **visual only** and does not affect the underlying boolean value.
-- **Group Membership**: Individual `Checkbox` components can be placed inside Spectrum's `CheckboxGroup` to form a labelled multi-select group that manages selection state collectively.
-- **Validation Feedback**: Participates in form validation by surfacing `validationState="invalid"` with error styling and an `errorMessage` rendered below the control.
-- **Theme Integration**: Inherits all Spectrum colour, spacing, and focus-ring tokens from `ThemeProvider`, ensuring correct rendering in Geti's dark theme without extra CSS.
+- **Group Membership**: Individual `Checkbox` components can be placed inside `CheckboxGroup` to form a labelled multi-select group.
+- **Validation Feedback**: Participates in form validation by surfacing `validationState="invalid"` with error styling and an `errorMessage` below the control.
 
 ### When to use
-- For a **single binary choice** that is independent of other fields: e.g., "Accept terms and conditions", "Remember me", "Enable notifications".
-- When the user can select **multiple independent items** from a list — combine with `CheckboxGroup` for grouped selections.
+- For a **single binary choice**: "Accept terms and conditions", "Remember me", "Enable notifications".
+- When the user can select **multiple independent items** — combine with `CheckboxGroup` for grouped selections.
 - Inside forms where the value is collected on **submission** rather than applied instantly. If the change should take effect immediately, use [`Switch`](/docs/form-switch--docs) instead.
-- When you need the **indeterminate** state to represent partial selection in a hierarchical tree (e.g., a "Select all" parent checkbox).
+- When you need the **indeterminate** state to represent partial selection in a hierarchical tree.
 
 ### When to avoid
-- **Instant activation of a setting** — use [`Switch`](/docs/form-switch--docs). The Switch communicates an immediate side-effect more clearly than a checkbox.
-- **Exactly one option from a set** — use [`RadioGroup`](/docs/form-radiogroup--docs). Checkboxes imply independent multi-selection; radio buttons enforce mutual exclusivity.
-- **Many options with limited space** — use [`Select`](/docs/form-pickers-select--docs) or [`ComboBox`](/docs/form-pickers-combobox--docs) to keep the UI compact.
-- **When no visible label is feasible without an `aria-label`** — every `Checkbox` must have an accessible name; rendering one with neither `children` nor `aria-label` is an accessibility violation.
+- **Instant activation of a setting** — use [`Switch`](/docs/form-switch--docs).
+- **Exactly one option from a set** — use [`RadioGroup`](/docs/form-radiogroup--docs).
+- **Many options with limited space** — use [`Select`](/docs/form-pickers-select--docs) or [`ComboBox`](/docs/form-pickers-combobox--docs).
 
----
-
-## Design
-
-`Checkbox` follows the *transparent wrapper* pattern: it extends `SpectrumCheckboxProps` without modification and delegates all rendering to Spectrum.
-
-```tsx
-// packages/ui/src/components/form/Checkbox/Checkbox.tsx
-
-import { Checkbox as SpectrumCheckbox, SpectrumCheckboxProps } from '@adobe/react-spectrum';
-
-export interface CheckboxProps extends SpectrumCheckboxProps {}
-
-export const Checkbox = (props: CheckboxProps) => <SpectrumCheckbox {...props} />;
-```
-
-The wrapper exists as an **integration boundary**: Geti-specific defaults, additional props, or a future migration to `react-aria-components` can be introduced here without changing any consumer import path.
-
-**Prop mapping**
-
-All props pass through to Spectrum unchanged:
-
-| Geti `CheckboxProps` | Spectrum `SpectrumCheckboxProps` | Notes |
-|----------------------|----------------------------------|-------|
-| `children` | `children` | Rendered as the visible label, linked via `aria-labelledby` |
-| `isSelected` / `defaultSelected` | `isSelected` / `defaultSelected` | Controlled / uncontrolled selection state |
-| `isIndeterminate` | `isIndeterminate` | Visual-only dash; does not change the boolean value |
-| `validationState` | `validationState` | `'invalid'` triggers error styles and `aria-invalid` |
-| `errorMessage` | `errorMessage` | Rendered below the checkbox when `validationState="invalid"` |
-| `isRequired` | `isRequired` | Adds a visual asterisk and `aria-required="true"` |
-| `...rest` | all other props | Passed through without transformation |
-
-**Theme integration**
-
-`Checkbox` inherits Spectrum's selection colour, focus ring, and error tokens from `ThemeProvider`. In Geti's dark theme these tokens are overridden in `src/theme/tokens.css` — no per-component CSS is needed.
-
-**`isIndeterminate` — visual-only warning**
-
-The indeterminate state is a purely visual affordance:
-
-```tsx
-// ✅ Correct — use isIndeterminate to show partial selection in a tree
-<Checkbox isIndeterminate onChange={handleSelectAll}>
-    Select all ({selectedCount}/{totalCount})
-</Checkbox>
-
-// ⚠️ The underlying boolean value is still false until the user checks the box.
-// Reading `isSelected` on an indeterminate checkbox returns false, not "mixed".
-// Track your own partial-selection logic separately.
-```
-
----
-
-## Variants
-
-### States
+## States
 
 | State | Prop | Description |
 |-------|------|-------------|
 | Default | — | Standard unchecked checkbox. |
 | Selected | `defaultSelected={true}` or `isSelected={true}` | Checked state with a visible tick. |
-| Indeterminate | `isIndeterminate={true}` | Dash indicator for partial selection. Visual only — boolean value is unchanged. |
-| Disabled | `isDisabled={true}` | Non-focusable and visually dimmed. Value cannot be toggled. |
-| Disabled + Selected | `isDisabled={true}` + `defaultSelected={true}` | Shows a checked-but-locked state. |
-| Invalid | `validationState="invalid"` | Error border and icon. Renders `errorMessage` below the control. |
-| Required | `isRequired={true}` | Adds a visual asterisk (*) and `aria-required="true"`. |
-
----
-
-## Flow
-
-### Controlled vs uncontrolled
-
-```tsx
-// Uncontrolled — Checkbox manages its own selection state
-<Checkbox defaultSelected={false} onChange={(isSelected) => console.log(isSelected)}>
-    Accept terms
-</Checkbox>
-
-// Controlled — you own the state
-const [accepted, setAccepted] = useState(false);
-<Checkbox isSelected={accepted} onChange={setAccepted}>
-    Accept terms
-</Checkbox>
-```
-
-Use the **controlled** pattern when:
-- The selection must be synchronised with external state (e.g., a form library, server data, or a parent component).
-- You need to programmatically reset or derive the checkbox state.
-
-Use the **uncontrolled** pattern when:
-- The value is only needed at form submission.
-- The checkbox is self-contained and you want simpler code.
-
-### `onChange` value
-
-`onChange` receives a **boolean** directly — not a `ChangeEvent`. No `.target.checked` unwrapping is needed:
-
-```tsx
-<Checkbox onChange={(isSelected: boolean) => {
-    // isSelected is true when checked, false when unchecked
-    console.log(isSelected);
-}}>
-    Enable feature
-</Checkbox>
-```
-
-### State flow
-
-```
-User clicks / Space key
-    │
-    ▼
-onChange(isSelected: boolean)  ← your handler fires
-    │
-    ├── Uncontrolled: Spectrum updates internal state
-    └── Controlled:   you update your state → isSelected prop changes → Spectrum re-renders
-```
-
-### Form integration
-
-```tsx
-import { Form, Checkbox } from '@geti/ui';
-
-function TermsForm() {
-    const [accepted, setAccepted] = useState(false);
-    const [submitted, setSubmitted] = useState(false);
-
-    const isInvalid = submitted && !accepted;
-
-    return (
-        <Form onSubmit={(e) => { e.preventDefault(); setSubmitted(true); }}>
-            <Checkbox
-                isSelected={accepted}
-                onChange={setAccepted}
-                isRequired
-                validationState={isInvalid ? 'invalid' : undefined}
-                errorMessage="You must accept the terms to continue."
-            >
-                I accept the terms and conditions
-            </Checkbox>
-        </Form>
-    );
-}
-```
-
-**Key points:**
-- `validationState="invalid"` drives the error border and icon.
-- `errorMessage` is only rendered when `validationState="invalid"`.
-- `onChange` receives a `boolean` — no event object unwrapping required.
-- `isIndeterminate` is **visual only**: it does not set `aria-checked="mixed"` on the underlying input in all Spectrum versions. Do not use it as a substitute for true tri-state logic.
-
----
+| Indeterminate | `isIndeterminate={true}` | Dash indicator for partial selection. Visual only. |
+| Disabled | `isDisabled={true}` | Non-focusable and visually dimmed. |
+| Disabled + Selected | `isDisabled={true}` + `defaultSelected={true}` | Checked-but-locked state. |
+| Invalid | `validationState="invalid"` | Error border and icon; renders `errorMessage` below the control. |
+| Required | `isRequired={true}` | Adds a visual asterisk and `aria-required="true"`. |
 
 ## Props
 
 <Controls of={DocStories.Default} />
 
-### Content
-
 | Prop | Type | Default | Description |
 |------|------|---------|-------------|
-| `children` | `ReactNode` | — | The visible label for the checkbox. Required for accessibility unless `aria-label` is provided. |
-| `name` | `string` | — | The HTML `name` attribute for the `<input>`, used during native form submission. |
-| `value` | `string` | — | The string value submitted when the checkbox is checked inside a `CheckboxGroup`. |
-
-### Value / State
-
-| Prop | Type | Default | Description |
-|------|------|---------|-------------|
+| `children` | `ReactNode` | — | The visible label. Required for accessibility unless `aria-label` is provided. |
 | `isSelected` | `boolean` | — | Controlled selection state. |
 | `defaultSelected` | `boolean` | `false` | Initial selection state (uncontrolled). |
-| `isIndeterminate` | `boolean` | `false` | Renders a dash instead of a checkmark. **Visual only** — does not change the boolean value. |
-| `isDisabled` | `boolean` | `false` | Whether the checkbox is non-interactive and dimmed. |
-| `isReadOnly` | `boolean` | `false` | Whether the checkbox is focusable but its value cannot be changed. |
-| `isRequired` | `boolean` | `false` | Whether the checkbox must be checked for form submission. Adds a visual asterisk and `aria-required`. |
+| `isIndeterminate` | `boolean` | `false` | Renders a dash instead of a checkmark. **Visual only.** |
+| `isDisabled` | `boolean` | `false` | Non-interactive and visually dimmed. |
+| `isReadOnly` | `boolean` | `false` | Focusable but value cannot change. |
+| `isRequired` | `boolean` | `false` | Adds a visual asterisk and `aria-required`. |
 | `validationState` | `'valid' \| 'invalid'` | — | Visual and ARIA validation state. |
 | `errorMessage` | `ReactNode` | — | Error text rendered below the checkbox when `validationState="invalid"`. |
+| `onChange` | `(isSelected: boolean) => void` | — | Called when the selection changes. Receives a `boolean` directly — no `.target.checked` unwrapping needed. |
+| `name` | `string` | — | The HTML `name` attribute, used during native form submission. |
+| `value` | `string` | — | The string value submitted when inside a `CheckboxGroup`. |
 
-### Events
+## Related components
+- `CheckboxGroup` — when multiple related checkboxes share a label and collective state.
+- `Switch` — when the action takes immediate effect (no Submit button needed).
+- `RadioGroup` — when exactly one option from a set may be selected.
 
-| Prop | Type | Description |
-|------|------|-------------|
-| `onChange` | `(isSelected: boolean) => void` | Called when the selection state changes. Receives the new boolean value directly. |
+## Example use cases
+<details>
+  <summary>Typical use cases</summary>
 
----
+- Accepting terms and conditions in an account setup or onboarding form.
+- Opting in to email notifications in a user preferences settings form.
+- Selecting individual dataset items for bulk operations before confirming with a Submit button.
+- Marking an annotation task as reviewed in a quality control checklist form.
 
-## Accessibility
-
-- **ARIA role**: The underlying element is a native `<input type="checkbox">` (visually hidden), wrapped in a `<label>`. Spectrum links the label text to the input automatically via the `<label>` element — no manual `htmlFor`/`id` pairing is needed.
-- **Indeterminate ARIA state**: When `isIndeterminate={true}`, Spectrum sets `aria-checked="mixed"` on the input, which screen readers announce as "mixed" or "partially checked" rather than "checked" or "unchecked".
-- **Validation state**: When `validationState="invalid"`, Spectrum sets `aria-invalid="true"` on the input. The `errorMessage` is linked via `aria-describedby` and announced by screen readers when focus enters the field or when the state changes.
-- **Required**: `isRequired` sets `aria-required="true"` and renders a visible asterisk. Do not rely solely on the asterisk — describe the requirement in the label or `errorMessage` where possible.
-- **Labeling requirements**: Every `Checkbox` must have an accessible name. Provide one of:
-  - `children` — preferred; renders a visible label element
-  - `aria-label` — for visually hidden labels (e.g., inside a table cell or icon-only usage)
-  - `aria-labelledby` — to reference an external element
-- **Keyboard interactions**:
-
-| Key | Behaviour |
-|-----|-----------|
-| `Tab` | Move focus to the checkbox |
-| `Shift + Tab` | Move focus away |
-| `Space` | Toggle the checked/unchecked state |
-
-- **High contrast mode**: Spectrum's checkbox renders correctly in Windows High Contrast mode using forced-colour-adjusted CSS.
-
----
-
-## Integration
-
-- **Dependency**: `@adobe/react-spectrum` — `Checkbox` and `SpectrumCheckboxProps` are imported from this package.
-- **ThemeProvider**: Must be present in the React tree for Spectrum tokens (selection colour, focus ring, error red) to resolve correctly. All Storybook stories are automatically wrapped in `ThemeProvider` via the global decorator in `.storybook/preview.tsx`.
-- **CheckboxGroup**: To group multiple checkboxes under a shared label and manage their collective selection state, wrap them in Spectrum's `CheckboxGroup`. This is not yet a Geti-wrapped component — import it directly from `@adobe/react-spectrum` if needed.
-- **Forms**: `Checkbox` integrates with React Hook Form and Formik via the controlled pattern (`isSelected` + `onChange`). Drive `validationState` and `errorMessage` from the library's field state. The `name` prop is available for native form submission.
-- **Switch vs Checkbox**: If the action takes effect immediately (no Submit button), prefer `Switch`. `Checkbox` implies a deferred commitment that is applied when a form is submitted.
-- **RadioGroup vs Checkbox**: If only one option can be active at a time, use `RadioGroup`. `Checkbox` implies independent, multi-selectable items.
+</details>

@@ -1,4 +1,4 @@
-import { Meta, Title, Subtitle, Description, Primary, Controls, Stories } from '@storybook/addon-docs/blocks';
+import { Meta, Subtitle, Stories } from '@storybook/addon-docs/blocks';
 import * as DocStories from './TimeField.stories';
 
 <Meta of={DocStories} />
@@ -102,18 +102,6 @@ import { ZonedDateTime, now, getLocalTimeZone } from '@internationalized/date';
 
 ---
 
-## Flow
-
-1. `TimeField` renders a labelled row of time segments (e.g., `HH : MM AM`).
-2. User clicks a segment, or tabs into the field — focus enters the hour segment by default.
-3. User types digits — Spectrum validates against segment bounds (`0–12` for 12-hour hours, `0–59` for minutes) and auto-advances to the next segment.
-4. Alternatively, user presses `↑` / `↓` to cycle the focused segment up or down.
-5. For AM/PM, user presses `A` or `P` (or `↑` / `↓`) to toggle.
-6. Once all visible segments are filled, `onChange(TimeValue)` fires with the complete value.
-7. If `validationState="invalid"`, the error state is applied and the message is announced.
-
----
-
 ## Integration
 
 - **Depends on**: `@adobe/react-spectrum` (`TimeField`, `SpectrumTimeFieldProps`), `@react-types/datepicker` (`TimeValue`)
@@ -133,8 +121,6 @@ import { ZonedDateTime, now, getLocalTimeZone } from '@internationalized/date';
 ---
 
 ## Props
-
-<Controls of={DocStories.Default} />
 
 ### Key props
 
@@ -181,3 +167,19 @@ import { ZonedDateTime, now, getLocalTimeZone } from '@internationalized/date';
 
 - **Segment bounds**: Typing is range-clamped per segment — e.g., typing `9` in the hour segment (12-hour mode) immediately completes it and advances; typing `1` waits for the next digit to determine if `10`, `11`, or `12` is intended.
 - **Locale adaptation**: Spectrum automatically renders 12-hour or 24-hour format based on the active locale, eliminating the need for manual format strings.
+
+## Related components
+- `DateField` — use alongside `TimeField` when both a calendar date and a clock time must be captured separately.
+- `DatePicker` — use instead when date + time selection together in a single popover-backed input is preferred.
+- `NumberField` — use instead if only a raw numeric duration (e.g., seconds) rather than a clock time is needed.
+
+## Example use cases
+<details>
+  <summary>Typical use cases</summary>
+
+- Specifying the start time for a scheduled model inference job in a job configuration form.
+- Setting a daily backup or export trigger time in an admin settings panel.
+- Entering a precise annotation timestamp for a video frame in a time-coded annotation workflow.
+- Configuring a notification delivery time in a user preferences or alert setup form.
+
+</details>

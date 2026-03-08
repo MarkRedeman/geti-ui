@@ -1,11 +1,11 @@
-import { Meta, Title, Subtitle, Description, Primary, Controls, Stories } from '@storybook/addon-docs/blocks';
+import { Meta, Controls, Stories } from '@storybook/addon-docs/blocks';
 import * as DocStories from './RangeSlider.stories';
 
 <Meta of={DocStories} />
 
-<Title>RangeSlider</Title>
+# RangeSlider
 
-<Subtitle>A dual-handle slider for selecting a numeric range between a minimum and maximum value.</Subtitle>
+A dual-handle slider for selecting a numeric range between a minimum and maximum value.
 
 ```tsx
 import { RangeSlider } from '@geti/ui';
@@ -17,29 +17,26 @@ import { RangeSlider } from '@geti/ui';
 
 ## Responsibility
 
-The `RangeSlider` component allows users to select a bounded interval (a subset range) from a fixed scale. It provides two independently draggable handles representing the "start" and "end" values of the range.
+`RangeSlider` is a transparent wrapper around Adobe React Spectrum's `RangeSlider`. It provides two independently draggable handles representing the `start` and `end` of a bounded interval. The handles are automatically constrained so they cannot cross each other.
 
 ### When to use
-- To select a numeric range, such as a price filter (e.g., $20 - $80), a date window, or a confidence score threshold.
-- When both the upper and lower bounds of the selection are important and known in advance.
+- To select a numeric range: a confidence score window, a price filter, a frame-range for video trimming.
+- When both the upper and lower bounds of the selection are important and defined.
 
-### When to use something else
-- Use [Slider](/docs/components-form-slider--docs) to select a single numeric value.
-- Use [ProgressBar](/docs/components-status-progressbar--docs) for read-only status.
+### When to avoid
+- Use [`Slider`](/docs/components-form-slider--docs) to select a single numeric value.
+- Use [`NumberField`](/docs/components-form-numberfield--docs) when users need to type precise min/max values.
+- Use [`ProgressBar`](/docs/components-status-progressbar--docs) for read-only status indication.
 
-## Variants
+## States
 
-### Dual Thumbs
-The `RangeSlider` always provides two handles. These handles are constrained so they cannot cross each other, ensuring the "start" value is always less than or equal to the "end" value.
-
-### Orientation
-- **Horizontal** (Default): The standard horizontal track.
-- **Vertical**: Use `orientation="vertical"` for vertical layouts.
-
-### Formatting
-The value labels for both handles can be formatted using `formatOptions` (e.g., for percentages, currency, or units) via the `Intl.NumberFormat` API.
+- Both handles are independently focusable via `Tab`.
+- `formatOptions` applies `Intl.NumberFormatOptions` formatting to the value labels.
+- `orientation="vertical"` for vertical layouts; horizontal is the default.
 
 ## Props
+
+<Controls of={DocStories.Default} />
 
 ### Value
 | Prop | Type | Default | Description |
@@ -56,6 +53,7 @@ The value labels for both handles can be formatted using `formatOptions` (e.g., 
 | `label` | `ReactNode` | The label for the range slider. |
 | `showValueLabel` | `boolean` | Whether to display the current range values as labels. |
 | `getValueLabel` | `(value: RangeValue<number>) => string` | A function to generate a custom range label. |
+| `formatOptions` | `Intl.NumberFormatOptions` | Locale-aware display formatting for value labels. |
 | `contextualHelp` | `ReactNode` | A `<ContextualHelp>` element placed next to the label. |
 
 ### Events
@@ -64,17 +62,24 @@ The value labels for both handles can be formatted using `formatOptions` (e.g., 
 | `onChange` | `(value: RangeValue<number>) => void` | Called continuously as the user drags either handle. |
 | `onChangeEnd` | `(value: RangeValue<number>) => void` | Called only when the user releases a handle. |
 
-### Styles
+### Layout
 | Prop | Type | Description |
 |---|---|---|
 | `width` | `DimensionValue` | The width of the slider component. |
 | `labelPosition` | `'top' \| 'side'` | The position of the label relative to the slider. |
 
-## Accessibility
+## Related components
+- `Slider` — use instead when only a single value (not a range) needs to be selected.
+- `NumberField` — use instead when users need to type precise min/max values.
+- `DateRangePicker` — use instead when the range represents a time period rather than a numeric value.
 
-- Each handle renders as an `<input type="range">` with `role="slider"`.
-- **Keyboard support**: Each handle is independently focusable. Use **Arrow keys** to increment/decrement, and **Home/End** to jump to the track bounds.
-- Thumbs are dynamically constrained via `aria-valuemin` and `aria-valuemax` to prevent crossing.
-- Full support for `aria-label`, `aria-labelledby`, and `aria-valuetext` for screen reader compatibility.
+## Example use cases
+<details>
+  <summary>Typical use cases</summary>
 
-<Controls />
+- Filtering a dataset to show only images with annotation counts between a minimum and maximum.
+- Setting an acceptable confidence score range for displaying AI predictions on a canvas.
+- Defining a frame-range selection for video clip trimming in a video annotation workflow.
+- Choosing a price or size range in an e-commerce or inventory management filter panel.
+
+</details>

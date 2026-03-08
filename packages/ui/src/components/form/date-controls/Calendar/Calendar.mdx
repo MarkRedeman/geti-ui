@@ -1,4 +1,4 @@
-import { Meta, Title, Subtitle, Description, Primary, Controls, Stories } from '@storybook/addon-docs/blocks';
+import { Meta, Subtitle, Stories } from '@storybook/addon-docs/blocks';
 import * as DocStories from './Calendar.stories';
 
 <Meta of={DocStories} />
@@ -81,16 +81,23 @@ const [date, setDate] = useState<CalendarDate | null>(null);
 
 ---
 
-## Flow
+## Integration
+
+- **Depends on**: `@adobe/react-spectrum` (`Calendar`, `SpectrumCalendarProps`)
+- **Date types**: Values are from `@internationalized/date` — use `CalendarDate`, `CalendarDateTime`, or `ZonedDateTime` depending on precision needed. Avoid raw `Date` objects.
+- **Relationship to DatePicker**: `DatePicker` embeds `Calendar` inside its popover automatically. Use `Calendar` directly only when you need an always-visible grid.
+- **Relationship to RangeCalendar**: For two-endpoint selection, switch to `RangeCalendar` — the APIs differ at `onChange` (single `DateValue` vs `{ start, end }`).
+
+### Usage example
 
 ```tsx
 import { Calendar } from '@geti/ui';
 import { today, getLocalTimeZone } from '@internationalized/date';
 
-// 1. Calendar mounts and renders the current month grid.
-// 2. User navigates months with chevron buttons (or PageUp / PageDown).
-// 3. User selects a day cell (click or Enter / Space).
-// 4. onChange(DateValue) fires; the selected cell is highlighted.
+// Calendar mounts and renders the current month grid.
+// User navigates months with chevron buttons (or PageUp / PageDown).
+// User selects a day cell (click or Enter / Space).
+// onChange(DateValue) fires; the selected cell is highlighted.
 
 <Calendar
   aria-label="Event date"
@@ -101,18 +108,7 @@ import { today, getLocalTimeZone } from '@internationalized/date';
 
 ---
 
-## Integration
-
-- **Depends on**: `@adobe/react-spectrum` (`Calendar`, `SpectrumCalendarProps`)
-- **Date types**: Values are from `@internationalized/date` — use `CalendarDate`, `CalendarDateTime`, or `ZonedDateTime` depending on precision needed. Avoid raw `Date` objects.
-- **Relationship to DatePicker**: `DatePicker` embeds `Calendar` inside its popover automatically. Use `Calendar` directly only when you need an always-visible grid.
-- **Relationship to RangeCalendar**: For two-endpoint selection, switch to `RangeCalendar` — the APIs differ at `onChange` (single `DateValue` vs `{ start, end }`).
-
----
-
 ## Props
-
-<Controls of={DocStories.Default} />
 
 ### Key props
 
@@ -152,3 +148,19 @@ import { today, getLocalTimeZone } from '@internationalized/date';
 | `Enter` / `Space` | Select the focused date |
 
 - **Screen reader announcements**: Spectrum announces the focused date (including day-of-week and whether it is selected, disabled, or today) as the user navigates the grid.
+
+## Related components
+- `RangeCalendar` — use instead when users must select both a start and end date on the same calendar.
+- `DatePicker` — use instead when the calendar should be hidden behind a popover trigger rather than always visible.
+- `DateField` — use instead when a compact keyboard-entry segment input is preferred over a full calendar grid.
+
+## Example use cases
+<details>
+  <summary>Typical use cases</summary>
+
+- A permanently visible single-date picker embedded in a scheduling sidebar panel.
+- Selecting a report date in a dashboard widget where a full calendar view aids orientation.
+- Choosing a model deployment date in a release management panel with visible date constraints.
+- Date selection in a booking or reservation flow where a persistent, always-visible calendar improves clarity.
+
+</details>

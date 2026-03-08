@@ -1,11 +1,11 @@
-import { Meta, Title, Subtitle, Description, Primary, Controls, Stories } from '@storybook/addon-docs/blocks';
+import { Meta, Stories } from '@storybook/addon-docs/blocks';
 import * as DocStories from './Well.stories';
 
 <Meta of={DocStories} />
 
 # Well
 
-<Subtitle>A Well is a subtle, inset content container used to visually group secondary or supplementary information within a larger layout.</Subtitle>
+A Well is a subtle, inset content container used to visually group secondary or supplementary information within a larger layout.
 
 ```tsx
 import { Well } from '@geti/ui';
@@ -62,28 +62,6 @@ export const Well = (props: WellProps) => <SpectrumWell {...props} />;
 ### Theme Integration
 
 `Well`'s border colour and background come from Spectrum design tokens, which means it automatically adapts to the active Geti theme (dark mode by default). No custom CSS variables or `UNSAFE_className` overrides are needed for standard usage.
-
-## Flow
-
-```
-<Well role="region" aria-label="Notes">
-        │
-        ▼
-  WellProps (geti-ui re-export of SpectrumWellProps)
-        │
-        ▼
-  <SpectrumWell> (Adobe React Spectrum)
-        │
-        ▼
-  Applies --spectrum-well-background-color, --spectrum-well-border-color tokens
-        │
-        ▼
-  Renders <div role="region" aria-label="Notes" class="spectrum-Well">
-            children
-          </div>
-```
-
-Spectrum resolves all visual tokens against the active provider's colour scheme. Because Geti runs in dark mode by default (`ThemeProvider` sets `colorScheme="dark"`), the Well's muted background will always be appropriate for the dark UI without any additional configuration.
 
 ## Variants
 
@@ -201,3 +179,23 @@ import { Flex, Well, View } from '@geti/ui';
 
 - **Reading Order**: Elements inside the well are read in DOM order. Do not rely on visual positioning inside a `Well` to imply order — keep the DOM sequence meaningful.
 - **Non-Interactive Container**: `Well` itself is not focusable and receives no keyboard interaction. If child elements (buttons, links, inputs) are present, they remain naturally focusable in DOM order.
+
+## Related components
+
+- **`Card`** — use for primary, interactive, or selectable content surfaces; `Well` is quieter and better suited to supplementary read-only content.
+- **`View`** — the fully configurable primitive when you need custom background, border colour, or padding beyond what `Well` provides.
+- **`Disclosure`** — pair with a `Well` inside the panel when you need collapsible supplementary content.
+- **`Flex`** / **`Grid`** — use as the layout container inside a `Well` to arrange its children with consistent spacing.
+
+## Example use cases
+
+<details>
+  <summary>Typical use cases</summary>
+
+- **Configuration summary**: Display a read-only list of current model settings (architecture, precision, batch size) alongside an editable form.
+- **Code/preformatted output**: Wrap a `<pre>` block of training logs or CLI output to visually separate it from the surrounding UI.
+- **Info callout**: Pair with an info icon and a short advisory message (e.g., "Training will consume ~4 GB of GPU memory") to draw attention without blocking the page.
+- **Metadata panel**: Show project metadata (owner, last updated, ID) in a muted container within a details sidebar.
+- **Live log viewer**: Use `role="log"` and `aria-live="polite"` to stream training progress output in a contained, scrollable region.
+
+</details>

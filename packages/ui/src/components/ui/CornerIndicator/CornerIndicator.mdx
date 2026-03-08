@@ -1,13 +1,11 @@
-import { Meta, Title, Subtitle, Description, Primary, Controls, Stories, Source } from '@storybook/addon-docs/blocks';
+import { Meta, Controls, Stories } from '@storybook/addon-docs/blocks';
 import * as DocStories from './CornerIndicator.stories';
 
 <Meta of={DocStories} />
 
-<Title>CornerIndicator</Title>
+# CornerIndicator
 
-<Subtitle>
-  A decorative wrapper that overlays a small indicator dot in the corner of a UI element.
-</Subtitle>
+A decorative wrapper that overlays a small indicator dot in the corner of a UI element.
 
 ```tsx
 import { CornerIndicator } from '@geti/ui';
@@ -19,7 +17,6 @@ import { CornerIndicator } from '@geti/ui';
 
 `CornerIndicator` is a Geti-specific layout wrapper that overlays a small blue dot in the top-right corner of its children when `isActive={true}`. It is a **decorator**—it wraps arbitrary content and conditionally renders the dot without modifying the child.
 
-### How it differs from Spectrum
 There is no direct equivalent to a positioned notification dot in Adobe React Spectrum. While Spectrum provides `Badge` and `StatusLight`, they differ from `CornerIndicator` in key ways:
 
 1. **Overlay Behavior**: `CornerIndicator` wraps children and overlays them, whereas Spectrum indicators render inline beside content.
@@ -28,54 +25,34 @@ There is no direct equivalent to a positioned notification dot in Adobe React Sp
 
 Use `CornerIndicator` for non-intrusive activity signals on icons, thumbnails, or controls. For status labels visible alongside content, prefer `StatusLight`. For categorization metadata, prefer `Badge`.
 
----
+The component uses a Spectrum `View` with `position="relative"` to establish a coordinate system, and a `div` with `position="absolute"` for the dot. The dot uses `role="status"` and `aria-label="Pending change"` so assistive technologies announce its presence. The dot size, position, and color are driven by Spectrum global dimension and color tokens.
 
 ## Variants
 
 ### Active State
 When `isActive` is `true`, a small blue dot is rendered in the top-right corner. When `false`, the indicator is completely removed from the DOM.
 
----
-
 ## Props
 
 <Controls of={DocStories.Default} />
 
-### Content
-
 | Prop | Type | Default | Description |
 |------|------|---------|-------------|
 | `children` | `ReactNode` | — | The element to which the indicator is attached. |
-
-### Value / State
-
-| Prop | Type | Default | Description |
-|------|------|---------|-------------|
 | `isActive` | `boolean` | — | Whether the indicator dot is visible. |
 
----
+## Related components
+- `Avatar` / `AvatarGroup` — common parent element to wrap with `CornerIndicator` to indicate user activity.
+- `ActionButton` — common parent to signal that a tool or mode is currently active via the indicator dot.
+- `Image` / `PhotoPlaceholder` — wrap with `CornerIndicator` to signal unsaved changes or pending updates on a thumbnail.
 
-## Implementation Details
+## Example use cases
+<details>
+  <summary>Typical use cases</summary>
 
-### Structure
-The component uses a Spectrum `View` with `position="relative"` to establish a coordinate system, and a `div` with `position="absolute"` for the dot.
+- Showing a blue dot on an annotation tool icon to indicate the tool is currently selected/active.
+- Marking a model card thumbnail to indicate a pending training job is in progress.
+- Indicating unsaved configuration changes on a settings panel icon in a collapsed sidebar.
+- Overlaying a presence dot on a team member avatar to indicate they are currently online.
 
-### Styling with Tokens
-The dot's size, position, and color are driven by Spectrum global dimension and color tokens:
-
-| Property | Token | Purpose |
-|----------|-------|---------|
-| `top` / `right` | `--spectrum-global-dimension-size-50` | 4px offset from the corner. |
-| `width` / `height` | `--spectrum-global-dimension-size-50` | 4px diameter dot. |
-| `borderRadius` | `--spectrum-global-dimension-size-100` | Ensures the dot remains perfectly circular. |
-| `backgroundColor` | `--spectrum-global-color-blue-700` | The Geti "Energy Blue" color. |
-
----
-
-## Accessibility
-
-- **Role**: The dot uses `role="status"` to identify itself as a status indicator to assistive technologies.
-- **Label**: It includes `aria-label="Pending change"` by default. Note that in a production environment, this label should ideally be localized or context-specific.
-- **Dynamic Updates**: Because it is conditionally rendered, screen readers will announce the presence of the status dot when it appears.
-
-
+</details>

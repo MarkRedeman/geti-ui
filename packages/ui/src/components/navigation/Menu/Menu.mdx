@@ -1,11 +1,11 @@
-import { Meta, Title, Subtitle, Controls, Stories } from '@storybook/addon-docs/blocks';
+import { Meta, Stories } from '@storybook/addon-docs/blocks';
 import * as DocStories from './Menu.stories';
 
 <Meta of={DocStories} />
 
 # Menu
 
-<Subtitle>Menus display a list of actions or selections that users can choose from after interacting with a trigger.</Subtitle>
+Menus display a list of actions or selections that users can choose from after interacting with a trigger.
 
 ```tsx
 import { Menu, MenuTrigger, Item, Section } from '@geti/ui';
@@ -119,68 +119,6 @@ Each `Section` renders as a `role="group"` with an `aria-label` derived from its
 
 ---
 
-## Flow
-
-Understanding the lifecycle helps wire up state correctly.
-
-```
-Trigger Click / Enter / Space / Arrow Down
-        │
-        ▼
-  MenuTrigger opens overlay
-        │
-        ▼
-  Menu renders inside overlay   ◄── focus trapped here
-        │
-        ▼
-  User navigates with Arrow keys
-        │
-        ▼
-  User presses Enter / Space on an item
-        │
-        ├── selectionMode="none"  →  onAction(key) fires
-        │
-        └── selectionMode≠"none"  →  onSelectionChange(keys) fires
-        │
-        ▼
-  Overlay closes, focus returns to trigger
-```
-
-**`onAction` vs `onSelectionChange`**
-
-These two callbacks serve fundamentally different purposes and should not be combined on the same `Menu`:
-
-| Callback | Mode | Use when… |
-|----------|------|-----------|
-| `onAction(key)` | `selectionMode="none"` | Each item is an **imperative command** — "Cut", "Delete", "Export". The menu has no persistent state. |
-| `onSelectionChange(keys)` | `selectionMode="single"` or `"multiple"` | Items represent **persistent state** — "Sort by Name", "Show hidden files". The caller stores and reflects the selection. |
-
-```tsx
-// Command pattern — onAction
-<Menu onAction={(key) => {
-    if (key === 'delete') deleteItem(id);
-    if (key === 'export') exportItem(id);
-}}>
-    <Item key="delete">Delete</Item>
-    <Item key="export">Export</Item>
-</Menu>
-
-// Stateful selection — onSelectionChange (controlled)
-const [sort, setSort] = useState<Selection>(new Set(['name']));
-
-<Menu
-    selectionMode="single"
-    selectedKeys={sort}
-    onSelectionChange={setSort}
->
-    <Item key="name">Name</Item>
-    <Item key="date">Date Modified</Item>
-    <Item key="size">File Size</Item>
-</Menu>
-```
-
----
-
 ## Props
 
 ### MenuTrigger Props
@@ -256,6 +194,39 @@ Always prefer `disabledKeys` over conditionally omitting items. Removing items f
 - **Dependencies**: `@adobe/react-spectrum` — `Menu`, `MenuTrigger`, and their Spectrum prop types are imported from this package. `Item` and `Section` are re-exported from `@adobe/react-spectrum` via co-located shim files.
 - **ThemeProvider**: Must be present in the React tree. Overlay background, item hover state, focus ring colour, and typography all derive from Spectrum tokens resolved by `ThemeProvider`.
 
+### `onAction` vs `onSelectionChange`
+
+These two callbacks serve fundamentally different purposes and should not be combined on the same `Menu`:
+
+| Callback | Mode | Use when… |
+|----------|------|-----------|
+| `onAction(key)` | `selectionMode="none"` | Each item is an **imperative command** — "Cut", "Delete", "Export". The menu has no persistent state. |
+| `onSelectionChange(keys)` | `selectionMode="single"` or `"multiple"` | Items represent **persistent state** — "Sort by Name", "Show hidden files". The caller stores and reflects the selection. |
+
+```tsx
+// Command pattern — onAction
+<Menu onAction={(key) => {
+    if (key === 'delete') deleteItem(id);
+    if (key === 'export') exportItem(id);
+}}>
+    <Item key="delete">Delete</Item>
+    <Item key="export">Export</Item>
+</Menu>
+
+// Stateful selection — onSelectionChange (controlled)
+const [sort, setSort] = useState<Selection>(new Set(['name']));
+
+<Menu
+    selectionMode="single"
+    selectedKeys={sort}
+    onSelectionChange={setSort}
+>
+    <Item key="name">Name</Item>
+    <Item key="date">Date Modified</Item>
+    <Item key="size">File Size</Item>
+</Menu>
+```
+
 **Pairing with `ActionButton`**
 
 The most common trigger is `ActionButton`, which provides an accessible button with optional icon and label:
@@ -311,4 +282,23 @@ const [confirmOpen, setConfirmOpen] = useState(false);
         </AlertDialog>
     </DialogTrigger>
 </>
+```
+
+## Related components
+- **`ActionMenu`** — use when you want the standard "three dots" icon trigger bundled with the menu automatically; `Menu` + `MenuTrigger` gives you full control over the trigger element.
+- **`Tabs`** — use when options represent co-equal sibling content sections that should be permanently visible rather than hidden behind a trigger.
+- **`Picker`** — use when the selected value must remain visible in the trigger after the menu closes and the choice should look like a form field.
+- **`ActionGroup`** — use when all actions or options should be permanently visible as a row of buttons without requiring a trigger click.
+
+## Example use cases
+<details>
+  <summary>Typical use cases</summary>
+
+- Providing an "Edit options" menu in a toolbar — Cut, Copy, Paste — via `onAction` in command mode.
+- Implementing a "Sort by" control with `selectionMode="single"` and `onSelectionChange` to persist the active sort key.
+- Building a "Filter" dropdown with `selectionMode="multiple"` allowing users to select multiple annotation label categories simultaneously.
+- Grouping "Rename", "Duplicate", and "Delete" actions in a `Section` behind a text-label `Button` trigger on a dataset detail page.
+- Rendering a context menu on right-click in a custom canvas component by controlling `isOpen` programmatically.
+
+</details>
 ```

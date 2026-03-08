@@ -1,111 +1,38 @@
-import { Meta, Title, Subtitle, Controls, Stories } from '@storybook/addon-docs/blocks';
+import { Meta, Controls, Stories } from '@storybook/addon-docs/blocks';
 import * as DocStories from './Switch.stories';
 
 <Meta of={DocStories} />
 
 # Switch
 
-<Subtitle>A binary on/off toggle for settings and features that take effect immediately.</Subtitle>
+A binary on/off toggle for settings and features that take effect immediately.
 
 ```tsx
 import { Switch } from '@geti/ui';
 ```
 
 - [React Spectrum V3 Switch](https://react-spectrum.adobe.com/react-spectrum/Switch.html)
-- [Theming Guide (Geti UI)](?path=/docs/theme-theming--docs)
 
 <Stories />
 
 ## Responsibility
 
-The `Switch` component is a wrapper around Adobe React Spectrum's `Switch` with a single Geti-specific enhancement: the `isEmphasized` prop applies Geti's energy-blue design tokens to the track and handle, giving the switch higher visual prominence where needed.
+`Switch` wraps Adobe React Spectrum's `Switch` with a single Geti-specific enhancement: when `isEmphasized={true}`, the `data-emphasized` CSS attribute is set on the root element, and a CSS Module overrides Spectrum's selected-state tokens with Geti's `--energy-blue` custom properties, giving the switch higher visual prominence.
 
-Key responsibilities:
-- **Instant Toggle**: Communicates that the state change takes effect immediately, without a "Submit" button — this is the core semantic distinction from `Checkbox`.
-- **Emphasized Style**: When `isEmphasized={true}`, overrides Spectrum's default accent colour with Geti's `--energy-blue` CSS custom properties via a CSS Module class.
-- **Theme Integration**: Inherits all Spectrum colour, spacing, and focus-ring tokens from `ThemeProvider`, ensuring correct rendering in Geti's dark theme.
-- **Accessible Toggle**: Uses `role="switch"` and `aria-checked` to communicate on/off state clearly to assistive technologies.
+All other props pass through to Spectrum unchanged. `UNSAFE_className` is merged with the Geti module class via `clsx`.
 
 ### When to use
-- For **immediate activation or deactivation** of a feature, setting, or mode — when the user expects the effect to happen the moment they toggle the control, with no form submission required.
-- In **settings panels and preference UIs**: e.g., "Enable dark mode", "Allow notifications", "Auto-save", "Show grid".
-- When the binary choice is best described as **on/off** or **active/inactive** rather than "checked/unchecked".
-- Use `isEmphasized` when the switch represents a **primary or high-impact setting** that warrants a stronger visual cue.
+- For **immediate activation or deactivation** of a feature — when the user expects the effect now, with no Submit button.
+- In **settings panels**: "Enable dark mode", "Allow notifications", "Auto-save", "Show grid".
+- Use `isEmphasized` when the switch represents a **primary or high-impact setting** that warrants stronger visual weight.
 
 ### When to avoid
-- **Deferred form submission** — use [`Checkbox`](/docs/form-checkbox--docs) when the change is applied only after the user submits a form. A `Switch` implies instant effect; a `Checkbox` implies deferred commitment.
-- **Selecting items from a list** — use [`CheckboxGroup`](/docs/form-checkboxgroup--docs) or multiple `Checkbox` components. `Switch` is for standalone activation, not for multi-selection.
-- **Choosing one from several options** — use [`RadioGroup`](/docs/form-radiogroup--docs). `Switch` is strictly binary; `RadioGroup` handles mutual exclusion among named options.
-- **Momentary actions in a toolbar** — use [`ToggleButton`](/docs/ui-primitives-togglebutton--docs), which is designed for toolbar press states rather than persistent settings.
-- **When validation is needed** — `Switch` does not support `validationState` or `errorMessage` by design. If the choice requires validation, use a `Checkbox` with `isRequired` inside a `Form` instead.
+- **Deferred form submission** — use [`Checkbox`](/docs/form-checkbox--docs) when the change is applied only after the user submits a form.
+- **Selecting items from a list** — use [`CheckboxGroup`](/docs/form-checkboxgroup--docs).
+- **Choosing one from several options** — use [`RadioGroup`](/docs/form-radiogroup--docs).
+- **When validation is needed** — `Switch` does not support `validationState`. Use a `Checkbox` with `isRequired` inside a `Form` instead.
 
----
-
-## Design
-
-`Switch` extends `SpectrumSwitchProps` and adds a single Geti customisation: the `isEmphasized` CSS token override.
-
-```tsx
-// packages/ui/src/components/form/Switch/Switch.tsx
-
-import { Switch as SpectrumSwitch, SpectrumSwitchProps } from '@adobe/react-spectrum';
-import { clsx } from 'clsx';
-import styles from './Switch.module.css';
-
-export interface SwitchProps extends SpectrumSwitchProps {}
-
-export const Switch = ({ UNSAFE_className, ...props }: SwitchProps) => {
-    return (
-        <SpectrumSwitch
-            {...props}
-            UNSAFE_className={clsx(styles.switch, UNSAFE_className)}
-            data-emphasized={props.isEmphasized}
-        />
-    );
-};
-```
-
-The wrapper intercepts `UNSAFE_className` to merge it with the Geti-specific CSS Module class. All other props pass through to Spectrum unchanged.
-
-**`isEmphasized` token override**
-
-When `isEmphasized={true}`, the `data-emphasized="true"` attribute is set on the root element. The CSS Module targets this attribute to replace Spectrum's default accent colour with Geti's energy-blue tokens:
-
-```css
-/* Switch.module.css */
-.switch[data-emphasized='true'] {
-    --spectrum-switch-emphasized-track-color-selected: var(--energy-blue);
-    --spectrum-switch-emphasized-track-color-selected-hover: var(--energy-blue-light);
-    --spectrum-switch-emphasized-track-color-selected-down: var(--energy-blue-lighter);
-    --spectrum-switch-emphasized-handle-border-color-selected: var(--energy-blue);
-    --spectrum-switch-emphasized-handle-border-color-selected-hover: var(--energy-blue-light);
-    --spectrum-switch-emphasized-handle-border-color-selected-down: var(--energy-blue-lighter);
-}
-```
-
-This approach uses only Spectrum's own CSS custom properties as override targets — no internal Spectrum class selectors are used, keeping the customisation upgrade-safe.
-
-**Prop mapping**
-
-| Geti `SwitchProps` | Spectrum `SpectrumSwitchProps` | Notes |
-|--------------------|--------------------------------|-------|
-| `children` | `children` | Rendered as the visible label |
-| `isSelected` / `defaultSelected` | `isSelected` / `defaultSelected` | Controlled / uncontrolled on/off state |
-| `isEmphasized` | `isEmphasized` | Passes through to Spectrum; also sets `data-emphasized` for CSS override |
-| `isDisabled` | `isDisabled` | Non-interactive, visually dimmed |
-| `isReadOnly` | `isReadOnly` | State visible but not changeable by the user |
-| `UNSAFE_className` | `UNSAFE_className` | Merged with Geti's CSS Module class via `clsx` |
-| `...rest` | all other props | Passed through without transformation |
-
-**Theme integration**
-
-`Switch` inherits Spectrum's track colour, handle colour, and focus-ring tokens from `ThemeProvider`. The `isEmphasized` override substitutes the selected-state tokens with Geti's energy-blue variables, which are defined in `src/theme/tokens.css`.
-
----
-
-## Variants
-
-### States
+## States
 
 | State | Prop | Description |
 |-------|------|-------------|
@@ -115,160 +42,33 @@ This approach uses only Spectrum's own CSS custom properties as override targets
 | Disabled | `isDisabled={true}` | Non-focusable, visually dimmed. |
 | Read-only | `isReadOnly={true}` | Focusable, state visible, but value cannot be changed. |
 
-### Emphasized vs default
-
-```tsx
-// Default — uses Spectrum's standard accent colour
-<Switch defaultSelected>Enable feature</Switch>
-
-// Emphasized — uses Geti's energy-blue tokens for higher visual prominence
-<Switch isEmphasized defaultSelected>Enable feature</Switch>
-```
-
-Use `isEmphasized` for primary or high-impact settings where the active state needs to stand out. In most settings panels the default style is sufficient.
-
-### No validation state
-
-`Switch` does not support `validationState` or `errorMessage`. This is by design — it represents an instant binary activation, not data entry that requires validation. If you need validation (e.g., "user must enable this option"), use a [`Checkbox`](/docs/form-checkbox--docs) with `isRequired` inside a `Form` instead.
-
----
-
-## Flow
-
-### Controlled vs uncontrolled
-
-```tsx
-// Uncontrolled — Switch manages its own on/off state
-<Switch defaultSelected={false} onChange={(isSelected) => console.log(isSelected)}>
-    Auto-save
-</Switch>
-
-// Controlled — you own the state
-const [autoSave, setAutoSave] = useState(false);
-<Switch isSelected={autoSave} onChange={setAutoSave}>
-    Auto-save
-</Switch>
-```
-
-Use the **controlled** pattern when:
-- The on/off state must be synchronised with external state (e.g., a user profile loaded from an API, a global app setting, or a parent component).
-- You need to optimistically update the UI and roll back on API failure.
-
-Use the **uncontrolled** pattern when:
-- The value is local and self-contained, and you only need it in the `onChange` callback.
-
-### `onChange` value
-
-`onChange` receives a **boolean** directly — not a `ChangeEvent`. No `.target.checked` unwrapping is needed:
-
-```tsx
-<Switch onChange={(isSelected: boolean) => {
-    // isSelected is true when switched on, false when switched off
-    savePreference('notifications', isSelected);
-}}>
-    Enable notifications
-</Switch>
-```
-
-### Instant-action pattern
-
-The primary use pattern is a **fire-and-forget** side effect on toggle:
-
-```tsx
-function SettingsPanel() {
-    const [darkMode, setDarkMode] = useState(false);
-
-    const handleDarkModeToggle = async (isSelected: boolean) => {
-        setDarkMode(isSelected);           // optimistic UI update
-        await updateUserPreference({ darkMode: isSelected });
-    };
-
-    return (
-        <Switch isSelected={darkMode} onChange={handleDarkModeToggle} isEmphasized>
-            Dark mode
-        </Switch>
-    );
-}
-```
-
-**Key points:**
-- The effect fires immediately on toggle — there is no "Submit" step.
-- `onChange` receives a `boolean` — no event object unwrapping required.
-- For async operations, update the local state optimistically and handle errors separately (e.g., roll back and show a toast).
-
-### Switch vs Checkbox — choosing the right pattern
-
-| Question | Answer | Use |
-|----------|--------|-----|
-| Does the change take effect immediately? | Yes | `Switch` |
-| Is the change applied only on form submit? | Yes | `Checkbox` |
-| Is this one item in a multi-select list? | Yes | `Checkbox` |
-| Is this a standalone on/off preference? | Yes | `Switch` |
-| Does the field require validation? | Yes | `Checkbox` with `isRequired` |
-
----
-
 ## Props
 
-<Controls />
-
-### Content
+<Controls of={DocStories.Default} />
 
 | Prop | Type | Default | Description |
 |------|------|---------|-------------|
-| `children` | `ReactNode` | — | The visible label for the switch. Required for accessibility unless `aria-label` is provided. |
-| `aria-label` | `string` | — | An accessible label when no visible label is rendered. |
+| `children` | `ReactNode` | — | The visible label. Required for accessibility unless `aria-label` is provided. |
+| `isSelected` | `boolean` | — | Whether the switch is "on" (controlled). |
+| `defaultSelected` | `boolean` | `false` | Initial "on" state (uncontrolled). |
+| `isDisabled` | `boolean` | `false` | Non-interactive and visually dimmed. |
+| `isReadOnly` | `boolean` | `false` | State visible but not changeable. |
+| `isEmphasized` | `boolean` | `false` | Applies Geti's energy-blue tokens when selected. Use for high-prominence settings. |
+| `onChange` | `(isSelected: boolean) => void` | — | Called when toggled. Receives `true` when on, `false` when off. |
+| `UNSAFE_className` | `string` | — | A custom CSS class merged with the Geti switch class. |
 
-### Value / State
+## Related components
+- `Checkbox` — use when the setting is collected on form submission rather than applied immediately.
+- `RadioGroup` — use when the user must choose between two or more explicitly named options.
+- `ToggleButton` — use when the toggle is part of a toolbar or canvas control.
 
-| Prop | Type | Default | Description |
-|------|------|---------|-------------|
-| `isSelected` | `boolean` | — | Whether the switch is in the "on" state (controlled). |
-| `defaultSelected` | `boolean` | `false` | The initial "on" state (uncontrolled). |
-| `isDisabled` | `boolean` | `false` | Whether the switch is non-interactive and visually dimmed. |
-| `isReadOnly` | `boolean` | `false` | Whether the switch state is visible but cannot be changed by the user. |
+## Example use cases
+<details>
+  <summary>Typical use cases</summary>
 
-### Events
+- Enabling or disabling real-time AI inference on a live annotation canvas.
+- Toggling dark mode or notification alerts in a user preferences panel.
+- Turning a model's auto-labeling feature on or off in a project settings page.
+- Activating or deactivating a specific data augmentation option in a training configuration.
 
-| Prop | Type | Description |
-|------|------|-------------|
-| `onChange` | `(isSelected: boolean) => void` | Called when the switch is toggled. Receives `true` when switched on, `false` when switched off. |
-
-### Style
-
-| Prop | Type | Default | Description |
-|------|------|---------|-------------|
-| `isEmphasized` | `boolean` | `false` | Whether to apply Geti's energy-blue tokens to the track and handle when selected. Use for high-prominence settings. |
-| `UNSAFE_className` | `string` | — | A custom CSS class merged with the Geti switch class. Use only when absolutely necessary. |
-
----
-
-## Accessibility
-
-- **ARIA role**: The underlying element is a native `<input type="checkbox" role="switch">` (visually hidden), wrapped in a `<label>`. The `role="switch"` overrides `role="checkbox"`, so screen readers announce the state as "on" / "off" rather than "checked" / "unchecked".
-- **ARIA state**: `aria-checked="true"` when on, `aria-checked="false"` when off. Screen readers announce this automatically when the state changes.
-- **Label association**: The `<label>` element wraps the input, so the visible label text is automatically associated with the input — no `htmlFor`/`id` wiring is needed.
-- **Labeling requirements**: Every `Switch` must have an accessible name. Provide one of:
-  - `children` — preferred; renders a visible label element
-  - `aria-label` — for icon-only or visually hidden labels
-  - `aria-labelledby` — to reference an external element
-- **No validation state**: `Switch` intentionally omits `validationState` and `errorMessage`. Using a switch for data entry that requires validation is an anti-pattern — use `Checkbox` in that scenario.
-- **High contrast mode**: Spectrum handles Windows High Contrast mode via forced-colour-adjusted CSS. The `isEmphasized` energy-blue override does not interfere with forced-colour rendering.
-- **Keyboard interactions**:
-
-| Key | Behaviour |
-|-----|-----------|
-| `Tab` | Move focus to the switch |
-| `Shift + Tab` | Move focus away from the switch |
-| `Space` | Toggle the on/off state |
-
----
-
-## Integration
-
-- **Dependency**: `@adobe/react-spectrum` — `Switch` and `SpectrumSwitchProps` are imported from this package. `clsx` is used to merge class names.
-- **CSS Module**: `Switch.module.css` is a Geti-internal file that overrides Spectrum's `isEmphasized` tokens via CSS custom properties scoped to `[data-emphasized='true']`. No external CSS import is needed by consumers.
-- **ThemeProvider**: Must be present in the React tree for Spectrum tokens (track colour, focus ring) and Geti's `--energy-blue` custom properties to resolve correctly. All Storybook stories are automatically wrapped in `ThemeProvider` via the global decorator in `.storybook/preview.tsx`.
-- **Forms**: `Switch` is not intended for use inside `Form` components with submit-driven validation. For settings that are part of a saved preferences form (applied on submit), use `Checkbox` instead.
-- **Checkbox vs Switch**: `Switch` = immediate effect, no form submission. `Checkbox` = deferred commitment, collected on submit. When in doubt, ask: "Would it be confusing if this changed without a Submit button?" If yes, use `Checkbox`.
-- **RadioGroup vs Switch**: `Switch` is strictly binary (on/off). `RadioGroup` handles mutual exclusion among two or more named options. If the labels are not "on" and "off" but rather two named choices, `RadioGroup` is the right component.
+</details>

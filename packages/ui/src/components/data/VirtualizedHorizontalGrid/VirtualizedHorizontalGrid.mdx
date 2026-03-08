@@ -1,9 +1,17 @@
-import { Meta, Title, Subtitle, Description, Primary, Controls, Stories } from '@storybook/addon-docs/blocks';
+import { Meta, Stories } from '@storybook/addon-docs/blocks';
 import * as DocStories from './VirtualizedHorizontalGrid.stories';
 
 <Meta of={DocStories} />
 
-<Title />
+# VirtualizedHorizontalGrid
+
+A virtualised horizontal grid for large item collections — items flow left-to-right with DOM recycling, built on `react-aria-components` and a custom `HorizontalLayout`.
+
+```tsx
+import { VirtualizedHorizontalGrid } from '@geti/ui';
+```
+
+<Stories />
 
 ## Responsibility
 
@@ -20,24 +28,6 @@ Built on RAC, not Spectrum. Key building blocks:
 - **No infinite scroll** — unlike `VirtualizedListLayout`, this component has no `isLoading`/`onLoadMore` mechanism. It renders a fixed `items` array.
 - **Render props** — same `renderItem`, `idFormatter`, `textValueFormatter` pattern as `VirtualizedListLayout`.
 
-## Flow
-
-```
-props { items, renderItem, idFormatter, textValueFormatter,
-        listBoxItemStyles, ariaLabel }
-  → <Virtualizer layout={new HorizontalLayout(...)}>
-      <ListBox orientation="horizontal" aria-label={ariaLabel}>
-        {items.map(item =>
-          <ListBoxItem id={idFormatter(item)}
-                       textValue={textValueFormatter(item)}
-                       style={listBoxItemStyles}>
-            {renderItem(item)}
-          </ListBoxItem>
-        )}
-      </ListBox>
-    </Virtualizer>
-```
-
 ## Integration
 
 - Used for horizontal image strip / filmstrip views (e.g. video frame selectors, horizontally-scrolling thumbnail rows).
@@ -45,13 +35,40 @@ props { items, renderItem, idFormatter, textValueFormatter,
 - Contrast with `VirtualizedListLayout` (same data/ category) — that is vertical + infinite scroll; this is horizontal + fixed collection.
 - Contrast with `CardView` — `CardView` uses CSS grid without virtualisation (best for small/medium counts); `VirtualizedHorizontalGrid` virtualises the DOM for large horizontal collections.
 
-
-<Stories />
----
-
-<Primary />
-
 ## Props
 
-<Controls />
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `items` | `T[]` | — | **Required.** The array of items to render. |
+| `renderItem` | `(item: T) => ReactNode` | — | **Required.** Renders the content for each list item. |
+| `idFormatter` | `(item: T) => Key` | — | **Required.** Returns the unique key for each item. |
+| `textValueFormatter` | `(item: T) => string` | — | **Required.** Returns the accessible text for each item. |
+| `listBoxItemStyles` | `CSSProperties` | — | Inline styles applied to every `ListBoxItem` wrapper. Controls item dimensions. |
+| `ariaLabel` | `string` | — | **Required.** Accessible label for the list box. |
 
+## Accessibility
+
+- Built on `react-aria-components` `ListBox` with `orientation="horizontal"`, which follows the [WAI-ARIA Listbox pattern](https://www.w3.org/WAI/ARIA/apg/patterns/listbox/).
+- Always provide `ariaLabel` — without it the list has no accessible name.
+- `textValueFormatter` provides the accessible text for each item; ensure it returns a meaningful, non-empty string for every item.
+- Keyboard navigation follows standard horizontal list navigation: `Arrow Left/Right` to move between items, `Home/End` for first/last.
+
+## Related components
+
+- **`VirtualizedListLayout`** — use instead for vertical infinite-scroll lists; shares the same render-prop API but uses standard `ListLayout`.
+- **`CardView`** — use when item count is small-to-medium and CSS grid layout (without DOM virtualisation) is sufficient.
+- **`ListView`** — use when a dense, single-column list with Spectrum styling is preferred over a horizontal strip.
+- **`ListBox`** — use for simple, permanently-visible horizontally-arranged option groups with no virtualisation needed.
+
+## Example use cases
+
+<details>
+  <summary>Typical use cases</summary>
+
+- A video frame selector showing a horizontally-scrolling filmstrip of extracted keyframes.
+- A thumbnail strip at the bottom of an annotation canvas allowing quick navigation between images in a sequence.
+- A horizontally-scrolling gallery of model output samples for side-by-side comparison.
+- A large media import preview row where hundreds of uploaded images are rendered efficiently without freezing the browser.
+- A dataset variant selector showing horizontally-browsable augmented image previews.
+
+</details>

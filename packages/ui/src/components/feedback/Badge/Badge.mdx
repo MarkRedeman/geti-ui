@@ -1,11 +1,11 @@
-import { Meta, Title, Subtitle, Controls, Stories, Source } from '@storybook/addon-docs/blocks';
+import { Meta, Stories } from '@storybook/addon-docs/blocks';
 import * as DocStories from './Badge.stories';
 
 <Meta of={DocStories} />
 
 # Badge
 
-<Subtitle>A compact, colour-coded label used to communicate status, category, or count at a glance.</Subtitle>
+A compact, colour-coded label used to communicate status, category, or count at a glance.
 
 ```tsx
 import { Badge } from '@geti/ui';
@@ -53,7 +53,7 @@ export const Badge = (props: BadgeProps) => <SpectrumBadge {...props} />;
 
 No state, no effects, no refs. All layout, colour, and sizing is delegated to Spectrum's internal implementation.
 
-## Flow
+## Integration
 
 ```tsx
 // Typical usage: status badge on a list item
@@ -73,8 +73,6 @@ No state, no effects, no refs. All layout, colour, and sizing is delegated to Sp
 // Count badge
 <Badge variant="neutral">12</Badge>
 ```
-
-## Integration
 
 - **Depends on**: `@adobe/react-spectrum` (`Badge`, `SpectrumBadgeProps`)
 - **Theme**: Resolved automatically by `ThemeProvider`. No CSS imports required.
@@ -96,3 +94,21 @@ All `SpectrumBadgeProps` are accepted as-is. The key props are:
 - **Colour alone**: `Badge` uses both colour and text to convey meaning. Never rely on colour as the sole differentiator — ensure the text label is also descriptive (e.g. `"Error"` not just a red dot).
 - **No keyboard interaction**: `Badge` is not focusable and does not respond to keyboard events. If you need a clickable label, use a `Button` or `Tag`.
 - **Context**: Because `Badge` is an inline `<span>`, it is announced as part of the surrounding sentence. Position it close to the element it describes so the association is clear to screen reader users.
+
+## Related components
+- **`StatusLight`** — use for live, changeable operational states (e.g. "Active", "Offline") that persist over time; `Badge` is for static categorical metadata.
+- **`Tag`** — use when the label needs to be removable or interactive; `Badge` is a non-interactive display primitive.
+- **`InlineAlert`** — use when the annotation requires a title, body text, and/or an action button rather than a compact inline label.
+- **`StatusLight`** (accent variants) — use for colour-coded category legends in data visualisation rather than `Badge` when a dot indicator is more appropriate than a pill.
+
+## Example use cases
+<details>
+  <summary>Typical use cases</summary>
+
+- Marking a model as "Beta" in a model selection list — `<Badge variant="info">Beta</Badge>`.
+- Indicating that a dataset is "Archived" in a project overview card header — `<Badge variant="neutral">Archived</Badge>`.
+- Showing a failed training job status in a job history table row — `<Badge variant="negative">Failed</Badge>`.
+- Displaying a "New" label on a recently released feature in the navigation sidebar.
+- Showing an unread notification count in a compact form — `<Badge variant="neutral">12</Badge>`.
+
+</details>

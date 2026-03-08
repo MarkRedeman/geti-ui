@@ -1,11 +1,11 @@
-import { Meta, Title, Subtitle, Controls, Stories } from '@storybook/addon-docs/blocks';
+import { Meta, Controls, Stories } from '@storybook/addon-docs/blocks';
 import * as DocStories from './Button.stories';
 
 <Meta of={DocStories} />
 
 # Button
 
-<Subtitle>Buttons allow users to perform an action, navigate to another page, or trigger a functional workflow.</Subtitle>
+Buttons allow users to perform an action, navigate to another page, or trigger a functional workflow.
 
 ```tsx
 import { Button } from '@geti/ui';
@@ -18,99 +18,42 @@ import { Button } from '@geti/ui';
 
 ## Responsibility
 
-The `Button` component is a thin, intentional wrapper around Adobe React Spectrum's `Button`. Rather than reimplementing behaviour, it enforces Geti-specific constraints and defaults at the boundary, keeping downstream consumers insulated from upstream API changes.
+`Button` is a thin wrapper around Adobe React Spectrum's `Button`. It enforces Geti-specific constraints and defaults at the boundary, keeping downstream consumers insulated from upstream API changes.
 
 Key responsibilities:
-- **Legacy Variant Removal**: The Spectrum `cta` and `overBackground` variants are excluded from the public API. These variants do not exist in the Geti design language and would produce visually inconsistent results.
-- **Accent Default**: The component defaults to the `accent` variant (blue), which is the primary Geti call-to-action colour. This means `<Button>Save</Button>` does the right thing without requiring an explicit `variant` prop.
-- **Class Merging**: `UNSAFE_className` is passed through `clsx` before reaching Spectrum, so multiple class strings, conditional objects, and arrays are all handled correctly without creating invalid attribute values.
-- **Ref Forwarding**: Accepts `FocusableRef<HTMLElement>` — Spectrum's ref type — enabling programmatic focus management (e.g., returning focus to a trigger after a dialog closes).
+- **Legacy variant removal**: The Spectrum `cta` and `overBackground` variants are excluded — they do not exist in the Geti design language.
+- **Accent default**: Defaults to the `accent` variant (blue), so `<Button>Save</Button>` does the right thing without an explicit `variant` prop.
+- **Class merging**: `UNSAFE_className` is passed through `clsx` before reaching Spectrum, so multiple class strings, conditional objects, and arrays are all handled correctly.
+- **Ref forwarding**: Accepts `FocusableRef<HTMLElement>` — Spectrum's ref type — enabling programmatic focus management after dialogs close.
 
 ### When to use
-- For the primary action on a page or within a section (e.g., "Create Project", "Save", "Submit"). Use `variant="accent"` (the default).
-- For secondary actions that are important but should not compete visually with the primary CTA (e.g., "Edit", "Export"). Use `variant="primary"`.
-- For neutral or cancel actions that carry low visual weight (e.g., "Cancel", "Back"). Use `variant="secondary"`, optionally combined with `style="outline"`.
-- For destructive or irreversible actions (e.g., "Delete", "Remove"). Use `variant="negative"` to communicate risk clearly.
-- When a pending async operation is triggered by the button. Use `isPending` to disable interaction and show a loading spinner in-place.
+- Primary call-to-action on a page ("Create Project", "Save", "Submit"). Use `variant="accent"` (default).
+- Secondary actions that shouldn't compete with the primary CTA ("Edit", "Export"). Use `variant="primary"`.
+- Neutral or cancel actions ("Cancel", "Back"). Use `variant="secondary"` with `style="outline"`.
+- Destructive actions ("Delete", "Remove"). Use `variant="negative"`.
+- Pending async operations. Use `isPending` to show a loading spinner.
 
 ### When to avoid
-- For navigation-only actions where the destination is a URL — prefer a link (`<a>`) or a `Button` with `elementType="a"` and `href`.
-- As a container for non-interactive content — buttons must have a meaningful press action.
-- For icon-only actions inside toolbars — prefer `ActionButton` from `@adobe/react-spectrum`, which has a more appropriate compact affordance.
-- When you need to trigger menu items or toggles — use `MenuTrigger`/`ToggleButton` instead.
+- Navigation-only actions where the destination is a URL — prefer `<a>` or `Button` with `elementType="a"` and `href`.
+- Icon-only toolbar actions — prefer `ActionButton`, which has a more appropriate compact affordance.
+- Toggle state (on/off) — use `ToggleButton`.
+- Menu triggers — use `MenuTrigger`.
 
----
+## Variants and states
 
-## Design
+| `variant` | `style` | Typical use |
+|-----------|---------|-------------|
+| `accent` (default) | `fill` | Primary CTA |
+| `primary` | `fill` | Secondary action |
+| `secondary` | `outline` | Cancel / low-weight action |
+| `negative` | `fill` | Destructive action |
 
-`Button` follows the *thin wrapper* pattern used throughout Geti UI: the component adds constraints and defaults at the seam between Geti's design language and the upstream library, then passes all remaining props through unchanged.
+| State | Prop | Notes |
+|-------|------|-------|
+| Loading | `isPending={true}` | Disables interaction and shows a spinner |
+| Disabled | `isDisabled={true}` | Non-interactive, visually dimmed |
 
-```tsx
-// packages/ui/src/components/ui/Button/Button.tsx
-
-type VariantWithoutLegacy = Exclude<SpectrumButtonProps['variant'], 'cta' | 'overBackground'>;
-
-export interface ButtonProps extends Omit<SpectrumButtonProps, 'variant'> {
-    variant?: VariantWithoutLegacy;   // narrows the type, removes legacy values
-    UNSAFE_className?: string;
-    ref?: FocusableRef<HTMLElement>;
-}
-
-export const Button = ({ variant = 'accent', UNSAFE_className, ...rest }: ButtonProps) => (
-    <SpectrumButton 
-        {...rest} 
-        variant={variant} 
-        UNSAFE_className={clsx(UNSAFE_className) || undefined} 
-    />
-);
-```
-
-### Custom Styling with `UNSAFE_className`
-
-While we generally prefer using Spectrum's built-in props for layout and spacing, `UNSAFE_className` is used when Geti's visual designs deviate significantly from Spectrum's defaults.
-
-- **Class Merging**: We use `clsx` to merge consumer-provided classes with any internal overrides.
-- **Normalization**: The `|| undefined` pattern ensures that if no classes are present, the `class` attribute is omitted from the DOM entirely.
-- **Token Overrides**: Custom CSS should target the element via a CSS Module and override Spectrum's internal tokens (e.g., `--spectrum-button-m-background-color-accent`) to ensure the design system's theme remains consistent.
-
-For more details on our styling philosophy and available tokens, see the [Theming Guide](?path=/docs/theme-theming--docs).
-
-### Prop mapping
-
-| Geti `ButtonProps`     | Spectrum `SpectrumButtonProps` | Notes |
-|------------------------|-------------------------------|-------|
-| `variant` (narrowed)   | `variant`                      | Excludes `'cta'` and `'overBackground'`; defaults to `'accent'` |
-| `UNSAFE_className`     | `UNSAFE_className`             | Normalised via `clsx` before forwarding |
-| `ref`                  | `ref`                          | Typed as `FocusableRef<HTMLElement>` |
-| `...rest`              | all other props                | Passed through without transformation |
-
-## Flow
-
-`Button` is a **purely uncontrolled, event-driven** component — it holds no internal state of its own. The entire event flow is managed by Spectrum's press system and delegated upward via callbacks.
-
-```
-User gesture (click / touch / Space / Enter)
-    │
-    ▼
-Spectrum press system  ──►  normalises pointer + keyboard events
-    │
-    ▼
-onPressStart(PressEvent)     ◄── fires when interaction begins
-onPress(PressEvent)          ◄── fires on successful completion
-onPressEnd(PressEvent)       ◄── fires when interaction ends
-    │
-    ▼
-Consumer handler (your code)
-```
-
-**Key points:**
-- `onPress` is the canonical handler. It fires for mouse clicks, touch taps, and `Space`/`Enter` key presses alike — you do not need separate `onClick` and `onKeyDown` handlers.
-- `PressEvent` carries a `pointerType` field (`'mouse'`, `'touch'`, `'keyboard'`, `'virtual'`) so you can distinguish gesture origins if needed.
-- When `isPending` or `isDisabled` is `true`, Spectrum suppresses all press events before they reach your handler.
-- There is no controlled "pressed" state to manage — `Button` is always stateless from the consumer's perspective.
-
-
----
+`onPress` is the canonical handler — it fires for mouse clicks, touch taps, and `Space`/`Enter` alike. Use it instead of `onClick`.
 
 ## Props
 
@@ -120,18 +63,18 @@ Consumer handler (your code)
 
 | Prop | Type | Default | Description |
 |------|------|---------|-------------|
-| `children` | `ReactNode` | — | The label text or content to display inside the button. |
-| `elementType` | `string \| ElementType` | `'button'` | The HTML element or component to render (e.g., `'a'`, `'button'`). |
-| `href` | `string` | — | A URL to navigate to. Only effective when `elementType="a"`. |
+| `children` | `ReactNode` | — | Label text or content inside the button. |
+| `elementType` | `string \| ElementType` | `'button'` | The HTML element or component to render (e.g., `'a'`). |
+| `href` | `string` | — | URL to navigate to. Only effective when `elementType="a"`. |
 
 ### Value / State
 
 | Prop | Type | Default | Description |
 |------|------|---------|-------------|
-| `variant` | `'accent' \| 'primary' \| 'secondary' \| 'negative'` | `'accent'` | The visual style of the button. |
-| `style` | `'fill' \| 'outline'` | `'fill'` | The background/border rendering style. |
+| `variant` | `'accent' \| 'primary' \| 'secondary' \| 'negative'` | `'accent'` | Visual style of the button. |
+| `style` | `'fill' \| 'outline'` | `'fill'` | Background/border rendering style. |
 | `isDisabled` | `boolean` | `false` | Whether the button is non-interactive and visually dimmed. |
-| `isPending` | `boolean` | `false` | Whether to show a loading spinner and suppress interaction. |
+| `isPending` | `boolean` | `false` | Whether to show a loading spinner and suppress interaction. Sets `aria-busy`. |
 
 ### Events
 
@@ -143,25 +86,22 @@ Consumer handler (your code)
 
 ### Layout and spacing
 
-The `Button` component accepts all standard [Spectrum layout and spacing props](https://react-spectrum.adobe.com/react-spectrum/styling.html), including `margin`, `marginTop`, `marginEnd`, `position`, `flex`, `width`, and `height`. These are forwarded directly to Spectrum.
+`Button` accepts all standard [Spectrum layout and spacing props](https://react-spectrum.adobe.com/react-spectrum/styling.html), including `margin`, `flex`, `width`, and `height`.
 
----
+## Related components
+- `ActionButton` — compact icon/toolbar actions without primary CTA weight.
+- `ToggleButton` — when the action has a persistent on/off state.
+- `ToggleButtons` — mutually exclusive segmented button groups.
+- `PressableElement` — press semantics on a non-button container or card.
 
-## Accessibility
+## Example use cases
+<details>
+  <summary>Typical use cases</summary>
 
-- **ARIA role**: Renders as `role="button"` by default. When `elementType="a"` is set, renders as a semantic `<a>` with appropriate keyboard handling preserved by Spectrum.
-- **Keyboard interaction**: `Space` and `Enter` both trigger `onPress`. This is standard button behaviour and is handled automatically — no `onKeyDown` override is needed.
-- **Labeling**: The button's accessible name is derived from its `children`. For icon-only buttons, always add an `aria-label` to provide a text alternative for screen readers.
-- **Disabled state**: `isDisabled` sets `aria-disabled` and suppresses all interaction events. Avoid removing a button from the DOM as a substitute for disabling it — screen reader users benefit from knowing a button exists even when it is inactive.
-- **Pending state**: `isPending` adds `aria-busy` to communicate that an operation is in progress, in addition to visually showing a spinner.
-- **Focus management**: The forwarded `ref` (typed as `FocusableRef<HTMLElement>`) enables programmatic focus via Spectrum's `focusSafely` utilities. Use this to return focus to the trigger button after a dialog or popover closes.
+- "Create Project" / "Save" as the primary call-to-action on a workspace setup page.
+- "Delete" with `variant="negative"` on a project detail page to confirm a destructive action.
+- "Export" with `isPending` to show a loading spinner while a dataset is being packaged.
+- "Cancel" with `variant="secondary"` `style="outline"` in a confirmation dialog footer.
+- "Submit" in a training configuration form, disabled with `isDisabled` until all required fields are filled.
 
----
-
-## Integration
-
-- **Dependency**: `@adobe/react-spectrum` — `Button` and `SpectrumButtonProps` are imported from this package.
-- **Peer dependency**: `@react-types/shared` — used for `FocusableRef<HTMLElement>`.
-- **ThemeProvider**: Must be present in the React tree for Spectrum tokens (colour, spacing, typography) to resolve correctly. Stories and application roots should wrap content in `<ThemeProvider>`.
-- **DialogTrigger**: When a `Button` opens a `Dialog`, use the `Button` as the first child of `<DialogTrigger>`. Spectrum automatically links the button to the dialog via `aria-haspopup` and `aria-expanded`, and restores focus to the button when the dialog closes.
-- **Form submission**: `Button` does not submit HTML forms by default. To submit a form, either handle `onPress` explicitly, or set `type="submit"` via `elementType` and a native `<button>` element.
+</details>

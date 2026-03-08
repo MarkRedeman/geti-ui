@@ -1,11 +1,11 @@
-import { Meta, Title, Subtitle, Controls, Stories, Source } from '@storybook/addon-docs/blocks';
+import { Meta, Stories } from '@storybook/addon-docs/blocks';
 import * as DocStories from './Meter.stories';
 
 <Meta of={DocStories} />
 
 # Meter
 
-<Subtitle>A visual gauge that represents a scalar quantity within a known range, using semantic colour to communicate severity or health.</Subtitle>
+A visual gauge that represents a scalar quantity within a known range, using semantic colour to communicate severity or health.
 
 ```tsx
 import { Meter } from '@geti/ui';
@@ -53,7 +53,7 @@ export const Meter = (props: MeterProps) => <SpectrumMeter {...props} />;
 
 No state, no effects, no refs. Spectrum manages the bar fill, label layout, and colour application internally.
 
-## Flow
+## Integration
 
 ```tsx
 // Basic storage usage meter
@@ -89,8 +89,6 @@ No state, no effects, no refs. Spectrum manages the bar fill, label layout, and 
 />
 ```
 
-## Integration
-
 | Concern | Detail |
 |---------|--------|
 | **Package** | `@adobe/react-spectrum` — `Meter` |
@@ -118,3 +116,21 @@ All `SpectrumMeterProps` are accepted as-is. The primary props are:
 - **`aria-valuetext`**: When `valueLabel` is set (e.g. `"7 of 10 models"`), Spectrum uses it as `aria-valuetext`, giving screen reader users the domain-specific reading rather than a raw percentage.
 - **Colour and variant**: The `variant` prop changes bar colour only. It does not generate additional text output. Ensure the `label` or surrounding copy explains what the level means (e.g. `"Memory usage"` at `warning` clearly implies the system is under pressure).
 - **No keyboard interaction**: `Meter` is a read-only display element. It is not focusable and does not respond to keyboard or pointer events.
+
+## Related components
+- **`ProgressBar`** — use when representing an active, time-bound operation (file upload, model training epoch) rather than a static quantity level.
+- **`ProgressCircle`** — use for a compact, circular alternative when a linear bar is too wide for the available space.
+- **`StatusLight`** — use when the state is categorical and live (e.g. "Active", "Error") rather than a scalar quantity within a known range.
+- **`Badge`** — use for short, static categorical labels where no numeric range is involved.
+
+## Example use cases
+<details>
+  <summary>Typical use cases</summary>
+
+- Displaying allocated storage usage in a workspace summary card — `<Meter label="Storage used" value={72} variant="warning" />`.
+- Showing GPU memory utilisation per device in a resource monitoring dashboard — `<Meter label="GPU memory" value={90} variant="critical" />`.
+- Visualising annotation coverage for a dataset against a quota — `<Meter label="Annotated images" value={340} maxValue={500} valueLabel="340 of 500" />`.
+- Rendering a model accuracy score against a 100% maximum in a model comparison table — `<Meter label="Accuracy" value={87} variant="positive" />`.
+- Indicating CPU load on an edge device in a device management list row.
+
+</details>

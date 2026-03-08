@@ -1,11 +1,11 @@
-import { Meta, Subtitle, Stories, Controls, Primary } from '@storybook/addon-docs/blocks';
+import { Meta, Stories, Controls } from '@storybook/addon-docs/blocks';
 import * as DocStories from './Avatar.stories';
 
 <Meta of={DocStories} name="AvatarGroup" />
 
 # AvatarGroup
 
-<Subtitle>Group of avatars with overlapping layout and overflow count.</Subtitle>
+Group of avatars with overlapping layout and overflow count.
 
 ```tsx
 import { AvatarGroup } from '@geti/ui';
@@ -35,38 +35,6 @@ Key responsibilities:
 - When each avatar needs its own interactive control (tooltip, link, popover) — compose individual `Avatar` components manually.
 - For large, unbound lists where a count chip alone would be more appropriate than a partial stack.
 
-## Design
-
-`AvatarGroup` is a Geti-native layout component that orchestrates multiple `Avatar` instances using inline CSS properties for the stacking effect.
-
-- **Stacking Logic**: Each avatar is wrapped in a `<span>` with a negative `marginRight` (default `-8px`) to create the overlap. The last visible item also receives this margin, but the overflow badge uses a positive `marginLeft` (`12px`) to break out of the stack deliberately.
-- **Size Propagation**: The group-level `size` prop takes precedence. If provided, it overrides any `size` set on the individual `avatars` prop objects.
-- **Stable Keys**: The component prefers `avatarProps.alt` as a stable React `key`, falling back to the array `index` if `alt` is missing.
-
-| Geti Prop | Type | Implementation Detail |
-| :--- | :--- | :--- |
-| `avatars` | `AvatarProps[]` | Array of Spectrum Avatar prop objects. |
-| `max` | `number` | Threshold for overflow badge rendering. |
-| `size` | `AvatarProps['size']` | Spectrum size token (e.g., `avatar-size-100`) or pixel number. |
-
-## Flow
-
-```
-[avatars] array
-  → .slice(0, max) 
-  → map(Avatar) with negative overlap margin
-  → if (length > max)
-      → calculate (length - max)
-      → render <span role="img">+N</span> with breakout margin
-  → render wrapper with role="group"
-```
-
-## Integration
-
-- **`ThemeProvider`**: Requires the Geti theme context to resolve Spectrum size tokens correctly.
-- **`Avatar`**: Composes the `@geti/ui` `Avatar` component (which is a thin wrapper over Spectrum).
-- **`PhotoPlaceholder`**: If an avatar in the group is missing a `src`, it will automatically trigger the fallback silhouette or initial-based placeholder logic.
-
 ## Variants
 
 ### Max Count
@@ -75,18 +43,32 @@ The `max` prop (default `3`) controls how many avatars are rendered before the r
 ### Uniform Size
 Passing a `size` prop to the group applies that size token to every `Avatar` inside it, overriding any `size` values set on the individual `AvatarProps` items.
 
----
-
-<Primary of={DocStories.Group} />
-
 ## Props
 
 ### AvatarGroup Props
+
 <Controls of={DocStories.Group} />
 
-## Accessibility
+| Geti Prop | Type | Description |
+| :--- | :--- | :--- |
+| `avatars` | `AvatarProps[]` | Array of Spectrum Avatar prop objects. |
+| `max` | `number` | Threshold for overflow badge rendering (default `3`). |
+| `size` | `AvatarProps['size']` | Spectrum size token (e.g., `avatar-size-100`) or pixel number. |
 
-- **Group Role**: The wrapping `<div>` carries `role="group"` and an `aria-label` of `"N avatars"` (where N is the total count) so assistive technologies announce the size of the collection.
-- **Overflow Badge**: The `+N` pill includes its own `aria-label` (e.g. `"2 more"`) so screen readers can report the hidden count without relying on the visible text alone.
-- **Individual Labels**: Each `Avatar` inside the group should have a meaningful `alt` prop so screen readers can identify individual users.
-- **Decorative Images**: If an avatar is purely decorative and lacks an `alt` text, it should be marked as `aria-hidden`.
+The wrapping element carries `role="group"` and an `aria-label` of `"N avatars"` (where N is the total count). The `+N` pill includes its own `aria-label` (e.g. `"2 more"`) so screen readers can report the hidden count. Each `Avatar` inside the group should have a meaningful `alt` prop so screen readers can identify individual users.
+
+## Related components
+- `Avatar` — use directly when displaying a single user rather than a group.
+- `PhotoPlaceholder` — used automatically inside each `Avatar` when a `src` image fails to load.
+- `CornerIndicator` — use to overlay an activity dot on an individual `Avatar` when status context is needed.
+
+## Example use cases
+<details>
+  <summary>Typical use cases</summary>
+
+- Displaying project team members in a compact row on a project card header.
+- Showing annotators assigned to a task inside a task list item.
+- Representing active collaborators on a shared canvas in a real-time collaboration toolbar.
+- Listing commenters on an annotation alongside a comment thread in a side panel.
+
+</details>

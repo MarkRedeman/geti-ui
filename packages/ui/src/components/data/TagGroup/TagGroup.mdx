@@ -1,11 +1,11 @@
-import { Meta, Title, Subtitle, Controls, Stories } from '@storybook/addon-docs/blocks';
+import { Meta, Stories } from '@storybook/addon-docs/blocks';
 import * as DocStories from './TagGroup.stories';
 
 <Meta of={DocStories} />
 
 # TagGroup
 
-<Subtitle>A focusable, keyboard-navigable list of labels, categories, or keywords with support for selection and removal.</Subtitle>
+A focusable, keyboard-navigable list of labels, categories, or keywords with support for selection and removal.
 
 ```tsx
 import { TagGroup, Item } from '@geti/ui';
@@ -154,84 +154,7 @@ const [labels, setLabels] = useState(['Cat', 'Dog', 'Bird']);
 
 ---
 
-## Flow
-
-### Controlled vs uncontrolled selection
-
-```tsx
-// Uncontrolled — Spectrum manages selection state internally
-<TagGroup label="Category" selectionMode="single" defaultSelectedKeys={['images']}>
-    <Item key="images">Images</Item>
-    <Item key="videos">Videos</Item>
-</TagGroup>
-
-// Controlled — you own the selected keys
-const [selected, setSelected] = useState<Selection>(new Set(['images']));
-<TagGroup
-    label="Category"
-    selectionMode="single"
-    selectedKeys={selected}
-    onSelectionChange={setSelected}
->
-    <Item key="images">Images</Item>
-    <Item key="videos">Videos</Item>
-</TagGroup>
-```
-
-Use the **controlled** pattern when:
-- Selection must be synchronised with external state (e.g., a URL query parameter, a filter panel, or a form field value).
-- You need to programmatically clear or reset selection (e.g., a "Clear all" button).
-
-Use the **uncontrolled** pattern when:
-- Selection is self-contained and only needed at form submission.
-- You want simpler code for a local filter that doesn't affect external state.
-
-### Removal flow
-
-```
-User activates remove button (click or Backspace/Delete)
-    │
-    ▼
-Spectrum fires onRemove(keys: Set<Key>)
-    │
-    ▼
-Your handler filters the items array
-    │
-    ▼
-React re-renders TagGroup with the updated items
-    │
-    ▼
-Removed tag is no longer in the DOM
-    │
-    ▼
-Focus is managed by Spectrum — moved to adjacent tag or the group label
-```
-
-**Important**: `onRemove` does **not** mutate state itself. You are responsible for updating the items array (or set of keys) in your state. Spectrum will re-render based on the new `items` or `children` you provide.
-
-```
-onRemove(keys) receives a Set<Key> containing the key(s) to remove.
-Keys match the `key` prop set on each <Item>.
-```
-
-### Form integration
-
-`TagGroup` does not participate in native HTML form submission (no hidden `<input>` is rendered). To use selected tags as a form value, read `selectedKeys` from `onSelectionChange` and store them in your form state:
-
-```tsx
-const [selectedLabels, setSelectedLabels] = useState<Selection>(new Set());
-
-// In your submit handler:
-const formData = {
-    labels: [...selectedLabels],  // convert Set to array for serialization
-};
-```
-
----
-
 ## Props
-
-<Controls />
 
 ### Collection
 
@@ -305,3 +228,23 @@ const formData = {
 - **Geti `Tag` vs `TagGroup`**: These are **different** components. Geti's `Tag` (`data/Tag`) is a bespoke, non-Spectrum primitive for static display labels. `TagGroup` is a Spectrum wrapper for interactive, keyboard-navigable tag collections. Do not substitute one for the other.
 - **Dynamic collections**: For large or server-fetched tag lists, use the `items` prop with a render function child. For small, static sets, static `<Item>` children are simpler.
 - **Form libraries**: To integrate with React Hook Form or Formik, use the controlled pattern — read `selectedKeys` from `onSelectionChange` and write back with `setValue` or `setFieldValue`. Remember to convert `Set<Key>` to an array for serialization.
+
+## Related components
+
+- **`Tag`** — use instead for a single static display chip with no selection or removal; `Tag` has no Spectrum dependency and is lighter weight.
+- **`Badge`** — use for lifecycle or status metadata labels (`"Beta"`, `"Archived"`) that carry semantic colour and are never interactive.
+- **`ListBox`** — use for a permanently-visible selection list when tag-style chip presentation is not required.
+- **`Menu`** — use to present a list of selectable options inside an overlay rather than inline on the page.
+
+## Example use cases
+
+<details>
+  <summary>Typical use cases</summary>
+
+- A filter chip bar above a dataset browser where users select one or more label categories to narrow results.
+- A label assignment panel where users can add or remove annotation class tags from an image, with keyboard accessibility.
+- A multi-select category picker in a project creation form where users choose applicable domain tags.
+- A "currently applied filters" row that shows active filter chips, each removable via the `×` button.
+- A keyword editor where users can add free-form tags to a model configuration and remove outdated ones.
+
+</details>

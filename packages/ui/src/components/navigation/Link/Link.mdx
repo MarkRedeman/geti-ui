@@ -1,11 +1,11 @@
-import { Meta, Title, Subtitle, Controls, Stories, Source } from '@storybook/addon-docs/blocks';
+import { Meta, Stories } from '@storybook/addon-docs/blocks';
 import * as DocStories from './Link.stories';
 
 <Meta of={DocStories} />
 
 # Link
 
-<Subtitle>An accessible hyperlink that integrates with Geti's theme and supports inline, quiet, and over-background display styles.</Subtitle>
+An accessible hyperlink that integrates with Geti's theme and supports inline, quiet, and over-background display styles.
 
 ```tsx
 import { Link } from '@geti/ui';
@@ -53,7 +53,16 @@ export const Link = (props: LinkProps) => <SpectrumLink {...props} />;
 
 No state, no effects, no refs. Spectrum handles focus ring rendering, press state styling, and anchor attribute forwarding.
 
-## Flow
+## Integration
+
+| Concern | Detail |
+|---------|--------|
+| **Package** | `@adobe/react-spectrum` — `Link` |
+| **Theme** | Resolved automatically by `ThemeProvider`. No CSS imports required. |
+| **Router** | Not router-aware by default. Use `onPress` to integrate with React Router, TanStack Router, or any client-side navigation library. |
+| **Related** | `Button` (actions), `ActionButton` (icon+label toolbar actions), `Breadcrumbs` (structured navigation trail) |
+
+### Usage examples
 
 ```tsx
 // Standard navigation link
@@ -85,15 +94,6 @@ No state, no effects, no refs. Spectrum handles focus ring rendering, press stat
 </Link>
 ```
 
-## Integration
-
-| Concern | Detail |
-|---------|--------|
-| **Package** | `@adobe/react-spectrum` — `Link` |
-| **Theme** | Resolved automatically by `ThemeProvider`. No CSS imports required. |
-| **Router** | Not router-aware by default. Use `onPress` to integrate with React Router, TanStack Router, or any client-side navigation library. |
-| **Related** | `Button` (actions), `ActionButton` (icon+label toolbar actions), `Breadcrumbs` (structured navigation trail) |
-
 All `SpectrumLinkProps` are accepted as-is. The primary props are:
 
 | Prop | Type | Default | Description |
@@ -115,3 +115,21 @@ All `SpectrumLinkProps` are accepted as-is. The primary props are:
 - **External links**: When `target="_blank"`, consider appending `" (opens in new tab)"` to the link text or providing an `aria-label` that conveys this. Some users are disoriented by unexpected context switches.
 - **Disabled links**: `isDisabled` removes the link from the tab order and applies `aria-disabled="true"`. This is appropriate when the destination exists but is temporarily unavailable; if the link should not exist at all, remove it from the DOM instead.
 - **`overBackground` contrast**: The white-on-colour rendering of `overBackground` must meet WCAG AA contrast requirements (4.5:1 for normal text). Test the specific background colour in your usage context.
+
+## Related components
+- **`Button`** / **`ActionButton`** — use when the element triggers an action in the current context rather than navigating to a new location; never use `Link` as a styled button.
+- **`Breadcrumbs`** — use when the link is part of a structured navigation trail showing the user's position in the hierarchy.
+- **`Menu`** / **`ActionMenu`** — use when multiple navigation targets should be grouped behind a single trigger rather than presented as individual inline links.
+- **`Tabs`** — use when switching between sibling sections of the same page; prefer `Link` only when navigation changes the URL.
+
+## Example use cases
+<details>
+  <summary>Typical use cases</summary>
+
+- Providing a "Forgot password?" inline text link below a login form — `<Link href="/reset-password" isQuiet>Forgot password?</Link>`.
+- Linking to external documentation from a settings panel — `<Link href="https://docs.example.com" target="_blank" rel="noopener noreferrer">Read the docs</Link>`.
+- Navigating to a project detail page from a notification message using client-side routing via `onPress`.
+- Adding a "Learn more" link at the end of an `InlineAlert` body that points to a help article.
+- Rendering breadcrumb-style inline links in a page header using `variant="secondary"` for visual subduing.
+
+</details>

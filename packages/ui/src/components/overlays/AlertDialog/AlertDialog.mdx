@@ -1,11 +1,11 @@
-import { Meta, Title, Subtitle, Controls, Stories } from '@storybook/addon-docs/blocks';
+import { Meta, Stories } from '@storybook/addon-docs/blocks';
 import * as DocStories from './AlertDialog.stories';
 
 <Meta of={DocStories} />
 
 # AlertDialog
 
-<Subtitle>AlertDialogs are special types of dialogs that present a prompt to the user to confirm a specific action.</Subtitle>
+AlertDialogs are special types of dialogs that present a prompt to the user to confirm a specific action.
 
 ```tsx
 import { AlertDialog, DialogTrigger } from '@geti/ui';
@@ -136,77 +136,6 @@ Adds a third button between the primary action and Cancel. Use when there is a m
 
 ---
 
-## Flow
-
-`DialogTrigger` owns the open state. `AlertDialog` is a pure content definition — it does not open or close itself, and it holds no internal state.
-
-```
-DialogTrigger (open state owner)
-    │
-    ├── isOpen / defaultOpen ──► controls whether the overlay is rendered
-    ├── onOpenChange ──────────► notifies you when open state changes
-    │
-    ▼
-Trigger element (Button)
-    │  onPress → DialogTrigger opens the overlay
-    ▼
-AlertDialog (content + action declaration — no state)
-    ├── onPrimaryAction   ──► called when the primary button is pressed
-    ├── onSecondaryAction ──► called when the secondary button is pressed
-    └── onCancel          ──► called when the cancel button is pressed (or Escape)
-```
-
-**Automatic close behaviour**
-
-When `AlertDialog` is used inside `DialogTrigger`, pressing any action button (primary, secondary, or cancel) automatically closes the dialog. You do **not** need to call a `close()` function manually. Your action handlers receive the button press event and can perform side effects freely; the overlay is dismissed by `DialogTrigger` after the handler returns.
-
-```tsx
-<DialogTrigger>
-    <Button variant="negative">Delete model</Button>
-    <AlertDialog
-        variant="destructive"
-        title="Delete model?"
-        primaryActionLabel="Delete"
-        cancelLabel="Cancel"
-        onPrimaryAction={() => {
-            // No close() call needed — DialogTrigger handles it automatically.
-            deleteModel(modelId);
-        }}
-        onCancel={() => {
-            // Called on cancel button press or Escape key.
-            // The dialog will close after this handler returns.
-        }}
-    >
-        Deleting this model cannot be undone.
-    </AlertDialog>
-</DialogTrigger>
-```
-
-This contrasts with `Dialog`, where you must compose your own `ButtonGroup` and explicitly call the injected `close()` callback in each button's `onPress` handler.
-
-**Controlled open state**
-
-If you need to open the `AlertDialog` programmatically (e.g., from a validation result or keyboard shortcut), use the controlled pattern on `DialogTrigger`:
-
-```tsx
-const [isOpen, setIsOpen] = useState(false);
-
-<DialogTrigger isOpen={isOpen} onOpenChange={setIsOpen}>
-    <Button onPress={() => setIsOpen(true)}>Delete</Button>
-    <AlertDialog
-        variant="destructive"
-        title="Delete item?"
-        primaryActionLabel="Delete"
-        cancelLabel="Cancel"
-        onPrimaryAction={() => deleteItem()}
-    >
-        This action cannot be undone.
-    </AlertDialog>
-</DialogTrigger>
-```
-
----
-
 ## Props
 
 | Prop | Type | Default | Description |
@@ -275,3 +204,72 @@ When the dialog opens, screen readers interrupt the current reading flow and ann
 - **vs. Dialog**: Use `AlertDialog` when you need a fixed-structure confirmation with Spectrum's built-in button styling. Use `Dialog` when you need custom slot composition, embedded forms, or a dismissible close button. The two components are mutually exclusive — do not nest one inside the other.
 - **ThemeProvider**: Must be present in the React tree. The overlay background, border radius, shadow, and button colors all derive from Spectrum tokens resolved by `ThemeProvider`.
 - **Migration note**: Projects that previously used custom Intel-branded confirmation dialogs (non-Spectrum modals with manual button composition) should migrate to `AlertDialog` + `DialogTrigger` for critical confirmations. This ensures consistent Spectrum token usage, correct `role="alertdialog"` semantics, and automatic focus management without custom implementation.
+
+### Automatic close behaviour
+
+When `AlertDialog` is used inside `DialogTrigger`, pressing any action button (primary, secondary, or cancel) automatically closes the dialog. You do **not** need to call a `close()` function manually. Your action handlers receive the button press event and can perform side effects freely; the overlay is dismissed by `DialogTrigger` after the handler returns.
+
+```tsx
+<DialogTrigger>
+    <Button variant="negative">Delete model</Button>
+    <AlertDialog
+        variant="destructive"
+        title="Delete model?"
+        primaryActionLabel="Delete"
+        cancelLabel="Cancel"
+        onPrimaryAction={() => {
+            // No close() call needed — DialogTrigger handles it automatically.
+            deleteModel(modelId);
+        }}
+        onCancel={() => {
+            // Called on cancel button press or Escape key.
+            // The dialog will close after this handler returns.
+        }}
+    >
+        Deleting this model cannot be undone.
+    </AlertDialog>
+</DialogTrigger>
+```
+
+This contrasts with `Dialog`, where you must compose your own `ButtonGroup` and explicitly call the injected `close()` callback in each button's `onPress` handler.
+
+### Controlled open state
+
+If you need to open the `AlertDialog` programmatically (e.g., from a validation result or keyboard shortcut), use the controlled pattern on `DialogTrigger`:
+
+```tsx
+const [isOpen, setIsOpen] = useState(false);
+
+<DialogTrigger isOpen={isOpen} onOpenChange={setIsOpen}>
+    <Button onPress={() => setIsOpen(true)}>Delete</Button>
+    <AlertDialog
+        variant="destructive"
+        title="Delete item?"
+        primaryActionLabel="Delete"
+        cancelLabel="Cancel"
+        onPrimaryAction={() => deleteItem()}
+    >
+        This action cannot be undone.
+    </AlertDialog>
+</DialogTrigger>
+```
+
+## Related components
+
+- **`Dialog`** — use when the confirmation content requires custom slot composition, embedded forms, a dismissible close button, or content too rich for `AlertDialog`'s plain text body.
+- **`DialogContainer`** — use `AlertDialog` as the child of `DialogContainer` when the trigger element may unmount before the dialog closes or when the dialog is opened programmatically.
+- **`DialogTrigger`** — always the direct parent of `AlertDialog`; manages the open state and overlay lifecycle so `AlertDialog` doesn't have to.
+- **`Tooltip`** — use alongside the destructive trigger button to hint at consequences before the user even opens the dialog.
+
+## Example use cases
+
+<details>
+  <summary>Typical use cases</summary>
+
+- **Delete confirmation**: A "Delete project" button opens a `variant="destructive"` `AlertDialog`; `autoFocusButton="cancel"` prevents accidental confirmation by focusing Cancel.
+- **Overwrite warning**: Before importing a dataset that would replace an existing one, a `variant="warning"` dialog warns the user and offers "Overwrite" / "Cancel".
+- **Unsaved changes prompt**: When navigating away from an edited page, a `variant="confirmation"` dialog with "Save", "Don't save", and "Cancel" uses the `secondaryActionLabel` slot.
+- **Session expiry notice**: A `variant="information"` dialog with a single "OK" button informs the user their session is about to expire.
+- **Bulk action confirmation**: Selecting multiple items and pressing "Delete selected" opens an `AlertDialog` listing the count of items to be removed.
+
+</details>

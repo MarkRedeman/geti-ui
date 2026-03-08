@@ -1,4 +1,4 @@
-import { Meta, Title, Subtitle, Description, Primary, Controls, Stories } from '@storybook/addon-docs/blocks';
+import { Meta, Subtitle, Stories } from '@storybook/addon-docs/blocks';
 import * as DocStories from './DateRangePicker.stories';
 
 <Meta of={DocStories} />
@@ -51,7 +51,9 @@ export type { SpectrumDateRangePickerProps as DateRangePickerProps };
 
 No CSS modules, no local state, no custom logic. The `width` default can be overridden by the caller because `{...props}` comes after it.
 
-## Flow
+## Integration
+
+### Usage examples
 
 ```tsx
 // Uncontrolled
@@ -88,8 +90,6 @@ const [range, setRange] = useState({
 />
 ```
 
-## Integration
-
 - **Depends on**: `@adobe/react-spectrum` — `DateRangePicker`, `SpectrumDateRangePickerProps`; `@react-types/datepicker` — `DateValue`
 - **Peer imports**: `@internationalized/date` — `CalendarDate`, `today`, `getLocalTimeZone`; `@react-types/shared` — `RangeValue` for typing the `value`/`onChange` pair
 - **Companion**: `DatePicker` (single date, same Safari fix); `RangeCalendar` (standalone calendar without the text fields)
@@ -124,6 +124,18 @@ const [range, setRange] = useState({
 - **Error announcements**: `errorMessage` is linked via `aria-describedby` and announced when validation fails.
 - **Labels**: Always provide `label`. If suppressed for visual design reasons, supply `aria-label` on the component to keep the `group` accessible.
 
-<Primary />
+## Related components
+- `DatePicker` — use instead when only a single date (not a range) needs to be selected.
+- `RangeCalendar` — use instead when the range calendar must be permanently visible rather than in a popover.
+- `RangeSlider` — use instead when the range represents a continuous numeric value rather than calendar dates.
 
-<Controls />
+## Example use cases
+<details>
+  <summary>Typical use cases</summary>
+
+- Selecting a dataset capture date range to filter images in a project browser.
+- Defining a model training data window (e.g., images captured between two dates) in a training config.
+- Choosing a report period for an analytics or usage summary export dialog.
+- Setting a deployment window (start date to end date) for a scheduled model rollout.
+
+</details>

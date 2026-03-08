@@ -1,4 +1,4 @@
-import { Meta, Title, Subtitle, Description, Primary, Controls, Stories } from '@storybook/addon-docs/blocks';
+import { Meta, Subtitle, Stories } from '@storybook/addon-docs/blocks';
 import * as DocStories from './ColorSwatch.stories';
 
 <Meta of={DocStories} />
@@ -89,17 +89,6 @@ Standalone display in a legend or tooltip:
 
 ---
 
-## Flow
-
-`ColorSwatch` has no interactive flow — it renders and updates reactively when its `color` prop changes.
-
-1. Parent component holds the active color in state.
-2. `ColorSwatch` receives the `color` prop.
-3. When the color changes (e.g., user picks a new color via `ColorPickerDialog`), the parent updates state.
-4. `ColorSwatch` re-renders with the new color fill.
-
----
-
 ## Integration
 
 - **Depends on**: `@adobe/react-spectrum` (`ColorSwatch`, `SpectrumColorSwatchProps`)
@@ -110,8 +99,6 @@ Standalone display in a legend or tooltip:
 ---
 
 ## Props
-
-<Controls of={DocStories.Default} />
 
 ### Key props
 
@@ -133,3 +120,19 @@ Standalone display in a legend or tooltip:
 - **Checkerboard background**: Spectrum renders a checkerboard pattern behind the color fill to communicate transparency / alpha. This is purely visual and requires no additional annotation.
 - **No keyboard interaction**: `ColorSwatch` is not focusable and is not in the tab order. It exists only as a visual cue. If you need a focusable, selectable swatch, use `ColorSwatchPickerItem` inside a `ColorSwatchPicker`.
 - **Color contrast**: The swatch itself is the content, so standard contrast requirements do not apply to its fill. However, any border or focus ring applied by the parent element must meet contrast requirements.
+
+## Related components
+- `ColorSwatchPicker` — use instead when swatches must be selectable in a keyboard-navigable radio group.
+- `ColorThumb` — use instead for a compact, inline square color preview inside an `ActionButton` trigger.
+- `ColorPickerDialog` — use `ColorSwatch` inside its trigger button to show the current color at a glance.
+
+## Example use cases
+<details>
+  <summary>Typical use cases</summary>
+
+- Showing a color preview chip alongside a label name in a label management list.
+- Displaying the currently selected annotation color in a non-interactive status bar or legend.
+- Rendering a grid of available palette colors as visual indicators before wrapping them in a `ColorSwatchPicker`.
+- Previewing a theme or brand color in a read-only display row in a settings panel.
+
+</details>

@@ -1,11 +1,11 @@
-import { Meta, Title, Subtitle, Controls, Stories } from '@storybook/addon-docs/blocks';
+import { Meta, Controls, Stories } from '@storybook/addon-docs/blocks';
 import * as DocStories from './FileTrigger.stories';
 
 <Meta of={DocStories} />
 
 # FileTrigger
 
-<Subtitle>A wrapper that allows any pressable component to open the system file picker.</Subtitle>
+A wrapper that allows any pressable component to open the system file picker.
 
 ```tsx
 import { FileTrigger } from '@geti/ui';
@@ -17,264 +17,86 @@ import { FileTrigger } from '@geti/ui';
 
 ## Responsibility
 
-`FileTrigger` is a transparent wrapper around `react-aria-components`' `FileTrigger`. It attaches native file-selection behaviour to any interactive child (typically a `Button` or `Link`) without rendering any visible UI of its own. Internally it manages a visually hidden `<input type="file">` and translates the OS file-selection result into an `onSelect` callback.
+`FileTrigger` is a transparent wrapper around `react-aria-components`' `FileTrigger` — the **only** component in `@geti/ui` sourced from `react-aria-components` rather than `@adobe/react-spectrum`. It is a headless primitive: it renders a visually hidden `<input type="file" aria-hidden="true">` and delegates the press event from any interactive child to open the OS file picker.
 
-Key responsibilities:
-- **Hidden file input**: Manages the lifecycle of a `<input type="file">` element, including creating it, wiring change events, and clearing it after selection so the same file can be re-selected if needed.
-- **Trigger delegation**: Programmatically focuses and clicks the hidden input when the child element is activated (click, `Space`, or `Enter`), so the child element retains full keyboard and screen reader semantics.
-- **Type filtering**: The `acceptedFileTypes` prop translates to the `accept` attribute on the hidden input, restricting the OS picker to specific MIME types or extensions.
-- **Pairing with DropZone**: `FileTrigger` is the canonical click-to-browse companion for [`DropZone`](/docs/components-form-dropzone--docs). Nest it inside `DropZone` to provide both drag-and-drop and click-to-browse in a single upload area.
+- **Hidden file input**: Manages the `<input type="file">` lifecycle, including resetting it after selection so the same file can be re-selected immediately.
+- **Trigger delegation**: Programmatically clicks the hidden input when the child is activated (click, `Space`, or `Enter`), so the child retains full keyboard and screen reader semantics.
+- **Type filtering**: `acceptedFileTypes` sets the `accept` attribute on the hidden input.
+- **No visible output**: Renders only what `children` render plus the hidden input — no container, no border, no layout impact.
 
 ### When to use
-- When you want to trigger a file selection from a styled `Button`, `Link`, or other interactive element.
+- When you want a styled `Button`, `Link`, or other interactive element to trigger a file selection.
 - As the click-to-browse companion inside a [`DropZone`](/docs/components-form-dropzone--docs).
-- When you need control over accepted file types (`acceptedFileTypes`), multi-file selection (`allowsMultiple`), or directory selection (`acceptDirectory`).
-- On mobile when you want to directly open a camera via the `defaultCamera` prop.
+- When you need control over accepted file types, multi-file selection, or directory selection.
+- On mobile when you want to open a camera via `defaultCamera`.
 
 ### When to avoid
-- **Drag-and-drop only** — use [`DropZone`](/docs/components-form-dropzone--docs) alone if no click-to-browse button is needed.
-- **Direct form submission** — use a native `<input type="file" name="…">` if you need the browser to include the file in native `FormData` on form submit without JavaScript handling.
-- When directory-level operations are unsupported in the target browser environment — check `acceptDirectory` browser compatibility before relying on it.
-
----
-
-## Design
-
-`FileTrigger` follows the *transparent wrapper* pattern: it extends `AriaFileTriggerProps` without modification and delegates all behaviour to `react-aria-components`.
-
-```tsx
-// packages/ui/src/components/form/FileTrigger/FileTrigger.tsx
-
-import { FileTrigger as AriaFileTrigger } from 'react-aria-components';
-import type { FileTriggerProps as AriaFileTriggerProps } from 'react-aria-components';
-
-export interface FileTriggerProps extends AriaFileTriggerProps {}
-
-export const FileTrigger = (props: FileTriggerProps) => <AriaFileTrigger {...props} />;
-```
-
-Note that `FileTrigger` is the **only** component in this library sourced from `react-aria-components` rather than `@adobe/react-spectrum`. This is intentional: `FileTrigger` is a headless primitive that does not require Spectrum's styled component layer — only React Aria's behavioural hook.
-
-**Prop mapping**
-
-All props pass through to React Aria's `FileTrigger` unchanged:
-
-| Geti `FileTriggerProps` | React Aria `FileTriggerProps` | Notes |
-|-------------------------|-------------------------------|-------|
-| `onSelect` | `onSelect` | `(files: FileList \| null) => void` |
-| `acceptedFileTypes` | `acceptedFileTypes` | Sets `accept` on the hidden `<input>` |
-| `allowsMultiple` | `allowsMultiple` | Sets `multiple` on the hidden `<input>` |
-| `acceptDirectory` | `acceptDirectory` | Sets `webkitdirectory` on the hidden `<input>` |
-| `defaultCamera` | `defaultCamera` | Sets `capture` attribute for mobile cameras |
-| `children` | `children` | The pressable trigger element |
-| `...rest` | all other props | Passed through without transformation |
-
-**No visible output**
-
-`FileTrigger` renders only what its `children` render, plus a visually hidden `<input type="file" aria-hidden="true">` outside the visual flow. It has no container element, no border, and no layout impact.
-
-**Theme integration**
-
-`FileTrigger` itself has no Spectrum tokens or CSS. Its visual appearance is entirely determined by the child component (e.g., a `Button`). `ThemeProvider` is only needed if the child element is a Spectrum component.
-
----
+- **Drag-and-drop only** — use [`DropZone`](/docs/components-form-dropzone--docs) alone.
+- **Native form submission** — use a `<input type="file" name="…">` if the browser needs to include the file in `FormData` without JavaScript.
 
 ## Variants
 
-### Single file selection (default)
-
 ```tsx
+// Single file
 <FileTrigger onSelect={(files) => console.log(files)}>
-    <Button variant="primary">Select file</Button>
+    <Button>Select file</Button>
 </FileTrigger>
-```
 
-### Multiple file selection
-
-```tsx
+// Multiple files
 <FileTrigger onSelect={handleSelect} allowsMultiple>
-    <Button variant="secondary">Select images</Button>
+    <Button>Select images</Button>
 </FileTrigger>
-```
 
-### Restricted MIME types
-
-```tsx
-<FileTrigger
-    onSelect={handleSelect}
-    acceptedFileTypes={['image/png', 'image/jpeg', 'image/webp']}
->
+// Restricted MIME types
+<FileTrigger onSelect={handleSelect} acceptedFileTypes={['image/png', 'image/jpeg']}>
     <Button>Upload image</Button>
 </FileTrigger>
-```
 
-### Directory selection
-
-```tsx
-<FileTrigger onSelect={handleSelect} acceptDirectory>
-    <Button>Select folder</Button>
-</FileTrigger>
-```
-
-### Mobile camera capture
-
-```tsx
-// Open the front (selfie) camera
-<FileTrigger onSelect={handleSelect} acceptedFileTypes={['image/*']} defaultCamera="user">
-    <Button>Take selfie</Button>
-</FileTrigger>
-
-// Open the rear camera
-<FileTrigger onSelect={handleSelect} acceptedFileTypes={['image/*']} defaultCamera="environment">
-    <Button>Capture photo</Button>
-</FileTrigger>
-```
-
-### Disabled trigger
-
-`FileTrigger` itself has no `isDisabled` prop. To disable the trigger, set `isDisabled` on the **child** component:
-
-```tsx
+// Disabled trigger — set isDisabled on the child, not FileTrigger
 <FileTrigger onSelect={handleSelect}>
     <Button isDisabled>Upload (unavailable)</Button>
 </FileTrigger>
 ```
 
----
-
-## Flow
-
-### File selection lifecycle
-
-```
-User activates the child element (click / Space / Enter)
-    │
-    ▼
-React Aria programmatically clicks the hidden <input type="file">
-    │
-    ▼
-OS-native file picker dialog opens
-    │
-    ├── User cancels  → onSelect(null) is NOT fired; picker closes
-    └── User selects  → OS returns a FileList
-                              │
-                              ▼
-                        onSelect(FileList) fires
-                              │
-                              ▼
-                        Your handler reads FileList
-                        (Array.from(fileList) to get File objects)
-                              │
-                              ▼
-                        React Aria resets the hidden input
-                        (same file can be re-selected immediately)
-```
-
-### DropZone + FileTrigger composition
-
-The canonical upload pattern in Geti UI nests `FileTrigger` inside `DropZone`, giving users two paths to the same action:
-
-```tsx
-const [files, setFiles] = useState<File[]>([]);
-
-const handleDrop = async (e: DropEvent) => {
-    const dropped = await Promise.all(
-        e.items
-            .filter((item): item is FileDropItem => item.kind === 'file')
-            .map((item) => item.getFile())
-    );
-    setFiles((prev) => [...prev, ...dropped]);
-};
-
-const handleSelect = (fileList: FileList | null) => {
-    if (!fileList) return;
-    setFiles((prev) => [...prev, ...Array.from(fileList)]);
-};
-
-<DropZone onDrop={handleDrop} aria-label="Upload dataset images">
-    <IllustratedMessage>
-        <Upload aria-hidden />
-        <Heading>Drag and drop files</Heading>
-        <Content>or use the button below</Content>
-    </IllustratedMessage>
-    <FileTrigger
-        onSelect={handleSelect}
-        acceptedFileTypes={['image/png', 'image/jpeg']}
-        allowsMultiple
-    >
-        <Button variant="secondary">Browse files</Button>
-    </FileTrigger>
-</DropZone>
-```
-
-Both `handleDrop` and `handleSelect` converge on the same `files` state, so downstream processing (validation, upload, preview) is unified.
-
-### Form integration
-
-`FileTrigger` does not render a named `<input>` and does not participate in native form submission. To use selected files in a form:
-
-```tsx
-const [selectedFiles, setSelectedFiles] = useState<File[]>([]);
-
-const handleSubmit = async (e: FormEvent) => {
-    e.preventDefault();
-    const formData = new FormData();
-    selectedFiles.forEach((file) => formData.append('files', file));
-    await uploadApi.post('/datasets/import', formData);
-};
-
-<form onSubmit={handleSubmit}>
-    <FileTrigger onSelect={(fl) => setSelectedFiles(fl ? Array.from(fl) : [])}>
-        <Button type="button">Select files</Button>
-    </FileTrigger>
-    <Button type="submit" isDisabled={selectedFiles.length === 0}>Upload</Button>
-</form>
-```
-
----
+Pair with `DropZone` to give users both drag-and-drop and click-to-browse paths in a single upload area.
 
 ## Props
 
-<Controls />
+<Controls of={DocStories.Default} />
 
 ### Events
 
 | Prop | Type | Description |
 |------|------|-------------|
-| `onSelect` | `(files: FileList \| null) => void` | Called when the user selects files from the OS picker. `null` is never returned in practice — if the user cancels, the callback is not called. |
+| `onSelect` | `(files: FileList \| null) => void` | Called when the user selects files. If the user cancels the picker, this is not called. |
 
 ### File selection
 
 | Prop | Type | Default | Description |
 |------|------|---------|-------------|
-| `acceptedFileTypes` | `readonly string[]` | — | MIME types or file extensions to allow (e.g., `['image/*']`, `['.csv']`). Maps to the `accept` attribute on the hidden input. |
-| `allowsMultiple` | `boolean` | `false` | Whether multiple files can be selected in a single picker session. |
-| `acceptDirectory` | `boolean` | `false` | Whether to open a directory/folder picker instead of a file picker. |
-| `defaultCamera` | `'user' \| 'environment'` | — | Mobile only: which camera to open for capture. `'user'` = front, `'environment'` = rear. |
+| `acceptedFileTypes` | `readonly string[]` | — | MIME types or extensions to allow (e.g., `['image/*']`, `['.csv']`). Maps to the `accept` attribute. |
+| `allowsMultiple` | `boolean` | `false` | Whether multiple files can be selected in one session. |
+| `acceptDirectory` | `boolean` | `false` | Opens a directory/folder picker instead of a file picker. |
+| `defaultCamera` | `'user' \| 'environment'` | — | Mobile only: `'user'` = front camera, `'environment'` = rear camera. |
 
 ### Content
 
 | Prop | Type | Description |
 |------|------|-------------|
-| `children` | `ReactNode` | The interactive element that triggers the file picker (e.g., a `Button`). Must be a single pressable element. |
+| `children` | `ReactNode` | The interactive element that triggers the file picker. Must be a single pressable element. |
 
----
+## Related components
+- `DropZone` — pair with `FileTrigger` to provide both drag-and-drop and click-to-browse paths.
+- `Button` — the most common child trigger; provides consistent Geti styling and press handling.
+- `ActionButton` — use as the child when the trigger is in a toolbar with icon-only controls.
 
-## Accessibility
+## Example use cases
+<details>
+  <summary>Typical use cases</summary>
 
-- **Hidden input**: `FileTrigger` renders a `<input type="file">` with `aria-hidden="true"` positioned off-screen. It is invisible to all assistive technologies — the child element carries all the accessible semantics.
-- **No extra ARIA**: `FileTrigger` does not add any ARIA attributes to the child element. The child's existing role, label, and state are unaffected. A `<Button>` child will still be announced as a button with its label.
-- **Keyboard support**: Focus management and keyboard activation (`Space`, `Enter`) are fully handled by the child element. When the child is activated, React Aria programmatically triggers the hidden input — no additional key handling is required.
-- **Screen reader announcement**: Screen readers announce the child element per its role. For example, a `<Button>Browse files</Button>` is announced as *"Browse files, button"*. After selecting files, no automatic announcement is made — if you need post-selection feedback, render a status message in an `aria-live` region.
-- **Labeling**: There is no label on `FileTrigger` itself. Always ensure the child element has a clear, descriptive accessible name (e.g., *"Select images"* rather than *"Upload"*) so screen reader users understand what will happen when they activate it.
-- **Disabled state**: Set `isDisabled` on the **child** element. Do not attempt to disable the `FileTrigger` wrapper — it has no visual presence to disable.
+- Triggering an image upload dialog from a "Browse files" button in a dataset creation wizard.
+- Allowing users to upload a model weights file from a toolbar `ActionButton` in a model management panel.
+- Replacing a project thumbnail by clicking an avatar or placeholder image.
+- Uploading a CSV label file by pressing a `Button` inside a `DropZone` upload area.
 
----
-
-## Integration
-
-- **Dependency**: `react-aria-components` — `FileTrigger` is imported from this package, not from `@adobe/react-spectrum`. This is the only component in `@geti/ui` sourced from `react-aria-components`.
-- **`ThemeProvider`**: Required only if the child element is a Spectrum component (e.g., `Button` from `@geti/ui`). `FileTrigger` itself does not use Spectrum tokens.
-- **`DropZone`**: The primary composition partner. See the [DropZone docs](/docs/components-form-dropzone--docs) for the full drag-and-drop API and the composed example.
-- **`Button`**: The most common child. Import `Button` from `@geti/ui` to ensure consistent styling and press-event handling.
-- **`FileList` to `File[]`**: `onSelect` receives a `FileList` (not an array). Convert with `Array.from(fileList)` or the spread operator `[...fileList]` before iterating, filtering, or passing to state.
+</details>

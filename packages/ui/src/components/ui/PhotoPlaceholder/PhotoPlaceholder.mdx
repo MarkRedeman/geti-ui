@@ -1,13 +1,11 @@
-import { Meta, Title, Subtitle, Description, Primary, Controls, Stories, Source } from '@storybook/addon-docs/blocks';
+import { Meta, Controls, Stories } from '@storybook/addon-docs/blocks';
 import * as DocStories from './PhotoPlaceholder.stories';
 
 <Meta of={DocStories} />
 
-<Title>PhotoPlaceholder</Title>
+# PhotoPlaceholder
 
-<Subtitle>
-  A deterministic initials-based placeholder used when a user or entity photo is unavailable.
-</Subtitle>
+A deterministic initials-based placeholder used when a user or entity photo is unavailable.
 
 ```tsx
 import { PhotoPlaceholder } from '@geti/ui';
@@ -19,13 +17,13 @@ import { PhotoPlaceholder } from '@geti/ui';
 
 `PhotoPlaceholder` fills a functional gap in the Adobe Spectrum design system: providing a high-quality, initials-based fallback for missing images. While Spectrum's `Avatar` component is strictly image-only, `PhotoPlaceholder` ensures every entity has a distinct visual identity even without a profile photo.
 
-### Key Capabilities
+Key capabilities:
 - **Deterministic Color**: Background colors are hashed from an `indicator` string (e.g., email or ID), ensuring the same user always has the same color.
 - **Initials Rendering**: Automatically extracts and displays the first initial from the `name` prop.
 - **Smart Contrast**: Dynamically calculates whether to use light or dark text based on the background color's perceived luminance, ensuring WCAG-compliant contrast.
 - **Flexible Shape**: Defaults to a circular "avatar" style but supports custom `borderRadius` for square or rounded-rect variants.
 
----
+The color pipeline uses a perceptual luminance formula (ITU-R 601 weights): the `indicator` is hashed to a hex color, then `(r*299 + g*587 + b*114) / 1000` determines whether to render light or dark text. Centering is handled via CSS module Flexbox, while dynamic colors and radius are applied via `UNSAFE_style`. The component uses `role="img"` with `aria-label` set to the full `name` so screen readers announce the person's name; the visible initial is marked `aria-hidden="true"`.
 
 ## Variants
 
@@ -34,8 +32,6 @@ The component supports standard Spectrum dimension tokens for `width` and `heigh
 
 ### Custom Shape
 Use the `borderRadius` prop to change the shape from the default circle (`50%`) to a rounded square or other geometric form.
-
----
 
 ## Props
 
@@ -56,25 +52,18 @@ Use the `borderRadius` prop to change the shape from the default circle (`50%`) 
 | `height` | `string \| number` | `'size-1600'` | Spectrum dimension token or numeric pixel value for height. |
 | `borderRadius` | `string` | `'50%'` | CSS border-radius value (e.g., `'8px'`, `'100%'`). |
 
----
+## Related components
+- `Avatar` — use when an actual user photo is available; `PhotoPlaceholder` is its fallback partner.
+- `AvatarGroup` — use when displaying a stack of multiple users; `PhotoPlaceholder` renders inside `Avatar` automatically on image error.
+- `Image` — use for general-purpose images that are not person/entity representations.
 
-## Implementation Details
+## Example use cases
+<details>
+  <summary>Typical use cases</summary>
 
-### Color Pipeline
-The component uses a perceptional luminance formula (ITU-R 601 weights) to ensure text readability:
-1. **Hash**: The `indicator` is hashed to a hex color.
-2. **Luminance**: `(r*299 + g*587 + b*114) / 1000`.
-3. **Threshold**: If luminance > 128, use dark text; otherwise, use light text.
+- Rendering an initials badge for a new user who has not uploaded a profile photo.
+- Displaying a consistent color-coded placeholder for team members in a project member list.
+- Showing a deterministic identity swatch in annotation tasks where user photos are not available.
+- Using a square `borderRadius` variant to represent an organization or team entity rather than a person.
 
-### Layout
-Static centering logic (Flexbox) is handled in `PhotoPlaceholder.module.css`, while dynamic colors and radius are applied via `UNSAFE_style` on a Spectrum `View`.
-
----
-
-## Accessibility
-
-- **Role**: The component uses `role="img"` on the container to identify as a single visual entity.
-- **Label**: The `aria-label` is set to the full `name` (or `indicator`), ensuring screen readers announce the person's name rather than just the initial.
-- **Hiding Text**: The visible initial character is marked with `aria-hidden="true"` to prevent redundant announcements.
-
-
+</details>

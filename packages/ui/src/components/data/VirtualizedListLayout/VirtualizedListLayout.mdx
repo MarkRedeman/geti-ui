@@ -1,9 +1,17 @@
-import { Meta, Title, Subtitle, Description, Primary, Controls, Stories } from '@storybook/addon-docs/blocks';
+import { Meta, Stories } from '@storybook/addon-docs/blocks';
 import * as DocStories from './VirtualizedListLayout.stories';
 
 <Meta of={DocStories} />
 
-<Title />
+# VirtualizedListLayout
+
+A virtualised vertical list with infinite-scroll support, built on `react-aria-components` — for large item collections where DOM recycling and full rendering control are required.
+
+```tsx
+import { VirtualizedListLayout } from '@geti/ui';
+```
+
+<Stories />
 
 ## Responsibility
 
@@ -20,27 +28,6 @@ Built on RAC, not Spectrum. Key building blocks:
 - **`containerHeight?: string`** — controls the scroll container height (default fills available space).
 - **`useRef`** — the scroll container ref is passed to both `Virtualizer` and `useLoadMore`.
 
-## Flow
-
-```
-props { items, renderItem, idFormatter, textValueFormatter,
-        layoutOptions, containerHeight, isLoading, onLoadMore,
-        renderLoading, selected, ariaLabel }
-  → useLoadMore({ isLoading, onLoadMore }, scrollRef)
-  → <div ref={scrollRef} style={{ height: containerHeight, overflow: 'auto' }}>
-      <Virtualizer layout={new ListLayout(layoutOptions)}>
-        <ListBox aria-label={ariaLabel} selectedKeys={selected}>
-          {items.map(item =>
-            <ListBoxItem id={idFormatter(item)} textValue={textValueFormatter(item)}>
-              {renderItem(item)}
-            </ListBoxItem>
-          )}
-          {isLoading && <ListBoxItem id="loader">{renderLoading()}</ListBoxItem>}
-        </ListBox>
-      </Virtualizer>
-    </div>
-```
-
 ## Integration
 
 - Used for large dataset image grids, annotation lists, and model history views where virtualisation is required.
@@ -48,13 +35,45 @@ props { items, renderItem, idFormatter, textValueFormatter,
 - Contrast with `VirtualizedHorizontalGrid` (same data/ category) — this component is vertical + infinite scroll; `VirtualizedHorizontalGrid` is horizontal with a custom `HorizontalLayout`.
 - Contrast with Spectrum `ListView` — this component uses RAC for full rendering control; `ListView` uses Spectrum's built-in virtualisation with Spectrum styling.
 
-
-<Stories />
----
-
-<Primary />
-
 ## Props
 
-<Controls />
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `items` | `T[]` | — | **Required.** The array of items to render. |
+| `renderItem` | `(item: T) => ReactNode` | — | **Required.** Renders the content for each list item. |
+| `idFormatter` | `(item: T) => Key` | — | **Required.** Returns the unique key for each item. |
+| `textValueFormatter` | `(item: T) => string` | — | **Required.** Returns the accessible text for each item. |
+| `layoutOptions` | `ListLayoutOptions` | — | Options passed to `ListLayout` (e.g. `rowHeight`). |
+| `containerHeight` | `string` | — | Height of the outer scroll container. Defaults to filling available space. |
+| `isLoading` | `boolean` | `false` | When true, appends the loading sentinel and triggers `useLoadMore`. |
+| `onLoadMore` | `() => void` | — | Called when the user scrolls near the bottom of the list. |
+| `renderLoading` | `() => ReactNode` | `<Loading mode="inline" size="M">` | Custom render for the loading sentinel. |
+| `selected` | `Iterable<Key>` | — | The currently selected item keys. |
+| `ariaLabel` | `string` | — | **Required.** Accessible label for the list box. |
 
+## Accessibility
+
+- Built on `react-aria-components` `ListBox`, which follows the [WAI-ARIA Listbox pattern](https://www.w3.org/WAI/ARIA/apg/patterns/listbox/).
+- Always provide `ariaLabel` — without it the list has no accessible name.
+- `textValueFormatter` provides the accessible text for each item; ensure it returns a meaningful, non-empty string for every item.
+- The loading sentinel (`id="loader"`) is appended to the list items array — screen readers will encounter it as a list item; the `renderLoading` content should have an accessible label (the default `Loading` component provides this via `aria-label`).
+
+## Related components
+
+- **`VirtualizedHorizontalGrid`** — use instead when items scroll horizontally rather than vertically; shares the same render-prop API.
+- **`ListView`** — use when the item count is moderate and Spectrum's built-in virtualisation with standard row styling is sufficient.
+- **`ListBox`** — use for simple permanently-visible option lists that don't require infinite-scroll or custom item rendering.
+- **`Loading`** — the default `renderLoading` sentinel; replace with a custom node via `renderLoading` when a branded indicator is needed.
+
+## Example use cases
+
+<details>
+  <summary>Typical use cases</summary>
+
+- Displaying a large annotation history log where new entries stream in via infinite scroll.
+- Rendering thousands of model training event records with custom row layouts (timestamps, severity icons, progress bars).
+- Building a virtualized image thumbnail list for a dataset browser where each item shows a preview and label chips.
+- Showing a long audit trail of user actions in an admin panel with lazy-loaded pages.
+- Presenting a scrollable list of pipeline run results with expandable details per row.
+
+</details>

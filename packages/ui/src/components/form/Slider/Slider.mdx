@@ -1,108 +1,45 @@
-import { Meta, Subtitle, Controls, Stories } from '@storybook/addon-docs/blocks';
+import { Meta, Controls, Stories } from '@storybook/addon-docs/blocks';
 import * as DocStories from './Slider.stories';
 
 <Meta of={DocStories} />
 
 # Slider
 
-<Subtitle>A numeric input that allows users to select a single value within a fixed range.</Subtitle>
+A numeric input that allows users to select a single value within a fixed range.
 
 ```tsx
 import { Slider } from '@geti/ui';
 ```
 
 - [React Spectrum V3 Slider](https://react-spectrum.adobe.com/react-spectrum/Slider.html)
-- [Theming Guide (Geti UI)](?path=/docs/theme-theming--docs)
 
 <Stories />
 
 ## Responsibility
 
-The `Slider` component allows users to select a single numeric value by dragging a handle along a track. It is ideal for adjusting settings like volume, opacity, or exposure where the range of possible values is known and invariable.
+`Slider` wraps Adobe React Spectrum's `Slider` with a single Geti customisation: when `isFilled={true}`, the `data-filled` CSS attribute triggers a CSS Module override that replaces Spectrum's default fill-track and handle colours with Geti's `--energy-blue` tokens.
+
+`UNSAFE_className` is merged with the Geti module class via `clsx`. All other props pass through to Spectrum unchanged.
 
 ### When to use
-- To select a single value from a fixed range.
-- When the relative value is more important than the exact numeric precision (though labels can provide precision).
+- To select a single value from a fixed range where the relative position matters as much as the exact number.
+- When small incremental adjustments are the dominant interaction pattern.
 
-### When to use something else
-- Use [RangeSlider](/docs/components-form-rangeslider--docs) to select a range of values (e.g., a price range with two handles).
-- Use [ProgressBar](/docs/components-status-progressbar--docs) for read-only status indication.
-- Use [NumberField](/docs/components-form-numberfield--docs) if the user needs to type a precise number.
+### When to avoid
+- Use [`RangeSlider`](/docs/components-form-rangeslider--docs) when both a minimum and a maximum value must be selected.
+- Use [`NumberField`](/docs/components-form-numberfield--docs) when the user needs to type a precise value or the range is large.
+- Use [`ProgressBar`](/docs/components-status-progressbar--docs) for read-only status indication.
 
----
+## States
 
-## Design
-
-`Slider` extends `SpectrumSliderProps` and adds a single Geti customisation: the `isFilled` CSS token override.
-
-```tsx
-// packages/ui/src/components/form/Slider/Slider.tsx
-
-export interface SliderProps extends SpectrumSliderProps {}
-
-export const Slider = ({ UNSAFE_className, ...props }: SliderProps) => {
-    return (
-        <SpectrumSlider
-            {...props}
-            UNSAFE_className={clsx(styles.slider, UNSAFE_className)}
-            data-filled={props.isFilled}
-        />
-    );
-};
-```
-
-The wrapper intercepts `UNSAFE_className` to merge it with the Geti-specific CSS Module class. All other props pass through to Spectrum unchanged.
-
-**`isFilled` token override**
-
-When `isFilled={true}`, the `data-filled="true"` attribute is set on the root element. The CSS Module targets this attribute to replace Spectrum's default accent colour with Geti's energy-blue tokens:
-
-```css
-/* Slider.module.css */
-.slider[data-filled='true'] {
-    --spectrum-slider-fill-track-color: var(--energy-blue);
-    --spectrum-slider-handle-border-color: var(--energy-blue);
-    --spectrum-slider-handle-border-color-down: var(--energy-blue-lighter);
-    --spectrum-slider-handle-border-color-hover: var(--energy-blue-light);
-}
-```
-
-This approach uses only Spectrum's own CSS custom properties as override targets — no internal Spectrum class selectors are used, keeping the customisation upgrade-safe. The `--energy-blue` variables are defined in `src/theme/tokens.css` and resolved by `ThemeProvider`.
-
-**Prop mapping**
-
-| Geti `SliderProps` | Spectrum `SpectrumSliderProps` | Notes |
-|--------------------|-------------------------------|-------|
-| `value` / `defaultValue` | `value` / `defaultValue` | Controlled / uncontrolled numeric value |
-| `isFilled` | `isFilled` | Passes through to Spectrum; also sets `data-filled` for CSS override |
-| `isDisabled` | `isDisabled` | Non-interactive, visually dimmed |
-| `UNSAFE_className` | `UNSAFE_className` | Merged with Geti's CSS Module class via `clsx` |
-| `...rest` | all other props | Passed through without transformation |
-
----
-
-## Variants
-
-### States
-- **Disabled**: The slider is not interactive and the track/handle appear dimmed. Use `isDisabled`.
-- **Filled**: In Geti UI, the `isFilled` prop applies an energy-blue design token to the fill track and handle, overriding the default Spectrum accent color.
-
-### Orientation
-- **Horizontal** (Default): The standard horizontal track.
-- **Vertical**: Use `orientation="vertical"` for vertical layouts.
-
-### Formatting
-The value label can be formatted using `formatOptions` (e.g., for percentages, currency, or decimals) using the `Intl.NumberFormat` API.
+- **Disabled**: Non-interactive, track and handle dimmed. Use `isDisabled`.
+- **Filled**: `isFilled={true}` applies the energy-blue token override to the fill track and handle.
+- **Orientation**: `orientation="vertical"` for vertical layouts; horizontal is the default.
+- **Formatting**: `formatOptions` accepts `Intl.NumberFormatOptions` for percentages, currency, or units.
 
 ## Props
 
-### Content
-| Prop | Type | Description |
-|---|---|---|
-| `label` | `ReactNode` | The label for the slider. |
-| `showValueLabel` | `boolean` | Whether to display the current value as a label. |
-| `getValueLabel` | `(value: number) => string` | A function to generate a custom value label. |
-| `contextualHelp` | `ReactNode` | A `<ContextualHelp>` element placed next to the label. |
+<Controls of={DocStories.Default} />
 
 ### Value
 | Prop | Type | Default | Description |
@@ -111,7 +48,16 @@ The value label can be formatted using `formatOptions` (e.g., for percentages, c
 | `defaultValue` | `number` | — | The initial value (uncontrolled). |
 | `minValue` | `number` | `0` | The minimum allowed value. |
 | `maxValue` | `number` | `100` | The maximum allowed value. |
-| `step` | `number` | `1` | The increment between values. |
+| `step` | `number` | `1` | The increment between selectable values. |
+
+### Content
+| Prop | Type | Description |
+|---|---|---|
+| `label` | `ReactNode` | The label for the slider. |
+| `showValueLabel` | `boolean` | Whether to display the current value as a label. |
+| `getValueLabel` | `(value: number) => string` | A function to generate a custom value label. |
+| `formatOptions` | `Intl.NumberFormatOptions` | Locale-aware display formatting for the value label. |
+| `contextualHelp` | `ReactNode` | A `<ContextualHelp>` element placed next to the label. |
 
 ### Events
 | Prop | Type | Description |
@@ -122,16 +68,24 @@ The value label can be formatted using `formatOptions` (e.g., for percentages, c
 ### Styles
 | Prop | Type | Description |
 |---|---|---|
-| `isFilled` | `boolean` | Whether to show a filled track from the start to the handle. |
-| `fillOffset` | `number` | The value from which the track fill should start. |
+| `isFilled` | `boolean` | Whether to show a filled track using Geti's energy-blue tokens. |
+| `fillOffset` | `number` | The value from which the track fill starts. |
+| `orientation` | `'horizontal' \| 'vertical'` | Layout orientation. |
 | `width` | `DimensionValue` | The width of the slider component. |
 | `labelPosition` | `'top' \| 'side'` | The position of the label relative to the slider. |
 
-## Accessibility
+## Related components
+- `RangeSlider` — use instead when users need to select both a minimum and maximum value on the same track.
+- `NumberField` — use instead when users need to type a precise numeric value.
+- `ColorSlider` — use instead when adjusting a single color channel (hue, alpha, saturation).
 
-- Uses an underlying `<input type="range">` for native semantics.
-- Full keyboard support: **Arrow keys** increment/decrement by `step`, **PageUp/PageDown** for larger steps, and **Home/End** to jump to bounds.
-- Automatically handles ARIA attributes like `aria-valuemin`, `aria-valuemax`, and `aria-valuenow`.
-- Supports screen readers by providing formatted value text via `aria-valuetext`.
+## Example use cases
+<details>
+  <summary>Typical use cases</summary>
 
-<Controls />
+- Adjusting a confidence threshold for AI predictions displayed on an annotation canvas.
+- Setting an image brightness or contrast level in a pre-processing configuration panel.
+- Controlling a zoom level or scale factor in a canvas toolbar.
+- Choosing a frame rate or sampling interval in a video annotation settings dialog.
+
+</details>

@@ -1,11 +1,11 @@
-import { Meta, Title, Subtitle, Controls, Stories, Source } from '@storybook/addon-docs/blocks';
+import { Meta, Stories } from '@storybook/addon-docs/blocks';
 import * as DocStories from './InlineAlert.stories';
 
 <Meta of={DocStories} />
 
 # InlineAlert
 
-<Subtitle>A persistent, in-flow notification block that communicates contextual status — info, success, warning, or error — without interrupting the user's workflow.</Subtitle>
+A persistent, in-flow notification block that communicates contextual status — info, success, warning, or error — without interrupting the user's workflow.
 
 ```tsx
 import { InlineAlert } from '@geti/ui';
@@ -54,7 +54,7 @@ export const InlineAlert = (props: InlineAlertProps) => <SpectrumInlineAlert {..
 
 No state, no effects, no refs. Spectrum manages icon selection, colour application, and layout.
 
-## Flow
+## Integration
 
 ```tsx
 import { Content, Heading } from '@adobe/react-spectrum';
@@ -97,8 +97,6 @@ import { InlineAlert } from '@geti/ui';
 </InlineAlert>
 ```
 
-## Integration
-
 | Concern | Detail |
 |---------|--------|
 | **Package** | `@adobe/react-spectrum` — `InlineAlert` |
@@ -123,3 +121,21 @@ All `SpectrumInlineAlertProps` are accepted as-is. The primary props are:
 - **Icon accessibility**: Spectrum renders a variant-appropriate icon inside the alert. The icon is marked `aria-hidden`; the heading and content text carry the full accessible message. Never rely on the icon alone to convey severity.
 - **Conditional rendering**: When `InlineAlert` is conditionally mounted (e.g. shown after a failed form submission), the live region fires automatically on mount. This is the correct pattern — do not programmatically focus the alert; let the live region mechanism handle announcement.
 - **Contrast**: All `InlineAlert` variants in Geti's dark theme are designed to meet WCAG AA contrast requirements through `ThemeProvider`'s token overrides. If overriding colours with `UNSAFE_className`, verify contrast independently.
+
+## Related components
+- **`Toast`** — use for transient, auto-dismissing notifications triggered programmatically after async events; `InlineAlert` is declarative and persistent.
+- **`Badge`** — use for compact, static categorical labels (e.g. "Beta", "Archived") that require no title or body text.
+- **`StatusLight`** — use for a compact dot-and-label indicator of a live operational state rather than a rich contextual message.
+- **`IllustratedMessage`** — use when the feedback occupies a large empty area and benefits from an illustration (e.g. empty states, 404 screens).
+
+## Example use cases
+<details>
+  <summary>Typical use cases</summary>
+
+- Summarising form validation errors at the top of a settings form after a failed save attempt — `variant="negative"`.
+- Warning that an edge device is nearing its storage limit in a resource panel — `variant="notice"`.
+- Confirming that a model was successfully deployed inside the deployment detail view — `variant="positive"`.
+- Informing the user that a feature is in beta and behaviour may change — `variant="info"`.
+- Notifying that a scheduled pipeline restart is required for configuration changes to take effect — `variant="neutral"`.
+
+</details>

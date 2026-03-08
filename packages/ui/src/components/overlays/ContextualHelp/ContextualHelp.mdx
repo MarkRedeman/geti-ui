@@ -1,11 +1,11 @@
-import { Meta, Title, Subtitle, Description, Primary, Controls, Stories } from '@storybook/addon-docs/blocks';
+import { Meta, Stories } from '@storybook/addon-docs/blocks';
 import * as DocStories from './ContextualHelp.stories';
 
 <Meta of={DocStories} />
 
-<Title>ContextualHelp</Title>
+# ContextualHelp
 
-<Subtitle>A non-blocking overlay for supplemental guidance about a UI element or task.</Subtitle>
+A non-blocking overlay for supplemental guidance about a UI element or task.
 
 ```tsx
 import { ContextualHelp, Heading, Content, Footer, Link } from '@geti/ui';
@@ -66,4 +66,24 @@ Renders an `ℹ` icon. Best for brief, supplemental context about a specific lab
 
 ### Touch Support
 Unlike tooltips, `ContextualHelp` is triggered via press/click, making it accessible on touch screens where hover-only interactions are not available.
+
+## Related components
+
+- **`Tooltip`** — use for a single-line, non-interactive label on a button or icon; use `ContextualHelp` when the explanation needs a heading, body paragraph, or external link.
+- **`Popover`** — use when the floating panel needs interactive controls (forms, filters); `ContextualHelp` is intentionally read-only.
+- **`Dialog`** — use when the help content is complex enough to warrant blocking the UI and requires structured slot composition.
+- **`Well`** — use for inline supplementary content that should always be visible rather than hidden behind a trigger.
+
+## Example use cases
+
+<details>
+  <summary>Typical use cases</summary>
+
+- **Form field clarification**: A "Confidence threshold" number field places a `?` icon next to its label; clicking it explains what the value controls and links to the docs.
+- **Disabled feature explanation**: An `ℹ` icon next to a locked feature explains why it is unavailable for the current subscription tier.
+- **Technical concept**: A "Model precision" dropdown includes a `ContextualHelp` explaining the difference between FP16 and INT8 with a "Learn more" link.
+- **Permission description**: An access-level setting shows a help icon that explains what each role (Viewer, Editor, Admin) is allowed to do.
+- **Annotation type guidance**: An annotation type selector includes a `?` icon for each type that shows a brief description and a link to the annotation guide.
+
+</details>
 

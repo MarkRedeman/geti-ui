@@ -1,11 +1,11 @@
-import { Meta, Title, Subtitle, Description, Primary, Controls, Stories } from '@storybook/addon-docs/blocks';
+import { Meta, Stories } from '@storybook/addon-docs/blocks';
 import * as DocStories from './Flex.stories';
 
 <Meta of={DocStories} />
 
 # Flex
 
-<Subtitle>Flex is a layout container that uses CSS Flexbox to position and align its children in a single dimension.</Subtitle>
+Flex is a layout container that uses CSS Flexbox to position and align its children in a single dimension.
 
 ```tsx
 import { Flex } from '@geti/ui';
@@ -56,29 +56,6 @@ The thin-wrapper pattern has two benefits:
 
 1. **Zero divergence** — any Spectrum upgrade is automatically reflected; no duplicate prop definitions to maintain.
 2. **Namespace isolation** — consuming code imports from `@geti/ui`, so the underlying library can be swapped in the future without changes in product code.
-
-## Flow
-
-The path from prop to rendered pixel is straightforward:
-
-```
-<Flex gap="size-200" direction="row">
-        │
-        ▼
-  FlexComponentProps (geti-ui re-export of FlexProps)
-        │
-        ▼
-  <SpectrumFlex> (Adobe React Spectrum)
-        │
-        ▼
-  Resolves "size-200" → var(--spectrum-global-dimension-size-200) → 16px
-        │
-        ▼
-  Renders <div style="display:flex; gap:16px; flex-direction:row;">
-```
-
-- **Dimension tokens** (e.g., `size-100`, `size-200`, `size-400`) are resolved by Spectrum against the active theme CSS variables. This keeps spacing consistent when the theme changes.
-- **Responsive objects** (e.g., `gap={{ base: 'size-100', L: 'size-200' }}`) are resolved by Spectrum's responsive system using CSS custom media queries — no JavaScript resize listeners.
 
 ## Variants
 
@@ -218,3 +195,23 @@ import { View, Flex } from '@geti/ui';
     ...
 </Flex>
 ```
+
+## Related components
+
+- **`Grid`** — use when items must align across both rows and columns simultaneously; `Flex` handles a single axis only.
+- **`View`** — wrap a `Flex` with `View` when you need a background, border, or padding on the container itself.
+- **`Card`** — frequently used as a `Flex` child; place `Flex direction="column"` inside `Card` to stack card content.
+- **`Well`** — use alongside `Flex` for supplementary information blocks that need a subtle inset treatment.
+
+## Example use cases
+
+<details>
+  <summary>Typical use cases</summary>
+
+- **Toolbar**: `direction="row"` with `justifyContent="space-between"` and `alignItems="center"` to distribute action buttons across a header bar.
+- **Form field column**: `direction="column"` with `gap="size-200"` to stack labels, inputs, and a submit button with consistent spacing.
+- **Centered empty state**: `alignItems="center"` and `justifyContent="center"` with `height="100%"` to vertically and horizontally center a loading spinner or empty-state illustration.
+- **Wrapping chip list**: `wrap` with `gap="size-100"` to display a set of tags or filter badges that reflow naturally across multiple lines.
+- **Button group**: `direction="row"` with `gap="size-100"` to keep related action buttons visually grouped with uniform spacing.
+
+</details>

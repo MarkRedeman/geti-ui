@@ -1,15 +1,17 @@
-import { Meta, Title, Subtitle, Description, Primary, Controls, Stories } from '@storybook/addon-docs/blocks';
+import { Meta, Stories } from '@storybook/addon-docs/blocks';
 import * as DocStories from './CardView.stories';
 
 <Meta of={DocStories} />
 
-<Title>CardView</Title>
+# CardView
 
-<Subtitle>A responsive grid collection for rendering visually rich cards.</Subtitle>
+A responsive grid collection for rendering visually rich cards.
 
 ```tsx
 import { CardView, Card } from '@geti/ui';
 ```
+
+<Stories />
 
 ## Responsibility
 
@@ -26,18 +28,11 @@ import { CardView, Card } from '@geti/ui';
 
 ## Design
 
-`CardView` is built as a flexible CSS Grid container that maps an array of `items` to a collection of `Card` components. 
+`CardView` is built as a flexible CSS Grid container that maps an array of `items` to a collection of `Card` components.
 
 - **Internal Anatomy**: The component provides a root `<div>` with `display: grid` and uses the `renderCard` prop to instantiate individual cards.
 - **Responsive Behavior**: By default, it uses a fixed number of `columns`, but can be customized for different viewport sizes using standard layout props.
 - **Layout Tokens**: It defaults to a `16px` gap, aligning with the Geti design system's spacing scale.
-
-## Flow
-
-1. **Data Ingestion**: The component receives an array of generic `items<T>`.
-2. **Card Mapping**: For each item, the `renderCard` callback is executed, returning the props for a `Card`.
-3. **Grid Rendering**: The grid container manages the positioning and spacing of the resulting card elements.
-4. **Interaction**: User interactions (clicks, selection) are handled within the individual `Card` instances or by parent selection state.
 
 ## Integration
 
@@ -63,17 +58,6 @@ To enable bulk actions in a `CardView`, it must be wrapped in an `ActionBarConta
 ### Empty States
 When the `items` array is empty, pair `CardView` with an `IllustratedMessage` to provide feedback to the user.
 
-## Accessibility
-
-`CardView` ensures that visually rich collections remain accessible to screen readers and keyboard users.
-
-| Feature | Implementation |
-| :--- | :--- |
-| **Roles** | The container uses `role="list"` and each card is wrapped in a `role="listitem"`. |
-| **Labels** | **Required:** Always provide an `aria-label` to the `CardView` for screen reader context. |
-| **Navigation** | Supports standard `Tab` navigation between interactive cards. |
-| **Interactive Content** | Ensure each card has a clear accessible name (via its title) and that any images have descriptive `alt` text. |
-
 ## Variants
 
 ### Custom Grid Layout
@@ -97,10 +81,27 @@ While `CardView` manages the collection, the individual cards are typically rend
 
 ## Accessibility
 
-### Roles and Navigation
-- The container uses `role="list"` and each card is wrapped in a `role="listitem"`. 
+- The container uses `role="list"` and each card is wrapped in a `role="listitem"`.
 - **Required Labels**: Always provide an `aria-label` to the `CardView` so screen readers can identify the collection.
 - **Card Content**: Ensure each card has a clear accessible name (via its title or a `textValue`) and that any images have descriptive `alt` text.
+- Keyboard navigation follows the standard tab order of the cards.
 
-### Keyboard Support
-In the current implementation, keyboard navigation follows the standard tab order of the cards.
+## Related components
+
+- **`ListView`** — use instead for text-heavy, scannable data where linear order and metadata density matter more than visual thumbnails.
+- **`VirtualizedHorizontalGrid`** — use for very large horizontally-scrolling card collections where DOM virtualisation is required.
+- **`ActionBar`** — pair inside `ActionBarContainer` to surface bulk actions (download, delete) when cards are selected.
+- **`IllustratedMessage`** — render as the empty state when the `items` array is empty to guide users toward their first action.
+
+## Example use cases
+
+<details>
+  <summary>Typical use cases</summary>
+
+- A project gallery on the home screen showing project thumbnail, name, task type, and creation date as a responsive grid.
+- A dataset browser displaying preview images of training datasets with label count and image count badges on each card.
+- A model deployment overview where each card shows a deployed model's name, accuracy, target device, and status light.
+- An image selection grid in a labelling workflow where users pick representative samples for a new annotation task.
+- A media asset library for uploading and reviewing training images arranged in a responsive multi-column layout.
+
+</details>
