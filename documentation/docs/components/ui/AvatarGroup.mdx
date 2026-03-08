@@ -1,0 +1,131 @@
+---
+title: AvatarGroup
+---
+
+import { Avatar, AvatarGroup } from '@geti/ui';
+import { ExampleCard } from '../../../theme/ExampleCard';
+
+# AvatarGroup
+
+AvatarGroup renders a horizontal row of Avatar components. When the list exceeds the configured maximum, it shows a `+N` overflow badge instead of clipping. Use it for compact team member lists, annotation author stacks, and collaboration indicators.
+
+```tsx
+import { AvatarGroup } from '@geti/ui';
+```
+
+## Examples
+
+<ExampleCard
+  title="Default (max 3, showing overflow)"
+  code={`<AvatarGroup
+  avatars={[
+    { src: 'https://i.pravatar.cc/150?img=1', alt: 'User 1' },
+    { src: 'https://i.pravatar.cc/150?img=2', alt: 'User 2' },
+    { src: 'https://i.pravatar.cc/150?img=3', alt: 'User 3' },
+    { src: 'https://i.pravatar.cc/150?img=4', alt: 'User 4' },
+    { src: 'https://i.pravatar.cc/150?img=5', alt: 'User 5' },
+  ]}
+  max={3}
+/>`}
+>
+  <AvatarGroup
+    avatars={[
+      { src: 'https://i.pravatar.cc/150?img=1', alt: 'User 1' },
+      { src: 'https://i.pravatar.cc/150?img=2', alt: 'User 2' },
+      { src: 'https://i.pravatar.cc/150?img=3', alt: 'User 3' },
+      { src: 'https://i.pravatar.cc/150?img=4', alt: 'User 4' },
+      { src: 'https://i.pravatar.cc/150?img=5', alt: 'User 5' },
+    ]}
+    max={3}
+  />
+</ExampleCard>
+
+<ExampleCard
+  title="Show all (no overflow)"
+  code={`<AvatarGroup
+  avatars={[
+    { src: 'https://i.pravatar.cc/150?img=1', alt: 'Alice' },
+    { src: 'https://i.pravatar.cc/150?img=2', alt: 'Bob' },
+  ]}
+/>`}
+>
+  <AvatarGroup
+    avatars={[
+      { src: 'https://i.pravatar.cc/150?img=1', alt: 'Alice' },
+      { src: 'https://i.pravatar.cc/150?img=2', alt: 'Bob' },
+    ]}
+  />
+</ExampleCard>
+
+<ExampleCard
+  title="Custom size"
+  code={`<AvatarGroup
+  size="avatar-size-400"
+  avatars={[
+    { src: 'https://i.pravatar.cc/150?img=10', alt: 'User A' },
+    { src: 'https://i.pravatar.cc/150?img=11', alt: 'User B' },
+    { src: 'https://i.pravatar.cc/150?img=12', alt: 'User C' },
+  ]}
+/>`}
+>
+  <AvatarGroup
+    size="avatar-size-400"
+    avatars={[
+      { src: 'https://i.pravatar.cc/150?img=10', alt: 'User A' },
+      { src: 'https://i.pravatar.cc/150?img=11', alt: 'User B' },
+      { src: 'https://i.pravatar.cc/150?img=12', alt: 'User C' },
+    ]}
+  />
+</ExampleCard>
+
+## Responsibility
+
+`AvatarGroup` is a Geti-native component (not a Spectrum wrapper). It:
+
+- renders up to `max` avatars with a negative left margin to produce overlapping stacks,
+- shows a `+N` badge when the total count exceeds `max`,
+- applies a uniform `size` to all avatars in the group when provided,
+- exposes a `role="group"` container with an `aria-label` of `"N avatars"` for screen readers.
+
+## Variants and states
+
+`AvatarGroup` has no visual variants. Control visual weight through `size` and `max`.
+
+| Prop | Default | Effect |
+|---|---|---|
+| `max` | `3` | Maximum visible avatars before overflow badge |
+| `size` | inherited per avatar | Uniform size token applied to all avatars |
+
+## Props (deep dive)
+
+### Content
+
+- `avatars`: array of `AvatarProps` objects. Each item is passed directly to an `Avatar`. Ensure each entry has a unique `alt` for accessible rendering.
+
+### Visual
+
+- `max`: number — avatars beyond this count are hidden and replaced by `+N`.
+- `size`: size token string — overrides individual avatar sizes for uniformity.
+
+### Accessibility
+
+- the wrapper element has `role="group"` and `aria-label` reflecting total count,
+- the overflow badge has `aria-label` of `"N more"`,
+- each individual `Avatar` requires a meaningful `alt` in the `avatars` array.
+
+## Related components
+
+- `Avatar` — single avatar for profile images and comment threads.
+- `PhotoPlaceholder` — initials-based fallback when no image URL is available.
+
+## Example use cases
+
+<details>
+  <summary>Typical use cases</summary>
+
+- "Assigned to" indicator in project task cards.
+- Active collaborators row in an annotation session header.
+- Team members display in a project overview card.
+- Compact reviewer list in a media review workflow.
+
+</details>
