@@ -11,16 +11,7 @@ export default defineConfig({
   // Disable SSG because Adobe React Spectrum uses browser APIs (e.g. `document`)
   // at module evaluation time, which is incompatible with Node.js SSR/SSG.
   ssg: false,
-  markdown: {
-    // Exclude Storybook-internal /docs/... links from dead-link checking.
-    // These links appear in component MDX source files (written for Storybook)
-    // and cannot be resolved in the Rspress build context.
-    link: {
-      checkDeadLinks: {
-        excludes: (url: string) => url.startsWith('/docs/') || url.includes('?path=/docs/'),
-      },
-    },
-  },
+  markdown: {},
   builderConfig: {
     source: {
       // Ensure the component source files from @geti/ui are compiled
