@@ -1,0 +1,97 @@
+---
+title: PhotoPlaceholder
+---
+
+import { PhotoPlaceholder } from '@geti/ui';
+import { ExampleCard } from '../../../theme/ExampleCard';
+
+# PhotoPlaceholder
+
+PhotoPlaceholder renders a circular or custom-shaped placeholder for a user photo. It shows the first initial of the name on a deterministic background color derived from the `indicator` string. Use it as a fallback when no profile image is available.
+
+```tsx
+import { PhotoPlaceholder } from '@geti/ui';
+```
+
+## Examples
+
+<ExampleCard
+  title="Default (circular)"
+  code={`<PhotoPlaceholder name="Alice" indicator="alice@example.com" />`}
+>
+  <PhotoPlaceholder name="Alice" indicator="alice@example.com" />
+</ExampleCard>
+
+<ExampleCard
+  title="Different identity (different color)"
+  code={`<PhotoPlaceholder name="Bob" indicator="bob@example.com" />`}
+>
+  <PhotoPlaceholder name="Bob" indicator="bob@example.com" />
+</ExampleCard>
+
+<ExampleCard
+  title="Custom size"
+  code={`<PhotoPlaceholder name="Carol" indicator="carol@example.com" width="size-800" height="size-800" />`}
+>
+  <PhotoPlaceholder name="Carol" indicator="carol@example.com" width="size-800" height="size-800" />
+</ExampleCard>
+
+<ExampleCard
+  title="Square (no border radius)"
+  code={`<PhotoPlaceholder name="Dave" indicator="dave@example.com" borderRadius="8px" />`}
+>
+  <PhotoPlaceholder name="Dave" indicator="dave@example.com" borderRadius="8px" />
+</ExampleCard>
+
+## Responsibility
+
+`PhotoPlaceholder` is a Geti-native component. It:
+
+- derives a background color deterministically from the `indicator` string (stable across renders),
+- selects foreground text color (light or dark) for sufficient contrast against the background,
+- renders an `<img>`-like element with `role="img"` and `aria-label` for accessibility,
+- uses Spectrum `View` so standard layout props (`width`, `height`, etc.) work.
+
+## Variants and states
+
+`PhotoPlaceholder` has no interactive states. Customise appearance through props.
+
+| Prop | Default | Effect |
+|---|---|---|
+| `width` | `'size-1600'` | Spectrum dimension token or CSS string |
+| `height` | `'size-1600'` | Spectrum dimension token or CSS string |
+| `borderRadius` | `'50%'` | CSS border-radius; `'50%'` = circle |
+
+## Props (deep dive)
+
+### Content
+
+- `name`: the person's name. The first character is displayed as the initial. Falls back to `indicator` if `name` is empty.
+- `indicator`: a stable unique string (e.g. email, user ID) used to derive the background color.
+
+### Visual
+
+- `width` / `height`: Spectrum dimension tokens (e.g. `'size-800'`) or CSS values.
+- `borderRadius`: any valid CSS border-radius string.
+
+### Accessibility
+
+- renders with `role="img"` and `aria-label` set to `name` (or `indicator` if name is empty),
+- the displayed initial letter is `aria-hidden` since the container already has a label.
+
+## Related components
+
+- `Avatar` — use when an image URL is available.
+- `AvatarGroup` — combine with `PhotoPlaceholder` in groups when some members have images and others don't.
+
+## Example use cases
+
+<details>
+  <summary>Typical use cases</summary>
+
+- Fallback avatar in a user profile card when no profile photo has been uploaded.
+- User initials in a comment thread where no image exists.
+- Team member tiles in a project management panel.
+- Anonymous user representation in a shared annotation session.
+
+</details>
