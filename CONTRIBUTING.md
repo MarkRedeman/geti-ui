@@ -4,7 +4,7 @@ This guide explains how to develop `@geti/ui` components and validate changes in
 
 ## Prerequisites
 
-- Node.js `>=20.19.0`
+- Node.js `>=24.0.0`
 - pnpm `>=9`
 
 Use the versions declared in the root `package.json` `engines` field.
