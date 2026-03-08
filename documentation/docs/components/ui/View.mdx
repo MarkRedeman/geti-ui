@@ -1,0 +1,106 @@
+---
+title: View
+---
+
+import { View } from '@geti/ui';
+import { ExampleCard } from '../../../theme/ExampleCard';
+
+# View
+
+View is a general-purpose layout container built on Spectrum style props. Use it when you need a div-like box with design-token-aware padding, background color, borders, or positioning — without writing raw CSS.
+
+```tsx
+import { View } from '@geti/ui';
+```
+
+- [React Spectrum View ↗](https://react-spectrum.adobe.com/react-spectrum/View.html)
+- [Geti UI Theming](/components/theming)
+
+## Examples
+
+<ExampleCard
+  title="Padded container"
+  code={`<View padding="size-200" backgroundColor="gray-800" borderRadius="medium">
+  Content inside a padded View
+</View>`}
+>
+  <View padding="size-200" backgroundColor="gray-800" borderRadius="medium">
+    <span style={{ color: '#ccc' }}>Content inside a padded View</span>
+  </View>
+</ExampleCard>
+
+<ExampleCard
+  title="With border"
+  code={`<View
+  padding="size-200"
+  borderWidth="thin"
+  borderColor="blue-400"
+  borderRadius="small"
+>
+  Bordered view
+</View>`}
+>
+  <View padding="size-200" borderWidth="thin" borderColor="blue-400" borderRadius="small">
+    <span style={{ color: '#ccc' }}>Bordered view</span>
+  </View>
+</ExampleCard>
+
+<ExampleCard
+  title="Relative positioning (for overlay children)"
+  code={`<View position="relative" width="size-1600" height="size-1600" backgroundColor="gray-700">
+  <View position="absolute" top="size-0" right="size-0" width="size-200" height="size-200" backgroundColor="blue-500" borderRadius="large" />
+</View>`}
+>
+  <View position="relative" width="size-1600" height="size-1600" backgroundColor="gray-700">
+    <View position="absolute" top="size-0" right="size-0" width="size-200" height="size-200" backgroundColor="blue-500" borderRadius="large" />
+  </View>
+</ExampleCard>
+
+## Responsibility
+
+`View` is a thin wrapper around React Spectrum's `View`. All props pass through unchanged. The wrapper provides a consistent `@geti/ui` import path.
+
+## Variants and states
+
+`View` has no variants or interactive states. It is purely a layout primitive.
+
+## Props (deep dive)
+
+### Layout
+
+- `padding` / `paddingX` / `paddingY` / `paddingTop` etc.: Spectrum size tokens.
+- `width` / `height` / `minWidth` / `maxWidth`: Spectrum dimension tokens or CSS.
+- `position`: `'static' | 'relative' | 'absolute' | 'fixed' | 'sticky'`.
+- `top` / `right` / `bottom` / `left`: positioning offsets when `position` is non-static.
+- `zIndex`: stacking layer.
+- `overflow`: `'hidden' | 'auto' | 'scroll' | 'visible'`.
+
+### Visual
+
+- `backgroundColor`: Spectrum color token (e.g. `'gray-800'`, `'blue-400'`).
+- `borderRadius`: `'small' | 'medium' | 'large' | 'xlarge'`.
+- `borderWidth`: `'thin' | 'thick' | 'thicker' | 'thickest'`.
+- `borderColor`: Spectrum color token.
+
+### Accessibility
+
+- renders as a `<div>` by default,
+- add `role` and `aria-label` when the container represents a meaningful region.
+
+## Related components
+
+- `Flex` — use for flex-layout containers with gap/alignment props.
+- `Grid` — use for grid-layout containers.
+- `Well` — use for visually inset content sections.
+
+## Example use cases
+
+<details>
+  <summary>Typical use cases</summary>
+
+- Padding wrapper around a card body section.
+- Relative container for absolutely-positioned overlays or indicators.
+- Colored background section in a settings panel.
+- Bordered highlight region around a selected item.
+
+</details>
