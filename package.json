@@ -15,7 +15,10 @@
     "prepare": "husky",
     "docs:dev": "pnpm --filter @geti/documentation dev",
     "docs:build": "pnpm --filter @geti/documentation build",
-    "docs:preview": "pnpm --filter @geti/documentation preview"
+    "docs:preview": "pnpm --filter @geti/documentation preview",
+    "docs:check:coverage": "pnpm --filter @geti/documentation check:coverage",
+    "docs:check:no-stories-imports": "pnpm --filter @geti/documentation check:no-stories-imports",
+    "docs:test:e2e": "pnpm --filter @geti/documentation test:e2e"
   },
   "engines": {
     "node": ">=20.19.0",
