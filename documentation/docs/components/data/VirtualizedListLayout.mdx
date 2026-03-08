@@ -1,0 +1,125 @@
+---
+title: VirtualizedListLayout
+---
+
+import { VirtualizedListLayout } from '@geti/ui';
+import { ExampleCard } from '../../../theme/ExampleCard';
+
+# VirtualizedListLayout
+
+`VirtualizedListLayout` renders a vertically scrolling list that only mounts the items currently in view. Use it when your list exceeds a few hundred items and `ListView` becomes too slow, or when you need a fully custom item renderer with windowed performance.
+
+```tsx
+import { VirtualizedListLayout } from '@geti/ui';
+```
+
+- [Geti UI Theming](/components/theming)
+
+## Examples
+
+<ExampleCard
+  title="1 000-item virtualized list"
+  code={`const items = Array.from({ length: 1000 }, (_, i) => ({
+  id: \`item-\${i}\`,
+  name: \`Item \${i}\`,
+  description: \`Description for item \${i}\`,
+}));
+
+<VirtualizedListLayout
+  items={items}
+  ariaLabel="Large virtualized list"
+  containerHeight="size-3000"
+  layoutOptions={{ rowHeight: 60 }}
+  idFormatter={(item) => item.id}
+  textValueFormatter={(item) => item.name}
+  renderItem={(item) => (
+    <div style={{ padding: '10px', borderBottom: '1px solid #333' }}>
+      <strong>{item.name}</strong>
+      <div style={{ opacity: 0.7, fontSize: '0.85rem' }}>{item.description}</div>
+    </div>
+  )}
+/>`}
+>
+  <VirtualizedListLayout
+    items={Array.from({ length: 1000 }, (_, i) => ({
+      id: `item-${i}`,
+      name: `Item ${i}`,
+      description: `Description for item ${i}`,
+    }))}
+    ariaLabel="Large virtualized list"
+    containerHeight="size-3000"
+    layoutOptions={{ rowHeight: 60 }}
+    idFormatter={(item) => item.id}
+    textValueFormatter={(item) => item.name}
+    renderItem={(item) => (
+      <div style={{ padding: '10px', borderBottom: '1px solid #444' }}>
+        <strong>{item.name}</strong>
+        <div style={{ opacity: 0.7, fontSize: '0.85rem' }}>{item.description}</div>
+      </div>
+    )}
+  />
+</ExampleCard>
+
+## Responsibility
+
+`VirtualizedListLayout` is a Geti-authored component built on `react-aria-components` `Virtualizer` and `ListBox`. It manages:
+
+- windowed rendering via `ListLayout` from `react-aria-components`,
+- infinite scroll via `@react-aria/utils` `useLoadMore` hook,
+- a built-in loading row when `isLoading` is true,
+- selection state forwarded to the underlying `ListBox`.
+
+You control item rendering entirely via `renderItem` — there is no built-in row template.
+
+## Variants and states
+
+| State | Prop | Notes |
+|---|---|---|
+| Loading more | `isLoading` | Appends a loading row at the end |
+| Custom loader | `renderLoading` | Override the default `<Loading mode="inline" />` |
+| Load more trigger | `onLoadMore` | Called when the user scrolls near the end |
+
+## Props (deep dive)
+
+### Content
+
+- `items`: the array of typed items to render.
+- `renderItem(item)`: returns the React node for each row — you own the layout.
+- `idFormatter(item)`: extracts a unique string key for each item.
+- `textValueFormatter(item)`: extracts the accessible text value used by screen readers and type-to-select.
+
+### Layout
+
+- `layoutOptions`: `ListLayoutOptions` — at minimum set `rowHeight` in pixels.
+- `containerHeight`: Spectrum `DimensionValue` (e.g. `'size-5000'`) for the scroll container.
+
+### Loading / pagination
+
+- `isLoading`: shows the loading row at the end of the list.
+- `onLoadMore`: called when the user scrolls near the bottom — fetch the next page here.
+- `renderLoading`: optional custom loading row renderer.
+
+### Selection
+
+- `selected`: `Selection` value forwarded to the underlying `ListBox`.
+
+### Accessibility
+
+- `ariaLabel`: applied as `aria-label` on the `ListBox`.
+
+## Related components
+
+- `ListView` — prefer this for lists under ~500 items; it has built-in actions and drag-and-drop.
+- `VirtualizedHorizontalGrid` — use for horizontally scrolling virtualized grids (e.g. image carousels).
+- `TableView` — use when rows are columnar and you need header sorting.
+
+## Example use cases
+
+<details>
+  <summary>Typical use cases</summary>
+
+- Annotation list in an editor panel showing thousands of labelled regions.
+- Infinite-scroll dataset image list with `onLoadMore` triggering pagination.
+- Large label library with search and single-selection.
+
+</details>
