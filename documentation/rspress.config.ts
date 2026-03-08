@@ -44,7 +44,6 @@ export default defineConfig({
   themeConfig: {
     darkMode: true,
     nav: [
-      { text: 'Home', link: '/' },
       { text: 'Components', link: '/components/ui/Button' },
       { text: 'Examples', link: '/examples' },
       { text: 'Used By', link: '/used-by' },
