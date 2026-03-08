@@ -1,0 +1,112 @@
+---
+title: ToggleButton
+---
+
+import { ToggleButton } from '@geti/ui';
+import { ExampleCard } from '../../../theme/ExampleCard';
+
+# ToggleButton
+
+ToggleButton is a button that maintains a selected/deselected state. Use it for persistent binary controls — show/hide a panel, lock/unlock an element, or enable/disable a mode.
+
+```tsx
+import { ToggleButton } from '@geti/ui';
+```
+
+- [React Spectrum ToggleButton ↗](https://react-spectrum.adobe.com/react-spectrum/ToggleButton.html)
+- [Geti UI Theming](/components/theming)
+
+## Examples
+
+<ExampleCard
+  title="Default (unselected)"
+  code={`<ToggleButton>Mute</ToggleButton>`}
+>
+  <ToggleButton>Mute</ToggleButton>
+</ExampleCard>
+
+<ExampleCard
+  title="Selected by default"
+  code={`<ToggleButton defaultSelected>Pinned</ToggleButton>`}
+>
+  <ToggleButton defaultSelected>Pinned</ToggleButton>
+</ExampleCard>
+
+<ExampleCard
+  title="Emphasized"
+  code={`<ToggleButton isEmphasized defaultSelected>Active</ToggleButton>`}
+>
+  <ToggleButton isEmphasized defaultSelected>Active</ToggleButton>
+</ExampleCard>
+
+<ExampleCard
+  title="Quiet"
+  code={`<ToggleButton isQuiet>Quiet</ToggleButton>`}
+>
+  <ToggleButton isQuiet>Quiet</ToggleButton>
+</ExampleCard>
+
+<ExampleCard
+  title="Disabled"
+  code={`<ToggleButton isDisabled>Locked</ToggleButton>`}
+>
+  <ToggleButton isDisabled>Locked</ToggleButton>
+</ExampleCard>
+
+## Responsibility
+
+`ToggleButton` is a thin wrapper around React Spectrum's `ToggleButton`. All props pass through unchanged. The wrapper provides a consistent `@geti/ui` import path and participates in Geti theming.
+
+## Variants and states
+
+| Prop | Default | Notes |
+|---|---|---|
+| `isEmphasized` | `false` | Accent color when selected (more prominent) |
+| `isQuiet` | `false` | Minimal border at rest |
+| `defaultSelected` | `false` | Uncontrolled initial selected state |
+| `isSelected` | — | Controlled selected state |
+| `isDisabled` | `false` | Non-interactive and visually muted |
+
+## Props (deep dive)
+
+### Content
+
+- `children`: label or icon.
+
+### Value / state
+
+- `isSelected`: controlled boolean state.
+- `defaultSelected`: uncontrolled initial state.
+
+### Events
+
+- `onChange`: called with new boolean state when selection changes.
+
+### Visual
+
+- `isEmphasized`: uses accent color to highlight selected state.
+- `isQuiet`: minimal visual appearance.
+
+### Accessibility
+
+- Spectrum sets `aria-pressed` automatically,
+- provide a clear label so selected vs unselected state is understandable out of context.
+
+## Related components
+
+- `ToggleButtons` — use for mutually exclusive segmented selections (only one can be active).
+- `ActionButton` — use for one-shot actions without persistent state.
+- `Switch` — use for on/off settings that feel more like a preference than an action.
+- `Checkbox` — use when the selected state is part of a form submission.
+
+## Example use cases
+
+<details>
+  <summary>Typical use cases</summary>
+
+- Mute/unmute toggle in a media player control bar.
+- Pin/unpin a panel in a workspace layout.
+- Lock/unlock an annotation layer.
+- Enable/disable a filter in a data explorer.
+
+</details>
