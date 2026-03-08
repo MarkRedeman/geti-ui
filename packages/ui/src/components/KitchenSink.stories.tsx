@@ -113,7 +113,7 @@ import {
     View,
     ViewModes,
     Well,
-} from '../index';
+} from '@geti/ui';
 
 // ---------------------------------------------------------------------------
 // Mock data

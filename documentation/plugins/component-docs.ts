@@ -14,7 +14,7 @@ interface ComponentPage {
 
 const COMPONENT_ROOT = path.resolve(
   __dirname,
-  '../../../packages/ui/src/components'
+  '../../packages/ui/src/components'
 );
 
 const STORIES_GALLERY_PATH = path.resolve(__dirname, '../theme/StoriesGallery');

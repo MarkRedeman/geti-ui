@@ -25,7 +25,7 @@ export default defineConfig({
     source: {
       // Ensure the component source files from @geti/ui are compiled
       // with the full TypeScript/JSX transform (not treated as external CJS).
-      include: [path.resolve(__dirname, '../../packages/ui/src')],
+      include: [path.resolve(__dirname, '../packages/ui/src')],
     },
     tools: {
       rspack: {
@@ -46,6 +46,7 @@ export default defineConfig({
     nav: [
       { text: 'Home', link: '/' },
       { text: 'Components', link: '/components/ui/Button' },
+      { text: 'Examples', link: '/examples' },
       { text: 'Used By', link: '/used-by' },
     ],
     socialLinks: [
