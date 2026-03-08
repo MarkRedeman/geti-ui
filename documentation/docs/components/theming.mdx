@@ -2,6 +2,54 @@
 
 How Geti UI extends Adobe React Spectrum's design tokens and how to apply the theme in your app.
 
+import { ColorSwatch, Flex, View, Divider } from '@geti/ui';
+import { useEffect, useRef, useState } from 'react';
+import { ExampleCard } from '../../theme/ExampleCard';
+
+export const SPECTRUM_COLOR_TOKENS = [
+  'celery-400', 'celery-500', 'celery-600', 'celery-700',
+  'chartreuse-400', 'chartreuse-500', 'chartreuse-600', 'chartreuse-700',
+  'yellow-400', 'yellow-500', 'yellow-600', 'yellow-700',
+  'magenta-400', 'magenta-500', 'magenta-600', 'magenta-700',
+  'fuchsia-400', 'fuchsia-500', 'fuchsia-600', 'fuchsia-700',
+  'purple-400', 'purple-500', 'purple-600', 'purple-700',
+  'indigo-400', 'indigo-500', 'indigo-600', 'indigo-700',
+  'seafoam-400', 'seafoam-500', 'seafoam-600', 'seafoam-700',
+  'red-400', 'red-500', 'red-600', 'red-700',
+  'orange-400', 'orange-500', 'orange-600', 'orange-700',
+  'green-400', 'green-500', 'green-600', 'green-700',
+  'blue-400', 'blue-500', 'blue-600', 'blue-700',
+  'gray-50', 'gray-75', 'gray-100', 'gray-200', 'gray-300',
+  'gray-400', 'gray-500', 'gray-600', 'gray-700', 'gray-800', 'gray-900'
+];
+
+export function SpectrumTokenSwatchRow({ token }) {
+  const cssVar = `--spectrum-global-color-${token}`;
+  return (
+    <Flex direction="row" gap="size-150" alignItems="center" wrap>
+      <View
+        width={32}
+        height={32}
+        borderRadius="regular"
+        borderWidth="thin"
+        borderColor="white"
+        backgroundColor={token}
+      />
+      <code style={{ minWidth: 320, fontSize: 12 }}>{cssVar}</code>
+      <code style={{ minWidth: 220, fontSize: 12 }}>{token}</code>
+    </Flex>
+  );
+}
+
+export const SIZE_TOKENS = [
+  'size-0', 'size-10', 'size-25', 'size-50', 'size-65', 'size-75', 'size-85',
+  'size-100', 'size-115', 'size-125', 'size-130', 'size-150', 'size-160', 'size-175',
+  'size-185', 'size-200', 'size-225', 'size-250', 'size-275', 'size-300', 'size-325',
+  'size-350', 'size-400', 'size-450', 'size-500', 'size-550', 'size-600', 'size-700',
+  'size-800', 'size-900', 'size-1000', 'size-1200', 'size-1600', 'size-2000',
+  'size-2400', 'size-3000', 'size-3600', 'size-4600', 'size-6000',
+];
+
 ## Overview
 
 Geti UI is built on top of Adobe React Spectrum and uses a token-based theme layer. The theme is provided through `ThemeProvider` and is dark-first by default.
@@ -38,6 +86,46 @@ Geti theme files layer custom tokens on top of Spectrum defaults. In practice th
 - Keep using Spectrum/Geti primitives
 - Prefer token variables over hard-coded colors
 - Use `UNSAFE_className` + CSS modules for scoped component overrides
+
+## Color token reference
+
+<ExampleCard
+  title="Spectrum color design tokens (Geti dark theme)"
+  description="Left swatch resolves CSS variable directly; right swatch uses View backgroundColor token."
+>
+  <Flex direction="column" gap="size-100">
+    {SPECTRUM_COLOR_TOKENS.map((token) => (
+      <SpectrumTokenSwatchRow key={token} token={token} />
+    ))}
+  </Flex>
+</ExampleCard>
+
+## Size token reference
+
+To reference a dimension size token in css use `var(--spectrum-global-dimension-size-${token})`
+
+<ExampleCard
+  title="Dimension size tokens"
+  description="Common Spectrum dimension tokens used in Geti layouts and component spacing."
+>
+  <Flex direction="column" gap="size-100">
+    {SIZE_TOKENS.map((token) => {
+      const numeric = token.replace('size-', '');
+      const cssVar = `--spectrum-global-dimension-size-${numeric}`;
+      return (
+        <Flex key={token} direction="row" gap="size-150" alignItems="start" wrap>
+          <code style={{ minWidth: 80, fontSize: 12 }}>{token}</code>
+          <View
+            height="size-100"
+            borderRadius="regular"
+            backgroundColor="blue-500"
+            UNSAFE_style={{ width: `var(${cssVar})`, minWidth: 2 }}
+          />
+        </Flex>
+      );
+    })}
+  </Flex>
+</ExampleCard>
 
 ## Practical guidelines
 
