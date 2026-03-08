@@ -1,0 +1,87 @@
+---
+title: CornerIndicator
+---
+
+import { CornerIndicator, ActionButton } from '@geti/ui';
+import { ExampleCard } from '../../../theme/ExampleCard';
+
+# CornerIndicator
+
+CornerIndicator overlays a small blue dot in the top-right corner of any child element to signal a pending change, unsaved state, or notification. Wrap any UI element with it and toggle `isActive` to control visibility.
+
+```tsx
+import { CornerIndicator } from '@geti/ui';
+```
+
+## Examples
+
+<ExampleCard
+  title="Active indicator"
+  code={`<CornerIndicator isActive>
+  <ActionButton>Settings</ActionButton>
+</CornerIndicator>`}
+>
+  <CornerIndicator isActive>
+    <ActionButton>Settings</ActionButton>
+  </CornerIndicator>
+</ExampleCard>
+
+<ExampleCard
+  title="Inactive (no dot)"
+  code={`<CornerIndicator isActive={false}>
+  <ActionButton>Settings</ActionButton>
+</CornerIndicator>`}
+>
+  <CornerIndicator isActive={false}>
+    <ActionButton>Settings</ActionButton>
+  </CornerIndicator>
+</ExampleCard>
+
+## Responsibility
+
+`CornerIndicator` is a Geti-native component. It:
+
+- wraps the child in a `position: relative` container using Spectrum's `View`,
+- absolutely positions a small circular dot using Spectrum design tokens for size and color,
+- renders a `role="status"` element with `aria-label="Pending change"` when active,
+- renders nothing extra (no DOM addition) when `isActive` is false.
+
+## Variants and states
+
+`CornerIndicator` has no visual variants. The dot color is fixed to Geti's blue token (`--spectrum-global-color-blue-700`).
+
+| Prop | Type | Effect |
+|---|---|---|
+| `isActive` | `boolean` | Shows or hides the indicator dot |
+
+## Props (deep dive)
+
+### Content
+
+- `children`: the wrapped UI element. Can be any React node — button, icon, thumbnail, etc.
+
+### Value / state
+
+- `isActive`: when `true`, the blue dot is rendered; when `false`, the wrapper is transparent and the child renders normally.
+
+### Accessibility
+
+- the indicator dot carries `role="status"` and `aria-label="Pending change"` for screen readers,
+- when `isActive` is `false`, no extra DOM nodes are added.
+
+## Related components
+
+- `Badge` — use for numeric counts or text labels on navigation items.
+- `ActionButton` — common child element for toolbar indicators.
+
+## Example use cases
+
+<details>
+  <summary>Typical use cases</summary>
+
+- Marking a settings button when unsaved preferences exist.
+- Indicating a pending notification on a toolbar icon.
+- Highlighting a dataset item that has unpublished annotations.
+- Flagging a model card with unreviewed results.
+
+</details>
