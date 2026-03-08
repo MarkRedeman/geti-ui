@@ -1,0 +1,88 @@
+---
+title: DropZone
+---
+
+import { DropZone } from '@geti/ui';
+import { ExampleCard } from '../../../theme/ExampleCard';
+
+# DropZone
+
+DropZone is a target area where users can drop files or dragged objects. Use it alongside `FileTrigger` to build upload UIs that support both drag-and-drop and click-to-browse flows.
+
+```tsx
+import { DropZone } from '@geti/ui';
+```
+
+- [React Spectrum DropZone ↗](https://react-spectrum.adobe.com/react-spectrum/DropZone.html)
+- [Geti UI Theming](/components/theming)
+
+## Examples
+
+<ExampleCard
+  title="Basic drop zone"
+  code={`<DropZone>
+  <span style={{ color: '#aaa' }}>Drop files here</span>
+</DropZone>`}
+>
+  <DropZone>
+    <span style={{ color: '#aaa' }}>Drop files here</span>
+  </DropZone>
+</ExampleCard>
+
+<ExampleCard
+  title="Filled state (file already dropped)"
+  code={`<DropZone isFilled>
+  <span style={{ color: '#aaa' }}>File uploaded</span>
+</DropZone>`}
+>
+  <DropZone isFilled>
+    <span style={{ color: '#aaa' }}>File uploaded</span>
+  </DropZone>
+</ExampleCard>
+
+## Responsibility
+
+`DropZone` is a thin wrapper around React Spectrum's `DropZone`. All props pass through unchanged. The wrapper provides a `@geti/ui` import path and Geti theming.
+
+## Variants and states
+
+| State | Prop | Notes |
+|---|---|---|
+| Filled | `isFilled` | Visual state indicating a file has been placed in the zone |
+| Drop target active | automatic | Applied when a draggable item hovers over the zone |
+
+## Props (deep dive)
+
+### Content
+
+- `children`: label, illustration, or instructions rendered inside the zone.
+
+### Value / state
+
+- `isFilled`: shows a "filled" visual state (e.g. after a file is accepted).
+
+### Events
+
+- `onDrop`: called with a `DropEvent` when items are dropped onto the zone.
+
+### Accessibility
+
+- the zone has keyboard-accessible drop support built into Spectrum,
+- always provide descriptive content (`children`) so users understand what to drop.
+
+## Related components
+
+- `FileTrigger` — pair with `DropZone` to provide a click-to-browse button inside the drop area.
+- `Button` — use inside `FileTrigger` as the trigger element.
+
+## Example use cases
+
+<details>
+  <summary>Typical use cases</summary>
+
+- Dataset upload area: "Drop images here or click to browse".
+- Annotation import: accept a single JSON file via drag or browse.
+- Model export: receive a configuration file dropped from the file manager.
+- Bulk media upload panel in a media management view.
+
+</details>
