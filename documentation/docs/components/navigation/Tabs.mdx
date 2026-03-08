@@ -1,0 +1,189 @@
+---
+title: Tabs
+---
+
+import { TabItem as Item, TabList, TabPanels, Tabs } from '@geti/ui';
+import { Content } from '@adobe/react-spectrum';
+import { ExampleCard } from '../../../theme/ExampleCard';
+
+# Tabs
+
+Tabs organise sibling content into labelled panels. Only one panel is visible at a time. Use tabs when the sections are parallel — for example Overview / Details / Settings — rather than hierarchical.
+
+```tsx
+import { TabItem as Item, TabList, TabPanels, Tabs } from '@geti/ui';
+```
+
+- [React Spectrum Tabs ↗](https://react-spectrum.adobe.com/react-spectrum/Tabs.html)
+- [Geti UI Theming](/components/theming)
+
+## Examples
+
+<ExampleCard
+  title="Default (horizontal)"
+  code={`<Tabs aria-label="Project sections">
+  <TabList>
+    <Item key="overview">Overview</Item>
+    <Item key="datasets">Datasets</Item>
+    <Item key="models">Models</Item>
+  </TabList>
+  <TabPanels>
+    <Item key="overview"><Content>Overview content.</Content></Item>
+    <Item key="datasets"><Content>Datasets content.</Content></Item>
+    <Item key="models"><Content>Models content.</Content></Item>
+  </TabPanels>
+</Tabs>`}
+>
+  <Tabs aria-label="Project sections">
+    <TabList>
+      <Item key="overview">Overview</Item>
+      <Item key="datasets">Datasets</Item>
+      <Item key="models">Models</Item>
+    </TabList>
+    <TabPanels>
+      <Item key="overview"><Content>Overview content.</Content></Item>
+      <Item key="datasets"><Content>Datasets content.</Content></Item>
+      <Item key="models"><Content>Models content.</Content></Item>
+    </TabPanels>
+  </Tabs>
+</ExampleCard>
+
+<ExampleCard
+  title="Vertical orientation"
+  code={`<Tabs orientation="vertical" aria-label="Settings">
+  <TabList>
+    <Item key="general">General</Item>
+    <Item key="security">Security</Item>
+    <Item key="notifications">Notifications</Item>
+  </TabList>
+  <TabPanels>
+    <Item key="general"><Content>General settings.</Content></Item>
+    <Item key="security"><Content>Security settings.</Content></Item>
+    <Item key="notifications"><Content>Notification settings.</Content></Item>
+  </TabPanels>
+</Tabs>`}
+>
+  <Tabs orientation="vertical" aria-label="Settings">
+    <TabList>
+      <Item key="general">General</Item>
+      <Item key="security">Security</Item>
+      <Item key="notifications">Notifications</Item>
+    </TabList>
+    <TabPanels>
+      <Item key="general"><Content>General settings.</Content></Item>
+      <Item key="security"><Content>Security settings.</Content></Item>
+      <Item key="notifications"><Content>Notification settings.</Content></Item>
+    </TabPanels>
+  </Tabs>
+</ExampleCard>
+
+<ExampleCard
+  title="Quiet style"
+  code={`<Tabs isQuiet aria-label="Quiet tabs">
+  <TabList>
+    <Item key="first">First</Item>
+    <Item key="second">Second</Item>
+    <Item key="third">Third</Item>
+  </TabList>
+  <TabPanels>
+    <Item key="first"><Content>First panel.</Content></Item>
+    <Item key="second"><Content>Second panel.</Content></Item>
+    <Item key="third"><Content>Third panel.</Content></Item>
+  </TabPanels>
+</Tabs>`}
+>
+  <Tabs isQuiet aria-label="Quiet tabs">
+    <TabList>
+      <Item key="first">First</Item>
+      <Item key="second">Second</Item>
+      <Item key="third">Third</Item>
+    </TabList>
+    <TabPanels>
+      <Item key="first"><Content>First panel.</Content></Item>
+      <Item key="second"><Content>Second panel.</Content></Item>
+      <Item key="third"><Content>Third panel.</Content></Item>
+    </TabPanels>
+  </Tabs>
+</ExampleCard>
+
+<ExampleCard
+  title="With disabled tab"
+  code={`<Tabs disabledKeys={['beta']} aria-label="Feature tabs">
+  <TabList>
+    <Item key="stable">Stable</Item>
+    <Item key="beta">Beta (disabled)</Item>
+    <Item key="preview">Preview</Item>
+  </TabList>
+  <TabPanels>
+    <Item key="stable"><Content>Stable feature content.</Content></Item>
+    <Item key="beta"><Content>Beta content.</Content></Item>
+    <Item key="preview"><Content>Preview content.</Content></Item>
+  </TabPanels>
+</Tabs>`}
+>
+  <Tabs disabledKeys={['beta']} aria-label="Feature tabs">
+    <TabList>
+      <Item key="stable">Stable</Item>
+      <Item key="beta">Beta (disabled)</Item>
+      <Item key="preview">Preview</Item>
+    </TabList>
+    <TabPanels>
+      <Item key="stable"><Content>Stable feature content.</Content></Item>
+      <Item key="beta"><Content>Beta content.</Content></Item>
+      <Item key="preview"><Content>Preview content.</Content></Item>
+    </TabPanels>
+  </Tabs>
+</ExampleCard>
+
+## Responsibility
+
+`Tabs` is a thin wrapper around React Spectrum `Tabs`. Compose with `TabList`, `TabPanels`, and `TabItem` (re-exported as `Item`). Spectrum handles keyboard navigation (arrow keys), focus management, and ARIA roles automatically.
+
+## Variants and states
+
+| Prop | Options | Notes |
+|---|---|---|
+| `orientation` | `horizontal` (default) / `vertical` | Vertical suits sidebar-style settings pages |
+| `isQuiet` | boolean | Removes the bottom border; use in panels with their own borders |
+| `disabledKeys` | string[] | Disables specific tabs by key |
+| `defaultSelectedKey` | string | Initial selected tab |
+| `selectedKey` | string | Controlled selected tab |
+
+## Props (deep dive)
+
+### Content
+
+- `children`: `TabList` and `TabPanels` must each contain matching `Item` elements with identical `key` values.
+
+### Value / state
+
+- `defaultSelectedKey`: initial tab (uncontrolled).
+- `selectedKey` + `onSelectionChange`: controlled selection.
+- `disabledKeys`: array of keys to disable.
+
+### Visual
+
+- `orientation`: `horizontal | vertical`.
+- `isQuiet`: removes bottom line from the tab strip.
+- `density`: `compact | regular` (Spectrum v3).
+
+### Accessibility
+
+- always provide `aria-label` on `Tabs` when there is no visible heading above the tab strip,
+- tab keys must be unique strings within the same `Tabs` instance.
+
+## Related components
+
+- `Breadcrumbs` — use for hierarchical parent–child navigation, not sibling section switching.
+- `Disclosure` / `Accordion` — use when sections should be independently expandable rather than mutually exclusive.
+
+## Example use cases
+
+<details>
+  <summary>Typical use cases</summary>
+
+- Project detail page: Overview / Datasets / Models / Deployments.
+- Model evaluation: Metrics / Confusion Matrix / Sample Predictions.
+- Account settings: Profile / Security / Notifications / API Keys.
+
+</details>
