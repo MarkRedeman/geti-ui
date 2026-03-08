@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { ThemeProvider } from '@geti/ui';
 
 interface ExampleCardProps {
   title: string;
@@ -42,7 +43,7 @@ export function ExampleCard({ title, code, children }: ExampleCardProps) {
           minHeight: '80px',
         }}
       >
-        {children}
+        <ThemeProvider>{children}</ThemeProvider>
       </div>
 
       <div
