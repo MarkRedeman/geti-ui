@@ -1,0 +1,115 @@
+---
+title: Grid
+---
+
+import { Grid } from '@geti/ui';
+import { ExampleCard } from '../../../theme/ExampleCard';
+
+# Grid
+
+Grid is a CSS grid container that accepts Spectrum dimension tokens for column and row templates, gap, and alignment. Use it when you need a two-dimensional layout such as a card gallery, form with multiple columns, or structured dashboard panel.
+
+```tsx
+import { Grid } from '@geti/ui';
+```
+
+- [React Spectrum Grid ↗](https://react-spectrum.adobe.com/react-spectrum/Grid.html)
+- [Geti UI Theming](/components/theming)
+
+## Examples
+
+<ExampleCard
+  title="Three-column grid"
+  code={`<Grid columns="repeat(3, 1fr)" gap="size-200">
+  <div style={{ background: '#3b82f6', padding: '8px 16px', textAlign: 'center', borderRadius: 4 }}>Cell 1</div>
+  <div style={{ background: '#3b82f6', padding: '8px 16px', textAlign: 'center', borderRadius: 4 }}>Cell 2</div>
+  <div style={{ background: '#3b82f6', padding: '8px 16px', textAlign: 'center', borderRadius: 4 }}>Cell 3</div>
+  <div style={{ background: '#3b82f6', padding: '8px 16px', textAlign: 'center', borderRadius: 4 }}>Cell 4</div>
+  <div style={{ background: '#3b82f6', padding: '8px 16px', textAlign: 'center', borderRadius: 4 }}>Cell 5</div>
+  <div style={{ background: '#3b82f6', padding: '8px 16px', textAlign: 'center', borderRadius: 4 }}>Cell 6</div>
+</Grid>`}
+>
+  <Grid columns="repeat(3, 1fr)" gap="size-200">
+    <div style={{ background: '#3b82f6', padding: '8px 16px', textAlign: 'center', borderRadius: 4 }}>Cell 1</div>
+    <div style={{ background: '#3b82f6', padding: '8px 16px', textAlign: 'center', borderRadius: 4 }}>Cell 2</div>
+    <div style={{ background: '#3b82f6', padding: '8px 16px', textAlign: 'center', borderRadius: 4 }}>Cell 3</div>
+    <div style={{ background: '#3b82f6', padding: '8px 16px', textAlign: 'center', borderRadius: 4 }}>Cell 4</div>
+    <div style={{ background: '#3b82f6', padding: '8px 16px', textAlign: 'center', borderRadius: 4 }}>Cell 5</div>
+    <div style={{ background: '#3b82f6', padding: '8px 16px', textAlign: 'center', borderRadius: 4 }}>Cell 6</div>
+  </Grid>
+</ExampleCard>
+
+<ExampleCard
+  title="Two-column grid"
+  code={`<Grid columns="repeat(2, 1fr)" gap="size-100">
+  <div style={{ background: '#22c55e', padding: '8px 16px', borderRadius: 4 }}>Alpha</div>
+  <div style={{ background: '#22c55e', padding: '8px 16px', borderRadius: 4 }}>Beta</div>
+  <div style={{ background: '#22c55e', padding: '8px 16px', borderRadius: 4 }}>Gamma</div>
+  <div style={{ background: '#22c55e', padding: '8px 16px', borderRadius: 4 }}>Delta</div>
+</Grid>`}
+>
+  <Grid columns="repeat(2, 1fr)" gap="size-100">
+    <div style={{ background: '#22c55e', padding: '8px 16px', borderRadius: 4 }}>Alpha</div>
+    <div style={{ background: '#22c55e', padding: '8px 16px', borderRadius: 4 }}>Beta</div>
+    <div style={{ background: '#22c55e', padding: '8px 16px', borderRadius: 4 }}>Gamma</div>
+    <div style={{ background: '#22c55e', padding: '8px 16px', borderRadius: 4 }}>Delta</div>
+  </Grid>
+</ExampleCard>
+
+<ExampleCard
+  title="Centered items"
+  code={`<Grid columns="repeat(3, size-1600)" gap="size-200" justifyItems="center" alignItems="center">
+  <div style={{ background: '#a855f7', padding: '8px 16px', borderRadius: 4 }}>A</div>
+  <div style={{ background: '#a855f7', padding: '24px', borderRadius: 4 }}>B</div>
+  <div style={{ background: '#a855f7', padding: '8px 16px', borderRadius: 4 }}>C</div>
+</Grid>`}
+>
+  <Grid columns="repeat(3, size-1600)" gap="size-200" justifyItems="center" alignItems="center">
+    <div style={{ background: '#a855f7', padding: '8px 16px', borderRadius: 4 }}>A</div>
+    <div style={{ background: '#a855f7', padding: '24px', borderRadius: 4 }}>B</div>
+    <div style={{ background: '#a855f7', padding: '8px 16px', borderRadius: 4 }}>C</div>
+  </Grid>
+</ExampleCard>
+
+## Responsibility
+
+`Grid` is a thin wrapper around React Spectrum `Grid`. It accepts Spectrum dimension tokens for sizing props and standard CSS grid values for `columns` and `rows`, enabling consistent spacing across the Geti design system.
+
+## Variants and states
+
+Grid has no visual variants — it is a layout primitive. Behaviour is fully controlled via props.
+
+## Props (deep dive)
+
+### Layout
+
+- `columns`: CSS grid `grid-template-columns` value (e.g. `repeat(3, 1fr)`) or Spectrum token array.
+- `rows`: CSS grid `grid-template-rows` value.
+- `gap` / `rowGap` / `columnGap`: Spectrum dimension token or CSS value.
+- `autoRows` / `autoColumns`: implicit track sizing.
+
+### Alignment
+
+- `justifyItems`: inline alignment within cells (`start | center | end | stretch`).
+- `alignItems`: block alignment within cells (`start | center | end | stretch | baseline`).
+- `justifyContent` / `alignContent`: distribution of tracks within the container.
+
+### Sizing
+
+- `width` / `height` / `minWidth` / `maxWidth`: accept Spectrum dimension tokens.
+
+## Related components
+
+- `Flex` — use for one-dimensional (row or column) layouts.
+- `View` — use for a single boxed container without grid behaviour.
+
+## Example use cases
+
+<details>
+  <summary>Typical use cases</summary>
+
+- Media gallery: equal-width thumbnail cards in a responsive 3-column grid.
+- Dashboard stats row: two or four equal metric tiles side by side.
+- Form layout: label column and input column defined explicitly with named areas.
+
+</details>
