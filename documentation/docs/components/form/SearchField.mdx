@@ -1,0 +1,97 @@
+---
+title: SearchField
+---
+
+import { SearchField } from '@geti/ui';
+import { ExampleCard } from '../../../theme/ExampleCard';
+
+# SearchField
+
+SearchField is a text input purpose-built for search and filter interactions. It includes a magnifier icon and a clear button, and fires `onSubmit` on Enter. Use it for any live or submitted search pattern.
+
+```tsx
+import { SearchField } from '@geti/ui';
+```
+
+- [React Spectrum SearchField ↗](https://react-spectrum.adobe.com/react-spectrum/SearchField.html)
+- [Geti UI Theming](/components/theming)
+
+## Examples
+
+<ExampleCard
+  title="Default"
+  code={`<SearchField label="Search datasets" />`}
+>
+  <SearchField label="Search datasets" />
+</ExampleCard>
+
+<ExampleCard
+  title="With placeholder"
+  code={`<SearchField
+  label="Search"
+  placeholder="Filter by name or tag..."
+/>`}
+>
+  <SearchField
+    label="Search"
+    placeholder="Filter by name or tag..."
+  />
+</ExampleCard>
+
+<ExampleCard
+  title="Disabled"
+  code={`<SearchField label="Search" isDisabled />`}
+>
+  <SearchField label="Search" isDisabled />
+</ExampleCard>
+
+## Responsibility
+
+`SearchField` is a thin wrapper around React Spectrum's `SearchField` with ref forwarding via `TextFieldRef`. The wrapper provides a `@geti/ui` import path, Geti theming, and allows parent components to programmatically focus or read the field.
+
+## Variants and states
+
+| State | Prop | Notes |
+|---|---|---|
+| Disabled | `isDisabled` | Input locked |
+| Read-only | `isReadOnly` | Visible but not editable |
+
+## Props (deep dive)
+
+### Content
+
+- `label`: accessible label (can be visually hidden with `labelPosition="side"` or `aria-label`).
+- `placeholder`: hint text shown when the field is empty.
+
+### Value
+
+- `value`: controlled string value.
+- `defaultValue`: uncontrolled initial value.
+
+### Events
+
+- `onChange`: `(value: string) => void` — fires on every keystroke.
+- `onSubmit`: `(value: string) => void` — fires when the user presses Enter.
+- `onClear`: called when the user presses the built-in clear (✕) button.
+
+### Accessibility
+
+- renders with `role="searchbox"` and a search landmark,
+- always provide either a visible `label` or an `aria-label` when the label is hidden.
+
+## Related components
+
+- `TextField` — use for general text input that is not a search field.
+- `ComboBox` — use when the search also needs to surface autocomplete suggestions.
+
+## Example use cases
+
+<details>
+  <summary>Typical use cases</summary>
+
+- Dataset browser filter bar.
+- Project list name search.
+- Label search in an annotation label panel.
+- Media file filter in a media management view.
+
+</details>
