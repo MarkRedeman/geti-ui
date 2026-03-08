@@ -1,0 +1,114 @@
+---
+title: Form
+---
+
+import { Button, TextField, Form } from '@geti/ui';
+import { ExampleCard } from '../../../theme/ExampleCard';
+
+# Form
+
+Form is a layout container that groups related form controls and propagates shared validation behaviour. Use it to wrap any collection of inputs that are submitted together.
+
+```tsx
+import { Form } from '@geti/ui';
+```
+
+- [React Spectrum Form ↗](https://react-spectrum.adobe.com/react-spectrum/Form.html)
+- [Geti UI Theming](/components/theming)
+
+## Examples
+
+<ExampleCard
+  title="Basic form"
+  code={`<Form>
+  <TextField label="First name" />
+  <TextField label="Last name" />
+  <Button type="submit">Submit</Button>
+</Form>`}
+>
+  <Form>
+    <TextField label="First name" />
+    <TextField label="Last name" />
+    <Button type="submit">Submit</Button>
+  </Form>
+</ExampleCard>
+
+<ExampleCard
+  title="Disabled form (all fields locked)"
+  code={`<Form isDisabled>
+  <TextField label="First name" />
+  <TextField label="Last name" />
+  <Button type="submit">Submit</Button>
+</Form>`}
+>
+  <Form isDisabled>
+    <TextField label="First name" />
+    <TextField label="Last name" />
+    <Button type="submit">Submit</Button>
+  </Form>
+</ExampleCard>
+
+<ExampleCard
+  title="Native browser validation"
+  code={`<Form validationBehavior="native">
+  <TextField label="Email" type="email" isRequired />
+  <Button type="submit">Submit</Button>
+</Form>`}
+>
+  <Form validationBehavior="native">
+    <TextField label="Email" type="email" isRequired />
+    <Button type="submit">Submit</Button>
+  </Form>
+</ExampleCard>
+
+## Responsibility
+
+`Form` is a thin wrapper around React Spectrum's `Form`. All props pass through unchanged. The wrapper provides a `@geti/ui` import path and Geti theming.
+
+Key behaviours inherited from Spectrum:
+
+- `isDisabled` propagates to all child form controls automatically,
+- `validationBehavior` controls whether validation uses ARIA patterns or native browser constraint validation.
+
+## Variants and states
+
+| Prop | Options | Default | Notes |
+|---|---|---|---|
+| `validationBehavior` | `'aria' \| 'native'` | `'aria'` | `aria` = JS-driven; `native` = browser constraint API |
+| `isDisabled` | boolean | `false` | Disables all child controls |
+
+## Props (deep dive)
+
+### Content
+
+- `children`: form controls, fieldsets, and submit/cancel buttons.
+
+### Behaviour
+
+- `validationBehavior`: `'aria'` uses ARIA live regions for errors; `'native'` uses browser constraint validation (shows tooltips on submit).
+- `isDisabled`: propagates disabled state to all Spectrum children.
+- `isReadOnly`: propagates read-only state to all Spectrum children.
+
+### Accessibility
+
+- the `<form>` element renders with standard HTML form semantics,
+- always include a submit button with `type="submit"` or a cancel button with `type="button"`.
+
+## Related components
+
+- `TextField` — primary text input for forms.
+- `NumberField` — numeric input.
+- `RadioGroup` / `CheckboxGroup` — option selection groups.
+- `Button` — submit and cancel actions.
+
+## Example use cases
+
+<details>
+  <summary>Typical use cases</summary>
+
+- Project creation dialog with name, description, and label fields.
+- User settings panel with profile and notification preferences.
+- Login form with email, password, and submit.
+- Model training configuration with numeric hyperparameter fields.
+
+</details>
