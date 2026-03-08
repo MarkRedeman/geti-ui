@@ -1,0 +1,92 @@
+---
+title: Well
+---
+
+import { Well } from '@geti/ui';
+import { ExampleCard } from '../../../theme/ExampleCard';
+
+# Well
+
+Well is a read-only content container that visually separates non-editable information from the surrounding UI. Use it for code samples, system-generated output, preformatted configuration text, or any content the user should read but not edit.
+
+```tsx
+import { Well } from '@geti/ui';
+```
+
+- [React Spectrum Well ↗](https://react-spectrum.adobe.com/react-spectrum/Well.html)
+- [Geti UI Theming](/components/theming)
+
+## Examples
+
+<ExampleCard
+  title="Default"
+  code={`<Well>
+  This is a standard well. It displays non-editable content separately from other content on the screen.
+</Well>`}
+>
+  <Well>
+    This is a standard well. It displays non-editable content separately from other content on the screen.
+  </Well>
+</ExampleCard>
+
+<ExampleCard
+  title="Code sample"
+  code={`<Well>
+  <pre>
+    <code>import {'{ Well }'} from '@geti/ui';</code>
+  </pre>
+</Well>`}
+>
+  <Well>
+    <pre style={{ margin: 0 }}>
+      <code>{`import { Well } from '@geti/ui';\n\n<Well>Content goes here</Well>`}</code>
+    </pre>
+  </Well>
+</ExampleCard>
+
+<ExampleCard
+  title="With region role"
+  code={`<Well role="region" aria-label="API response">
+  Status: 200 OK
+</Well>`}
+>
+  <Well role="region" aria-label="API response">
+    Status: 200 OK
+  </Well>
+</ExampleCard>
+
+## Responsibility
+
+`Well` is a thin wrapper around React Spectrum `Well`. It renders a visually contained region with a subtle inset background and border. It does not add any interactive behaviour — for editable content, use `TextArea` or `TextField`.
+
+## Variants and states
+
+Well has no visual variants. Styling is consistent with the Geti theme.
+
+## Props (deep dive)
+
+### Content
+
+- `children`: any React node displayed as the well's body content.
+
+### Accessibility
+
+- `role`: override the default implicit role. Use `"region"` when the well contains a labelled landmark section.
+- `aria-label`: required when `role="region"` to give the landmark an accessible name.
+
+## Related components
+
+- `TextArea` — use for multi-line user-editable input.
+- `View` — use for generic layout containers that do not need the inset visual treatment.
+- `Card` — use when the container should be interactive or selectable.
+
+## Example use cases
+
+<details>
+  <summary>Typical use cases</summary>
+
+- API key display: read-only token value with a copy button alongside.
+- JSON configuration preview panel in export settings.
+- System log output or command-line snippet in documentation dialogs.
+
+</details>
