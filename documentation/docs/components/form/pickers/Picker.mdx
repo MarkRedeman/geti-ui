@@ -1,0 +1,122 @@
+---
+title: Picker
+---
+
+import { Picker, PickerItem } from '@geti/ui';
+import { ExampleCard } from '../../../../theme/ExampleCard';
+
+# Picker
+
+`Picker` is a dropdown select component for choosing a single option from a list. Use it when the option set is static and the number of choices is too large for radio buttons.
+
+```tsx
+import { Picker, PickerItem } from '@geti/ui';
+```
+
+- [React Spectrum Picker ↗](https://react-spectrum.adobe.com/react-spectrum/Picker.html)
+- [Geti UI Theming](/components/theming)
+
+## Examples
+
+<ExampleCard
+  title="Default"
+  code={`<Picker label="Choose a framework">
+  <PickerItem key="react">React</PickerItem>
+  <PickerItem key="vue">Vue</PickerItem>
+  <PickerItem key="angular">Angular</PickerItem>
+  <PickerItem key="svelte">Svelte</PickerItem>
+</Picker>`}
+>
+  <Picker label="Choose a framework">
+    <PickerItem key="react">React</PickerItem>
+    <PickerItem key="vue">Vue</PickerItem>
+    <PickerItem key="angular">Angular</PickerItem>
+    <PickerItem key="svelte">Svelte</PickerItem>
+  </Picker>
+</ExampleCard>
+
+<ExampleCard
+  title="Default selected key"
+  code={`<Picker label="Choose a framework" defaultSelectedKey="react">
+  <PickerItem key="react">React</PickerItem>
+  <PickerItem key="vue">Vue</PickerItem>
+  <PickerItem key="angular">Angular</PickerItem>
+</Picker>`}
+>
+  <Picker label="Choose a framework" defaultSelectedKey="react">
+    <PickerItem key="react">React</PickerItem>
+    <PickerItem key="vue">Vue</PickerItem>
+    <PickerItem key="angular">Angular</PickerItem>
+  </Picker>
+</ExampleCard>
+
+<ExampleCard
+  title="Disabled"
+  code={`<Picker label="Choose a framework" isDisabled>
+  <PickerItem key="react">React</PickerItem>
+  <PickerItem key="vue">Vue</PickerItem>
+</Picker>`}
+>
+  <Picker label="Choose a framework" isDisabled>
+    <PickerItem key="react">React</PickerItem>
+    <PickerItem key="vue">Vue</PickerItem>
+  </Picker>
+</ExampleCard>
+
+## Responsibility
+
+`Picker` is a thin wrapper around React Spectrum's `Picker`. It passes all props through unchanged. The exported `PickerItem` alias maps to Spectrum's `Item` so consumers import from a single package entry point.
+
+## Variants and states
+
+| State | Prop | Notes |
+|---|---|---|
+| Default selected | `defaultSelectedKey` | Uncontrolled initial selection |
+| Controlled | `selectedKey` + `onSelectionChange` | Controlled selection |
+| Disabled | `isDisabled` | Non-interactive |
+| Required | `isRequired` | Adds required indicator and validation |
+| Invalid | `validationState="invalid"` + `errorMessage` | Red outline + error text |
+
+## Props (deep dive)
+
+### Content
+
+- `label`: visible field label.
+- `description`: helper text below the picker.
+- `errorMessage`: shown when `validationState="invalid"`.
+- `children`: `PickerItem` nodes representing each option.
+
+### Value / state
+
+- `selectedKey` / `defaultSelectedKey`: controlled/uncontrolled selection.
+- `isDisabled`: prevents interaction.
+- `isRequired`: marks the field as required.
+- `validationState`: `"valid" | "invalid"`.
+
+### Events
+
+- `onSelectionChange(key)`: fires when the user selects an item.
+- `onOpenChange(isOpen)`: fires when the dropdown opens/closes.
+
+### Accessibility
+
+- Always provide a `label` — the dropdown has no default aria-label.
+- Use `description` to add context rather than placeholder text.
+
+## Related components
+
+- `ComboBox` — use when users need to type to filter options.
+- `ListBox` — use for inline (non-popover) option lists.
+- `RadioGroup` — use when options are few (≤ 5) and always visible.
+
+## Example use cases
+
+<details>
+  <summary>Typical use cases</summary>
+
+- Selecting a model type in a training configuration form.
+- Choosing a display language from a settings panel.
+- Picking an annotation label from a fixed taxonomy.
+- Selecting a time zone or region in account settings.
+
+</details>
