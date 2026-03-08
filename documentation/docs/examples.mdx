@@ -1,24 +1,183 @@
-import StoriesGallery from '../theme/StoriesGallery';
-
-import * as KitchenSinkStories from '/home/mark/projects/geti/geti-ui/packages/ui/src/components/KitchenSink.stories';
+import { View, Flex, Divider, Button, ActionButton, ToggleButton, Tag, TagGroup, ListView, ListItem, Badge, StatusLight, SearchField, ComboBox, ComboBoxItem, DatePicker, ProgressBar, InlineAlert, Tabs, TabList, TabPanels, TabItem as Item, DialogTrigger, Popover, Dialog } from '@geti/ui';
+import { Heading, Text, Content } from '@adobe/react-spectrum';
+import { ExampleCard } from '../theme/ExampleCard';
 
 # Examples
 
 Use this page as a **composition gallery** for `@geti/ui`.
 
-Unlike the component reference pages (which focus on one component at a time), this page shows **higher-level UI blocks** that combine multiple components in realistic layouts.
+Unlike component reference pages (one component at a time), this page focuses on
+larger UI building blocks and how components fit together.
 
 ## Product surface blocks
 
-The kitchen-sink composition below contains grouped sections for:
+<ExampleCard
+  title="Action toolbar"
+  code={`<Flex gap="size-100" alignItems="center" wrap>
+  <Button variant="accent">Create</Button>
+  <Button variant="secondary" style="outline">Export</Button>
+  <ActionButton aria-label="Refresh">↻</ActionButton>
+  <ToggleButton>Auto-refresh</ToggleButton>
+</Flex>`}
+>
+  <Flex gap="size-100" alignItems="center" wrap>
+    <Button variant="accent">Create</Button>
+    <Button variant="secondary" style="outline">Export</Button>
+    <ActionButton aria-label="Refresh">↻</ActionButton>
+    <ToggleButton>Auto-refresh</ToggleButton>
+  </Flex>
+</ExampleCard>
 
-- Actions & primitives
-- Inputs & controls
-- Pickers (date, time, color)
-- Data display patterns
-- Feedback and status
-- Navigation patterns
-- Layout structures
-- Overlay/dialog interactions
+<ExampleCard
+  title="Filter panel"
+  code={`<Flex direction="column" gap="size-150" width="size-3600">
+  <SearchField aria-label="Search assets" placeholder="Search assets" />
+  <ComboBox label="Model" defaultItems={[{ id: 'm1', name: 'Vehicle detector' }, { id: 'm2', name: 'Person detector' }] }>
+    {(item) => <ComboBoxItem>{item.name}</ComboBoxItem>}
+  </ComboBox>
+  <DatePicker label="Created after" />
+</Flex>`}
+>
+  <Flex direction="column" gap="size-150" width="size-3600">
+    <SearchField aria-label="Search assets" placeholder="Search assets" />
+    <ComboBox
+      label="Model"
+      defaultItems={[
+        { id: 'm1', name: 'Vehicle detector' },
+        { id: 'm2', name: 'Person detector' },
+      ]}
+    >
+      {(item) => <ComboBoxItem>{item.name}</ComboBoxItem>}
+    </ComboBox>
+    <DatePicker label="Created after" />
+  </Flex>
+</ExampleCard>
 
-<StoriesGallery module={KitchenSinkStories} componentName="KitchenSink" />
+<ExampleCard
+  title="Status summary card"
+  code={`<View borderWidth="thin" borderColor="dark" borderRadius="regular" padding="size-200" width="size-3600">
+  <Flex direction="column" gap="size-100">
+    <Heading level={4} margin={0}>Training job</Heading>
+    <Flex gap="size-100" alignItems="center">
+      <Badge variant="info">Running</Badge>
+      <StatusLight variant="notice">GPU queue</StatusLight>
+    </Flex>
+    <ProgressBar label="Progress" value={62} />
+  </Flex>
+</View>`}
+>
+  <View borderWidth="thin" borderColor="dark" borderRadius="regular" padding="size-200" width="size-3600">
+    <Flex direction="column" gap="size-100">
+      <Heading level={4} margin={0}>Training job</Heading>
+      <Flex gap="size-100" alignItems="center">
+        <Badge variant="info">Running</Badge>
+        <StatusLight variant="notice">GPU queue</StatusLight>
+      </Flex>
+      <ProgressBar label="Progress" value={62} />
+    </Flex>
+  </View>
+</ExampleCard>
+
+<ExampleCard
+  title="Media list with tags"
+  code={`<ListView aria-label="Media list" width="size-3600" selectionMode="multiple" defaultItems={[{ id: '1', title: 'frame_001.jpg', tags: ['car', 'road'] }, { id: '2', title: 'frame_002.jpg', tags: ['person'] }] }>
+  {(item) => (
+    <ListItem textValue={item.title}>
+      <Flex direction="column" gap="size-75">
+        <Text>{item.title}</Text>
+        <TagGroup>
+          {item.tags.map((tag) => <Tag key={tag} text={tag} />)}
+        </TagGroup>
+      </Flex>
+    </ListItem>
+  )}
+</ListView>`}
+>
+  <ListView
+    aria-label="Media list"
+    width="size-3600"
+    selectionMode="multiple"
+    defaultItems={[
+      { id: '1', title: 'frame_001.jpg', tags: ['car', 'road'] },
+      { id: '2', title: 'frame_002.jpg', tags: ['person'] },
+    ]}
+  >
+    {(item) => (
+      <ListItem textValue={item.title}>
+        <Flex direction="column" gap="size-75">
+          <Text>{item.title}</Text>
+          <TagGroup>
+            {item.tags.map((tag) => <Tag key={tag} text={tag} />)}
+          </TagGroup>
+        </Flex>
+      </ListItem>
+    )}
+  </ListView>
+</ExampleCard>
+
+<ExampleCard
+  title="Tabbed workspace shell"
+  code={`<Tabs aria-label="Workspace">
+  <TabList>
+    <Item key="dataset">Dataset</Item>
+    <Item key="models">Models</Item>
+    <Item key="settings">Settings</Item>
+  </TabList>
+  <TabPanels>
+    <Item key="dataset"><Content>Dataset content</Content></Item>
+    <Item key="models"><Content>Model content</Content></Item>
+    <Item key="settings"><Content>Settings content</Content></Item>
+  </TabPanels>
+</Tabs>`}
+>
+  <Tabs aria-label="Workspace">
+    <TabList>
+      <Item key="dataset">Dataset</Item>
+      <Item key="models">Models</Item>
+      <Item key="settings">Settings</Item>
+    </TabList>
+    <TabPanels>
+      <Item key="dataset"><Content>Dataset content</Content></Item>
+      <Item key="models"><Content>Model content</Content></Item>
+      <Item key="settings"><Content>Settings content</Content></Item>
+    </TabPanels>
+  </Tabs>
+</ExampleCard>
+
+<ExampleCard
+  title="Inline alert + contextual action"
+  code={`<Flex direction="column" gap="size-150" width="size-3600">
+  <InlineAlert variant="notice" title="Review required">
+    Some predictions need manual confirmation.
+  </InlineAlert>
+  <DialogTrigger>
+    <Button variant="secondary" style="outline">Open details</Button>
+    <Popover>
+      <Dialog>
+        <Heading>Review details</Heading>
+        <Text>Open the task panel to review low-confidence predictions.</Text>
+      </Dialog>
+    </Popover>
+  </DialogTrigger>
+</Flex>`}
+>
+  <Flex direction="column" gap="size-150" width="size-3600">
+    <InlineAlert variant="notice" title="Review required">
+      Some predictions need manual confirmation.
+    </InlineAlert>
+    <DialogTrigger>
+      <Button variant="secondary" style="outline">Open details</Button>
+      <Popover>
+        <Dialog>
+          <Heading>Review details</Heading>
+          <Text>Open the task panel to review low-confidence predictions.</Text>
+        </Dialog>
+      </Popover>
+    </DialogTrigger>
+  </Flex>
+</ExampleCard>
+
+<Divider marginTop="size-250" marginBottom="size-200" />
+
+> More curated scenario pages are available in the Examples sidebar and will be
+> expanded over time.
