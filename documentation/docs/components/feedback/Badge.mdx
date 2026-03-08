@@ -1,0 +1,105 @@
+---
+title: Badge
+---
+
+import { Badge } from '@geti/ui';
+import { ExampleCard } from '../../../theme/ExampleCard';
+
+# Badge
+
+`Badge` displays a short colour-coded label for categorisation and status indication. Use it to call attention to a category or condition on a data item — model state, annotation status, severity level.
+
+```tsx
+import { Badge } from '@geti/ui';
+```
+
+- [React Spectrum Badge ↗](https://react-spectrum.adobe.com/react-spectrum/Badge.html)
+- [Geti UI Theming](/components/theming)
+
+## Examples
+
+<ExampleCard
+  title="Neutral"
+  code={`<Badge variant="neutral">Neutral</Badge>`}
+>
+  <Badge variant="neutral">Neutral</Badge>
+</ExampleCard>
+
+<ExampleCard
+  title="Info"
+  code={`<Badge variant="info">In progress</Badge>`}
+>
+  <Badge variant="info">In progress</Badge>
+</ExampleCard>
+
+<ExampleCard
+  title="Positive"
+  code={`<Badge variant="positive">Active</Badge>`}
+>
+  <Badge variant="positive">Active</Badge>
+</ExampleCard>
+
+<ExampleCard
+  title="Negative"
+  code={`<Badge variant="negative">Failed</Badge>`}
+>
+  <Badge variant="negative">Failed</Badge>
+</ExampleCard>
+
+<ExampleCard
+  title="Indigo / categorical"
+  code={`<Badge variant="indigo">Detection</Badge>`}
+>
+  <Badge variant="indigo">Detection</Badge>
+</ExampleCard>
+
+<ExampleCard
+  title="Icon-only badge (with aria-label)"
+  code={`<Badge variant="info" aria-label="Information">ℹ</Badge>`}
+>
+  <Badge variant="info" aria-label="Information">ℹ</Badge>
+</ExampleCard>
+
+## Responsibility
+
+`Badge` is a thin wrapper around React Spectrum's `Badge`. It passes all props through and adds no Geti-specific defaults. The wrapper keeps the import path consistent with the rest of `@geti/ui`.
+
+## Variants and states
+
+| Variant | Semantic meaning |
+|---|---|
+| `neutral` | No semantic meaning; general category label |
+| `info` | Informational, ongoing, or pending |
+| `positive` | Success, healthy, active |
+| `negative` | Error, failure, inactive |
+| `notice` | Warning, requires attention |
+| `indigo` `yellow` `magenta` `fuchsia` `purple` `seafoam` | Non-semantic categorical colours |
+
+## Props (deep dive)
+
+### Content
+
+- `children`: the badge label text, or an icon, or both together in a fragment.
+- `variant`: one of the semantic or categorical colour names listed above.
+
+### Accessibility
+
+- When `children` contains only an icon, provide `aria-label` with a text description.
+- Avoid using `Badge` as the only indicator of critical state — pair it with text or other signals.
+
+## Related components
+
+- `StatusLight` — use when a coloured dot is the primary signal, not a filled chip.
+- `Tag` — use for Geti-styled category chips with an accent dot inside data rows.
+- `InlineAlert` — use when a status message needs a heading and body text, not just a label.
+
+## Example use cases
+
+<details>
+  <summary>Typical use cases</summary>
+
+- Model status chip on a project card (`Active`, `Training`, `Failed`).
+- Dataset annotation progress badge showing completion category.
+- Task type label on a model tile (`Detection`, `Classification`).
+
+</details>
