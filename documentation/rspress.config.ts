@@ -13,18 +13,6 @@ export default defineConfig({
   ssg: false,
   markdown: {},
   builderConfig: {
-    source: {
-      // Ensure the component source files from @geti/ui are compiled
-      // with the full TypeScript/JSX transform (not treated as external CJS).
-      include: [path.resolve(__dirname, '../packages/ui/src')],
-      // Resolve @geti/ui to source during docs dev/build so CSS-module
-      // injection order matches Storybook and Geti theme overrides win.
-      alias: {
-        // Keep stylesheet import resolvable when @geti/ui points to source.
-        '@geti/ui/styles.css': path.resolve(__dirname, '../packages/ui/dist/esm/index.css'),
-        '@geti/ui': path.resolve(__dirname, '../packages/ui/src/index.ts'),
-      },
-    },
     tools: {
       rspack: {
         module: {

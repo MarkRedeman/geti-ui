@@ -4,6 +4,7 @@
   "version": "0.0.1",
   "type": "module",
   "scripts": {
+    "predev": "pnpm --filter @geti/ui build",
     "dev": "rspress dev",
     "prebuild": "pnpm --filter @geti/ui build",
     "build": "rspress build",
