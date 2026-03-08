@@ -1,0 +1,107 @@
+---
+title: Meter
+---
+
+import { Meter } from '@geti/ui';
+import { ExampleCard } from '../../../theme/ExampleCard';
+
+# Meter
+
+`Meter` shows a visual representation of a quantity as a filled bar with a threshold-based colour. Use it to communicate levels — storage used, model accuracy, training progress — where the absolute value and threshold state both matter.
+
+```tsx
+import { Meter } from '@geti/ui';
+```
+
+- [React Spectrum Meter ↗](https://react-spectrum.adobe.com/react-spectrum/Meter.html)
+- [Geti UI Theming](/components/theming)
+
+## Examples
+
+<ExampleCard
+  title="Informative (default)"
+  code={`<Meter label="Storage space" value={50} />`}
+>
+  <Meter label="Storage space" value={50} />
+</ExampleCard>
+
+<ExampleCard
+  title="Positive"
+  code={`<Meter label="Disk health" value={80} variant="positive" />`}
+>
+  <Meter label="Disk health" value={80} variant="positive" />
+</ExampleCard>
+
+<ExampleCard
+  title="Warning"
+  code={`<Meter label="Memory usage" value={65} variant="warning" />`}
+>
+  <Meter label="Memory usage" value={65} variant="warning" />
+</ExampleCard>
+
+<ExampleCard
+  title="Critical"
+  code={`<Meter label="CPU usage" value={90} variant="critical" />`}
+>
+  <Meter label="CPU usage" value={90} variant="critical" />
+</ExampleCard>
+
+<ExampleCard
+  title="Custom value label"
+  code={`<Meter label="Models trained" value={7} maxValue={10} valueLabel="7 of 10" />`}
+>
+  <Meter label="Models trained" value={7} maxValue={10} valueLabel="7 of 10" />
+</ExampleCard>
+
+## Responsibility
+
+`Meter` is a thin wrapper around React Spectrum's `Meter`. It passes all props through with no Geti-specific defaults. The wrapper keeps the import path consistent with the rest of `@geti/ui`.
+
+## Variants and states
+
+| `variant` | When to use |
+|---|---|
+| `informative` (default) | Neutral progress with no threshold meaning |
+| `positive` | Value is at a healthy level |
+| `warning` | Value is approaching a cautionary threshold |
+| `critical` | Value has exceeded a dangerous threshold |
+
+## Props (deep dive)
+
+### Content
+
+- `label`: the text label shown above the meter bar.
+- `valueLabel`: custom text shown at the trailing end of the bar (defaults to a percentage).
+
+### Value
+
+- `value`: current value (required).
+- `minValue`: minimum of the range. Defaults to `0`.
+- `maxValue`: maximum of the range. Defaults to `100`.
+
+### Appearance
+
+- `variant`: `informative | positive | warning | critical`.
+- `size`: `S | L` — controls label and bar thickness.
+
+### Accessibility
+
+- `label` is required for screen reader announcements; it is also the visible label.
+- The meter renders with `role="meter"` and `aria-valuenow` / `aria-valuemin` / `aria-valuemax` automatically.
+
+## Related components
+
+- `ProgressBar` — use when showing task completion progress rather than a level.
+- `ProgressCircle` — use for circular indeterminate or determinate progress.
+- `StatusLight` — use for a simple coloured dot status without a quantity.
+
+## Example use cases
+
+<details>
+  <summary>Typical use cases</summary>
+
+- Dataset annotation completeness — positive when above 80 %, warning below, critical at 0 %.
+- Model training progress when the epoch count is known.
+- Storage quota meter in a user settings panel.
+
+</details>
