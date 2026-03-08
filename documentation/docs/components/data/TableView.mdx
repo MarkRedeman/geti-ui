@@ -1,0 +1,166 @@
+---
+title: TableView
+---
+
+import { TableView, TableHeader, TableBody, Column, Row, Cell } from '@geti/ui';
+import { ExampleCard } from '../../../theme/ExampleCard';
+
+# TableView
+
+`TableView` renders a data table with sortable columns, row selection, and virtualized scrolling. Use it when data is naturally tabular — rows and named columns — and you need sorting or multi-select.
+
+```tsx
+import { TableView, TableHeader, TableBody, Column, Row, Cell } from '@geti/ui';
+```
+
+- [React Spectrum TableView ↗](https://react-spectrum.adobe.com/react-spectrum/TableView.html)
+- [Geti UI Theming](/components/theming)
+
+## Examples
+
+<ExampleCard
+  title="Basic sortable table"
+  code={`const columns = [
+  { name: 'Name', uid: 'name' },
+  { name: 'Type', uid: 'type' },
+  { name: 'Date', uid: 'date' },
+];
+const rows = [
+  { id: 1, name: 'project-alpha', type: 'Detection', date: '2024-01-15' },
+  { id: 2, name: 'project-beta', type: 'Classification', date: '2024-02-20' },
+  { id: 3, name: 'project-gamma', type: 'Segmentation', date: '2024-03-05' },
+];
+
+<TableView aria-label="Projects" height="size-3000" width="size-6000">
+  <TableHeader columns={columns}>
+    {(col) => <Column key={col.uid} allowsSorting>{col.name}</Column>}
+  </TableHeader>
+  <TableBody items={rows}>
+    {(item) => <Row>{(key) => <Cell>{item[key]}</Cell>}</Row>}
+  </TableBody>
+</TableView>`}
+>
+  <TableView aria-label="Projects" height="size-3000" width="size-6000">
+    <TableHeader columns={[{ name: 'Name', uid: 'name' }, { name: 'Type', uid: 'type' }, { name: 'Date', uid: 'date' }]}>
+      {(col) => <Column key={col.uid} allowsSorting>{col.name}</Column>}
+    </TableHeader>
+    <TableBody items={[
+      { id: 1, name: 'project-alpha', type: 'Detection', date: '2024-01-15' },
+      { id: 2, name: 'project-beta', type: 'Classification', date: '2024-02-20' },
+      { id: 3, name: 'project-gamma', type: 'Segmentation', date: '2024-03-05' },
+    ]}>
+      {(item) => <Row>{(key) => <Cell>{item[key]}</Cell>}</Row>}
+    </TableBody>
+  </TableView>
+</ExampleCard>
+
+<ExampleCard
+  title="Multi-select table"
+  code={`<TableView aria-label="Selectable table" selectionMode="multiple" height="size-3000" width="size-6000">
+  <TableHeader columns={columns}>
+    {(col) => <Column key={col.uid}>{col.name}</Column>}
+  </TableHeader>
+  <TableBody items={rows}>
+    {(item) => <Row>{(key) => <Cell>{item[key]}</Cell>}</Row>}
+  </TableBody>
+</TableView>`}
+>
+  <TableView aria-label="Selectable table" selectionMode="multiple" height="size-3000" width="size-6000">
+    <TableHeader columns={[{ name: 'Name', uid: 'name' }, { name: 'Type', uid: 'type' }, { name: 'Date', uid: 'date' }]}>
+      {(col) => <Column key={col.uid}>{col.name}</Column>}
+    </TableHeader>
+    <TableBody items={[
+      { id: 1, name: 'project-alpha', type: 'Detection', date: '2024-01-15' },
+      { id: 2, name: 'project-beta', type: 'Classification', date: '2024-02-20' },
+      { id: 3, name: 'project-gamma', type: 'Segmentation', date: '2024-03-05' },
+    ]}>
+      {(item) => <Row>{(key) => <Cell>{item[key]}</Cell>}</Row>}
+    </TableBody>
+  </TableView>
+</ExampleCard>
+
+<ExampleCard
+  title="Compact density"
+  code={`<TableView aria-label="Compact table" density="compact" height="size-3000" width="size-6000">
+  <TableHeader columns={columns}>
+    {(col) => <Column key={col.uid}>{col.name}</Column>}
+  </TableHeader>
+  <TableBody items={rows}>
+    {(item) => <Row>{(key) => <Cell>{item[key]}</Cell>}</Row>}
+  </TableBody>
+</TableView>`}
+>
+  <TableView aria-label="Compact table" density="compact" height="size-3000" width="size-6000">
+    <TableHeader columns={[{ name: 'Name', uid: 'name' }, { name: 'Type', uid: 'type' }, { name: 'Date', uid: 'date' }]}>
+      {(col) => <Column key={col.uid}>{col.name}</Column>}
+    </TableHeader>
+    <TableBody items={[
+      { id: 1, name: 'project-alpha', type: 'Detection', date: '2024-01-15' },
+      { id: 2, name: 'project-beta', type: 'Classification', date: '2024-02-20' },
+    ]}>
+      {(item) => <Row>{(key) => <Cell>{item[key]}</Cell>}</Row>}
+    </TableBody>
+  </TableView>
+</ExampleCard>
+
+## Responsibility
+
+`TableView` and its companion pieces (`TableHeader`, `TableBody`, `Column`, `Row`, `Cell`) are direct re-exports of React Spectrum's table components. The wrapper keeps imports on a single package path. All sorting, selection, and virtualization come from Spectrum.
+
+## Variants and states
+
+| `density` | Row height |
+|---|---|
+| `compact` | Tight row height for data-heavy views |
+| `regular` (default) | Standard height |
+| `spacious` | More breathing room per row |
+
+| `selectionMode` | Behaviour |
+|---|---|
+| `none` | No row selection |
+| `single` | One row at a time |
+| `multiple` | Checkbox column with multi-select |
+
+## Props (deep dive)
+
+### Content
+
+- `children`: `TableHeader` + `TableBody` pair.
+- `Column`: accepts `allowsSorting`, `isRowHeader`, `width`, `minWidth`, `maxWidth`.
+- `Row`: renders each data row; the child function receives the column key.
+- `Cell`: leaf content of each table cell.
+
+### Value / state
+
+- `selectionMode`: row selection behaviour.
+- `selectedKeys` / `defaultSelectedKeys`: controlled or uncontrolled selection.
+- `sortDescriptor` / `onSortChange`: controlled sort state and change handler.
+- `density`: row height variant.
+
+### Events
+
+- `onSelectionChange(keys)`: fires when row selection changes.
+- `onSortChange(descriptor)`: fires when a sortable column header is clicked.
+- `onAction(key)`: fires when a row is activated (Enter or double-click).
+
+### Accessibility
+
+- Provide `aria-label` on `TableView`.
+- Mark at least one `Column` with `isRowHeader` so screen readers announce it as the row identifier.
+
+## Related components
+
+- `ActionBar` — combine with `selectionMode="multiple"` for bulk row operations.
+- `ListView` — use for non-tabular lists that don't need column headers.
+- `VirtualizedListLayout` — use when you need a fully custom virtualized list outside Spectrum's table constraints.
+
+## Example use cases
+
+<details>
+  <summary>Typical use cases</summary>
+
+- Dataset annotation table with columns for image name, label count, and status — sortable by each.
+- Model comparison table listing training runs with accuracy, loss, and date columns.
+- Audit log showing user actions with timestamp, action type, and affected resource.
+
+</details>
