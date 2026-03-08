@@ -1,0 +1,135 @@
+---
+title: CheckboxGroup
+---
+
+import { Checkbox, CheckboxGroup } from '@geti/ui';
+import { ExampleCard } from '../../../theme/ExampleCard';
+
+# CheckboxGroup
+
+CheckboxGroup manages a set of related checkboxes with a shared label and a single value array. Use it when users can select any combination of options from a named list.
+
+```tsx
+import { Checkbox, CheckboxGroup } from '@geti/ui';
+```
+
+- [React Spectrum CheckboxGroup ↗](https://react-spectrum.adobe.com/react-spectrum/CheckboxGroup.html)
+- [Geti UI Theming](/components/theming)
+
+## Examples
+
+<ExampleCard
+  title="Default (vertical)"
+  code={`<CheckboxGroup label="Notification channels">
+  <Checkbox value="email">Email</Checkbox>
+  <Checkbox value="sms">SMS</Checkbox>
+  <Checkbox value="push">Push notification</Checkbox>
+</CheckboxGroup>`}
+>
+  <CheckboxGroup label="Notification channels">
+    <Checkbox value="email">Email</Checkbox>
+    <Checkbox value="sms">SMS</Checkbox>
+    <Checkbox value="push">Push notification</Checkbox>
+  </CheckboxGroup>
+</ExampleCard>
+
+<ExampleCard
+  title="Pre-selected values"
+  code={`<CheckboxGroup label="Features" defaultValue={['annotations', 'models']}>
+  <Checkbox value="annotations">Annotations</Checkbox>
+  <Checkbox value="models">Models</Checkbox>
+  <Checkbox value="datasets">Datasets</Checkbox>
+</CheckboxGroup>`}
+>
+  <CheckboxGroup label="Features" defaultValue={['annotations', 'models']}>
+    <Checkbox value="annotations">Annotations</Checkbox>
+    <Checkbox value="models">Models</Checkbox>
+    <Checkbox value="datasets">Datasets</Checkbox>
+  </CheckboxGroup>
+</ExampleCard>
+
+<ExampleCard
+  title="Horizontal layout"
+  code={`<CheckboxGroup label="View options" orientation="horizontal">
+  <Checkbox value="grid">Grid</Checkbox>
+  <Checkbox value="list">List</Checkbox>
+  <Checkbox value="map">Map</Checkbox>
+</CheckboxGroup>`}
+>
+  <CheckboxGroup label="View options" orientation="horizontal">
+    <Checkbox value="grid">Grid</Checkbox>
+    <Checkbox value="list">List</Checkbox>
+    <Checkbox value="map">Map</Checkbox>
+  </CheckboxGroup>
+</ExampleCard>
+
+<ExampleCard
+  title="Disabled group"
+  code={`<CheckboxGroup label="Locked options" isDisabled>
+  <Checkbox value="a">Option A</Checkbox>
+  <Checkbox value="b">Option B</Checkbox>
+</CheckboxGroup>`}
+>
+  <CheckboxGroup label="Locked options" isDisabled>
+    <Checkbox value="a">Option A</Checkbox>
+    <Checkbox value="b">Option B</Checkbox>
+  </CheckboxGroup>
+</ExampleCard>
+
+## Responsibility
+
+`CheckboxGroup` is a thin wrapper around React Spectrum's `CheckboxGroup`. All props pass through unchanged. The wrapper provides a `@geti/ui` import path and Geti theming.
+
+## Variants and states
+
+| Prop | Options | Default |
+|---|---|---|
+| `orientation` | `'vertical' \| 'horizontal'` | `'vertical'` |
+| `isDisabled` | boolean | `false` |
+| `isReadOnly` | boolean | `false` |
+
+## Props (deep dive)
+
+### Content
+
+- `children`: `Checkbox` components. Each must have a `value` string.
+- `label`: visible group label.
+- `description`: optional helper text below the group.
+- `errorMessage`: error text shown when `validationState="invalid"`.
+
+### Value
+
+- `value`: controlled array of selected values.
+- `defaultValue`: uncontrolled initial selection array.
+
+### Events
+
+- `onChange`: `(values: string[]) => void` — called with full updated selection.
+
+### Validation
+
+- `validationState`: `'valid' | 'invalid'`.
+- `isRequired`: marks at least one selection as required.
+
+### Accessibility
+
+- the group renders a `<fieldset>` with a `<legend>` containing the `label`,
+- never skip the `label` prop — it is required for accessible grouping.
+
+## Related components
+
+- `Checkbox` — use for a single standalone boolean.
+- `RadioGroup` — use when only one selection is allowed.
+- `ToggleButtons` — use for mutually exclusive view/mode switching (not a form field).
+
+## Example use cases
+
+<details>
+  <summary>Typical use cases</summary>
+
+- Export format selector (`JSON`, `COCO`, `Pascal VOC`).
+- Notification channel preferences in user settings.
+- Feature flag options in an admin configuration panel.
+- Multi-type annotation filter (`Detection`, `Segmentation`, `Classification`).
+
+</details>
