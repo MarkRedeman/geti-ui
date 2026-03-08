@@ -1,7 +1,7 @@
 export { ThemeProvider } from './theme/ThemeProvider';
 export type { ThemeProviderProps } from './theme/ThemeProvider';
 
-// Group 1 — Primitive Actions (ui/)
+// Group 1 — UI (ui/)
 export { Button } from './components/ui/Button/Button';
 export type { ButtonProps } from './components/ui/Button/Button';
 
@@ -83,48 +83,48 @@ export type { FormProps } from './components/form/Form/Form';
 export { DropZone } from './components/form/DropZone/DropZone';
 export type { DropZoneProps } from './components/form/DropZone/DropZone';
 
-// Group 3 — Form Pickers (form/pickers/)
+// Group 3 — Form Pickers (form/pickers/, form/date-controls/, form/color-controls/)
 export { Picker, Item as PickerItem } from './components/form/pickers/Picker/Picker';
 export type { PickerProps } from './components/form/pickers/Picker/Picker';
 
 export { ComboBox, Item as ComboBoxItem } from './components/form/pickers/ComboBox/ComboBox';
 export type { ComboBoxProps } from './components/form/pickers/ComboBox/ComboBox';
 
-export { ColorSwatch } from './components/form/pickers/color-swatch/ColorSwatch';
-export type { ColorSwatchProps } from './components/form/pickers/color-swatch/ColorSwatch';
+export { ColorSwatch } from './components/form/color-controls/color-swatch/ColorSwatch';
+export type { ColorSwatchProps } from './components/form/color-controls/color-swatch/ColorSwatch';
 
-export { ColorSwatchPicker, ColorSwatchPickerItem } from './components/form/pickers/color-swatch/ColorSwatchPicker';
-export type { ColorSwatchPickerProps, ColorSwatchPickerItemProps } from './components/form/pickers/color-swatch/ColorSwatchPicker';
+export { ColorSwatchPicker, ColorSwatchPickerItem } from './components/form/color-controls/color-swatch/ColorSwatchPicker';
+export type { ColorSwatchPickerProps, ColorSwatchPickerItemProps } from './components/form/color-controls/color-swatch/ColorSwatchPicker';
 
-export { ColorSlider } from './components/form/pickers/ColorSlider/ColorSlider';
-export type { ColorSliderProps } from './components/form/pickers/ColorSlider/ColorSlider';
+export { ColorSlider } from './components/form/color-controls/ColorSlider/ColorSlider';
+export type { ColorSliderProps } from './components/form/color-controls/ColorSlider/ColorSlider';
 
-export { ColorArea } from './components/form/pickers/ColorArea/ColorArea';
-export type { ColorAreaProps } from './components/form/pickers/ColorArea/ColorArea';
+export { ColorArea } from './components/form/color-controls/ColorArea/ColorArea';
+export type { ColorAreaProps } from './components/form/color-controls/ColorArea/ColorArea';
 
-export { ColorWheel } from './components/form/pickers/ColorWheel/ColorWheel';
-export type { ColorWheelProps } from './components/form/pickers/ColorWheel/ColorWheel';
+export { ColorWheel } from './components/form/color-controls/ColorWheel/ColorWheel';
+export type { ColorWheelProps } from './components/form/color-controls/ColorWheel/ColorWheel';
 
-export { ColorField } from './components/form/pickers/ColorField/ColorField';
-export type { ColorFieldProps } from './components/form/pickers/ColorField/ColorField';
+export { ColorField } from './components/form/color-controls/ColorField/ColorField';
+export type { ColorFieldProps } from './components/form/color-controls/ColorField/ColorField';
 
-export { ColorThumb } from './components/form/pickers/ColorThumb/ColorThumb';
-export type { ColorThumbProps } from './components/form/pickers/ColorThumb/ColorThumb';
+export { ColorThumb } from './components/form/color-controls/ColorThumb/ColorThumb';
+export type { ColorThumbProps } from './components/form/color-controls/ColorThumb/ColorThumb';
 
-export { ColorPickerDialog } from './components/form/pickers/ColorPickerDialog/ColorPickerDialog';
-export type { ColorPickerDialogProps } from './components/form/pickers/ColorPickerDialog/ColorPickerDialog';
+export { ColorPickerDialog } from './components/form/color-controls/ColorPickerDialog/ColorPickerDialog';
+export type { ColorPickerDialogProps } from './components/form/color-controls/ColorPickerDialog/ColorPickerDialog';
 
-export { DateField, TimeField } from './components/form/pickers/DateField/DateField';
-export type { DateFieldProps, TimeFieldProps } from './components/form/pickers/DateField/DateField';
+export { DateField, TimeField } from './components/form/date-controls/DateField/DateField';
+export type { DateFieldProps, TimeFieldProps } from './components/form/date-controls/DateField/DateField';
 
-export { Calendar, RangeCalendar } from './components/form/pickers/Calendar/Calendar';
-export type { CalendarProps, RangeCalendarProps } from './components/form/pickers/Calendar/Calendar';
+export { Calendar, RangeCalendar } from './components/form/date-controls/Calendar/Calendar';
+export type { CalendarProps, RangeCalendarProps } from './components/form/date-controls/Calendar/Calendar';
 
-export { DatePicker } from './components/form/pickers/DatePicker/DatePicker';
-export type { DatePickerProps } from './components/form/pickers/DatePicker/DatePicker';
+export { DatePicker } from './components/form/date-controls/DatePicker/DatePicker';
+export type { DatePickerProps } from './components/form/date-controls/DatePicker/DatePicker';
 
-export { DateRangePicker } from './components/form/pickers/DateRangePicker/DateRangePicker';
-export type { DateRangePickerProps } from './components/form/pickers/DateRangePicker/DateRangePicker';
+export { DateRangePicker } from './components/form/date-controls/DateRangePicker/DateRangePicker';
+export type { DateRangePickerProps } from './components/form/date-controls/DateRangePicker/DateRangePicker';
 
 // Group 4 — Overlay & Popover (overlays/)
 export { Tooltip } from './components/overlays/Tooltip/Tooltip';

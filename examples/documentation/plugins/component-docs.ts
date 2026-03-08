@@ -20,7 +20,7 @@ const COMPONENT_ROOT = path.resolve(
 const STORIES_GALLERY_PATH = path.resolve(__dirname, '../theme/StoriesGallery');
 
 const CATEGORY_LABELS: Record<string, string> = {
-  ui: 'Primitive Actions',
+  ui: 'UI',
   form: 'Form Controls',
   'form/date-controls': 'Date Controls',
   'form/color-controls': 'Color Controls',
@@ -273,7 +273,12 @@ function discoverComponentMdxFiles(): ComponentPage[] {
     for (const entry of entries) {
       if (!entry.isDirectory()) continue;
       // Skip sub-categories (handled separately in CATEGORY_ORDER)
-      if (category === 'form' && entry.name === 'pickers') continue;
+      if (
+        category === 'form' &&
+        (entry.name === 'pickers' || entry.name === 'date-controls' || entry.name === 'color-controls')
+      ) {
+        continue;
+      }
 
       const componentDir = path.join(categoryDir, entry.name);
       const mdxFiles = fs
