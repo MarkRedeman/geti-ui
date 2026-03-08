@@ -1,0 +1,101 @@
+---
+title: ColorThumb
+---
+
+import { ColorThumb, Flex } from '@geti/ui';
+import { ExampleCard } from '../../../../theme/ExampleCard';
+
+# ColorThumb
+
+`ColorThumb` is a small square that displays a solid color preview. It is a lightweight Geti-native component (not from React Spectrum) built on `View`. Use it wherever a compact color chip is needed — for example, next to a label name or in a list row.
+
+```tsx
+import { ColorThumb } from '@geti/ui';
+```
+
+- [Geti UI Theming](/components/theming)
+
+## Examples
+
+<ExampleCard
+  title="Default"
+  code={`<ColorThumb color="#ff0000" size={20} />`}
+>
+  <ColorThumb color="#ff0000" size={20} />
+</ExampleCard>
+
+<ExampleCard
+  title="Size variants"
+  code={`<Flex gap="size-200" alignItems="center">
+  <ColorThumb color="#ff0000" size={10} />
+  <ColorThumb color="#00ff00" size={20} />
+  <ColorThumb color="#0000ff" size={40} />
+</Flex>`}
+>
+  <Flex gap="size-200" alignItems="center">
+    <ColorThumb color="#ff0000" size={10} />
+    <ColorThumb color="#00ff00" size={20} />
+    <ColorThumb color="#0000ff" size={40} />
+  </Flex>
+</ExampleCard>
+
+<ExampleCard
+  title="Using CSS color strings"
+  code={`<Flex gap="size-200" alignItems="center">
+  <ColorThumb color="rgba(255,165,0,0.8)" size={20} />
+  <ColorThumb color="hsl(270, 60%, 50%)" size={20} />
+  <ColorThumb color="#cccccc" size={20} />
+</Flex>`}
+>
+  <Flex gap="size-200" alignItems="center">
+    <ColorThumb color="rgba(255,165,0,0.8)" size={20} />
+    <ColorThumb color="hsl(270, 60%, 50%)" size={20} />
+    <ColorThumb color="#cccccc" size={20} />
+  </Flex>
+</ExampleCard>
+
+## Responsibility
+
+`ColorThumb` is a Geti-native component, not from React Spectrum. It renders a `View` with a fixed square size and a CSS custom property (`--color-thumb-bg`) to set the background color. Static layout (border-radius, border) is owned by `ColorThumb.module.css`.
+
+Key design choice: only the CSS variable is dynamic — the CSS module controls all visual structure.
+
+## Variants and states
+
+| Prop | Type | Default | Notes |
+|---|---|---|---|
+| `color` | `string` | **required** | Any valid CSS color string |
+| `size` | `number` | `10` | Width and height in pixels |
+
+## Props (deep dive)
+
+### Content
+
+- `color` (**required**): any valid CSS color string (hex, rgb, rgba, hsl, etc.).
+
+### Visual
+
+- `size`: width and height of the square in pixels. Defaults to `10`.
+- `UNSAFE_className`: additional CSS class to merge with the module styles.
+- `UNSAFE_style`: additional inline styles.
+
+### Accessibility
+
+- `ColorThumb` is purely decorative. Wrap it with an accessible label in context (e.g., the label text next to it).
+
+## Related components
+
+- `ColorSwatch` — Spectrum's swatch with built-in size tokens and accessible selection state.
+- `ColorSwatchPicker` — selectable group of color swatches.
+- `ColorPickerDialog` — full color picker dialog.
+
+## Example use cases
+
+<details>
+  <summary>Typical use cases</summary>
+
+- Compact color chip displayed beside each annotation label name in a label list.
+- Color preview in a table row for a label configuration screen.
+- Thumbnail color indicator in a dataset export configuration panel.
+
+</details>
