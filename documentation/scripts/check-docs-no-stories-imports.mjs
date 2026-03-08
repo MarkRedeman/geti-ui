@@ -3,11 +3,6 @@ import path from 'node:path';
 
 const REPO_ROOT = path.resolve(new URL('.', import.meta.url).pathname, '..', '..');
 const DOCS_DIR = path.join(REPO_ROOT, 'documentation');
-const ALLOWLIST = new Set([
-  // Temporary exception during migration: examples gallery still uses KitchenSink stories.
-  // Remove this entry once /examples is fully authored without Storybook imports.
-  path.join(DOCS_DIR, 'docs/examples.mdx'),
-]);
 
 function walk(dir, out = []) {
   const entries = fs.readdirSync(dir, { withFileTypes: true });
@@ -33,7 +28,6 @@ const files = walk(DOCS_DIR);
 const violations = [];
 
 for (const file of files) {
-  if (ALLOWLIST.has(file)) continue;
   const content = fs.readFileSync(file, 'utf-8');
 
   if (/from\s+['"][^'"]*\.stories(?:\.[jt]sx?)?['"]/m.test(content)) {

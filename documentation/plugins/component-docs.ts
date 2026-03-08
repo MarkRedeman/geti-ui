@@ -8,8 +8,6 @@ interface ComponentPage {
   componentName: string;
   category: string;
   title: string;
-  storiesPath?: string;  // absolute path to .stories.tsx file, or undefined
-  componentPath?: string; // absolute path to component .tsx file
 }
 
 const COMPONENT_ROOT = path.resolve(
@@ -17,7 +15,6 @@ const COMPONENT_ROOT = path.resolve(
   '../../packages/ui/src/components'
 );
 
-const STORIES_GALLERY_PATH = path.resolve(__dirname, '../theme/StoriesGallery');
 const DOCS_COMPONENTS_ROOT = path.resolve(__dirname, '../docs/components');
 
 const CATEGORY_LABELS: Record<string, string> = {
@@ -46,26 +43,8 @@ const CATEGORY_ORDER = [
   'layouts',
 ];
 
-function extractStoryTitle(storiesPath?: string): string | null {
-  if (!storiesPath || !fs.existsSync(storiesPath)) return null;
-
-  const source = fs.readFileSync(storiesPath, 'utf-8');
-  const match = source.match(/title\s*:\s*['"]([^'"]+)['"]/);
-  return match ? match[1] : null;
-}
-
 function resolveSidebarCategory(page: ComponentPage): string {
-  if (page.category !== 'form/pickers') return page.category;
-
-  const storyTitle = extractStoryTitle(page.storiesPath);
-
-  if (!storyTitle) return 'form/pickers';
-
-  if (storyTitle.startsWith('Form/Date controls/')) return 'form/date-controls';
-  if (storyTitle.startsWith('Form/Color controls/')) return 'form/color-controls';
-  if (storyTitle.startsWith('Form/')) return 'form';
-
-  return 'form/pickers';
+  return page.category;
 }
 
 /**
@@ -228,48 +207,12 @@ function transformContent(raw: string, componentName: string): string {
 }
 
 /**
- * Find the stories file for a specific component.
- *
- * We intentionally require an exact filename match (`{Component}.stories.tsx`).
- * This avoids attaching a sibling component's stories when multiple components
- * live in the same directory (e.g. Avatar + AvatarGroup), which can cause
- * runtime crashes due to args/component mismatch.
- */
-function findStoriesFile(componentDir: string, componentName: string): string | null {
-  const exactStoriesFile = path.join(componentDir, `${componentName}.stories.tsx`);
-  return fs.existsSync(exactStoriesFile) ? exactStoriesFile : null;
-}
-
-/**
- * Find the component .tsx file inside a component directory.
- * Returns the absolute path if found, or null if not.
- * Looks for {ComponentName}.tsx (matching the componentName from the MDX filename).
- */
-function findComponentFile(componentDir: string, componentName: string): string | null {
-  const componentFile = path.join(componentDir, `${componentName}.tsx`);
-  return fs.existsSync(componentFile) ? componentFile : null;
-}
-
-/**
  * Return authored docs page path when available.
  * Authored pages live in documentation/docs/components/{category}/{Component}.mdx
  */
 function findAuthoredPage(category: string, componentName: string): string | null {
   const authoredPath = path.join(DOCS_COMPONENTS_ROOT, category, `${componentName}.mdx`);
   return fs.existsSync(authoredPath) ? authoredPath : null;
-}
-
-/**
- * Escape a string for safe embedding into a template literal.
- */
-function escapeTemplateLiteral(s: string): string {
-  return s.replace(/`/g, '\\`').replace(/\$\{/g, '\\${');
-}
-
-function getPackageComponentImportName(componentName: string): string | null {
-  // Toast docs are backed by ToastContainer in @geti/ui
-  if (componentName === 'Toast') return 'ToastContainer';
-  return componentName;
 }
 
 function discoverComponentMdxFiles(): ComponentPage[] {
@@ -308,8 +251,6 @@ function discoverComponentMdxFiles(): ComponentPage[] {
           componentName,
           category,
           title: componentName,
-          storiesPath: findStoriesFile(componentDir, componentName) ?? undefined,
-          componentPath: findComponentFile(componentDir, componentName) ?? undefined,
         });
       }
     }
@@ -367,52 +308,6 @@ export function buildSidebar(pages: ComponentPage[]): SidebarGroup[] {
   return sidebar;
 }
 
-/**
- * Insert stories imports and JSX into the MDX content so that the examples
- * appear right after the intro section (title, subtitle blockquote, import
- * code block, and any bullet-point links) but before the first `## ` heading
- * (typically "## Responsibility").
- *
- * MDX imports are placed immediately after the frontmatter block so they are
- * at the top-level scope. The JSX block is placed just before the first `##`.
- *
- * If no `## ` heading is found, the JSX is appended at the end.
- */
-function insertStoriesAfterIntro(
-  content: string,
-  storiesImports: string,
-  storiesJsx: string
-): string {
-  // 1. Insert imports right after frontmatter (--- ... ---)
-  //    Frontmatter ends at the second `---` line.
-  const frontmatterEnd = content.indexOf('\n---\n');
-  if (frontmatterEnd !== -1) {
-    const insertPos = frontmatterEnd + '\n---\n'.length;
-    content =
-      content.slice(0, insertPos) +
-      '\n' + storiesImports + '\n' +
-      content.slice(insertPos);
-  } else {
-    // No frontmatter — put imports at the top
-    content = storiesImports + '\n' + content;
-  }
-
-  // 2. Insert JSX just before the first ## heading
-  const firstH2Match = content.match(/^## /m);
-  if (firstH2Match && firstH2Match.index !== undefined) {
-    const insertPos = firstH2Match.index;
-    content =
-      content.slice(0, insertPos) +
-      '\n' + storiesJsx + '\n' +
-      content.slice(insertPos);
-  } else {
-    // No ## heading found — append at the end
-    content += '\n\n' + storiesJsx;
-  }
-
-  return content;
-}
-
 export function componentDocsPlugin(): RspressPlugin {
   const pages = discoverComponentMdxFiles();
   const sidebar = buildSidebar(pages);
@@ -433,31 +328,6 @@ export function componentDocsPlugin(): RspressPlugin {
 
         const raw = fs.readFileSync(page.filepath, 'utf-8');
         let content = transformContent(raw, page.componentName);
-
-        if (page.storiesPath) {
-          const storiesImportPath = page.storiesPath.replace(/\.tsx$/, '');
-          const rawStoriesSource = fs.readFileSync(page.storiesPath, 'utf-8');
-          const escapedStoriesSource = escapeTemplateLiteral(rawStoriesSource);
-          const packageComponentImportName = getPackageComponentImportName(page.componentName);
-
-          // Build the stories block: imports + JSX
-          const storiesImports =
-            `import StoriesGallery from '${STORIES_GALLERY_PATH}';\n` +
-            `import * as ComponentStories from '${storiesImportPath}';\n` +
-            (packageComponentImportName
-              ? `import { ${packageComponentImportName} } from '@geti/ui';\n`
-              : '');
-
-          const storiesJsx =
-            (packageComponentImportName
-              ? `<StoriesGallery module={ComponentStories} component={${packageComponentImportName}} componentName="${page.componentName}" storiesSource={\`${escapedStoriesSource}\`} />\n`
-              : `<StoriesGallery module={ComponentStories} componentName="${page.componentName}" storiesSource={\`${escapedStoriesSource}\`} />\n`);
-
-          // Insert stories right after the intro section (title + subtitle + import
-          // code block + links) and before the first ## heading.
-          // Imports go at the top (after frontmatter), JSX goes before first ## heading.
-          content = insertStoriesAfterIntro(content, storiesImports, storiesJsx);
-        }
 
         return {
           routePath: page.routePath,
