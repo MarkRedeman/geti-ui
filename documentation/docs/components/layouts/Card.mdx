@@ -1,0 +1,139 @@
+---
+title: Card
+---
+
+import { Card } from '@geti/ui';
+import { ExampleCard } from '../../../theme/ExampleCard';
+
+# Card
+
+Card is a bordered, padded container for displaying a unit of summary content. Use it for project tiles, model list items, dataset summaries, or any item that should stand out visually as a discrete entity.
+
+```tsx
+import { Card } from '@geti/ui';
+```
+
+## Examples
+
+<ExampleCard
+  title="Static card (read-only)"
+  code={`<Card aria-label="Model card">
+  <div>
+    <strong>Model Name</strong>
+    <p>Detection · 94.2% accuracy</p>
+  </div>
+</Card>`}
+>
+  <Card aria-label="Model card">
+    <div>
+      <strong>Model Name</strong>
+      <p style={{ margin: '4px 0 0' }}>Detection · 94.2% accuracy</p>
+    </div>
+  </Card>
+</ExampleCard>
+
+<ExampleCard
+  title="Selectable card"
+  code={`<Card aria-label="Select project" onPress={() => console.log('pressed')}>
+  <div>
+    <strong>Project Alpha</strong>
+    <p>Classification · 3 tasks</p>
+  </div>
+</Card>`}
+>
+  <Card aria-label="Select project" onPress={() => console.log('pressed')}>
+    <div>
+      <strong>Project Alpha</strong>
+      <p style={{ margin: '4px 0 0' }}>Classification · 3 tasks</p>
+    </div>
+  </Card>
+</ExampleCard>
+
+<ExampleCard
+  title="Selected state"
+  code={`<Card aria-label="Selected project" isSelected onPress={() => console.log('pressed')}>
+  <div>
+    <strong>Project Beta</strong>
+    <p>Detection · 5 tasks</p>
+  </div>
+</Card>`}
+>
+  <Card aria-label="Selected project" isSelected onPress={() => console.log('pressed')}>
+    <div>
+      <strong>Project Beta</strong>
+      <p style={{ margin: '4px 0 0' }}>Detection · 5 tasks</p>
+    </div>
+  </Card>
+</ExampleCard>
+
+<ExampleCard
+  title="Disabled card"
+  code={`<Card aria-label="Disabled project" isDisabled onPress={() => console.log('pressed')}>
+  <div>
+    <strong>Project Gamma</strong>
+    <p>Segmentation · unavailable</p>
+  </div>
+</Card>`}
+>
+  <Card aria-label="Disabled project" isDisabled onPress={() => console.log('pressed')}>
+    <div>
+      <strong>Project Gamma</strong>
+      <p style={{ margin: '4px 0 0' }}>Segmentation · unavailable</p>
+    </div>
+  </Card>
+</ExampleCard>
+
+## Responsibility
+
+`Card` is a Geti-specific layout component built on Spectrum's `View`. When `onPress` is provided, it renders the content inside a `<button>` with `aria-pressed` for selection semantics. Without `onPress`, it renders as an `<article>` for read-only content.
+
+## Variants and states
+
+| State | Props | Notes |
+|---|---|---|
+| Static | (no `onPress`) | Read-only; renders as `<article>` |
+| Interactive | `onPress` | Renders as `<button>`; `aria-pressed` reflects `isSelected` |
+| Selected | `isSelected` + `onPress` | Blue border and informative background |
+| Disabled | `isDisabled` + `onPress` | Non-interactive; not-allowed cursor |
+
+## Props (deep dive)
+
+### Content
+
+- `children`: any React node rendered inside the card body.
+- `aria-label`: accessible label for the card (required when content is not plain text).
+
+### Value / state
+
+- `isSelected`: highlights the card with a focus-colour border.
+- `isDisabled`: prevents interaction when `onPress` is set.
+
+### Events
+
+- `onPress`: callback fired when the card is clicked or activated via keyboard. Presence of this prop determines whether the card is interactive.
+
+### Visual
+
+- `UNSAFE_className`: additional CSS class for custom styling overrides.
+
+### Accessibility
+
+- always provide `aria-label` — the card container has no implicit label.
+- `aria-pressed` is set automatically based on `isSelected` when interactive.
+- disabled cards receive `aria-disabled` and the `disabled` attribute.
+
+## Related components
+
+- `Disclosure` — use for content that should expand/collapse rather than be selected.
+- `View` — use for generic layout containers without selection semantics.
+
+## Example use cases
+
+<details>
+  <summary>Typical use cases</summary>
+
+- Project grid: selectable tiles showing project name, task type, and last modified date.
+- Model card: static display of model name, accuracy metric, and training status.
+- Dataset summary tile: thumbnail count, creation date, and annotation progress.
+
+</details>
