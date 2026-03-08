@@ -1,0 +1,132 @@
+---
+title: CustomPopover
+---
+
+import { ActionButton, CustomPopover } from '@geti/ui';
+import { ExampleCard } from '../../../theme/ExampleCard';
+
+# CustomPopover
+
+CustomPopover is a fully styled popover built on `react-aria-components`. Unlike `Popover`, it gives you direct control over the panel appearance including optional arrows and custom widths. Use it when the standard `Dialog`-based structure is too restrictive.
+
+```tsx
+import { ActionButton, CustomPopover } from '@geti/ui';
+```
+
+- [React Aria Popover ↗](https://react-spectrum.adobe.com/react-aria/Popover.html)
+- [Geti UI Theming](/components/theming)
+
+## Examples
+
+<ExampleCard
+  title="Default"
+  code={`<CustomPopover triggerElement={<ActionButton>Open</ActionButton>}>
+  <p>Custom popover content goes here.</p>
+</CustomPopover>`}
+>
+  <CustomPopover triggerElement={<ActionButton>Open</ActionButton>}>
+    <p>Custom popover content goes here.</p>
+  </CustomPopover>
+</ExampleCard>
+
+<ExampleCard
+  title="With arrow"
+  code={`<CustomPopover showArrow triggerElement={<ActionButton>Open with arrow</ActionButton>}>
+  <p>This popover has a directional arrow.</p>
+</CustomPopover>`}
+>
+  <CustomPopover showArrow triggerElement={<ActionButton>Open with arrow</ActionButton>}>
+    <p>This popover has a directional arrow.</p>
+  </CustomPopover>
+</ExampleCard>
+
+<ExampleCard
+  title="Custom width"
+  code={`<CustomPopover width={320} triggerElement={<ActionButton>Open wide popover</ActionButton>}>
+  <p>This popover has a fixed width of 320px.</p>
+</CustomPopover>`}
+>
+  <CustomPopover width={320} triggerElement={<ActionButton>Open wide popover</ActionButton>}>
+    <p>This popover has a fixed width of 320px.</p>
+  </CustomPopover>
+</ExampleCard>
+
+<ExampleCard
+  title="Top placement"
+  code={`<div style={{ marginTop: '4rem' }}>
+  <CustomPopover placement="top" triggerElement={<ActionButton>Top placement</ActionButton>}>
+    <p>Popover placed at the top.</p>
+  </CustomPopover>
+</div>`}
+>
+  <div style={{ marginTop: '4rem' }}>
+    <CustomPopover placement="top" triggerElement={<ActionButton>Top placement</ActionButton>}>
+      <p>Popover placed at the top.</p>
+    </CustomPopover>
+  </div>
+</ExampleCard>
+
+<ExampleCard
+  title="Bottom placement"
+  code={`<CustomPopover placement="bottom" triggerElement={<ActionButton>Bottom placement</ActionButton>}>
+  <p>Popover placed at the bottom.</p>
+</CustomPopover>`}
+>
+  <CustomPopover placement="bottom" triggerElement={<ActionButton>Bottom placement</ActionButton>}>
+    <p>Popover placed at the bottom.</p>
+  </CustomPopover>
+</ExampleCard>
+
+## Responsibility
+
+`CustomPopover` wraps react-aria-components `Popover`, `Dialog`, and `DialogTrigger`. When `triggerElement` is provided, it manages open/close state internally. Without `triggerElement`, the component renders a raw popover that must be controlled externally via `isOpen` and `onOpenChange` from react-aria-components. The arrow SVG is automatically rotated to match the popover's current placement.
+
+## Variants and states
+
+| Prop | Effect |
+|---|---|
+| `showArrow={true}` | Renders a directional triangle pointing at the trigger |
+| `width={number\|string}` | Fixes both `width` and `minWidth` on the panel |
+| `placement` | Controls which side of the trigger the popover appears on |
+
+## Props (deep dive)
+
+### Trigger
+
+- `triggerElement`: any RAC-compatible pressable element or Geti UI component (e.g. `ActionButton`). If a plain string is passed, it is wrapped in a `Button` automatically.
+
+### Content
+
+- `children`: any React content. Unlike `Popover`, there is no required `Dialog`/`Heading` structure — the content is rendered directly inside a bare `Dialog` from react-aria-components.
+
+### Appearance
+
+- `showArrow`: renders an `OverlayArrow` with an SVG triangle. Defaults to `false`.
+- `width`: sets a fixed width on the panel. Accepts pixels (`320`) or CSS strings (`"20rem"`).
+- `style`: additional CSS to merge with the panel's inline style.
+
+### Placement
+
+- `placement`: same values as react-aria-components `Popover`. Defaults to `"bottom"`.
+
+### Accessibility
+
+- When `triggerElement` is provided, the trigger and popover are linked via ARIA.
+- Focus moves into the dialog when the popover opens and returns on close.
+- Pressing `Escape` closes the popover.
+
+## Related components
+
+- `Popover` — use when the `Dialog`/`Heading`/`Content` structure is sufficient and you want Spectrum styling.
+- `ContextualHelp` — use for read-only inline help icons.
+
+## Example use cases
+
+<details>
+  <summary>Typical use cases</summary>
+
+- Rendering a custom annotation settings panel anchored to a toolbar button.
+- Showing a colour swatch picker with a non-standard layout.
+- Displaying a rich tooltip with form controls that cannot fit in a standard `Tooltip`.
+
+</details>
