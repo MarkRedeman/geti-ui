@@ -2,6 +2,54 @@ import { defineConfig } from '@rspress/core';
 import path from 'node:path';
 import { componentDocsPlugin } from './plugins/component-docs';
 
+const assetsSidebar = [
+  {
+    text: 'Assets',
+    collapsed: false,
+    items: [
+      { text: 'Overview', link: '/assets/' },
+      { text: 'Icons', link: '/assets/icons' },
+      { text: 'Images', link: '/assets/images' },
+      { text: 'Domains', link: '/assets/domains' },
+      { text: 'Primary Tools', link: '/assets/primary-tools' },
+    ],
+  },
+];
+
+const examplesSidebar = [
+  {
+    text: 'Kitchensinks',
+    collapsed: false,
+    items: [
+      { text: 'Kitchensink', link: '/examples/kitchensink' },
+      { text: 'UI kitchensink', link: '/examples/kitchensink-ui' },
+      { text: 'Form kitchensink', link: '/examples/kitchensink-form' },
+      { text: 'Date controls kitchensink', link: '/examples/kitchensink-date-controls' },
+      { text: 'Color controls kitchensink', link: '/examples/kitchensink-color-controls' },
+      { text: 'Data kitchensink', link: '/examples/kitchensink-data' },
+      { text: 'Overlays kitchensink', link: '/examples/kitchensink-overlays' },
+      { text: 'Feedback kitchensink', link: '/examples/kitchensink-feedback' },
+      { text: 'Navigation kitchensink', link: '/examples/kitchensink-navigation' },
+      { text: 'Layouts kitchensink', link: '/examples/kitchensink-layouts' },
+    ],
+  },
+  {
+    text: 'Composed examples',
+    collapsed: false,
+    items: [
+      { text: 'Job management panel', link: '/examples/job-management-panel' },
+      { text: 'Model list', link: '/examples/model-list' },
+      { text: 'Annotation components', link: '/examples/annotation-components' },
+      { text: 'Media filter', link: '/examples/media-filter' },
+      { text: 'Media grid', link: '/examples/media-grid' },
+      { text: 'Toolbar', link: '/examples/toolbar' },
+      { text: 'Project list', link: '/examples/project-list' },
+      { text: 'Project menu', link: '/examples/project-menu' },
+      { text: 'Advanced parameters', link: '/examples/advanced-parameters' },
+    ],
+  },
+];
+
 export default defineConfig({
   root: path.join(__dirname, 'docs'),
   title: 'Geti UI',
@@ -36,98 +84,10 @@ export default defineConfig({
       { text: 'Used By', link: '/used-by' },
     ],
     sidebar: {
-      '/assets': [
-        {
-          text: 'Assets',
-          collapsed: false,
-          items: [
-            { text: 'Overview', link: '/assets/' },
-            { text: 'Icons', link: '/assets/icons' },
-            { text: 'Images', link: '/assets/images' },
-            { text: 'Domains', link: '/assets/domains' },
-            { text: 'Primary Tools', link: '/assets/primary-tools' },
-          ],
-        },
-      ],
-      '/assets/': [
-        {
-          text: 'Assets',
-          collapsed: false,
-          items: [
-            { text: 'Overview', link: '/assets/' },
-            { text: 'Icons', link: '/assets/icons' },
-            { text: 'Images', link: '/assets/images' },
-            { text: 'Domains', link: '/assets/domains' },
-            { text: 'Primary Tools', link: '/assets/primary-tools' },
-          ],
-        },
-      ],
-      '/examples': [
-        {
-          text: 'Kitchensinks',
-          collapsed: false,
-          items: [
-            { text: 'Kitchensink', link: '/examples/kitchensink' },
-            { text: 'UI kitchensink', link: '/examples/kitchensink-ui' },
-            { text: 'Form kitchensink', link: '/examples/kitchensink-form' },
-            { text: 'Date controls kitchensink', link: '/examples/kitchensink-date-controls' },
-            { text: 'Color controls kitchensink', link: '/examples/kitchensink-color-controls' },
-            { text: 'Data kitchensink', link: '/examples/kitchensink-data' },
-            { text: 'Overlays kitchensink', link: '/examples/kitchensink-overlays' },
-            { text: 'Feedback kitchensink', link: '/examples/kitchensink-feedback' },
-            { text: 'Navigation kitchensink', link: '/examples/kitchensink-navigation' },
-            { text: 'Layouts kitchensink', link: '/examples/kitchensink-layouts' },
-          ],
-        },
-        {
-          text: 'Composed examples',
-          collapsed: false,
-          items: [
-            { text: 'Job management panel', link: '/examples/job-management-panel' },
-            { text: 'Model list', link: '/examples/model-list' },
-            { text: 'Annotation components', link: '/examples/annotation-components' },
-            { text: 'Media filter', link: '/examples/media-filter' },
-            { text: 'Media grid', link: '/examples/media-grid' },
-            { text: 'Toolbar', link: '/examples/toolbar' },
-            { text: 'Project list', link: '/examples/project-list' },
-            { text: 'Project menu', link: '/examples/project-menu' },
-            { text: 'Advanced parameters', link: '/examples/advanced-parameters' },
-          ],
-        },
-      ],
-      '/examples/': [
-        {
-          text: 'Kitchensinks',
-          collapsed: false,
-          items: [
-            { text: 'Kitchensink', link: '/examples/kitchensink' },
-            { text: 'UI kitchensink', link: '/examples/kitchensink-ui' },
-            { text: 'Form kitchensink', link: '/examples/kitchensink-form' },
-            { text: 'Date controls kitchensink', link: '/examples/kitchensink-date-controls' },
-            { text: 'Color controls kitchensink', link: '/examples/kitchensink-color-controls' },
-            { text: 'Data kitchensink', link: '/examples/kitchensink-data' },
-            { text: 'Overlays kitchensink', link: '/examples/kitchensink-overlays' },
-            { text: 'Feedback kitchensink', link: '/examples/kitchensink-feedback' },
-            { text: 'Navigation kitchensink', link: '/examples/kitchensink-navigation' },
-            { text: 'Layouts kitchensink', link: '/examples/kitchensink-layouts' },
-          ],
-        },
-        {
-          text: 'Composed examples',
-          collapsed: false,
-          items: [
-            { text: 'Job management panel', link: '/examples/job-management-panel' },
-            { text: 'Model list', link: '/examples/model-list' },
-            { text: 'Annotation components', link: '/examples/annotation-components' },
-            { text: 'Media filter', link: '/examples/media-filter' },
-            { text: 'Media grid', link: '/examples/media-grid' },
-            { text: 'Toolbar', link: '/examples/toolbar' },
-            { text: 'Project list', link: '/examples/project-list' },
-            { text: 'Project menu', link: '/examples/project-menu' },
-            { text: 'Advanced parameters', link: '/examples/advanced-parameters' },
-          ],
-        },
-      ],
+      '/assets': assetsSidebar,
+      '/assets/': assetsSidebar,
+      '/examples': examplesSidebar,
+      '/examples/': examplesSidebar,
     },
     socialLinks: [
       {
