@@ -1,0 +1,192 @@
+---
+title: AlertDialog
+---
+
+import { AlertDialog, DialogTrigger, Button } from '@geti/ui';
+import { ExampleCard } from '../../../theme/ExampleCard';
+
+# AlertDialog
+
+AlertDialog is a modal overlay for short messages that require an explicit user decision before proceeding. Use it for destructive confirmations, warnings, and informational acknowledgements — not for complex forms.
+
+```tsx
+import { AlertDialog, DialogTrigger } from '@geti/ui';
+```
+
+- [React Spectrum AlertDialog ↗](https://react-spectrum.adobe.com/react-spectrum/AlertDialog.html)
+- [Geti UI Theming](/components/theming)
+
+## Examples
+
+<ExampleCard
+  title="Confirmation"
+  code={`<DialogTrigger>
+  <Button variant="accent">Save changes</Button>
+  <AlertDialog
+    variant="confirmation"
+    title="Save changes?"
+    primaryActionLabel="Save"
+    cancelLabel="Cancel"
+    onPrimaryAction={() => console.log('Saved')}
+    onCancel={() => console.log('Cancelled')}
+  >
+    Are you sure you want to save these changes? This action cannot be undone.
+  </AlertDialog>
+</DialogTrigger>`}
+>
+  <DialogTrigger>
+    <Button variant="accent">Save changes</Button>
+    <AlertDialog
+      variant="confirmation"
+      title="Save changes?"
+      primaryActionLabel="Save"
+      cancelLabel="Cancel"
+      onPrimaryAction={() => console.log('Saved')}
+      onCancel={() => console.log('Cancelled')}
+    >
+      Are you sure you want to save these changes? This action cannot be undone.
+    </AlertDialog>
+  </DialogTrigger>
+</ExampleCard>
+
+<ExampleCard
+  title="Destructive"
+  code={`<DialogTrigger>
+  <Button variant="negative">Delete item</Button>
+  <AlertDialog
+    variant="destructive"
+    title="Delete item?"
+    primaryActionLabel="Delete"
+    cancelLabel="Cancel"
+    onPrimaryAction={() => console.log('Deleted')}
+    onCancel={() => console.log('Cancelled')}
+  >
+    This will permanently delete the item. This action cannot be undone.
+  </AlertDialog>
+</DialogTrigger>`}
+>
+  <DialogTrigger>
+    <Button variant="negative">Delete item</Button>
+    <AlertDialog
+      variant="destructive"
+      title="Delete item?"
+      primaryActionLabel="Delete"
+      cancelLabel="Cancel"
+      onPrimaryAction={() => console.log('Deleted')}
+      onCancel={() => console.log('Cancelled')}
+    >
+      This will permanently delete the item. This action cannot be undone.
+    </AlertDialog>
+  </DialogTrigger>
+</ExampleCard>
+
+<ExampleCard
+  title="Informational"
+  code={`<DialogTrigger>
+  <Button variant="primary">Learn more</Button>
+  <AlertDialog
+    variant="information"
+    title="Feature update"
+    primaryActionLabel="Got it"
+  >
+    A new version of this feature is available. Please review the changes before continuing.
+  </AlertDialog>
+</DialogTrigger>`}
+>
+  <DialogTrigger>
+    <Button variant="primary">Learn more</Button>
+    <AlertDialog
+      variant="information"
+      title="Feature update"
+      primaryActionLabel="Got it"
+    >
+      A new version of this feature is available. Please review the changes before continuing.
+    </AlertDialog>
+  </DialogTrigger>
+</ExampleCard>
+
+<ExampleCard
+  title="Warning with secondary action"
+  code={`<DialogTrigger>
+  <Button variant="primary">Open</Button>
+  <AlertDialog
+    variant="confirmation"
+    title="Save document?"
+    primaryActionLabel="Save"
+    secondaryActionLabel="Don't save"
+    cancelLabel="Cancel"
+    onPrimaryAction={() => console.log('Saved')}
+    onSecondaryAction={() => console.log("Didn't save")}
+    onCancel={() => console.log('Cancelled')}
+  >
+    Do you want to save your changes before closing?
+  </AlertDialog>
+</DialogTrigger>`}
+>
+  <DialogTrigger>
+    <Button variant="primary">Open</Button>
+    <AlertDialog
+      variant="confirmation"
+      title="Save document?"
+      primaryActionLabel="Save"
+      secondaryActionLabel="Don't save"
+      cancelLabel="Cancel"
+      onPrimaryAction={() => console.log('Saved')}
+      onSecondaryAction={() => console.log("Didn't save")}
+      onCancel={() => console.log('Cancelled')}
+    >
+      Do you want to save your changes before closing?
+    </AlertDialog>
+  </DialogTrigger>
+</ExampleCard>
+
+## Responsibility
+
+`AlertDialog` is a thin wrapper around React Spectrum `AlertDialog`. It provides a structured dialog layout with a title, body text, and up to three buttons. Unlike `Dialog`, the structure is fixed — consumers supply text and callbacks, not arbitrary children for the footer.
+
+## Variants and states
+
+| Variant | Visual style | Typical use |
+|---|---|---|
+| `confirmation` | Neutral | Confirming an irreversible but safe action |
+| `destructive` | Red primary button | Permanently deleting data |
+| `information` | Single acknowledge button | Notifying the user of a change |
+| `warning` | Yellow/amber styling | Cautionary action with possible side effects |
+| `error` | Red styling | Communicating an error requiring acknowledgement |
+
+## Props (deep dive)
+
+### Content
+
+- `title`: dialog heading text.
+- `children`: the body paragraph (short text only — not for forms).
+- `primaryActionLabel`: text for the confirm button (required).
+- `secondaryActionLabel`: optional third action.
+- `cancelLabel`: text for the cancel button.
+
+### Events
+
+- `onPrimaryAction`: called when the primary button is pressed.
+- `onSecondaryAction`: called when the secondary action button is pressed.
+- `onCancel`: called when the cancel button or Escape is used.
+
+### Accessibility
+
+- Focus is placed on the primary action button by default.
+- `role="alertdialog"` is set automatically, which causes screen readers to announce the dialog immediately.
+
+## Related components
+
+- `Dialog` — use when you need arbitrary form content inside the dialog body.
+- `DialogContainer` — use when there is no persistent trigger element.
+
+## Example use cases
+
+<details>
+  <summary>Typical use cases</summary>
+
+- Confirming permanent deletion of a project, model, or dataset.
+- Warning the user before leaving a page with unsaved changes.
+- Acknowledging a system notification about a completed background job.
+
+</details>
