@@ -1,0 +1,125 @@
+---
+title: RangeSlider
+---
+
+import { RangeSlider } from '@geti/ui';
+import { ExampleCard } from '../../../theme/ExampleCard';
+
+# RangeSlider
+
+RangeSlider is a dual-handle slider for selecting a numeric range. Use it when users need to set both a lower and upper bound — confidence filters, score ranges, date-free numeric intervals.
+
+```tsx
+import { RangeSlider } from '@geti/ui';
+```
+
+- [React Spectrum RangeSlider ↗](https://react-spectrum.adobe.com/react-spectrum/RangeSlider.html)
+- [Geti UI Theming](/components/theming)
+
+## Examples
+
+<ExampleCard
+  title="Basic range"
+  code={`<RangeSlider
+  label="Score range"
+  defaultValue={{ start: 20, end: 80 }}
+  minValue={0}
+  maxValue={100}
+/>`}
+>
+  <RangeSlider
+    label="Score range"
+    defaultValue={{ start: 20, end: 80 }}
+    minValue={0}
+    maxValue={100}
+  />
+</ExampleCard>
+
+<ExampleCard
+  title="With step"
+  code={`<RangeSlider
+  label="Confidence filter (%)"
+  defaultValue={{ start: 30, end: 70 }}
+  minValue={0}
+  maxValue={100}
+  step={5}
+/>`}
+>
+  <RangeSlider
+    label="Confidence filter (%)"
+    defaultValue={{ start: 30, end: 70 }}
+    minValue={0}
+    maxValue={100}
+    step={5}
+  />
+</ExampleCard>
+
+<ExampleCard
+  title="Disabled"
+  code={`<RangeSlider
+  label="Locked range"
+  defaultValue={{ start: 25, end: 75 }}
+  minValue={0}
+  maxValue={100}
+  isDisabled
+/>`}
+>
+  <RangeSlider
+    label="Locked range"
+    defaultValue={{ start: 25, end: 75 }}
+    minValue={0}
+    maxValue={100}
+    isDisabled
+  />
+</ExampleCard>
+
+## Responsibility
+
+`RangeSlider` is a thin wrapper around React Spectrum's `RangeSlider`. All props pass through unchanged. The wrapper provides a `@geti/ui` import path and Geti theming.
+
+## Variants and states
+
+| State | Prop | Notes |
+|---|---|---|
+| Disabled | `isDisabled` | Both handles frozen |
+
+## Props (deep dive)
+
+### Content
+
+- `label`: visible label above the slider.
+- `getValueLabel`: custom label renderer for the current value display.
+
+### Value
+
+- `value`: controlled `{ start: number; end: number }`.
+- `defaultValue`: uncontrolled initial range object.
+- `minValue` / `maxValue`: bounds of the selectable range.
+- `step`: granularity of each handle movement.
+
+### Events
+
+- `onChange`: `(value: { start: number; end: number }) => void`.
+- `onChangeEnd`: called when the user finishes dragging (not on every move).
+
+### Accessibility
+
+- each handle is individually accessible via keyboard (`Arrow` keys),
+- always provide a `label` — it is required for screen readers to announce the control purpose.
+
+## Related components
+
+- `Slider` — use for a single-handle value selection.
+- `NumberField` — use when typed precision input is preferred over drag interaction.
+
+## Example use cases
+
+<details>
+  <summary>Typical use cases</summary>
+
+- Confidence threshold filter for model predictions (`0%–100%`).
+- Score range filter in an evaluation results panel.
+- Frame range selector in a video annotation timeline.
+- Brightness/contrast range adjustment in an image enhancement panel.
+
+</details>
