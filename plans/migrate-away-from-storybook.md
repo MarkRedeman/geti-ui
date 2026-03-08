@@ -224,9 +224,8 @@ Implemented now:
 
 Remaining in Phase 3:
 
-- tighten `check-docs-no-stories-imports` by removing the `examples.mdx` allowlist
-  once the Examples route is fully authored and no longer imports KitchenSink stories.
-- remove Storybook dead-link exclusions after Phase 4 decommissioning.
+- ✅ Removed `examples.mdx` allowlist — examples route is fully authored and free of `.stories` imports.
+- ✅ Removed Storybook dead-link exclusions after docs decommissioning from Storybook coupling.
 
 ---
 
@@ -307,8 +306,22 @@ Implemented in current batch:
 
 Remaining in Phase 5 after current batch:
 
-- decide whether to retain Storybook-only visual regression workflow (`visual.yml`) as
-  optional sandbox quality gate, or migrate it to docs-driven visual checks.
+- ✅ Migrated `visual.yml` to docs-driven visual checks (see follow-up batch notes below).
+
+### Final completion status
+
+Acceptance criteria check:
+
+1. ✅ Every component has a docs page in `documentation/docs/components/**` (83/83).
+2. ✅ No docs imports from `*.stories.tsx` (`check-docs-no-stories-imports.mjs` enforced).
+3. ✅ `StoriesGallery` and story-injection plugin path are removed.
+4. ✅ Docs build + smoke tests are green in CI (`docs` + `Playwright E2E (docs)`).
+5. ✅ Storybook is no longer required for docs correctness.
+
+Migration outcome:
+
+- `documentation/` is now the primary source of truth and verification surface.
+- Storybook remains optional for component sandbox/exploration only.
 
 Implemented in follow-up batch:
 

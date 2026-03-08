@@ -32,7 +32,7 @@ jobs:
             - name: Documentation coverage check
               run: pnpm docs:check:coverage
 
-            - name: Documentation Storybook-coupling check
+            - name: Documentation no-stories-imports check
               run: pnpm docs:check:no-stories-imports
 
             - name: Build documentation
