@@ -1,0 +1,132 @@
+---
+title: Tooltip
+---
+
+import { Button, Tooltip, TooltipTrigger } from '@geti/ui';
+import { ExampleCard } from '../../../theme/ExampleCard';
+
+# Tooltip
+
+Tooltip shows a short text label when the user hovers or focuses a trigger element. Use it to clarify the purpose of icon buttons, truncated labels, or any UI element whose meaning is not immediately obvious.
+
+```tsx
+import { Tooltip, TooltipTrigger } from '@geti/ui';
+```
+
+- [React Spectrum Tooltip ↗](https://react-spectrum.adobe.com/react-spectrum/Tooltip.html)
+- [Geti UI Theming](/components/theming)
+
+## Examples
+
+<ExampleCard
+  title="Default"
+  code={`<TooltipTrigger>
+  <Button variant="primary">Hover me</Button>
+  <Tooltip>This is a tooltip</Tooltip>
+</TooltipTrigger>`}
+>
+  <TooltipTrigger>
+    <Button variant="primary">Hover me</Button>
+    <Tooltip>This is a tooltip</Tooltip>
+  </TooltipTrigger>
+</ExampleCard>
+
+<ExampleCard
+  title="Placement top"
+  code={`<TooltipTrigger placement="top">
+  <Button variant="primary">Top</Button>
+  <Tooltip>Tooltip on top</Tooltip>
+</TooltipTrigger>`}
+>
+  <TooltipTrigger placement="top">
+    <Button variant="primary">Top</Button>
+    <Tooltip>Tooltip on top</Tooltip>
+  </TooltipTrigger>
+</ExampleCard>
+
+<ExampleCard
+  title="Placement bottom"
+  code={`<TooltipTrigger placement="bottom">
+  <Button variant="primary">Bottom</Button>
+  <Tooltip>Tooltip on bottom</Tooltip>
+</TooltipTrigger>`}
+>
+  <TooltipTrigger placement="bottom">
+    <Button variant="primary">Bottom</Button>
+    <Tooltip>Tooltip on bottom</Tooltip>
+  </TooltipTrigger>
+</ExampleCard>
+
+<ExampleCard
+  title="Placement end"
+  code={`<TooltipTrigger placement="end">
+  <Button variant="primary">End</Button>
+  <Tooltip>Tooltip at end</Tooltip>
+</TooltipTrigger>`}
+>
+  <TooltipTrigger placement="end">
+    <Button variant="primary">End</Button>
+    <Tooltip>Tooltip at end</Tooltip>
+  </TooltipTrigger>
+</ExampleCard>
+
+<ExampleCard
+  title="Disabled (no tooltip shown)"
+  code={`<TooltipTrigger isDisabled>
+  <Button variant="primary">No tooltip</Button>
+  <Tooltip>You won't see this</Tooltip>
+</TooltipTrigger>`}
+>
+  <TooltipTrigger isDisabled>
+    <Button variant="primary">No tooltip</Button>
+    <Tooltip>You won't see this</Tooltip>
+  </TooltipTrigger>
+</ExampleCard>
+
+## Responsibility
+
+`Tooltip` and `TooltipTrigger` are thin wrappers around React Spectrum's equivalents. `TooltipTrigger` manages show/hide on hover and focus. `Tooltip` renders the floating label. Spectrum handles delays, focus trap avoidance, and ARIA linkage automatically.
+
+## Variants and states
+
+| Prop on `TooltipTrigger` | Notes |
+|---|---|
+| `placement` | `top` / `bottom` / `start` / `end` and combinations; defaults to `top` |
+| `delay` | Show delay in ms (default 1500ms) |
+| `isDisabled` | Suppresses the tooltip entirely |
+
+## Props (deep dive)
+
+### TooltipTrigger
+
+- `children`: must be exactly two elements — the trigger and a `Tooltip`.
+- `placement`: floating position relative to the trigger.
+- `delay`: milliseconds before the tooltip appears (default 1500).
+- `closeDelay`: milliseconds before the tooltip hides.
+- `isDisabled`: prevents the tooltip from showing.
+
+### Tooltip
+
+- `children`: the tooltip label text or content.
+
+### Accessibility
+
+- `TooltipTrigger` adds `aria-describedby` to the trigger pointing at the `Tooltip` content.
+- Only use tooltips for supplementary information — never for information required to complete an action.
+- Do not rely solely on tooltips for icon buttons that have no other label; provide `aria-label` on the button too.
+
+## Related components
+
+- `ContextualHelp` — use for longer help text in a popover with a heading, triggered by a dedicated help icon.
+- `Popover` — use when the overlay content is richer than a single-line label.
+
+## Example use cases
+
+<details>
+  <summary>Typical use cases</summary>
+
+- Icon-only `ActionButton` in a toolbar (`aria-label` + tooltip for sighted and screen-reader users).
+- Explaining a disabled button: `isDisabled` + tooltip describing why.
+- Column header with truncated text: tooltip shows the full label.
+
+</details>
