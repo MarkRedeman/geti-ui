@@ -1,244 +1,57 @@
-import { View, Flex, Divider, Button, ActionButton, ToggleButton, Avatar, CornerIndicator, SearchField, TextField, NumberField, CheckboxGroup, Checkbox, ComboBox, ComboBoxItem, DatePicker, ListView, ListItem, TagGroup, TagItem, TableView, TableHeader, Column, TableBody, Row, Cell, Card, Grid, Well, Disclosure, DisclosureTitle, DisclosurePanel, DialogTrigger, Dialog, Popover, TooltipTrigger, Tooltip, InlineAlert, ProgressBar, StatusLight, Badge } from '@geti/ui';
-import { Heading, Text, Content, Item } from '@adobe/react-spectrum';
+import { Divider } from '@geti/ui';
 import { ExampleCard } from '../theme/ExampleCard';
+import { UIKitchenSinkExample } from './components/_examples/UIKitchenSinkExample';
+import { FormKitchenSinkExample } from './components/_examples/FormKitchenSinkExample';
+import { DateControlsKitchenSinkExample } from './components/_examples/DateControlsKitchenSinkExample';
+import { ColorControlsKitchenSinkExample } from './components/_examples/ColorControlsKitchenSinkExample';
+import { DataKitchenSinkExample } from './components/_examples/DataKitchenSinkExample';
+import { OverlaysKitchenSinkExample } from './components/_examples/OverlaysKitchenSinkExample';
+import { FeedbackKitchenSinkExample } from './components/_examples/FeedbackKitchenSinkExample';
+import { NavigationKitchenSinkExample } from './components/_examples/NavigationKitchenSinkExample';
+import { LayoutsKitchenSinkExample } from './components/_examples/LayoutsKitchenSinkExample';
 
 # Examples
 
 Use this page as a composition gallery for `@geti/ui`.
 
-Each card below is a domain-level kitchen sink that mirrors the structure of the
-original category kitchen-sink pages in `packages/ui/src/components/*/KitchenSink.mdx`.
+Each card below mirrors the corresponding kitchen sink story from `packages/ui/src/components/**/KitchenSink.stories.tsx`.
 
 ## Kitchensink cards
 
-<ExampleCard
-  title="UI kitchensink"
-  code={`<Flex direction="column" gap="size-150" width="size-4600">
-  <Heading level={4} margin={0}>Primitive actions</Heading>
-  <Flex gap="size-100" wrap>
-    <Button variant="accent">Primary</Button>
-    <ActionButton aria-label="Refresh">↻</ActionButton>
-    <ToggleButton>Auto refresh</ToggleButton>
-  </Flex>
-  <Flex gap="size-150" alignItems="center">
-    <Avatar size="avatar-size-100" alt="User" src="https://i.pravatar.cc/100?img=7" />
-    <CornerIndicator><Button variant="secondary">Notifications</Button></CornerIndicator>
-  </Flex>
-</Flex>`}
->
-  <Flex direction="column" gap="size-150" width="size-4600">
-    <Heading level={4} margin={0}>Primitive actions</Heading>
-    <Flex gap="size-100" wrap>
-      <Button variant="accent">Primary</Button>
-      <ActionButton aria-label="Refresh">↻</ActionButton>
-      <ToggleButton>Auto refresh</ToggleButton>
-    </Flex>
-    <Flex gap="size-150" alignItems="center">
-      <Avatar size="avatar-size-100" alt="User" src="https://i.pravatar.cc/100?img=7" />
-      <CornerIndicator>
-        <Button variant="secondary">Notifications</Button>
-      </CornerIndicator>
-    </Flex>
-  </Flex>
+<ExampleCard title="UI kitchensink" code={`<UIKitchenSinkExample />`}>
+  <UIKitchenSinkExample />
 </ExampleCard>
 
-<ExampleCard
-  title="Form kitchensink"
-  code={`<Flex direction="column" gap="size-150" width="size-4600">
-  <SearchField aria-label="Search" placeholder="Search assets" />
-  <TextField label="Project name" defaultValue="Traffic detection" />
-  <NumberField label="Epochs" defaultValue={20} minValue={1} />
-  <ComboBox label="Model" items={[{ id: '1', name: 'Vehicle detector' }, { id: '2', name: 'Person detector' }]}>
-    {(item) => <ComboBoxItem>{item.name}</ComboBoxItem>}
-  </ComboBox>
-  <DatePicker label="Start date" />
-  <CheckboxGroup label="Outputs" defaultValue={['predictions']}>
-    <Checkbox value="predictions">Predictions</Checkbox>
-    <Checkbox value="metrics">Metrics</Checkbox>
-  </CheckboxGroup>
-</Flex>`}
->
-  <Flex direction="column" gap="size-150" width="size-4600">
-    <SearchField aria-label="Search" placeholder="Search assets" />
-    <TextField label="Project name" defaultValue="Traffic detection" />
-    <NumberField label="Epochs" defaultValue={20} minValue={1} />
-    <ComboBox
-      label="Model"
-      items={[
-        { id: '1', name: 'Vehicle detector' },
-        { id: '2', name: 'Person detector' },
-      ]}
-    >
-      {(item) => <ComboBoxItem>{item.name}</ComboBoxItem>}
-    </ComboBox>
-    <DatePicker label="Start date" />
-    <CheckboxGroup label="Outputs" defaultValue={['predictions']}>
-      <Checkbox value="predictions">Predictions</Checkbox>
-      <Checkbox value="metrics">Metrics</Checkbox>
-    </CheckboxGroup>
-  </Flex>
+<ExampleCard title="Form kitchensink" code={`<FormKitchenSinkExample />`}>
+  <FormKitchenSinkExample />
 </ExampleCard>
 
-<ExampleCard
-  title="Data kitchensink"
-  code={`<Flex direction="column" gap="size-150" width="size-6000">
-  <ListView aria-label="Assets" items={[{ id: 'a1', title: 'frame_001.jpg', tags: ['car', 'road'] }, { id: 'a2', title: 'frame_002.jpg', tags: ['person'] }]}>
-    {(item) => (
-      <ListItem textValue={item.title}>
-        <Flex direction="column" gap="size-75">
-          <Text>{item.title}</Text>
-          <TagGroup aria-label="Item tags">
-            {item.tags.map((tag) => <TagItem key={tag}>{tag}</TagItem>)}
-          </TagGroup>
-        </Flex>
-      </ListItem>
-    )}
-  </ListView>
-  <TableView aria-label="Jobs" width="size-4600">
-    <TableHeader>
-      <Column id="name">Name</Column>
-      <Column id="status">Status</Column>
-    </TableHeader>
-    <TableBody>
-      <Row><Cell>Train-001</Cell><Cell>Running</Cell></Row>
-      <Row><Cell>Train-002</Cell><Cell>Queued</Cell></Row>
-    </TableBody>
-  </TableView>
-</Flex>`}
->
-  <Flex direction="column" gap="size-150" width="size-6000">
-    <ListView
-      aria-label="Assets"
-      items={[
-        { id: 'a1', title: 'frame_001.jpg', tags: ['car', 'road'] },
-        { id: 'a2', title: 'frame_002.jpg', tags: ['person'] },
-      ]}
-    >
-      {(item) => (
-        <ListItem textValue={item.title}>
-          <Flex direction="column" gap="size-75">
-            <Text>{item.title}</Text>
-            <TagGroup aria-label="Item tags">
-              {item.tags.map((tag) => <TagItem key={tag}>{tag}</TagItem>)}
-            </TagGroup>
-          </Flex>
-        </ListItem>
-      )}
-    </ListView>
-    <TableView aria-label="Jobs" width="size-4600">
-      <TableHeader>
-        <Column id="name">Name</Column>
-        <Column id="status">Status</Column>
-      </TableHeader>
-      <TableBody>
-        <Row><Cell>Train-001</Cell><Cell>Running</Cell></Row>
-        <Row><Cell>Train-002</Cell><Cell>Queued</Cell></Row>
-      </TableBody>
-    </TableView>
-  </Flex>
+<ExampleCard title="Date controls kitchensink" code={`<DateControlsKitchenSinkExample />`}>
+  <DateControlsKitchenSinkExample />
 </ExampleCard>
 
-<ExampleCard
-  title="Layouts kitchensink"
-  code={`<Flex direction="column" gap="size-150" width="size-6000">
-  <Grid columns={['1fr', '1fr']} gap="size-150">
-    <Card title="Project summary" description="Latest training metrics and status." />
-    <Well><Text>Dataset contains 12,430 annotated images.</Text></Well>
-  </Grid>
-  <Disclosure>
-    <DisclosureTitle>Advanced settings</DisclosureTitle>
-    <DisclosurePanel>
-      <Text>Fine-tune augmentation and learning schedule.</Text>
-    </DisclosurePanel>
-  </Disclosure>
-</Flex>`}
->
-  <Flex direction="column" gap="size-150" width="size-6000">
-    <Grid columns={['1fr', '1fr']} gap="size-150">
-      <Card title="Project summary" description="Latest training metrics and status." />
-      <Well><Text>Dataset contains 12,430 annotated images.</Text></Well>
-    </Grid>
-    <Disclosure>
-      <DisclosureTitle>Advanced settings</DisclosureTitle>
-      <DisclosurePanel>
-        <Text>Fine-tune augmentation and learning schedule.</Text>
-      </DisclosurePanel>
-    </Disclosure>
-  </Flex>
+<ExampleCard title="Color controls kitchensink" code={`<ColorControlsKitchenSinkExample />`}>
+  <ColorControlsKitchenSinkExample />
 </ExampleCard>
 
-<ExampleCard
-  title="Overlays kitchensink"
-  code={`<Flex gap="size-150" wrap>
-  <DialogTrigger>
-    <Button variant="accent">Open dialog</Button>
-    <Dialog>
-      <Heading>Confirm action</Heading>
-      <Content>Continue with this operation?</Content>
-    </Dialog>
-  </DialogTrigger>
-  <DialogTrigger>
-    <Button variant="secondary" style="outline">Open popover</Button>
-    <Popover>
-      <Dialog>
-        <Heading>Popover details</Heading>
-        <Text>Contextual controls live here.</Text>
-      </Dialog>
-    </Popover>
-  </DialogTrigger>
-  <TooltipTrigger>
-    <ActionButton aria-label="Info">i</ActionButton>
-    <Tooltip>Additional context</Tooltip>
-  </TooltipTrigger>
-</Flex>`}
->
-  <Flex gap="size-150" wrap>
-    <DialogTrigger>
-      <Button variant="accent">Open dialog</Button>
-      <Dialog>
-        <Heading>Confirm action</Heading>
-        <Content>Continue with this operation?</Content>
-      </Dialog>
-    </DialogTrigger>
-    <DialogTrigger>
-      <Button variant="secondary" style="outline">Open popover</Button>
-      <Popover>
-        <Dialog>
-          <Heading>Popover details</Heading>
-          <Text>Contextual controls live here.</Text>
-        </Dialog>
-      </Popover>
-    </DialogTrigger>
-    <TooltipTrigger>
-      <ActionButton aria-label="Info">i</ActionButton>
-      <Tooltip>Additional context</Tooltip>
-    </TooltipTrigger>
-  </Flex>
+<ExampleCard title="Data kitchensink" code={`<DataKitchenSinkExample />`}>
+  <DataKitchenSinkExample />
 </ExampleCard>
 
-<ExampleCard
-  title="Feedback kitchensink"
-  code={`<Flex direction="column" gap="size-150" width="size-4600">
-  <InlineAlert variant="notice" title="Review required">
-    Some predictions need manual confirmation.
-  </InlineAlert>
-  <ProgressBar label="Training progress" value={62} />
-  <Flex gap="size-100" alignItems="center">
-    <Badge variant="info">Running</Badge>
-    <StatusLight variant="notice">GPU queue</StatusLight>
-  </Flex>
-</Flex>`}
->
-  <Flex direction="column" gap="size-150" width="size-4600">
-    <InlineAlert variant="notice" title="Review required">
-      Some predictions need manual confirmation.
-    </InlineAlert>
-    <ProgressBar label="Training progress" value={62} />
-    <Flex gap="size-100" alignItems="center">
-      <Badge variant="info">Running</Badge>
-      <StatusLight variant="notice">GPU queue</StatusLight>
-    </Flex>
-  </Flex>
+<ExampleCard title="Overlays kitchensink" code={`<OverlaysKitchenSinkExample />`}>
+  <OverlaysKitchenSinkExample />
+</ExampleCard>
+
+<ExampleCard title="Feedback kitchensink" code={`<FeedbackKitchenSinkExample />`}>
+  <FeedbackKitchenSinkExample />
+</ExampleCard>
+
+<ExampleCard title="Navigation kitchensink" code={`<NavigationKitchenSinkExample />`}>
+  <NavigationKitchenSinkExample />
+</ExampleCard>
+
+<ExampleCard title="Layouts kitchensink" code={`<LayoutsKitchenSinkExample />`}>
+  <LayoutsKitchenSinkExample />
 </ExampleCard>
 
 <Divider marginTop="size-250" marginBottom="size-200" />
