@@ -1,0 +1,133 @@
+---
+title: Breadcrumbs
+---
+
+import { Breadcrumbs, BreadcrumbItem as Item } from '@geti/ui';
+import { ExampleCard } from '../../../theme/ExampleCard';
+
+# Breadcrumbs
+
+Breadcrumbs show the user's current location in a hierarchy and let them navigate back to any ancestor page. Use them at the top of deep content hierarchies such as project → dataset → media views.
+
+```tsx
+import { Breadcrumbs, BreadcrumbItem as Item } from '@geti/ui';
+```
+
+- [React Spectrum Breadcrumbs ↗](https://react-spectrum.adobe.com/react-spectrum/Breadcrumbs.html)
+- [Geti UI Theming](/components/theming)
+
+## Examples
+
+<ExampleCard
+  title="Default"
+  code={`<Breadcrumbs>
+  <Item key="home" href="/">Home</Item>
+  <Item key="projects" href="/projects">Projects</Item>
+  <Item key="current">My Project</Item>
+</Breadcrumbs>`}
+>
+  <Breadcrumbs>
+    <Item key="home" href="/">Home</Item>
+    <Item key="projects" href="/projects">Projects</Item>
+    <Item key="current">My Project</Item>
+  </Breadcrumbs>
+</ExampleCard>
+
+<ExampleCard
+  title="Multi-level hierarchy"
+  code={`<Breadcrumbs>
+  <Item key="home" href="/">Home</Item>
+  <Item key="section" href="/section">Section</Item>
+  <Item key="subsection" href="/section/subsection">Subsection</Item>
+  <Item key="page">Current Page</Item>
+</Breadcrumbs>`}
+>
+  <Breadcrumbs>
+    <Item key="home" href="/">Home</Item>
+    <Item key="section" href="/section">Section</Item>
+    <Item key="subsection" href="/section/subsection">Subsection</Item>
+    <Item key="page">Current Page</Item>
+  </Breadcrumbs>
+</ExampleCard>
+
+<ExampleCard
+  title="Small size"
+  code={`<Breadcrumbs size="S">
+  <Item key="home" href="/">Home</Item>
+  <Item key="projects" href="/projects">Projects</Item>
+  <Item key="current">My Project</Item>
+</Breadcrumbs>`}
+>
+  <Breadcrumbs size="S">
+    <Item key="home" href="/">Home</Item>
+    <Item key="projects" href="/projects">Projects</Item>
+    <Item key="current">My Project</Item>
+  </Breadcrumbs>
+</ExampleCard>
+
+<ExampleCard
+  title="Disabled"
+  code={`<Breadcrumbs isDisabled>
+  <Item key="home" href="/">Home</Item>
+  <Item key="products" href="/products">Products</Item>
+  <Item key="current">Current Page</Item>
+</Breadcrumbs>`}
+>
+  <Breadcrumbs isDisabled>
+    <Item key="home" href="/">Home</Item>
+    <Item key="products" href="/products">Products</Item>
+    <Item key="current">Current Page</Item>
+  </Breadcrumbs>
+</ExampleCard>
+
+## Responsibility
+
+`Breadcrumbs` is a thin wrapper around React Spectrum `Breadcrumbs`. The last `Item` (current page) is rendered as non-interactive text; all preceding items are rendered as links. Spectrum handles overflow collapsing automatically when space is constrained.
+
+## Variants and states
+
+| Size | Typical use |
+|---|---|
+| `S` | Compact headers or dense toolbar areas |
+| `M` (default) | Standard page-level navigation |
+| `L` | Featured or hero-area navigation |
+
+---
+
+| Prop | Notes |
+|---|---|
+| `isDisabled` | Disables all link interactions |
+| `showRoot` | Always show the first item even when collapsed |
+
+## Props (deep dive)
+
+### Content
+
+- `children`: one or more `Item` elements. Each `Item` takes a `key` and optional `href`.
+- The last `Item` (no `href`) represents the current page and is not interactive.
+
+### Visual
+
+- `size`: `S | M | L`.
+- `showRoot`: keep the root item visible during overflow collapse.
+
+### Accessibility
+
+- Spectrum renders this as a `<nav>` with `aria-label="Breadcrumbs"` automatically.
+- The current page item receives `aria-current="page"`.
+
+## Related components
+
+- `Link` — standalone inline links without hierarchy semantics.
+- `Tabs` — use for peer-level section switching rather than hierarchical navigation.
+
+## Example use cases
+
+<details>
+  <summary>Typical use cases</summary>
+
+- Workspace → Project → Dataset → Media detail drilldown.
+- Settings → Account → Notifications page hierarchy.
+- Model library → Model version → Evaluation results breadcrumb trail.
+
+</details>
