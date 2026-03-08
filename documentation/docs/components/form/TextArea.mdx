@@ -1,0 +1,115 @@
+---
+title: TextArea
+---
+
+import { TextArea } from '@geti/ui';
+import { ExampleCard } from '../../../theme/ExampleCard';
+
+# TextArea
+
+TextArea is a multi-line text input for longer freeform content. Use it for descriptions, comments, notes, and any field where the user needs more than a single line.
+
+```tsx
+import { TextArea } from '@geti/ui';
+```
+
+- [React Spectrum TextArea ↗](https://react-spectrum.adobe.com/react-spectrum/TextArea.html)
+- [Geti UI Theming](/components/theming)
+
+## Examples
+
+<ExampleCard
+  title="Default"
+  code={`<TextArea label="Description" />`}
+>
+  <TextArea label="Description" />
+</ExampleCard>
+
+<ExampleCard
+  title="With placeholder"
+  code={`<TextArea
+  label="Project notes"
+  placeholder="Add any additional context about this project..."
+/>`}
+>
+  <TextArea
+    label="Project notes"
+    placeholder="Add any additional context about this project..."
+  />
+</ExampleCard>
+
+<ExampleCard
+  title="With character limit"
+  code={`<TextArea
+  label="Short description"
+  maxLength={200}
+  description="Max 200 characters"
+/>`}
+>
+  <TextArea
+    label="Short description"
+    maxLength={200}
+    description="Max 200 characters"
+  />
+</ExampleCard>
+
+<ExampleCard
+  title="Disabled"
+  code={`<TextArea label="Notes" isDisabled defaultValue="Read-only content" />`}
+>
+  <TextArea label="Notes" isDisabled defaultValue="Read-only content" />
+</ExampleCard>
+
+## Responsibility
+
+`TextArea` is a thin wrapper around React Spectrum's `TextArea`. All props pass through unchanged. The wrapper provides a `@geti/ui` import path and Geti theming.
+
+## Variants and states
+
+| State | Prop | Notes |
+|---|---|---|
+| Disabled | `isDisabled` | Non-interactive |
+| Read-only | `isReadOnly` | Visible but not editable |
+| Invalid | `validationState="invalid"` | Shows error styling |
+| Required | `isRequired` | Required in form context |
+
+## Props (deep dive)
+
+### Content
+
+- `label`: visible field label.
+- `placeholder`: hint text shown when empty.
+- `description`: helper text below the field.
+- `errorMessage`: error text when `validationState="invalid"`.
+
+### Value
+
+- `value`: controlled string value.
+- `defaultValue`: uncontrolled initial value.
+- `maxLength`: character limit.
+
+### Events
+
+- `onChange`: `(value: string) => void`.
+
+### Accessibility
+
+- always provide a `label` — text areas must have an accessible name,
+- `maxLength` is exposed as `aria-describedby` helper text.
+
+## Related components
+
+- `TextField` — use for single-line text inputs.
+- `PasswordField` — use for sensitive single-line text.
+
+## Example use cases
+
+<details>
+  <summary>Typical use cases</summary>
+
+- Project description field in a creation wizard.
+- Annotation comment or reviewer notes field.
+- Dataset metadata description.
+- User-facing feedback or bug report text input.
+
+</details>
