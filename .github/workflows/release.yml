@@ -6,7 +6,7 @@ on:
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
-  cancel-in-progress: true
+  cancel-in-progress: false
 
 jobs:
   release:
@@ -35,7 +35,7 @@ jobs:
       - uses: changesets/action@v1
         id: changesets
         with:
-          publish: npm publish --workspace=@geti/ui --access public
+          publish: npm publish --workspace=@geti/ui
           version: npx changeset version
           commit: "chore(release): version packages"
           title: "chore(release): version packages"
@@ -71,7 +71,7 @@ jobs:
             core.setOutput('version', target.version);
 
       - name: Create GitHub Release
-        if: steps.changesets.outputs.published == 'true'
+        if: steps.changesets.outputs.published == 'true' && hashFiles('RELEASE_NOTES.md') != ''
         uses: softprops/action-gh-release@v2
         with:
           body_path: RELEASE_NOTES.md
