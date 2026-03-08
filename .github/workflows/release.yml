@@ -26,7 +26,7 @@ jobs:
 
       - uses: actions/setup-node@v4
         with:
-          node-version: 20
+          node-version: 24
           cache: pnpm
           registry-url: https://registry.npmjs.org
 
@@ -58,9 +58,25 @@ jobs:
           OUTPUT: RELEASE_NOTES.md
           GITHUB_REPO: ${{ github.repository }}
 
+      - name: Resolve published @geti/ui version
+        if: steps.changesets.outputs.published == 'true'
+        id: release_meta
+        uses: actions/github-script@v7
+        env:
+          PUBLISHED_PACKAGES: ${{ steps.changesets.outputs.publishedPackages }}
+        with:
+          script: |
+            const packages = JSON.parse(process.env.PUBLISHED_PACKAGES || '[]');
+            const target = packages.find((pkg) => pkg.name === '@geti/ui') ?? packages[0];
+            if (!target?.version) {
+              core.setFailed('Could not resolve published package version');
+              return;
+            }
+            core.setOutput('version', target.version);
+
       - name: Create GitHub Release
         if: steps.changesets.outputs.published == 'true'
         uses: softprops/action-gh-release@v2
         with:
           body_path: RELEASE_NOTES.md
-          tag_name: ${{ fromJson(steps.changesets.outputs.publishedPackages)[0].version }}
+          tag_name: ${{ format('v{0}', steps.release_meta.outputs.version) }}

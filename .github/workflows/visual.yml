@@ -38,7 +38,7 @@ jobs:
 
       - uses: actions/setup-node@v4
         with:
-          node-version: 20
+          node-version: 24
           cache: pnpm
 
       - run: pnpm install --frozen-lockfile
@@ -53,7 +53,11 @@ jobs:
         env:
           CHANGED: ${{ needs.detect-changes.outputs.components }}
         run: |
-          PATTERN=$(echo "$CHANGED" | jq -r '[.[] | split("/")[0]] | unique | join("|")')
+          PATTERN=$(echo "$CHANGED" | jq -r 'map(gsub("([][(){}.^$+*?|\\\\-])"; "\\\\\\\\\\1")) | unique | join("|")')
+          if [ -z "$PATTERN" ]; then
+            echo "No matching component categories detected; skipping targeted visual run."
+            exit 0
+          fi
           pnpm exec playwright test --grep "$PATTERN"
 
       - uses: actions/upload-artifact@v4
