@@ -1,0 +1,173 @@
+---
+title: Menu
+---
+
+import { MenuItem as Item, Menu, MenuTrigger, MenuSection as Section } from '@geti/ui';
+import { ActionButton } from '@adobe/react-spectrum';
+import { ExampleCard } from '../../../theme/ExampleCard';
+
+# Menu
+
+Menu presents a list of actions or options in a floating panel triggered by a button press. Use it for contextual actions on a selected item, editor commands, or any operation set that would be too wide to display inline.
+
+```tsx
+import { MenuItem as Item, Menu, MenuTrigger, MenuSection as Section } from '@geti/ui';
+```
+
+- [React Spectrum Menu ↗](https://react-spectrum.adobe.com/react-spectrum/Menu.html)
+- [Geti UI Theming](/components/theming)
+
+## Examples
+
+<ExampleCard
+  title="Default (action list)"
+  code={`<MenuTrigger>
+  <ActionButton>Edit</ActionButton>
+  <Menu onAction={(key) => console.log(key)}>
+    <Item key="cut">Cut</Item>
+    <Item key="copy">Copy</Item>
+    <Item key="paste">Paste</Item>
+    <Item key="delete">Delete</Item>
+  </Menu>
+</MenuTrigger>`}
+>
+  <MenuTrigger>
+    <ActionButton>Edit</ActionButton>
+    <Menu onAction={(key) => console.log(key)}>
+      <Item key="cut">Cut</Item>
+      <Item key="copy">Copy</Item>
+      <Item key="paste">Paste</Item>
+      <Item key="delete">Delete</Item>
+    </Menu>
+  </MenuTrigger>
+</ExampleCard>
+
+<ExampleCard
+  title="Single selection"
+  code={`<MenuTrigger>
+  <ActionButton>Sort by</ActionButton>
+  <Menu selectionMode="single" defaultSelectedKeys={['name']}>
+    <Item key="name">Name</Item>
+    <Item key="date">Date</Item>
+    <Item key="size">Size</Item>
+    <Item key="type">Type</Item>
+  </Menu>
+</MenuTrigger>`}
+>
+  <MenuTrigger>
+    <ActionButton>Sort by</ActionButton>
+    <Menu selectionMode="single" defaultSelectedKeys={['name']}>
+      <Item key="name">Name</Item>
+      <Item key="date">Date</Item>
+      <Item key="size">Size</Item>
+      <Item key="type">Type</Item>
+    </Menu>
+  </MenuTrigger>
+</ExampleCard>
+
+<ExampleCard
+  title="Multi selection"
+  code={`<MenuTrigger>
+  <ActionButton>Columns</ActionButton>
+  <Menu selectionMode="multiple" defaultSelectedKeys={['name', 'date']}>
+    <Item key="name">Name</Item>
+    <Item key="date">Date Modified</Item>
+    <Item key="size">File Size</Item>
+    <Item key="kind">Kind</Item>
+  </Menu>
+</MenuTrigger>`}
+>
+  <MenuTrigger>
+    <ActionButton>Columns</ActionButton>
+    <Menu selectionMode="multiple" defaultSelectedKeys={['name', 'date']}>
+      <Item key="name">Name</Item>
+      <Item key="date">Date Modified</Item>
+      <Item key="size">File Size</Item>
+      <Item key="kind">Kind</Item>
+    </Menu>
+  </MenuTrigger>
+</ExampleCard>
+
+<ExampleCard
+  title="Sectioned menu"
+  code={`<MenuTrigger>
+  <ActionButton>Actions</ActionButton>
+  <Menu>
+    <Section title="Clipboard">
+      <Item key="cut">Cut</Item>
+      <Item key="copy">Copy</Item>
+      <Item key="paste">Paste</Item>
+    </Section>
+    <Section title="Document">
+      <Item key="bold">Bold</Item>
+      <Item key="italic">Italic</Item>
+      <Item key="underline">Underline</Item>
+    </Section>
+  </Menu>
+</MenuTrigger>`}
+>
+  <MenuTrigger>
+    <ActionButton>Actions</ActionButton>
+    <Menu>
+      <Section title="Clipboard">
+        <Item key="cut">Cut</Item>
+        <Item key="copy">Copy</Item>
+        <Item key="paste">Paste</Item>
+      </Section>
+      <Section title="Document">
+        <Item key="bold">Bold</Item>
+        <Item key="italic">Italic</Item>
+        <Item key="underline">Underline</Item>
+      </Section>
+    </Menu>
+  </MenuTrigger>
+</ExampleCard>
+
+## Responsibility
+
+`Menu` is a thin wrapper around React Spectrum `Menu`. Compose it inside a `MenuTrigger` with a pressable trigger element. Spectrum handles focus management, keyboard navigation, and ARIA role assignments automatically.
+
+## Variants and states
+
+| Prop | Options | Notes |
+|---|---|---|
+| `selectionMode` | `none` (default) / `single` / `multiple` | Controls whether items can be checked |
+| `disabledKeys` | string[] | Renders specific items non-interactive |
+
+## Props (deep dive)
+
+### Content
+
+- `children`: `Item` or `Section` elements. Each `Item` requires a unique `key`.
+- `Section`: groups items with an optional visible `title`.
+
+### Value / state
+
+- `selectionMode`: `none | single | multiple`.
+- `defaultSelectedKeys` / `selectedKeys` + `onSelectionChange`: manage checked states.
+- `disabledKeys`: items that cannot be selected.
+
+### Events
+
+- `onAction`: called with the key of the pressed item (use instead of `onSelectionChange` for action-only menus).
+
+### Accessibility
+
+- `Menu` renders a `role="menu"` with `role="menuitem"` children automatically.
+- Use `textValue` on an `Item` if its label is not plain text (e.g. icon-only items).
+
+## Related components
+
+- `ActionMenu` — a pre-composed `MenuTrigger` + `ActionButton` + `Menu` with a ⋯ trigger icon.
+- `Picker` — use when selecting a value to display in a form field, not for triggering actions.
+
+## Example use cases
+
+<details>
+  <summary>Typical use cases</summary>
+
+- Contextual row actions in a table: Edit / Duplicate / Delete.
+- Column visibility toggle in a data grid.
+- Grouped editor commands: Clipboard / Format / Insert.
+
+</details>
