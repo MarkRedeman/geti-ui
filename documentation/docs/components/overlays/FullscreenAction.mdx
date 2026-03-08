@@ -1,0 +1,105 @@
+---
+title: FullscreenAction
+---
+
+import { Flex, Text, View } from '@adobe/react-spectrum';
+import { FullscreenAction } from '@geti/ui';
+import { ExampleCard } from '../../../theme/ExampleCard';
+
+# FullscreenAction
+
+FullscreenAction provides a quiet icon button that opens its content in a fullscreen takeover dialog. It is intended for immersive experiences such as image viewers, video players, or rich editing tools that need the full screen.
+
+```tsx
+import { FullscreenAction } from '@geti/ui';
+```
+
+- [Geti UI Theming](/components/theming)
+
+## Examples
+
+<ExampleCard
+  title="Default"
+  code={`<FullscreenAction title="Immersive Editor">
+  <Flex direction="column" gap="size-200" UNSAFE_style={{ padding: '20px' }}>
+    <Text>This content is now in fullscreen mode.</Text>
+    <View backgroundColor="gray-200" height="size-2000" width="100%" />
+  </Flex>
+</FullscreenAction>`}
+>
+  <FullscreenAction title="Immersive Editor">
+    <Flex direction="column" gap="size-200" UNSAFE_style={{ padding: '20px' }}>
+      <Text>This content is now in fullscreen mode.</Text>
+      <View backgroundColor="gray-200" height="size-2000" width="100%" />
+    </Flex>
+  </FullscreenAction>
+</ExampleCard>
+
+<ExampleCard
+  title="With action button"
+  code={`<FullscreenAction
+  title="Photo Viewer"
+  actionButton={<Text UNSAFE_style={{ alignSelf: 'center', marginRight: '10px' }}>Custom Action</Text>}
+>
+  <Flex justifyContent="center" alignItems="center" height="100%">
+    <Text>Imagine a large high-resolution image here.</Text>
+  </Flex>
+</FullscreenAction>`}
+>
+  <FullscreenAction
+    title="Photo Viewer"
+    actionButton={<Text UNSAFE_style={{ alignSelf: 'center', marginRight: '10px' }}>Custom Action</Text>}
+  >
+    <Flex justifyContent="center" alignItems="center" height="100%">
+      <Text>Imagine a large high-resolution image here.</Text>
+    </Flex>
+  </FullscreenAction>
+</ExampleCard>
+
+## Responsibility
+
+`FullscreenAction` composes `DialogTrigger` (with `type="fullscreenTakeover"`), a quiet `ActionButton` showing a fullscreen icon, a `TooltipTrigger`, and a full `Dialog` layout. It also renders a close button with a fullscreen-exit icon at the top-right of the dialog. This component owns its own open/close state — no external state management is required.
+
+The `actionButton` prop lets you inject an optional control (e.g. a download button or status label) into the dialog header, next to the close button. When `actionButton` is a function, it receives a `ref` pointing to the `Content` element so you can interact with the rendered content (e.g. to trigger a canvas export).
+
+## Variants and states
+
+FullscreenAction has a single visual presentation (fullscreen takeover) and no variant prop. Behaviour is customised via `title`, `actionButton`, and `children`.
+
+## Props (deep dive)
+
+### Content
+
+- `children`: the content rendered inside the fullscreen dialog body. Receives the full screen width and height.
+- `title`: displayed as the dialog heading. When a string, it is also used as the accessible label for the open and close buttons.
+
+### Header actions
+
+- `actionButton`: optional content to show in the dialog header next to the close button. Can be a `ReactNode` or a render function `(ref) => ReactNode`. The render function receives a ref to the `Content` element, enabling interaction between the action and the displayed content.
+
+### Identifier
+
+- `id`: used as a prefix for the trigger button's `id` attribute (e.g. `${id}-open-fullscreen`). Useful for targeting in tests or integrations.
+
+### Accessibility
+
+- The trigger button has an `aria-label` of `"Open in fullscreen {title}"` (or `"Open in fullscreen"` when `title` is not a string).
+- The close button has `aria-label="Close fullscreen"`.
+- Focus is trapped inside the fullscreen dialog while open.
+- `Escape` does not close a fullscreen takeover dialog by default — users must use the close button.
+
+## Related components
+
+- `Dialog` — use for standard-sized modal dialogs.
+- `DialogTrigger` — use directly when you need a non-fullscreen overlay from a custom trigger.
+
+## Example use cases
+
+<details>
+  <summary>Typical use cases</summary>
+
+- Expanding an image annotation canvas to the full viewport for precise labelling work.
+- Opening a video player in fullscreen mode from a thumbnail in a media grid.
+- Providing a distraction-free editing environment for a rich text or code editor panel.
+
+</details>
