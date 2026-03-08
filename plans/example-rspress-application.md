@@ -1,6 +1,6 @@
 # Example Rspress Application
 
-A documentation site for `@geti/ui` built with [Rspress](https://rspress.dev), placed at `examples/documentation/`.
+A documentation site for `@geti/ui` built with [Rspress](https://rspress.dev), placed at `documentation/`.
 
 ## Goals
 
@@ -15,13 +15,13 @@ A documentation site for `@geti/ui` built with [Rspress](https://rspress.dev), p
 | **Routing** | Rspress built-in file-based routing | Rspress uses `react-router-dom` v7 internally via `BrowserRouter`. React Router "data mode" (`RouterProvider` + loaders) requires being the root router and conflicts. We use Rspress's native routing + its re-exported hooks (`useNavigate`, `Link`, etc.) instead. |
 | **MDX** | Rspress native MDX support | First-class — no plugins needed. `.md` and `.mdx` files compile to React components at build time. |
 | **External docs** | `addPages` plugin | Reads `readme.md` files from `packages/ui/src/components/{category}/{component}/readme.md` and maps them to `/components/{category}/{component}` routes. More flexible than `route.include`. |
-| **Directory** | `examples/documentation/` | Changed from `documentation-spa` since Rspress is an SSG framework, not a traditional SPA. |
-| **Workspace** | Add `"examples/*"` to `pnpm-workspace.yaml` | Allows the example to consume `@geti/ui` as a workspace dependency. |
+| **Directory** | `documentation/` | Changed from `documentation-spa` since Rspress is an SSG framework, not a traditional SPA. |
+| **Workspace** | Add `"documentation"` to `pnpm-workspace.yaml` | Allows the docs app to consume `@geti/ui` as a workspace dependency. |
 
 ## Architecture
 
 ```
-examples/documentation/
+documentation/
 ├── docs/                          # Rspress document root
 │   ├── index.mdx                  # Homepage (pageType: home)
 │   ├── used-by.mdx                # "Used by" page (pageType: custom or doc)
@@ -57,8 +57,8 @@ examples/documentation/
 ## Execution Plan
 
 ### Phase 1: Scaffold & workspace integration
-- [ ] Add `"examples/*"` to `pnpm-workspace.yaml`
-- [ ] Scaffold Rspress project in `examples/documentation/` using `npm create rspress@latest`
+- [ ] Add `"documentation"` to `pnpm-workspace.yaml`
+- [ ] Scaffold Rspress project in `documentation/` using `npm create rspress@latest`
 - [ ] Update the generated `package.json`: add `@geti/ui` as a workspace dependency (`"@geti/ui": "workspace:*"`)
 - [ ] Run `pnpm install` from root to link workspace packages
 - [ ] Verify `pnpm --filter documentation dev` starts the dev server
@@ -100,7 +100,7 @@ examples/documentation/
 - [ ] Add the example to CI workflow (build check)
 - [ ] Verify the full static build works: `pnpm --filter documentation build`
 - [ ] Test that component readme changes are reflected on rebuild
-- [ ] Add a brief README.md to `examples/documentation/` explaining how to run it
+- [ ] Add a brief README.md to `documentation/` explaining how to run it
 
 ---
 
@@ -110,4 +110,3 @@ examples/documentation/
 - **`form/pickers/`** is the only nested sub-category — the plugin and sidebar must handle 2-level nesting
 - The library is ESM-first with a single `@geti/ui` entry point — straightforward to import in MDX
 - Rspress re-exports all `react-router-dom` hooks from `@rspress/core/runtime` — use those for any programmatic navigation
-

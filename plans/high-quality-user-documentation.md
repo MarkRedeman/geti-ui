@@ -17,7 +17,7 @@ The target style should be closer to React Spectrum usage docs than autogenerate
 
 ## ✅ Current baseline (as of now)
 
-- Rspress docs app exists at `examples/documentation/`
+- Rspress docs app exists at `documentation/`
 - Component pages are sourced from component MDX files in `packages/ui/src/components/**`
 - Story examples are rendered inline in docs via `StoriesGallery`
 - Show code now renders per-story snippets (not full stories file)
