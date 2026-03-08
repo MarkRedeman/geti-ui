@@ -1,0 +1,118 @@
+---
+title: ListBox
+---
+
+import { ListBox, ListBoxItem } from '@geti/ui';
+import { ExampleCard } from '../../../theme/ExampleCard';
+
+# ListBox
+
+`ListBox` displays a list of options from which users can select. It is used as a standalone selection surface — typically inside popovers, panels, or custom pickers — rather than inside forms (use `Picker` or `ComboBox` for form contexts).
+
+```tsx
+import { ListBox, ListBoxItem } from '@geti/ui';
+```
+
+- [React Spectrum ListBox ↗](https://react-spectrum.adobe.com/react-spectrum/ListBox.html)
+- [Geti UI Theming](/components/theming)
+
+## Examples
+
+<ExampleCard
+  title="Single selection"
+  code={`<ListBox aria-label="Pick a color" selectionMode="single" width="size-2400">
+  <ListBoxItem key="red">Red</ListBoxItem>
+  <ListBoxItem key="green">Green</ListBoxItem>
+  <ListBoxItem key="blue">Blue</ListBoxItem>
+</ListBox>`}
+>
+  <ListBox aria-label="Pick a color" selectionMode="single" width="size-2400">
+    <ListBoxItem key="red">Red</ListBoxItem>
+    <ListBoxItem key="green">Green</ListBoxItem>
+    <ListBoxItem key="blue">Blue</ListBoxItem>
+  </ListBox>
+</ExampleCard>
+
+<ExampleCard
+  title="Multiple selection"
+  code={`<ListBox aria-label="Select toppings" selectionMode="multiple" width="size-2400">
+  <ListBoxItem key="cheese">Cheese</ListBoxItem>
+  <ListBoxItem key="mushrooms">Mushrooms</ListBoxItem>
+  <ListBoxItem key="olives">Olives</ListBoxItem>
+  <ListBoxItem key="peppers">Peppers</ListBoxItem>
+</ListBox>`}
+>
+  <ListBox aria-label="Select toppings" selectionMode="multiple" width="size-2400">
+    <ListBoxItem key="cheese">Cheese</ListBoxItem>
+    <ListBoxItem key="mushrooms">Mushrooms</ListBoxItem>
+    <ListBoxItem key="olives">Olives</ListBoxItem>
+    <ListBoxItem key="peppers">Peppers</ListBoxItem>
+  </ListBox>
+</ExampleCard>
+
+<ExampleCard
+  title="No selection (display only)"
+  code={`<ListBox aria-label="Alignment" width="size-2400">
+  <ListBoxItem key="left">Left</ListBoxItem>
+  <ListBoxItem key="center">Center</ListBoxItem>
+  <ListBoxItem key="right">Right</ListBoxItem>
+</ListBox>`}
+>
+  <ListBox aria-label="Alignment" width="size-2400">
+    <ListBoxItem key="left">Left</ListBoxItem>
+    <ListBoxItem key="center">Center</ListBoxItem>
+    <ListBoxItem key="right">Right</ListBoxItem>
+  </ListBox>
+</ExampleCard>
+
+## Responsibility
+
+`ListBox` and `ListBoxItem` are direct pass-throughs of React Spectrum's `ListBox` and `Item` components. The wrapper exists to keep imports consistent with the rest of Geti UI and to allow future Geti-specific defaults.
+
+## Variants and states
+
+| `selectionMode` | Behaviour |
+|---|---|
+| `none` (default) | No selection, display only |
+| `single` | One item can be selected at a time |
+| `multiple` | Multiple items can be selected |
+
+## Props (deep dive)
+
+### Content
+
+- `children`: `ListBoxItem` elements. Each item requires a unique `key`.
+- `items` + render function: for dynamic collections, pass `items` array and a render child function.
+
+### Value / state
+
+- `selectionMode`: `none | single | multiple`.
+- `selectedKeys` / `defaultSelectedKeys`: controlled or uncontrolled selection.
+- `disabledKeys`: set of keys to disable.
+
+### Events
+
+- `onSelectionChange(keys)`: called with the new `Selection` when the user selects an item.
+
+### Accessibility
+
+- Always provide `aria-label` — `ListBox` has no visible label by default.
+- Each `ListBoxItem` announces its text content to screen readers automatically.
+
+## Related components
+
+- `Picker` — use when a single option needs to be chosen inside a form field.
+- `ComboBox` — use when you want a searchable dropdown.
+- `ListView` — use when each option needs richer interaction (actions, drag-and-drop).
+- `TagGroup` — use when selected items should be displayed as removable tags.
+
+## Example use cases
+
+<details>
+  <summary>Typical use cases</summary>
+
+- Popover panel letting users select a label category from a list.
+- Custom picker inside a toolbar that is not a form field.
+- Embedded option list inside a custom filter panel.
+
+</details>
