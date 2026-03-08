@@ -4,10 +4,7 @@ on:
     push:
         branches: [main]
 
-permissions:
-    contents: read
-    pages: write
-    id-token: write
+permissions: {}
 
 concurrency:
     group: deploy-main
@@ -17,11 +14,17 @@ jobs:
     deploy:
         name: Deploy documentation to GitHub Pages
         runs-on: ubuntu-latest
+        permissions:
+            contents: read # checkout source
+            pages: write # publish documentation artifact to Pages
+            id-token: write # authenticate OIDC for Pages deployment
         environment:
             name: github-pages
             url: ${{ steps.deploy.outputs.page_url }}
         steps:
             - uses: actions/checkout@v4
+              with:
+                  persist-credentials: false
 
             - uses: actions/setup-node@v4
               with:

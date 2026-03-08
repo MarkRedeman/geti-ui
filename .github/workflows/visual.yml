@@ -8,6 +8,7 @@ permissions: {}
 
 jobs:
   detect-changes:
+    name: Detect changed component categories
     runs-on: ubuntu-latest
     permissions:
       contents: read
@@ -15,6 +16,8 @@ jobs:
       components: ${{ steps.filter.outputs.changes }}
     steps:
       - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
 
       - uses: dorny/paths-filter@v3
         id: filter
@@ -31,14 +34,17 @@ jobs:
             layouts: 'packages/ui/src/components/layouts/**'
 
   visual-test:
+    name: Run visual regression checks
     needs: detect-changes
     if: ${{ needs.detect-changes.outputs.components != '[]' }}
     runs-on: ubuntu-latest
     permissions:
       contents: read
-      pull-requests: write
+      pull-requests: write # post/update PR result comment
     steps:
       - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
 
       - uses: actions/setup-node@v4
         with:
@@ -77,13 +83,15 @@ jobs:
         env:
           CHANGED: ${{ needs.detect-changes.outputs.components }}
           JOB_STATUS: ${{ job.status }}
+          RUN_ID: ${{ github.run_id }}
         with:
           script: |
             const marker = '<!-- visual-regression-comment -->';
             const changed = JSON.parse(process.env.CHANGED || '[]');
             const status = process.env.JOB_STATUS;
+            const runId = process.env.RUN_ID;
             const statusEmoji = status === 'success' ? '✅' : status === 'failure' ? '❌' : '⚠️';
-            const body = `${marker}\n### 🎨 Visual Regression Results\n\n**Status:** ${statusEmoji} ${status}\n\n**Changed categories:** ${changed.map(c => `\`${c}\``).join(', ')}\n\n[View Report](https://github.com/${context.repo.owner}/${context.repo.repo}/actions/runs/${context.runId})`;
+            const body = `${marker}\n### 🎨 Visual Regression Results\n\n**Status:** ${statusEmoji} ${status}\n\n**Changed categories:** ${changed.map(c => `\`${c}\``).join(', ')}\n\n[View Report](https://github.com/${context.repo.owner}/${context.repo.repo}/actions/runs/${runId})`;
 
             const { data: comments } = await github.rest.issues.listComments({
               ...context.repo,

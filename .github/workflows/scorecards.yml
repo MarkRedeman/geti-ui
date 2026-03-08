@@ -19,9 +19,9 @@ jobs:
       # Needed to read the repository
       contents: read
       # Needed to upload the results to code-scanning dashboard
-      security-events: write
+      security-events: write # upload SARIF findings
       # Needed to publish results and get a badge
-      id-token: write
+      id-token: write # publish scorecard results
 
     steps:
       - name: Checkout code
