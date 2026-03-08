@@ -1,0 +1,117 @@
+---
+title: ActionBar
+---
+
+import { ActionBar, ActionBarContainer, ListView, ListItem } from '@geti/ui';
+import { Item, Text } from '@adobe/react-spectrum';
+import { ExampleCard } from '../../../theme/ExampleCard';
+
+# ActionBar
+
+`ActionBar` provides a contextual toolbar that appears when one or more items in a list or table are selected. Use it to surface bulk operations — edit, delete, export — without cluttering the default view.
+
+```tsx
+import { ActionBar, ActionBarContainer } from '@geti/ui';
+```
+
+- [React Spectrum ActionBar ↗](https://react-spectrum.adobe.com/react-spectrum/ActionBar.html)
+- [Geti UI Theming](/components/theming)
+
+## Examples
+
+<ExampleCard
+  title="Bulk selection toolbar"
+  code={`<ActionBarContainer height="size-2400">
+  <ListView aria-label="Items" selectionMode="multiple" defaultSelectedKeys={['1', '2']}>
+    <ListItem key="1">Item One</ListItem>
+    <ListItem key="2">Item Two</ListItem>
+    <ListItem key="3">Item Three</ListItem>
+  </ListView>
+  <ActionBar
+    selectedItemCount={2}
+    onAction={(key) => console.log(key)}
+    onClearSelection={() => console.log('cleared')}
+  >
+    <Item key="edit">
+      <Text>Edit</Text>
+    </Item>
+    <Item key="delete">
+      <Text>Delete</Text>
+    </Item>
+  </ActionBar>
+</ActionBarContainer>`}
+>
+  <ActionBarContainer height="size-2400">
+    <ListView aria-label="Items" selectionMode="multiple" defaultSelectedKeys={['1', '2']}>
+      <ListItem key="1">Item One</ListItem>
+      <ListItem key="2">Item Two</ListItem>
+      <ListItem key="3">Item Three</ListItem>
+    </ListView>
+    <ActionBar
+      selectedItemCount={2}
+      onAction={(key) => console.log(key)}
+      onClearSelection={() => console.log('cleared')}
+    >
+      <Item key="edit">
+        <Text>Edit</Text>
+      </Item>
+      <Item key="delete">
+        <Text>Delete</Text>
+      </Item>
+    </ActionBar>
+  </ActionBarContainer>
+</ExampleCard>
+
+## Responsibility
+
+`ActionBar` and `ActionBarContainer` are thin wrappers around React Spectrum's `ActionBar` and `ActionBarContainer`. They pass all props through unchanged. The container handles the layout relationship between the list and the action bar so that the bar appears correctly when items are selected.
+
+The selection count and clear callback are passed from your selection state — this component does not manage selection internally.
+
+## Variants and states
+
+| State | Notes |
+|---|---|
+| Hidden | Bar is not visible until `selectedItemCount > 0` |
+| Visible | Appears at the bottom of the container with action items |
+| "all" count | Pass `selectedItemCount="all"` to indicate every item is selected |
+
+## Props (deep dive)
+
+### ActionBar
+
+- `selectedItemCount`: number or `"all"` — drives visibility and the count label.
+- `onAction`: called with the key of the triggered action item.
+- `onClearSelection`: called when the user clears the selection via the bar's close button.
+- `children`: `Item` elements, each with a `key` and optional icon + `Text`.
+
+### ActionBarContainer
+
+- `children`: a selectable collection component (`ListView`, `TableView`) followed by an `ActionBar`.
+- `height`: controls the container height so the bar does not overlap scrollable content.
+
+### Events
+
+- `onAction(key)`: dispatch the action to your handler — update state, show a dialog, or call an API.
+- `onClearSelection`: reset your selection state.
+
+### Accessibility
+
+- `ActionBarContainer` manages focus trapping correctly when the bar becomes visible.
+- Always label action items with `<Text>` so screen readers announce them.
+
+## Related components
+
+- `ListView` — the primary list component to pair with `ActionBar`.
+- `TableView` — use for tabular data with `ActionBar` for row-level bulk operations.
+
+## Example use cases
+
+<details>
+  <summary>Typical use cases</summary>
+
+- Dataset management: select multiple images and delete or re-label them.
+- Model list: select several models and trigger a batch export.
+- Annotation review: select flagged annotations and approve or reject in bulk.
+
+</details>
