@@ -110,6 +110,48 @@ Gate per wave:
 - no runtime errors across migrated routes,
 - coverage check updated.
 
+### Pilot notes from `ui/Button` migration
+
+We migrated `Button` first as a reference implementation. These are the concrete
+changes/patterns we should reuse for all next components:
+
+1. **Authored page path**
+   - New source page: `documentation/docs/components/ui/Button.mdx`
+   - Legacy page remains untouched in `packages/ui/src/components/ui/Button/Button.mdx`
+     for rollback until full cutover.
+
+2. **Dual-mode route behavior worked as intended**
+   - Route `/components/ui/Button` now resolves to authored docs page when present.
+   - If authored page is removed, plugin falls back to legacy story-injected page.
+
+3. **Example UX parity requirement**
+   - Plain inline examples were not acceptable.
+   - We introduced `documentation/theme/ExampleCard.tsx` to keep parity with old
+     card-based example UX:
+     - example title
+     - live rendered example
+     - show/hide code toggle
+
+4. **Theme handling should be centralized**
+   - `ThemeProvider` is applied inside `ExampleCard` (not repeated per example).
+   - This keeps authored MDX concise and ensures consistent rendering/styling.
+
+5. **Granularity of examples matters**
+   - Variants/states should be separate cards (not grouped into one card) for
+     better discoverability and cleaner code snippets.
+   - For Button we split cards into: Accent, Primary, Secondary (outline),
+     Negative, Pending, Disabled.
+
+6. **Coverage tracking update per migrated component**
+   - `documentation/docs/components/_coverage.json` must be updated when each
+     component is migrated.
+   - Current state after pilot: `Button` marked migrated (`1 / 83`).
+
+7. **Commit strategy to keep history clear**
+   - One commit for migration infra/scaffolding.
+   - One commit per component migration.
+   - Follow-up commits allowed for UX parity fixes discovered during review.
+
 ---
 
 ## Phase 3 — CI enforcement
