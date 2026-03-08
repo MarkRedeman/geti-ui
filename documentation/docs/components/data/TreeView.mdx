@@ -1,0 +1,101 @@
+---
+title: TreeView
+---
+
+import { TreeView } from '@geti/ui';
+import { Item, Text } from '@adobe/react-spectrum';
+import { ExampleCard } from '../../../theme/ExampleCard';
+
+# TreeView
+
+`TreeView` renders a hierarchical list of items that users can expand and collapse. Use it to navigate tree-structured data — file systems, label hierarchies, nested categories.
+
+```tsx
+import { TreeView } from '@geti/ui';
+```
+
+- [React Spectrum TreeView ↗](https://react-spectrum.adobe.com/react-spectrum/TreeView.html)
+- [Geti UI Theming](/components/theming)
+
+## Examples
+
+<ExampleCard
+  title="Basic file tree"
+  code={`<TreeView aria-label="Files">
+  <Item textValue="Documents">
+    <Text>Documents</Text>
+    <Item textValue="Project.docx">Project.docx</Item>
+    <Item textValue="Budget.xlsx">Budget.xlsx</Item>
+  </Item>
+  <Item textValue="Images">
+    <Text>Images</Text>
+    <Item textValue="logo.png">logo.png</Item>
+  </Item>
+</TreeView>`}
+>
+  <TreeView aria-label="Files">
+    <Item textValue="Documents">
+      <Text>Documents</Text>
+      <Item textValue="Project.docx">Project.docx</Item>
+      <Item textValue="Budget.xlsx">Budget.xlsx</Item>
+    </Item>
+    <Item textValue="Images">
+      <Text>Images</Text>
+      <Item textValue="logo.png">logo.png</Item>
+    </Item>
+  </TreeView>
+</ExampleCard>
+
+## Responsibility
+
+`TreeView` is a thin wrapper around React Spectrum's `TreeView`. Expansion state, keyboard navigation, and ARIA tree semantics are all handled by Spectrum. Children use Spectrum's `Item` directly — import it from `@adobe/react-spectrum` for nested tree items.
+
+## Variants and states
+
+| Feature | Notes |
+|---|---|
+| Expandable nodes | Any `Item` with nested `Item` children is collapsible |
+| Selection | `selectionMode` prop mirrors `ListView` — `none`, `single`, `multiple` |
+
+## Props (deep dive)
+
+### Content
+
+- `children`: `Item` elements from `@adobe/react-spectrum`. Nested items create tree branches.
+- `items` + render function: for dynamic data, pass `items` and a render child.
+- `textValue` on `Item`: required for accessibility and keyboard type-to-select.
+
+### Value / state
+
+- `selectionMode`: `none | single | multiple`.
+- `selectedKeys` / `defaultSelectedKeys`: controlled or uncontrolled selection.
+- `expandedKeys` / `defaultExpandedKeys`: controlled or uncontrolled expansion.
+- `disabledKeys`: keys that cannot be selected or expanded.
+
+### Events
+
+- `onSelectionChange(keys)`: fires when the selected set changes.
+- `onExpandedChange(keys)`: fires when a node is expanded or collapsed.
+
+### Accessibility
+
+- Always provide `aria-label` on `TreeView`.
+- Each `Item` must have a `textValue` prop for screen reader announcements and type-to-select.
+- Use a `<Text>` child inside branch nodes to separate the visible label from nested items.
+
+## Related components
+
+- `ListView` — use for flat lists with no hierarchy.
+- `TableView` — use when each level has columnar structure.
+- `Accordion` — use for a flat list of expandable disclosure panels rather than a data tree.
+
+## Example use cases
+
+<details>
+  <summary>Typical use cases</summary>
+
+- Label hierarchy browser showing parent categories and their child labels.
+- Project file structure showing folders and files.
+- Nested configuration tree for pipeline steps and their sub-settings.
+
+</details>
