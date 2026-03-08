@@ -1,0 +1,115 @@
+---
+title: Calendar
+---
+
+import { Calendar, RangeCalendar } from '@geti/ui';
+import { ExampleCard } from '../../../../theme/ExampleCard';
+
+# Calendar
+
+`Calendar` shows a full month grid and lets users select a single date. `RangeCalendar` extends this to allow selecting a start–end date range. Both are standalone components without a popover trigger — use them inline or compose them into custom overlays.
+
+```tsx
+import { Calendar, RangeCalendar } from '@geti/ui';
+```
+
+- [React Spectrum Calendar ↗](https://react-spectrum.adobe.com/react-spectrum/Calendar.html)
+- [React Spectrum RangeCalendar ↗](https://react-spectrum.adobe.com/react-spectrum/RangeCalendar.html)
+- [Geti UI Theming](/components/theming)
+
+## Examples
+
+<ExampleCard
+  title="Calendar — default"
+  code={`<Calendar aria-label="Event date" />`}
+>
+  <Calendar aria-label="Event date" />
+</ExampleCard>
+
+<ExampleCard
+  title="Calendar — multiple months"
+  code={`<Calendar aria-label="Event date" visibleMonths={2} />`}
+>
+  <Calendar aria-label="Event date" visibleMonths={2} />
+</ExampleCard>
+
+<ExampleCard
+  title="Calendar — disabled"
+  code={`<Calendar aria-label="Event date" isDisabled />`}
+>
+  <Calendar aria-label="Event date" isDisabled />
+</ExampleCard>
+
+<ExampleCard
+  title="RangeCalendar — default"
+  code={`<RangeCalendar aria-label="Event range" />`}
+>
+  <RangeCalendar aria-label="Event range" />
+</ExampleCard>
+
+<ExampleCard
+  title="RangeCalendar — multiple months"
+  code={`<RangeCalendar aria-label="Event range" visibleMonths={2} />`}
+>
+  <RangeCalendar aria-label="Event range" visibleMonths={2} />
+</ExampleCard>
+
+## Responsibility
+
+`Calendar` and `RangeCalendar` are direct pass-through wrappers of their React Spectrum equivalents with no changed defaults. They are useful as building blocks inside custom dialogs or panels.
+
+## Variants and states
+
+| Feature | Prop | Notes |
+|---|---|---|
+| Multiple months | `visibleMonths` | Number of months rendered side-by-side |
+| Disabled | `isDisabled` | Non-interactive |
+| Read-only | `isReadOnly` | Shows value, no editing |
+| Min/max dates | `minValue` / `maxValue` | Dates outside range are greyed out |
+| Focus management | automatic | Keyboard navigation via arrow keys |
+
+## Props (deep dive)
+
+### Content
+
+- `aria-label`: **required** — identifies the calendar to screen readers.
+
+### Value / state (Calendar)
+
+- `value` / `defaultValue`: `CalendarDate` controlled/uncontrolled value.
+- `minValue` / `maxValue`: constrains selectable dates.
+- `visibleMonths`: number of months to show (default `1`).
+- `isDisabled`, `isReadOnly`.
+
+### Value / state (RangeCalendar)
+
+- `value` / `defaultValue`: `{ start: CalendarDate, end: CalendarDate }`.
+- `allowsNonContiguousRanges`: permits ranges spanning disabled dates.
+- Same `visibleMonths`, `minValue`, `maxValue`, `isDisabled`, `isReadOnly`.
+
+### Events
+
+- `onChange(value)`: fires when the user selects a date or completes a range.
+
+### Accessibility
+
+- Always provide `aria-label` since these components have no built-in visible label.
+- Keyboard: arrow keys navigate days; Page Up/Down move months; Home/End jump to start/end of week.
+
+## Related components
+
+- `DatePicker` — calendar + segmented input in a single popover-triggered field.
+- `DateRangePicker` — range calendar + two segmented inputs with a popover.
+- `DateField` — bare segmented keyboard input without a calendar.
+
+## Example use cases
+
+<details>
+  <summary>Typical use cases</summary>
+
+- Inline date selection panel in a scheduling sidebar.
+- Custom date filter inside a popover with additional options.
+- Date range selection in a report generation wizard.
+- Visual review of available dates before booking a resource.
+
+</details>
