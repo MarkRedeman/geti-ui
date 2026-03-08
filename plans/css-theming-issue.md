@@ -15,13 +15,21 @@ We observed visual mismatch between Storybook and docs for the same component (`
 
 ## Root cause
 
-`ThemeProvider` was present, but docs runtime did not guarantee loading the full `@geti/ui` stylesheet that defines key CSS custom properties/tokens.
+Two issues were interacting:
+
+1. **Docs alias resolution conflict**
+   - Docs aliased `@geti/ui` to source (`packages/ui/src/index.ts`) for parity.
+   - That alias also captured `@geti/ui/styles.css`, causing intermittent module resolution/HMR failures for the stylesheet import.
+
+2. **Dark token specificity/order conflict**
+   - Geti dark token block used `.spectrum--dark`.
+   - Base Spectrum styles include `.spectrum` token assignments (same specificity).
+   - In docs bundling order, `.spectrum` could win, producing default-ish values like `--spectrum-global-color-gray-100: #1d1d1d` instead of Geti `#313236`.
 
 Important detail:
 
-- `ThemeProvider` applies theme classes and context.
-- Actual token values (e.g., `--energy-blue`, semantic CTA tokens) are defined in CSS.
-- Without loading the library CSS, class-based token overrides are incomplete, so Spectrum defaults can win.
+- `ThemeProvider` applies classes/context.
+- Final token values still depend on CSS resolution order and selector specificity.
 
 ## Evidence observed
 
@@ -31,11 +39,9 @@ Important detail:
 
 ## Immediate mitigation applied
 
-Temporary/global docs-side import added:
+Docs runtime imports `@geti/ui/styles.css` from `documentation/theme/index.tsx`.
 
-- `documentation/theme/index.tsx` imports `../../packages/ui/dist/esm/index.css`
-
-This restored docs visual parity with Storybook in local verification.
+This ensures the package stylesheet is always present in docs runtime.
 
 ## Preventive fixes (recommended)
 
@@ -62,7 +68,39 @@ Benefits:
 - Docs behavior mirrors real consumer integration.
 - Removes coupling to workspace build output folder structure.
 
-### 3) Document required stylesheet import in installation guide (implemented)
+### 3) Make docs alias stylesheet-aware (implemented)
+
+When `@geti/ui` is aliased to source in docs config, add explicit alias for stylesheet path:
+
+```ts
+'@geti/ui/styles.css': path.resolve(__dirname, '../packages/ui/dist/esm/index.css')
+```
+
+Benefits:
+
+- Prevents `Cannot find module '@geti/ui/styles.css'` in dev/HMR.
+- Keeps source alias behavior while preserving CSS import stability.
+
+### 4) Increase dark token selector specificity (implemented)
+
+Change dark token scope in `geti-dark.module.css`:
+
+```css
+.spectrum--dark { ... }
+```
+
+to:
+
+```css
+.spectrum.spectrum--dark { ... }
+```
+
+Benefits:
+
+- Makes Geti dark token overrides win over base `.spectrum` assignments regardless of bundling order.
+- Restores deterministic docs/storybook parity for dark tokens.
+
+### 5) Document required stylesheet import in installation guide (implemented)
 
 Add explicit install usage:
 
@@ -77,7 +115,7 @@ Benefits:
 - Prevents consumers from missing required styles.
 - Reduces support/debug time for "theme not applied" issues.
 
-### 4) Add CI/theming guard (recommended follow-up)
+### 6) Add CI/theming guard (recommended follow-up)
 
 Add a lightweight Playwright assertion on docs that checks a known token value in computed style for a representative component.
 
@@ -96,5 +134,23 @@ Benefits:
 - [x] Issue documented
 - [x] Package stylesheet entrypoint exposed
 - [x] Docs import switched to package stylesheet
+- [x] Docs alias updated to resolve `@geti/ui/styles.css` alongside source alias
+- [x] Dark token selector specificity hardened (`.spectrum.spectrum--dark`)
 - [x] Installation docs updated with stylesheet import requirement
 - [ ] CI token-level guard test (optional next hardening step)
+
+## Minimal fix set (validated)
+
+The smallest reliable fix we validated for parity is:
+
+1. `documentation/rspress.config.ts`
+   - Add alias for `@geti/ui/styles.css` while keeping `@geti/ui` source alias.
+2. `packages/ui/src/theme/geti-dark.module.css`
+   - Use `.spectrum.spectrum--dark` for dark token block.
+
+With these in place, docs and Storybook match for key computed tokens:
+
+- `--spectrum-global-color-blue-500: #378ef0`
+- `--spectrum-global-color-gray-100: #313236`
+- `--spectrum-global-color-gray-75: #2e2f32`
+- `--energy-blue: #00c7fd`
