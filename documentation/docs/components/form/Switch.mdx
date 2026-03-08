@@ -1,0 +1,101 @@
+---
+title: Switch
+---
+
+import { Switch } from '@geti/ui';
+import { ExampleCard } from '../../../theme/ExampleCard';
+
+# Switch
+
+Switch is a binary toggle for settings that take effect immediately — without requiring a form submit. Use it for live preferences and feature flags, not for choices that are batched in a form.
+
+```tsx
+import { Switch } from '@geti/ui';
+```
+
+- [React Spectrum Switch ↗](https://react-spectrum.adobe.com/react-spectrum/Switch.html)
+- [Geti UI Theming](/components/theming)
+
+## Examples
+
+<ExampleCard
+  title="Default (off)"
+  code={`<Switch>Show annotations</Switch>`}
+>
+  <Switch>Show annotations</Switch>
+</ExampleCard>
+
+<ExampleCard
+  title="On by default"
+  code={`<Switch defaultSelected>Auto-save</Switch>`}
+>
+  <Switch defaultSelected>Auto-save</Switch>
+</ExampleCard>
+
+<ExampleCard
+  title="Emphasized (Geti blue track)"
+  code={`<Switch isEmphasized defaultSelected>Enable feature</Switch>`}
+>
+  <Switch isEmphasized defaultSelected>Enable feature</Switch>
+</ExampleCard>
+
+<ExampleCard
+  title="Disabled"
+  code={`<Switch isDisabled>Unavailable option</Switch>`}
+>
+  <Switch isDisabled>Unavailable option</Switch>
+</ExampleCard>
+
+## Responsibility
+
+`Switch` wraps React Spectrum's `Switch` with a Geti-specific `isEmphasized` enhancement. When `isEmphasized` is true, the wrapper applies Geti's energy-blue design tokens to the toggle track and thumb via CSS, overriding Spectrum's default accent color.
+
+## Variants and states
+
+| Variant / state | Prop | Notes |
+|---|---|---|
+| Emphasized | `isEmphasized` | Applies Geti blue track color |
+| Selected | `defaultSelected` / `isSelected` | Controls toggle state |
+| Disabled | `isDisabled` | Non-interactive |
+| Read-only | `isReadOnly` | Visible but not changeable |
+
+## Props (deep dive)
+
+### Content
+
+- `children`: label text displayed next to the toggle.
+
+### Value / state
+
+- `isSelected`: controlled boolean state.
+- `defaultSelected`: uncontrolled initial state.
+
+### Events
+
+- `onChange`: `(isSelected: boolean) => void`.
+
+### Visual
+
+- `isEmphasized`: applies Geti's blue track style.
+
+### Accessibility
+
+- renders with `role="switch"` and `aria-checked` automatically,
+- always provide a visible text label as `children` — the label is part of the accessible name.
+
+## Related components
+
+- `Checkbox` — use for form-submitted binary choices or when indeterminate state is needed.
+- `ToggleButton` — use for persistent mode selection with a button appearance.
+
+## Example use cases
+
+<details>
+  <summary>Typical use cases</summary>
+
+- "Show predictions" toggle in an annotation workspace.
+- "Enable auto-save" in user preferences.
+- Live feature flag toggle in an admin panel.
+- "Show bounding boxes" in a model evaluation viewer.
+
+</details>
