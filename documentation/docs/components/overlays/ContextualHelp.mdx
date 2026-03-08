@@ -1,0 +1,155 @@
+---
+title: ContextualHelp
+---
+
+import { Content, Flex, Heading, Text } from '@adobe/react-spectrum';
+import { ContextualHelp } from '@geti/ui';
+import { ExampleCard } from '../../../theme/ExampleCard';
+
+# ContextualHelp
+
+ContextualHelp places a small icon button next to a UI element that opens a popover with additional guidance. Use it to clarify form fields, feature labels, or settings without cluttering the layout with persistent text.
+
+```tsx
+import { ContextualHelp } from '@geti/ui';
+import { Content, Heading, Text } from '@adobe/react-spectrum';
+```
+
+- [React Spectrum ContextualHelp ↗](https://react-spectrum.adobe.com/react-spectrum/ContextualHelp.html)
+- [Geti UI Theming](/components/theming)
+
+## Examples
+
+<ExampleCard
+  title="Help variant"
+  code={`<ContextualHelp variant="help">
+  <Heading>Need help?</Heading>
+  <Content>
+    <Text>
+      This field accepts a maximum of 64 characters.
+      Use a descriptive name to easily identify the item later.
+    </Text>
+  </Content>
+</ContextualHelp>`}
+>
+  <ContextualHelp variant="help">
+    <Heading>Need help?</Heading>
+    <Content>
+      <Text>
+        This field accepts a maximum of 64 characters.
+        Use a descriptive name to easily identify the item later.
+      </Text>
+    </Content>
+  </ContextualHelp>
+</ExampleCard>
+
+<ExampleCard
+  title="Info variant"
+  code={`<ContextualHelp variant="info">
+  <Heading>About this feature</Heading>
+  <Content>
+    <Text>This feature is currently in beta. Some functionality may change before the final release.</Text>
+  </Content>
+</ContextualHelp>`}
+>
+  <ContextualHelp variant="info">
+    <Heading>About this feature</Heading>
+    <Content>
+      <Text>This feature is currently in beta. Some functionality may change before the final release.</Text>
+    </Content>
+  </ContextualHelp>
+</ExampleCard>
+
+<ExampleCard
+  title="Next to a label"
+  code={`<Flex gap="size-100" alignItems="center">
+  <Text>Dataset name</Text>
+  <ContextualHelp variant="help">
+    <Heading>Dataset name</Heading>
+    <Content>
+      <Text>
+        Enter a unique name for your dataset.
+        This name will be displayed throughout the application.
+      </Text>
+    </Content>
+  </ContextualHelp>
+</Flex>`}
+>
+  <Flex gap="size-100" alignItems="center">
+    <Text>Dataset name</Text>
+    <ContextualHelp variant="help">
+      <Heading>Dataset name</Heading>
+      <Content>
+        <Text>
+          Enter a unique name for your dataset.
+          This name will be displayed throughout the application.
+        </Text>
+      </Content>
+    </ContextualHelp>
+  </Flex>
+</ExampleCard>
+
+<ExampleCard
+  title="Top placement"
+  code={`<div style={{ marginTop: '6rem' }}>
+  <ContextualHelp variant="help" placement="top">
+    <Heading>Top placement</Heading>
+    <Content>
+      <Text>This help popover appears above the icon button.</Text>
+    </Content>
+  </ContextualHelp>
+</div>`}
+>
+  <div style={{ marginTop: '6rem' }}>
+    <ContextualHelp variant="help" placement="top">
+      <Heading>Top placement</Heading>
+      <Content>
+        <Text>This help popover appears above the icon button.</Text>
+      </Content>
+    </ContextualHelp>
+  </div>
+</ExampleCard>
+
+## Responsibility
+
+`ContextualHelp` wraps React Spectrum's `ContextualHelp`. It renders a small icon button (question mark for `help`, info circle for `info`) that opens a read-only popover with a `Heading` and `Content`. It is not suited for interactive content — use `Popover` or `CustomPopover` when the popover needs form elements or actions.
+
+## Variants and states
+
+| Variant | Icon | Typical use |
+|---|---|---|
+| `help` | Question mark (?) | Explaining how to fill in a form field |
+| `info` | Info circle (ⓘ) | Providing background context about a feature |
+
+## Props (deep dive)
+
+### Content
+
+- `children`: must include a `Heading` and `Content` from `@adobe/react-spectrum`. The content is read-only; no action buttons are rendered inside the popover.
+- `variant`: `"help"` or `"info"` — controls the icon and tone.
+
+### Placement
+
+- `placement`: positions the popover relative to the icon button. Accepts `"top"`, `"bottom"`, `"start"`, `"end"`, and corner variants. Defaults to `"bottom start"`.
+
+### Accessibility
+
+- The icon button has a built-in accessible label ("Help" or "Info") provided by React Spectrum.
+- Focus returns to the icon button when the popover closes.
+- Content inside the popover is not reachable until the popover opens.
+
+## Related components
+
+- `Popover` — use for popovers that need arbitrary `Dialog` content.
+- `Tooltip` — use for brief one-line hints; ContextualHelp is better for multi-sentence explanations.
+
+## Example use cases
+
+<details>
+  <summary>Typical use cases</summary>
+
+- Explaining the character limit or naming conventions for a text field.
+- Clarifying what a toggle or feature flag does before the user enables it.
+- Showing a beta disclaimer next to a feature label in the settings panel.
+
+</details>
