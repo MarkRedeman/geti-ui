@@ -35,7 +35,7 @@ export function ExampleCard({ title, code, children }: ExampleCardProps) {
 
       <div
         style={{
-          background: '#1d1d1d',
+          background: '#313236',
           padding: '2rem',
           display: 'flex',
           alignItems: 'center',
