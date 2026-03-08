@@ -1,0 +1,97 @@
+---
+title: ColorPickerDialog
+---
+
+import { ColorPickerDialog } from '@geti/ui';
+import { ExampleCard } from '../../../../theme/ExampleCard';
+
+# ColorPickerDialog
+
+`ColorPickerDialog` is a self-contained color picker that opens in a dialog. It combines `ColorArea`, `ColorWheel`, `ColorSlider` (hue + alpha), `ColorField` (hex), and a `ColorSwatchPicker` preset palette into a single trigger-and-confirm workflow.
+
+```tsx
+import { ColorPickerDialog } from '@geti/ui';
+```
+
+- [Geti UI Theming](/components/theming)
+
+## Examples
+
+<ExampleCard
+  title="Default"
+  code={`<ColorPickerDialog color="#ff0000" label="Pick Color" onColorChange={(hex) => console.log(hex)} />`}
+>
+  <ColorPickerDialog color="#ff0000" label="Pick Color" onColorChange={(hex) => console.log(hex)} />
+</ExampleCard>
+
+<ExampleCard
+  title="Custom label"
+  code={`<ColorPickerDialog color="#00ff00" label="Select Theme Color" onColorChange={(hex) => console.log(hex)} />`}
+>
+  <ColorPickerDialog color="#00ff00" label="Select Theme Color" onColorChange={(hex) => console.log(hex)} />
+</ExampleCard>
+
+<ExampleCard
+  title="No initial color (default fallback)"
+  code={`<ColorPickerDialog label="Pick Color" onColorChange={(hex) => console.log(hex)} />`}
+>
+  <ColorPickerDialog label="Pick Color" onColorChange={(hex) => console.log(hex)} />
+</ExampleCard>
+
+## Responsibility
+
+`ColorPickerDialog` is a Geti-native composite component. It manages its own internal color state (HSBA format) and exposes a simplified API:
+
+- Accepts a `color` string prop (any CSS color) and converts it to HSBA internally.
+- On **Confirm**, calls `onColorChange` with the chosen color as a hex string.
+- On **Cancel**, discards changes.
+- Internally normalises to HSBA to avoid "Unknown color channel: alpha" errors when rendering the alpha `ColorSlider`.
+- Falls back to red (`hsb(0, 100%, 100%)`) if an unparseable color string is provided.
+
+## Variants and states
+
+| Feature | Prop | Notes |
+|---|---|---|
+| Controlled open | `isOpen` + `onOpenChange` | Optional external control of dialog visibility |
+| Label | `label` | Trigger button label and dialog aria-label (default: `"Pick Color"`) |
+| Initial color | `color` | Any CSS color string; defaults to red |
+
+## Props (deep dive)
+
+### Content
+
+- `label`: text shown on the trigger button and used as the dialog title hint. Defaults to `"Pick Color"`.
+
+### Value / state
+
+- `color`: any parseable CSS color string. Sets the starting color when the dialog opens.
+- `isOpen` / `onOpenChange`: optional controlled dialog open state.
+
+### Events
+
+- `onColorChange(hex: string)`: called with the chosen hex color when the user presses **Confirm**.
+
+### Accessibility
+
+- The trigger `ActionButton` uses `aria-label={label}`.
+- The `ColorSwatch` on the trigger is decorative (`aria-hidden`); the text label is visible to screen readers.
+
+## Related components
+
+- `ColorArea` — the main two-dimensional surface inside this dialog.
+- `ColorWheel` — the hue ring inside this dialog.
+- `ColorSlider` — hue and alpha sliders inside this dialog.
+- `ColorField` — hex text input inside this dialog.
+- `ColorSwatchPicker` — preset palette inside this dialog.
+
+## Example use cases
+
+<details>
+  <summary>Typical use cases</summary>
+
+- Annotation label color editor — a `ColorPickerDialog` next to each label in the label manager.
+- Project theme color picker in a branding/settings panel.
+- Drawing tool color selector in an image annotation canvas toolbar.
+- Export overlay color configuration for video or PDF output.
+
+</details>
