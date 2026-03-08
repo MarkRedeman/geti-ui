@@ -1,0 +1,128 @@
+---
+title: ActionMenu
+---
+
+import { ActionMenu } from '@geti/ui';
+import { Item } from '@adobe/react-spectrum';
+import { ExampleCard } from '../../../theme/ExampleCard';
+
+# ActionMenu
+
+ActionMenu combines an icon-button trigger (⋯) with a dropdown menu in a single component. Use it for compact contextual action sets on cards, table rows, and list items where showing individual buttons would be too wide.
+
+```tsx
+import { ActionMenu } from '@geti/ui';
+import { Item } from '@adobe/react-spectrum';
+```
+
+- [React Spectrum ActionMenu ↗](https://react-spectrum.adobe.com/react-spectrum/ActionMenu.html)
+- [Geti UI Theming](/components/theming)
+
+## Examples
+
+<ExampleCard
+  title="Default"
+  code={`<ActionMenu onAction={(key) => console.log(key)}>
+  <Item key="edit">Edit</Item>
+  <Item key="duplicate">Duplicate</Item>
+  <Item key="delete">Delete</Item>
+</ActionMenu>`}
+>
+  <ActionMenu onAction={(key) => console.log(key)}>
+    <Item key="edit">Edit</Item>
+    <Item key="duplicate">Duplicate</Item>
+    <Item key="delete">Delete</Item>
+  </ActionMenu>
+</ExampleCard>
+
+<ExampleCard
+  title="Quiet"
+  code={`<ActionMenu isQuiet onAction={(key) => console.log(key)}>
+  <Item key="cut">Cut</Item>
+  <Item key="copy">Copy</Item>
+  <Item key="paste">Paste</Item>
+</ActionMenu>`}
+>
+  <ActionMenu isQuiet onAction={(key) => console.log(key)}>
+    <Item key="cut">Cut</Item>
+    <Item key="copy">Copy</Item>
+    <Item key="paste">Paste</Item>
+  </ActionMenu>
+</ExampleCard>
+
+<ExampleCard
+  title="Disabled"
+  code={`<ActionMenu isDisabled>
+  <Item key="edit">Edit</Item>
+  <Item key="delete">Delete</Item>
+</ActionMenu>`}
+>
+  <ActionMenu isDisabled>
+    <Item key="edit">Edit</Item>
+    <Item key="delete">Delete</Item>
+  </ActionMenu>
+</ExampleCard>
+
+<ExampleCard
+  title="With explicit aria-label"
+  code={`<ActionMenu aria-label="More actions">
+  <Item key="share">Share</Item>
+  <Item key="export">Export</Item>
+  <Item key="print">Print</Item>
+</ActionMenu>`}
+>
+  <ActionMenu aria-label="More actions">
+    <Item key="share">Share</Item>
+    <Item key="export">Export</Item>
+    <Item key="print">Print</Item>
+  </ActionMenu>
+</ExampleCard>
+
+## Responsibility
+
+`ActionMenu` is a thin wrapper around React Spectrum `ActionMenu`. It pre-composes `MenuTrigger`, a quiet `ActionButton` with a ⋯ icon, and `Menu`. Use it instead of manually composing these three components when the trigger should always be the standard overflow icon.
+
+## Variants and states
+
+| Prop | Notes |
+|---|---|
+| `isQuiet` | Removes button border; use in dense list/card contexts |
+| `isDisabled` | Non-interactive; visually muted |
+| `align` | `start \| end` — menu alignment relative to trigger |
+| `direction` | `bottom \| top \| left \| right \| start \| end` |
+
+## Props (deep dive)
+
+### Content
+
+- `children`: `Item` elements. Each `Item` requires a unique `key`.
+
+### Visual
+
+- `isQuiet`: remove the button border.
+- `align` / `direction`: control menu opening direction.
+
+### Events
+
+- `onAction`: called with the item key when the user selects an action.
+
+### Accessibility
+
+- provide `aria-label` to describe what the menu controls (e.g. `"Project actions"`).
+- the default ⋯ icon has an implicit accessible label; override with `aria-label` for context.
+
+## Related components
+
+- `Menu` + `MenuTrigger` — use when you need a custom trigger element (not the ⋯ icon).
+- `ActionButton` — use when there is only one action, not a set.
+
+## Example use cases
+
+<details>
+  <summary>Typical use cases</summary>
+
+- Row overflow menu in a project or model table: Rename / Duplicate / Archive / Delete.
+- Card action menu for dataset management: Export / Add images / Delete dataset.
+- Toolbar overflow button for low-priority secondary actions.
+
+</details>
