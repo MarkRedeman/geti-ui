@@ -22,7 +22,8 @@ const STORIES_GALLERY_PATH = path.resolve(__dirname, '../theme/StoriesGallery');
 const CATEGORY_LABELS: Record<string, string> = {
   ui: 'Primitive Actions',
   form: 'Form Controls',
-  'form/pickers': 'Pickers',
+  'form/date-controls': 'Date Controls',
+  'form/color-controls': 'Color Controls',
   data: 'Data Display',
   feedback: 'Status & Feedback',
   layouts: 'Layout & Structure',
@@ -33,13 +34,51 @@ const CATEGORY_LABELS: Record<string, string> = {
 const CATEGORY_ORDER = [
   'ui',
   'form',
-  'form/pickers',
+  'form/date-controls',
+  'form/color-controls',
   'data',
   'feedback',
   'navigation',
   'overlays',
   'layouts',
 ];
+
+const DATE_PICKER_COMPONENTS = new Set([
+  'Calendar',
+  'DateField',
+  'DatePicker',
+  'DateRangePicker',
+  'RangeCalendar',
+  'TimeField',
+]);
+
+const COLOR_PICKER_COMPONENTS = new Set([
+  'ColorArea',
+  'ColorField',
+  'ColorPickerDialog',
+  'ColorSlider',
+  'ColorSwatch',
+  'ColorSwatchPicker',
+  'ColorThumb',
+  'ColorWheel',
+]);
+
+function resolveSidebarCategory(page: ComponentPage): string {
+  // Split form/pickers into semantic buckets.
+  if (page.category === 'form/pickers') {
+    if (DATE_PICKER_COMPONENTS.has(page.componentName)) {
+      return 'form/date-controls';
+    }
+    if (COLOR_PICKER_COMPONENTS.has(page.componentName)) {
+      return 'form/color-controls';
+    }
+
+    // Any remaining pickers (e.g. Picker, ComboBox) are grouped under Form Controls.
+    return 'form';
+  }
+
+  return page.category;
+}
 
 /**
  * Derive a display title from an MDX file.
@@ -292,7 +331,8 @@ export function buildSidebar(pages: ComponentPage[]): SidebarGroup[] {
   }
 
   for (const page of pages) {
-    const items = groups.get(page.category);
+    const sidebarCategory = resolveSidebarCategory(page);
+    const items = groups.get(sidebarCategory);
     if (items) {
       items.push({
         text: page.componentName,
