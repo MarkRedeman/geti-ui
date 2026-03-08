@@ -1,0 +1,139 @@
+---
+title: ListView
+---
+
+import { ListView, ListItem } from '@geti/ui';
+import { ExampleCard } from '../../../theme/ExampleCard';
+
+# ListView
+
+`ListView` renders an interactive list of items with built-in keyboard navigation, selection, and density variants. Use it for any ordered list where users need to pick one or more items, or trigger actions per row.
+
+```tsx
+import { ListView, ListItem } from '@geti/ui';
+```
+
+- [React Spectrum ListView ↗](https://react-spectrum.adobe.com/react-spectrum/ListView.html)
+- [Geti UI Theming](/components/theming)
+
+## Examples
+
+<ExampleCard
+  title="Single selection"
+  code={`<ListView aria-label="Applications" selectionMode="single" width="size-3000">
+  <ListItem key="1">Adobe Photoshop</ListItem>
+  <ListItem key="2">Adobe XD</ListItem>
+  <ListItem key="3">Adobe Illustrator</ListItem>
+</ListView>`}
+>
+  <ListView aria-label="Applications" selectionMode="single" width="size-3000">
+    <ListItem key="1">Adobe Photoshop</ListItem>
+    <ListItem key="2">Adobe XD</ListItem>
+    <ListItem key="3">Adobe Illustrator</ListItem>
+  </ListView>
+</ExampleCard>
+
+<ExampleCard
+  title="Multiple selection"
+  code={`<ListView aria-label="Models" selectionMode="multiple" width="size-3000">
+  <ListItem key="1">Detection model v1</ListItem>
+  <ListItem key="2">Detection model v2</ListItem>
+  <ListItem key="3">Classification model v1</ListItem>
+</ListView>`}
+>
+  <ListView aria-label="Models" selectionMode="multiple" width="size-3000">
+    <ListItem key="1">Detection model v1</ListItem>
+    <ListItem key="2">Detection model v2</ListItem>
+    <ListItem key="3">Classification model v1</ListItem>
+  </ListView>
+</ExampleCard>
+
+<ExampleCard
+  title="Compact density"
+  code={`<ListView aria-label="Compact list" density="compact" selectionMode="single" width="size-3000">
+  <ListItem key="1">Compact Item 1</ListItem>
+  <ListItem key="2">Compact Item 2</ListItem>
+  <ListItem key="3">Compact Item 3</ListItem>
+</ListView>`}
+>
+  <ListView aria-label="Compact list" density="compact" selectionMode="single" width="size-3000">
+    <ListItem key="1">Compact Item 1</ListItem>
+    <ListItem key="2">Compact Item 2</ListItem>
+    <ListItem key="3">Compact Item 3</ListItem>
+  </ListView>
+</ExampleCard>
+
+<ExampleCard
+  title="Spacious density"
+  code={`<ListView aria-label="Spacious list" density="spacious" selectionMode="single" width="size-3000">
+  <ListItem key="1">Spacious Item 1</ListItem>
+  <ListItem key="2">Spacious Item 2</ListItem>
+  <ListItem key="3">Spacious Item 3</ListItem>
+</ListView>`}
+>
+  <ListView aria-label="Spacious list" density="spacious" selectionMode="single" width="size-3000">
+    <ListItem key="1">Spacious Item 1</ListItem>
+    <ListItem key="2">Spacious Item 2</ListItem>
+    <ListItem key="3">Spacious Item 3</ListItem>
+  </ListView>
+</ExampleCard>
+
+## Responsibility
+
+`ListView` is a thin wrapper around React Spectrum's `ListView`. The re-exported `ListItem` alias keeps naming consistent across Geti UI (in React Spectrum this is `Item`). All selection, drag-and-drop, and virtualization behaviour comes directly from Spectrum.
+
+## Variants and states
+
+| `density` | Row height |
+|---|---|
+| `compact` | Smaller row height for dense data |
+| `regular` (default) | Standard row height |
+| `spacious` | Larger row height for touch-friendly contexts |
+
+| `selectionMode` | Behaviour |
+|---|---|
+| `none` | No selection highlight |
+| `single` | One active row at a time |
+| `multiple` | Checkbox-style multi-select |
+
+## Props (deep dive)
+
+### Content
+
+- `children`: `ListItem` elements; each needs a unique `key`.
+- `items` + render function: dynamic collections via `items` array.
+
+### Value / state
+
+- `selectionMode`: `none | single | multiple`.
+- `selectedKeys` / `defaultSelectedKeys`: controlled or uncontrolled selection.
+- `disabledKeys`: keys that cannot be selected.
+- `density`: `compact | regular | spacious`.
+
+### Events
+
+- `onSelectionChange(keys)`: fires whenever the selected set changes.
+- `onAction(key)`: fires when the user triggers an item (Enter/double-click) without entering selection mode.
+
+### Accessibility
+
+- Always provide `aria-label` on the `ListView` element.
+- Screen readers announce each item's text content automatically.
+
+## Related components
+
+- `ActionBar` — combine with `ListView` to surface bulk operations on selected rows.
+- `TableView` — use when data is columnar and needs sortable headers.
+- `ListBox` — use for lighter, popover-embedded option lists without row actions.
+- `VirtualizedListLayout` — use when lists exceed several hundred items and you need windowed rendering.
+
+## Example use cases
+
+<details>
+  <summary>Typical use cases</summary>
+
+- Annotation label list with single selection to pick the active label.
+- Dataset list with multiple selection and an `ActionBar` for bulk delete.
+- Model version history displayed as a compact list inside a panel.
+
+</details>
