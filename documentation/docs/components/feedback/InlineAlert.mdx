@@ -1,0 +1,129 @@
+---
+title: InlineAlert
+---
+
+import { InlineAlert } from '@geti/ui';
+import { Heading, Content } from '@adobe/react-spectrum';
+import { ExampleCard } from '../../../theme/ExampleCard';
+
+# InlineAlert
+
+`InlineAlert` displays a non-modal message associated with content in the current view. Use it to surface validation errors, warnings, or contextual info directly in the page rather than in a toast or dialog.
+
+```tsx
+import { InlineAlert } from '@geti/ui';
+```
+
+- [React Spectrum InlineAlert ↗](https://react-spectrum.adobe.com/react-spectrum/InlineAlert.html)
+- [Geti UI Theming](/components/theming)
+
+## Examples
+
+<ExampleCard
+  title="Neutral — general information"
+  code={`<InlineAlert variant="neutral">
+  <Heading>Note</Heading>
+  <Content>This dataset does not have any annotations yet.</Content>
+</InlineAlert>`}
+>
+  <InlineAlert variant="neutral">
+    <Heading>Note</Heading>
+    <Content>This dataset does not have any annotations yet.</Content>
+  </InlineAlert>
+</ExampleCard>
+
+<ExampleCard
+  title="Info"
+  code={`<InlineAlert variant="info">
+  <Heading>Information</Heading>
+  <Content>Your session will expire in 10 minutes.</Content>
+</InlineAlert>`}
+>
+  <InlineAlert variant="info">
+    <Heading>Information</Heading>
+    <Content>Your session will expire in 10 minutes.</Content>
+  </InlineAlert>
+</ExampleCard>
+
+<ExampleCard
+  title="Positive — success confirmation"
+  code={`<InlineAlert variant="positive">
+  <Heading>Success</Heading>
+  <Content>Your changes have been saved successfully.</Content>
+</InlineAlert>`}
+>
+  <InlineAlert variant="positive">
+    <Heading>Success</Heading>
+    <Content>Your changes have been saved successfully.</Content>
+  </InlineAlert>
+</ExampleCard>
+
+<ExampleCard
+  title="Notice — warning"
+  code={`<InlineAlert variant="notice">
+  <Heading>Warning</Heading>
+  <Content>This action will remove all existing annotations.</Content>
+</InlineAlert>`}
+>
+  <InlineAlert variant="notice">
+    <Heading>Warning</Heading>
+    <Content>This action will remove all existing annotations.</Content>
+  </InlineAlert>
+</ExampleCard>
+
+<ExampleCard
+  title="Negative — validation error"
+  code={`<InlineAlert variant="negative">
+  <Heading>Error</Heading>
+  <Content>The form contains errors. Please review and try again.</Content>
+</InlineAlert>`}
+>
+  <InlineAlert variant="negative">
+    <Heading>Error</Heading>
+    <Content>The form contains errors. Please review and try again.</Content>
+  </InlineAlert>
+</ExampleCard>
+
+## Responsibility
+
+`InlineAlert` is a thin wrapper around React Spectrum's `InlineAlert`. It passes all props through unchanged. The component requires `Heading` and `Content` from `@adobe/react-spectrum` as children to compose the alert structure.
+
+## Variants and states
+
+| Variant | When to use |
+|---|---|
+| `neutral` | Supplementary context with no urgency |
+| `info` | Informational message about system state |
+| `positive` | Confirmation that an action succeeded |
+| `notice` | Warning — something may go wrong |
+| `negative` | Error — something has gone wrong |
+
+## Props (deep dive)
+
+### Content
+
+- `children`: compose with `<Heading>` for the alert title and `<Content>` for the body text. Both are from `@adobe/react-spectrum`.
+- `variant`: one of `neutral | info | positive | notice | negative`.
+
+### Accessibility
+
+- The alert is rendered with `role="alert"` semantics by Spectrum so screen readers announce it.
+- Use specific, actionable heading text (`"Missing required field"`) over generic phrases (`"Error"`).
+- `InlineAlert` is static — it does not dismiss. For dismissible messages, use `Toast`.
+
+## Related components
+
+- `Toast` — use for transient success/error notifications that auto-dismiss.
+- `Badge` — use for compact status labels without a heading or body text.
+- `StatusLight` — use for inline coloured dots in data rows.
+
+## Example use cases
+
+<details>
+  <summary>Typical use cases</summary>
+
+- Form validation summary shown above a form after a failed submit.
+- Settings page notice warning that a value change will restart training.
+- Annotation page info banner explaining that auto-annotation is running.
+
+</details>
