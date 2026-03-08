@@ -1,0 +1,111 @@
+---
+title: Tag
+---
+
+import { Tag } from '@geti/ui';
+import { ExampleCard } from '../../../theme/ExampleCard';
+
+# Tag
+
+`Tag` displays a small categorisation label with an optional accent dot, prefix element, or suffix element. Use it to show metadata inline — annotation labels, model types, status categories — without needing a full Spectrum `TagGroup`.
+
+```tsx
+import { Tag } from '@geti/ui';
+```
+
+- [Geti UI Theming](/components/theming)
+
+## Examples
+
+<ExampleCard
+  title="Default (with accent dot)"
+  code={`<Tag text="Detection" />`}
+>
+  <Tag text="Detection" />
+</ExampleCard>
+
+<ExampleCard
+  title="No dot"
+  code={`<Tag text="Classification" withDot={false} />`}
+>
+  <Tag text="Classification" withDot={false} />
+</ExampleCard>
+
+<ExampleCard
+  title="Dark mode"
+  code={`<Tag text="Segmentation" darkMode />`}
+>
+  <Tag text="Segmentation" darkMode />
+</ExampleCard>
+
+<ExampleCard
+  title="With tooltip"
+  code={`<Tag text="Hover me" tooltip="Anomaly detection task" />`}
+>
+  <Tag text="Hover me" tooltip="Anomaly detection task" />
+</ExampleCard>
+
+<ExampleCard
+  title="With suffix element"
+  code={`<Tag
+  text="Active"
+  suffix={<span style={{ fontSize: '0.7rem', marginLeft: 4, opacity: 0.7 }}>×</span>}
+/>`}
+>
+  <Tag
+    text="Active"
+    suffix={<span style={{ fontSize: '0.7rem', marginLeft: 4, opacity: 0.7 }}>×</span>}
+  />
+</ExampleCard>
+
+## Responsibility
+
+`Tag` is a Geti-authored component with no direct Spectrum equivalent. It renders a small pill element using Spectrum design tokens for sizing, colour, and spacing. The default accent dot uses the Geti `--energy-blue` brand token.
+
+For a collection of removable or selectable tags rendered from data, use `TagGroup` instead.
+
+## Variants and states
+
+| Feature | Default | Notes |
+|---|---|---|
+| Accent dot | `true` | Disabled by setting `withDot={false}` |
+| Background | Light grey | `darkMode` switches to a darker grey |
+| Prefix | none | Overrides the dot with a custom element |
+| Suffix | none | Appended after the text |
+
+## Props (deep dive)
+
+### Content
+
+- `text`: the label string displayed inside the tag.
+- `prefix`: custom element rendered before the text; replaces the accent dot when provided.
+- `suffix`: custom element rendered after the text.
+- `withDot`: whether to show the accent dot. Defaults to `true`; set `false` when using a custom `prefix`.
+
+### Appearance
+
+- `darkMode`: uses a darker background token, useful inside already-dark panels.
+- `className` / `style`: additional class or inline CSS for the container.
+
+### Interaction / accessibility
+
+- `tooltip`: native `title` attribute — shown on hover.
+- `aria-label`: defaults to the `text` value; override for non-obvious labels.
+- `id`: also used as `data-testid` for automated tests.
+
+## Related components
+
+- `TagGroup` — use for a managed, removable collection of tags rendered from a data array.
+- `Badge` — use for short colour-coded status labels that do not need a dot prefix.
+- `StatusLight` — use when the coloured indicator is the primary visual signal, not the text.
+
+## Example use cases
+
+<details>
+  <summary>Typical use cases</summary>
+
+- Label chip on an annotation card showing the label name with its colour dot.
+- Task type indicator on a project card (`Detection`, `Classification`).
+- Dataset status pill inside a compact list row.
+
+</details>
