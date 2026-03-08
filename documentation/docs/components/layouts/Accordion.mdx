@@ -1,0 +1,173 @@
+---
+title: Accordion
+---
+
+import { Accordion, Disclosure, DisclosurePanel, DisclosureTitle } from '@geti/ui';
+import { ExampleCard } from '../../../theme/ExampleCard';
+
+# Accordion
+
+Accordion groups multiple collapsible sections into a single stack. By default, opening one section closes the others. Use it for long settings pages, FAQs, or any content where showing everything at once would overwhelm the user.
+
+```tsx
+import { Accordion, Disclosure, DisclosurePanel, DisclosureTitle } from '@geti/ui';
+```
+
+- [React Spectrum Accordion ↗](https://react-spectrum.adobe.com/react-spectrum/Accordion.html)
+- [Geti UI Theming](/components/theming)
+
+## Examples
+
+<ExampleCard
+  title="Default (single expand)"
+  code={`<Accordion>
+  <Disclosure>
+    <DisclosureTitle>Section One</DisclosureTitle>
+    <DisclosurePanel>
+      <p>Content for section one.</p>
+    </DisclosurePanel>
+  </Disclosure>
+  <Disclosure>
+    <DisclosureTitle>Section Two</DisclosureTitle>
+    <DisclosurePanel>
+      <p>Content for section two.</p>
+    </DisclosurePanel>
+  </Disclosure>
+  <Disclosure>
+    <DisclosureTitle>Section Three</DisclosureTitle>
+    <DisclosurePanel>
+      <p>Content for section three.</p>
+    </DisclosurePanel>
+  </Disclosure>
+</Accordion>`}
+>
+  <Accordion>
+    <Disclosure>
+      <DisclosureTitle>Section One</DisclosureTitle>
+      <DisclosurePanel>
+        <p>Content for section one.</p>
+      </DisclosurePanel>
+    </Disclosure>
+    <Disclosure>
+      <DisclosureTitle>Section Two</DisclosureTitle>
+      <DisclosurePanel>
+        <p>Content for section two.</p>
+      </DisclosurePanel>
+    </Disclosure>
+    <Disclosure>
+      <DisclosureTitle>Section Three</DisclosureTitle>
+      <DisclosurePanel>
+        <p>Content for section three.</p>
+      </DisclosurePanel>
+    </Disclosure>
+  </Accordion>
+</ExampleCard>
+
+<ExampleCard
+  title="Multiple panels open simultaneously"
+  code={`<Accordion allowsMultipleExpanded>
+  <Disclosure>
+    <DisclosureTitle>First Item</DisclosureTitle>
+    <DisclosurePanel>
+      <p>First item content — stays open when others open.</p>
+    </DisclosurePanel>
+  </Disclosure>
+  <Disclosure>
+    <DisclosureTitle>Second Item</DisclosureTitle>
+    <DisclosurePanel>
+      <p>Second item content.</p>
+    </DisclosurePanel>
+  </Disclosure>
+</Accordion>`}
+>
+  <Accordion allowsMultipleExpanded>
+    <Disclosure>
+      <DisclosureTitle>First Item</DisclosureTitle>
+      <DisclosurePanel>
+        <p>First item content — stays open when others open.</p>
+      </DisclosurePanel>
+    </Disclosure>
+    <Disclosure>
+      <DisclosureTitle>Second Item</DisclosureTitle>
+      <DisclosurePanel>
+        <p>Second item content.</p>
+      </DisclosurePanel>
+    </Disclosure>
+  </Accordion>
+</ExampleCard>
+
+<ExampleCard
+  title="Quiet style"
+  code={`<Accordion isQuiet>
+  <Disclosure>
+    <DisclosureTitle>Quiet Section A</DisclosureTitle>
+    <DisclosurePanel>
+      <p>Quiet accordion panel A.</p>
+    </DisclosurePanel>
+  </Disclosure>
+  <Disclosure>
+    <DisclosureTitle>Quiet Section B</DisclosureTitle>
+    <DisclosurePanel>
+      <p>Quiet accordion panel B.</p>
+    </DisclosurePanel>
+  </Disclosure>
+</Accordion>`}
+>
+  <Accordion isQuiet>
+    <Disclosure>
+      <DisclosureTitle>Quiet Section A</DisclosureTitle>
+      <DisclosurePanel>
+        <p>Quiet accordion panel A.</p>
+      </DisclosurePanel>
+    </Disclosure>
+    <Disclosure>
+      <DisclosureTitle>Quiet Section B</DisclosureTitle>
+      <DisclosurePanel>
+        <p>Quiet accordion panel B.</p>
+      </DisclosurePanel>
+    </Disclosure>
+  </Accordion>
+</ExampleCard>
+
+## Responsibility
+
+`Accordion` is a thin wrapper around React Spectrum `Accordion`. It coordinates the open/closed state of child `Disclosure` components. Each section is composed with `DisclosureTitle` (trigger heading) and `DisclosurePanel` (collapsible content).
+
+## Variants and states
+
+| Prop | Notes |
+|---|---|
+| `allowsMultipleExpanded` | Allows more than one panel open at once |
+| `isQuiet` | Removes the section divider lines for a lighter appearance |
+
+## Props (deep dive)
+
+### Content
+
+- `children`: one or more `Disclosure` components, each containing a `DisclosureTitle` and `DisclosurePanel`.
+
+### Value / state
+
+- `allowsMultipleExpanded`: when `false` (default), opening one section closes any other open section.
+- Individual `Disclosure` items accept `isExpanded` / `defaultExpanded` for controlled/default open states.
+
+### Accessibility
+
+- Each `DisclosureTitle` renders as a `<button>` with `aria-expanded`.
+- Keyboard: `Enter`/`Space` toggles the focused section.
+
+## Related components
+
+- `Disclosure` — use a single standalone collapsible section without the grouped accordion behaviour.
+- `Tabs` — use when sections are mutually exclusive and always visible rather than stacked.
+
+## Example use cases
+
+<details>
+  <summary>Typical use cases</summary>
+
+- Advanced parameters panel: grouped settings categories (Training / Augmentation / Evaluation).
+- FAQ section in onboarding documentation.
+- Model configuration form with collapsible sections for each task type.
+
+</details>
