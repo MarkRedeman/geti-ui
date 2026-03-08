@@ -17,6 +17,7 @@
         "dist"
     ],
     "scripts": {
+        "dev": "rslib build --watch",
         "build": "rslib build",
         "build:watch": "rslib build --watch",
         "storybook": "storybook dev -p 6006",

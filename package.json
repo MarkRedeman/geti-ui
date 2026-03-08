@@ -14,6 +14,7 @@
     "format:check": "pnpm --filter @geti/ui format:check",
     "prepare": "husky",
     "docs:dev": "pnpm --filter @geti/documentation dev",
+    "docs:dev:with-ui": "pnpm --parallel --stream --filter @geti/ui --filter @geti/documentation run dev",
     "docs:build": "pnpm --filter @geti/documentation build",
     "docs:preview": "pnpm --filter @geti/documentation preview",
     "docs:check:coverage": "pnpm --filter @geti/documentation check:coverage",
