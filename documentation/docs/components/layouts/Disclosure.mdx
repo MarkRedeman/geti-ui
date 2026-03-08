@@ -1,0 +1,135 @@
+---
+title: Disclosure
+---
+
+import { Disclosure, DisclosurePanel, DisclosureTitle } from '@geti/ui';
+import { ExampleCard } from '../../../theme/ExampleCard';
+
+# Disclosure
+
+Disclosure is a single collapsible section consisting of a labelled heading and a panel that expands or collapses when the heading is pressed. Use it for optional supplementary content, advanced settings, or any section the user may not always need to see.
+
+```tsx
+import { Disclosure, DisclosurePanel, DisclosureTitle } from '@geti/ui';
+```
+
+- [React Spectrum Disclosure ↗](https://react-spectrum.adobe.com/react-spectrum/Disclosure.html)
+- [Geti UI Theming](/components/theming)
+
+## Examples
+
+<ExampleCard
+  title="Default (collapsed)"
+  code={`<Disclosure>
+  <DisclosureTitle>Section Title</DisclosureTitle>
+  <DisclosurePanel>
+    <p>This is the collapsible content of the disclosure panel.</p>
+  </DisclosurePanel>
+</Disclosure>`}
+>
+  <Disclosure>
+    <DisclosureTitle>Section Title</DisclosureTitle>
+    <DisclosurePanel>
+      <p>This is the collapsible content of the disclosure panel.</p>
+    </DisclosurePanel>
+  </Disclosure>
+</ExampleCard>
+
+<ExampleCard
+  title="Expanded by default"
+  code={`<Disclosure isExpanded>
+  <DisclosureTitle>Expanded Section</DisclosureTitle>
+  <DisclosurePanel>
+    <p>This panel is open by default.</p>
+  </DisclosurePanel>
+</Disclosure>`}
+>
+  <Disclosure isExpanded>
+    <DisclosureTitle>Expanded Section</DisclosureTitle>
+    <DisclosurePanel>
+      <p>This panel is open by default.</p>
+    </DisclosurePanel>
+  </Disclosure>
+</ExampleCard>
+
+<ExampleCard
+  title="Quiet style"
+  code={`<Disclosure isQuiet>
+  <DisclosureTitle>Quiet Disclosure</DisclosureTitle>
+  <DisclosurePanel>
+    <p>Quiet variant with reduced visual weight.</p>
+  </DisclosurePanel>
+</Disclosure>`}
+>
+  <Disclosure isQuiet>
+    <DisclosureTitle>Quiet Disclosure</DisclosureTitle>
+    <DisclosurePanel>
+      <p>Quiet variant with reduced visual weight.</p>
+    </DisclosurePanel>
+  </Disclosure>
+</ExampleCard>
+
+<ExampleCard
+  title="Disabled"
+  code={`<Disclosure isDisabled>
+  <DisclosureTitle>Disabled Section</DisclosureTitle>
+  <DisclosurePanel>
+    <p>This disclosure cannot be toggled.</p>
+  </DisclosurePanel>
+</Disclosure>`}
+>
+  <Disclosure isDisabled>
+    <DisclosureTitle>Disabled Section</DisclosureTitle>
+    <DisclosurePanel>
+      <p>This disclosure cannot be toggled.</p>
+    </DisclosurePanel>
+  </Disclosure>
+</ExampleCard>
+
+## Responsibility
+
+`Disclosure` is a thin wrapper around React Spectrum `Disclosure`. It re-exports `DisclosurePanel` and `DisclosureTitle` as part of the same module for convenient co-import. For multiple grouped disclosures, use `Accordion`.
+
+## Variants and states
+
+| Prop | Notes |
+|---|---|
+| `isExpanded` | Controlled open state |
+| `defaultExpanded` | Initial open state (uncontrolled) |
+| `isQuiet` | Removes the border/divider for a lighter appearance |
+| `isDisabled` | Prevents the panel from being toggled |
+
+## Props (deep dive)
+
+### Content
+
+- `children`: must contain exactly one `DisclosureTitle` and one `DisclosurePanel`.
+- `DisclosureTitle`: renders as a heading-level button trigger.
+- `DisclosurePanel`: the collapsible content region.
+
+### Value / state
+
+- `isExpanded` + `onExpandedChange`: controlled open state.
+- `defaultExpanded`: initial open state in uncontrolled mode.
+
+### Accessibility
+
+- `DisclosureTitle` renders a `<button>` with `aria-expanded`.
+- `DisclosurePanel` is associated to the title via `aria-controls`.
+- Keyboard: `Enter`/`Space` toggles the section.
+
+## Related components
+
+- `Accordion` — use when you need multiple grouped disclosures with coordinated open/close behaviour.
+- `Tabs` — use for mutually exclusive peer sections rather than stacked expandable ones.
+
+## Example use cases
+
+<details>
+  <summary>Typical use cases</summary>
+
+- "Advanced options" section in a training configuration form.
+- Filter panel sub-group that can be hidden when not needed.
+- Help text region that expands inline next to a form field.
+
+</details>
