@@ -1,0 +1,90 @@
+---
+title: Divider
+---
+
+import { Divider } from '@geti/ui';
+import { ExampleCard } from '../../../theme/ExampleCard';
+
+# Divider
+
+Divider is a thin horizontal or vertical line that separates sections of content. Use it to add visual breathing room between distinct groups — not as decoration between every element.
+
+```tsx
+import { Divider } from '@geti/ui';
+```
+
+- [React Spectrum Divider ↗](https://react-spectrum.adobe.com/react-spectrum/Divider.html)
+- [Geti UI Theming](/components/theming)
+
+## Examples
+
+<ExampleCard
+  title="Horizontal (default)"
+  code={`<Divider />`}
+>
+  <Divider />
+</ExampleCard>
+
+<ExampleCard
+  title="Small size"
+  code={`<Divider size="S" />`}
+>
+  <Divider size="S" />
+</ExampleCard>
+
+<ExampleCard
+  title="Vertical"
+  code={`<div style={{ display: 'flex', height: 40, alignItems: 'stretch' }}>
+  <span>Left</span>
+  <Divider orientation="vertical" />
+  <span>Right</span>
+</div>`}
+>
+  <div style={{ display: 'flex', height: 40, alignItems: 'stretch', gap: 8, color: '#ccc' }}>
+    <span>Left</span>
+    <Divider orientation="vertical" />
+    <span>Right</span>
+  </div>
+</ExampleCard>
+
+## Responsibility
+
+`Divider` is a thin wrapper around React Spectrum's `Divider` — all props pass through unchanged. The wrapper provides a consistent `@geti/ui` import path and integrates with Geti theming.
+
+## Variants and states
+
+| Prop | Options | Default | Notes |
+|---|---|---|---|
+| `orientation` | `'horizontal' \| 'vertical'` | `'horizontal'` | Horizontal spans full width; vertical spans full height of flex container |
+| `size` | `'S' \| 'M' \| 'L'` | `'M'` | Controls line thickness |
+
+`Divider` has no interactive states.
+
+## Props (deep dive)
+
+### Visual
+
+- `orientation`: `'horizontal'` (default) or `'vertical'`.
+- `size`: `'S' | 'M' | 'L'` — controls stroke weight.
+
+### Accessibility
+
+- renders as `<hr>` semantically,
+- use sparingly — overuse degrades page structure for screen reader users navigating by landmarks.
+
+## Related components
+
+- `Flex` / `Grid` — prefer using gap/padding for spacing before adding a visual divider.
+- `Well` — a bordered container that creates separation without a divider line.
+
+## Example use cases
+
+<details>
+  <summary>Typical use cases</summary>
+
+- Separating the header from body content in a settings panel.
+- Dividing sections in a vertical navigation sidebar.
+- Separating form groups in a long settings form.
+- Visual break between the filter toolbar and data table.
+
+</details>
