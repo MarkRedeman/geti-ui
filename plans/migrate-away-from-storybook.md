@@ -152,6 +152,34 @@ changes/patterns we should reuse for all next components:
    - One commit per component migration.
    - Follow-up commits allowed for UX parity fixes discovered during review.
 
+### Progress snapshot (updated)
+
+Current authored coverage from `documentation/docs/components/_coverage.json`:
+
+- **Migrated:** 77 / 83 component pages
+- **Remaining:** 6 pages
+
+Completed migration waves so far:
+
+- ✅ Wave A (`ui/` + core `form/`)
+- ✅ Wave B (`form/pickers`, `form/date-controls`, `form/color-controls`) **mostly complete**
+- ✅ Wave C (`data/` + `feedback/`) **mostly complete**
+- ✅ Wave D (`navigation/` + `layouts/` + `overlays/`)
+
+Remaining components to migrate next:
+
+1. `feedback/IllustratedMessage`
+2. `feedback/IntelBrandedLoading`
+3. `feedback/ProgressBar`
+4. `feedback/ProgressCircle`
+5. `form/date-controls/RangeCalendar`
+6. `form/date-controls/TimeField`
+
+Operational note:
+
+- We are currently committing **one component per commit** for migrated pages,
+  as requested, while keeping legacy package docs untouched for rollback.
+
 ---
 
 ## Phase 3 — CI enforcement
