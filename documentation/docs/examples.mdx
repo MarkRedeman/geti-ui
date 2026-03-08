@@ -1,45 +1,119 @@
-import { View, Flex, Divider, Button, ActionButton, ToggleButton, TagGroup, TagItem, ListView, ListItem, Badge, StatusLight, SearchField, ComboBox, ComboBoxItem, DatePicker, ProgressBar, InlineAlert, Tabs, TabList, TabPanels, TabItem as Item, DialogTrigger, Popover, Dialog } from '@geti/ui';
-import { Heading, Text, Content } from '@adobe/react-spectrum';
+import { View, Flex, Divider, Button, ActionButton, ToggleButton, Avatar, CornerIndicator, SearchField, TextField, NumberField, CheckboxGroup, Checkbox, ComboBox, ComboBoxItem, DatePicker, ListView, ListItem, TagGroup, TagItem, TableView, TableHeader, Column, TableBody, Row, Cell, Card, Grid, Well, Disclosure, DisclosureTitle, DisclosurePanel, DialogTrigger, Dialog, Popover, TooltipTrigger, Tooltip, InlineAlert, ProgressBar, StatusLight, Badge } from '@geti/ui';
+import { Heading, Text, Content, Item } from '@adobe/react-spectrum';
 import { ExampleCard } from '../theme/ExampleCard';
 
 # Examples
 
-Use this page as a **composition gallery** for `@geti/ui`.
+Use this page as a composition gallery for `@geti/ui`.
 
-Unlike component reference pages (one component at a time), this page focuses on
-larger UI building blocks and how components fit together.
+Each card below is a domain-level kitchen sink that mirrors the structure of the
+original category kitchen-sink pages in `packages/ui/src/components/*/KitchenSink.mdx`.
 
-## Kitchensink
+## Kitchensink cards
 
 <ExampleCard
-  title="Kitchensink"
-  code={`<View borderWidth="thin" borderColor="dark" borderRadius="regular" padding="size-250" width="size-6000">
-  <Flex direction="column" gap="size-200">
-    <Heading level={4} margin={0}>UI primitives</Heading>
+  title="UI kitchensink"
+  code={`<Flex direction="column" gap="size-150" width="size-4600">
+  <Heading level={4} margin={0}>Primitive actions</Heading>
+  <Flex gap="size-100" wrap>
+    <Button variant="accent">Primary</Button>
+    <ActionButton aria-label="Refresh">↻</ActionButton>
+    <ToggleButton>Auto refresh</ToggleButton>
+  </Flex>
+  <Flex gap="size-150" alignItems="center">
+    <Avatar size="avatar-size-100" alt="User" src="https://i.pravatar.cc/100?img=7" />
+    <CornerIndicator><Button variant="secondary">Notifications</Button></CornerIndicator>
+  </Flex>
+</Flex>`}
+>
+  <Flex direction="column" gap="size-150" width="size-4600">
+    <Heading level={4} margin={0}>Primitive actions</Heading>
     <Flex gap="size-100" wrap>
-      <Button variant="accent">Create</Button>
-      <Button variant="secondary" style="outline">Cancel</Button>
+      <Button variant="accent">Primary</Button>
       <ActionButton aria-label="Refresh">↻</ActionButton>
-      <ToggleButton>Auto-refresh</ToggleButton>
-      <Badge variant="info">Running</Badge>
-      <StatusLight variant="positive">Healthy</StatusLight>
+      <ToggleButton>Auto refresh</ToggleButton>
     </Flex>
-
-    <Divider />
-
-    <Heading level={4} margin={0}>Form controls + pickers</Heading>
-    <Flex direction="column" gap="size-150" width="size-3600">
-      <SearchField aria-label="Search assets" placeholder="Search assets" />
-      <ComboBox label="Model" items={[{ id: 'm1', name: 'Vehicle detector' }, { id: 'm2', name: 'Person detector' }]}>
-        {(item) => <ComboBoxItem>{item.name}</ComboBoxItem>}
-      </ComboBox>
-      <DatePicker label="Created after" />
+    <Flex gap="size-150" alignItems="center">
+      <Avatar size="avatar-size-100" alt="User" src="https://i.pravatar.cc/100?img=7" />
+      <CornerIndicator>
+        <Button variant="secondary">Notifications</Button>
+      </CornerIndicator>
     </Flex>
+  </Flex>
+</ExampleCard>
 
-    <Divider />
+<ExampleCard
+  title="Form kitchensink"
+  code={`<Flex direction="column" gap="size-150" width="size-4600">
+  <SearchField aria-label="Search" placeholder="Search assets" />
+  <TextField label="Project name" defaultValue="Traffic detection" />
+  <NumberField label="Epochs" defaultValue={20} minValue={1} />
+  <ComboBox label="Model" items={[{ id: '1', name: 'Vehicle detector' }, { id: '2', name: 'Person detector' }]}>
+    {(item) => <ComboBoxItem>{item.name}</ComboBoxItem>}
+  </ComboBox>
+  <DatePicker label="Start date" />
+  <CheckboxGroup label="Outputs" defaultValue={['predictions']}>
+    <Checkbox value="predictions">Predictions</Checkbox>
+    <Checkbox value="metrics">Metrics</Checkbox>
+  </CheckboxGroup>
+</Flex>`}
+>
+  <Flex direction="column" gap="size-150" width="size-4600">
+    <SearchField aria-label="Search" placeholder="Search assets" />
+    <TextField label="Project name" defaultValue="Traffic detection" />
+    <NumberField label="Epochs" defaultValue={20} minValue={1} />
+    <ComboBox
+      label="Model"
+      items={[
+        { id: '1', name: 'Vehicle detector' },
+        { id: '2', name: 'Person detector' },
+      ]}
+    >
+      {(item) => <ComboBoxItem>{item.name}</ComboBoxItem>}
+    </ComboBox>
+    <DatePicker label="Start date" />
+    <CheckboxGroup label="Outputs" defaultValue={['predictions']}>
+      <Checkbox value="predictions">Predictions</Checkbox>
+      <Checkbox value="metrics">Metrics</Checkbox>
+    </CheckboxGroup>
+  </Flex>
+</ExampleCard>
 
-    <Heading level={4} margin={0}>Data display</Heading>
-    <ListView aria-label="Media list" width="size-3600" selectionMode="multiple" items={[{ id: '1', title: 'frame_001.jpg', tags: ['car', 'road'] }, { id: '2', title: 'frame_002.jpg', tags: ['person'] }] }>
+<ExampleCard
+  title="Data kitchensink"
+  code={`<Flex direction="column" gap="size-150" width="size-6000">
+  <ListView aria-label="Assets" items={[{ id: 'a1', title: 'frame_001.jpg', tags: ['car', 'road'] }, { id: 'a2', title: 'frame_002.jpg', tags: ['person'] }]}>
+    {(item) => (
+      <ListItem textValue={item.title}>
+        <Flex direction="column" gap="size-75">
+          <Text>{item.title}</Text>
+          <TagGroup aria-label="Item tags">
+            {item.tags.map((tag) => <TagItem key={tag}>{tag}</TagItem>)}
+          </TagGroup>
+        </Flex>
+      </ListItem>
+    )}
+  </ListView>
+  <TableView aria-label="Jobs" width="size-4600">
+    <TableHeader>
+      <Column id="name">Name</Column>
+      <Column id="status">Status</Column>
+    </TableHeader>
+    <TableBody>
+      <Row><Cell>Train-001</Cell><Cell>Running</Cell></Row>
+      <Row><Cell>Train-002</Cell><Cell>Queued</Cell></Row>
+    </TableBody>
+  </TableView>
+</Flex>`}
+>
+  <Flex direction="column" gap="size-150" width="size-6000">
+    <ListView
+      aria-label="Assets"
+      items={[
+        { id: 'a1', title: 'frame_001.jpg', tags: ['car', 'road'] },
+        { id: 'a2', title: 'frame_002.jpg', tags: ['person'] },
+      ]}
+    >
       {(item) => (
         <ListItem textValue={item.title}>
           <Flex direction="column" gap="size-75">
@@ -51,138 +125,123 @@ larger UI building blocks and how components fit together.
         </ListItem>
       )}
     </ListView>
+    <TableView aria-label="Jobs" width="size-4600">
+      <TableHeader>
+        <Column id="name">Name</Column>
+        <Column id="status">Status</Column>
+      </TableHeader>
+      <TableBody>
+        <Row><Cell>Train-001</Cell><Cell>Running</Cell></Row>
+        <Row><Cell>Train-002</Cell><Cell>Queued</Cell></Row>
+      </TableBody>
+    </TableView>
+  </Flex>
+</ExampleCard>
 
-    <Divider />
+<ExampleCard
+  title="Layouts kitchensink"
+  code={`<Flex direction="column" gap="size-150" width="size-6000">
+  <Grid columns={['1fr', '1fr']} gap="size-150">
+    <Card title="Project summary" description="Latest training metrics and status." />
+    <Well><Text>Dataset contains 12,430 annotated images.</Text></Well>
+  </Grid>
+  <Disclosure>
+    <DisclosureTitle>Advanced settings</DisclosureTitle>
+    <DisclosurePanel>
+      <Text>Fine-tune augmentation and learning schedule.</Text>
+    </DisclosurePanel>
+  </Disclosure>
+</Flex>`}
+>
+  <Flex direction="column" gap="size-150" width="size-6000">
+    <Grid columns={['1fr', '1fr']} gap="size-150">
+      <Card title="Project summary" description="Latest training metrics and status." />
+      <Well><Text>Dataset contains 12,430 annotated images.</Text></Well>
+    </Grid>
+    <Disclosure>
+      <DisclosureTitle>Advanced settings</DisclosureTitle>
+      <DisclosurePanel>
+        <Text>Fine-tune augmentation and learning schedule.</Text>
+      </DisclosurePanel>
+    </Disclosure>
+  </Flex>
+</ExampleCard>
 
-    <Heading level={4} margin={0}>Navigation + overlays</Heading>
-    <Tabs aria-label="Workspace">
-      <TabList>
-        <Item key="dataset">Dataset</Item>
-        <Item key="models">Models</Item>
-        <Item key="settings">Settings</Item>
-      </TabList>
-      <TabPanels>
-        <Item key="dataset"><Content>Dataset content</Content></Item>
-        <Item key="models"><Content>Model content</Content></Item>
-        <Item key="settings"><Content>Settings content</Content></Item>
-      </TabPanels>
-    </Tabs>
-
+<ExampleCard
+  title="Overlays kitchensink"
+  code={`<Flex gap="size-150" wrap>
+  <DialogTrigger>
+    <Button variant="accent">Open dialog</Button>
+    <Dialog>
+      <Heading>Confirm action</Heading>
+      <Content>Continue with this operation?</Content>
+    </Dialog>
+  </DialogTrigger>
+  <DialogTrigger>
+    <Button variant="secondary" style="outline">Open popover</Button>
+    <Popover>
+      <Dialog>
+        <Heading>Popover details</Heading>
+        <Text>Contextual controls live here.</Text>
+      </Dialog>
+    </Popover>
+  </DialogTrigger>
+  <TooltipTrigger>
+    <ActionButton aria-label="Info">i</ActionButton>
+    <Tooltip>Additional context</Tooltip>
+  </TooltipTrigger>
+</Flex>`}
+>
+  <Flex gap="size-150" wrap>
     <DialogTrigger>
-      <Button variant="secondary" style="outline">Open details</Button>
+      <Button variant="accent">Open dialog</Button>
+      <Dialog>
+        <Heading>Confirm action</Heading>
+        <Content>Continue with this operation?</Content>
+      </Dialog>
+    </DialogTrigger>
+    <DialogTrigger>
+      <Button variant="secondary" style="outline">Open popover</Button>
       <Popover>
         <Dialog>
-          <Heading>Review details</Heading>
-          <Text>Open the task panel to review low-confidence predictions.</Text>
+          <Heading>Popover details</Heading>
+          <Text>Contextual controls live here.</Text>
         </Dialog>
       </Popover>
     </DialogTrigger>
+    <TooltipTrigger>
+      <ActionButton aria-label="Info">i</ActionButton>
+      <Tooltip>Additional context</Tooltip>
+    </TooltipTrigger>
+  </Flex>
+</ExampleCard>
 
-    <Divider />
-
-    <Heading level={4} margin={0}>Status + feedback</Heading>
-    <Flex direction="column" gap="size-150" width="size-3600">
-      <ProgressBar label="Training progress" value={62} />
-      <InlineAlert variant="notice" title="Review required">
-        Some predictions need manual confirmation.
-      </InlineAlert>
+<ExampleCard
+  title="Feedback kitchensink"
+  code={`<Flex direction="column" gap="size-150" width="size-4600">
+  <InlineAlert variant="notice" title="Review required">
+    Some predictions need manual confirmation.
+  </InlineAlert>
+  <ProgressBar label="Training progress" value={62} />
+  <Flex gap="size-100" alignItems="center">
+    <Badge variant="info">Running</Badge>
+    <StatusLight variant="notice">GPU queue</StatusLight>
+  </Flex>
+</Flex>`}
+>
+  <Flex direction="column" gap="size-150" width="size-4600">
+    <InlineAlert variant="notice" title="Review required">
+      Some predictions need manual confirmation.
+    </InlineAlert>
+    <ProgressBar label="Training progress" value={62} />
+    <Flex gap="size-100" alignItems="center">
+      <Badge variant="info">Running</Badge>
+      <StatusLight variant="notice">GPU queue</StatusLight>
     </Flex>
   </Flex>
-</View>`}
->
-  <View borderWidth="thin" borderColor="dark" borderRadius="regular" padding="size-250" width="size-6000">
-    <Flex direction="column" gap="size-200">
-      <Heading level={4} margin={0}>UI primitives</Heading>
-      <Flex gap="size-100" wrap>
-        <Button variant="accent">Create</Button>
-        <Button variant="secondary" style="outline">Cancel</Button>
-        <ActionButton aria-label="Refresh">↻</ActionButton>
-        <ToggleButton>Auto-refresh</ToggleButton>
-        <Badge variant="info">Running</Badge>
-        <StatusLight variant="positive">Healthy</StatusLight>
-      </Flex>
-
-      <Divider />
-
-      <Heading level={4} margin={0}>Form controls + pickers</Heading>
-      <Flex direction="column" gap="size-150" width="size-3600">
-        <SearchField aria-label="Search assets" placeholder="Search assets" />
-        <ComboBox
-          label="Model"
-          items={[
-            { id: 'm1', name: 'Vehicle detector' },
-            { id: 'm2', name: 'Person detector' },
-          ]}
-        >
-          {(item) => <ComboBoxItem>{item.name}</ComboBoxItem>}
-        </ComboBox>
-        <DatePicker label="Created after" />
-      </Flex>
-
-      <Divider />
-
-      <Heading level={4} margin={0}>Data display</Heading>
-      <ListView
-        aria-label="Media list"
-        width="size-3600"
-        selectionMode="multiple"
-        items={[
-          { id: '1', title: 'frame_001.jpg', tags: ['car', 'road'] },
-          { id: '2', title: 'frame_002.jpg', tags: ['person'] },
-        ]}
-      >
-        {(item) => (
-          <ListItem textValue={item.title}>
-            <Flex direction="column" gap="size-75">
-              <Text>{item.title}</Text>
-              <TagGroup aria-label="Item tags">
-                {item.tags.map((tag) => <TagItem key={tag}>{tag}</TagItem>)}
-              </TagGroup>
-            </Flex>
-          </ListItem>
-        )}
-      </ListView>
-
-      <Divider />
-
-      <Heading level={4} margin={0}>Navigation + overlays</Heading>
-      <Tabs aria-label="Workspace">
-        <TabList>
-          <Item key="dataset">Dataset</Item>
-          <Item key="models">Models</Item>
-          <Item key="settings">Settings</Item>
-        </TabList>
-        <TabPanels>
-          <Item key="dataset"><Content>Dataset content</Content></Item>
-          <Item key="models"><Content>Model content</Content></Item>
-          <Item key="settings"><Content>Settings content</Content></Item>
-        </TabPanels>
-      </Tabs>
-
-      <DialogTrigger>
-        <Button variant="secondary" style="outline">Open details</Button>
-        <Popover>
-          <Dialog>
-            <Heading>Review details</Heading>
-            <Text>Open the task panel to review low-confidence predictions.</Text>
-          </Dialog>
-        </Popover>
-      </DialogTrigger>
-
-      <Divider />
-
-      <Heading level={4} margin={0}>Status + feedback</Heading>
-      <Flex direction="column" gap="size-150" width="size-3600">
-        <ProgressBar label="Training progress" value={62} />
-        <InlineAlert variant="notice" title="Review required">
-          Some predictions need manual confirmation.
-        </InlineAlert>
-      </Flex>
-    </Flex>
-  </View>
 </ExampleCard>
 
 <Divider marginTop="size-250" marginBottom="size-200" />
 
-> More curated scenario pages are available in the Examples sidebar and will be
+> More scenario-specific pages are available in the Examples sidebar and will be
 > expanded over time.
