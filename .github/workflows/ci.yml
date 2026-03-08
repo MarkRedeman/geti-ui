@@ -11,6 +11,49 @@ concurrency:
     cancel-in-progress: true
 
 jobs:
+    docs:
+        name: Docs checks
+        runs-on: ubuntu-latest
+        steps:
+            - uses: actions/checkout@v4
+
+            - uses: pnpm/action-setup@v3
+              with:
+                  version: 9
+
+            - uses: actions/setup-node@v4
+              with:
+                  node-version: 20
+                  cache: pnpm
+
+            - name: Install dependencies
+              run: pnpm install --frozen-lockfile
+
+            - name: Documentation coverage check
+              run: pnpm docs:check:coverage
+
+            - name: Documentation Storybook-coupling check
+              run: pnpm docs:check:no-stories-imports
+
+            - name: Build documentation
+              run: pnpm docs:build
+
+            - name: Install Playwright browsers (docs)
+              run: pnpm --filter @geti/documentation exec playwright install --with-deps chromium
+
+            - name: Docs routes smoke test
+              run: pnpm docs:test:e2e
+              env:
+                  CI: true
+
+            - name: Upload docs Playwright report
+              uses: actions/upload-artifact@v4
+              if: always()
+              with:
+                  name: docs-playwright-report
+                  path: documentation/playwright-report
+                  retention-days: 7
+
     ci:
         name: Build & Test
         runs-on: ubuntu-latest
@@ -59,7 +102,7 @@ jobs:
     playwright:
         name: Playwright E2E
         runs-on: ubuntu-latest
-        needs: ci
+        needs: [ci, docs]
         steps:
             - uses: actions/checkout@v4
 
