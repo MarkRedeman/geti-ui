@@ -41,6 +41,7 @@ jobs:
     if: github.event_name != 'pull_request'
     permissions:
       contents: read
+      actions: read # Needed by upload-sarif telemetry/workflow metadata lookup
       security-events: write # Needed to upload the results to code-scanning dashboard
     steps:
       - name: Checkout code
@@ -54,7 +55,7 @@ jobs:
           scan_type: "fs"
           scan-scope: all
           severity: "LOW"
-          scanners: "vuln,secret,config"
+          scanners: "vuln,secret,misconfig"
           format: "sarif"
           timeout: "15m"
           ignore_unfixed: "false"
