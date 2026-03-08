@@ -1,0 +1,59 @@
+# Installation
+
+This guide explains how to install and start using `@geti/ui` in a React application.
+
+## Requirements
+
+- Node.js 18+
+- A React project (React 18+)
+- A package manager (`pnpm`, `npm`, or `yarn`)
+
+## Install the package
+
+```bash
+pnpm add @geti/ui
+```
+
+or
+
+```bash
+npm install @geti/ui
+```
+
+or
+
+```bash
+yarn add @geti/ui
+```
+
+## Wrap your app with `ThemeProvider`
+
+`@geti/ui` components rely on the Geti theme context. Wrap your app once at the root:
+
+```tsx
+import React from 'react';
+import ReactDOM from 'react-dom/client';
+import { ThemeProvider } from '@geti/ui';
+import { App } from './App';
+
+ReactDOM.createRoot(document.getElementById('root')!).render(
+  <ThemeProvider>
+    <App />
+  </ThemeProvider>
+);
+```
+
+## Use components
+
+```tsx
+import { Button } from '@geti/ui';
+
+export function Example() {
+  return <Button variant="accent">Click me</Button>;
+}
+```
+
+## Next steps
+
+- Read the [Theming](/components/theming) guide
+- Browse component documentation in the sidebar

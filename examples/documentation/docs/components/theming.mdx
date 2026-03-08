@@ -1,0 +1,55 @@
+# Theming
+
+How Geti UI extends Adobe React Spectrum's design tokens and how to apply the theme in your app.
+
+## Overview
+
+Geti UI is built on top of Adobe React Spectrum and uses a token-based theme layer. The theme is provided through `ThemeProvider` and is dark-first by default.
+
+```txt
+ThemeProvider
+  └── Spectrum Provider (theme=getiTheme, colorScheme="dark", scale="medium")
+```
+
+## Use `ThemeProvider`
+
+Wrap your app once:
+
+```tsx
+import { ThemeProvider } from '@geti/ui';
+
+<ThemeProvider>
+  <App />
+</ThemeProvider>
+```
+
+You can override `Provider` props (for example `locale` or `scale`) when needed:
+
+```tsx
+<ThemeProvider locale="de-DE" scale="large">
+  <SettingsPanel />
+</ThemeProvider>
+```
+
+## Token strategy
+
+Geti theme files layer custom tokens on top of Spectrum defaults. In practice this means:
+
+- Keep using Spectrum/Geti primitives
+- Prefer token variables over hard-coded colors
+- Use `UNSAFE_className` + CSS modules for scoped component overrides
+
+## Practical guidelines
+
+- Always render Geti components inside `ThemeProvider`
+- Prefer CSS tokens over fixed hex values
+- Use semantic tokens (`positive`, `negative`, `warning`, `informative`) when possible
+
+## Related
+
+- [Installation](/components/installation)
+
+---
+
+For the full internal theme details and token map, see:
+`packages/ui/src/theme/Theming.mdx`.

@@ -314,6 +314,15 @@ export interface SidebarGroup {
   collapsed?: boolean;
 }
 
+const COMPONENT_GUIDES: SidebarGroup = {
+  text: 'Guides',
+  collapsed: false,
+  items: [
+    { text: 'Installation', link: '/components/installation' },
+    { text: 'Theming', link: '/components/theming' },
+  ],
+};
+
 export function buildSidebar(pages: ComponentPage[]): SidebarGroup[] {
   const groups = new Map<string, { text: string; link: string }[]>();
 
@@ -331,7 +340,7 @@ export function buildSidebar(pages: ComponentPage[]): SidebarGroup[] {
     }
   }
 
-  const sidebar: SidebarGroup[] = [];
+  const sidebar: SidebarGroup[] = [COMPONENT_GUIDES];
   for (const category of CATEGORY_ORDER) {
     const items = groups.get(category);
     if (items && items.length > 0) {
