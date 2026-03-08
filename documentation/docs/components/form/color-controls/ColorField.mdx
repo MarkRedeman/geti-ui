@@ -1,0 +1,100 @@
+---
+title: ColorField
+---
+
+import { ColorField, Flex } from '@geti/ui';
+import { ExampleCard } from '../../../../theme/ExampleCard';
+
+# ColorField
+
+`ColorField` is a text input for entering a hex color or an individual color channel value. Use it as a keyboard-precise companion to graphical color pickers.
+
+```tsx
+import { ColorField } from '@geti/ui';
+```
+
+- [React Spectrum ColorField ↗](https://react-spectrum.adobe.com/react-spectrum/ColorField.html)
+- [Geti UI Theming](/components/theming)
+
+## Examples
+
+<ExampleCard
+  title="Default"
+  code={`<ColorField label="Color" />`}
+>
+  <ColorField label="Color" />
+</ExampleCard>
+
+<ExampleCard
+  title="With default value"
+  code={`<ColorField label="Primary Color" defaultValue="#e73623" />`}
+>
+  <ColorField label="Primary Color" defaultValue="#e73623" />
+</ExampleCard>
+
+<ExampleCard
+  title="Validation"
+  code={`<Flex direction="column" gap="size-200">
+  <ColorField label="Required" isRequired />
+  <ColorField label="Invalid" validationState="invalid" errorMessage="Please enter a valid color." />
+</Flex>`}
+>
+  <Flex direction="column" gap="size-200">
+    <ColorField label="Required" isRequired />
+    <ColorField label="Invalid" validationState="invalid" errorMessage="Please enter a valid color." />
+  </Flex>
+</ExampleCard>
+
+## Responsibility
+
+`ColorField` is a direct pass-through of React Spectrum's `ColorField`. No defaults are changed.
+
+## Variants and states
+
+| State | Prop | Notes |
+|---|---|---|
+| Valid | `validationState="valid"` | Green indicator |
+| Invalid | `validationState="invalid"` + `errorMessage` | Red outline + error text |
+| Disabled | `isDisabled` | Non-interactive |
+| Read-only | `isReadOnly` | Non-editable display |
+| Required | `isRequired` | Adds required indicator |
+
+## Props (deep dive)
+
+### Content
+
+- `label`: visible field label.
+- `description`: helper text.
+- `errorMessage`: validation error text shown below the field.
+
+### Value / state
+
+- `value` / `defaultValue`: hex string or `Color` object.
+- `isDisabled`, `isReadOnly`, `isRequired`.
+- `validationState`: `"valid" | "invalid"`.
+
+### Events
+
+- `onChange(color)`: fires when the user commits a valid color.
+
+### Accessibility
+
+- Always provide `label`.
+- The field validates color format automatically — invalid input does not call `onChange`.
+
+## Related components
+
+- `ColorSlider` — for adjusting individual channels with a slider.
+- `ColorArea` — two-dimensional color surface.
+- `ColorPickerDialog` — full dialog that includes `ColorField` as the hex input.
+
+## Example use cases
+
+<details>
+  <summary>Typical use cases</summary>
+
+- Hex input inside the `ColorPickerDialog` for precise color entry.
+- Inline color override field in a design-token settings panel.
+- Accepting a hex color from users in a brand configuration form.
+
+</details>
