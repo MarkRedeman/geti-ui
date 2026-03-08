@@ -31,9 +31,10 @@ geti-ui/
 │   └── workflows/             # CI/CD GitHub Actions
 ├── .agents/
 │   └── skills/                # AgentSkills definitions
+├── documentation/             # Rspress docs site
 ├── AGENTS.md                  # This file
-├── PLAN.md                    # Master implementation plan
-├── components-todo-list.md    # Component backlog
+├── plans/PLAN.md              # Master implementation plan
+├── plans/components-todo-list.md # Component backlog
 └── renovate.json              # Dependency update config
 ```
 
@@ -48,7 +49,7 @@ geti-ui/
 | `react-aria-components`      | Headless accessible primitives                  | https://react-spectrum.adobe.com/react-aria/                        |
 | `@spectrum-icons/workflow`   | Adobe workflow icon set                         | https://react-spectrum.adobe.com/react-spectrum/workflow-icons.html |
 
-**Migration path:** React Spectrum v3 → Spectrum 2 → react-aria-components + Tailwind CSS (in phases, see PLAN.md).
+**Migration path:** React Spectrum v3 → Spectrum 2 → react-aria-components + Tailwind CSS (in phases, see `plans/PLAN.md`).
 
 ---
 
@@ -69,7 +70,7 @@ src/components/button/
 - Extend from upstream Spectrum/aria prop types rather than redefining them
 - Export the component's Props type explicitly
 - No `any` types — use generics or `unknown` when necessary
-- Prefer `interface` over `type` for component props (easier to extend)
+- Prefer `type` for component props (consistency across codebase)
 - Use **relative imports** — no path aliases (e.g. `../button/Button`, not `@geti/ui/button`)
 
 ```tsx
@@ -158,7 +159,7 @@ The library is dark-mode-first. The theme is a custom CSS variable set that over
 
 - `ThemeProvider` wraps `@adobe/react-spectrum` `Provider` with `colorScheme="dark"` and the Geti theme
 - Always render stories inside `ThemeProvider` (configured globally in `.storybook/preview.tsx`)
-- Design tokens are in `src/theme/tokens.css`
+- Theme tokens are implemented in `src/theme/geti-*.module.css` (with shared token values in theme CSS files)
 
 ---
 
@@ -216,7 +217,7 @@ This library is designed to be used by both humans and AI agents.
 
 ## Commands
 
-> These will be available once the project scaffold is set up (Phase 1 of PLAN.md).
+> Core commands currently available in this repository.
 
 ```bash
 # Development
