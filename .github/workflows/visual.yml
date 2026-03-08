@@ -32,21 +32,17 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - uses: pnpm/action-setup@v4
-        with:
-          version: 9
-
       - uses: actions/setup-node@v4
         with:
           node-version: 24
-          cache: pnpm
+          cache: npm
 
-      - run: pnpm install --frozen-lockfile
+      - run: npm ci
 
-      - run: pnpm docs:build
+      - run: npm run docs:build
 
       - name: Install Playwright
-        run: pnpm --filter @geti/documentation exec playwright install --with-deps chromium
+        run: npm exec --workspace=@geti/documentation -- playwright install --with-deps chromium
 
       - name: Run targeted visual tests
         working-directory: documentation
@@ -58,7 +54,7 @@ jobs:
             echo "No matching component categories detected; skipping targeted visual run."
             exit 0
           fi
-          pnpm exec playwright test --grep "$PATTERN"
+          npm exec -- playwright test --grep "$PATTERN"
 
       - uses: actions/upload-artifact@v4
         if: always()

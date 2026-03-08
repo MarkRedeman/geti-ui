@@ -9,12 +9,12 @@ Its role is purely structural — it provides the conventional monorepo boundary
 ## Design
 
 - **One package today**: `packages/ui/` is the entire library. The directory is named `packages/` (plural) to make room for future additions such as a standalone tokens package, an icons wrapper, or a config package, without requiring a restructure.
-- **pnpm workspace resolution**: `pnpm-workspace.yaml` at the repo root declares `packages/*`, so any directory added here is automatically included in the workspace.
+- **npm workspace resolution**: root `package.json` declares `workspaces`, so any directory added here can be included in the workspace.
 - **No shared config package yet**: ESLint, TypeScript, and Prettier configs live at the repo root and are referenced by relative path from `packages/ui/`. If a second package is added, a shared config package in `packages/config/` would be the natural next step.
 
 ## Flow
 
-There is no build or runtime flow at this level. `packages/` is a directory grouping only. All build, test, and publish operations are defined inside `packages/ui/` and delegated to from the repo root via `pnpm --filter @geti/ui <script>`.
+There is no build or runtime flow at this level. `packages/` is a directory grouping only. All build, test, and publish operations are defined inside `packages/ui/` and delegated to from the repo root via npm workspace scripts.
 
 ## Integration
 

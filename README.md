@@ -25,13 +25,13 @@ It is a React + TypeScript library built primarily on Adobe React Spectrum and r
 ## Requirements
 
 - Node.js `>=24.0.0`
-- pnpm `>=9`
+- npm `>=11`
 
 ## Quick start (repository)
 
 ```bash
-pnpm install
-pnpm docs:dev:with-ui
+npm install
+npm run docs:dev:with-ui
 ```
 
 This runs `@geti/ui` in watch mode and the docs site together for fast local iteration.
@@ -41,15 +41,15 @@ This runs `@geti/ui` in watch mode and the docs site together for fast local ite
 From repository root:
 
 ```bash
-pnpm build
-pnpm lint
-pnpm type-check
-pnpm test
+npm run build
+npm run lint
+npm run type-check
+npm run test
 
-pnpm docs:build
-pnpm docs:check:coverage
-pnpm docs:check:no-stories-imports
-pnpm docs:test:e2e
+npm run docs:build
+npm run docs:check:coverage
+npm run docs:check:no-stories-imports
+npm run docs:test:e2e
 ```
 
 ## Conventions

@@ -1,43 +1,47 @@
 {
   "name": "geti-ui-workspace",
   "private": true,
+  "workspaces": [
+    "packages/*",
+    "documentation"
+  ],
   "scripts": {
-    "build": "pnpm --filter @geti/ui build",
-    "storybook": "pnpm --filter @geti/ui storybook",
-    "storybook:build": "pnpm --filter @geti/ui storybook:build",
-    "test": "pnpm --filter @geti/ui test",
-    "test:watch": "pnpm --filter @geti/ui test:watch",
-    "test:e2e": "pnpm --filter @geti/ui test:e2e",
-    "type-check": "pnpm --filter @geti/ui type-check",
-    "lint": "pnpm --filter @geti/ui lint",
-    "format": "pnpm --filter @geti/ui format",
-    "format:check": "pnpm --filter @geti/ui format:check",
+    "build": "npm run build --workspace=@geti/ui",
+    "storybook": "npm run storybook --workspace=@geti/ui",
+    "storybook:build": "npm run storybook:build --workspace=@geti/ui",
+    "test": "npm run test --workspace=@geti/ui",
+    "test:watch": "npm run test:watch --workspace=@geti/ui",
+    "test:e2e": "npm run test:e2e --workspace=@geti/ui",
+    "type-check": "npm run type-check --workspace=@geti/ui",
+    "lint": "npm run lint --workspace=@geti/ui",
+    "format": "npm run format --workspace=@geti/ui",
+    "format:check": "npm run format:check --workspace=@geti/ui",
     "prepare": "husky",
-    "docs:dev": "pnpm --filter @geti/documentation dev",
-    "docs:dev:with-ui": "pnpm --parallel --stream --filter @geti/ui --filter @geti/documentation run dev",
-    "docs:build": "pnpm --filter @geti/documentation build",
-    "docs:preview": "pnpm --filter @geti/documentation preview",
-    "docs:check:coverage": "pnpm --filter @geti/documentation check:coverage",
-    "docs:check:no-stories-imports": "pnpm --filter @geti/documentation check:no-stories-imports",
-    "docs:test:e2e": "pnpm --filter @geti/documentation test:e2e"
+    "docs:dev": "npm run dev --workspace=@geti/documentation",
+    "docs:dev:with-ui": "concurrently -n ui,docs -c auto \"npm run dev --workspace=@geti/ui\" \"npm run dev --workspace=@geti/documentation\"",
+    "docs:build": "npm run build --workspace=@geti/documentation",
+    "docs:preview": "npm run preview --workspace=@geti/documentation",
+    "docs:check:coverage": "npm run check:coverage --workspace=@geti/documentation",
+    "docs:check:no-stories-imports": "npm run check:no-stories-imports --workspace=@geti/documentation",
+    "docs:test:e2e": "npm run test:e2e --workspace=@geti/documentation"
   },
   "engines": {
-    "node": ">=24.0.0",
-    "pnpm": ">=9"
+    "node": ">=24.0.0"
   },
-  "packageManager": "pnpm@9.8.0+sha512.8e4c3550fb500e808dbc30bb0ce4dd1eb614e30b1c55245f211591ec2cdf9c611cabd34e1364b42f564bd54b3945ed0f49d61d1bbf2ec9bd74b866fcdc723276",
+  "packageManager": "npm@11.0.0",
   "devDependencies": {
     "@changesets/cli": "^2.30.0",
     "@commitlint/cli": "^20.4.3",
     "@commitlint/config-conventional": "^20.4.3",
-    "@eslint/js": "^10.0.1",
-    "eslint": "^10.0.3",
+    "@eslint/js": "^9.39.1",
+    "eslint": "^9.39.1",
     "eslint-plugin-jsx-a11y": "^6.10.2",
     "eslint-plugin-react": "^7.37.5",
     "eslint-plugin-react-hooks": "^7.0.1",
     "eslint-plugin-react-refresh": "^0.5.2",
     "globals": "^17.4.0",
     "husky": "^9.1.7",
+    "concurrently": "^9.2.1",
     "typescript-eslint": "^8.56.1"
   }
 }

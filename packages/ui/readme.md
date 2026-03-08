@@ -25,8 +25,8 @@ Responsibilities:
 
 **Development:**
 ```
-pnpm storybook      → starts Storybook dev server (Rsbuild, port 6006)
-pnpm test:watch     → rstest in watch mode, re-runs on file save
+npm run storybook      → starts Storybook dev server (Rsbuild, port 6006)
+npm run test:watch     → rstest in watch mode, re-runs on file save
 ```
 
 **Build:**
@@ -47,6 +47,6 @@ e2e/*.spec.ts → Playwright → running Storybook instance
 ## Integration
 
 - **Consumers** add `@geti/ui` as a dependency and import components from `'@geti/ui'`. They must wrap their app in `<ThemeProvider>`.
-- **Repo root scripts** delegate to this package via `pnpm --filter @geti/ui <script>`.
+- **Repo root scripts** delegate to this package via npm workspace scripts.
 - **Storybook** imports directly from `src/` (not `dist/`) via the rslib Storybook integration — no build step needed during development.
-- **CI** runs `pnpm build`, `pnpm test`, `pnpm type-check`, and `pnpm lint` against this package before publishing.
+- **CI** runs `npm run build`, `npm run test`, `npm run type-check`, and `npm run lint` against this package before publishing.

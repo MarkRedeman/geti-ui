@@ -28,7 +28,7 @@ The following steps must be performed manually to activate the automated pipelin
     *   Ensure "Workflow permissions" is set to **Read and write permissions**.
     *   Check "Allow GitHub Actions to create and approve pull requests".
 3.  **Local Hooks**:
-    *   Run `pnpm install` locally to activate the Husky hooks.
+    *   Run `npm install` locally to activate the Husky hooks.
     *   Husky will automatically configure `git config --local commit.template .gitmessage` on post-install.
 
 ---
@@ -39,7 +39,7 @@ The following steps must be performed manually to activate the automated pipelin
 When you make a change that warrants a version bump, you must create a "changeset":
 
 ```bash
-pnpm changeset
+npx changeset
 ```
 
 *   **Follow the prompt**: Select `@geti/ui`.
@@ -64,7 +64,7 @@ When a PR with a changeset is merged into `main`:
 ### 4. Automated Publishing
 When the "Version Packages" PR is merged:
 1.  The `Release` workflow triggers again.
-2.  It runs `pnpm publish` to push the new version to NPM.
+2.  It runs `npm publish` to push the new version to NPM.
 3.  It creates a git tag (e.g., `@geti/ui@1.2.3`).
 4.  **git-cliff** parses the commits since the last tag and generates rich release notes.
 5.  An official **GitHub Release** is created with these notes.

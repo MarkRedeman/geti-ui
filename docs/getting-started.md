@@ -40,7 +40,7 @@ Geti UI is **dark-mode first**. The theme is driven by a custom set of CSS varia
 ### Installation
 
 ```bash
-pnpm add @geti/ui
+npm install @geti/ui
 ```
 
 ### Wrapping your App
@@ -81,7 +81,7 @@ export const MyComponent = () => (
 ### Storybook
 We use Storybook for component documentation and visual testing. 
 ```bash
-pnpm storybook
+npm run storybook
 ```
 Each component has a `*.stories.tsx` file covering its variants, states (disabled, error, loading), and accessibility scenarios.
 
@@ -93,7 +93,7 @@ To ensure automated releases and clean changelogs, we strictly follow [Conventio
 ### Releases
 We use **Changesets** for versioning. When contributing a change that affects the package version, run:
 ```bash
-pnpm changeset
+npx changeset
 ```
 
 ---

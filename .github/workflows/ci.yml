@@ -17,26 +17,22 @@ jobs:
         steps:
             - uses: actions/checkout@v4
 
-            - uses: pnpm/action-setup@v4
-              with:
-                  version: 9
-
             - uses: actions/setup-node@v4
               with:
                   node-version: 24
-                  cache: pnpm
+                  cache: npm
 
             - name: Install dependencies
-              run: pnpm install --frozen-lockfile
+              run: npm ci
 
             - name: Documentation coverage check
-              run: pnpm docs:check:coverage
+              run: npm run docs:check:coverage
 
             - name: Documentation no-stories-imports check
-              run: pnpm docs:check:no-stories-imports
+              run: npm run docs:check:no-stories-imports
 
             - name: Build documentation
-              run: pnpm docs:build
+              run: npm run docs:build
 
     ci:
         name: Build & Test
@@ -44,32 +40,28 @@ jobs:
         steps:
             - uses: actions/checkout@v4
 
-            - uses: pnpm/action-setup@v4
-              with:
-                  version: 9
-
             - uses: actions/setup-node@v4
               with:
                   node-version: 24
-                  cache: pnpm
+                  cache: npm
 
             - name: Install dependencies
-              run: pnpm install --frozen-lockfile
+              run: npm ci
 
             - name: Type check
-              run: pnpm type-check
+              run: npm run type-check
               working-directory: packages/ui
 
             - name: Format check
-              run: pnpm format:check
+              run: npm run format:check
               working-directory: packages/ui
 
             - name: Unit tests
-              run: pnpm test
+              run: npm run test
               working-directory: packages/ui
 
             - name: Build library
-              run: pnpm build
+              run: npm run build
               working-directory: packages/ui
 
     playwright:
@@ -79,23 +71,19 @@ jobs:
         steps:
             - uses: actions/checkout@v4
 
-            - uses: pnpm/action-setup@v4
-              with:
-                  version: 9
-
             - uses: actions/setup-node@v4
               with:
                   node-version: 24
-                  cache: pnpm
+                  cache: npm
 
             - name: Install dependencies
-              run: pnpm install --frozen-lockfile
+              run: npm ci
 
             - name: Install Playwright browsers (docs)
-              run: pnpm --filter @geti/documentation exec playwright install --with-deps chromium
+              run: npm exec --workspace=@geti/documentation -- playwright install --with-deps chromium
 
             - name: Run docs routes smoke test
-              run: pnpm docs:test:e2e
+              run: npm run docs:test:e2e
               env:
                   CI: true
 

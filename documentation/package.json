@@ -4,11 +4,11 @@
   "version": "0.0.1",
   "type": "module",
   "scripts": {
-    "predev": "pnpm --filter @geti/ui build",
+    "predev": "npm run build --workspace=@geti/ui",
     "dev": "rspress dev",
-    "prebuild": "pnpm --filter @geti/ui build",
+    "prebuild": "npm run build --workspace=@geti/ui",
     "build": "rspress build",
-    "pretest:e2e": "pnpm build",
+    "pretest:e2e": "npm run build",
     "preview": "rspress preview",
     "check:coverage": "node ./scripts/check-docs-coverage.mjs",
     "check:no-stories-imports": "node ./scripts/check-docs-no-stories-imports.mjs",
@@ -16,7 +16,7 @@
   },
   "dependencies": {
     "@adobe/react-spectrum": "^3.46.2",
-    "@geti/ui": "workspace:*",
+    "@geti/ui": "*",
     "react": "^19.2.4",
     "react-dom": "^19.2.4"
   },

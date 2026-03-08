@@ -20,27 +20,23 @@ jobs:
         with:
           fetch-depth: 0      # git-cliff needs full history
 
-      - uses: pnpm/action-setup@v4
-        with:
-          version: 9
-
       - uses: actions/setup-node@v4
         with:
           node-version: 24
-          cache: pnpm
+          cache: npm
           registry-url: https://registry.npmjs.org
 
-      - run: pnpm install --frozen-lockfile
+      - run: npm ci
 
-      - run: pnpm build
+      - run: npm run build
         working-directory: packages/ui
 
       # Either opens "Version Packages" PR, or publishes if that PR was just merged
       - uses: changesets/action@v1
         id: changesets
         with:
-          publish: pnpm --filter @geti/ui publish --access public --no-git-checks
-          version: pnpm changeset version
+          publish: npm publish --workspace=@geti/ui --access public
+          version: npx changeset version
           commit: "chore(release): version packages"
           title: "chore(release): version packages"
         env:

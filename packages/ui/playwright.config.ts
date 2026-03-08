@@ -18,7 +18,7 @@ export default defineConfig({
         },
     ],
     webServer: {
-        command: 'pnpm storybook',
+        command: 'npm run storybook',
         url: 'http://localhost:6006',
         reuseExistingServer: !process.env.CI,
         timeout: 120 * 1000,

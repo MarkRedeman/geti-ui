@@ -5,7 +5,7 @@ This guide explains how to develop `@geti/ui` components and validate changes in
 ## Prerequisites
 
 - Node.js `>=24.0.0`
-- pnpm `>=9`
+- npm `>=11`
 
 Use the versions declared in the root `package.json` `engines` field.
 
@@ -19,7 +19,7 @@ Use the versions declared in the root `package.json` `engines` field.
 From repository root:
 
 ```bash
-pnpm install
+npm install
 ```
 
 ## Recommended local development workflow
@@ -27,7 +27,7 @@ pnpm install
 For component work, run this from repo root:
 
 ```bash
-pnpm docs:dev:with-ui
+npm run docs:dev:with-ui
 ```
 
 This runs `@geti/ui` in watch mode and the docs dev server together.
@@ -41,13 +41,13 @@ If you prefer separate terminals, run:
 ### 1) Build library in watch mode
 
 ```bash
-pnpm --filter @geti/ui build:watch
+npm run build:watch --workspace=@geti/ui
 ```
 
 ### 2) Run docs dev server (live reload)
 
 ```bash
-pnpm docs:dev
+npm run docs:dev
 ```
 
 Then open the local docs URL shown in terminal (typically `http://localhost:3000`).
@@ -67,16 +67,16 @@ Docs are the primary verification surface. Storybook can still be used as an opt
 Run from repo root:
 
 ```bash
-pnpm lint
-pnpm type-check
-pnpm test
-pnpm docs:check:no-stories-imports
-pnpm docs:check:coverage
-pnpm docs:build
-pnpm docs:test:e2e
+npm run lint
+npm run type-check
+npm run test
+npm run docs:check:no-stories-imports
+npm run docs:check:coverage
+npm run docs:build
+npm run docs:test:e2e
 ```
 
-`pnpm docs:build` automatically builds `@geti/ui` first via documentation's `prebuild` hook.
+`npm run docs:build` automatically builds `@geti/ui` first via documentation's `prebuild` hook.
 
 ## Documentation authoring rules
 

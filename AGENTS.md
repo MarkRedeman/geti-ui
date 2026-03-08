@@ -221,16 +221,16 @@ This library is designed to be used by both humans and AI agents.
 
 ```bash
 # Development
-pnpm storybook                # Start Storybook dev server
-pnpm test                     # Run rstest unit tests
-pnpm test:watch               # Watch mode
-pnpm test:e2e                 # Run Playwright tests (requires Storybook running)
-pnpm build                    # Build library with rslib
-pnpm type-check               # TypeScript check without emit
-pnpm lint                     # Rslint (rslint)
-pnpm format                   # Prettier format
-pnpm format:check             # Prettier format check (used in CI)
+npm run storybook             # Start Storybook dev server
+npm run test                  # Run rstest unit tests
+npm run test:watch            # Watch mode
+npm run test:e2e              # Run Playwright tests (requires Storybook running)
+npm run build                 # Build library with rslib
+npm run type-check            # TypeScript check without emit
+npm run lint                  # Rslint (rslint)
+npm run format                # Prettier format
+npm run format:check          # Prettier format check (used in CI)
 
 # Storybook
-pnpm storybook:build          # Build static Storybook
+npm run storybook:build       # Build static Storybook
 ```
