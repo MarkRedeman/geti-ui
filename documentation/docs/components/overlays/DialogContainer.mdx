@@ -1,0 +1,171 @@
+---
+title: DialogContainer
+---
+
+import { useState } from 'react';
+import { Button, ButtonGroup, Content, Divider, Heading } from '@adobe/react-spectrum';
+import { Dialog, DialogContainer } from '@geti/ui';
+import { ExampleCard } from '../../../theme/ExampleCard';
+
+# DialogContainer
+
+DialogContainer hosts a `Dialog` that is opened and closed programmatically — without a persistent trigger element. Use it when the element that opens the dialog may unmount before the dialog closes, or when the dialog must be triggered from application logic rather than a direct user interaction.
+
+```tsx
+import { Dialog, DialogContainer } from '@geti/ui';
+```
+
+- [React Spectrum DialogContainer ↗](https://react-spectrum.adobe.com/react-spectrum/DialogContainer.html)
+- [Geti UI Theming](/components/theming)
+
+## Examples
+
+<ExampleCard
+  title="Programmatic open"
+  code={`() => {
+  const [isOpen, setIsOpen] = useState(false);
+
+  return (
+    <>
+      <Button variant="accent" onPress={() => setIsOpen(true)}>
+        Open dialog programmatically
+      </Button>
+      <DialogContainer onDismiss={() => setIsOpen(false)}>
+        {isOpen && (
+          <Dialog>
+            <Heading>Programmatic dialog</Heading>
+            <Divider />
+            <Content>
+              This dialog was opened programmatically without a persistent DialogTrigger element.
+            </Content>
+            <ButtonGroup>
+              <Button variant="secondary" onPress={() => setIsOpen(false)}>
+                Close
+              </Button>
+            </ButtonGroup>
+          </Dialog>
+        )}
+      </DialogContainer>
+    </>
+  );
+}`}
+>
+  {(() => {
+    const [isOpen, setIsOpen] = useState(false);
+    return (
+      <>
+        <Button variant="accent" onPress={() => setIsOpen(true)}>
+          Open dialog programmatically
+        </Button>
+        <DialogContainer onDismiss={() => setIsOpen(false)}>
+          {isOpen && (
+            <Dialog>
+              <Heading>Programmatic dialog</Heading>
+              <Divider />
+              <Content>
+                This dialog was opened programmatically without a persistent DialogTrigger element.
+              </Content>
+              <ButtonGroup>
+                <Button variant="secondary" onPress={() => setIsOpen(false)}>
+                  Close
+                </Button>
+              </ButtonGroup>
+            </Dialog>
+          )}
+        </DialogContainer>
+      </>
+    );
+  })()}
+</ExampleCard>
+
+<ExampleCard
+  title="Dismissable"
+  code={`() => {
+  const [isOpen, setIsOpen] = useState(false);
+
+  return (
+    <>
+      <Button variant="primary" onPress={() => setIsOpen(true)}>
+        Open dismissable dialog
+      </Button>
+      <DialogContainer isDismissable onDismiss={() => setIsOpen(false)}>
+        {isOpen && (
+          <Dialog>
+            <Heading>Dismissable dialog</Heading>
+            <Divider />
+            <Content>Click outside or press Escape to close this dialog.</Content>
+          </Dialog>
+        )}
+      </DialogContainer>
+    </>
+  );
+}`}
+>
+  {(() => {
+    const [isOpen, setIsOpen] = useState(false);
+    return (
+      <>
+        <Button variant="primary" onPress={() => setIsOpen(true)}>
+          Open dismissable dialog
+        </Button>
+        <DialogContainer isDismissable onDismiss={() => setIsOpen(false)}>
+          {isOpen && (
+            <Dialog>
+              <Heading>Dismissable dialog</Heading>
+              <Divider />
+              <Content>Click outside or press Escape to close this dialog.</Content>
+            </Dialog>
+          )}
+        </DialogContainer>
+      </>
+    );
+  })()}
+</ExampleCard>
+
+## Responsibility
+
+`DialogContainer` is a thin wrapper around React Spectrum's `DialogContainer`. It accepts a single `Dialog` as its child (rendered conditionally) and manages the modal overlay lifecycle. The consumer is responsible for tracking the open state and calling `onDismiss` to close it.
+
+**Prefer `DialogTrigger`** for the common case where a persistent button opens the dialog. Use `DialogContainer` only when:
+- The trigger button may unmount before the dialog closes (e.g. item in a list that gets deleted while dialog is open).
+- The dialog is opened from a callback, event handler, or side effect rather than a direct press.
+
+## Variants and states
+
+| Prop | Effect |
+|---|---|
+| `isDismissable` | Allows closing by clicking the backdrop or pressing `Escape` |
+| `type` | Passed through to the underlying dialog — `"modal"` (default), `"fullscreen"`, `"fullscreenTakeover"` |
+
+## Props (deep dive)
+
+### Open state
+
+- `children`: render a `Dialog` conditionally based on your `isOpen` state variable. When the child is `null` (falsy), the container renders nothing.
+- `onDismiss`: called when the user dismisses the dialog (backdrop click, Escape key, or close button). Use this to set your state to `false`.
+
+### Dismissal
+
+- `isDismissable`: when `true`, clicking outside the dialog or pressing `Escape` triggers `onDismiss`. When `false`, the user can only close the dialog through an explicit action inside it.
+
+### Accessibility
+
+- Focus is trapped inside the dialog while it is open.
+- Focus returns to the previously focused element when the dialog closes.
+- `role="dialog"` and `aria-modal="true"` are set automatically.
+
+## Related components
+
+- `Dialog` — the content container rendered inside `DialogContainer`.
+- `AlertDialog` — use when the dialog is a short confirmation or warning message.
+
+## Example use cases
+
+<details>
+  <summary>Typical use cases</summary>
+
+- Opening an edit dialog from a context menu item in a table row where the row may be removed.
+- Triggering a "session expired" modal from an API error interceptor.
+- Showing a confirmation dialog from a keyboard shortcut handler rather than a button.
+
+</details>
