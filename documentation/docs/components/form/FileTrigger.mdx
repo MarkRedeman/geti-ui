@@ -1,0 +1,100 @@
+---
+title: FileTrigger
+---
+
+import { Button, FileTrigger } from '@geti/ui';
+import { ExampleCard } from '../../../theme/ExampleCard';
+
+# FileTrigger
+
+FileTrigger attaches native file picker behaviour to any child element. When the child is pressed, the system file dialog opens. Use it to build upload buttons, image pickers, and document import flows.
+
+```tsx
+import { Button, FileTrigger } from '@geti/ui';
+```
+
+- [React Aria FileTrigger ↗](https://react-spectrum.adobe.com/react-aria/FileTrigger.html)
+- [Geti UI Theming](/components/theming)
+
+## Examples
+
+<ExampleCard
+  title="Basic upload button"
+  code={`<FileTrigger>
+  <Button variant="accent">Upload file</Button>
+</FileTrigger>`}
+>
+  <FileTrigger>
+    <Button variant="accent">Upload file</Button>
+  </FileTrigger>
+</ExampleCard>
+
+<ExampleCard
+  title="Images only"
+  code={`<FileTrigger acceptedFileTypes={['image/*']}>
+  <Button variant="primary">Upload image</Button>
+</FileTrigger>`}
+>
+  <FileTrigger acceptedFileTypes={['image/*']}>
+    <Button variant="primary">Upload image</Button>
+  </FileTrigger>
+</ExampleCard>
+
+<ExampleCard
+  title="Multiple files"
+  code={`<FileTrigger allowsMultiple>
+  <Button variant="accent">Upload files</Button>
+</FileTrigger>`}
+>
+  <FileTrigger allowsMultiple>
+    <Button variant="accent">Upload files</Button>
+  </FileTrigger>
+</ExampleCard>
+
+## Responsibility
+
+`FileTrigger` is a thin wrapper around `react-aria-components`' `FileTrigger`. All props pass through unchanged. The wrapper provides a `@geti/ui` import path.
+
+FileTrigger handles no visual rendering of its own — it delegates entirely to its `children` for visual presentation.
+
+## Variants and states
+
+`FileTrigger` is stateless. State management (selected files, upload progress) is the responsibility of the parent component.
+
+## Props (deep dive)
+
+### Content
+
+- `children`: the trigger element — typically a `Button` or `ActionButton`.
+
+### Behaviour
+
+- `acceptedFileTypes`: array of MIME type strings or file extensions (e.g. `['image/*']`, `['.json', '.csv']`).
+- `allowsMultiple`: when `true`, the file dialog allows selecting multiple files.
+- `allowsDirectory`: when `true`, allows selecting a directory instead of individual files.
+
+### Events
+
+- `onSelect`: `(files: FileList | null) => void` — called with selected files after the dialog closes.
+
+### Accessibility
+
+- the trigger element (`children`) must be an accessible interactive element,
+- the accessible name of the button should describe the action (e.g. "Upload dataset images").
+
+## Related components
+
+- `DropZone` — pair with `FileTrigger` for a combined drag-and-drop + click-to-browse upload area.
+- `Button` — the standard trigger child for file upload flows.
+
+## Example use cases
+
+<details>
+  <summary>Typical use cases</summary>
+
+- Dataset upload button: open file dialog to select a ZIP archive.
+- Profile photo upload: accept `image/*` types only.
+- Annotation import: accept a single `.json` or `.xml` file.
+- Bulk media upload: allow multiple files via a single click.
+
+</details>
