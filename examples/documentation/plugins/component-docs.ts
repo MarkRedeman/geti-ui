@@ -22,6 +22,8 @@ const STORIES_GALLERY_PATH = path.resolve(__dirname, '../theme/StoriesGallery');
 const CATEGORY_LABELS: Record<string, string> = {
   ui: 'Primitive Actions',
   form: 'Form Controls',
+  'form/date-controls': 'Date Controls',
+  'form/color-controls': 'Color Controls',
   'form/pickers': 'Pickers',
   data: 'Data Display',
   feedback: 'Status & Feedback',
@@ -33,6 +35,8 @@ const CATEGORY_LABELS: Record<string, string> = {
 const CATEGORY_ORDER = [
   'ui',
   'form',
+  'form/date-controls',
+  'form/color-controls',
   'form/pickers',
   'data',
   'feedback',
@@ -40,6 +44,28 @@ const CATEGORY_ORDER = [
   'overlays',
   'layouts',
 ];
+
+function extractStoryTitle(storiesPath?: string): string | null {
+  if (!storiesPath || !fs.existsSync(storiesPath)) return null;
+
+  const source = fs.readFileSync(storiesPath, 'utf-8');
+  const match = source.match(/title\s*:\s*['"]([^'"]+)['"]/);
+  return match ? match[1] : null;
+}
+
+function resolveSidebarCategory(page: ComponentPage): string {
+  if (page.category !== 'form/pickers') return page.category;
+
+  const storyTitle = extractStoryTitle(page.storiesPath);
+
+  if (!storyTitle) return 'form/pickers';
+
+  if (storyTitle.startsWith('Form/Date controls/')) return 'form/date-controls';
+  if (storyTitle.startsWith('Form/Color controls/')) return 'form/color-controls';
+  if (storyTitle.startsWith('Form/')) return 'form';
+
+  return 'form/pickers';
+}
 
 /**
  * Derive a display title from an MDX file.
@@ -292,7 +318,7 @@ export function buildSidebar(pages: ComponentPage[]): SidebarGroup[] {
   }
 
   for (const page of pages) {
-    const items = groups.get(page.category);
+    const items = groups.get(resolveSidebarCategory(page));
     if (items) {
       items.push({
         text: page.componentName,
