@@ -1,0 +1,85 @@
+---
+title: ColorWheel
+---
+
+import { ColorWheel } from '@geti/ui';
+import { ExampleCard } from '../../../../theme/ExampleCard';
+
+# ColorWheel
+
+`ColorWheel` renders a circular hue track that lets users change the hue channel of an HSL or HSB color by rotating a thumb around the ring. Pair it with `ColorArea` for a full HSB color editor.
+
+```tsx
+import { ColorWheel } from '@geti/ui';
+```
+
+- [React Spectrum ColorWheel ↗](https://react-spectrum.adobe.com/react-spectrum/ColorWheel.html)
+- [Geti UI Theming](/components/theming)
+
+## Examples
+
+<ExampleCard
+  title="Default"
+  code={`<ColorWheel defaultValue="hsl(0, 100%, 50%)" />`}
+>
+  <ColorWheel defaultValue="hsl(0, 100%, 50%)" />
+</ExampleCard>
+
+<ExampleCard
+  title="Custom size"
+  code={`<ColorWheel defaultValue="hsl(120, 100%, 50%)" size={300} />`}
+>
+  <ColorWheel defaultValue="hsl(120, 100%, 50%)" size={300} />
+</ExampleCard>
+
+<ExampleCard
+  title="Disabled"
+  code={`<ColorWheel defaultValue="hsl(240, 100%, 50%)" isDisabled />`}
+>
+  <ColorWheel defaultValue="hsl(240, 100%, 50%)" isDisabled />
+</ExampleCard>
+
+## Responsibility
+
+`ColorWheel` is a direct pass-through of React Spectrum's `ColorWheel`. No defaults are changed.
+
+## Variants and states
+
+| Feature | Prop | Notes |
+|---|---|---|
+| Size | `size` | Diameter in pixels |
+| Disabled | `isDisabled` | Non-interactive |
+
+## Props (deep dive)
+
+### Value / state
+
+- `value` / `defaultValue`: an HSL or HSB color string or `Color` object.
+- `size`: number — diameter of the wheel in pixels.
+- `isDisabled`.
+
+### Events
+
+- `onChange(color)`: fires during rotation.
+- `onChangeEnd(color)`: fires when the user releases the thumb.
+
+### Accessibility
+
+- The wheel uses `role="slider"` with `aria-valuemin=0`, `aria-valuemax=360`.
+- Arrow keys rotate the thumb; Shift+Arrow uses larger steps.
+
+## Related components
+
+- `ColorArea` — adjust saturation and brightness, typically paired with `ColorWheel`.
+- `ColorSlider` — single linear channel slider.
+- `ColorPickerDialog` — full dialog combining `ColorWheel`, `ColorArea`, `ColorSlider`, and `ColorField`.
+
+## Example use cases
+
+<details>
+  <summary>Typical use cases</summary>
+
+- Hue selector in a full color picker alongside a saturation/brightness `ColorArea`.
+- Standalone hue override control in an annotation drawing panel.
+
+</details>
