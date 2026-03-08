@@ -1,0 +1,66 @@
+---
+title: IntelBrandedLoading
+---
+
+import { IntelBrandedLoading } from '@geti/ui';
+import { ExampleCard } from '../../../theme/ExampleCard';
+
+# IntelBrandedLoading
+
+`IntelBrandedLoading` renders the Intel branded loading animation with a dedicated container. Use it for branded loading moments such as initial app bootstrap or major workflow transitions.
+
+```tsx
+import { IntelBrandedLoading } from '@geti/ui';
+```
+
+- [Geti UI Theming](/components/theming)
+
+## Examples
+
+<ExampleCard
+  title="Default"
+  code={`<IntelBrandedLoading />`}
+>
+  <IntelBrandedLoading />
+</ExampleCard>
+
+<ExampleCard
+  title="Fixed height container"
+  code={`<div style={{ height: 220 }}>
+  <IntelBrandedLoading />
+</div>`}
+>
+  <div style={{ height: 220 }}>
+    <IntelBrandedLoading />
+  </div>
+</ExampleCard>
+
+## Responsibility
+
+`IntelBrandedLoading` is a dedicated Geti component for branded loading visuals.
+It wraps the Intel animation in a centered container and handles image sizing.
+
+## Variants and states
+
+This component currently has no variants or states. Use `Loading` when you need
+mode, size, or non-branded spinner options.
+
+## Props (deep dive)
+
+`IntelBrandedLoading` currently has no public props.
+
+## Related components
+
+- `Loading` — use for inline/overlay/fullscreen loading with spinner or intel variant.
+- `ProgressCircle` — use when only an indeterminate circular indicator is needed.
+
+## Example use cases
+
+<details>
+  <summary>Typical use cases</summary>
+
+- Full-page loading while opening a project.
+- Transition state between dataset import and model configuration.
+- Branded loading in onboarding wizard steps.
+
+</details>
