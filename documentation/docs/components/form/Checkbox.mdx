@@ -1,0 +1,114 @@
+---
+title: Checkbox
+---
+
+import { Checkbox } from '@geti/ui';
+import { ExampleCard } from '../../../theme/ExampleCard';
+
+# Checkbox
+
+Checkbox is a binary form control for opt-in/opt-out choices. Use it for individual boolean settings, multi-select item lists, and form agreement fields.
+
+```tsx
+import { Checkbox } from '@geti/ui';
+```
+
+- [React Spectrum Checkbox ↗](https://react-spectrum.adobe.com/react-spectrum/Checkbox.html)
+- [Geti UI Theming](/components/theming)
+
+## Examples
+
+<ExampleCard
+  title="Default (uncontrolled)"
+  code={`<Checkbox>Enable notifications</Checkbox>`}
+>
+  <Checkbox>Enable notifications</Checkbox>
+</ExampleCard>
+
+<ExampleCard
+  title="Pre-checked"
+  code={`<Checkbox defaultSelected>Auto-save enabled</Checkbox>`}
+>
+  <Checkbox defaultSelected>Auto-save enabled</Checkbox>
+</ExampleCard>
+
+<ExampleCard
+  title="Indeterminate"
+  code={`<Checkbox isIndeterminate>Select all</Checkbox>`}
+>
+  <Checkbox isIndeterminate>Select all</Checkbox>
+</ExampleCard>
+
+<ExampleCard
+  title="Disabled"
+  code={`<Checkbox isDisabled>Disabled option</Checkbox>`}
+>
+  <Checkbox isDisabled>Disabled option</Checkbox>
+</ExampleCard>
+
+<ExampleCard
+  title="Invalid"
+  code={`<Checkbox validationState="invalid">Required agreement</Checkbox>`}
+>
+  <Checkbox validationState="invalid">Required agreement</Checkbox>
+</ExampleCard>
+
+## Responsibility
+
+`Checkbox` is a thin wrapper around React Spectrum's `Checkbox`. All props pass through unchanged. The wrapper provides a consistent `@geti/ui` import path and Geti theming.
+
+## Variants and states
+
+| State | Prop | Notes |
+|---|---|---|
+| Checked | `isSelected` / `defaultSelected` | Controlled or uncontrolled |
+| Indeterminate | `isIndeterminate` | Use for "select all" with partial selection |
+| Disabled | `isDisabled` | Non-interactive |
+| Invalid | `validationState="invalid"` | Shows error styling |
+| Read-only | `isReadOnly` | Visible but not editable |
+
+## Props (deep dive)
+
+### Content
+
+- `children`: label text.
+
+### Value / state
+
+- `isSelected`: controlled boolean value.
+- `defaultSelected`: uncontrolled initial value.
+- `isIndeterminate`: shows the dash/mixed state — use for "select all" master checkboxes.
+- `value`: string value used when this checkbox is a child of `CheckboxGroup`.
+
+### Events
+
+- `onChange`: `(isSelected: boolean) => void`.
+
+### Validation
+
+- `validationState`: `'valid' | 'invalid'` — applies visual validation styling.
+- `isRequired`: marks as required in native form validation.
+
+### Accessibility
+
+- always provide a visible text label as `children`,
+- `isIndeterminate` sets `aria-checked="mixed"` automatically,
+- when grouping, use `CheckboxGroup` instead of managing groups manually.
+
+## Related components
+
+- `CheckboxGroup` — use when multiple checkboxes share a label and value array.
+- `Switch` — use for live settings toggles that take effect immediately (not on form submit).
+- `RadioGroup` — use when only one of several options can be selected.
+
+## Example use cases
+
+<details>
+  <summary>Typical use cases</summary>
+
+- "I agree to the terms" on a registration form.
+- Per-row item selection in a dataset list.
+- Settings page: "Enable email notifications".
+- "Select all" master checkbox for a bulk action list.
+
+</details>
