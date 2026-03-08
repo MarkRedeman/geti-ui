@@ -1,0 +1,81 @@
+---
+title: IllustratedMessage
+---
+
+import { IllustratedMessage } from '@geti/ui';
+import { ExampleCard } from '../../../theme/ExampleCard';
+
+# IllustratedMessage
+
+`IllustratedMessage` shows an empty/placeholder state with an illustration and supporting text. Use it when a region has no content yet, when search has no results, or when users need a clear next step.
+
+```tsx
+import { IllustratedMessage } from '@geti/ui';
+```
+
+- [React Spectrum IllustratedMessage ↗](https://react-spectrum.adobe.com/react-spectrum/IllustratedMessage.html)
+- [Geti UI Theming](/components/theming)
+
+## Examples
+
+<ExampleCard
+  title="No data"
+  code={`<IllustratedMessage>
+  No data available.
+</IllustratedMessage>`}
+>
+  <IllustratedMessage>No data available.</IllustratedMessage>
+</ExampleCard>
+
+<ExampleCard
+  title="No search results"
+  code={`<IllustratedMessage>
+  No results match your filters.
+</IllustratedMessage>`}
+>
+  <IllustratedMessage>No results match your filters.</IllustratedMessage>
+</ExampleCard>
+
+## Responsibility
+
+`IllustratedMessage` is a thin wrapper around React Spectrum's `IllustratedMessage`.
+It preserves Spectrum accessibility and layout behavior while keeping imports
+consistent through `@geti/ui`.
+
+## Variants and states
+
+`IllustratedMessage` does not expose visual variants in Geti UI. Customize the
+message text and optional children content to reflect context.
+
+## Props (deep dive)
+
+### Content
+
+- `children`: primary message body (text or rich content).
+
+### Layout
+
+- Standard Spectrum layout props can be used on parent containers to control
+  sizing and placement.
+
+### Accessibility
+
+- Keep the message concise and action-oriented.
+- Pair with a follow-up action (button/link) in the surrounding UI when recovery is possible.
+
+## Related components
+
+- `InlineAlert` — use when you need an in-flow status message with severity.
+- `Loading` — use while data is loading, not when content is permanently empty.
+- `Skeleton` — use while awaiting content shape, before final data is known.
+
+## Example use cases
+
+<details>
+  <summary>Typical use cases</summary>
+
+- Empty project table before first upload.
+- No models match current filter criteria.
+- Annotation view has no selected asset yet.
+
+</details>
