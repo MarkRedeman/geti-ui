@@ -1,0 +1,127 @@
+---
+title: ColorSlider
+---
+
+import { ColorSlider, Flex } from '@geti/ui';
+import { ExampleCard } from '../../../../theme/ExampleCard';
+
+# ColorSlider
+
+`ColorSlider` lets users adjust a single channel of a color value along a gradient track. Use it as a building block inside a custom color editor or inline to expose a specific channel (e.g. opacity/alpha).
+
+```tsx
+import { ColorSlider } from '@geti/ui';
+```
+
+- [React Spectrum ColorSlider ↗](https://react-spectrum.adobe.com/react-spectrum/ColorSlider.html)
+- [Geti UI Theming](/components/theming)
+
+## Examples
+
+<ExampleCard
+  title="Red channel"
+  code={`<ColorSlider defaultValue="#7f0000" channel="red" />`}
+>
+  <ColorSlider defaultValue="#7f0000" channel="red" />
+</ExampleCard>
+
+<ExampleCard
+  title="RGB channels"
+  code={`<Flex direction="column" gap="size-200">
+  <ColorSlider defaultValue="#7f0000" channel="red" label="Red" />
+  <ColorSlider defaultValue="#7f0000" channel="green" label="Green" />
+  <ColorSlider defaultValue="#7f0000" channel="blue" label="Blue" />
+  <ColorSlider defaultValue="#7f0000" channel="alpha" label="Alpha" />
+</Flex>`}
+>
+  <Flex direction="column" gap="size-200">
+    <ColorSlider defaultValue="#7f0000" channel="red" label="Red" />
+    <ColorSlider defaultValue="#7f0000" channel="green" label="Green" />
+    <ColorSlider defaultValue="#7f0000" channel="blue" label="Blue" />
+    <ColorSlider defaultValue="#7f0000" channel="alpha" label="Alpha" />
+  </Flex>
+</ExampleCard>
+
+<ExampleCard
+  title="HSL channels"
+  code={`<Flex direction="column" gap="size-200">
+  <ColorSlider defaultValue="hsl(0, 100%, 50%)" channel="hue" label="Hue" />
+  <ColorSlider defaultValue="hsl(0, 100%, 50%)" channel="saturation" label="Saturation" />
+  <ColorSlider defaultValue="hsl(0, 100%, 50%)" channel="lightness" label="Lightness" />
+</Flex>`}
+>
+  <Flex direction="column" gap="size-200">
+    <ColorSlider defaultValue="hsl(0, 100%, 50%)" channel="hue" label="Hue" />
+    <ColorSlider defaultValue="hsl(0, 100%, 50%)" channel="saturation" label="Saturation" />
+    <ColorSlider defaultValue="hsl(0, 100%, 50%)" channel="lightness" label="Lightness" />
+  </Flex>
+</ExampleCard>
+
+<ExampleCard
+  title="Vertical orientation"
+  code={`<Flex gap="size-500">
+  <ColorSlider defaultValue="#7f0000" channel="red" orientation="vertical" label="Red" />
+  <ColorSlider defaultValue="#7f0000" channel="green" orientation="vertical" label="Green" />
+  <ColorSlider defaultValue="#7f0000" channel="blue" orientation="vertical" label="Blue" />
+</Flex>`}
+>
+  <Flex gap="size-500">
+    <ColorSlider defaultValue="#7f0000" channel="red" orientation="vertical" label="Red" />
+    <ColorSlider defaultValue="#7f0000" channel="green" orientation="vertical" label="Green" />
+    <ColorSlider defaultValue="#7f0000" channel="blue" orientation="vertical" label="Blue" />
+  </Flex>
+</ExampleCard>
+
+## Responsibility
+
+`ColorSlider` is a direct pass-through of React Spectrum's `ColorSlider`. No defaults are changed.
+
+## Variants and states
+
+| Feature | Prop | Notes |
+|---|---|---|
+| Channel | `channel` | Required. Determines which color channel is controlled |
+| Orientation | `orientation` | `"horizontal"` (default) or `"vertical"` |
+| Disabled | `isDisabled` | Non-interactive |
+| Hide label | `showValueLabel={false}` | Removes the numeric value label |
+
+## Props (deep dive)
+
+### Content
+
+- `label`: optional override for the channel label shown above the slider.
+- `showValueLabel`: whether to show the numeric value (default `true`).
+
+### Value / state
+
+- `value` / `defaultValue`: any CSS color string or `Color` object.
+- `channel` (**required**): `"red" | "green" | "blue" | "alpha" | "hue" | "saturation" | "brightness" | "lightness"`.
+- `orientation`: `"horizontal" | "vertical"`.
+- `isDisabled`.
+
+### Events
+
+- `onChange(color)`: fires during drag.
+- `onChangeEnd(color)`: fires when the user releases the thumb.
+
+### Accessibility
+
+- The slider uses `role="slider"` with `aria-valuemin`, `aria-valuemax`, and `aria-valuenow`.
+- Always provide a `label` or ensure the surrounding context labels the control.
+
+## Related components
+
+- `ColorArea` — two-dimensional color picker for adjusting two channels at once.
+- `ColorWheel` — circular hue picker.
+- `ColorPickerDialog` — full-featured dialog combining all color controls.
+
+## Example use cases
+
+<details>
+  <summary>Typical use cases</summary>
+
+- Alpha/opacity slider for adjusting annotation transparency.
+- HSB brightness slider inside a custom color editor.
+- RGB sliders for precise color channel tuning.
+
+</details>
