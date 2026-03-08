@@ -9,162 +9,65 @@ Use this page as a **composition gallery** for `@geti/ui`.
 Unlike component reference pages (one component at a time), this page focuses on
 larger UI building blocks and how components fit together.
 
-## Product surface blocks
+## Kitchensink
 
 <ExampleCard
-  title="Action toolbar"
-  code={`<Flex gap="size-100" alignItems="center" wrap>
-  <Button variant="accent">Create</Button>
-  <Button variant="secondary" style="outline">Export</Button>
-  <ActionButton aria-label="Refresh">↻</ActionButton>
-  <ToggleButton>Auto-refresh</ToggleButton>
-</Flex>`}
->
-  <Flex gap="size-100" alignItems="center" wrap>
-    <Button variant="accent">Create</Button>
-    <Button variant="secondary" style="outline">Export</Button>
-    <ActionButton aria-label="Refresh">↻</ActionButton>
-    <ToggleButton>Auto-refresh</ToggleButton>
-  </Flex>
-</ExampleCard>
-
-<ExampleCard
-  title="Filter panel"
-  code={`<Flex direction="column" gap="size-150" width="size-3600">
-  <SearchField aria-label="Search assets" placeholder="Search assets" />
-  <ComboBox label="Model" items={[{ id: 'm1', name: 'Vehicle detector' }, { id: 'm2', name: 'Person detector' }] }>
-    {(item) => <ComboBoxItem>{item.name}</ComboBoxItem>}
-  </ComboBox>
-  <DatePicker label="Created after" />
-</Flex>`}
->
-  <Flex direction="column" gap="size-150" width="size-3600">
-    <SearchField aria-label="Search assets" placeholder="Search assets" />
-    <ComboBox
-      label="Model"
-      items={[
-        { id: 'm1', name: 'Vehicle detector' },
-        { id: 'm2', name: 'Person detector' },
-      ]}
-    >
-      {(item) => <ComboBoxItem>{item.name}</ComboBoxItem>}
-    </ComboBox>
-    <DatePicker label="Created after" />
-  </Flex>
-</ExampleCard>
-
-<ExampleCard
-  title="Status summary card"
-  code={`<View borderWidth="thin" borderColor="dark" borderRadius="regular" padding="size-200" width="size-3600">
-  <Flex direction="column" gap="size-100">
-    <Heading level={4} margin={0}>Training job</Heading>
-    <Flex gap="size-100" alignItems="center">
+  title="Kitchensink"
+  code={`<View borderWidth="thin" borderColor="dark" borderRadius="regular" padding="size-250" width="size-6000">
+  <Flex direction="column" gap="size-200">
+    <Heading level={4} margin={0}>UI primitives</Heading>
+    <Flex gap="size-100" wrap>
+      <Button variant="accent">Create</Button>
+      <Button variant="secondary" style="outline">Cancel</Button>
+      <ActionButton aria-label="Refresh">↻</ActionButton>
+      <ToggleButton>Auto-refresh</ToggleButton>
       <Badge variant="info">Running</Badge>
-      <StatusLight variant="notice">GPU queue</StatusLight>
+      <StatusLight variant="positive">Healthy</StatusLight>
     </Flex>
-    <ProgressBar label="Progress" value={62} />
-  </Flex>
-</View>`}
->
-  <View borderWidth="thin" borderColor="dark" borderRadius="regular" padding="size-200" width="size-3600">
-    <Flex direction="column" gap="size-100">
-      <Heading level={4} margin={0}>Training job</Heading>
-      <Flex gap="size-100" alignItems="center">
-        <Badge variant="info">Running</Badge>
-        <StatusLight variant="notice">GPU queue</StatusLight>
-      </Flex>
-      <ProgressBar label="Progress" value={62} />
+
+    <Divider />
+
+    <Heading level={4} margin={0}>Form controls + pickers</Heading>
+    <Flex direction="column" gap="size-150" width="size-3600">
+      <SearchField aria-label="Search assets" placeholder="Search assets" />
+      <ComboBox label="Model" items={[{ id: 'm1', name: 'Vehicle detector' }, { id: 'm2', name: 'Person detector' }]}>
+        {(item) => <ComboBoxItem>{item.name}</ComboBoxItem>}
+      </ComboBox>
+      <DatePicker label="Created after" />
     </Flex>
-  </View>
-</ExampleCard>
 
-<ExampleCard
-  title="Media list with tags"
-  code={`<ListView aria-label="Media list" width="size-3600" selectionMode="multiple" items={[{ id: '1', title: 'frame_001.jpg', tags: ['car', 'road'] }, { id: '2', title: 'frame_002.jpg', tags: ['person'] }] }>
-  {(item) => (
-    <ListItem textValue={item.title}>
-      <Flex direction="column" gap="size-75">
-        <Text>{item.title}</Text>
-        <TagGroup aria-label="Item tags">
-          {item.tags.map((tag) => <TagItem key={tag}>{tag}</TagItem>)}
-        </TagGroup>
-      </Flex>
-    </ListItem>
-  )}
-</ListView>`}
->
-  <ListView
-    aria-label="Media list"
-    width="size-3600"
-    selectionMode="multiple"
-    items={[
-      { id: '1', title: 'frame_001.jpg', tags: ['car', 'road'] },
-      { id: '2', title: 'frame_002.jpg', tags: ['person'] },
-    ]}
-  >
-    {(item) => (
-      <ListItem textValue={item.title}>
-        <Flex direction="column" gap="size-75">
-          <Text>{item.title}</Text>
-          <TagGroup aria-label="Item tags">
-            {item.tags.map((tag) => <TagItem key={tag}>{tag}</TagItem>)}
-          </TagGroup>
-        </Flex>
-      </ListItem>
-    )}
-  </ListView>
-</ExampleCard>
+    <Divider />
 
-<ExampleCard
-  title="Tabbed workspace shell"
-  code={`<Tabs aria-label="Workspace">
-  <TabList>
-    <Item key="dataset">Dataset</Item>
-    <Item key="models">Models</Item>
-    <Item key="settings">Settings</Item>
-  </TabList>
-  <TabPanels>
-    <Item key="dataset"><Content>Dataset content</Content></Item>
-    <Item key="models"><Content>Model content</Content></Item>
-    <Item key="settings"><Content>Settings content</Content></Item>
-  </TabPanels>
-</Tabs>`}
->
-  <Tabs aria-label="Workspace">
-    <TabList>
-      <Item key="dataset">Dataset</Item>
-      <Item key="models">Models</Item>
-      <Item key="settings">Settings</Item>
-    </TabList>
-    <TabPanels>
-      <Item key="dataset"><Content>Dataset content</Content></Item>
-      <Item key="models"><Content>Model content</Content></Item>
-      <Item key="settings"><Content>Settings content</Content></Item>
-    </TabPanels>
-  </Tabs>
-</ExampleCard>
+    <Heading level={4} margin={0}>Data display</Heading>
+    <ListView aria-label="Media list" width="size-3600" selectionMode="multiple" items={[{ id: '1', title: 'frame_001.jpg', tags: ['car', 'road'] }, { id: '2', title: 'frame_002.jpg', tags: ['person'] }] }>
+      {(item) => (
+        <ListItem textValue={item.title}>
+          <Flex direction="column" gap="size-75">
+            <Text>{item.title}</Text>
+            <TagGroup aria-label="Item tags">
+              {item.tags.map((tag) => <TagItem key={tag}>{tag}</TagItem>)}
+            </TagGroup>
+          </Flex>
+        </ListItem>
+      )}
+    </ListView>
 
-<ExampleCard
-  title="Inline alert + contextual action"
-  code={`<Flex direction="column" gap="size-150" width="size-3600">
-  <InlineAlert variant="notice" title="Review required">
-    Some predictions need manual confirmation.
-  </InlineAlert>
-  <DialogTrigger>
-    <Button variant="secondary" style="outline">Open details</Button>
-    <Popover>
-      <Dialog>
-        <Heading>Review details</Heading>
-        <Text>Open the task panel to review low-confidence predictions.</Text>
-      </Dialog>
-    </Popover>
-  </DialogTrigger>
-</Flex>`}
->
-  <Flex direction="column" gap="size-150" width="size-3600">
-    <InlineAlert variant="notice" title="Review required">
-      Some predictions need manual confirmation.
-    </InlineAlert>
+    <Divider />
+
+    <Heading level={4} margin={0}>Navigation + overlays</Heading>
+    <Tabs aria-label="Workspace">
+      <TabList>
+        <Item key="dataset">Dataset</Item>
+        <Item key="models">Models</Item>
+        <Item key="settings">Settings</Item>
+      </TabList>
+      <TabPanels>
+        <Item key="dataset"><Content>Dataset content</Content></Item>
+        <Item key="models"><Content>Model content</Content></Item>
+        <Item key="settings"><Content>Settings content</Content></Item>
+      </TabPanels>
+    </Tabs>
+
     <DialogTrigger>
       <Button variant="secondary" style="outline">Open details</Button>
       <Popover>
@@ -174,7 +77,109 @@ larger UI building blocks and how components fit together.
         </Dialog>
       </Popover>
     </DialogTrigger>
+
+    <Divider />
+
+    <Heading level={4} margin={0}>Status + feedback</Heading>
+    <Flex direction="column" gap="size-150" width="size-3600">
+      <ProgressBar label="Training progress" value={62} />
+      <InlineAlert variant="notice" title="Review required">
+        Some predictions need manual confirmation.
+      </InlineAlert>
+    </Flex>
   </Flex>
+</View>`}
+>
+  <View borderWidth="thin" borderColor="dark" borderRadius="regular" padding="size-250" width="size-6000">
+    <Flex direction="column" gap="size-200">
+      <Heading level={4} margin={0}>UI primitives</Heading>
+      <Flex gap="size-100" wrap>
+        <Button variant="accent">Create</Button>
+        <Button variant="secondary" style="outline">Cancel</Button>
+        <ActionButton aria-label="Refresh">↻</ActionButton>
+        <ToggleButton>Auto-refresh</ToggleButton>
+        <Badge variant="info">Running</Badge>
+        <StatusLight variant="positive">Healthy</StatusLight>
+      </Flex>
+
+      <Divider />
+
+      <Heading level={4} margin={0}>Form controls + pickers</Heading>
+      <Flex direction="column" gap="size-150" width="size-3600">
+        <SearchField aria-label="Search assets" placeholder="Search assets" />
+        <ComboBox
+          label="Model"
+          items={[
+            { id: 'm1', name: 'Vehicle detector' },
+            { id: 'm2', name: 'Person detector' },
+          ]}
+        >
+          {(item) => <ComboBoxItem>{item.name}</ComboBoxItem>}
+        </ComboBox>
+        <DatePicker label="Created after" />
+      </Flex>
+
+      <Divider />
+
+      <Heading level={4} margin={0}>Data display</Heading>
+      <ListView
+        aria-label="Media list"
+        width="size-3600"
+        selectionMode="multiple"
+        items={[
+          { id: '1', title: 'frame_001.jpg', tags: ['car', 'road'] },
+          { id: '2', title: 'frame_002.jpg', tags: ['person'] },
+        ]}
+      >
+        {(item) => (
+          <ListItem textValue={item.title}>
+            <Flex direction="column" gap="size-75">
+              <Text>{item.title}</Text>
+              <TagGroup aria-label="Item tags">
+                {item.tags.map((tag) => <TagItem key={tag}>{tag}</TagItem>)}
+              </TagGroup>
+            </Flex>
+          </ListItem>
+        )}
+      </ListView>
+
+      <Divider />
+
+      <Heading level={4} margin={0}>Navigation + overlays</Heading>
+      <Tabs aria-label="Workspace">
+        <TabList>
+          <Item key="dataset">Dataset</Item>
+          <Item key="models">Models</Item>
+          <Item key="settings">Settings</Item>
+        </TabList>
+        <TabPanels>
+          <Item key="dataset"><Content>Dataset content</Content></Item>
+          <Item key="models"><Content>Model content</Content></Item>
+          <Item key="settings"><Content>Settings content</Content></Item>
+        </TabPanels>
+      </Tabs>
+
+      <DialogTrigger>
+        <Button variant="secondary" style="outline">Open details</Button>
+        <Popover>
+          <Dialog>
+            <Heading>Review details</Heading>
+            <Text>Open the task panel to review low-confidence predictions.</Text>
+          </Dialog>
+        </Popover>
+      </DialogTrigger>
+
+      <Divider />
+
+      <Heading level={4} margin={0}>Status + feedback</Heading>
+      <Flex direction="column" gap="size-150" width="size-3600">
+        <ProgressBar label="Training progress" value={62} />
+        <InlineAlert variant="notice" title="Review required">
+          Some predictions need manual confirmation.
+        </InlineAlert>
+      </Flex>
+    </Flex>
+  </View>
 </ExampleCard>
 
 <Divider marginTop="size-250" marginBottom="size-200" />
