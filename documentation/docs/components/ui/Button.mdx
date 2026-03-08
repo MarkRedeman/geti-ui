@@ -1,0 +1,104 @@
+---
+title: Button
+---
+
+import { Button, Flex } from '@geti/ui';
+
+# Button
+
+Buttons trigger user actions such as save, submit, or delete. Use Button for clear, high-signal actions in forms, dialogs, and page-level workflows.
+
+```tsx
+import { Button } from '@geti/ui';
+```
+
+- [React Spectrum Button ↗](https://react-spectrum.adobe.com/react-spectrum/Button.html)
+- [Geti UI Theming](/components/theming)
+
+## Examples
+
+### Variants
+
+<Flex gap="size-100" wrap>
+  <Button variant="accent">Accent (default)</Button>
+  <Button variant="primary">Primary</Button>
+  <Button variant="secondary" style="outline">Secondary</Button>
+  <Button variant="negative">Delete</Button>
+</Flex>
+
+### States
+
+<Flex gap="size-100" wrap>
+  <Button>Default</Button>
+  <Button isPending>Saving...</Button>
+  <Button isDisabled>Disabled</Button>
+</Flex>
+
+## Responsibility
+
+`Button` is a Geti wrapper around React Spectrum `Button` with Geti-safe defaults and variant constraints.
+
+What this wrapper does for consumers:
+
+- defaults to `variant="accent"` for primary actions,
+- excludes legacy variants that are not part of Geti design language,
+- keeps press behavior accessible via Spectrum's press interactions,
+- supports Geti theme tokens through `ThemeProvider`.
+
+## Variants and states
+
+| Variant | Typical use |
+|---|---|
+| `accent` (default) | Primary CTA such as save/submit/create |
+| `primary` | High-importance secondary action |
+| `secondary` | Neutral actions such as cancel/back |
+| `negative` | Destructive actions such as delete/remove |
+
+| State | Prop | Notes |
+|---|---|---|
+| Loading | `isPending` | Shows spinner and blocks interaction |
+| Disabled | `isDisabled` | Non-interactive and visually muted |
+
+## Props (deep dive)
+
+### Content
+
+- `children`: button label/content.
+- `elementType`: render as custom element (e.g. anchor).
+- `href`: navigation target when `elementType="a"`.
+
+### Value / visual
+
+- `variant`: `accent | primary | secondary | negative`.
+- `style`: `fill | outline`.
+- `isDisabled`: disable interaction.
+- `isPending`: loading state with spinner.
+
+### Events
+
+- `onPress`: preferred action handler (mouse/touch/keyboard).
+- `onPressStart` / `onPressEnd`: advanced interaction timing.
+
+### Accessibility
+
+- use clear, specific button text (`Save changes`, not `OK`),
+- use `isDisabled` (not custom CSS) to correctly expose disabled semantics.
+
+## Related components
+
+- `ActionButton` — use for compact icon-centric actions (toolbars, inline actions).
+- `ToggleButton` — use when action has persistent selected/unselected state.
+- `ToggleButtons` — use for segmented mutually-exclusive selections.
+- `PressableElement` — use press semantics on non-button container UIs.
+
+## Example use cases
+
+<details>
+  <summary>Typical use cases</summary>
+
+- Page-level primary action in project creation (`Create project`).
+- Dialog footer actions (`Cancel` + `Delete`) with negative emphasis.
+- Save button in settings form with `isPending` during submit.
+- Inline secondary actions (`Export`, `Duplicate`) in management views.
+
+</details>

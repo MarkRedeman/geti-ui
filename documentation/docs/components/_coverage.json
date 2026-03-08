@@ -1,7 +1,7 @@
 {
   "generatedAt": "2026-03-08T14:37:40.501Z",
   "total": 83,
-  "migrated": 0,
+  "migrated": 1,
   "components": [
     {
       "category": "data",
@@ -526,7 +526,7 @@
       "componentName": "Button",
       "route": "/components/ui/Button",
       "targetDocsPath": "documentation/docs/components/ui/Button.mdx",
-      "migrated": false
+      "migrated": true
     },
     {
       "category": "ui",
