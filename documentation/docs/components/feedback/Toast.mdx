@@ -1,0 +1,175 @@
+---
+title: Toast
+---
+
+import { Button, ToastContainer, toast } from '@geti/ui';
+import { ExampleCard } from '../../../theme/ExampleCard';
+
+# Toast
+
+`Toast` provides programmatic transient notifications. Call `toast.positive`, `toast.negative`, `toast.info`, or `toast.neutral` from anywhere in your app and the message appears in the `ToastContainer`. Use toasts for brief feedback on actions that have completed — saves, errors, uploads — not for blocking decisions.
+
+```tsx
+import { ToastContainer, toast } from '@geti/ui';
+```
+
+- [React Spectrum Toast ↗](https://react-spectrum.adobe.com/react-spectrum/Toast.html)
+- [Geti UI Theming](/components/theming)
+
+## Setup
+
+Place `<ToastContainer />` once at the root of your app, inside `ThemeProvider`:
+
+```tsx
+import { ThemeProvider, ToastContainer } from '@geti/ui';
+
+function App() {
+  return (
+    <ThemeProvider>
+      <ToastContainer placement="bottom" />
+      {/* rest of app */}
+    </ThemeProvider>
+  );
+}
+```
+
+Then call `toast.*` anywhere:
+
+```tsx
+toast.positive('Project saved');
+toast.negative('Upload failed', { timeout: 8000 });
+toast.info('Processing your request…');
+toast.neutral('No changes detected');
+```
+
+## Examples
+
+<ExampleCard
+  title="Success toast"
+  code={`<>
+  <ToastContainer placement="bottom" />
+  <Button variant="accent" onPress={() => toast.positive('Changes saved successfully!')}>
+    Save
+  </Button>
+</>`}
+>
+  <>
+    <ToastContainer placement="bottom" />
+    <Button variant="accent" onPress={() => toast.positive('Changes saved successfully!')}>
+      Save
+    </Button>
+  </>
+</ExampleCard>
+
+<ExampleCard
+  title="Error toast"
+  code={`<Button
+  variant="negative"
+  onPress={() => toast.negative('Upload failed. Please try again.', { timeout: 8000 })}
+>
+  Trigger error
+</Button>`}
+>
+  <Button
+    variant="negative"
+    onPress={() => toast.negative('Upload failed. Please try again.', { timeout: 8000 })}
+  >
+    Trigger error
+  </Button>
+</ExampleCard>
+
+<ExampleCard
+  title="Info toast"
+  code={`<Button variant="primary" onPress={() => toast.info('Your session will expire soon.')}>
+  Show info
+</Button>`}
+>
+  <Button variant="primary" onPress={() => toast.info('Your session will expire soon.')}>
+    Show info
+  </Button>
+</ExampleCard>
+
+<ExampleCard
+  title="Toast with action button"
+  code={`<Button
+  variant="primary"
+  onPress={() =>
+    toast.info('File ready to download.', {
+      actionLabel: 'Download',
+      onAction: () => console.log('downloading…'),
+      shouldCloseOnAction: true,
+    })
+  }
+>
+  Show toast with action
+</Button>`}
+>
+  <Button
+    variant="primary"
+    onPress={() =>
+      toast.info('File ready to download.', {
+        actionLabel: 'Download',
+        onAction: () => console.log('downloading…'),
+        shouldCloseOnAction: true,
+      })
+    }
+  >
+    Show toast with action
+  </Button>
+</ExampleCard>
+
+## Responsibility
+
+`toast` is a thin wrapper around React Spectrum's `ToastQueue` that provides a typed, consistent API. `ToastContainer` is a wrapper around Spectrum's `ToastContainer`. This abstraction keeps toast calls uniform and allows Geti to add defaults (placement, timeout) in one place.
+
+## Variants and states
+
+| Method | Visual | When to use |
+|---|---|---|
+| `toast.positive` | Green accent | Operation succeeded |
+| `toast.negative` | Red accent | Operation failed |
+| `toast.info` | Blue accent | Non-critical information |
+| `toast.neutral` | Grey accent | Neutral state change |
+
+Each `toast.*` call returns a `close` function you can call to programmatically dismiss the toast.
+
+## Props (deep dive)
+
+### `toast.*` call signature
+
+```ts
+toast.positive(message: string, options?: ToastOptions): () => void
+```
+
+### `ToastOptions`
+
+- `timeout`: auto-dismiss delay in milliseconds. Omit for persistent toasts.
+- `actionLabel`: text for an action button inside the toast.
+- `onAction`: callback fired when the action button is clicked.
+- `shouldCloseOnAction`: whether the toast dismisses when the action is triggered.
+
+### `ToastContainer`
+
+- `placement`: where the container sits — `'bottom'` is the Geti standard.
+
+### Accessibility
+
+- Toasts are announced as `role="alert"` by Spectrum.
+- Keep messages short and specific — toasts are read immediately by screen readers.
+- Avoid using `toast` as the only feedback mechanism for destructive actions; pair with a confirmation dialog.
+
+## Related components
+
+- `InlineAlert` — use for persistent in-page messages that must remain visible while the user acts.
+- `AlertDialog` — use when the user needs to confirm before an action proceeds.
+
+## Example use cases
+
+<details>
+  <summary>Typical use cases</summary>
+
+- `toast.positive` after a successful model export or dataset save.
+- `toast.negative` with a retry action when an API call fails.
+- `toast.info` notifying the user that background training has started.
+
+</details>
