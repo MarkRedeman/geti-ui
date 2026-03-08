@@ -1,0 +1,104 @@
+---
+title: Slider
+---
+
+import { Slider } from '@geti/ui';
+import { ExampleCard } from '../../../theme/ExampleCard';
+
+# Slider
+
+Slider is a single-handle range control for selecting a numeric value within a bounded range. Use it for settings with continuous or stepped values where drag interaction is more natural than typed input.
+
+```tsx
+import { Slider } from '@geti/ui';
+```
+
+- [React Spectrum Slider ↗](https://react-spectrum.adobe.com/react-spectrum/Slider.html)
+- [Geti UI Theming](/components/theming)
+
+## Examples
+
+<ExampleCard
+  title="Default"
+  code={`<Slider label="Opacity" defaultValue={50} minValue={0} maxValue={100} />`}
+>
+  <Slider label="Opacity" defaultValue={50} minValue={0} maxValue={100} />
+</ExampleCard>
+
+<ExampleCard
+  title="Filled track (Geti accent color)"
+  code={`<Slider label="Opacity" defaultValue={50} minValue={0} maxValue={100} isFilled />`}
+>
+  <Slider label="Opacity" defaultValue={50} minValue={0} maxValue={100} isFilled />
+</ExampleCard>
+
+<ExampleCard
+  title="With step"
+  code={`<Slider label="Zoom level" defaultValue={100} minValue={25} maxValue={400} step={25} />`}
+>
+  <Slider label="Zoom level" defaultValue={100} minValue={25} maxValue={400} step={25} />
+</ExampleCard>
+
+<ExampleCard
+  title="Disabled"
+  code={`<Slider label="Locked value" defaultValue={50} minValue={0} maxValue={100} isDisabled />`}
+>
+  <Slider label="Locked value" defaultValue={50} minValue={0} maxValue={100} isDisabled />
+</ExampleCard>
+
+## Responsibility
+
+`Slider` wraps React Spectrum's `Slider` with a Geti-specific `isFilled` enhancement. When `isFilled` is true, the Geti wrapper applies energy-blue design tokens to the fill track and handle via CSS, overriding Spectrum's default accent color.
+
+## Variants and states
+
+| Prop | Default | Notes |
+|---|---|---|
+| `isFilled` | `false` | Activates Geti's blue fill track style |
+| `isDisabled` | `false` | Freezes the handle |
+
+## Props (deep dive)
+
+### Content
+
+- `label`: visible label above the slider.
+- `getValueLabel`: custom renderer for the current value text.
+
+### Value
+
+- `value`: controlled numeric value.
+- `defaultValue`: uncontrolled initial value.
+- `minValue` / `maxValue`: range bounds.
+- `step`: step size for each movement increment.
+
+### Events
+
+- `onChange`: `(value: number) => void` — fires during drag.
+- `onChangeEnd`: fires when the user releases the handle.
+
+### Visual
+
+- `isFilled`: applies Geti's blue fill track via CSS class.
+- `orientation`: `'horizontal'` (default) or `'vertical'`.
+
+### Accessibility
+
+- always provide a `label` — the slider communicates its value via `aria-valuenow`,
+- arrow keys move the handle by `step`; `Page Up`/`Down` by larger increments.
+
+## Related components
+
+- `RangeSlider` — use for dual-handle range selection.
+- `NumberField` — use when typed precision input is preferred.
+
+## Example use cases
+
+<details>
+  <summary>Typical use cases</summary>
+
+- Annotation layer opacity in a canvas tools sidebar.
+- Zoom level control in a media viewer.
+- Confidence threshold quick-adjust slider in a prediction filter panel.
+- Brush size selector in a segmentation annotation tool.
+
+</details>
