@@ -1,0 +1,140 @@
+---
+title: ComboBox
+---
+
+import { ComboBox, ComboBoxItem } from '@geti/ui';
+import { ExampleCard } from '../../../../theme/ExampleCard';
+
+# ComboBox
+
+`ComboBox` combines a text input with a dropdown list, letting users type to filter options or select from the full list. Use it when the option set is large or when free-text filtering improves usability.
+
+```tsx
+import { ComboBox, ComboBoxItem } from '@geti/ui';
+```
+
+- [React Spectrum ComboBox ↗](https://react-spectrum.adobe.com/react-spectrum/ComboBox.html)
+- [Geti UI Theming](/components/theming)
+
+## Examples
+
+<ExampleCard
+  title="Default"
+  code={`<ComboBox label="Favorite animal">
+  <ComboBoxItem key="red-panda">Red Panda</ComboBoxItem>
+  <ComboBoxItem key="cat">Cat</ComboBoxItem>
+  <ComboBoxItem key="dog">Dog</ComboBoxItem>
+  <ComboBoxItem key="aardvark">Aardvark</ComboBoxItem>
+</ComboBox>`}
+>
+  <ComboBox label="Favorite animal">
+    <ComboBoxItem key="red-panda">Red Panda</ComboBoxItem>
+    <ComboBoxItem key="cat">Cat</ComboBoxItem>
+    <ComboBoxItem key="dog">Dog</ComboBoxItem>
+    <ComboBoxItem key="aardvark">Aardvark</ComboBoxItem>
+  </ComboBox>
+</ExampleCard>
+
+<ExampleCard
+  title="Default selected key"
+  code={`<ComboBox label="Favorite animal" defaultSelectedKey="cat">
+  <ComboBoxItem key="red-panda">Red Panda</ComboBoxItem>
+  <ComboBoxItem key="cat">Cat</ComboBoxItem>
+  <ComboBoxItem key="dog">Dog</ComboBoxItem>
+</ComboBox>`}
+>
+  <ComboBox label="Favorite animal" defaultSelectedKey="cat">
+    <ComboBoxItem key="red-panda">Red Panda</ComboBoxItem>
+    <ComboBoxItem key="cat">Cat</ComboBoxItem>
+    <ComboBoxItem key="dog">Dog</ComboBoxItem>
+  </ComboBox>
+</ExampleCard>
+
+<ExampleCard
+  title="Default input value (partial match)"
+  code={`<ComboBox label="Favorite animal" defaultInputValue="Ca">
+  <ComboBoxItem key="red-panda">Red Panda</ComboBoxItem>
+  <ComboBoxItem key="cat">Cat</ComboBoxItem>
+  <ComboBoxItem key="dog">Dog</ComboBoxItem>
+</ComboBox>`}
+>
+  <ComboBox label="Favorite animal" defaultInputValue="Ca">
+    <ComboBoxItem key="red-panda">Red Panda</ComboBoxItem>
+    <ComboBoxItem key="cat">Cat</ComboBoxItem>
+    <ComboBoxItem key="dog">Dog</ComboBoxItem>
+  </ComboBox>
+</ExampleCard>
+
+<ExampleCard
+  title="Disabled"
+  code={`<ComboBox label="Favorite animal" isDisabled>
+  <ComboBoxItem key="cat">Cat</ComboBoxItem>
+  <ComboBoxItem key="dog">Dog</ComboBoxItem>
+</ComboBox>`}
+>
+  <ComboBox label="Favorite animal" isDisabled>
+    <ComboBoxItem key="cat">Cat</ComboBoxItem>
+    <ComboBoxItem key="dog">Dog</ComboBoxItem>
+  </ComboBox>
+</ExampleCard>
+
+## Responsibility
+
+`ComboBox` is a thin wrapper around React Spectrum's `ComboBox`. All props pass through unchanged. The exported `ComboBoxItem` alias maps to Spectrum's `Item` so consumers import everything from `@geti/ui`.
+
+## Variants and states
+
+| State | Prop | Notes |
+|---|---|---|
+| Default selected | `defaultSelectedKey` | Uncontrolled initial selection |
+| Pre-filled input | `defaultInputValue` | Uncontrolled initial text value |
+| Controlled | `selectedKey` + `inputValue` + callbacks | Fully controlled |
+| Disabled | `isDisabled` | Non-interactive |
+| Required | `isRequired` | Adds required indicator |
+| Invalid | `validationState="invalid"` + `errorMessage` | Red outline + error text |
+
+## Props (deep dive)
+
+### Content
+
+- `label`: visible field label.
+- `description`: helper text shown below the input.
+- `errorMessage`: shown when `validationState="invalid"`.
+- `children`: `ComboBoxItem` nodes representing each option.
+- `placeholder`: shown in the empty input before user interaction.
+
+### Value / state
+
+- `selectedKey` / `defaultSelectedKey`: controlled/uncontrolled selection.
+- `inputValue` / `defaultInputValue`: controlled/uncontrolled text value.
+- `isDisabled`: prevents interaction.
+- `isRequired`: marks the field as required.
+- `validationState`: `"valid" | "invalid"`.
+
+### Events
+
+- `onSelectionChange(key)`: fires when an item is selected from the list.
+- `onInputChange(value)`: fires on every keystroke.
+- `onOpenChange(isOpen)`: fires when the dropdown opens/closes.
+
+### Accessibility
+
+- Always provide a `label`.
+- Spectrum handles `aria-autocomplete`, `aria-expanded`, and `role="combobox"` automatically.
+
+## Related components
+
+- `Picker` — use when users should only select (no typing/filtering).
+- `SearchField` — use for search queries without item selection.
+
+## Example use cases
+
+<details>
+  <summary>Typical use cases</summary>
+
+- Searching and selecting an existing dataset from a long list.
+- Filtering annotation labels by partial name match.
+- Choosing a project member from a large user directory.
+- Selecting a pre-trained model from a searchable catalog.
+
+</details>
