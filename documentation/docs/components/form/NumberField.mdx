@@ -1,0 +1,126 @@
+---
+title: NumberField
+---
+
+import { NumberField } from '@geti/ui';
+import { ExampleCard } from '../../../theme/ExampleCard';
+
+# NumberField
+
+NumberField is a text input constrained to numeric values with built-in increment/decrement stepper buttons. Use it for threshold values, quantities, confidence scores, and any other numeric parameter input.
+
+```tsx
+import { NumberField } from '@geti/ui';
+```
+
+- [React Spectrum NumberField ↗](https://react-spectrum.adobe.com/react-spectrum/NumberField.html)
+- [Geti UI Theming](/components/theming)
+
+## Examples
+
+<ExampleCard
+  title="Basic"
+  code={`<NumberField label="Quantity" defaultValue={1} />`}
+>
+  <NumberField label="Quantity" defaultValue={1} />
+</ExampleCard>
+
+<ExampleCard
+  title="With min/max and step"
+  code={`<NumberField
+  label="Confidence threshold (%)"
+  defaultValue={50}
+  minValue={0}
+  maxValue={100}
+  step={5}
+/>`}
+>
+  <NumberField
+    label="Confidence threshold (%)"
+    defaultValue={50}
+    minValue={0}
+    maxValue={100}
+    step={5}
+  />
+</ExampleCard>
+
+<ExampleCard
+  title="With format options (percentage)"
+  code={`<NumberField
+  label="Score"
+  defaultValue={0.75}
+  formatOptions={{ style: 'percent' }}
+/>`}
+>
+  <NumberField
+    label="Score"
+    defaultValue={0.75}
+    formatOptions={{ style: 'percent' }}
+  />
+</ExampleCard>
+
+<ExampleCard
+  title="Disabled"
+  code={`<NumberField label="Locked value" defaultValue={42} isDisabled />`}
+>
+  <NumberField label="Locked value" defaultValue={42} isDisabled />
+</ExampleCard>
+
+## Responsibility
+
+`NumberField` is a thin wrapper around React Spectrum's `NumberField`. All props pass through unchanged. The wrapper provides a `@geti/ui` import path and Geti theming.
+
+## Variants and states
+
+| State | Prop | Notes |
+|---|---|---|
+| Disabled | `isDisabled` | Non-interactive |
+| Read-only | `isReadOnly` | Value visible but not editable |
+| Invalid | `validationState="invalid"` | Shows error styling |
+| Required | `isRequired` | Marks field as required in forms |
+
+## Props (deep dive)
+
+### Content
+
+- `label`: visible field label.
+- `description`: helper text below the field.
+- `errorMessage`: error text when `validationState="invalid"`.
+
+### Value
+
+- `value`: controlled numeric value.
+- `defaultValue`: uncontrolled initial value.
+- `minValue` / `maxValue`: clamps the acceptable range.
+- `step`: increment/decrement amount for stepper buttons and arrow keys.
+
+### Format
+
+- `formatOptions`: `Intl.NumberFormatOptions` — controls display format (currency, percentage, decimals).
+
+### Events
+
+- `onChange`: `(value: number) => void`.
+
+### Accessibility
+
+- always provide a `label`,
+- `minValue` / `maxValue` are exposed as `aria-valuemin` / `aria-valuemax`.
+
+## Related components
+
+- `Slider` — use when a visual range slider is more appropriate than a typed input.
+- `RangeSlider` — use for dual-handle range inputs.
+- `TextField` — use for free-text or non-numeric inputs.
+
+## Example use cases
+
+<details>
+  <summary>Typical use cases</summary>
+
+- Confidence threshold input for a model deployment config.
+- Annotation batch size selector.
+- Image resolution or dimension input in an export settings panel.
+- Learning rate or epoch count in a training hyperparameter form.
+
+</details>
