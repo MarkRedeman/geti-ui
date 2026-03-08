@@ -10,3 +10,4 @@ coverage
 *.tsbuildinfo
 *.local
 .env
+*.swp

@@ -1,55 +1,69 @@
 # Geti UI Design System
 
-A comprehensive React component library for Intel Geti products, built on top of Adobe React Spectrum and react-aria-components.
+`geti-ui` is the repository for the `@geti/ui` component design system used by Intel Geti products.
 
-## Project Structure
+It is a React + TypeScript library built primarily on Adobe React Spectrum and react-aria-components, with a dark-mode-first Geti theme.
 
-- `packages/ui/`: Main library package (built with `rslib`)
-- `packages/ui/src/components/`: Component implementations
-- `packages/ui/src/theme/`: Custom Geti theme and CSS tokens
-- `packages/ui/.storybook/`: Storybook configuration
+## Monorepo layout
 
-## Available Components
+- `packages/ui` — main publishable package (`@geti/ui`)
+- `documentation` — Rspress docs site (primary validation surface)
+- `.github/workflows` — CI/CD and deployment workflows
+- `.agents/skills` — AI agent skills and references
+- `reference-packages` — read-only upstream snapshots used as implementation reference
 
-The library exports over 70+ components categorized as follows:
+## Key capabilities
 
-- **Primitive Actions**: Button, ActionButton, ToggleButton, Link, FileTrigger
-- **Form Controls**: TextField, TextArea, NumberField, SearchField, PasswordField, Checkbox, RadioGroup, Switch, Slider, Picker, ComboBox, Form
-- **Overlay & Popover**: Tooltip, Popover, Dialog, AlertDialog, ContextualHelp
-- **Navigation**: Tabs, Breadcrumbs, Menu, ActionMenu
-- **Status & Feedback**: ProgressBar, ProgressCircle, StatusLight, InlineAlert, Toast, Badge, Skeleton
-- **Data Display**: TableView, ListView, ListBox, TagGroup, Avatar, Image
-- **Layout**: Flex, Grid, View, Divider, Disclosure, Accordion, Well, Card
-- **Color Picker**: ColorSwatch, ColorSwatchPicker, ColorSlider, ColorArea, ColorWheel, ColorField, ColorPickerDialog
-- **Date & Time**: DateField, TimeField, Calendar, DatePicker, DateRangePicker
-- **Advanced**: VirtualizedListLayout, VirtualizedHorizontalGrid, ToggleButtons, IntelBrandedLoading, FullscreenAction
+- 80+ accessible UI components across form, data, feedback, overlays, navigation, and layout categories
+- Geti theming via `ThemeProvider` + `@geti/ui/styles.css`
+- Tree-shakeable icons and assets via:
+  - `@geti/ui/icons`
+  - `@geti/ui/assets/images`
+  - `@geti/ui/assets/domains`
+  - `@geti/ui/assets/primary-tools`
 
-## Development Workflow
+## Requirements
 
-### Prerequisites
+- Node.js `>=24.0.0`
+- pnpm `>=9`
 
-- `pnpm` (Workspace managed)
-- `node` (v18+)
-
-### Scripts
-
-Run these from the root using `pnpm --filter @geti/ui <command>` or inside `packages/ui`:
+## Quick start (repository)
 
 ```bash
-pnpm install       # Install dependencies
-pnpm storybook     # Start Storybook dev server
-pnpm build         # Build the library (ESM/CJS/Types)
-pnpm test          # Run unit tests (rstest)
-pnpm lint          # Run ESLint
-pnpm type-check    # Run TypeScript check
+pnpm install
+pnpm docs:dev:with-ui
 ```
 
-## Component Conventions
+This runs `@geti/ui` in watch mode and the docs site together for fast local iteration.
 
-- **Theme**: All components are dark-mode first. Use `ThemeProvider` to wrap your application.
-- **Styling**: Components use CSS Modules for Geti-specific overrides.
-- **Accessibility**: Built on Adobe Spectrum primitives to ensure high accessibility standards (WCAG 2.1).
+## Useful scripts
+
+From repository root:
+
+```bash
+pnpm build
+pnpm lint
+pnpm type-check
+pnpm test
+
+pnpm docs:build
+pnpm docs:check:coverage
+pnpm docs:check:no-stories-imports
+pnpm docs:test:e2e
+```
+
+## Conventions
+
+- Conventional Commits (`feat(...)`, `fix(...)`, `docs(...)`, etc.)
+- Components should be thin wrappers with strong prop pass-through behavior
+- Form controls used in docs examples should come from `@geti/ui`
+
+## Further documentation
+
+- Contributor guide: `CONTRIBUTING.md`
+- Agent guidance: `AGENTS.md`
+- Docs site entry: `documentation/docs/index.mdx`
 
 ## License
 
-Internal Intel Project.
+Internal Intel project.
