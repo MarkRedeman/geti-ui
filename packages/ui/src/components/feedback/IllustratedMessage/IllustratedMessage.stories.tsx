@@ -1,11 +1,8 @@
-// Copyright (C) 2022-2025 Intel Corporation
-// LIMITED EDGE SOFTWARE DISTRIBUTION LICENSE
-
 import Alert from '@spectrum-icons/workflow/Alert';
 import type { Meta, StoryObj } from '@storybook/react';
 import { Content, Heading } from '@adobe/react-spectrum';
 
-import { IllustratedMessage } from '@geti/ui';
+import { IllustratedMessage } from '@geti-ai/ui';
 
 const meta: Meta<typeof IllustratedMessage> = {
     tags: ['!dev'],

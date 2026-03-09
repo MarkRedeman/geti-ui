@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react';
-import { PressableElement } from '@geti/ui';
+import { PressableElement } from '@geti-ai/ui';
 import { View, Text } from '@adobe/react-spectrum';
 
 const meta: Meta<typeof PressableElement> = {

@@ -2,14 +2,14 @@
 title: Meter
 ---
 
-import { Meter } from '@geti/ui';
+import { Meter } from '@geti-ai/ui';
 
 # Meter
 
 `Meter` shows a visual representation of a quantity as a filled bar with a threshold-based colour. Use it to communicate levels — storage used, model accuracy, training progress — where the absolute value and threshold state both matter.
 
 ```tsx
-import { Meter } from '@geti/ui';
+import { Meter } from '@geti-ai/ui';
 ```
 
 - [React Spectrum Meter ↗](https://react-spectrum.adobe.com/react-spectrum/Meter.html)
@@ -20,7 +20,7 @@ import { Meter } from '@geti/ui';
 ### Informative (default)
 
 ```tsx preview
-import { Meter } from '@geti/ui';
+import { Meter } from '@geti-ai/ui';
 
 export default function App() {
   return <Meter label="Storage space" value={50} />;
@@ -30,7 +30,7 @@ export default function App() {
 ### Positive
 
 ```tsx preview
-import { Meter } from '@geti/ui';
+import { Meter } from '@geti-ai/ui';
 
 export default function App() {
   return <Meter label="Disk health" value={80} variant="positive" />;
@@ -40,7 +40,7 @@ export default function App() {
 ### Warning
 
 ```tsx preview
-import { Meter } from '@geti/ui';
+import { Meter } from '@geti-ai/ui';
 
 export default function App() {
   return <Meter label="Memory usage" value={65} variant="warning" />;
@@ -50,7 +50,7 @@ export default function App() {
 ### Critical
 
 ```tsx preview
-import { Meter } from '@geti/ui';
+import { Meter } from '@geti-ai/ui';
 
 export default function App() {
   return <Meter label="CPU usage" value={90} variant="critical" />;
@@ -60,7 +60,7 @@ export default function App() {
 ### Custom value label
 
 ```tsx preview
-import { Meter } from '@geti/ui';
+import { Meter } from '@geti-ai/ui';
 
 export default function App() {
   return <Meter label="Models trained" value={7} maxValue={10} valueLabel="7 of 10" />;
@@ -69,7 +69,7 @@ export default function App() {
 
 ## Responsibility
 
-`Meter` is a thin wrapper around React Spectrum's `Meter`. It passes all props through with no Geti-specific defaults. The wrapper keeps the import path consistent with the rest of `@geti/ui`.
+`Meter` is a thin wrapper around React Spectrum's `Meter`. It passes all props through with no Geti-specific defaults. The wrapper keeps the import path consistent with the rest of `@geti-ai/ui`.
 
 ## Variants and states
 

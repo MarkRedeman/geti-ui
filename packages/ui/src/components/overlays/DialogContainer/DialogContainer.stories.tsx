@@ -1,11 +1,8 @@
-// Copyright (C) 2022-2025 Intel Corporation
-// LIMITED EDGE SOFTWARE DISTRIBUTION LICENSE
-
 import { useState } from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
 import { Button, ButtonGroup, Content, Divider, Heading } from '@adobe/react-spectrum';
 
-import { Dialog, DialogContainer } from '@geti/ui';
+import { Dialog, DialogContainer } from '@geti-ai/ui';
 
 const meta: Meta<typeof DialogContainer> = {
     tags: ['!dev'],

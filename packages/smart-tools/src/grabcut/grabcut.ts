@@ -1,6 +1,3 @@
-// Copyright (C) 2022-2025 Intel Corporation
-// LIMITED EDGE SOFTWARE DISTRIBUTION LICENSE
-
 import type { OpenCVTypes } from '../opencv/interfaces';
 import { Point, Polygon, Rect } from '../shared/interfaces';
 import { OpenCVLoader } from '../utils/opencv-loader';

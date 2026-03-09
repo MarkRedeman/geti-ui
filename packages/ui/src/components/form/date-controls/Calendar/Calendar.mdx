@@ -8,7 +8,7 @@ import * as DocStories from './Calendar.stories';
 <Subtitle>A standalone monthly grid that lets users select a single date without a popover.</Subtitle>
 
 ```tsx
-import { Calendar } from '@geti/ui';
+import { Calendar } from '@geti-ai/ui';
 ```
 
 - [React Spectrum Calendar](https://react-spectrum.adobe.com/react-spectrum/Calendar.html)
@@ -70,7 +70,7 @@ export type { SpectrumCalendarProps as CalendarProps };
 Typical controlled usage:
 
 ```tsx
-import { Calendar } from '@geti/ui';
+import { Calendar } from '@geti-ai/ui';
 import { CalendarDate } from '@internationalized/date';
 
 const [date, setDate] = useState<CalendarDate | null>(null);
@@ -90,7 +90,7 @@ const [date, setDate] = useState<CalendarDate | null>(null);
 ### Usage example
 
 ```tsx
-import { Calendar } from '@geti/ui';
+import { Calendar } from '@geti-ai/ui';
 import { today, getLocalTimeZone } from '@internationalized/date';
 
 // Calendar mounts and renders the current month grid.

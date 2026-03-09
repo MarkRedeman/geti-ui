@@ -1,10 +1,7 @@
-// Copyright (C) 2022-2025 Intel Corporation
-// LIMITED EDGE SOFTWARE DISTRIBUTION LICENSE
-
 import type { Meta, StoryObj } from '@storybook/react';
 import { Content } from '@adobe/react-spectrum';
 
-import { TabItem as Item, TabList, TabPanels, Tabs } from '@geti/ui';
+import { TabItem as Item, TabList, TabPanels, Tabs } from '@geti-ai/ui';
 
 const meta: Meta<typeof Tabs> = {
     tags: ['!dev'],

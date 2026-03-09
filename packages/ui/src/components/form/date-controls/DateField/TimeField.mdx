@@ -11,7 +11,7 @@ import * as DocStories from './TimeField.stories';
 </Subtitle>
 
 ```tsx
-import { TimeField } from '@geti/ui';
+import { TimeField } from '@geti-ai/ui';
 ```
 
 - [React Spectrum TimeField](https://react-spectrum.adobe.com/react-spectrum/TimeField.html)
@@ -76,12 +76,12 @@ export const TimeField = <T extends TimeValue>(props: SpectrumTimeFieldProps<T>)
 export type { SpectrumTimeFieldProps as TimeFieldProps };
 ```
 
-Note: `TimeField` is exported from `DateField.tsx` — both live in the same source file. Import from `@geti/ui` regardless.
+Note: `TimeField` is exported from `DateField.tsx` — both live in the same source file. Import from `@geti-ai/ui` regardless.
 
 Typical controlled usage:
 
 ```tsx
-import { TimeField } from '@geti/ui';
+import { TimeField } from '@geti-ai/ui';
 import { Time } from '@internationalized/date';
 
 const [time, setTime] = useState<Time | null>(null);

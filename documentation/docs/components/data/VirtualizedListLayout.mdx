@@ -7,7 +7,7 @@ title: VirtualizedListLayout
 `VirtualizedListLayout` renders a vertically scrolling list that only mounts the items currently in view. Use it when your list exceeds a few hundred items and `ListView` becomes too slow, or when you need a fully custom item renderer with windowed performance.
 
 ```tsx
-import { VirtualizedListLayout } from '@geti/ui';
+import { VirtualizedListLayout } from '@geti-ai/ui';
 ```
 
 - [Geti UI Theming](/components/theming)
@@ -17,7 +17,7 @@ import { VirtualizedListLayout } from '@geti/ui';
 ### 1 000-item virtualized list
 
 ```tsx preview
-import { VirtualizedListLayout } from '@geti/ui';
+import { VirtualizedListLayout } from '@geti-ai/ui';
 
 export default function App() {
   const items = Array.from({ length: 1000 }, (_, i) => ({

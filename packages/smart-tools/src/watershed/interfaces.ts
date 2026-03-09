@@ -1,6 +1,3 @@
-// Copyright (C) 2022-2025 Intel Corporation
-// LIMITED EDGE SOFTWARE DISTRIBUTION LICENSE
-
 import { Point } from '../shared/interfaces';
 
 export interface WatershedPolygon {

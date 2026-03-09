@@ -1,10 +1,7 @@
-// Copyright (C) 2022-2025 Intel Corporation
-// LIMITED EDGE SOFTWARE DISTRIBUTION LICENSE
-
 import type { Meta, StoryObj } from '@storybook/react';
 import { Button } from '@adobe/react-spectrum';
 
-import { AlertDialog, DialogTrigger } from '@geti/ui';
+import { AlertDialog, DialogTrigger } from '@geti-ai/ui';
 
 const meta: Meta<typeof AlertDialog> = {
     tags: ['!dev'],

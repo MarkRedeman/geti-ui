@@ -8,7 +8,7 @@ import * as DocStories from './Disclosure.stories';
 A Disclosure is a collapsible section that allows users to show or hide content as needed.
 
 ```tsx
-import { Disclosure, DisclosureTitle, DisclosurePanel } from '@geti/ui';
+import { Disclosure, DisclosureTitle, DisclosurePanel } from '@geti-ai/ui';
 ```
 
 - [React Spectrum V3 Disclosure](https://react-spectrum.adobe.com/react-spectrum/Disclosure.html)
@@ -63,7 +63,7 @@ export { DisclosurePanel, DisclosureTitle };
 The thin-wrapper pattern has two benefits:
 
 1. **Zero divergence** — any Spectrum upgrade (new props, improved animation, ARIA fixes) is automatically reflected without touching Geti UI.
-2. **Namespace isolation** — product code imports from `@geti/ui`, so the underlying Spectrum dependency can be swapped in the future without changes in product code.
+2. **Namespace isolation** — product code imports from `@geti-ai/ui`, so the underlying Spectrum dependency can be swapped in the future without changes in product code.
 
 **Sub-component relationship**: `DisclosureTitle` renders as a styled `<button>` heading. `DisclosurePanel` renders as a `<div>` with a `role="group"` (or `role="region"` when significant content warrants a landmark). Spectrum wires the `id`/`aria-controls` relationship between the two automatically — you never set these manually.
 
@@ -180,7 +180,7 @@ All remaining `SpectrumDisclosureProps` from `@adobe/react-spectrum` are forward
 `Disclosure` depends solely on `@adobe/react-spectrum`. It has no Geti-specific theme overrides — the Spectrum defaults render correctly under the Geti dark theme via the `ThemeProvider` applied at the application root.
 
 ```tsx
-import { Disclosure, DisclosureTitle, DisclosurePanel } from '@geti/ui';
+import { Disclosure, DisclosureTitle, DisclosurePanel } from '@geti-ai/ui';
 
 // Standalone — advanced settings panel
 <Disclosure>

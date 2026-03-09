@@ -1,10 +1,7 @@
-// Copyright (C) 2022-2025 Intel Corporation
-// LIMITED EDGE SOFTWARE DISTRIBUTION LICENSE
-
 import { Disclosure as SpectrumDisclosure, DisclosurePanel, DisclosureTitle } from '@adobe/react-spectrum';
 import type { Meta, StoryObj } from '@storybook/react';
 
-import { Accordion, Card, Disclosure, Flex, Grid, Well, Divider, View } from '@geti/ui';
+import { Accordion, Card, Disclosure, Flex, Grid, Well, Divider, View } from '@geti-ai/ui';
 
 // ---------------------------------------------------------------------------
 // Helpers
@@ -387,7 +384,7 @@ const LayoutsKitchenSink = () => (
                         <SubLabel>Code example</SubLabel>
                         <Well>
                             <pre style={{ margin: 0 }}>
-                                <code>{`import { Well } from '@geti/ui';\n\n<Well>Content goes here</Well>`}</code>
+                                <code>{`import { Well } from '@geti-ai/ui';\n\n<Well>Content goes here</Well>`}</code>
                             </pre>
                         </Well>
                     </View>

@@ -1,9 +1,6 @@
-// Copyright (C) 2022-2025 Intel Corporation
-// LIMITED EDGE SOFTWARE DISTRIBUTION LICENSE
-
 import type { Meta, StoryObj } from '@storybook/react';
 
-import { Flex } from '@geti/ui';
+import { Flex } from '@geti-ai/ui';
 
 const meta: Meta<typeof Flex> = {
     tags: ['!dev'],

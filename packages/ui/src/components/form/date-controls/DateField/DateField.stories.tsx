@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react';
 
-import { DateField } from '@geti/ui';
+import { DateField } from '@geti-ai/ui';
 
 const meta: Meta<typeof DateField> = {
     tags: ['!dev'],

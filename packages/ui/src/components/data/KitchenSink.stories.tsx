@@ -1,6 +1,3 @@
-// Copyright (C) 2022-2025 Intel Corporation
-// LIMITED EDGE SOFTWARE DISTRIBUTION LICENSE
-
 import { Text } from '@adobe/react-spectrum';
 import Edit from '@spectrum-icons/workflow/Edit';
 import Delete from '@spectrum-icons/workflow/Delete';
@@ -8,19 +5,19 @@ import type { Meta, StoryObj } from '@storybook/react';
 
 import { Item } from '@adobe/react-spectrum';
 
-import { ActionBar, ActionBarContainer } from '@geti/ui';
-import { CardView } from '@geti/ui';
-import { ListBox, ListBoxItem } from '@geti/ui';
-import { ListView, ListItem } from '@geti/ui';
-import { TableView, TableHeader, TableBody, Column, Row, Cell } from '@geti/ui';
-import { Tag } from '@geti/ui';
-import { TagGroup, TagItem } from '@geti/ui';
-import { TreeView } from '@geti/ui';
-import { VirtualizedHorizontalGrid } from '@geti/ui';
-import { VirtualizedListLayout } from '@geti/ui';
-import { Flex } from '@geti/ui';
-import { Divider } from '@geti/ui';
-import { View } from '@geti/ui';
+import { ActionBar, ActionBarContainer } from '@geti-ai/ui';
+import { CardView } from '@geti-ai/ui';
+import { ListBox, ListBoxItem } from '@geti-ai/ui';
+import { ListView, ListItem } from '@geti-ai/ui';
+import { TableView, TableHeader, TableBody, Column, Row, Cell } from '@geti-ai/ui';
+import { Tag } from '@geti-ai/ui';
+import { TagGroup, TagItem } from '@geti-ai/ui';
+import { TreeView } from '@geti-ai/ui';
+import { VirtualizedHorizontalGrid } from '@geti-ai/ui';
+import { VirtualizedListLayout } from '@geti-ai/ui';
+import { Flex } from '@geti-ai/ui';
+import { Divider } from '@geti-ai/ui';
+import { View } from '@geti-ai/ui';
 
 // ---------------------------------------------------------------------------
 // Helpers

@@ -10,7 +10,7 @@ import * as DocStories from './ColorPickerDialog.stories';
 </Subtitle>
 
 ```tsx
-import { ColorPickerDialog } from '@geti/ui';
+import { ColorPickerDialog } from '@geti-ai/ui';
 ```
 
 <Stories />
@@ -71,7 +71,7 @@ All sub-components share the same `color` / `setColor` pair, so every picker is 
 
 - **Depends on**: `@adobe/react-spectrum` — `parseColor`, `Color`, `Content`, `Heading`, `ButtonGroup`; `react` — `useState`, `useEffect`
 - **Internal dependencies** (library components): `ColorArea`, `ColorField`, `ColorSlider`, `ColorSwatch`, `ColorSwatchPicker`, `ColorWheel`, `Flex`, `Divider`, `Button`, `ActionButton`, `Dialog`, `DialogTrigger`
-- **Does not re-export sub-components** — import them directly from `@geti/ui` if needed separately
+- **Does not re-export sub-components** — import them directly from `@geti-ai/ui` if needed separately
 - **onColorChange output**: always emits the confirmed color as a lowercase 6-digit hex string (e.g. `"#4a90e2"`), regardless of the color model used internally
 
 ### Usage examples

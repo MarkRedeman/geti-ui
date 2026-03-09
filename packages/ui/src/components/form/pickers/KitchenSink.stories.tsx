@@ -1,6 +1,3 @@
-// Copyright (C) 2022-2025 Intel Corporation
-// LIMITED EDGE SOFTWARE DISTRIBUTION LICENSE
-
 import type { Meta, StoryObj } from '@storybook/react';
 
 import {
@@ -26,7 +23,7 @@ import {
     Flex,
     Grid,
     View,
-} from '@geti/ui';
+} from '@geti-ai/ui';
 
 // ---------------------------------------------------------------------------
 // Helpers

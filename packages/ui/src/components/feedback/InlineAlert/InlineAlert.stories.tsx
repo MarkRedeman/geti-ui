@@ -1,10 +1,7 @@
-// Copyright (C) 2022-2025 Intel Corporation
-// LIMITED EDGE SOFTWARE DISTRIBUTION LICENSE
-
 import { Content, Heading } from '@adobe/react-spectrum';
 import type { Meta, StoryObj } from '@storybook/react';
 
-import { InlineAlert } from '@geti/ui';
+import { InlineAlert } from '@geti-ai/ui';
 
 const meta: Meta<typeof InlineAlert> = {
     tags: ['!dev'],

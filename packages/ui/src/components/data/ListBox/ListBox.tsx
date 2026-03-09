@@ -1,6 +1,3 @@
-// Copyright (C) 2022-2025 Intel Corporation
-// LIMITED EDGE SOFTWARE DISTRIBUTION LICENSE
-
 import { ListBox as SpectrumListBox, Item as SpectrumItem } from '@adobe/react-spectrum';
 import type { SpectrumListBoxProps } from '@adobe/react-spectrum';
 

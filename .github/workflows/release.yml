@@ -38,7 +38,7 @@ jobs:
       - uses: changesets/action@v1
         id: changesets
         with:
-          publish: npm publish --workspace=@geti/ui
+          publish: npm publish --workspace=@geti-ai/ui
           version: npx changeset version
           commit: "chore(release): version packages"
           title: "chore(release): version packages"
@@ -57,7 +57,7 @@ jobs:
           OUTPUT: RELEASE_NOTES.md
           GITHUB_REPO: ${{ github.repository }}
 
-      - name: Resolve published @geti/ui version
+      - name: Resolve published @geti-ai/ui version
         if: steps.changesets.outputs.published == 'true'
         id: release_meta
         uses: actions/github-script@v8
@@ -66,7 +66,7 @@ jobs:
         with:
           script: |
             const packages = JSON.parse(process.env.PUBLISHED_PACKAGES || '[]');
-            const target = packages.find((pkg) => pkg.name === '@geti/ui') ?? packages[0];
+            const target = packages.find((pkg) => pkg.name === '@geti-ai/ui') ?? packages[0];
             if (!target?.version) {
               core.setFailed('Could not resolve published package version');
               return;

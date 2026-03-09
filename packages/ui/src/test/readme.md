@@ -2,7 +2,7 @@
 
 ## Responsibility
 
-Global test infrastructure for the `@geti/ui` package. Currently contains a single file: `setup.ts`, which is the global test setup entry point executed by rstest before any test suite runs.
+Global test infrastructure for the `@geti-ai/ui` package. Currently contains a single file: `setup.ts`, which is the global test setup entry point executed by rstest before any test suite runs.
 
 ## Design
 

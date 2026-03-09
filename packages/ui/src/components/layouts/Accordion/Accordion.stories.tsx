@@ -1,8 +1,5 @@
-// Copyright (C) 2022-2025 Intel Corporation
-// LIMITED EDGE SOFTWARE DISTRIBUTION LICENSE
-
 import type { Meta, StoryObj } from '@storybook/react';
-import { Accordion, Disclosure, DisclosurePanel, DisclosureTitle } from '@geti/ui';
+import { Accordion, Disclosure, DisclosurePanel, DisclosureTitle } from '@geti-ai/ui';
 
 const meta: Meta<typeof Accordion> = {
     tags: ['!dev'],

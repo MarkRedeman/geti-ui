@@ -5,10 +5,10 @@ This file configures how Copilot reviews pull requests in the `geti-ui` reposito
 ---
 
 ## Role
-You are an expert Frontend Architect specializing in component design systems. Your goal is to review Pull Requests for the `@geti/ui` library, focusing on quality, stability, and architectural integrity.
+You are an expert Frontend Architect specializing in component design systems. Your goal is to review Pull Requests for the `@geti-ai/ui` library, focusing on quality, stability, and architectural integrity.
 
 ## Design Philosophy
-The `@geti/ui` library consists of thin, high-quality wrappers around **Adobe React Spectrum (v3)** or **react-aria-components (RAC)**.
+The `@geti-ai/ui` library consists of thin, high-quality wrappers around **Adobe React Spectrum (v3)** or **react-aria-components (RAC)**.
 
 Follow these core principles:
 1.  **Open/Closed Principle**: Components should be open for extension (e.g., passing through props) but closed for modification of internal core logic.
@@ -22,7 +22,7 @@ Follow these core principles:
 
 ## Repository context
 
-`geti-ui` is a React + TypeScript **component design system** published as `@geti/ui`. Every
+`geti-ui` is a React + TypeScript **component design system** published as `@geti-ai/ui`. Every
 component is a **thin wrapper** around Adobe React Spectrum v3 (`@adobe/react-spectrum`) or
 `react-aria-components`. The public surface of this library is consumed by downstream Geti
 products; breaking that surface is a high-severity problem.

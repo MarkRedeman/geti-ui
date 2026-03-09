@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react';
-import { ActionBar, ActionBarContainer, ListView, ListItem } from '@geti/ui';
+import { ActionBar, ActionBarContainer, ListView, ListItem } from '@geti-ai/ui';
 import { Item, Text } from '@adobe/react-spectrum';
 import Edit from '@spectrum-icons/workflow/Edit';
 import Delete from '@spectrum-icons/workflow/Delete';

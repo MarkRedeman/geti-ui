@@ -1,6 +1,3 @@
-// Copyright (C) 2022-2025 Intel Corporation
-// LIMITED EDGE SOFTWARE DISTRIBUTION LICENSE
-
 import type { OpenCVTypes } from '../opencv/interfaces';
 import { OpenCVLoader } from '../utils/opencv-loader';
 import { formatImageData } from '../utils/tool-utils';

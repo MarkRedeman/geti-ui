@@ -1,9 +1,6 @@
-// Copyright (C) 2022-2025 Intel Corporation
-// LIMITED EDGE SOFTWARE DISTRIBUTION LICENSE
-
 import type { Meta, StoryObj } from '@storybook/react';
 
-import { Button, FileTrigger } from '@geti/ui';
+import { Button, FileTrigger } from '@geti-ai/ui';
 
 const meta: Meta<typeof FileTrigger> = {
     tags: ['!dev'],

@@ -1,10 +1,7 @@
-// Copyright (C) 2022-2025 Intel Corporation
-// LIMITED EDGE SOFTWARE DISTRIBUTION LICENSE
-
 import type { Meta, StoryObj } from '@storybook/react';
 import { Item } from '@adobe/react-spectrum';
 
-import { ActionMenu } from '@geti/ui';
+import { ActionMenu } from '@geti-ai/ui';
 
 const meta: Meta<typeof ActionMenu> = {
     tags: ['!dev'],

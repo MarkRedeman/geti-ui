@@ -1,6 +1,3 @@
-// Copyright (C) 2022-2025 Intel Corporation
-// LIMITED EDGE SOFTWARE DISTRIBUTION LICENSE
-
 import { Picker as SpectrumPicker, SpectrumPickerProps } from '@adobe/react-spectrum';
 
 export { Item } from '@adobe/react-spectrum';

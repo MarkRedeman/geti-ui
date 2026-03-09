@@ -1,6 +1,3 @@
-// Copyright (C) 2022-2025 Intel Corporation
-// LIMITED EDGE SOFTWARE DISTRIBUTION LICENSE
-
 import type { OpenCVTypes } from '../opencv/interfaces';
 import { Circle, Point, Polygon, Rect, RotatedRect, Shape, ShapeType } from '../shared/interfaces';
 import { approximateShape } from '../utils/tool-utils';

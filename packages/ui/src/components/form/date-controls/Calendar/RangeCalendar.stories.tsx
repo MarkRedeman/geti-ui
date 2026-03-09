@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react';
 
-import { RangeCalendar } from '@geti/ui';
+import { RangeCalendar } from '@geti-ai/ui';
 
 const meta: Meta<typeof RangeCalendar> = {
     tags: ['!dev'],

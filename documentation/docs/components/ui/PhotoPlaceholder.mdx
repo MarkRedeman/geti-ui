@@ -7,7 +7,7 @@ title: PhotoPlaceholder
 PhotoPlaceholder renders a circular or custom-shaped placeholder for a user photo. It shows the first initial of the name on a deterministic background color derived from the `indicator` string. Use it as a fallback when no profile image is available.
 
 ```tsx
-import { PhotoPlaceholder } from '@geti/ui';
+import { PhotoPlaceholder } from '@geti-ai/ui';
 ```
 
 ## Examples
@@ -15,7 +15,7 @@ import { PhotoPlaceholder } from '@geti/ui';
 ### Default (circular)
 
 ```tsx preview
-import { PhotoPlaceholder } from '@geti/ui';
+import { PhotoPlaceholder } from '@geti-ai/ui';
 
 export default function App() {
   return <PhotoPlaceholder name="Alice" indicator="alice@example.com" />;
@@ -25,7 +25,7 @@ export default function App() {
 ### Different identity (different color)
 
 ```tsx preview
-import { PhotoPlaceholder } from '@geti/ui';
+import { PhotoPlaceholder } from '@geti-ai/ui';
 
 export default function App() {
   return <PhotoPlaceholder name="Bob" indicator="bob@example.com" />;
@@ -35,7 +35,7 @@ export default function App() {
 ### Custom size
 
 ```tsx preview
-import { PhotoPlaceholder } from '@geti/ui';
+import { PhotoPlaceholder } from '@geti-ai/ui';
 
 export default function App() {
   return <PhotoPlaceholder name="Carol" indicator="carol@example.com" width="size-800" height="size-800" />;
@@ -45,7 +45,7 @@ export default function App() {
 ### Square (no border radius)
 
 ```tsx preview
-import { PhotoPlaceholder } from '@geti/ui';
+import { PhotoPlaceholder } from '@geti-ai/ui';
 
 export default function App() {
   return <PhotoPlaceholder name="Dave" indicator="dave@example.com" borderRadius="8px" />;

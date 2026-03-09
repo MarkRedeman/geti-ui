@@ -10,7 +10,7 @@ import * as DocStories from './ColorSwatch.stories';
 </Subtitle>
 
 ```tsx
-import { ColorSwatch } from '@geti/ui';
+import { ColorSwatch } from '@geti-ai/ui';
 ```
 
 - [React Spectrum ColorSwatch](https://react-spectrum.adobe.com/react-spectrum/ColorSwatch.html)
@@ -72,8 +72,8 @@ The `interface extends` (rather than a `type` alias) keeps the type open for fut
 Typical usage as a color preview in a button trigger:
 
 ```tsx
-import { ColorSwatch } from '@geti/ui';
-import { Flex } from '@geti/ui';
+import { ColorSwatch } from '@geti-ai/ui';
+import { Flex } from '@geti-ai/ui';
 
 <Flex gap="size-100" alignItems="center">
     <ColorSwatch color={currentColor} size="S" aria-label={`Current color: ${currentColorName}`} />

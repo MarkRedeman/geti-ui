@@ -106,7 +106,7 @@ jobs:
               run: npm ci
 
             - name: Install Playwright browsers (docs)
-              run: npm exec --workspace=@geti/documentation -- playwright install --with-deps chromium
+              run: npm exec --workspace=@geti-ai/documentation -- playwright install --with-deps chromium
 
             - name: Run docs routes smoke test
               run: npm run docs:test:e2e

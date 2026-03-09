@@ -1,9 +1,6 @@
-// Copyright (C) 2022-2025 Intel Corporation
-// LIMITED EDGE SOFTWARE DISTRIBUTION LICENSE
-
 import type { Meta, StoryObj } from '@storybook/react';
 
-import { CardView } from '@geti/ui';
+import { CardView } from '@geti-ai/ui';
 
 interface SampleItem {
     id: number;

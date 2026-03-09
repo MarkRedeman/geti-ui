@@ -8,7 +8,7 @@ import * as DocStories from './Breadcrumbs.stories';
 Breadcrumbs display a hierarchical navigation path, helping users understand their current location and navigate back up the structure.
 
 ```tsx
-import { Breadcrumbs, Item } from '@geti/ui';
+import { Breadcrumbs, Item } from '@geti-ai/ui';
 ```
 
 - [React Spectrum V3 Breadcrumbs](https://react-spectrum.adobe.com/react-spectrum/Breadcrumbs.html)
@@ -58,7 +58,7 @@ export const Breadcrumbs = <T extends object>(props: BreadcrumbsProps<T>) => <Sp
 
 **`Item` re-export**
 
-`Item` is re-exported from `@adobe/react-spectrum` via a co-located `Item.tsx` file. This means you import both `Breadcrumbs` and `Item` from `@geti/ui` without needing a direct dependency on `@adobe/react-spectrum` in your consuming package:
+`Item` is re-exported from `@adobe/react-spectrum` via a co-located `Item.tsx` file. This means you import both `Breadcrumbs` and `Item` from `@geti-ai/ui` without needing a direct dependency on `@adobe/react-spectrum` in your consuming package:
 
 ```tsx
 // Item.tsx — co-located re-export
@@ -204,7 +204,7 @@ Modern routers (React Router v6, Next.js App Router) expose a programmatic navig
 
 ```tsx
 import { useNavigate } from 'react-router-dom';
-import { Breadcrumbs, Item } from '@geti/ui';
+import { Breadcrumbs, Item } from '@geti-ai/ui';
 import type { Key } from '@adobe/react-spectrum';
 
 interface Crumb {
@@ -246,7 +246,7 @@ export const AppBreadcrumbs = ({ crumbs }: AppBreadcrumbsProps) => {
 'use client';
 
 import { useRouter } from 'next/navigation';
-import { Breadcrumbs, Item } from '@geti/ui';
+import { Breadcrumbs, Item } from '@geti-ai/ui';
 import type { Key } from '@adobe/react-spectrum';
 
 const crumbs = [
@@ -281,7 +281,7 @@ Breadcrumbs are most commonly placed directly above the page title, giving users
 
 ```tsx
 import { Flex, Heading } from '@adobe/react-spectrum';
-import { Breadcrumbs, Item } from '@geti/ui';
+import { Breadcrumbs, Item } from '@geti-ai/ui';
 
 export const ProjectPageHeader = () => {
     const navigate = useNavigate();
@@ -313,7 +313,7 @@ In dense UIs (e.g., a dataset view with action buttons), place `Breadcrumbs` on 
 
 ```tsx
 import { Flex } from '@adobe/react-spectrum';
-import { Breadcrumbs, Item, ActionButton } from '@geti/ui';
+import { Breadcrumbs, Item, ActionButton } from '@geti-ai/ui';
 
 export const DatasetToolbar = () => (
     <Flex direction="row" alignItems="center" justifyContent="space-between">

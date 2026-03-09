@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-# OpenCV.js whitelist configuration for @geti/smart-tools.
+# OpenCV.js whitelist configuration for @geti-ai/smart-tools.
 
 # OpenCV's JS bindings generator expects `white_list` to be produced via
 # `makeWhiteList([...])` and include root-level functions under the '' key.

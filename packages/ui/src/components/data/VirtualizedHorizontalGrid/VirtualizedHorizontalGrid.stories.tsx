@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react';
-import { VirtualizedHorizontalGrid } from '@geti/ui';
+import { VirtualizedHorizontalGrid } from '@geti-ai/ui';
 import { Flex, Text, View } from '@adobe/react-spectrum';
 
 interface MockItem {

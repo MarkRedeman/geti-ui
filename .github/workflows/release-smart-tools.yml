@@ -29,7 +29,7 @@ jobs:
       emsdk_version: ${{ inputs.emsdk_version }}
 
   release:
-    name: Publish @geti/smart-tools
+    name: Publish @geti-ai/smart-tools
     needs: [opencv]
     runs-on: ubuntu-latest
     permissions:
@@ -67,15 +67,15 @@ jobs:
             cp opencv-artifacts/opencv.wasm "$OUT_DIR/opencv.wasm"
           fi
 
-      - run: npm run lint --workspace=@geti/smart-tools
-      - run: npm run type-check --workspace=@geti/smart-tools
-      - run: npm run test --workspace=@geti/smart-tools
-      - run: npm run build --workspace=@geti/smart-tools
+      - run: npm run lint --workspace=@geti-ai/smart-tools
+      - run: npm run type-check --workspace=@geti-ai/smart-tools
+      - run: npm run test --workspace=@geti-ai/smart-tools
+      - run: npm run build --workspace=@geti-ai/smart-tools
 
       - uses: changesets/action@v1
         id: changesets
         with:
-          publish: npm publish --workspace=@geti/smart-tools
+          publish: npm publish --workspace=@geti-ai/smart-tools
           version: npx changeset version
           commit: "chore(release): version smart-tools"
           title: "chore(release): version smart-tools"

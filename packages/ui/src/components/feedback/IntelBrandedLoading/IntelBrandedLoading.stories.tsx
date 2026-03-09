@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react';
-import { IntelBrandedLoading } from '@geti/ui';
+import { IntelBrandedLoading } from '@geti-ai/ui';
 
 const meta: Meta<typeof IntelBrandedLoading> = {
     tags: ['!dev'],

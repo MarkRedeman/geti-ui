@@ -8,7 +8,7 @@ import * as DocStories from './ListView.stories';
 An interactive collection of items with support for selection, actions, and drag-and-drop reordering.
 
 ```tsx
-import { ListView, Item } from '@geti/ui';
+import { ListView, Item } from '@geti-ai/ui';
 ```
 
 - [React Spectrum V3 ListView](https://react-spectrum.adobe.com/react-spectrum/ListView.html)
@@ -68,7 +68,7 @@ This means:
 
 ```tsx
 // One import covers both the container and its children
-import { ListView, Item } from '@geti/ui';
+import { ListView, Item } from '@geti-ai/ui';
 ```
 
 **Generic type `<T extends object>`**
@@ -204,7 +204,7 @@ Always provide `aria-label` (or `aria-labelledby`) on `ListView`. Without it, th
 
 ## Integration
 
-- **Dependencies**: `@adobe/react-spectrum` — `ListView`, `Item`, `SpectrumListViewProps`, and `useDragAndDrop` are all sourced from this package. `Item` is re-exported from `@geti/ui` as a convenience so consumers only need one import.
+- **Dependencies**: `@adobe/react-spectrum` — `ListView`, `Item`, `SpectrumListViewProps`, and `useDragAndDrop` are all sourced from this package. `Item` is re-exported from `@geti-ai/ui` as a convenience so consumers only need one import.
 - **ThemeProvider**: Must be present in the React tree. Row height, selection colour, focus ring, and drag indicator all derive from Spectrum tokens resolved by `ThemeProvider`.
 
 ### Selection vs. Action
@@ -220,7 +220,7 @@ Always provide `aria-label` (or `aria-labelledby`) on `ListView`. Without it, th
 ```tsx
 import { useState } from 'react';
 import type { Key, Selection } from '@adobe/react-spectrum';
-import { ListView, Item } from '@geti/ui';
+import { ListView, Item } from '@geti-ai/ui';
 
 const files = [
     { id: 'f1', name: 'dataset-v1.zip' },
@@ -287,7 +287,7 @@ Use `defaultSelectedKeys` (uncontrolled) when no sibling component needs to reac
 import { useDragAndDrop } from '@adobe/react-spectrum';
 import type { Key } from '@adobe/react-spectrum';
 import { useState } from 'react';
-import { ListView, Item } from '@geti/ui';
+import { ListView, Item } from '@geti-ai/ui';
 
 interface FileItem {
     id: string;
@@ -353,7 +353,7 @@ A common pattern is to pair `ListView` with a `SearchField` or filter controls a
 ```tsx
 import { useState } from 'react';
 import { SearchField, Flex } from '@adobe/react-spectrum';
-import { ListView, Item } from '@geti/ui';
+import { ListView, Item } from '@geti-ai/ui';
 
 const allFiles = [
     { id: 'f1', name: 'dataset-v1.zip' },
@@ -389,7 +389,7 @@ Connect `onSelectionChange` to a toolbar to enable batch actions when rows are s
 import { useState } from 'react';
 import type { Selection } from '@adobe/react-spectrum';
 import { ActionButton, Flex } from '@adobe/react-spectrum';
-import { ListView, Item } from '@geti/ui';
+import { ListView, Item } from '@geti-ai/ui';
 
 export function ListWithToolbar() {
     const [selectedKeys, setSelectedKeys] = useState<Selection>(new Set());

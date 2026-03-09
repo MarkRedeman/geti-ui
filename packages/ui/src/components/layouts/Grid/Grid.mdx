@@ -8,7 +8,7 @@ import * as DocStories from './Grid.stories';
 Grid is a layout container that uses CSS Grid to create complex two-dimensional layouts with precisely controlled rows and columns.
 
 ```tsx
-import { Grid } from '@geti/ui';
+import { Grid } from '@geti-ai/ui';
 ```
 
 - [React Spectrum V3 Grid](https://react-spectrum.adobe.com/react-spectrum/Grid.html)
@@ -54,7 +54,7 @@ export interface GridComponentProps extends GridProps {}
 export const Grid = (props: GridComponentProps) => <SpectrumGrid {...props} />;
 ```
 
-The thin-wrapper pattern provides namespace isolation — consuming code imports from `@geti/ui` — while keeping maintenance cost at zero: every Spectrum Grid improvement flows through automatically.
+The thin-wrapper pattern provides namespace isolation — consuming code imports from `@geti-ai/ui` — while keeping maintenance cost at zero: every Spectrum Grid improvement flows through automatically.
 
 ## Variants
 
@@ -162,7 +162,7 @@ All remaining `GridProps` from `@adobe/react-spectrum` are forwarded transparent
 `Grid` depends solely on `@adobe/react-spectrum`. It carries no Geti-specific theme overrides. Grid containers are structurally invisible — apply colours, borders, or padding to child `View` components or to individual named areas.
 
 ```tsx
-import { Grid, View } from '@geti/ui';
+import { Grid, View } from '@geti-ai/ui';
 
 // Typical page scaffold using Grid + View
 <Grid areas={['header', 'content', 'footer']} rows={['size-800', '1fr', 'size-600']} height="100vh">

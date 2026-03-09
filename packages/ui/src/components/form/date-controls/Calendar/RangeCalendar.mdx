@@ -8,7 +8,7 @@ import * as DocStories from './RangeCalendar.stories';
 <Subtitle>A standalone monthly grid that lets users select a contiguous date range with a start and end date.</Subtitle>
 
 ```tsx
-import { RangeCalendar } from '@geti/ui';
+import { RangeCalendar } from '@geti-ai/ui';
 ```
 
 - [React Spectrum RangeCalendar](https://react-spectrum.adobe.com/react-spectrum/RangeCalendar.html)
@@ -70,7 +70,7 @@ export type { SpectrumRangeCalendarProps as RangeCalendarProps };
 Typical controlled usage with a two-month view:
 
 ```tsx
-import { RangeCalendar } from '@geti/ui';
+import { RangeCalendar } from '@geti-ai/ui';
 import { today, getLocalTimeZone } from '@internationalized/date';
 
 const [range, setRange] = useState<RangeValue<CalendarDate> | null>(null);

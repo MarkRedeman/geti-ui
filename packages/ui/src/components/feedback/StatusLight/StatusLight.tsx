@@ -1,6 +1,3 @@
-// Copyright (C) 2022-2025 Intel Corporation
-// LIMITED EDGE SOFTWARE DISTRIBUTION LICENSE
-
 import { StatusLight as SpectrumStatusLight, SpectrumStatusLightProps } from '@adobe/react-spectrum';
 
 /**

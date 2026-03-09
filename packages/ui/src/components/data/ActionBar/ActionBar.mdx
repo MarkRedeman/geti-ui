@@ -8,7 +8,7 @@ import * as DocStories from './ActionBar.stories';
 A contextual toolbar that surfaces bulk actions when one or more items are selected in a collection.
 
 ```tsx
-import { ActionBar, ActionBarContainer, Item } from '@geti/ui';
+import { ActionBar, ActionBarContainer, Item } from '@geti-ai/ui';
 ```
 
 - [React Spectrum ActionBar](https://react-spectrum.adobe.com/react-spectrum/ActionBar.html)
@@ -81,7 +81,7 @@ import type { Selection } from '@adobe/react-spectrum';
 import { Item, Text } from '@adobe/react-spectrum';
 import Delete from '@spectrum-icons/workflow/Delete';
 import Export from '@spectrum-icons/workflow/Export';
-import { ActionBar, ActionBarContainer, TableView, TableHeader, TableBody, Column, Row, Cell } from '@geti/ui';
+import { ActionBar, ActionBarContainer, TableView, TableHeader, TableBody, Column, Row, Cell } from '@geti-ai/ui';
 
 export function DatasetTable({ rows }) {
     const [selectedKeys, setSelectedKeys] = useState<Selection>(new Set());

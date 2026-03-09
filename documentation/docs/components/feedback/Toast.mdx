@@ -2,14 +2,14 @@
 title: Toast
 ---
 
-import { Button, ToastContainer, toast } from '@geti/ui';
+import { Button, ToastContainer, toast } from '@geti-ai/ui';
 
 # Toast
 
 `Toast` provides programmatic transient notifications. Call `toast.positive`, `toast.negative`, `toast.info`, or `toast.neutral` from anywhere in your app and the message appears in the `ToastContainer`. Use toasts for brief feedback on actions that have completed — saves, errors, uploads — not for blocking decisions.
 
 ```tsx
-import { ToastContainer, toast } from '@geti/ui';
+import { ToastContainer, toast } from '@geti-ai/ui';
 ```
 
 - [React Spectrum Toast ↗](https://react-spectrum.adobe.com/react-spectrum/Toast.html)
@@ -20,7 +20,7 @@ import { ToastContainer, toast } from '@geti/ui';
 Place `<ToastContainer />` once at the root of your app, inside `ThemeProvider`:
 
 ```tsx
-import { ThemeProvider, ToastContainer } from '@geti/ui';
+import { ThemeProvider, ToastContainer } from '@geti-ai/ui';
 
 function App() {
   return (
@@ -46,7 +46,7 @@ toast.neutral('No changes detected');
 ### Success toast
 
 ```tsx preview
-import { Button, ToastContainer, toast } from '@geti/ui';
+import { Button, ToastContainer, toast } from '@geti-ai/ui';
 
 export default function App() {
   return (
@@ -63,7 +63,7 @@ export default function App() {
 ### Error toast
 
 ```tsx preview
-import { Button, ToastContainer, toast } from '@geti/ui';
+import { Button, ToastContainer, toast } from '@geti-ai/ui';
 
 export default function App() {
   return (
@@ -83,7 +83,7 @@ export default function App() {
 ### Info toast
 
 ```tsx preview
-import { Button, ToastContainer, toast } from '@geti/ui';
+import { Button, ToastContainer, toast } from '@geti-ai/ui';
 
 export default function App() {
   return (
@@ -100,7 +100,7 @@ export default function App() {
 ### Toast with action button
 
 ```tsx preview
-import { Button, ToastContainer, toast } from '@geti/ui';
+import { Button, ToastContainer, toast } from '@geti-ai/ui';
 
 export default function App() {
   return (

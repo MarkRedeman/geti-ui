@@ -40,4 +40,4 @@ commit_parsers = [
 
 protect_breaking_commits = true
 filter_commits = true
-tag_pattern = "@geti/ui@[0-9].*"
+tag_pattern = "@geti-ai/ui@[0-9].*"

@@ -1,10 +1,7 @@
-// Copyright (C) 2022-2025 Intel Corporation
-// LIMITED EDGE SOFTWARE DISTRIBUTION LICENSE
-
 import type { Meta, StoryObj } from '@storybook/react';
 import { ActionButton, Content, Dialog, Heading } from '@adobe/react-spectrum';
 
-import { Popover } from '@geti/ui';
+import { Popover } from '@geti-ai/ui';
 
 const meta: Meta<typeof Popover> = {
     tags: ['!dev'],

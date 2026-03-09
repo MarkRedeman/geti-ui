@@ -1,12 +1,12 @@
 # Geti UI Design System
 
-`geti-ui` is the repository for the `@geti/ui` component design system used by Intel Geti products.
+`geti-ui` is the repository for the `@geti-ai/ui` component design system used by Intel Geti products.
 
 It is a React + TypeScript library built primarily on Adobe React Spectrum and react-aria-components, with a dark-mode-first Geti theme.
 
 ## Monorepo layout
 
-- `packages/ui` — main publishable package (`@geti/ui`)
+- `packages/ui` — main publishable package (`@geti-ai/ui`)
 - `documentation` — Rspress docs site (primary validation surface)
 - `.github/workflows` — CI/CD and deployment workflows
 - `.agents/skills` — AI agent skills and references
@@ -15,12 +15,12 @@ It is a React + TypeScript library built primarily on Adobe React Spectrum and r
 ## Key capabilities
 
 - 80+ accessible UI components across form, data, feedback, overlays, navigation, and layout categories
-- Geti theming via `ThemeProvider` + `@geti/ui/styles.css`
+- Geti theming via `ThemeProvider` + `@geti-ai/ui/styles.css`
 - Tree-shakeable icons and assets via:
-  - `@geti/ui/icons`
-  - `@geti/ui/assets/images`
-  - `@geti/ui/assets/domains`
-  - `@geti/ui/assets/primary-tools`
+  - `@geti-ai/ui/icons`
+  - `@geti-ai/ui/assets/images`
+  - `@geti-ai/ui/assets/domains`
+  - `@geti-ai/ui/assets/primary-tools`
 
 ## Requirements
 
@@ -34,7 +34,7 @@ npm install
 npm run docs:dev:with-ui
 ```
 
-This runs `@geti/ui` in watch mode and the docs site together for fast local iteration.
+This runs `@geti-ai/ui` in watch mode and the docs site together for fast local iteration.
 
 ## Useful scripts
 
@@ -56,7 +56,7 @@ npm run docs:test:e2e
 
 - Conventional Commits (`feat(...)`, `fix(...)`, `docs(...)`, etc.)
 - Components should be thin wrappers with strong prop pass-through behavior
-- Form controls used in docs examples should come from `@geti/ui`
+- Form controls used in docs examples should come from `@geti-ai/ui`
 
 ## Further documentation
 

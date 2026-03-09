@@ -1,6 +1,3 @@
-// Copyright (C) 2022-2025 Intel Corporation
-// LIMITED EDGE SOFTWARE DISTRIBUTION LICENSE
-
 import Clipper from '@doodle3d/clipper-js';
 
 import type { OpenCVTypes } from '../opencv/interfaces';

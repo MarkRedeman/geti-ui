@@ -10,7 +10,7 @@ import * as DocStories from './ColorSwatchPicker.stories';
 </Subtitle>
 
 ```tsx
-import { ColorSwatchPicker, ColorSwatchPickerItem } from '@geti/ui';
+import { ColorSwatchPicker, ColorSwatchPickerItem } from '@geti-ai/ui';
 ```
 
 - [React Spectrum ColorSwatchPicker](https://react-spectrum.adobe.com/react-spectrum/ColorSwatchPicker.html)
@@ -89,7 +89,7 @@ export const ColorSwatchPickerItem = (props: ColorSwatchPickerItemProps) => <Spe
 Typical controlled usage:
 
 ```tsx
-import { ColorSwatchPicker, ColorSwatchPickerItem } from '@geti/ui';
+import { ColorSwatchPicker, ColorSwatchPickerItem } from '@geti-ai/ui';
 import { parseColor, Color } from '@adobe/react-spectrum';
 
 const [selectedColor, setSelectedColor] = useState<Color>(parseColor('#ff0000'));
@@ -128,7 +128,7 @@ Use inside `ColorPickerDialog` as a presets row:
 
 - **Depends on**: `@adobe/react-spectrum` (`ColorSwatchPicker`, `ColorSwatch`, `SpectrumColorSwatchPickerProps`, `SpectrumColorSwatchProps`)
 - **Color type**: `value` and `onChange` use Adobe's `Color` object. Use `parseColor(hexString)` from `@adobe/react-spectrum` to convert a hex or CSS string to `Color`. Call `.toString('hex')` on the result to convert back.
-- **Children**: Pass `ColorSwatchPickerItem` (from `@geti/ui`) or raw `ColorSwatch` elements. Both work — `ColorSwatchPickerItem` is the idiomatic choice; `ColorSwatch` can be used directly as seen in `ColorPickerDialog`.
+- **Children**: Pass `ColorSwatchPickerItem` (from `@geti-ai/ui`) or raw `ColorSwatch` elements. Both work — `ColorSwatchPickerItem` is the idiomatic choice; `ColorSwatch` can be used directly as seen in `ColorPickerDialog`.
 - **Composed into**: `ColorPickerDialog` uses `ColorSwatchPicker` as its "Presets" section. Pair it with `ColorArea`, `ColorSlider`, and `ColorWheel` for a full picker.
 - **Contrast with ColorSwatch**: `ColorSwatch` alone is a static display element. `ColorSwatchPicker` wraps a group of them in a managed selection container.
 

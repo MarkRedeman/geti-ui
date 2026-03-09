@@ -1,6 +1,3 @@
-// Copyright (C) 2022-2025 Intel Corporation
-// LIMITED EDGE SOFTWARE DISTRIBUTION LICENSE
-
 import polylabel from 'polylabel';
 
 import { Circle, Point, Polygon, Rect, RegionOfInterest, RotatedRect, Shape } from '../shared/interfaces';

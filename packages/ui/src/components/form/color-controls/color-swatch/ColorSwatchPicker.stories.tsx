@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react';
 
-import { ColorSwatchPicker, ColorSwatchPickerItem } from '@geti/ui';
+import { ColorSwatchPicker, ColorSwatchPickerItem } from '@geti-ai/ui';
 
 const meta: Meta<typeof ColorSwatchPicker> = {
     tags: ['!dev'],

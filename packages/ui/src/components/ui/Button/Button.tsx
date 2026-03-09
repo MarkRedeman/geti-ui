@@ -1,6 +1,3 @@
-// Copyright (C) 2022-2025 Intel Corporation
-// LIMITED EDGE SOFTWARE DISTRIBUTION LICENSE
-
 import { Button as SpectrumButton, SpectrumButtonProps } from '@adobe/react-spectrum';
 import { FocusableRef } from '@react-types/shared';
 import { clsx } from 'clsx';

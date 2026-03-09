@@ -1,6 +1,3 @@
-// Copyright (C) 2022-2025 Intel Corporation
-// LIMITED EDGE SOFTWARE DISTRIBUTION LICENSE
-
 import { ButtonGroup, Content, Divider as SpectrumDivider, Footer, Heading, Text } from '@adobe/react-spectrum';
 import { Button as AriaButton } from 'react-aria-components';
 import type { Meta, StoryObj } from '@storybook/react';

@@ -1,9 +1,6 @@
-// Copyright (C) 2022-2025 Intel Corporation
-// LIMITED EDGE SOFTWARE DISTRIBUTION LICENSE
-
 import type { Meta, StoryObj } from '@storybook/react';
 
-import { Well } from '@geti/ui';
+import { Well } from '@geti-ai/ui';
 
 const meta: Meta<typeof Well> = {
     tags: ['!dev'],
@@ -33,7 +30,7 @@ export const CodeExample: Story = {
     args: {
         children: (
             <pre>
-                <code>{`import { Well } from '@geti/ui';\n\n<Well>Content goes here</Well>`}</code>
+                <code>{`import { Well } from '@geti-ai/ui';\n\n<Well>Content goes here</Well>`}</code>
             </pre>
         ),
     },

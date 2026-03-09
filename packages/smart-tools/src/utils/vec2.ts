@@ -1,6 +1,3 @@
-// Copyright (C) 2022-2025 Intel Corporation
-// LIMITED EDGE SOFTWARE DISTRIBUTION LICENSE
-
 export type Vec2 = { x: number; y: number };
 
 export const add = (a: Vec2, b: Vec2): Vec2 => {

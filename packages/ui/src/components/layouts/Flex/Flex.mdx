@@ -8,7 +8,7 @@ import * as DocStories from './Flex.stories';
 Flex is a layout container that uses CSS Flexbox to position and align its children in a single dimension.
 
 ```tsx
-import { Flex } from '@geti/ui';
+import { Flex } from '@geti-ai/ui';
 ```
 
 - [React Spectrum V3 Flex](https://react-spectrum.adobe.com/react-spectrum/Flex.html)
@@ -57,7 +57,7 @@ export const Flex = (props: FlexComponentProps) => <SpectrumFlex {...props} />;
 The thin-wrapper pattern has two benefits:
 
 1. **Zero divergence** — any Spectrum upgrade is automatically reflected; no duplicate prop definitions to maintain.
-2. **Namespace isolation** — consuming code imports from `@geti/ui`, so the underlying library can be swapped in the future without changes in product code.
+2. **Namespace isolation** — consuming code imports from `@geti-ai/ui`, so the underlying library can be swapped in the future without changes in product code.
 
 ## Variants
 
@@ -170,7 +170,7 @@ All remaining `FlexProps` from `@adobe/react-spectrum` are forwarded transparent
 `Flex` depends solely on `@adobe/react-spectrum`. It has no Geti-specific theme overrides — layout containers are invisible to the design token system by default. Apply colours or borders using a `View` component as an outer wrapper when visual styling is required.
 
 ```tsx
-import { View, Flex } from '@geti/ui';
+import { View, Flex } from '@geti-ai/ui';
 
 <View backgroundColor="gray-100" padding="size-300" borderRadius="medium">
     <Flex direction="column" gap="size-200">

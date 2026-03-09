@@ -1,6 +1,3 @@
-// Copyright (C) 2022-2025 Intel Corporation
-// LIMITED EDGE SOFTWARE DISTRIBUTION LICENSE
-
 import { Content, Heading } from '@adobe/react-spectrum';
 import Magnify from '@spectrum-icons/workflow/Magnify';
 import type { Meta, StoryObj } from '@storybook/react';
@@ -23,7 +20,7 @@ import {
     View,
     Flex,
     Grid,
-} from '@geti/ui';
+} from '@geti-ai/ui';
 
 // ---------------------------------------------------------------------------
 // Helpers

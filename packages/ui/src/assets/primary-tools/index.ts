@@ -1,6 +1,3 @@
-// Copyright (C) 2022-2025 Intel Corporation
-// LIMITED EDGE SOFTWARE DISTRIBUTION LICENSE
-
 import BrushTool from './brush.webp';
 import CircleTool from './circle.webp';
 import DetectionTool from './detection.webp';

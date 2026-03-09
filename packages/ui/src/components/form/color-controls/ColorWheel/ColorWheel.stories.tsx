@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react';
 
-import { ColorWheel } from '@geti/ui';
+import { ColorWheel } from '@geti-ai/ui';
 
 const meta: Meta<typeof ColorWheel> = {
     tags: ['!dev'],

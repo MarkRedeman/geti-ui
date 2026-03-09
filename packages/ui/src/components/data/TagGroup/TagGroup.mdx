@@ -8,7 +8,7 @@ import * as DocStories from './TagGroup.stories';
 A focusable, keyboard-navigable list of labels, categories, or keywords with support for selection and removal.
 
 ```tsx
-import { TagGroup, Item } from '@geti/ui';
+import { TagGroup, Item } from '@geti-ai/ui';
 ```
 
 - [React Spectrum V3 TagGroup](https://react-spectrum.adobe.com/react-spectrum/TagGroup.html)
@@ -47,7 +47,7 @@ Key responsibilities:
 
 ## Design
 
-`TagGroup` follows the _transparent wrapper_ pattern: it extends `SpectrumTagGroupProps` without modification and delegates all rendering to Spectrum. The `Item` re-export is provided so consumers can import both from `@geti/ui` without importing directly from Spectrum.
+`TagGroup` follows the _transparent wrapper_ pattern: it extends `SpectrumTagGroupProps` without modification and delegates all rendering to Spectrum. The `Item` re-export is provided so consumers can import both from `@geti-ai/ui` without importing directly from Spectrum.
 
 ```tsx
 // packages/ui/src/components/data/TagGroup/TagGroup.tsx
@@ -81,10 +81,10 @@ All props pass through to Spectrum unchanged:
 
 **The `Item` export**
 
-`Item` is re-exported from Spectrum so that consumers can import everything they need from `@geti/ui`:
+`Item` is re-exported from Spectrum so that consumers can import everything they need from `@geti-ai/ui`:
 
 ```tsx
-import { TagGroup, Item } from '@geti/ui';
+import { TagGroup, Item } from '@geti-ai/ui';
 
 <TagGroup label="Labels">
     <Item key="person">Person</Item>
@@ -225,7 +225,7 @@ const [labels, setLabels] = useState(['Cat', 'Dog', 'Bird']);
 
 - **Dependency**: `@adobe/react-spectrum` — `TagGroup` (as `SpectrumTagGroup`) and `Item` (as `SpectrumItem`) are imported from this package.
 - **`ThemeProvider`**: Must be present in the React tree for Spectrum tokens (background, focus ring, remove button colour) to resolve correctly.
-- **`Item` import**: Always import `Item` from `@geti/ui`, not directly from `@adobe/react-spectrum`, to stay on the correct migration path.
+- **`Item` import**: Always import `Item` from `@geti-ai/ui`, not directly from `@adobe/react-spectrum`, to stay on the correct migration path.
 - **Geti `Tag` vs `TagGroup`**: These are **different** components. Geti's `Tag` (`data/Tag`) is a bespoke, non-Spectrum primitive for static display labels. `TagGroup` is a Spectrum wrapper for interactive, keyboard-navigable tag collections. Do not substitute one for the other.
 - **Dynamic collections**: For large or server-fetched tag lists, use the `items` prop with a render function child. For small, static sets, static `<Item>` children are simpler.
 - **Form libraries**: To integrate with React Hook Form or Formik, use the controlled pattern — read `selectedKeys` from `onSelectionChange` and write back with `setValue` or `setFieldValue`. Remember to convert `Set<Key>` to an array for serialization.

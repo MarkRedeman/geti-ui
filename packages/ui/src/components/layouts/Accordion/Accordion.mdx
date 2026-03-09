@@ -8,7 +8,7 @@ import * as DocStories from './Accordion.stories';
 An Accordion organizes a collection of related sections into a vertically stacked list of collapsible items.
 
 ```tsx
-import { Accordion, Disclosure, DisclosureTitle, DisclosurePanel } from '@geti/ui';
+import { Accordion, Disclosure, DisclosureTitle, DisclosurePanel } from '@geti-ai/ui';
 ```
 
 - [React Spectrum V3 Accordion](https://react-spectrum.adobe.com/react-spectrum/Accordion.html)
@@ -43,7 +43,7 @@ Key responsibilities:
 
 ## Design
 
-`Accordion` is a **thin wrapper** around Adobe React Spectrum's `Accordion`. The full `SpectrumAccordionProps` interface is re-exported and all props are forwarded without modification. The `Disclosure`, `DisclosureTitle`, and `DisclosurePanel` sub-components are provided by `@geti/ui` (which re-exports them from Spectrum).
+`Accordion` is a **thin wrapper** around Adobe React Spectrum's `Accordion`. The full `SpectrumAccordionProps` interface is re-exported and all props are forwarded without modification. The `Disclosure`, `DisclosureTitle`, and `DisclosurePanel` sub-components are provided by `@geti-ai/ui` (which re-exports them from Spectrum).
 
 ```tsx
 // Accordion.tsx — the complete implementation
@@ -54,7 +54,7 @@ export interface AccordionProps extends SpectrumAccordionProps {}
 export const Accordion = (props: AccordionProps) => <SpectrumAccordion {...props} />;
 ```
 
-The thin-wrapper pattern provides namespace isolation — product code imports from `@geti/ui` — while keeping maintenance cost at zero: every Spectrum Accordion improvement (animation, ARIA, keyboard handling) flows through automatically.
+The thin-wrapper pattern provides namespace isolation — product code imports from `@geti-ai/ui` — while keeping maintenance cost at zero: every Spectrum Accordion improvement (animation, ARIA, keyboard handling) flows through automatically.
 
 **How `Accordion` and `Disclosure` relate**: `Accordion` acts as a React Context provider. When `Disclosure` components are rendered as direct children, they register themselves with the accordion's state machine and surrender control of their own `isExpanded` state. The accordion drives expansion through a collection of keys — each `Disclosure` child carries a `key` prop that the accordion uses to track which panels are open.
 
@@ -191,7 +191,7 @@ All remaining `SpectrumAccordionProps` from `@adobe/react-spectrum` are forwarde
 `Accordion` depends solely on `@adobe/react-spectrum`. It has no Geti-specific theme overrides. All header and panel styling is applied by Spectrum's default tokens, which render correctly under the Geti dark theme via the `ThemeProvider` at the application root.
 
 ```tsx
-import { Accordion, Disclosure, DisclosureTitle, DisclosurePanel } from '@geti/ui';
+import { Accordion, Disclosure, DisclosureTitle, DisclosurePanel } from '@geti-ai/ui';
 
 // Configuration panel with grouped settings
 <Accordion defaultExpandedKeys={['model']}>

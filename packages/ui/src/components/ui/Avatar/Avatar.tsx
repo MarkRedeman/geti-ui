@@ -1,6 +1,3 @@
-// Copyright (C) 2022-2025 Intel Corporation
-// LIMITED EDGE SOFTWARE DISTRIBUTION LICENSE
-
 import { Avatar as SpectrumAvatar } from '@adobe/react-spectrum';
 import type { SpectrumAvatarProps } from '@adobe/react-spectrum';
 

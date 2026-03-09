@@ -2,14 +2,14 @@
 title: Tag
 ---
 
-import { Tag } from '@geti/ui';
+import { Tag } from '@geti-ai/ui';
 
 # Tag
 
 `Tag` displays a small categorisation label with an optional accent dot, prefix element, or suffix element. Use it to show metadata inline — annotation labels, model types, status categories — without needing a full Spectrum `TagGroup`.
 
 ```tsx
-import { Tag } from '@geti/ui';
+import { Tag } from '@geti-ai/ui';
 ```
 
 - [Geti UI Theming](/components/theming)
@@ -19,7 +19,7 @@ import { Tag } from '@geti/ui';
 ### Default (with accent dot)
 
 ```tsx preview
-import { Tag } from '@geti/ui';
+import { Tag } from '@geti-ai/ui';
 
 export default function App() {
   return <Tag text="Detection" />;
@@ -29,7 +29,7 @@ export default function App() {
 ### No dot
 
 ```tsx preview
-import { Tag } from '@geti/ui';
+import { Tag } from '@geti-ai/ui';
 
 export default function App() {
   return <Tag text="Classification" withDot={false} />;
@@ -39,7 +39,7 @@ export default function App() {
 ### Dark mode
 
 ```tsx preview
-import { Tag } from '@geti/ui';
+import { Tag } from '@geti-ai/ui';
 
 export default function App() {
   return <Tag text="Segmentation" darkMode />;
@@ -49,7 +49,7 @@ export default function App() {
 ### With tooltip
 
 ```tsx preview
-import { Tag } from '@geti/ui';
+import { Tag } from '@geti-ai/ui';
 
 export default function App() {
   return <Tag text="Hover me" tooltip="Anomaly detection task" />;
@@ -59,7 +59,7 @@ export default function App() {
 ### With suffix element
 
 ```tsx preview
-import { Tag } from '@geti/ui';
+import { Tag } from '@geti-ai/ui';
 
 export default function App() {
   return (

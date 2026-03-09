@@ -1,6 +1,3 @@
-// Copyright (C) 2022-2025 Intel Corporation
-// LIMITED EDGE SOFTWARE DISTRIBUTION LICENSE
-
 import * as ort from 'onnxruntime-web';
 
 import { Point, RegionOfInterest, ShapeType } from '../shared/interfaces';

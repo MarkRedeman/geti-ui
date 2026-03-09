@@ -143,7 +143,7 @@ export default defineConfig({
             {
                 icon: 'github',
                 mode: 'link',
-                content: 'https://github.com/open-edge-platform/geti-ui',
+                content: 'https://github.com/MarkRedeman/geti-ui',
             },
         ],
         footer: {
@@ -155,7 +155,7 @@ export default defineConfig({
         pluginPreview(),
         pluginLlms(),
         pluginSitemap({
-            siteUrl: 'https://open-edge-platform.github.io/geti-ui',
+            siteUrl: 'https://docs.geti-ui.markredeman.nl',
             defaultChangeFreq: 'weekly',
             defaultPriority: '0.7',
         }),

@@ -9,11 +9,11 @@ A deprecated convenience wrapper that centres the Intel-branded loading animatio
 
 ```tsx
 // New code — preferred
-import { Loading } from '@geti/ui';
+import { Loading } from '@geti-ai/ui';
 <Loading variant="intel" mode="inline" size="L" />;
 
 // Legacy code only
-import { IntelBrandedLoading } from '@geti/ui';
+import { IntelBrandedLoading } from '@geti-ai/ui';
 ```
 
 > ⚠️ **Deprecated.** `IntelBrandedLoading` exists solely for backward compatibility. It adds no capability beyond `<Loading variant="intel" mode="inline" size="L" />` combined with a centering `Flex`. All new implementations should use `Loading` directly and handle their own centering.

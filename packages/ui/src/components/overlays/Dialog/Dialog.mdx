@@ -8,7 +8,7 @@ import * as DocStories from './Dialog.stories';
 Dialogs are windows containing contextual information or tasks that appear over the main UI content.
 
 ```tsx
-import { Dialog, DialogTrigger } from '@geti/ui';
+import { Dialog, DialogTrigger } from '@geti-ai/ui';
 ```
 
 - [React Spectrum V3 Dialog](https://react-spectrum.adobe.com/react-spectrum/Dialog.html)
@@ -220,9 +220,9 @@ Renders a close ("×") button in the corner of the dialog, giving users a clear 
 ## Integration
 
 - **Dependencies**: `@adobe/react-spectrum` — `Dialog`, `DialogTrigger`, and their Spectrum prop types are imported from this package.
-- **Slot components**: `Heading`, `Divider`, `Content`, `Footer`, `ButtonGroup` are imported from `@adobe/react-spectrum`. They are not re-exported by `@geti/ui` at this time — import them directly.
+- **Slot components**: `Heading`, `Divider`, `Content`, `Footer`, `ButtonGroup` are imported from `@adobe/react-spectrum`. They are not re-exported by `@geti-ai/ui` at this time — import them directly.
 - **ThemeProvider**: Must be present in the React tree. The overlay background, border radius, and shadow all derive from Spectrum tokens resolved by `ThemeProvider`.
-- **Button**: Use `@geti/ui`'s `Button` for all action buttons inside a `Dialog`. This ensures consistent `accent` defaults and correct focus ref types.
+- **Button**: Use `@geti-ai/ui`'s `Button` for all action buttons inside a `Dialog`. This ensures consistent `accent` defaults and correct focus ref types.
 - **z-index and stacking**: Spectrum manages overlay z-index automatically via its `OverlayProvider`. Ensure your application root includes `Provider` (or `ThemeProvider`, which wraps it) at the top level to avoid stacking context conflicts.
 
 ### Controlled vs. uncontrolled

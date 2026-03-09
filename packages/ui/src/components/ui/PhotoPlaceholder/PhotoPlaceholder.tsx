@@ -1,6 +1,3 @@
-// Copyright (C) 2022-2025 Intel Corporation
-// LIMITED EDGE SOFTWARE DISTRIBUTION LICENSE
-
 import { FC } from 'react';
 
 import { Text, View, ViewProps } from '@adobe/react-spectrum';

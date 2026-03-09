@@ -2,7 +2,7 @@
 
 ## Responsibility
 
-The `packages/` directory is the workspace root for all publishable packages in the `geti-ui` monorepo. Currently it contains exactly one package: `ui/` (published as `@geti/ui`).
+The `packages/` directory is the workspace root for all publishable packages in the `geti-ui` monorepo. Currently it contains exactly one package: `ui/` (published as `@geti-ai/ui`).
 
 Its role is purely structural — it provides the conventional monorepo boundary between workspace tooling (at the repo root) and the deliverable packages that consumers install.
 
@@ -19,5 +19,5 @@ There is no build or runtime flow at this level. `packages/` is a directory grou
 ## Integration
 
 - **Repo root** (`../`) declares `packages/*` as workspaces and delegates all scripts here.
-- **`packages/ui/`** is the sole current workspace package; its `package.json` names it `@geti/ui`.
+- **`packages/ui/`** is the sole current workspace package; its `package.json` names it `@geti-ai/ui`.
 - **Future packages** (e.g. `packages/tokens/`, `packages/icons/`) would be added here and declared as workspace dependencies of `packages/ui/` if needed.

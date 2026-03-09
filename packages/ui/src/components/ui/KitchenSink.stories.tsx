@@ -1,6 +1,3 @@
-// Copyright (C) 2022-2025 Intel Corporation
-// LIMITED EDGE SOFTWARE DISTRIBUTION LICENSE
-
 import { useState } from 'react';
 
 import { Text } from '@adobe/react-spectrum';
@@ -24,7 +21,7 @@ import {
     ToggleButton,
     ToggleButtons,
     View,
-} from '@geti/ui';
+} from '@geti-ai/ui';
 
 // ---------------------------------------------------------------------------
 // Helpers

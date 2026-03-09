@@ -1,6 +1,3 @@
-// Copyright (C) 2022-2025 Intel Corporation
-// LIMITED EDGE SOFTWARE DISTRIBUTION LICENSE
-
 import { useState } from 'react';
 
 import { ButtonGroup, Checkbox, Content, Footer, Heading, Item, Text } from '@adobe/react-spectrum';
@@ -113,7 +110,7 @@ import {
     View,
     ViewModes,
     Well,
-} from '@geti/ui';
+} from '@geti-ai/ui';
 
 export const SPECTRUM_COLOR_TOKENS = [
     'celery-400',

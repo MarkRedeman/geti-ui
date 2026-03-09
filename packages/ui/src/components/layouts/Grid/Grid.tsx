@@ -1,6 +1,3 @@
-// Copyright (C) 2022-2025 Intel Corporation
-// LIMITED EDGE SOFTWARE DISTRIBUTION LICENSE
-
 import { Grid as SpectrumGrid } from '@adobe/react-spectrum';
 import type { GridProps } from '@adobe/react-spectrum';
 

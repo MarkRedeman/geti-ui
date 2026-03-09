@@ -1,6 +1,3 @@
-// Copyright (C) 2022-2025 Intel Corporation
-// LIMITED EDGE SOFTWARE DISTRIBUTION LICENSE
-
 import { Image as SpectrumImage } from '@adobe/react-spectrum';
 import type { SpectrumImageProps } from '@adobe/react-spectrum';
 

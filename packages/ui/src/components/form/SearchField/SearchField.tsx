@@ -1,6 +1,3 @@
-// Copyright (C) 2022-2025 Intel Corporation
-// LIMITED EDGE SOFTWARE DISTRIBUTION LICENSE
-
 import { forwardRef } from 'react';
 import { SearchField as SpectrumSearchField, SpectrumSearchFieldProps } from '@adobe/react-spectrum';
 import type { TextFieldRef } from '@react-types/textfield';

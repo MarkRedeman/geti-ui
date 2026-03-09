@@ -7,7 +7,7 @@ title: SearchField
 SearchField is a text input purpose-built for search and filter interactions. It includes a magnifier icon and a clear button, and fires `onSubmit` on Enter. Use it for any live or submitted search pattern.
 
 ```tsx
-import { SearchField } from '@geti/ui';
+import { SearchField } from '@geti-ai/ui';
 ```
 
 - [React Spectrum SearchField ↗](https://react-spectrum.adobe.com/react-spectrum/SearchField.html)
@@ -18,7 +18,7 @@ import { SearchField } from '@geti/ui';
 ### Default
 
 ```tsx preview
-import { SearchField } from '@geti/ui';
+import { SearchField } from '@geti-ai/ui';
 
 export default function App() {
   return <SearchField label="Search datasets" />;
@@ -28,7 +28,7 @@ export default function App() {
 ### With placeholder
 
 ```tsx preview
-import { SearchField } from '@geti/ui';
+import { SearchField } from '@geti-ai/ui';
 
 export default function App() {
   return (
@@ -43,7 +43,7 @@ export default function App() {
 ### Disabled
 
 ```tsx preview
-import { SearchField } from '@geti/ui';
+import { SearchField } from '@geti-ai/ui';
 
 export default function App() {
   return <SearchField label="Search" isDisabled />;
@@ -52,7 +52,7 @@ export default function App() {
 
 ## Responsibility
 
-`SearchField` is a thin wrapper around React Spectrum's `SearchField` with ref forwarding via `TextFieldRef`. The wrapper provides a `@geti/ui` import path, Geti theming, and allows parent components to programmatically focus or read the field.
+`SearchField` is a thin wrapper around React Spectrum's `SearchField` with ref forwarding via `TextFieldRef`. The wrapper provides a `@geti-ai/ui` import path, Geti theming, and allows parent components to programmatically focus or read the field.
 
 ## Variants and states
 

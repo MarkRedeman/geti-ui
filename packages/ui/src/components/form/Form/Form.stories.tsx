@@ -1,9 +1,6 @@
-// Copyright (C) 2022-2025 Intel Corporation
-// LIMITED EDGE SOFTWARE DISTRIBUTION LICENSE
-
 import type { Meta, StoryObj } from '@storybook/react';
 
-import { Button, TextField, Form } from '@geti/ui';
+import { Button, TextField, Form } from '@geti-ai/ui';
 
 const meta: Meta<typeof Form> = {
     tags: ['!dev'],

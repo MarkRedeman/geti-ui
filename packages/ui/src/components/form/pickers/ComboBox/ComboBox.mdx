@@ -11,7 +11,7 @@ import * as DocStories from './ComboBox.stories';
 </Subtitle>
 
 ```tsx
-import { ComboBox, ComboBoxItem as Item } from '@geti/ui';
+import { ComboBox, ComboBoxItem as Item } from '@geti-ai/ui';
 ```
 
 - [React Spectrum V3 ComboBox](https://react-spectrum.adobe.com/react-spectrum/ComboBox.html)
@@ -87,7 +87,7 @@ For static collections the generic is not needed — you can write `<Item>` chil
 export { Item } from '@adobe/react-spectrum';
 ```
 
-Import it from `@geti/ui` alongside `ComboBox` so you don't need a second import from the upstream package. `Item` is the shared collection primitive — the same component is used across `ComboBox`, `Picker`, `Tabs`, and other collection-based components.
+Import it from `@geti-ai/ui` alongside `ComboBox` so you don't need a second import from the upstream package. `Item` is the shared collection primitive — the same component is used across `ComboBox`, `Picker`, `Tabs`, and other collection-based components.
 
 **Theme integration**
 
@@ -254,7 +254,7 @@ Always provide a `label` prop. If a visible label is not appropriate in context 
 
 ## Integration
 
-- **Dependencies**: `@adobe/react-spectrum` — `SpectrumComboBox`, `SpectrumComboBoxProps`, and `Item` are all imported from this package. Users only need to import from `@geti/ui`.
+- **Dependencies**: `@adobe/react-spectrum` — `SpectrumComboBox`, `SpectrumComboBoxProps`, and `Item` are all imported from this package. Users only need to import from `@geti-ai/ui`.
 - **ThemeProvider**: Must be present in the React tree. Input styling, focus ring colour, and dropdown appearance all derive from Spectrum tokens resolved by `ThemeProvider`.
 
 ### `selectedKey` vs. `inputValue`
@@ -324,7 +324,7 @@ When the option list is large or lives on a server, you can drive filtering asyn
 ```tsx
 import { useCallback, useState } from 'react';
 import { Key } from '@adobe/react-spectrum';
-import { ComboBox, ComboBoxItem as Item } from '@geti/ui';
+import { ComboBox, ComboBoxItem as Item } from '@geti-ai/ui';
 
 type Model = { id: string; name: string };
 
@@ -380,7 +380,7 @@ Wrap `ComboBox` in a Spectrum `Form` to get layout, spacing, and integrated form
 
 ```tsx
 import { Form } from '@adobe/react-spectrum';
-import { ComboBox, ComboBoxItem as Item } from '@geti/ui';
+import { ComboBox, ComboBoxItem as Item } from '@geti-ai/ui';
 
 function TrainingConfigForm() {
     const [architecture, setArchitecture] = useState<Key | null>(null);

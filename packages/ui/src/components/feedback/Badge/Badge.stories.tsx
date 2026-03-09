@@ -1,10 +1,7 @@
-// Copyright (C) 2022-2025 Intel Corporation
-// LIMITED EDGE SOFTWARE DISTRIBUTION LICENSE
-
 import Checkmark from '@spectrum-icons/workflow/Checkmark';
 import type { Meta, StoryObj } from '@storybook/react';
 
-import { Badge } from '@geti/ui';
+import { Badge } from '@geti-ai/ui';
 
 const meta: Meta<typeof Badge> = {
     tags: ['!dev'],

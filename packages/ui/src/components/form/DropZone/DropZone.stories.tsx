@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react';
 
-import { DropZone } from '@geti/ui';
+import { DropZone } from '@geti-ai/ui';
 
 const meta: Meta<typeof DropZone> = {
     tags: ['!dev'],

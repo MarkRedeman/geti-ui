@@ -8,7 +8,7 @@ import * as DocStories from './Card.stories';
 A Card is a flexible content container used to group related information and actions into a single, cohesive unit.
 
 ```tsx
-import { Card } from '@geti/ui';
+import { Card } from '@geti-ai/ui';
 ```
 
 <Stories />
@@ -203,8 +203,8 @@ The most common layout pattern: combine `Card` with `Grid` for a responsive gall
 `Card` depends on `@adobe/react-spectrum` for the `View` surface layer. All visual tokens (`borderColor`, `backgroundColor`) are resolved by Spectrum against the active theme's CSS custom properties — no Geti-specific CSS variables are required.
 
 ```tsx
-import { Card } from '@geti/ui';
-import { Grid } from '@geti/ui';
+import { Card } from '@geti-ai/ui';
+import { Grid } from '@geti-ai/ui';
 
 // Typical usage: card gallery inside a Grid
 <Grid columns="repeat(auto-fill, minmax(280px, 1fr))" gap="size-300">

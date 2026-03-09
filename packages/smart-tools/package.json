@@ -1,5 +1,5 @@
 {
-    "name": "@geti/smart-tools",
+    "name": "@geti-ai/smart-tools",
     "version": "0.0.1",
     "description": "Geti smart tools utils and interfaces",
     "type": "module",

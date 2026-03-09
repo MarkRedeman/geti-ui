@@ -7,7 +7,7 @@ title: NumberField
 NumberField is a text input constrained to numeric values with built-in increment/decrement stepper buttons. Use it for threshold values, quantities, confidence scores, and any other numeric parameter input.
 
 ```tsx
-import { NumberField } from '@geti/ui';
+import { NumberField } from '@geti-ai/ui';
 ```
 
 - [React Spectrum NumberField ↗](https://react-spectrum.adobe.com/react-spectrum/NumberField.html)
@@ -18,7 +18,7 @@ import { NumberField } from '@geti/ui';
 ### Basic
 
 ```tsx preview
-import { NumberField } from '@geti/ui';
+import { NumberField } from '@geti-ai/ui';
 
 export default function App() {
   return <NumberField label="Quantity" defaultValue={1} />;
@@ -28,7 +28,7 @@ export default function App() {
 ### With min/max and step
 
 ```tsx preview
-import { NumberField } from '@geti/ui';
+import { NumberField } from '@geti-ai/ui';
 
 export default function App() {
   return (
@@ -46,7 +46,7 @@ export default function App() {
 ### With format options (percentage)
 
 ```tsx preview
-import { NumberField } from '@geti/ui';
+import { NumberField } from '@geti-ai/ui';
 
 export default function App() {
   return (
@@ -62,7 +62,7 @@ export default function App() {
 ### Disabled
 
 ```tsx preview
-import { NumberField } from '@geti/ui';
+import { NumberField } from '@geti-ai/ui';
 
 export default function App() {
   return <NumberField label="Locked value" defaultValue={42} isDisabled />;
@@ -71,7 +71,7 @@ export default function App() {
 
 ## Responsibility
 
-`NumberField` is a thin wrapper around React Spectrum's `NumberField`. All props pass through unchanged. The wrapper provides a `@geti/ui` import path and Geti theming.
+`NumberField` is a thin wrapper around React Spectrum's `NumberField`. All props pass through unchanged. The wrapper provides a `@geti-ai/ui` import path and Geti theming.
 
 ## Variants and states
 

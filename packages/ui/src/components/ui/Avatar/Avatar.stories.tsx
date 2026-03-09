@@ -1,9 +1,6 @@
-// Copyright (C) 2022-2025 Intel Corporation
-// LIMITED EDGE SOFTWARE DISTRIBUTION LICENSE
-
 import type { Meta, StoryObj } from '@storybook/react';
 
-import { Avatar, AvatarGroup } from '@geti/ui';
+import { Avatar, AvatarGroup } from '@geti-ai/ui';
 
 const avatarMeta: Meta<typeof Avatar> = {
     tags: ['!dev'],

@@ -8,7 +8,7 @@ import * as DocStories from './FileTrigger.stories';
 A wrapper that allows any pressable component to open the system file picker.
 
 ```tsx
-import { FileTrigger } from '@geti/ui';
+import { FileTrigger } from '@geti-ai/ui';
 ```
 
 - [React Aria Components FileTrigger](https://react-spectrum.adobe.com/react-aria/FileTrigger.html)
@@ -17,7 +17,7 @@ import { FileTrigger } from '@geti/ui';
 
 ## Responsibility
 
-`FileTrigger` is a transparent wrapper around `react-aria-components`' `FileTrigger` — the **only** component in `@geti/ui` sourced from `react-aria-components` rather than `@adobe/react-spectrum`. It is a headless primitive: it renders a visually hidden `<input type="file" aria-hidden="true">` and delegates the press event from any interactive child to open the OS file picker.
+`FileTrigger` is a transparent wrapper around `react-aria-components`' `FileTrigger` — the **only** component in `@geti-ai/ui` sourced from `react-aria-components` rather than `@adobe/react-spectrum`. It is a headless primitive: it renders a visually hidden `<input type="file" aria-hidden="true">` and delegates the press event from any interactive child to open the OS file picker.
 
 - **Hidden file input**: Manages the `<input type="file">` lifecycle, including resetting it after selection so the same file can be re-selected immediately.
 - **Trigger delegation**: Programmatically clicks the hidden input when the child is activated (click, `Space`, or `Enter`), so the child retains full keyboard and screen reader semantics.

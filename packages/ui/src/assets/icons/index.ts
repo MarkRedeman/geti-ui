@@ -1,6 +1,3 @@
-// Copyright (C) 2022-2025 Intel Corporation
-// LIMITED EDGE SOFTWARE DISTRIBUTION LICENSE
-
 export { ReactComponent as Adjustments } from './adjustments.svg';
 export { ReactComponent as AiIcon } from './ai.svg';
 export { ReactComponent as AICPUIcon } from './ai-cpu.svg';

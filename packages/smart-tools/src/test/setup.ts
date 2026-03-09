@@ -1,6 +1,3 @@
-// Copyright (C) 2022-2025 Intel Corporation
-// LIMITED EDGE SOFTWARE DISTRIBUTION LICENSE
-
 // Polyfill ImageData for jsdom environments that don't include canvas APIs
 if (typeof ImageData === 'undefined') {
     class ImageDataPolyfill {

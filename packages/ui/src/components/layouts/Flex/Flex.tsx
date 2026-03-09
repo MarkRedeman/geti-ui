@@ -1,6 +1,3 @@
-// Copyright (C) 2022-2025 Intel Corporation
-// LIMITED EDGE SOFTWARE DISTRIBUTION LICENSE
-
 import { Flex as SpectrumFlex } from '@adobe/react-spectrum';
 import type { FlexProps } from '@adobe/react-spectrum';
 

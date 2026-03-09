@@ -4,22 +4,22 @@ Welcome to the Geti frontend package workspace.
 
 This repository currently contains:
 
-- `@geti/ui` — React component design system for Intel Geti products.
-- `@geti/smart-tools` — browser/worker smart-tooling utilities (OpenCV/ONNX based).
+- `@geti-ai/ui` — React component design system for Intel Geti products.
+- `@geti-ai/smart-tools` — browser/worker smart-tooling utilities (OpenCV/ONNX based).
 
 ---
 
 ## 🏗 Architecture & Design
 
-`@geti/ui` follows a thin-wrapper pattern on top of [React Spectrum v3](https://react-spectrum.adobe.com/v3/getting-started.html) and `react-aria-components`.
+`@geti-ai/ui` follows a thin-wrapper pattern on top of [React Spectrum v3](https://react-spectrum.adobe.com/v3/getting-started.html) and `react-aria-components`.
 
-`@geti/smart-tools` provides framework-agnostic tool logic, model wrappers, and utility functions, with package docs under `documentation/docs/smart-tools/`.
+`@geti-ai/smart-tools` provides framework-agnostic tool logic, model wrappers, and utility functions, with package docs under `documentation/docs/smart-tools/`.
 
 ### Future Roadmap
 We are planning a gradual migration from React Spectrum v3 to a [react-aria-components](https://react-spectrum.adobe.com/react-aria/react-aria-components.html)-based implementation. This transition will be executed in phases, allowing us to maintain visual consistency while gaining more control over the DOM structure and styling.
 
 ### UI Component Domains
-`@geti/ui` components are organized into logical categories:
+`@geti-ai/ui` components are organized into logical categories:
 
 - **`ui/`**: Low-level foundational elements (Buttons, Icons, Dividers, Badges).
 - **`form/`**: User input and data entry (Inputs, Checkboxes, Selects, File Uploaders).
@@ -50,13 +50,13 @@ Geti UI is **dark-mode first**. The theme is driven by a custom set of CSS varia
 ### Install UI package
 
 ```bash
-npm install @geti/ui
+npm install @geti-ai/ui
 ```
 
 After installing, import the bundled stylesheet once at your application entry point so that component styles are loaded:
 
 ```ts
-import '@geti/ui/styles.css';
+import '@geti-ai/ui/styles.css';
 ```
 
 ### Wrapping your App
@@ -64,8 +64,8 @@ import '@geti/ui/styles.css';
 You must wrap your application root with the `ThemeProvider` to provide the Geti brand colors and Adobe Spectrum context:
 
 ```tsx
-import '@geti/ui/styles.css';
-import { ThemeProvider } from '@geti/ui';
+import '@geti-ai/ui/styles.css';
+import { ThemeProvider } from '@geti-ai/ui';
 
 function App() {
   return (
@@ -81,7 +81,7 @@ function App() {
 Import components directly from the package:
 
 ```tsx
-import { Button, Flex, TextField } from '@geti/ui';
+import { Button, Flex, TextField } from '@geti-ai/ui';
 
 export const MyComponent = () => (
   <Flex gap="size-100">
@@ -96,15 +96,15 @@ export const MyComponent = () => (
 ### Install smart-tools package
 
 ```bash
-npm install @geti/smart-tools
+npm install @geti-ai/smart-tools
 ```
 
 Example imports:
 
 ```ts
-import { buildGrabcutInstance } from '@geti/smart-tools';
-import { buildRITMInstance, RITMModels } from '@geti/smart-tools/ritm';
-import { buildSegmentAnythingInstance, SegmentAnythingModels } from '@geti/smart-tools/segment-anything';
+import { buildGrabcutInstance } from '@geti-ai/smart-tools';
+import { buildRITMInstance, RITMModels } from '@geti-ai/smart-tools/ritm';
+import { buildSegmentAnythingInstance, SegmentAnythingModels } from '@geti-ai/smart-tools/segment-anything';
 ```
 
 For OpenCV build/runtime constraints, see smart-tools docs:
@@ -133,7 +133,7 @@ We use **Changesets** for versioning. When contributing changes that affect pack
 npx changeset
 ```
 
-Select the package(s) affected (`@geti/ui` and/or `@geti/smart-tools`) in the prompt.
+Select the package(s) affected (`@geti-ai/ui` and/or `@geti-ai/smart-tools`) in the prompt.
 
 ---
 

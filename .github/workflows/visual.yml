@@ -56,7 +56,7 @@ jobs:
       - run: npm run docs:build
 
       - name: Install Playwright
-        run: npm exec --workspace=@geti/documentation -- playwright install --with-deps chromium
+        run: npm exec --workspace=@geti-ai/documentation -- playwright install --with-deps chromium
 
       - name: Run targeted visual tests
         id: visual_tests

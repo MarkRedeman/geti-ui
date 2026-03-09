@@ -6,7 +6,7 @@ This file is for AI coding agents (Copilot, Claude, Cursor, etc.) working on thi
 
 ## Repository purpose
 
-`geti-ui` is the component design system for Intel Geti products. It exports a React + TypeScript component library built on top of Adobe React Spectrum and react-aria-components. Components are published as `@geti/ui`.
+`geti-ui` is the component design system for Intel Geti products. It exports a React + TypeScript component library built on top of Adobe React Spectrum and react-aria-components. Components are published as `@geti-ai/ui`.
 
 ---
 
@@ -71,7 +71,7 @@ src/components/button/
 - Export the component's Props type explicitly
 - No `any` types — use generics or `unknown` when necessary
 - Prefer `type` for component props (consistency across codebase)
-- Use **relative imports** — no path aliases (e.g. `../button/Button`, not `@geti/ui/button`)
+- Use **relative imports** — no path aliases (e.g. `../button/Button`, not `@geti-ai/ui/button`)
 
 ```tsx
 // Good
@@ -144,7 +144,7 @@ test("calls onPress when clicked", async () => {
 
 ## Reference packages
 
-`reference-packages/` contains a snapshot of the existing `@geti/ui` implementation from the main Geti repository. These files are **read-only reference material**:
+`reference-packages/` contains a snapshot of the existing `@geti-ai/ui` implementation from the main Geti repository. These files are **read-only reference material**:
 
 - Do not modify files in `reference-packages/`
 - Do not import from `reference-packages/` in the new library
@@ -200,7 +200,7 @@ This library is designed to be used by both humans and AI agents.
   - Usage pattern summary
   - Link to Storybook
   - Reference Adobe Spectrum's `llms.txt` at https://react-spectrum.adobe.com/llms.txt
-- [ ] Implement `@geti/ui` AgentSkill in `.agents/skills/geti-ui/SKILL.md`
+- [ ] Implement `@geti-ai/ui` AgentSkill in `.agents/skills/geti-ui/SKILL.md`
   - Component discovery workflow
   - Theming conventions
   - Import patterns

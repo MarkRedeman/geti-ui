@@ -1,6 +1,3 @@
-// Copyright (C) 2022-2025 Intel Corporation
-// LIMITED EDGE SOFTWARE DISTRIBUTION LICENSE
-
 export { ReactComponent as OpenVINOIcon } from './openvino.svg';
 export { ReactComponent as EmptyActiveSetIcon } from './empty-active-set.svg';
 export { ReactComponent as MediaUpload } from './media-upload.svg';

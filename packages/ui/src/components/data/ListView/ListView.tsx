@@ -1,6 +1,3 @@
-// Copyright (C) 2022-2025 Intel Corporation
-// LIMITED EDGE SOFTWARE DISTRIBUTION LICENSE
-
 import { ListView as SpectrumListView, Item as SpectrumItem } from '@adobe/react-spectrum';
 import type { SpectrumListViewProps } from '@adobe/react-spectrum';
 

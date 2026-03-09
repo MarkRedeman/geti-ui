@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react';
-import { PhotoPlaceholder } from '@geti/ui';
+import { PhotoPlaceholder } from '@geti-ai/ui';
 
 const meta: Meta<typeof PhotoPlaceholder> = {
     tags: ['!dev'],

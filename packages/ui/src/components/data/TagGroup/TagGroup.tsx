@@ -1,6 +1,3 @@
-// Copyright (C) 2022-2025 Intel Corporation
-// LIMITED EDGE SOFTWARE DISTRIBUTION LICENSE
-
 import { TagGroup as SpectrumTagGroup, Item as SpectrumItem } from '@adobe/react-spectrum';
 import type { SpectrumTagGroupProps } from '@adobe/react-spectrum';
 

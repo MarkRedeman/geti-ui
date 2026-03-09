@@ -1,10 +1,7 @@
-// Copyright (C) 2022-2025 Intel Corporation
-// LIMITED EDGE SOFTWARE DISTRIBUTION LICENSE
-
 import type { Meta, StoryObj } from '@storybook/react';
 import { Content, Flex, Heading, Text } from '@adobe/react-spectrum';
 
-import { ContextualHelp } from '@geti/ui';
+import { ContextualHelp } from '@geti-ai/ui';
 
 const meta: Meta<typeof ContextualHelp> = {
     tags: ['!dev'],

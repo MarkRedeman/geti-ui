@@ -1,6 +1,3 @@
-// Copyright (C) 2022-2025 Intel Corporation
-// LIMITED EDGE SOFTWARE DISTRIBUTION LICENSE
-
 export { ReactComponent as SegmentationImg } from './segmentation-semantic.svg';
 export { ReactComponent as DetectionImg } from './detection-normal.svg';
 export { ReactComponent as DetectionRotatedImg } from './detection-rotated.svg';

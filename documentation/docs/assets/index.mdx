@@ -4,7 +4,7 @@ title: Assets
 
 # Assets
 
-`@geti/ui` ships production-ready SVG icons, illustration images, domain visuals, and primary-tool thumbnails as static assets.
+`@geti-ai/ui` ships production-ready SVG icons, illustration images, domain visuals, and primary-tool thumbnails as static assets.
 
 ## Subpath imports
 
@@ -12,29 +12,29 @@ Each asset group is available as a standalone subpath so consumers only pay for 
 
 | Subpath | Contents |
 |---|---|
-| `@geti/ui/icons` | Custom SVG icons + Adobe Spectrum workflow re-exports |
-| `@geti/ui/assets/images` | Illustration SVGs and loading/background images (webp) |
-| `@geti/ui/assets/domains` | Domain-type SVG thumbnails (classification, detection, …) |
-| `@geti/ui/assets/primary-tools` | Annotation tool preview images (webp) |
-| `@geti/ui/assets` | Namespace re-export of all the above |
+| `@geti-ai/ui/icons` | Custom SVG icons + Adobe Spectrum workflow re-exports |
+| `@geti-ai/ui/assets/images` | Illustration SVGs and loading/background images (webp) |
+| `@geti-ai/ui/assets/domains` | Domain-type SVG thumbnails (classification, detection, …) |
+| `@geti-ai/ui/assets/primary-tools` | Annotation tool preview images (webp) |
+| `@geti-ai/ui/assets` | Namespace re-export of all the above |
 
 ## Quick start
 
 ```tsx
 // SVG icon rendered as a React component
-import { Add, Delete } from '@geti/ui/icons';
+import { Add, Delete } from '@geti-ai/ui/icons';
 
 // Illustration image
-import { WorkInProgressIcon } from '@geti/ui/assets/images';
+import { WorkInProgressIcon } from '@geti-ai/ui/assets/images';
 
 // webp URL (use in <img src={…}>)
-import { LoginBackground } from '@geti/ui/assets/images';
+import { LoginBackground } from '@geti-ai/ui/assets/images';
 
 // Domain thumbnail
-import { DetectionImg } from '@geti/ui/assets/domains';
+import { DetectionImg } from '@geti-ai/ui/assets/domains';
 
 // Tool thumbnail URL
-import { BrushTool } from '@geti/ui/assets/primary-tools';
+import { BrushTool } from '@geti-ai/ui/assets/primary-tools';
 ```
 
 ## See also

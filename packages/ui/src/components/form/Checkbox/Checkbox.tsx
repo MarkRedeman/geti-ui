@@ -1,6 +1,3 @@
-// Copyright (C) 2022-2025 Intel Corporation
-// LIMITED EDGE SOFTWARE DISTRIBUTION LICENSE
-
 import { Checkbox as SpectrumCheckbox, SpectrumCheckboxProps } from '@adobe/react-spectrum';
 
 /** Props for the Checkbox component. Extends Spectrum's CheckboxProps without modification. */

@@ -1,6 +1,3 @@
-// Copyright (C) 2022-2025 Intel Corporation
-// LIMITED EDGE SOFTWARE DISTRIBUTION LICENSE
-
 import { degreesToRadians, rotateDeg } from './math';
 import * as Vec2 from './vec2';
 

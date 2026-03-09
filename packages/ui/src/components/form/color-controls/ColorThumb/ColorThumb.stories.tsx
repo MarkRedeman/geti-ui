@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react';
 
-import { ColorThumb, Flex } from '@geti/ui';
+import { ColorThumb, Flex } from '@geti-ai/ui';
 
 const meta: Meta<typeof ColorThumb> = {
     tags: ['!dev'],

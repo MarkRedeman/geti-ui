@@ -1,6 +1,3 @@
-// Copyright (C) 2022-2025 Intel Corporation
-// LIMITED EDGE SOFTWARE DISTRIBUTION LICENSE
-
 import type { InferenceSession } from 'onnxruntime-common';
 import * as ort from 'onnxruntime-web';
 

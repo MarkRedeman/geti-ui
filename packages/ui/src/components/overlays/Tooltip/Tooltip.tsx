@@ -1,6 +1,3 @@
-// Copyright (C) 2022-2025 Intel Corporation
-// LIMITED EDGE SOFTWARE DISTRIBUTION LICENSE
-
 import { Tooltip as SpectrumTooltip, SpectrumTooltipProps } from '@adobe/react-spectrum';
 
 /**

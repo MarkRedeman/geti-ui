@@ -1,6 +1,3 @@
-// Copyright (C) 2022-2025 Intel Corporation
-// LIMITED EDGE SOFTWARE DISTRIBUTION LICENSE
-
 import { Meter as SpectrumMeter, SpectrumMeterProps } from '@adobe/react-spectrum';
 
 /**

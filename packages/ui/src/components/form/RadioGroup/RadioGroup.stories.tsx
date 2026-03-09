@@ -1,9 +1,6 @@
-// Copyright (C) 2022-2025 Intel Corporation
-// LIMITED EDGE SOFTWARE DISTRIBUTION LICENSE
-
 import type { Meta, StoryObj } from '@storybook/react';
 
-import { Radio, RadioGroup } from '@geti/ui';
+import { Radio, RadioGroup } from '@geti-ai/ui';
 
 const meta: Meta<typeof RadioGroup> = {
     tags: ['!dev'],

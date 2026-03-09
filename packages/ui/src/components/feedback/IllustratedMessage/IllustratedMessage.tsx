@@ -1,6 +1,3 @@
-// Copyright (C) 2022-2025 Intel Corporation
-// LIMITED EDGE SOFTWARE DISTRIBUTION LICENSE
-
 import { IllustratedMessage as SpectrumIllustratedMessage } from '@adobe/react-spectrum';
 import type { SpectrumIllustratedMessageProps } from '@adobe/react-spectrum';
 
