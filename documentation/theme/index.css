@@ -34,19 +34,18 @@
     --geti-shadow-2: 0 4px 12px rgb(0 0 0 / 40%);
 }
 
-:where(:root),
 :where(html.rp-dark) {
     --rp-c-brand: var(--geti-energy-blue-shade);
     --rp-c-brand-light: var(--geti-energy-blue-light);
     --rp-c-brand-dark: var(--geti-classic-blue);
     --rp-c-brand-darker: var(--geti-classic-blue-dark);
 
-    --rp-c-bg: rgb(36, 37, 40);
-    --rp-c-bg-soft: rgb(68, 73, 80);
-    --rp-c-bg-mute: rgb(68, 73, 80);
+    --rp-c-bg: var(--geti-gray-50);
+    --rp-c-bg-soft: var(--geti-gray-75);
+    --rp-c-bg-mute: var(--geti-gray-100);
 
-    --rp-c-text-1: rgb(233, 234, 235);
-    --rp-c-text-2: rgb(183, 185, 190);
+    --rp-c-text-1: var(--geti-gray-900);
+    --rp-c-text-2: var(--geti-gray-700);
     --rp-c-text-3: var(--geti-gray-600);
     --rp-c-text-4: var(--geti-gray-500);
 
@@ -76,6 +75,48 @@
 
     --geti-sidebar-item-hover: rgb(0 149 202 / 12%);
     --geti-sidebar-item-active: rgb(0 149 202 / 20%);
+}
+
+:where(html:not(.rp-dark)) {
+    /* Reverse gray scale for light mode */
+    --geti-gray-50: rgb(255, 255, 255);
+    --geti-gray-75: rgb(227, 227, 229);
+    --geti-gray-100: rgb(183, 185, 190);
+    --geti-gray-200: rgb(142, 144, 153);
+    --geti-gray-300: rgb(107, 110, 118);
+    --geti-gray-400: rgb(88, 90, 98);
+    --geti-gray-500: rgb(72, 74, 80);
+    --geti-gray-600: rgb(60, 62, 66);
+    --geti-gray-700: rgb(49, 50, 54);
+    --geti-gray-800: rgb(46, 47, 50);
+    --geti-gray-900: rgb(36, 37, 40);
+
+    --rp-c-brand: var(--geti-energy-blue-shade);
+    --rp-c-brand-light: var(--geti-energy-blue-light);
+    --rp-c-brand-dark: var(--geti-classic-blue);
+    --rp-c-brand-darker: var(--geti-classic-blue-dark);
+
+    --rp-c-bg: var(--geti-gray-50);
+    --rp-c-bg-soft: var(--geti-gray-75);
+    --rp-c-bg-mute: var(--geti-gray-100);
+
+    --rp-c-text-1: var(--geti-gray-900);
+    --rp-c-text-2: var(--geti-gray-700);
+    --rp-c-text-3: var(--geti-gray-600);
+    --rp-c-text-4: var(--geti-gray-500);
+
+    --rp-c-divider: var(--geti-gray-200);
+    --rp-c-divider-light: var(--geti-gray-200);
+    --rp-c-border: var(--geti-gray-300);
+
+    --rp-c-link: var(--geti-energy-blue-shade);
+    --rp-c-link-hover: var(--geti-classic-blue);
+
+    --rp-c-code-bg: var(--geti-gray-75);
+    --rp-c-code-border: var(--geti-gray-300);
+
+    --rp-home-background-bg: var(--geti-gray-50);
+    --rp-home-feature-bg: var(--geti-gray-75);
 }
 
 .rp-nav {
