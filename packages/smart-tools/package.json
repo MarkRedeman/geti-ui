@@ -40,7 +40,7 @@
         "dist"
     ],
     "scripts": {
-        "build": "rslib build",
+        "build": "rslib build && node ./scripts/copy-models.mjs",
         "test": "rstest run",
         "test:watch": "rstest",
         "type-check": "tsc --noEmit -p tsconfig.json",

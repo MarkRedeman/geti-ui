@@ -9,6 +9,10 @@ const sharedEntry = {
 };
 
 export default defineConfig({
+    source: {
+        assetsInclude: /\.onnx$/,
+        exclude: [/\.test\.(ts|tsx)$/, /\/test\//],
+    },
     lib: [
         {
             format: 'esm',
@@ -51,7 +55,18 @@ export default defineConfig({
     output: {
         target: 'web',
     },
-    source: {
-        exclude: [/\.test\.(ts|tsx)$/, /\/test\//],
+    tools: {
+        rspack(_, { addRules }) {
+            addRules([
+                {
+                    test: /\.onnx$/,
+                    type: 'asset/resource',
+                    generator: {
+                        filename: 'static/model/[name][ext]',
+                        importMode: 'preserve',
+                    },
+                },
+            ]);
+        },
     },
 });
