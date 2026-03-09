@@ -3,7 +3,6 @@ title: Loading
 ---
 
 import { Loading } from '@geti/ui';
-import { ExampleCard } from '../../../theme/ExampleCard';
 
 # Loading
 
@@ -17,46 +16,60 @@ import { Loading } from '@geti/ui';
 
 ## Examples
 
-<ExampleCard
-  title="Inline spinner (medium)"
-  code={`<Loading mode="inline" size="M" />`}
->
-  <Loading mode="inline" size="M" />
-</ExampleCard>
+### Inline spinner (medium)
 
-<ExampleCard
-  title="Inline spinner (small)"
-  code={`<Loading mode="inline" size="S" />`}
->
-  <Loading mode="inline" size="S" />
-</ExampleCard>
+```tsx preview
+import { Loading } from '@geti/ui';
 
-<ExampleCard
-  title="Inline spinner (large)"
-  code={`<Loading mode="inline" size="L" />`}
->
-  <Loading mode="inline" size="L" />
-</ExampleCard>
+export default function App() {
+  return <Loading mode="inline" size="M" />;
+}
+```
 
-<ExampleCard
-  title="Intel branded animation"
-  code={`<Loading variant="intel" mode="inline" size="M" />`}
->
-  <Loading variant="intel" mode="inline" size="M" />
-</ExampleCard>
+### Inline spinner (small)
 
-<ExampleCard
-  title="Overlay over a container"
-  code={`<div style={{ position: 'relative', width: 300, height: 150, border: '1px dashed #555' }}>
-  <p style={{ padding: 16 }}>Content underneath</p>
-  <Loading mode="overlay" style={{ backgroundColor: 'rgba(0,0,0,0.5)' }} />
-</div>`}
->
-  <div style={{ position: 'relative', width: 300, height: 150, border: '1px dashed #555' }}>
-    <p style={{ padding: 16 }}>Content underneath</p>
-    <Loading mode="overlay" style={{ backgroundColor: 'rgba(0,0,0,0.5)' }} />
-  </div>
-</ExampleCard>
+```tsx preview
+import { Loading } from '@geti/ui';
+
+export default function App() {
+  return <Loading mode="inline" size="S" />;
+}
+```
+
+### Inline spinner (large)
+
+```tsx preview
+import { Loading } from '@geti/ui';
+
+export default function App() {
+  return <Loading mode="inline" size="L" />;
+}
+```
+
+### Intel branded animation
+
+```tsx preview
+import { Loading } from '@geti/ui';
+
+export default function App() {
+  return <Loading variant="intel" mode="inline" size="M" />;
+}
+```
+
+### Overlay over a container
+
+```tsx preview
+import { Loading } from '@geti/ui';
+
+export default function App() {
+  return (
+    <div style={{ position: 'relative', width: 300, height: 150, border: '1px dashed #555' }}>
+      <p style={{ padding: 16 }}>Content underneath</p>
+      <Loading mode="overlay" style={{ backgroundColor: 'rgba(0,0,0,0.5)' }} />
+    </div>
+  );
+}
+```
 
 ## Responsibility
 

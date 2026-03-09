@@ -2,9 +2,6 @@
 title: ActionButton
 ---
 
-import { ActionButton } from '@geti/ui';
-import { ExampleCard } from '../../../theme/ExampleCard';
-
 # ActionButton
 
 ActionButton is a compact, icon-friendly button for toolbar actions, inline controls, and context menus. Use it when you need a low-footprint pressable action — not a primary page-level CTA.
@@ -18,40 +15,55 @@ import { ActionButton } from '@geti/ui';
 
 ## Examples
 
-<ExampleCard
-  title="Default"
-  code={`<ActionButton>Action</ActionButton>`}
->
-  <ActionButton>Action</ActionButton>
-</ExampleCard>
+### Default
 
-<ExampleCard
-  title="Dark variant"
-  code={`<ActionButton colorVariant="dark">Dark</ActionButton>`}
->
-  <ActionButton colorVariant="dark">Dark</ActionButton>
-</ExampleCard>
+```tsx preview
+import { ActionButton } from '@geti/ui';
 
-<ExampleCard
-  title="Blue variant"
-  code={`<ActionButton colorVariant="blue">Blue</ActionButton>`}
->
-  <ActionButton colorVariant="blue">Blue</ActionButton>
-</ExampleCard>
+export default function App() {
+  return <ActionButton>Action</ActionButton>;
+}
+```
 
-<ExampleCard
-  title="Quiet"
-  code={`<ActionButton isQuiet>Quiet</ActionButton>`}
->
-  <ActionButton isQuiet>Quiet</ActionButton>
-</ExampleCard>
+### Dark variant
 
-<ExampleCard
-  title="Disabled"
-  code={`<ActionButton isDisabled>Disabled</ActionButton>`}
->
-  <ActionButton isDisabled>Disabled</ActionButton>
-</ExampleCard>
+```tsx preview
+import { ActionButton } from '@geti/ui';
+
+export default function App() {
+  return <ActionButton colorVariant="dark">Dark</ActionButton>;
+}
+```
+
+### Blue variant
+
+```tsx preview
+import { ActionButton } from '@geti/ui';
+
+export default function App() {
+  return <ActionButton colorVariant="blue">Blue</ActionButton>;
+}
+```
+
+### Quiet
+
+```tsx preview
+import { ActionButton } from '@geti/ui';
+
+export default function App() {
+  return <ActionButton isQuiet>Quiet</ActionButton>;
+}
+```
+
+### Disabled
+
+```tsx preview
+import { ActionButton } from '@geti/ui';
+
+export default function App() {
+  return <ActionButton isDisabled>Disabled</ActionButton>;
+}
+```
 
 ## Responsibility
 

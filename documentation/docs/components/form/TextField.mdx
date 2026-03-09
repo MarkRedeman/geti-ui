@@ -2,9 +2,6 @@
 title: TextField
 ---
 
-import { TextField } from '@geti/ui';
-import { ExampleCard } from '../../../theme/ExampleCard';
-
 # TextField
 
 TextField is the standard single-line text input. Use it for names, emails, URLs, short labels, and any field requiring freeform text entry on a single line.
@@ -18,53 +15,59 @@ import { TextField } from '@geti/ui';
 
 ## Examples
 
-<ExampleCard
-  title="Default"
-  code={`<TextField label="Project name" />`}
->
-  <TextField label="Project name" />
-</ExampleCard>
+### Default
 
-<ExampleCard
-  title="With placeholder and description"
-  code={`<TextField
-  label="API endpoint"
-  placeholder="https://example.com/api"
-  description="Full URL including protocol"
-/>`}
->
-  <TextField
-    label="API endpoint"
-    placeholder="https://example.com/api"
-    description="Full URL including protocol"
-  />
-</ExampleCard>
+```tsx preview
+import { TextField } from '@geti/ui';
 
-<ExampleCard
-  title="Required with validation"
-  code={`<TextField
-  label="Email"
-  type="email"
-  isRequired
-  validationState="invalid"
-  errorMessage="Please enter a valid email address"
-/>`}
->
-  <TextField
-    label="Email"
-    type="email"
-    isRequired
-    validationState="invalid"
-    errorMessage="Please enter a valid email address"
-  />
-</ExampleCard>
+export default function App() {
+  return <TextField label="Project name" />;
+}
+```
 
-<ExampleCard
-  title="Disabled"
-  code={`<TextField label="Username" defaultValue="jsmith" isDisabled />`}
->
-  <TextField label="Username" defaultValue="jsmith" isDisabled />
-</ExampleCard>
+### With placeholder and description
+
+```tsx preview
+import { TextField } from '@geti/ui';
+
+export default function App() {
+  return (
+    <TextField
+      label="API endpoint"
+      placeholder="https://example.com/api"
+      description="Full URL including protocol"
+    />
+  );
+}
+```
+
+### Required with validation
+
+```tsx preview
+import { TextField } from '@geti/ui';
+
+export default function App() {
+  return (
+    <TextField
+      label="Email"
+      type="email"
+      isRequired
+      validationState="invalid"
+      errorMessage="Please enter a valid email address"
+    />
+  );
+}
+```
+
+### Disabled
+
+```tsx preview
+import { TextField } from '@geti/ui';
+
+export default function App() {
+  return <TextField label="Username" defaultValue="jsmith" isDisabled />;
+}
+```
 
 ## Responsibility
 

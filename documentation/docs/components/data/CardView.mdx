@@ -3,7 +3,6 @@ title: CardView
 ---
 
 import { CardView } from '@geti/ui';
-import { ExampleCard } from '../../../theme/ExampleCard';
 
 # CardView
 
@@ -17,80 +16,61 @@ import { CardView } from '@geti/ui';
 
 ## Examples
 
-<ExampleCard
-  title="Default 3-column grid"
-  code={`const items = [
-  { id: 1, name: 'Project Alpha', description: 'Detection · 94% accuracy' },
-  { id: 2, name: 'Project Beta', description: 'Classification · 87% accuracy' },
-  { id: 3, name: 'Project Gamma', description: 'Segmentation · 91% accuracy' },
-];
+### Default 3-column grid
 
-<CardView
-  items={items}
-  aria-label="Projects"
-  renderCard={(item) => ({
-    'aria-label': item.name,
-    children: (
-      <div>
-        <strong>{item.name}</strong>
-        <p>{item.description}</p>
-      </div>
-    ),
-  })}
-/>`}
->
-  <CardView
-    items={[
-      { id: 1, name: 'Project Alpha', description: 'Detection · 94% accuracy' },
-      { id: 2, name: 'Project Beta', description: 'Classification · 87% accuracy' },
-      { id: 3, name: 'Project Gamma', description: 'Segmentation · 91% accuracy' },
-    ]}
-    aria-label="Projects"
-    renderCard={(item) => ({
-      'aria-label': item.name,
-      children: (
-        <div>
-          <strong>{item.name}</strong>
-          <p style={{ margin: '4px 0 0', opacity: 0.7 }}>{item.description}</p>
-        </div>
-      ),
-    })}
-  />
-</ExampleCard>
+```tsx preview
+import { CardView } from '@geti/ui';
 
-<ExampleCard
-  title="2-column selectable cards"
-  code={`<CardView
-  items={items}
-  aria-label="Select a project"
-  columns={2}
-  gap="12px"
-  renderCard={(item, index) => ({
-    'aria-label': item.name,
-    isSelected: index === 0,
-    onPress: () => {},
-    children: <strong>{item.name}</strong>,
-  })}
-/>`}
->
-  <CardView
-    items={[
-      { id: 1, name: 'Detection Project' },
-      { id: 2, name: 'Classification Project' },
-      { id: 3, name: 'Segmentation Project' },
-      { id: 4, name: 'Anomaly Project' },
-    ]}
-    aria-label="Select a project"
-    columns={2}
-    gap="12px"
-    renderCard={(item, index) => ({
-      'aria-label': item.name,
-      isSelected: index === 0,
-      onPress: () => {},
-      children: <strong style={{ display: 'block', padding: '8px 0' }}>{item.name}</strong>,
-    })}
-  />
-</ExampleCard>
+export default function App() {
+  return (
+    <CardView
+      items={[
+        { id: 1, name: 'Project Alpha', description: 'Detection · 94% accuracy' },
+        { id: 2, name: 'Project Beta', description: 'Classification · 87% accuracy' },
+        { id: 3, name: 'Project Gamma', description: 'Segmentation · 91% accuracy' },
+      ]}
+      aria-label="Projects"
+      renderCard={(item) => ({
+        'aria-label': item.name,
+        children: (
+          <div>
+            <strong>{item.name}</strong>
+            <p style={{ margin: '4px 0 0', opacity: 0.7 }}>{item.description}</p>
+          </div>
+        ),
+      })}
+    />
+  );
+}
+```
+
+### 2-column selectable cards
+
+```tsx preview
+import { CardView } from '@geti/ui';
+
+export default function App() {
+  return (
+    <CardView
+      items={[
+        { id: 1, name: 'Detection Project' },
+        { id: 2, name: 'Classification Project' },
+        { id: 3, name: 'Segmentation Project' },
+        { id: 4, name: 'Anomaly Project' },
+      ]}
+      aria-label="Select a project"
+      columns={2}
+      gap="12px"
+      renderCard={(item, index) => ({
+        'aria-label': item.name,
+        isSelected: index === 0,
+        onPress: () => {},
+        children: <strong style={{ display: 'block', padding: '8px 0' }}>{item.name}</strong>,
+      })}
+    />
+  );
+}
+```
 
 ## Responsibility
 

@@ -3,7 +3,6 @@ title: TagGroup
 ---
 
 import { TagGroup, TagItem } from '@geti/ui';
-import { ExampleCard } from '../../../theme/ExampleCard';
 
 # TagGroup
 
@@ -18,58 +17,57 @@ import { TagGroup, TagItem } from '@geti/ui';
 
 ## Examples
 
-<ExampleCard
-  title="Default tag group"
-  code={`<TagGroup aria-label="Categories">
-  <TagItem key="news">News</TagItem>
-  <TagItem key="travel">Travel</TagItem>
-  <TagItem key="gaming">Gaming</TagItem>
-  <TagItem key="shopping">Shopping</TagItem>
-</TagGroup>`}
->
-  <TagGroup aria-label="Categories">
-    <TagItem key="news">News</TagItem>
-    <TagItem key="travel">Travel</TagItem>
-    <TagItem key="gaming">Gaming</TagItem>
-    <TagItem key="shopping">Shopping</TagItem>
-  </TagGroup>
-</ExampleCard>
+### Default tag group
 
-<ExampleCard
-  title="Removable tags"
-  code={`<TagGroup
-  aria-label="Applied filters"
-  onRemove={(keys) => console.log('Removed:', keys)}
->
-  <TagItem key="detection">Detection</TagItem>
-  <TagItem key="trained">Trained</TagItem>
-  <TagItem key="high-accuracy">High accuracy</TagItem>
-</TagGroup>`}
->
-  <TagGroup
-    aria-label="Applied filters"
-    onRemove={(keys) => console.log('Removed:', keys)}
-  >
-    <TagItem key="detection">Detection</TagItem>
-    <TagItem key="trained">Trained</TagItem>
-    <TagItem key="high-accuracy">High accuracy</TagItem>
-  </TagGroup>
-</ExampleCard>
+```tsx preview
+import { TagGroup, TagItem } from '@geti/ui';
 
-<ExampleCard
-  title="With a label"
-  code={`<TagGroup label="Active labels">
-  <TagItem key="person">Person</TagItem>
-  <TagItem key="car">Car</TagItem>
-  <TagItem key="bicycle">Bicycle</TagItem>
-</TagGroup>`}
->
-  <TagGroup label="Active labels">
-    <TagItem key="person">Person</TagItem>
-    <TagItem key="car">Car</TagItem>
-    <TagItem key="bicycle">Bicycle</TagItem>
-  </TagGroup>
-</ExampleCard>
+export default function App() {
+  return (
+    <TagGroup aria-label="Categories">
+      <TagItem key="news">News</TagItem>
+      <TagItem key="travel">Travel</TagItem>
+      <TagItem key="gaming">Gaming</TagItem>
+      <TagItem key="shopping">Shopping</TagItem>
+    </TagGroup>
+  );
+}
+```
+
+### Removable tags
+
+```tsx preview
+import { TagGroup, TagItem } from '@geti/ui';
+
+export default function App() {
+  return (
+    <TagGroup
+      aria-label="Applied filters"
+      onRemove={(keys) => console.log('Removed:', keys)}
+    >
+      <TagItem key="detection">Detection</TagItem>
+      <TagItem key="trained">Trained</TagItem>
+      <TagItem key="high-accuracy">High accuracy</TagItem>
+    </TagGroup>
+  );
+}
+```
+
+### With a label
+
+```tsx preview
+import { TagGroup, TagItem } from '@geti/ui';
+
+export default function App() {
+  return (
+    <TagGroup label="Active labels">
+      <TagItem key="person">Person</TagItem>
+      <TagItem key="car">Car</TagItem>
+      <TagItem key="bicycle">Bicycle</TagItem>
+    </TagGroup>
+  );
+}
+```
 
 ## Responsibility
 

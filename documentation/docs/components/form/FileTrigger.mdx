@@ -2,9 +2,6 @@
 title: FileTrigger
 ---
 
-import { Button, FileTrigger } from '@geti/ui';
-import { ExampleCard } from '../../../theme/ExampleCard';
-
 # FileTrigger
 
 FileTrigger attaches native file picker behaviour to any child element. When the child is pressed, the system file dialog opens. Use it to build upload buttons, image pickers, and document import flows.
@@ -18,38 +15,47 @@ import { Button, FileTrigger } from '@geti/ui';
 
 ## Examples
 
-<ExampleCard
-  title="Basic upload button"
-  code={`<FileTrigger>
-  <Button variant="accent">Upload file</Button>
-</FileTrigger>`}
->
-  <FileTrigger>
-    <Button variant="accent">Upload file</Button>
-  </FileTrigger>
-</ExampleCard>
+### Basic upload button
 
-<ExampleCard
-  title="Images only"
-  code={`<FileTrigger acceptedFileTypes={['image/*']}>
-  <Button variant="primary">Upload image</Button>
-</FileTrigger>`}
->
-  <FileTrigger acceptedFileTypes={['image/*']}>
-    <Button variant="primary">Upload image</Button>
-  </FileTrigger>
-</ExampleCard>
+```tsx preview
+import { Button, FileTrigger } from '@geti/ui';
 
-<ExampleCard
-  title="Multiple files"
-  code={`<FileTrigger allowsMultiple>
-  <Button variant="accent">Upload files</Button>
-</FileTrigger>`}
->
-  <FileTrigger allowsMultiple>
-    <Button variant="accent">Upload files</Button>
-  </FileTrigger>
-</ExampleCard>
+export default function App() {
+  return (
+    <FileTrigger>
+      <Button variant="accent">Upload file</Button>
+    </FileTrigger>
+  );
+}
+```
+
+### Images only
+
+```tsx preview
+import { Button, FileTrigger } from '@geti/ui';
+
+export default function App() {
+  return (
+    <FileTrigger acceptedFileTypes={['image/*']}>
+      <Button variant="primary">Upload image</Button>
+    </FileTrigger>
+  );
+}
+```
+
+### Multiple files
+
+```tsx preview
+import { Button, FileTrigger } from '@geti/ui';
+
+export default function App() {
+  return (
+    <FileTrigger allowsMultiple>
+      <Button variant="accent">Upload files</Button>
+    </FileTrigger>
+  );
+}
+```
 
 ## Responsibility
 

@@ -1,35 +1,22 @@
+# Form kitchensink
+
+Source of truth for form kitchensink examples (no `.stories` runtime dependency).
+
+## Text Inputs
+
+```tsx preview
 import {
-  Button,
-  Checkbox,
-  CheckboxGroup,
   Divider,
-  DropZone,
-  FileTrigger,
   Flex,
-  Form,
   Grid,
   NumberField,
   PasswordField,
-  Radio,
-  RadioGroup,
-  RangeSlider,
   SearchField,
-  Slider,
-  Switch,
   TextArea,
   TextField,
-  View,
 } from '@geti/ui';
-import { ExampleCard } from '../../theme/ExampleCard';
 
-export const FRAMEWORK_OPTIONS = [
-  { key: 'react', label: 'React' },
-  { key: 'vue', label: 'Vue' },
-  { key: 'angular', label: 'Angular' },
-  { key: 'svelte', label: 'Svelte' },
-];
-
-export const SubLabel = ({ children }) => (
+const SubLabel = ({ children }) => (
   <p
     style={{
       margin: '0 0 4px 0',
@@ -44,242 +31,352 @@ export const SubLabel = ({ children }) => (
   </p>
 );
 
-# Form kitchensink
+export default function App() {
+  return (
+    <Grid columns={['1fr', '1fr']} gap="size-300" UNSAFE_style={{ alignItems: 'start' }}>
+      <Flex direction="column" gap="size-250">
+        <div>
+          <SubLabel>TextField</SubLabel>
+          <Flex direction="column" gap="size-150">
+            <TextField label="Username" placeholder="Enter username" width="100%" />
+            <TextField
+              label="Email"
+              placeholder="user@example.com"
+              description="We'll never share your email."
+              width="100%"
+            />
+            <TextField label="Disabled" value="Read-only content" isDisabled width="100%" />
+            <TextField
+              label="Invalid"
+              defaultValue="bad@"
+              validationState="invalid"
+              errorMessage="Enter a valid email address."
+              width="100%"
+            />
+          </Flex>
+        </div>
+        <Divider size="S" />
+        <div>
+          <SubLabel>TextArea</SubLabel>
+          <TextArea label="Description" placeholder="Describe your project…" width="100%" />
+        </div>
+        <Divider size="S" />
+        <div>
+          <SubLabel>PasswordField</SubLabel>
+          <PasswordField label="Password" placeholder="Enter password" width="100%" />
+        </div>
+      </Flex>
 
-Source of truth for form kitchensink examples (no `.stories` runtime dependency).
+      <Flex direction="column" gap="size-250">
+        <div>
+          <SubLabel>NumberField</SubLabel>
+          <Flex direction="column" gap="size-150">
+            <NumberField
+              label="Quantity"
+              defaultValue={5}
+              minValue={0}
+              maxValue={100}
+              width="100%"
+            />
+            <NumberField
+              label="Price ($)"
+              defaultValue={9.99}
+              minValue={0}
+              step={0.01}
+              formatOptions={{ style: 'currency', currency: 'USD' }}
+              width="100%"
+            />
+            <NumberField label="Disabled" defaultValue={42} isDisabled width="100%" />
+          </Flex>
+        </div>
+        <Divider size="S" />
+        <div>
+          <SubLabel>SearchField</SubLabel>
+          <SearchField label="Search projects" placeholder="Type to search…" width="100%" />
+        </div>
+      </Flex>
+    </Grid>
+  );
+}
+```
 
-<ExampleCard title="Text Inputs" code={`<TextField label="Username" placeholder="Enter username" />`}>
-  <Grid columns={['1fr', '1fr']} gap="size-300" UNSAFE_style={{ alignItems: 'start' }}>
-    <Flex direction="column" gap="size-250">
+## Selection Controls
+
+```tsx preview
+import {
+  Checkbox,
+  CheckboxGroup,
+  Divider,
+  Flex,
+  Grid,
+  Radio,
+  RadioGroup,
+  Switch,
+} from '@geti/ui';
+
+const FRAMEWORK_OPTIONS = [
+  { key: 'react', label: 'React' },
+  { key: 'vue', label: 'Vue' },
+  { key: 'angular', label: 'Angular' },
+  { key: 'svelte', label: 'Svelte' },
+];
+
+const SubLabel = ({ children }) => (
+  <p
+    style={{
+      margin: '0 0 4px 0',
+      fontSize: 'var(--spectrum-global-dimension-font-size-50)',
+      fontWeight: 600,
+      color: 'var(--spectrum-global-color-gray-500)',
+      textTransform: 'uppercase',
+      letterSpacing: '0.08em',
+    }}
+  >
+    {children}
+  </p>
+);
+
+export default function App() {
+  return (
+    <Grid columns={['1fr', '1fr']} gap="size-300" UNSAFE_style={{ alignItems: 'start' }}>
+      <Flex direction="column" gap="size-250">
+        <div>
+          <SubLabel>CheckboxGroup</SubLabel>
+          <Flex direction="column" gap="size-150">
+            <CheckboxGroup label="Preferred frameworks" defaultValue={['react', 'svelte']}>
+              {FRAMEWORK_OPTIONS.map(({ key, label }) => (
+                <Checkbox key={key} value={key}>
+                  {label}
+                </Checkbox>
+              ))}
+            </CheckboxGroup>
+            <CheckboxGroup label="Horizontal" orientation="horizontal">
+              <Checkbox value="a">Option A</Checkbox>
+              <Checkbox value="b">Option B</Checkbox>
+              <Checkbox value="c">Option C</Checkbox>
+            </CheckboxGroup>
+            <CheckboxGroup label="Disabled group" isDisabled>
+              <Checkbox value="x">Option X</Checkbox>
+              <Checkbox value="y">Option Y</Checkbox>
+            </CheckboxGroup>
+          </Flex>
+        </div>
+      </Flex>
+
+      <Flex direction="column" gap="size-250">
+        <div>
+          <SubLabel>RadioGroup</SubLabel>
+          <Flex direction="column" gap="size-150">
+            <RadioGroup label="Deployment target" defaultValue="cloud">
+              <Radio value="cloud">Cloud</Radio>
+              <Radio value="on-prem">On-premises</Radio>
+              <Radio value="edge">Edge device</Radio>
+            </RadioGroup>
+            <RadioGroup label="Alignment (horizontal)" orientation="horizontal">
+              <Radio value="left">Left</Radio>
+              <Radio value="center">Center</Radio>
+              <Radio value="right">Right</Radio>
+            </RadioGroup>
+          </Flex>
+        </div>
+        <Divider size="S" />
+        <div>
+          <SubLabel>Switch</SubLabel>
+          <Flex direction="column" gap="size-100">
+            <Switch>Dark mode</Switch>
+            <Switch defaultSelected>Notifications (on)</Switch>
+            <Switch isDisabled>Disabled option</Switch>
+          </Flex>
+        </div>
+      </Flex>
+    </Grid>
+  );
+}
+```
+
+## Sliders
+
+```tsx preview
+import {
+  Divider,
+  Flex,
+  RangeSlider,
+  Slider,
+} from '@geti/ui';
+
+const SubLabel = ({ children }) => (
+  <p
+    style={{
+      margin: '0 0 4px 0',
+      fontSize: 'var(--spectrum-global-dimension-font-size-50)',
+      fontWeight: 600,
+      color: 'var(--spectrum-global-color-gray-500)',
+      textTransform: 'uppercase',
+      letterSpacing: '0.08em',
+    }}
+  >
+    {children}
+  </p>
+);
+
+export default function App() {
+  return (
+    <Flex direction="column" gap="size-200">
       <div>
-        <SubLabel>TextField</SubLabel>
+        <SubLabel>Slider</SubLabel>
         <Flex direction="column" gap="size-150">
-          <TextField label="Username" placeholder="Enter username" width="100%" />
-          <TextField
-            label="Email"
-            placeholder="user@example.com"
-            description="We'll never share your email."
+          <Slider
+            label="Opacity"
+            defaultValue={60}
+            minValue={0}
+            maxValue={100}
+            isFilled
             width="100%"
           />
-          <TextField label="Disabled" value="Read-only content" isDisabled width="100%" />
-          <TextField
-            label="Invalid"
-            defaultValue="bad@"
-            validationState="invalid"
-            errorMessage="Enter a valid email address."
+          <Slider
+            label="Volume"
+            defaultValue={30}
+            minValue={0}
+            maxValue={100}
+            step={10}
             width="100%"
           />
+          <Slider label="Disabled" defaultValue={50} isDisabled width="100%" />
         </Flex>
       </div>
       <Divider size="S" />
       <div>
-        <SubLabel>TextArea</SubLabel>
-        <TextArea label="Description" placeholder="Describe your project…" width="100%" />
-      </div>
-      <Divider size="S" />
-      <div>
-        <SubLabel>PasswordField</SubLabel>
-        <PasswordField label="Password" placeholder="Enter password" width="100%" />
-      </div>
-    </Flex>
-
-    <Flex direction="column" gap="size-250">
-      <div>
-        <SubLabel>NumberField</SubLabel>
+        <SubLabel>RangeSlider</SubLabel>
         <Flex direction="column" gap="size-150">
-          <NumberField
-            label="Quantity"
-            defaultValue={5}
+          <RangeSlider
+            label="Confidence threshold"
+            defaultValue={{ start: 20, end: 80 }}
             minValue={0}
             maxValue={100}
             width="100%"
           />
-          <NumberField
-            label="Price ($)"
-            defaultValue={9.99}
-            minValue={0}
-            step={0.01}
-            formatOptions={{ style: 'currency', currency: 'USD' }}
+          <RangeSlider
+            label="Disabled range"
+            defaultValue={{ start: 30, end: 70 }}
+            isDisabled
             width="100%"
           />
-          <NumberField label="Disabled" defaultValue={42} isDisabled width="100%" />
+        </Flex>
+      </div>
+    </Flex>
+  );
+}
+```
+
+## File Controls
+
+```tsx preview
+import {
+  Button,
+  Divider,
+  DropZone,
+  FileTrigger,
+  Flex,
+} from '@geti/ui';
+
+const SubLabel = ({ children }) => (
+  <p
+    style={{
+      margin: '0 0 4px 0',
+      fontSize: 'var(--spectrum-global-dimension-font-size-50)',
+      fontWeight: 600,
+      color: 'var(--spectrum-global-color-gray-500)',
+      textTransform: 'uppercase',
+      letterSpacing: '0.08em',
+    }}
+  >
+    {children}
+  </p>
+);
+
+export default function App() {
+  return (
+    <Flex direction="column" gap="size-250">
+      <div>
+        <SubLabel>FileTrigger</SubLabel>
+        <Flex direction="row" gap="size-150" wrap>
+          <FileTrigger>
+            <Button variant="accent">Upload file</Button>
+          </FileTrigger>
+          <FileTrigger acceptedFileTypes={['image/*']}>
+            <Button variant="secondary">Images only</Button>
+          </FileTrigger>
+          <FileTrigger allowsMultiple>
+            <Button variant="secondary">Multiple files</Button>
+          </FileTrigger>
         </Flex>
       </div>
       <Divider size="S" />
       <div>
-        <SubLabel>SearchField</SubLabel>
-        <SearchField label="Search projects" placeholder="Type to search…" width="100%" />
-      </div>
-    </Flex>
-  </Grid>
-</ExampleCard>
-
-<ExampleCard title="Selection Controls" code={`<Switch>Dark mode</Switch>`}>
-  <Grid columns={['1fr', '1fr']} gap="size-300" UNSAFE_style={{ alignItems: 'start' }}>
-    <Flex direction="column" gap="size-250">
-      <div>
-        <SubLabel>CheckboxGroup</SubLabel>
-        <Flex direction="column" gap="size-150">
-          <CheckboxGroup label="Preferred frameworks" defaultValue={['react', 'svelte']}>
-            {FRAMEWORK_OPTIONS.map(({ key, label }) => (
-              <Checkbox key={key} value={key}>
-                {label}
-              </Checkbox>
-            ))}
-          </CheckboxGroup>
-          <CheckboxGroup label="Horizontal" orientation="horizontal">
-            <Checkbox value="a">Option A</Checkbox>
-            <Checkbox value="b">Option B</Checkbox>
-            <Checkbox value="c">Option C</Checkbox>
-          </CheckboxGroup>
-          <CheckboxGroup label="Disabled group" isDisabled>
-            <Checkbox value="x">Option X</Checkbox>
-            <Checkbox value="y">Option Y</Checkbox>
-          </CheckboxGroup>
+        <SubLabel>DropZone</SubLabel>
+        <Flex direction="row" gap="size-300" wrap alignItems="start">
+          <DropZone>
+            <Flex
+              direction="column"
+              gap="size-100"
+              alignItems="center"
+              UNSAFE_style={{ padding: '24px 32px' }}
+            >
+              <span style={{ fontSize: 'var(--spectrum-global-dimension-font-size-75)' }}>
+                Drop files here or
+              </span>
+              <FileTrigger>
+                <Button variant="secondary">Browse files</Button>
+              </FileTrigger>
+            </Flex>
+          </DropZone>
+          <DropZone isFilled>
+            <Flex
+              direction="column"
+              gap="size-100"
+              alignItems="center"
+              UNSAFE_style={{ padding: '24px 32px' }}
+            >
+              <span style={{ fontSize: 'var(--spectrum-global-dimension-font-size-75)' }}>
+                Filled state
+              </span>
+            </Flex>
+          </DropZone>
         </Flex>
       </div>
     </Flex>
+  );
+}
+```
 
-    <Flex direction="column" gap="size-250">
-      <div>
-        <SubLabel>RadioGroup</SubLabel>
-        <Flex direction="column" gap="size-150">
-          <RadioGroup label="Deployment target" defaultValue="cloud">
-            <Radio value="cloud">Cloud</Radio>
-            <Radio value="on-prem">On-premises</Radio>
-            <Radio value="edge">Edge device</Radio>
-          </RadioGroup>
-          <RadioGroup label="Alignment (horizontal)" orientation="horizontal">
-            <Radio value="left">Left</Radio>
-            <Radio value="center">Center</Radio>
-            <Radio value="right">Right</Radio>
-          </RadioGroup>
-        </Flex>
-      </div>
-      <Divider size="S" />
-      <div>
-        <SubLabel>Switch</SubLabel>
-        <Flex direction="column" gap="size-100">
-          <Switch>Dark mode</Switch>
-          <Switch defaultSelected>Notifications (on)</Switch>
-          <Switch isDisabled>Disabled option</Switch>
-        </Flex>
-      </div>
-    </Flex>
-  </Grid>
-</ExampleCard>
+## Form
 
-<ExampleCard title="Sliders" code={`<Slider label="Opacity" defaultValue={60} minValue={0} maxValue={100} isFilled />`}>
-  <Flex direction="column" gap="size-200">
-    <div>
-      <SubLabel>Slider</SubLabel>
-      <Flex direction="column" gap="size-150">
-        <Slider
-          label="Opacity"
-          defaultValue={60}
-          minValue={0}
-          maxValue={100}
-          isFilled
-          width="100%"
-        />
-        <Slider
-          label="Volume"
-          defaultValue={30}
-          minValue={0}
-          maxValue={100}
-          step={10}
-          width="100%"
-        />
-        <Slider label="Disabled" defaultValue={50} isDisabled width="100%" />
-      </Flex>
-    </div>
-    <Divider size="S" />
-    <div>
-      <SubLabel>RangeSlider</SubLabel>
-      <Flex direction="column" gap="size-150">
-        <RangeSlider
-          label="Confidence threshold"
-          defaultValue={{ start: 20, end: 80 }}
-          minValue={0}
-          maxValue={100}
-          width="100%"
-        />
-        <RangeSlider
-          label="Disabled range"
-          defaultValue={{ start: 30, end: 70 }}
-          isDisabled
-          width="100%"
-        />
-      </Flex>
-    </div>
-  </Flex>
-</ExampleCard>
+```tsx preview
+import {
+  Button,
+  Flex,
+  Form,
+  NumberField,
+  Switch,
+  TextField,
+} from '@geti/ui';
 
-<ExampleCard title="File Controls" code={`<FileTrigger><Button variant="accent">Upload file</Button></FileTrigger>`}>
-  <Flex direction="column" gap="size-250">
-    <div>
-      <SubLabel>FileTrigger</SubLabel>
-      <Flex direction="row" gap="size-150" wrap>
-        <FileTrigger>
-          <Button variant="accent">Upload file</Button>
-        </FileTrigger>
-        <FileTrigger acceptedFileTypes={['image/*']}>
-          <Button variant="secondary">Images only</Button>
-        </FileTrigger>
-        <FileTrigger allowsMultiple>
-          <Button variant="secondary">Multiple files</Button>
-        </FileTrigger>
+export default function App() {
+  return (
+    <Form aria-label="Sample form" maxWidth="size-4600">
+      <TextField label="Full name" placeholder="Jane Doe" isRequired />
+      <TextField label="Email" placeholder="jane@example.com" type="email" isRequired />
+      <NumberField label="Age" minValue={18} maxValue={120} />
+      <Switch>Subscribe to newsletter</Switch>
+      <Flex direction="row" gap="size-150">
+        <Button variant="accent" type="submit">
+          Submit
+        </Button>
+        <Button variant="secondary" type="reset">
+          Reset
+        </Button>
       </Flex>
-    </div>
-    <Divider size="S" />
-    <div>
-      <SubLabel>DropZone</SubLabel>
-      <Flex direction="row" gap="size-300" wrap alignItems="start">
-        <DropZone>
-          <Flex
-            direction="column"
-            gap="size-100"
-            alignItems="center"
-            UNSAFE_style={{ padding: '24px 32px' }}
-          >
-            <span style={{ fontSize: 'var(--spectrum-global-dimension-font-size-75)' }}>
-              Drop files here or
-            </span>
-            <FileTrigger>
-              <Button variant="secondary">Browse files</Button>
-            </FileTrigger>
-          </Flex>
-        </DropZone>
-        <DropZone isFilled>
-          <Flex
-            direction="column"
-            gap="size-100"
-            alignItems="center"
-            UNSAFE_style={{ padding: '24px 32px' }}
-          >
-            <span style={{ fontSize: 'var(--spectrum-global-dimension-font-size-75)' }}>
-              Filled state
-            </span>
-          </Flex>
-        </DropZone>
-      </Flex>
-    </div>
-  </Flex>
-</ExampleCard>
-
-<ExampleCard title="Form" code={`<Form aria-label="Sample form">...</Form>`}>
-  <Form aria-label="Sample form" maxWidth="size-4600">
-    <TextField label="Full name" placeholder="Jane Doe" isRequired />
-    <TextField label="Email" placeholder="jane@example.com" type="email" isRequired />
-    <NumberField label="Age" minValue={18} maxValue={120} />
-    <Switch>Subscribe to newsletter</Switch>
-    <Flex direction="row" gap="size-150">
-      <Button variant="accent" type="submit">
-        Submit
-      </Button>
-      <Button variant="secondary" type="reset">
-        Reset
-      </Button>
-    </Flex>
-  </Form>
-</ExampleCard>
+    </Form>
+  );
+}
+```

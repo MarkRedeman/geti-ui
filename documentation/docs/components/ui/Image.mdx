@@ -2,9 +2,6 @@
 title: Image
 ---
 
-import { Image } from '@geti/ui';
-import { ExampleCard } from '../../../theme/ExampleCard';
-
 # Image
 
 Image renders an accessible image with support for alt text, object-fit modes, and decorative image handling. Use it wherever you need an image that integrates with Spectrum layout props and Geti theming.
@@ -18,38 +15,43 @@ import { Image } from '@geti/ui';
 
 ## Examples
 
-<ExampleCard
-  title="Basic image"
-  code={`<Image src="https://picsum.photos/200/120" alt="Sample landscape" />`}
->
-  <Image src="https://picsum.photos/200/120" alt="Sample landscape" />
-</ExampleCard>
+### Basic image
 
-<ExampleCard
-  title="Fixed size with object-fit cover"
-  code={`<Image
-  src="https://picsum.photos/300/200"
-  alt="Cover-fit image"
-  width="150px"
-  height="100px"
-  objectFit="cover"
-/>`}
->
-  <Image
-    src="https://picsum.photos/300/200"
-    alt="Cover-fit image"
-    width="150px"
-    height="100px"
-    objectFit="cover"
-  />
-</ExampleCard>
+```tsx preview
+import { Image } from '@geti/ui';
 
-<ExampleCard
-  title="Decorative image (hidden from screen readers)"
-  code={`<Image src="https://picsum.photos/200/120" alt="" />`}
->
-  <Image src="https://picsum.photos/200/120" alt="" />
-</ExampleCard>
+export default function App() {
+  return <Image src="https://picsum.photos/200/120" alt="Sample landscape" />;
+}
+```
+
+### Fixed size with object-fit cover
+
+```tsx preview
+import { Image } from '@geti/ui';
+
+export default function App() {
+  return (
+    <Image
+      src="https://picsum.photos/300/200"
+      alt="Cover-fit image"
+      width="150px"
+      height="100px"
+      objectFit="cover"
+    />
+  );
+}
+```
+
+### Decorative image (hidden from screen readers)
+
+```tsx preview
+import { Image } from '@geti/ui';
+
+export default function App() {
+  return <Image src="https://picsum.photos/200/120" alt="" />;
+}
+```
 
 ## Responsibility
 

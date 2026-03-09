@@ -3,7 +3,6 @@ title: Badge
 ---
 
 import { Badge } from '@geti/ui';
-import { ExampleCard } from '../../../theme/ExampleCard';
 
 # Badge
 
@@ -18,47 +17,65 @@ import { Badge } from '@geti/ui';
 
 ## Examples
 
-<ExampleCard
-  title="Neutral"
-  code={`<Badge variant="neutral">Neutral</Badge>`}
->
-  <Badge variant="neutral">Neutral</Badge>
-</ExampleCard>
+### Neutral
 
-<ExampleCard
-  title="Info"
-  code={`<Badge variant="info">In progress</Badge>`}
->
-  <Badge variant="info">In progress</Badge>
-</ExampleCard>
+```tsx preview
+import { Badge } from '@geti/ui';
 
-<ExampleCard
-  title="Positive"
-  code={`<Badge variant="positive">Active</Badge>`}
->
-  <Badge variant="positive">Active</Badge>
-</ExampleCard>
+export default function App() {
+  return <Badge variant="neutral">Neutral</Badge>;
+}
+```
 
-<ExampleCard
-  title="Negative"
-  code={`<Badge variant="negative">Failed</Badge>`}
->
-  <Badge variant="negative">Failed</Badge>
-</ExampleCard>
+### Info
 
-<ExampleCard
-  title="Indigo / categorical"
-  code={`<Badge variant="indigo">Detection</Badge>`}
->
-  <Badge variant="indigo">Detection</Badge>
-</ExampleCard>
+```tsx preview
+import { Badge } from '@geti/ui';
 
-<ExampleCard
-  title="Icon-only badge (with aria-label)"
-  code={`<Badge variant="info" aria-label="Information">ℹ</Badge>`}
->
-  <Badge variant="info" aria-label="Information">ℹ</Badge>
-</ExampleCard>
+export default function App() {
+  return <Badge variant="info">In progress</Badge>;
+}
+```
+
+### Positive
+
+```tsx preview
+import { Badge } from '@geti/ui';
+
+export default function App() {
+  return <Badge variant="positive">Active</Badge>;
+}
+```
+
+### Negative
+
+```tsx preview
+import { Badge } from '@geti/ui';
+
+export default function App() {
+  return <Badge variant="negative">Failed</Badge>;
+}
+```
+
+### Indigo / categorical
+
+```tsx preview
+import { Badge } from '@geti/ui';
+
+export default function App() {
+  return <Badge variant="indigo">Detection</Badge>;
+}
+```
+
+### Icon-only badge (with aria-label)
+
+```tsx preview
+import { Badge } from '@geti/ui';
+
+export default function App() {
+  return <Badge variant="info" aria-label="Information">ℹ</Badge>;
+}
+```
 
 ## Responsibility
 

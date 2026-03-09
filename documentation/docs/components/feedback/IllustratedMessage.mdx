@@ -3,7 +3,6 @@ title: IllustratedMessage
 ---
 
 import { IllustratedMessage } from '@geti/ui';
-import { ExampleCard } from '../../../theme/ExampleCard';
 
 # IllustratedMessage
 
@@ -18,23 +17,25 @@ import { IllustratedMessage } from '@geti/ui';
 
 ## Examples
 
-<ExampleCard
-  title="No data"
-  code={`<IllustratedMessage>
-  No data available.
-</IllustratedMessage>`}
->
-  <IllustratedMessage>No data available.</IllustratedMessage>
-</ExampleCard>
+### No data
 
-<ExampleCard
-  title="No search results"
-  code={`<IllustratedMessage>
-  No results match your filters.
-</IllustratedMessage>`}
->
-  <IllustratedMessage>No results match your filters.</IllustratedMessage>
-</ExampleCard>
+```tsx preview
+import { IllustratedMessage } from '@geti/ui';
+
+export default function App() {
+  return <IllustratedMessage>No data available.</IllustratedMessage>;
+}
+```
+
+### No search results
+
+```tsx preview
+import { IllustratedMessage } from '@geti/ui';
+
+export default function App() {
+  return <IllustratedMessage>No results match your filters.</IllustratedMessage>;
+}
+```
 
 ## Responsibility
 

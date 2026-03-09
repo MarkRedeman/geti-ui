@@ -2,9 +2,6 @@
 title: AvatarGroup
 ---
 
-import { Avatar, AvatarGroup } from '@geti/ui';
-import { ExampleCard } from '../../../theme/ExampleCard';
-
 # AvatarGroup
 
 AvatarGroup renders a horizontal row of Avatar components. When the list exceeds the configured maximum, it shows a `+N` overflow badge instead of clipping. Use it for compact team member lists, annotation author stacks, and collaboration indicators.
@@ -15,68 +12,62 @@ import { AvatarGroup } from '@geti/ui';
 
 ## Examples
 
-<ExampleCard
-  title="Default (max 3, showing overflow)"
-  code={`<AvatarGroup
-  avatars={[
-    { src: 'https://i.pravatar.cc/150?img=1', alt: 'User 1' },
-    { src: 'https://i.pravatar.cc/150?img=2', alt: 'User 2' },
-    { src: 'https://i.pravatar.cc/150?img=3', alt: 'User 3' },
-    { src: 'https://i.pravatar.cc/150?img=4', alt: 'User 4' },
-    { src: 'https://i.pravatar.cc/150?img=5', alt: 'User 5' },
-  ]}
-  max={3}
-/>`}
->
-  <AvatarGroup
-    avatars={[
-      { src: 'https://i.pravatar.cc/150?img=1', alt: 'User 1' },
-      { src: 'https://i.pravatar.cc/150?img=2', alt: 'User 2' },
-      { src: 'https://i.pravatar.cc/150?img=3', alt: 'User 3' },
-      { src: 'https://i.pravatar.cc/150?img=4', alt: 'User 4' },
-      { src: 'https://i.pravatar.cc/150?img=5', alt: 'User 5' },
-    ]}
-    max={3}
-  />
-</ExampleCard>
+### Default (max 3, showing overflow)
 
-<ExampleCard
-  title="Show all (no overflow)"
-  code={`<AvatarGroup
-  avatars={[
-    { src: 'https://i.pravatar.cc/150?img=1', alt: 'Alice' },
-    { src: 'https://i.pravatar.cc/150?img=2', alt: 'Bob' },
-  ]}
-/>`}
->
-  <AvatarGroup
-    avatars={[
-      { src: 'https://i.pravatar.cc/150?img=1', alt: 'Alice' },
-      { src: 'https://i.pravatar.cc/150?img=2', alt: 'Bob' },
-    ]}
-  />
-</ExampleCard>
+```tsx preview
+import { AvatarGroup } from '@geti/ui';
 
-<ExampleCard
-  title="Custom size"
-  code={`<AvatarGroup
-  size="avatar-size-400"
-  avatars={[
-    { src: 'https://i.pravatar.cc/150?img=10', alt: 'User A' },
-    { src: 'https://i.pravatar.cc/150?img=11', alt: 'User B' },
-    { src: 'https://i.pravatar.cc/150?img=12', alt: 'User C' },
-  ]}
-/>`}
->
-  <AvatarGroup
-    size="avatar-size-400"
-    avatars={[
-      { src: 'https://i.pravatar.cc/150?img=10', alt: 'User A' },
-      { src: 'https://i.pravatar.cc/150?img=11', alt: 'User B' },
-      { src: 'https://i.pravatar.cc/150?img=12', alt: 'User C' },
-    ]}
-  />
-</ExampleCard>
+export default function App() {
+  return (
+    <AvatarGroup
+      avatars={[
+        { src: 'https://i.pravatar.cc/150?img=1', alt: 'User 1' },
+        { src: 'https://i.pravatar.cc/150?img=2', alt: 'User 2' },
+        { src: 'https://i.pravatar.cc/150?img=3', alt: 'User 3' },
+        { src: 'https://i.pravatar.cc/150?img=4', alt: 'User 4' },
+        { src: 'https://i.pravatar.cc/150?img=5', alt: 'User 5' },
+      ]}
+      max={3}
+    />
+  );
+}
+```
+
+### Show all (no overflow)
+
+```tsx preview
+import { AvatarGroup } from '@geti/ui';
+
+export default function App() {
+  return (
+    <AvatarGroup
+      avatars={[
+        { src: 'https://i.pravatar.cc/150?img=1', alt: 'Alice' },
+        { src: 'https://i.pravatar.cc/150?img=2', alt: 'Bob' },
+      ]}
+    />
+  );
+}
+```
+
+### Custom size
+
+```tsx preview
+import { AvatarGroup } from '@geti/ui';
+
+export default function App() {
+  return (
+    <AvatarGroup
+      size="avatar-size-400"
+      avatars={[
+        { src: 'https://i.pravatar.cc/150?img=10', alt: 'User A' },
+        { src: 'https://i.pravatar.cc/150?img=11', alt: 'User B' },
+        { src: 'https://i.pravatar.cc/150?img=12', alt: 'User C' },
+      ]}
+    />
+  );
+}
+```
 
 ## Responsibility
 

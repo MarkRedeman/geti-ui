@@ -1,34 +1,3 @@
-import { useState } from 'react';
-import { Content } from '@adobe/react-spectrum';
-import { Item } from '@adobe/react-spectrum';
-import { ExampleCard } from '../../theme/ExampleCard';
-import {
-  ActionButton,
-  ActionMenu,
-  BreadcrumbItem,
-  Breadcrumbs,
-  Button,
-  Divider,
-  Flex,
-  Link,
-  MediaViewModes,
-  Menu,
-  MenuItem,
-  MenuSection,
-  MenuTrigger,
-  TabItem,
-  TabList,
-  TabPanels,
-  Tabs,
-  View,
-  ViewModes,
-} from '@geti/ui';
-
-export const MediaViewModesDemo = () => {
-  const [viewMode, setViewMode] = useState(ViewModes.MEDIUM);
-  return <MediaViewModes viewMode={viewMode} setViewMode={setViewMode} />;
-};
-
 # Navigation kitchensink
 
 Source of truth for navigation kitchensink examples (no `.stories` runtime dependency).
@@ -37,248 +6,260 @@ Source of truth for navigation kitchensink examples (no `.stories` runtime depen
 
 horizontal tab navigation with panel content
 
-<ExampleCard title="Tabs" code={`<Tabs aria-label="Project sections">
-  <TabList>
-    <TabItem key="overview">Overview</TabItem>
-    <TabItem key="datasets">Datasets</TabItem>
-    <TabItem key="models">Models</TabItem>
-    <TabItem key="settings">Settings</TabItem>
-  </TabList>
-  <TabPanels>
-    <TabItem key="overview">
-      <Content><View paddingTop="size-150">Overview panel — high-level project statistics and recent activity.</View></Content>
-    </TabItem>
-    <TabItem key="datasets">
-      <Content><View paddingTop="size-150">Datasets panel — manage training, validation, and test datasets.</View></Content>
-    </TabItem>
-    <TabItem key="models">
-      <Content><View paddingTop="size-150">Models panel — browse trained models and compare performance metrics.</View></Content>
-    </TabItem>
-    <TabItem key="settings">
-      <Content><View paddingTop="size-150">Settings panel — configure project-level parameters and integrations.</View></Content>
-    </TabItem>
-  </TabPanels>
-</Tabs>`}>
-  <Tabs aria-label="Project sections">
-    <TabList>
-      <TabItem key="overview">Overview</TabItem>
-      <TabItem key="datasets">Datasets</TabItem>
-      <TabItem key="models">Models</TabItem>
-      <TabItem key="settings">Settings</TabItem>
-    </TabList>
-    <TabPanels>
-      <TabItem key="overview">
-        <Content>
-          <View paddingTop="size-150">
-            Overview panel — high-level project statistics and recent activity.
-          </View>
-        </Content>
-      </TabItem>
-      <TabItem key="datasets">
-        <Content>
-          <View paddingTop="size-150">
-            Datasets panel — manage training, validation, and test datasets.
-          </View>
-        </Content>
-      </TabItem>
-      <TabItem key="models">
-        <Content>
-          <View paddingTop="size-150">
-            Models panel — browse trained models and compare performance metrics.
-          </View>
-        </Content>
-      </TabItem>
-      <TabItem key="settings">
-        <Content>
-          <View paddingTop="size-150">
-            Settings panel — configure project-level parameters and integrations.
-          </View>
-        </Content>
-      </TabItem>
-    </TabPanels>
-  </Tabs>
-</ExampleCard>
+```tsx preview
+import { Content } from '@adobe/react-spectrum';
+import {
+  TabItem,
+  TabList,
+  TabPanels,
+  Tabs,
+  View,
+} from '@geti/ui';
+
+export default function App() {
+  return (
+    <Tabs aria-label="Project sections">
+      <TabList>
+        <TabItem key="overview">Overview</TabItem>
+        <TabItem key="datasets">Datasets</TabItem>
+        <TabItem key="models">Models</TabItem>
+        <TabItem key="settings">Settings</TabItem>
+      </TabList>
+      <TabPanels>
+        <TabItem key="overview">
+          <Content>
+            <View paddingTop="size-150">
+              Overview panel — high-level project statistics and recent activity.
+            </View>
+          </Content>
+        </TabItem>
+        <TabItem key="datasets">
+          <Content>
+            <View paddingTop="size-150">
+              Datasets panel — manage training, validation, and test datasets.
+            </View>
+          </Content>
+        </TabItem>
+        <TabItem key="models">
+          <Content>
+            <View paddingTop="size-150">
+              Models panel — browse trained models and compare performance metrics.
+            </View>
+          </Content>
+        </TabItem>
+        <TabItem key="settings">
+          <Content>
+            <View paddingTop="size-150">
+              Settings panel — configure project-level parameters and integrations.
+            </View>
+          </Content>
+        </TabItem>
+      </TabPanels>
+    </Tabs>
+  );
+}
+```
 
 ## Breadcrumbs
 
 hierarchical navigation trail
 
-<ExampleCard title="Breadcrumbs — 3-level hierarchy" code={`<Breadcrumbs>
-  <BreadcrumbItem key="home">Home</BreadcrumbItem>
-  <BreadcrumbItem key="projects">Projects</BreadcrumbItem>
-  <BreadcrumbItem key="detection">Detection Project</BreadcrumbItem>
-</Breadcrumbs>`}>
-  <Flex direction="column" gap="size-150">
-    <div>
-      <Breadcrumbs>
-        <BreadcrumbItem key="home">Home</BreadcrumbItem>
-        <BreadcrumbItem key="projects">Projects</BreadcrumbItem>
-        <BreadcrumbItem key="detection">Detection Project</BreadcrumbItem>
-      </Breadcrumbs>
-    </div>
-    <Divider size="S" />
-    <div>
-      <Breadcrumbs isDisabled>
-        <BreadcrumbItem key="home">Home</BreadcrumbItem>
-        <BreadcrumbItem key="projects">Projects</BreadcrumbItem>
-        <BreadcrumbItem key="detection">Detection Project</BreadcrumbItem>
-      </Breadcrumbs>
-    </div>
-    <Divider size="S" />
-    <div>
-      <Breadcrumbs>
-        <BreadcrumbItem key="home">Home</BreadcrumbItem>
-        <BreadcrumbItem key="projects">Projects</BreadcrumbItem>
-        <BreadcrumbItem key="detection">Detection</BreadcrumbItem>
-        <BreadcrumbItem key="training">Training Run #42</BreadcrumbItem>
-      </Breadcrumbs>
-    </div>
-  </Flex>
-</ExampleCard>
+```tsx preview
+import {
+  BreadcrumbItem,
+  Breadcrumbs,
+  Divider,
+  Flex,
+} from '@geti/ui';
+
+export default function App() {
+  return (
+    <Flex direction="column" gap="size-150">
+      <div>
+        <Breadcrumbs>
+          <BreadcrumbItem key="home">Home</BreadcrumbItem>
+          <BreadcrumbItem key="projects">Projects</BreadcrumbItem>
+          <BreadcrumbItem key="detection">Detection Project</BreadcrumbItem>
+        </Breadcrumbs>
+      </div>
+      <Divider size="S" />
+      <div>
+        <Breadcrumbs isDisabled>
+          <BreadcrumbItem key="home">Home</BreadcrumbItem>
+          <BreadcrumbItem key="projects">Projects</BreadcrumbItem>
+          <BreadcrumbItem key="detection">Detection Project</BreadcrumbItem>
+        </Breadcrumbs>
+      </div>
+      <Divider size="S" />
+      <div>
+        <Breadcrumbs>
+          <BreadcrumbItem key="home">Home</BreadcrumbItem>
+          <BreadcrumbItem key="projects">Projects</BreadcrumbItem>
+          <BreadcrumbItem key="detection">Detection</BreadcrumbItem>
+          <BreadcrumbItem key="training">Training Run #42</BreadcrumbItem>
+        </Breadcrumbs>
+      </div>
+    </Flex>
+  );
+}
+```
 
 ## Link
 
 inline anchor element with style variants
 
-<ExampleCard title="Link" code={`<Link href="https://example.com">Default link</Link>
-<Link href="https://example.com" variant="primary">Primary</Link>
-<Link href="https://example.com" variant="secondary">Secondary</Link>
-<Link href="https://example.com" isQuiet>Quiet</Link>`}>
-  <Flex direction="row" gap="size-300" wrap alignItems="center">
-    <Link href="https://example.com">Default link</Link>
-    <Link href="https://example.com" variant="primary">
-      Primary
-    </Link>
-    <Link href="https://example.com" variant="secondary">
-      Secondary
-    </Link>
-    <Link href="https://example.com" isQuiet>
-      Quiet
-    </Link>
-    <span
-      aria-disabled="true"
-      style={{
-        color: 'var(--spectrum-global-color-gray-500)',
-        cursor: 'default',
-        textDecoration: 'underline',
-        fontSize: 'var(--spectrum-global-dimension-font-size-100)',
-      }}
-    >
-      Disabled (visual only)
-    </span>
-  </Flex>
-</ExampleCard>
+```tsx preview
+import { Flex, Link } from '@geti/ui';
+
+export default function App() {
+  return (
+    <Flex direction="row" gap="size-300" wrap alignItems="center">
+      <Link href="https://example.com">Default link</Link>
+      <Link href="https://example.com" variant="primary">
+        Primary
+      </Link>
+      <Link href="https://example.com" variant="secondary">
+        Secondary
+      </Link>
+      <Link href="https://example.com" isQuiet>
+        Quiet
+      </Link>
+      <span
+        aria-disabled="true"
+        style={{
+          color: 'var(--spectrum-global-color-gray-500)',
+          cursor: 'default',
+          textDecoration: 'underline',
+          fontSize: 'var(--spectrum-global-dimension-font-size-100)',
+        }}
+      >
+        Disabled (visual only)
+      </span>
+    </Flex>
+  );
+}
+```
 
 ## Menu & MenuTrigger
 
 dropdown menus with sections and selection modes
 
-<ExampleCard title="Menu & MenuTrigger" code={`<MenuTrigger>
-  <ActionButton>Open menu</ActionButton>
-  <Menu>
-    <MenuSection title="Clipboard">
-      <MenuItem key="cut">Cut</MenuItem>
-      <MenuItem key="copy">Copy</MenuItem>
-      <MenuItem key="paste">Paste</MenuItem>
-    </MenuSection>
-    <MenuSection title="Document">
-      <MenuItem key="bold">Bold</MenuItem>
-      <MenuItem key="italic">Italic</MenuItem>
-      <MenuItem key="underline">Underline</MenuItem>
-    </MenuSection>
-  </Menu>
-</MenuTrigger>`}>
-  <Flex direction="row" gap="size-200" wrap alignItems="center">
-    <MenuTrigger>
-      <ActionButton>Open menu</ActionButton>
-      <Menu>
-        <MenuSection title="Clipboard">
-          <MenuItem key="cut">Cut</MenuItem>
-          <MenuItem key="copy">Copy</MenuItem>
-          <MenuItem key="paste">Paste</MenuItem>
-        </MenuSection>
-        <MenuSection title="Document">
-          <MenuItem key="bold">Bold</MenuItem>
-          <MenuItem key="italic">Italic</MenuItem>
-          <MenuItem key="underline">Underline</MenuItem>
-        </MenuSection>
-      </Menu>
-    </MenuTrigger>
+```tsx preview
+import {
+  ActionButton,
+  Button,
+  Flex,
+  Menu,
+  MenuItem,
+  MenuSection,
+  MenuTrigger,
+} from '@geti/ui';
 
-    <MenuTrigger>
-      <Button variant="secondary">Sort by</Button>
-      <Menu selectionMode="single" defaultSelectedKeys={['name']}>
-        <MenuItem key="name">Name</MenuItem>
-        <MenuItem key="date">Date modified</MenuItem>
-        <MenuItem key="size">File size</MenuItem>
-      </Menu>
-    </MenuTrigger>
+export default function App() {
+  return (
+    <Flex direction="row" gap="size-200" wrap alignItems="center">
+      <MenuTrigger>
+        <ActionButton>Open menu</ActionButton>
+        <Menu>
+          <MenuSection title="Clipboard">
+            <MenuItem key="cut">Cut</MenuItem>
+            <MenuItem key="copy">Copy</MenuItem>
+            <MenuItem key="paste">Paste</MenuItem>
+          </MenuSection>
+          <MenuSection title="Document">
+            <MenuItem key="bold">Bold</MenuItem>
+            <MenuItem key="italic">Italic</MenuItem>
+            <MenuItem key="underline">Underline</MenuItem>
+          </MenuSection>
+        </Menu>
+      </MenuTrigger>
 
-    <MenuTrigger>
-      <Button variant="secondary">Multi-select</Button>
-      <Menu selectionMode="multiple" defaultSelectedKeys={['labels', 'bbox']}>
-        <MenuItem key="labels">Show labels</MenuItem>
-        <MenuItem key="bbox">Show bounding boxes</MenuItem>
-        <MenuItem key="masks">Show masks</MenuItem>
-        <MenuItem key="scores">Show scores</MenuItem>
-      </Menu>
-    </MenuTrigger>
-  </Flex>
-</ExampleCard>
+      <MenuTrigger>
+        <Button variant="secondary">Sort by</Button>
+        <Menu selectionMode="single" defaultSelectedKeys={['name']}>
+          <MenuItem key="name">Name</MenuItem>
+          <MenuItem key="date">Date modified</MenuItem>
+          <MenuItem key="size">File size</MenuItem>
+        </Menu>
+      </MenuTrigger>
+
+      <MenuTrigger>
+        <Button variant="secondary">Multi-select</Button>
+        <Menu selectionMode="multiple" defaultSelectedKeys={['labels', 'bbox']}>
+          <MenuItem key="labels">Show labels</MenuItem>
+          <MenuItem key="bbox">Show bounding boxes</MenuItem>
+          <MenuItem key="masks">Show masks</MenuItem>
+          <MenuItem key="scores">Show scores</MenuItem>
+        </Menu>
+      </MenuTrigger>
+    </Flex>
+  );
+}
+```
 
 ## ActionMenu
 
 icon-triggered contextual action menus
 
-<ExampleCard title="ActionMenu" code={`<ActionMenu>
-  <Item key="new">New file</Item>
-  <Item key="open">Open…</Item>
-  <Item key="rename">Rename</Item>
-  <Item key="delete">Delete</Item>
-</ActionMenu>`}>
-  <Flex direction="row" gap="size-300" wrap alignItems="center">
-    <Flex direction="column" gap="size-75" alignItems="center">
-      <ActionMenu>
-        <Item key="new">New file</Item>
-        <Item key="open">Open…</Item>
-        <Item key="rename">Rename</Item>
-        <Item key="delete">Delete</Item>
-      </ActionMenu>
-      <span style={{ fontSize: 'var(--spectrum-global-dimension-font-size-50)', color: 'var(--spectrum-global-color-gray-600)' }}>
-        Default
-      </span>
+```tsx preview
+import { Item } from '@adobe/react-spectrum';
+import { ActionMenu, Flex } from '@geti/ui';
+
+export default function App() {
+  return (
+    <Flex direction="row" gap="size-300" wrap alignItems="center">
+      <Flex direction="column" gap="size-75" alignItems="center">
+        <ActionMenu>
+          <Item key="new">New file</Item>
+          <Item key="open">Open…</Item>
+          <Item key="rename">Rename</Item>
+          <Item key="delete">Delete</Item>
+        </ActionMenu>
+        <span style={{ fontSize: 'var(--spectrum-global-dimension-font-size-50)', color: 'var(--spectrum-global-color-gray-600)' }}>
+          Default
+        </span>
+      </Flex>
+      <Flex direction="column" gap="size-75" alignItems="center">
+        <ActionMenu isQuiet aria-label="Quiet action menu">
+          <Item key="share">Share</Item>
+          <Item key="export">Export</Item>
+          <Item key="archive">Archive</Item>
+        </ActionMenu>
+        <span style={{ fontSize: 'var(--spectrum-global-dimension-font-size-50)', color: 'var(--spectrum-global-color-gray-600)' }}>
+          Quiet
+        </span>
+      </Flex>
+      <Flex direction="column" gap="size-75" alignItems="center">
+        <ActionMenu isDisabled aria-label="Disabled action menu">
+          <Item key="a">Action A</Item>
+          <Item key="b">Action B</Item>
+        </ActionMenu>
+        <span style={{ fontSize: 'var(--spectrum-global-dimension-font-size-50)', color: 'var(--spectrum-global-color-gray-600)' }}>
+          Disabled
+        </span>
+      </Flex>
     </Flex>
-    <Flex direction="column" gap="size-75" alignItems="center">
-      <ActionMenu isQuiet aria-label="Quiet action menu">
-        <Item key="share">Share</Item>
-        <Item key="export">Export</Item>
-        <Item key="archive">Archive</Item>
-      </ActionMenu>
-      <span style={{ fontSize: 'var(--spectrum-global-dimension-font-size-50)', color: 'var(--spectrum-global-color-gray-600)' }}>
-        Quiet
-      </span>
-    </Flex>
-    <Flex direction="column" gap="size-75" alignItems="center">
-      <ActionMenu isDisabled aria-label="Disabled action menu">
-        <Item key="a">Action A</Item>
-        <Item key="b">Action B</Item>
-      </ActionMenu>
-      <span style={{ fontSize: 'var(--spectrum-global-dimension-font-size-50)', color: 'var(--spectrum-global-color-gray-600)' }}>
-        Disabled
-      </span>
-    </Flex>
-  </Flex>
-</ExampleCard>
+  );
+}
+```
 
 ## MediaViewModes
 
 view mode switcher between Large, Medium, Small, and Details
 
-<ExampleCard title="MediaViewModes" code={`<MediaViewModes viewMode={viewMode} setViewMode={setViewMode} />`}>
-  <Flex direction="row" gap="size-200" alignItems="center">
-    <MediaViewModesDemo />
-    <span style={{ fontSize: 'var(--spectrum-global-dimension-font-size-75)', color: 'var(--spectrum-global-color-gray-600)' }}>
-      Click the icon to cycle between view modes
-    </span>
-  </Flex>
-</ExampleCard>
+```tsx preview
+import { useState } from 'react';
+import { Flex, MediaViewModes, ViewModes } from '@geti/ui';
+
+export default function App() {
+  const [viewMode, setViewMode] = useState(ViewModes.MEDIUM);
+  return (
+    <Flex direction="row" gap="size-200" alignItems="center">
+      <MediaViewModes viewMode={viewMode} setViewMode={setViewMode} />
+      <span style={{ fontSize: 'var(--spectrum-global-dimension-font-size-75)', color: 'var(--spectrum-global-color-gray-600)' }}>
+        Click the icon to cycle between view modes
+      </span>
+    </Flex>
+  );
+}
+```

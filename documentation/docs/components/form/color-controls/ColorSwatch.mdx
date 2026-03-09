@@ -2,9 +2,6 @@
 title: ColorSwatch
 ---
 
-import { ColorSwatch, Flex } from '@geti/ui';
-import { ExampleCard } from '../../../../theme/ExampleCard';
-
 # ColorSwatch
 
 `ColorSwatch` renders a small filled square that previews a color value. Use it anywhere a color needs a visual representation — in pickers, palettes, or alongside labels.
@@ -18,42 +15,47 @@ import { ColorSwatch } from '@geti/ui';
 
 ## Examples
 
-<ExampleCard
-  title="Default"
-  code={`<ColorSwatch color="#ff0000" aria-label="Red" />`}
->
-  <ColorSwatch color="#ff0000" aria-label="Red" />
-</ExampleCard>
+### Default
 
-<ExampleCard
-  title="Sizes"
-  code={`<Flex gap="size-200">
-  <ColorSwatch size="S" color="#ff0000" aria-label="Small red" />
-  <ColorSwatch size="M" color="#00ff00" aria-label="Medium green" />
-  <ColorSwatch size="L" color="#0000ff" aria-label="Large blue" />
-</Flex>`}
->
-  <Flex gap="size-200">
-    <ColorSwatch size="S" color="#ff0000" aria-label="Small red" />
-    <ColorSwatch size="M" color="#00ff00" aria-label="Medium green" />
-    <ColorSwatch size="L" color="#0000ff" aria-label="Large blue" />
-  </Flex>
-</ExampleCard>
+```tsx preview
+import { ColorSwatch } from '@geti/ui';
 
-<ExampleCard
-  title="Rounding variants"
-  code={`<Flex gap="size-200">
-  <ColorSwatch rounding="none" color="#ff0000" aria-label="Square" />
-  <ColorSwatch rounding="default" color="#00ff00" aria-label="Rounded" />
-  <ColorSwatch rounding="full" color="#0000ff" aria-label="Circle" />
-</Flex>`}
->
-  <Flex gap="size-200">
-    <ColorSwatch rounding="none" color="#ff0000" aria-label="Square" />
-    <ColorSwatch rounding="default" color="#00ff00" aria-label="Rounded" />
-    <ColorSwatch rounding="full" color="#0000ff" aria-label="Circle" />
-  </Flex>
-</ExampleCard>
+export default function App() {
+  return <ColorSwatch color="#ff0000" aria-label="Red" />;
+}
+```
+
+### Sizes
+
+```tsx preview
+import { ColorSwatch, Flex } from '@geti/ui';
+
+export default function App() {
+  return (
+    <Flex gap="size-200">
+      <ColorSwatch size="S" color="#ff0000" aria-label="Small red" />
+      <ColorSwatch size="M" color="#00ff00" aria-label="Medium green" />
+      <ColorSwatch size="L" color="#0000ff" aria-label="Large blue" />
+    </Flex>
+  );
+}
+```
+
+### Rounding variants
+
+```tsx preview
+import { ColorSwatch, Flex } from '@geti/ui';
+
+export default function App() {
+  return (
+    <Flex gap="size-200">
+      <ColorSwatch rounding="none" color="#ff0000" aria-label="Square" />
+      <ColorSwatch rounding="default" color="#00ff00" aria-label="Rounded" />
+      <ColorSwatch rounding="full" color="#0000ff" aria-label="Circle" />
+    </Flex>
+  );
+}
+```
 
 ## Responsibility
 

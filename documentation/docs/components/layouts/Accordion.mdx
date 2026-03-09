@@ -2,9 +2,6 @@
 title: Accordion
 ---
 
-import { Accordion, Disclosure, DisclosurePanel, DisclosureTitle } from '@geti/ui';
-import { ExampleCard } from '../../../theme/ExampleCard';
-
 # Accordion
 
 Accordion groups multiple collapsible sections into a single stack. By default, opening one section closes the others. Use it for long settings pages, FAQs, or any content where showing everything at once would overwhelm the user.
@@ -18,116 +15,86 @@ import { Accordion, Disclosure, DisclosurePanel, DisclosureTitle } from '@geti/u
 
 ## Examples
 
-<ExampleCard
-  title="Default (single expand)"
-  code={`<Accordion>
-  <Disclosure>
-    <DisclosureTitle>Section One</DisclosureTitle>
-    <DisclosurePanel>
-      <p>Content for section one.</p>
-    </DisclosurePanel>
-  </Disclosure>
-  <Disclosure>
-    <DisclosureTitle>Section Two</DisclosureTitle>
-    <DisclosurePanel>
-      <p>Content for section two.</p>
-    </DisclosurePanel>
-  </Disclosure>
-  <Disclosure>
-    <DisclosureTitle>Section Three</DisclosureTitle>
-    <DisclosurePanel>
-      <p>Content for section three.</p>
-    </DisclosurePanel>
-  </Disclosure>
-</Accordion>`}
->
-  <Accordion>
-    <Disclosure>
-      <DisclosureTitle>Section One</DisclosureTitle>
-      <DisclosurePanel>
-        <p>Content for section one.</p>
-      </DisclosurePanel>
-    </Disclosure>
-    <Disclosure>
-      <DisclosureTitle>Section Two</DisclosureTitle>
-      <DisclosurePanel>
-        <p>Content for section two.</p>
-      </DisclosurePanel>
-    </Disclosure>
-    <Disclosure>
-      <DisclosureTitle>Section Three</DisclosureTitle>
-      <DisclosurePanel>
-        <p>Content for section three.</p>
-      </DisclosurePanel>
-    </Disclosure>
-  </Accordion>
-</ExampleCard>
+### Default (single expand)
 
-<ExampleCard
-  title="Multiple panels open simultaneously"
-  code={`<Accordion allowsMultipleExpanded>
-  <Disclosure>
-    <DisclosureTitle>First Item</DisclosureTitle>
-    <DisclosurePanel>
-      <p>First item content — stays open when others open.</p>
-    </DisclosurePanel>
-  </Disclosure>
-  <Disclosure>
-    <DisclosureTitle>Second Item</DisclosureTitle>
-    <DisclosurePanel>
-      <p>Second item content.</p>
-    </DisclosurePanel>
-  </Disclosure>
-</Accordion>`}
->
-  <Accordion allowsMultipleExpanded>
-    <Disclosure>
-      <DisclosureTitle>First Item</DisclosureTitle>
-      <DisclosurePanel>
-        <p>First item content — stays open when others open.</p>
-      </DisclosurePanel>
-    </Disclosure>
-    <Disclosure>
-      <DisclosureTitle>Second Item</DisclosureTitle>
-      <DisclosurePanel>
-        <p>Second item content.</p>
-      </DisclosurePanel>
-    </Disclosure>
-  </Accordion>
-</ExampleCard>
+```tsx preview
+import { Accordion, Disclosure, DisclosurePanel, DisclosureTitle } from '@geti/ui';
 
-<ExampleCard
-  title="Quiet style"
-  code={`<Accordion isQuiet>
-  <Disclosure>
-    <DisclosureTitle>Quiet Section A</DisclosureTitle>
-    <DisclosurePanel>
-      <p>Quiet accordion panel A.</p>
-    </DisclosurePanel>
-  </Disclosure>
-  <Disclosure>
-    <DisclosureTitle>Quiet Section B</DisclosureTitle>
-    <DisclosurePanel>
-      <p>Quiet accordion panel B.</p>
-    </DisclosurePanel>
-  </Disclosure>
-</Accordion>`}
->
-  <Accordion isQuiet>
-    <Disclosure>
-      <DisclosureTitle>Quiet Section A</DisclosureTitle>
-      <DisclosurePanel>
-        <p>Quiet accordion panel A.</p>
-      </DisclosurePanel>
-    </Disclosure>
-    <Disclosure>
-      <DisclosureTitle>Quiet Section B</DisclosureTitle>
-      <DisclosurePanel>
-        <p>Quiet accordion panel B.</p>
-      </DisclosurePanel>
-    </Disclosure>
-  </Accordion>
-</ExampleCard>
+export default function App() {
+  return (
+    <Accordion>
+      <Disclosure>
+        <DisclosureTitle>Section One</DisclosureTitle>
+        <DisclosurePanel>
+          <p>Content for section one.</p>
+        </DisclosurePanel>
+      </Disclosure>
+      <Disclosure>
+        <DisclosureTitle>Section Two</DisclosureTitle>
+        <DisclosurePanel>
+          <p>Content for section two.</p>
+        </DisclosurePanel>
+      </Disclosure>
+      <Disclosure>
+        <DisclosureTitle>Section Three</DisclosureTitle>
+        <DisclosurePanel>
+          <p>Content for section three.</p>
+        </DisclosurePanel>
+      </Disclosure>
+    </Accordion>
+  );
+}
+```
+
+### Multiple panels open simultaneously
+
+```tsx preview
+import { Accordion, Disclosure, DisclosurePanel, DisclosureTitle } from '@geti/ui';
+
+export default function App() {
+  return (
+    <Accordion allowsMultipleExpanded>
+      <Disclosure>
+        <DisclosureTitle>First Item</DisclosureTitle>
+        <DisclosurePanel>
+          <p>First item content — stays open when others open.</p>
+        </DisclosurePanel>
+      </Disclosure>
+      <Disclosure>
+        <DisclosureTitle>Second Item</DisclosureTitle>
+        <DisclosurePanel>
+          <p>Second item content.</p>
+        </DisclosurePanel>
+      </Disclosure>
+    </Accordion>
+  );
+}
+```
+
+### Quiet style
+
+```tsx preview
+import { Accordion, Disclosure, DisclosurePanel, DisclosureTitle } from '@geti/ui';
+
+export default function App() {
+  return (
+    <Accordion isQuiet>
+      <Disclosure>
+        <DisclosureTitle>Quiet Section A</DisclosureTitle>
+        <DisclosurePanel>
+          <p>Quiet accordion panel A.</p>
+        </DisclosurePanel>
+      </Disclosure>
+      <Disclosure>
+        <DisclosureTitle>Quiet Section B</DisclosureTitle>
+        <DisclosurePanel>
+          <p>Quiet accordion panel B.</p>
+        </DisclosurePanel>
+      </Disclosure>
+    </Accordion>
+  );
+}
+```
 
 ## Responsibility
 

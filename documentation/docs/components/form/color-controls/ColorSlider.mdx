@@ -2,9 +2,6 @@
 title: ColorSlider
 ---
 
-import { ColorSlider, Flex } from '@geti/ui';
-import { ExampleCard } from '../../../../theme/ExampleCard';
-
 # ColorSlider
 
 `ColorSlider` lets users adjust a single channel of a color value along a gradient track. Use it as a building block inside a custom color editor or inline to expose a specific channel (e.g. opacity/alpha).
@@ -18,59 +15,64 @@ import { ColorSlider } from '@geti/ui';
 
 ## Examples
 
-<ExampleCard
-  title="Red channel"
-  code={`<ColorSlider defaultValue="#7f0000" channel="red" />`}
->
-  <ColorSlider defaultValue="#7f0000" channel="red" />
-</ExampleCard>
+### Red channel
 
-<ExampleCard
-  title="RGB channels"
-  code={`<Flex direction="column" gap="size-200">
-  <ColorSlider defaultValue="#7f0000" channel="red" label="Red" />
-  <ColorSlider defaultValue="#7f0000" channel="green" label="Green" />
-  <ColorSlider defaultValue="#7f0000" channel="blue" label="Blue" />
-  <ColorSlider defaultValue="#7f0000" channel="alpha" label="Alpha" />
-</Flex>`}
->
-  <Flex direction="column" gap="size-200">
-    <ColorSlider defaultValue="#7f0000" channel="red" label="Red" />
-    <ColorSlider defaultValue="#7f0000" channel="green" label="Green" />
-    <ColorSlider defaultValue="#7f0000" channel="blue" label="Blue" />
-    <ColorSlider defaultValue="#7f0000" channel="alpha" label="Alpha" />
-  </Flex>
-</ExampleCard>
+```tsx preview
+import { ColorSlider } from '@geti/ui';
 
-<ExampleCard
-  title="HSL channels"
-  code={`<Flex direction="column" gap="size-200">
-  <ColorSlider defaultValue="hsl(0, 100%, 50%)" channel="hue" label="Hue" />
-  <ColorSlider defaultValue="hsl(0, 100%, 50%)" channel="saturation" label="Saturation" />
-  <ColorSlider defaultValue="hsl(0, 100%, 50%)" channel="lightness" label="Lightness" />
-</Flex>`}
->
-  <Flex direction="column" gap="size-200">
-    <ColorSlider defaultValue="hsl(0, 100%, 50%)" channel="hue" label="Hue" />
-    <ColorSlider defaultValue="hsl(0, 100%, 50%)" channel="saturation" label="Saturation" />
-    <ColorSlider defaultValue="hsl(0, 100%, 50%)" channel="lightness" label="Lightness" />
-  </Flex>
-</ExampleCard>
+export default function App() {
+  return <ColorSlider defaultValue="#7f0000" channel="red" />;
+}
+```
 
-<ExampleCard
-  title="Vertical orientation"
-  code={`<Flex gap="size-500">
-  <ColorSlider defaultValue="#7f0000" channel="red" orientation="vertical" label="Red" />
-  <ColorSlider defaultValue="#7f0000" channel="green" orientation="vertical" label="Green" />
-  <ColorSlider defaultValue="#7f0000" channel="blue" orientation="vertical" label="Blue" />
-</Flex>`}
->
-  <Flex gap="size-500">
-    <ColorSlider defaultValue="#7f0000" channel="red" orientation="vertical" label="Red" />
-    <ColorSlider defaultValue="#7f0000" channel="green" orientation="vertical" label="Green" />
-    <ColorSlider defaultValue="#7f0000" channel="blue" orientation="vertical" label="Blue" />
-  </Flex>
-</ExampleCard>
+### RGB channels
+
+```tsx preview
+import { ColorSlider, Flex } from '@geti/ui';
+
+export default function App() {
+  return (
+    <Flex direction="column" gap="size-200">
+      <ColorSlider defaultValue="#7f0000" channel="red" label="Red" />
+      <ColorSlider defaultValue="#7f0000" channel="green" label="Green" />
+      <ColorSlider defaultValue="#7f0000" channel="blue" label="Blue" />
+      <ColorSlider defaultValue="#7f0000" channel="alpha" label="Alpha" />
+    </Flex>
+  );
+}
+```
+
+### HSL channels
+
+```tsx preview
+import { ColorSlider, Flex } from '@geti/ui';
+
+export default function App() {
+  return (
+    <Flex direction="column" gap="size-200">
+      <ColorSlider defaultValue="hsl(0, 100%, 50%)" channel="hue" label="Hue" />
+      <ColorSlider defaultValue="hsl(0, 100%, 50%)" channel="saturation" label="Saturation" />
+      <ColorSlider defaultValue="hsl(0, 100%, 50%)" channel="lightness" label="Lightness" />
+    </Flex>
+  );
+}
+```
+
+### Vertical orientation
+
+```tsx preview
+import { ColorSlider, Flex } from '@geti/ui';
+
+export default function App() {
+  return (
+    <Flex gap="size-500">
+      <ColorSlider defaultValue="#7f0000" channel="red" orientation="vertical" label="Red" />
+      <ColorSlider defaultValue="#7f0000" channel="green" orientation="vertical" label="Green" />
+      <ColorSlider defaultValue="#7f0000" channel="blue" orientation="vertical" label="Blue" />
+    </Flex>
+  );
+}
+```
 
 ## Responsibility
 

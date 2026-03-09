@@ -2,11 +2,6 @@
 title: DialogContainer
 ---
 
-import { useState } from 'react';
-import { Button, ButtonGroup, Content, Divider, Heading } from '@adobe/react-spectrum';
-import { Dialog, DialogContainer } from '@geti/ui';
-import { ExampleCard } from '../../../theme/ExampleCard';
-
 # DialogContainer
 
 DialogContainer hosts a `Dialog` that is opened and closed programmatically — without a persistent trigger element. Use it when the element that opens the dialog may unmount before the dialog closes, or when the dialog must be triggered from application logic rather than a direct user interaction.
@@ -20,9 +15,14 @@ import { Dialog, DialogContainer } from '@geti/ui';
 
 ## Examples
 
-<ExampleCard
-  title="Programmatic open"
-  code={`() => {
+### Programmatic open
+
+```tsx preview
+import { useState } from 'react';
+import { Dialog, DialogContainer } from '@geti/ui';
+import { Button, ButtonGroup, Content, Divider, Heading } from '@adobe/react-spectrum';
+
+export default function App() {
   const [isOpen, setIsOpen] = useState(false);
 
   return (
@@ -48,39 +48,17 @@ import { Dialog, DialogContainer } from '@geti/ui';
       </DialogContainer>
     </>
   );
-}`}
->
-  {(() => {
-    const [isOpen, setIsOpen] = useState(false);
-    return (
-      <>
-        <Button variant="accent" onPress={() => setIsOpen(true)}>
-          Open dialog programmatically
-        </Button>
-        <DialogContainer onDismiss={() => setIsOpen(false)}>
-          {isOpen && (
-            <Dialog>
-              <Heading>Programmatic dialog</Heading>
-              <Divider />
-              <Content>
-                This dialog was opened programmatically without a persistent DialogTrigger element.
-              </Content>
-              <ButtonGroup>
-                <Button variant="secondary" onPress={() => setIsOpen(false)}>
-                  Close
-                </Button>
-              </ButtonGroup>
-            </Dialog>
-          )}
-        </DialogContainer>
-      </>
-    );
-  })()}
-</ExampleCard>
+}
+```
 
-<ExampleCard
-  title="Dismissable"
-  code={`() => {
+### Dismissable
+
+```tsx preview
+import { useState } from 'react';
+import { Dialog, DialogContainer } from '@geti/ui';
+import { Button, Content, Divider, Heading } from '@adobe/react-spectrum';
+
+export default function App() {
   const [isOpen, setIsOpen] = useState(false);
 
   return (
@@ -99,28 +77,8 @@ import { Dialog, DialogContainer } from '@geti/ui';
       </DialogContainer>
     </>
   );
-}`}
->
-  {(() => {
-    const [isOpen, setIsOpen] = useState(false);
-    return (
-      <>
-        <Button variant="primary" onPress={() => setIsOpen(true)}>
-          Open dismissable dialog
-        </Button>
-        <DialogContainer isDismissable onDismiss={() => setIsOpen(false)}>
-          {isOpen && (
-            <Dialog>
-              <Heading>Dismissable dialog</Heading>
-              <Divider />
-              <Content>Click outside or press Escape to close this dialog.</Content>
-            </Dialog>
-          )}
-        </DialogContainer>
-      </>
-    );
-  })()}
-</ExampleCard>
+}
+```
 
 ## Responsibility
 

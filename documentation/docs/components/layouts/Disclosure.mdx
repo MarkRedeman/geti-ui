@@ -2,9 +2,6 @@
 title: Disclosure
 ---
 
-import { Disclosure, DisclosurePanel, DisclosureTitle } from '@geti/ui';
-import { ExampleCard } from '../../../theme/ExampleCard';
-
 # Disclosure
 
 Disclosure is a single collapsible section consisting of a labelled heading and a panel that expands or collapses when the heading is pressed. Use it for optional supplementary content, advanced settings, or any section the user may not always need to see.
@@ -18,73 +15,73 @@ import { Disclosure, DisclosurePanel, DisclosureTitle } from '@geti/ui';
 
 ## Examples
 
-<ExampleCard
-  title="Default (collapsed)"
-  code={`<Disclosure>
-  <DisclosureTitle>Section Title</DisclosureTitle>
-  <DisclosurePanel>
-    <p>This is the collapsible content of the disclosure panel.</p>
-  </DisclosurePanel>
-</Disclosure>`}
->
-  <Disclosure>
-    <DisclosureTitle>Section Title</DisclosureTitle>
-    <DisclosurePanel>
-      <p>This is the collapsible content of the disclosure panel.</p>
-    </DisclosurePanel>
-  </Disclosure>
-</ExampleCard>
+### Default (collapsed)
 
-<ExampleCard
-  title="Expanded by default"
-  code={`<Disclosure isExpanded>
-  <DisclosureTitle>Expanded Section</DisclosureTitle>
-  <DisclosurePanel>
-    <p>This panel is open by default.</p>
-  </DisclosurePanel>
-</Disclosure>`}
->
-  <Disclosure isExpanded>
-    <DisclosureTitle>Expanded Section</DisclosureTitle>
-    <DisclosurePanel>
-      <p>This panel is open by default.</p>
-    </DisclosurePanel>
-  </Disclosure>
-</ExampleCard>
+```tsx preview
+import { Disclosure, DisclosurePanel, DisclosureTitle } from '@geti/ui';
 
-<ExampleCard
-  title="Quiet style"
-  code={`<Disclosure isQuiet>
-  <DisclosureTitle>Quiet Disclosure</DisclosureTitle>
-  <DisclosurePanel>
-    <p>Quiet variant with reduced visual weight.</p>
-  </DisclosurePanel>
-</Disclosure>`}
->
-  <Disclosure isQuiet>
-    <DisclosureTitle>Quiet Disclosure</DisclosureTitle>
-    <DisclosurePanel>
-      <p>Quiet variant with reduced visual weight.</p>
-    </DisclosurePanel>
-  </Disclosure>
-</ExampleCard>
+export default function App() {
+  return (
+    <Disclosure>
+      <DisclosureTitle>Section Title</DisclosureTitle>
+      <DisclosurePanel>
+        <p>This is the collapsible content of the disclosure panel.</p>
+      </DisclosurePanel>
+    </Disclosure>
+  );
+}
+```
 
-<ExampleCard
-  title="Disabled"
-  code={`<Disclosure isDisabled>
-  <DisclosureTitle>Disabled Section</DisclosureTitle>
-  <DisclosurePanel>
-    <p>This disclosure cannot be toggled.</p>
-  </DisclosurePanel>
-</Disclosure>`}
->
-  <Disclosure isDisabled>
-    <DisclosureTitle>Disabled Section</DisclosureTitle>
-    <DisclosurePanel>
-      <p>This disclosure cannot be toggled.</p>
-    </DisclosurePanel>
-  </Disclosure>
-</ExampleCard>
+### Expanded by default
+
+```tsx preview
+import { Disclosure, DisclosurePanel, DisclosureTitle } from '@geti/ui';
+
+export default function App() {
+  return (
+    <Disclosure isExpanded>
+      <DisclosureTitle>Expanded Section</DisclosureTitle>
+      <DisclosurePanel>
+        <p>This panel is open by default.</p>
+      </DisclosurePanel>
+    </Disclosure>
+  );
+}
+```
+
+### Quiet style
+
+```tsx preview
+import { Disclosure, DisclosurePanel, DisclosureTitle } from '@geti/ui';
+
+export default function App() {
+  return (
+    <Disclosure isQuiet>
+      <DisclosureTitle>Quiet Disclosure</DisclosureTitle>
+      <DisclosurePanel>
+        <p>Quiet variant with reduced visual weight.</p>
+      </DisclosurePanel>
+    </Disclosure>
+  );
+}
+```
+
+### Disabled
+
+```tsx preview
+import { Disclosure, DisclosurePanel, DisclosureTitle } from '@geti/ui';
+
+export default function App() {
+  return (
+    <Disclosure isDisabled>
+      <DisclosureTitle>Disabled Section</DisclosureTitle>
+      <DisclosurePanel>
+        <p>This disclosure cannot be toggled.</p>
+      </DisclosurePanel>
+    </Disclosure>
+  );
+}
+```
 
 ## Responsibility
 

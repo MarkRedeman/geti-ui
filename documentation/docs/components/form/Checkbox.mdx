@@ -2,9 +2,6 @@
 title: Checkbox
 ---
 
-import { Checkbox } from '@geti/ui';
-import { ExampleCard } from '../../../theme/ExampleCard';
-
 # Checkbox
 
 Checkbox is a binary form control for opt-in/opt-out choices. Use it for individual boolean settings, multi-select item lists, and form agreement fields.
@@ -18,40 +15,55 @@ import { Checkbox } from '@geti/ui';
 
 ## Examples
 
-<ExampleCard
-  title="Default (uncontrolled)"
-  code={`<Checkbox>Enable notifications</Checkbox>`}
->
-  <Checkbox>Enable notifications</Checkbox>
-</ExampleCard>
+### Default (uncontrolled)
 
-<ExampleCard
-  title="Pre-checked"
-  code={`<Checkbox defaultSelected>Auto-save enabled</Checkbox>`}
->
-  <Checkbox defaultSelected>Auto-save enabled</Checkbox>
-</ExampleCard>
+```tsx preview
+import { Checkbox } from '@geti/ui';
 
-<ExampleCard
-  title="Indeterminate"
-  code={`<Checkbox isIndeterminate>Select all</Checkbox>`}
->
-  <Checkbox isIndeterminate>Select all</Checkbox>
-</ExampleCard>
+export default function App() {
+  return <Checkbox>Enable notifications</Checkbox>;
+}
+```
 
-<ExampleCard
-  title="Disabled"
-  code={`<Checkbox isDisabled>Disabled option</Checkbox>`}
->
-  <Checkbox isDisabled>Disabled option</Checkbox>
-</ExampleCard>
+### Pre-checked
 
-<ExampleCard
-  title="Invalid"
-  code={`<Checkbox validationState="invalid">Required agreement</Checkbox>`}
->
-  <Checkbox validationState="invalid">Required agreement</Checkbox>
-</ExampleCard>
+```tsx preview
+import { Checkbox } from '@geti/ui';
+
+export default function App() {
+  return <Checkbox defaultSelected>Auto-save enabled</Checkbox>;
+}
+```
+
+### Indeterminate
+
+```tsx preview
+import { Checkbox } from '@geti/ui';
+
+export default function App() {
+  return <Checkbox isIndeterminate>Select all</Checkbox>;
+}
+```
+
+### Disabled
+
+```tsx preview
+import { Checkbox } from '@geti/ui';
+
+export default function App() {
+  return <Checkbox isDisabled>Disabled option</Checkbox>;
+}
+```
+
+### Invalid
+
+```tsx preview
+import { Checkbox } from '@geti/ui';
+
+export default function App() {
+  return <Checkbox validationState="invalid">Required agreement</Checkbox>;
+}
+```
 
 ## Responsibility
 

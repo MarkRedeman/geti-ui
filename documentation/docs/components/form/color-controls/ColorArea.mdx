@@ -2,9 +2,6 @@
 title: ColorArea
 ---
 
-import { ColorArea, Flex } from '@geti/ui';
-import { ExampleCard } from '../../../../theme/ExampleCard';
-
 # ColorArea
 
 `ColorArea` renders a two-dimensional gradient surface that lets users adjust two color channels simultaneously by dragging a thumb. Use it as the main color-picking surface in a color editor.
@@ -18,32 +15,40 @@ import { ColorArea } from '@geti/ui';
 
 ## Examples
 
-<ExampleCard
-  title="Default (red + green channels)"
-  code={`<ColorArea defaultValue="#7f0000" />`}
->
-  <ColorArea defaultValue="#7f0000" />
-</ExampleCard>
+### Default (red + green channels)
 
-<ExampleCard
-  title="HSB — saturation/brightness"
-  code={`<Flex gap="size-200">
-  <ColorArea defaultValue="hsb(0, 100%, 50%)" xChannel="saturation" yChannel="brightness" />
-  <ColorArea defaultValue="hsb(240, 100%, 50%)" xChannel="saturation" yChannel="brightness" />
-</Flex>`}
->
-  <Flex gap="size-200">
-    <ColorArea defaultValue="hsb(0, 100%, 50%)" xChannel="saturation" yChannel="brightness" />
-    <ColorArea defaultValue="hsb(240, 100%, 50%)" xChannel="saturation" yChannel="brightness" />
-  </Flex>
-</ExampleCard>
+```tsx preview
+import { ColorArea } from '@geti/ui';
 
-<ExampleCard
-  title="Custom size"
-  code={`<ColorArea defaultValue="#7f0000" size={200} />`}
->
-  <ColorArea defaultValue="#7f0000" size={200} />
-</ExampleCard>
+export default function App() {
+  return <ColorArea defaultValue="#7f0000" />;
+}
+```
+
+### HSB — saturation/brightness
+
+```tsx preview
+import { ColorArea, Flex } from '@geti/ui';
+
+export default function App() {
+  return (
+    <Flex gap="size-200">
+      <ColorArea defaultValue="hsb(0, 100%, 50%)" xChannel="saturation" yChannel="brightness" />
+      <ColorArea defaultValue="hsb(240, 100%, 50%)" xChannel="saturation" yChannel="brightness" />
+    </Flex>
+  );
+}
+```
+
+### Custom size
+
+```tsx preview
+import { ColorArea } from '@geti/ui';
+
+export default function App() {
+  return <ColorArea defaultValue="#7f0000" size={200} />;
+}
+```
 
 ## Responsibility
 

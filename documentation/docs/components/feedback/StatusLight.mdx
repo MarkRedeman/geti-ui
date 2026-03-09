@@ -3,7 +3,6 @@ title: StatusLight
 ---
 
 import { StatusLight } from '@geti/ui';
-import { ExampleCard } from '../../../theme/ExampleCard';
 
 # StatusLight
 
@@ -18,47 +17,65 @@ import { StatusLight } from '@geti/ui';
 
 ## Examples
 
-<ExampleCard
-  title="Neutral"
-  code={`<StatusLight variant="neutral">Neutral</StatusLight>`}
->
-  <StatusLight variant="neutral">Neutral</StatusLight>
-</ExampleCard>
+### Neutral
 
-<ExampleCard
-  title="Positive — active or healthy"
-  code={`<StatusLight variant="positive">Active</StatusLight>`}
->
-  <StatusLight variant="positive">Active</StatusLight>
-</ExampleCard>
+```tsx preview
+import { StatusLight } from '@geti/ui';
 
-<ExampleCard
-  title="Negative — error or failure"
-  code={`<StatusLight variant="negative">Error</StatusLight>`}
->
-  <StatusLight variant="negative">Error</StatusLight>
-</ExampleCard>
+export default function App() {
+  return <StatusLight variant="neutral">Neutral</StatusLight>;
+}
+```
 
-<ExampleCard
-  title="Notice — warning"
-  code={`<StatusLight variant="notice">Warning</StatusLight>`}
->
-  <StatusLight variant="notice">Warning</StatusLight>
-</ExampleCard>
+### Positive — active or healthy
 
-<ExampleCard
-  title="Info"
-  code={`<StatusLight variant="info">Processing</StatusLight>`}
->
-  <StatusLight variant="info">Processing</StatusLight>
-</ExampleCard>
+```tsx preview
+import { StatusLight } from '@geti/ui';
 
-<ExampleCard
-  title="Disabled"
-  code={`<StatusLight variant="positive" isDisabled>Disabled</StatusLight>`}
->
-  <StatusLight variant="positive" isDisabled>Disabled</StatusLight>
-</ExampleCard>
+export default function App() {
+  return <StatusLight variant="positive">Active</StatusLight>;
+}
+```
+
+### Negative — error or failure
+
+```tsx preview
+import { StatusLight } from '@geti/ui';
+
+export default function App() {
+  return <StatusLight variant="negative">Error</StatusLight>;
+}
+```
+
+### Notice — warning
+
+```tsx preview
+import { StatusLight } from '@geti/ui';
+
+export default function App() {
+  return <StatusLight variant="notice">Warning</StatusLight>;
+}
+```
+
+### Info
+
+```tsx preview
+import { StatusLight } from '@geti/ui';
+
+export default function App() {
+  return <StatusLight variant="info">Processing</StatusLight>;
+}
+```
+
+### Disabled
+
+```tsx preview
+import { StatusLight } from '@geti/ui';
+
+export default function App() {
+  return <StatusLight variant="positive" isDisabled>Disabled</StatusLight>;
+}
+```
 
 ## Responsibility
 

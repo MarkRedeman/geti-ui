@@ -2,9 +2,6 @@
 title: SearchField
 ---
 
-import { SearchField } from '@geti/ui';
-import { ExampleCard } from '../../../theme/ExampleCard';
-
 # SearchField
 
 SearchField is a text input purpose-built for search and filter interactions. It includes a magnifier icon and a clear button, and fires `onSubmit` on Enter. Use it for any live or submitted search pattern.
@@ -18,32 +15,40 @@ import { SearchField } from '@geti/ui';
 
 ## Examples
 
-<ExampleCard
-  title="Default"
-  code={`<SearchField label="Search datasets" />`}
->
-  <SearchField label="Search datasets" />
-</ExampleCard>
+### Default
 
-<ExampleCard
-  title="With placeholder"
-  code={`<SearchField
-  label="Search"
-  placeholder="Filter by name or tag..."
-/>`}
->
-  <SearchField
-    label="Search"
-    placeholder="Filter by name or tag..."
-  />
-</ExampleCard>
+```tsx preview
+import { SearchField } from '@geti/ui';
 
-<ExampleCard
-  title="Disabled"
-  code={`<SearchField label="Search" isDisabled />`}
->
-  <SearchField label="Search" isDisabled />
-</ExampleCard>
+export default function App() {
+  return <SearchField label="Search datasets" />;
+}
+```
+
+### With placeholder
+
+```tsx preview
+import { SearchField } from '@geti/ui';
+
+export default function App() {
+  return (
+    <SearchField
+      label="Search"
+      placeholder="Filter by name or tag..."
+    />
+  );
+}
+```
+
+### Disabled
+
+```tsx preview
+import { SearchField } from '@geti/ui';
+
+export default function App() {
+  return <SearchField label="Search" isDisabled />;
+}
+```
 
 ## Responsibility
 

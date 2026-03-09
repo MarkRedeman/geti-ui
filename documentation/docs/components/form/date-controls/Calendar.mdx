@@ -2,9 +2,6 @@
 title: Calendar
 ---
 
-import { Calendar, RangeCalendar } from '@geti/ui';
-import { ExampleCard } from '../../../../theme/ExampleCard';
-
 # Calendar
 
 `Calendar` shows a full month grid and lets users select a single date. `RangeCalendar` extends this to allow selecting a start–end date range. Both are standalone components without a popover trigger — use them inline or compose them into custom overlays.
@@ -19,40 +16,55 @@ import { Calendar, RangeCalendar } from '@geti/ui';
 
 ## Examples
 
-<ExampleCard
-  title="Calendar — default"
-  code={`<Calendar aria-label="Event date" />`}
->
-  <Calendar aria-label="Event date" />
-</ExampleCard>
+### Calendar — default
 
-<ExampleCard
-  title="Calendar — multiple months"
-  code={`<Calendar aria-label="Event date" visibleMonths={2} />`}
->
-  <Calendar aria-label="Event date" visibleMonths={2} />
-</ExampleCard>
+```tsx preview
+import { Calendar } from '@geti/ui';
 
-<ExampleCard
-  title="Calendar — disabled"
-  code={`<Calendar aria-label="Event date" isDisabled />`}
->
-  <Calendar aria-label="Event date" isDisabled />
-</ExampleCard>
+export default function App() {
+  return <Calendar aria-label="Event date" />;
+}
+```
 
-<ExampleCard
-  title="RangeCalendar — default"
-  code={`<RangeCalendar aria-label="Event range" />`}
->
-  <RangeCalendar aria-label="Event range" />
-</ExampleCard>
+### Calendar — multiple months
 
-<ExampleCard
-  title="RangeCalendar — multiple months"
-  code={`<RangeCalendar aria-label="Event range" visibleMonths={2} />`}
->
-  <RangeCalendar aria-label="Event range" visibleMonths={2} />
-</ExampleCard>
+```tsx preview
+import { Calendar } from '@geti/ui';
+
+export default function App() {
+  return <Calendar aria-label="Event date" visibleMonths={2} />;
+}
+```
+
+### Calendar — disabled
+
+```tsx preview
+import { Calendar } from '@geti/ui';
+
+export default function App() {
+  return <Calendar aria-label="Event date" isDisabled />;
+}
+```
+
+### RangeCalendar — default
+
+```tsx preview
+import { RangeCalendar } from '@geti/ui';
+
+export default function App() {
+  return <RangeCalendar aria-label="Event range" />;
+}
+```
+
+### RangeCalendar — multiple months
+
+```tsx preview
+import { RangeCalendar } from '@geti/ui';
+
+export default function App() {
+  return <RangeCalendar aria-label="Event range" visibleMonths={2} />;
+}
+```
 
 ## Responsibility
 

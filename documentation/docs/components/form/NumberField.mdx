@@ -2,9 +2,6 @@
 title: NumberField
 ---
 
-import { NumberField } from '@geti/ui';
-import { ExampleCard } from '../../../theme/ExampleCard';
-
 # NumberField
 
 NumberField is a text input constrained to numeric values with built-in increment/decrement stepper buttons. Use it for threshold values, quantities, confidence scores, and any other numeric parameter input.
@@ -18,53 +15,59 @@ import { NumberField } from '@geti/ui';
 
 ## Examples
 
-<ExampleCard
-  title="Basic"
-  code={`<NumberField label="Quantity" defaultValue={1} />`}
->
-  <NumberField label="Quantity" defaultValue={1} />
-</ExampleCard>
+### Basic
 
-<ExampleCard
-  title="With min/max and step"
-  code={`<NumberField
-  label="Confidence threshold (%)"
-  defaultValue={50}
-  minValue={0}
-  maxValue={100}
-  step={5}
-/>`}
->
-  <NumberField
-    label="Confidence threshold (%)"
-    defaultValue={50}
-    minValue={0}
-    maxValue={100}
-    step={5}
-  />
-</ExampleCard>
+```tsx preview
+import { NumberField } from '@geti/ui';
 
-<ExampleCard
-  title="With format options (percentage)"
-  code={`<NumberField
-  label="Score"
-  defaultValue={0.75}
-  formatOptions={{ style: 'percent' }}
-/>`}
->
-  <NumberField
-    label="Score"
-    defaultValue={0.75}
-    formatOptions={{ style: 'percent' }}
-  />
-</ExampleCard>
+export default function App() {
+  return <NumberField label="Quantity" defaultValue={1} />;
+}
+```
 
-<ExampleCard
-  title="Disabled"
-  code={`<NumberField label="Locked value" defaultValue={42} isDisabled />`}
->
-  <NumberField label="Locked value" defaultValue={42} isDisabled />
-</ExampleCard>
+### With min/max and step
+
+```tsx preview
+import { NumberField } from '@geti/ui';
+
+export default function App() {
+  return (
+    <NumberField
+      label="Confidence threshold (%)"
+      defaultValue={50}
+      minValue={0}
+      maxValue={100}
+      step={5}
+    />
+  );
+}
+```
+
+### With format options (percentage)
+
+```tsx preview
+import { NumberField } from '@geti/ui';
+
+export default function App() {
+  return (
+    <NumberField
+      label="Score"
+      defaultValue={0.75}
+      formatOptions={{ style: 'percent' }}
+    />
+  );
+}
+```
+
+### Disabled
+
+```tsx preview
+import { NumberField } from '@geti/ui';
+
+export default function App() {
+  return <NumberField label="Locked value" defaultValue={42} isDisabled />;
+}
+```
 
 ## Responsibility
 

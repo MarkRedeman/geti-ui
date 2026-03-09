@@ -2,9 +2,6 @@
 title: AlertDialog
 ---
 
-import { AlertDialog, DialogTrigger, Button } from '@geti/ui';
-import { ExampleCard } from '../../../theme/ExampleCard';
-
 # AlertDialog
 
 AlertDialog is a modal overlay for short messages that require an explicit user decision before proceeding. Use it for destructive confirmations, warnings, and informational acknowledgements — not for complex forms.
@@ -18,127 +15,100 @@ import { AlertDialog, DialogTrigger } from '@geti/ui';
 
 ## Examples
 
-<ExampleCard
-  title="Confirmation"
-  code={`<DialogTrigger>
-  <Button variant="accent">Save changes</Button>
-  <AlertDialog
-    variant="confirmation"
-    title="Save changes?"
-    primaryActionLabel="Save"
-    cancelLabel="Cancel"
-    onPrimaryAction={() => console.log('Saved')}
-    onCancel={() => console.log('Cancelled')}
-  >
-    Are you sure you want to save these changes? This action cannot be undone.
-  </AlertDialog>
-</DialogTrigger>`}
->
-  <DialogTrigger>
-    <Button variant="accent">Save changes</Button>
-    <AlertDialog
-      variant="confirmation"
-      title="Save changes?"
-      primaryActionLabel="Save"
-      cancelLabel="Cancel"
-      onPrimaryAction={() => console.log('Saved')}
-      onCancel={() => console.log('Cancelled')}
-    >
-      Are you sure you want to save these changes? This action cannot be undone.
-    </AlertDialog>
-  </DialogTrigger>
-</ExampleCard>
+### Confirmation
 
-<ExampleCard
-  title="Destructive"
-  code={`<DialogTrigger>
-  <Button variant="negative">Delete item</Button>
-  <AlertDialog
-    variant="destructive"
-    title="Delete item?"
-    primaryActionLabel="Delete"
-    cancelLabel="Cancel"
-    onPrimaryAction={() => console.log('Deleted')}
-    onCancel={() => console.log('Cancelled')}
-  >
-    This will permanently delete the item. This action cannot be undone.
-  </AlertDialog>
-</DialogTrigger>`}
->
-  <DialogTrigger>
-    <Button variant="negative">Delete item</Button>
-    <AlertDialog
-      variant="destructive"
-      title="Delete item?"
-      primaryActionLabel="Delete"
-      cancelLabel="Cancel"
-      onPrimaryAction={() => console.log('Deleted')}
-      onCancel={() => console.log('Cancelled')}
-    >
-      This will permanently delete the item. This action cannot be undone.
-    </AlertDialog>
-  </DialogTrigger>
-</ExampleCard>
+```tsx preview
+import { AlertDialog, Button, DialogTrigger } from '@geti/ui';
 
-<ExampleCard
-  title="Informational"
-  code={`<DialogTrigger>
-  <Button variant="primary">Learn more</Button>
-  <AlertDialog
-    variant="information"
-    title="Feature update"
-    primaryActionLabel="Got it"
-  >
-    A new version of this feature is available. Please review the changes before continuing.
-  </AlertDialog>
-</DialogTrigger>`}
->
-  <DialogTrigger>
-    <Button variant="primary">Learn more</Button>
-    <AlertDialog
-      variant="information"
-      title="Feature update"
-      primaryActionLabel="Got it"
-    >
-      A new version of this feature is available. Please review the changes before continuing.
-    </AlertDialog>
-  </DialogTrigger>
-</ExampleCard>
+export default function App() {
+  return (
+    <DialogTrigger>
+      <Button variant="accent">Save changes</Button>
+      <AlertDialog
+        variant="confirmation"
+        title="Save changes?"
+        primaryActionLabel="Save"
+        cancelLabel="Cancel"
+        onPrimaryAction={() => console.log('Saved')}
+        onCancel={() => console.log('Cancelled')}
+      >
+        Are you sure you want to save these changes? This action cannot be undone.
+      </AlertDialog>
+    </DialogTrigger>
+  );
+}
+```
 
-<ExampleCard
-  title="Warning with secondary action"
-  code={`<DialogTrigger>
-  <Button variant="primary">Open</Button>
-  <AlertDialog
-    variant="confirmation"
-    title="Save document?"
-    primaryActionLabel="Save"
-    secondaryActionLabel="Don't save"
-    cancelLabel="Cancel"
-    onPrimaryAction={() => console.log('Saved')}
-    onSecondaryAction={() => console.log("Didn't save")}
-    onCancel={() => console.log('Cancelled')}
-  >
-    Do you want to save your changes before closing?
-  </AlertDialog>
-</DialogTrigger>`}
->
-  <DialogTrigger>
-    <Button variant="primary">Open</Button>
-    <AlertDialog
-      variant="confirmation"
-      title="Save document?"
-      primaryActionLabel="Save"
-      secondaryActionLabel="Don't save"
-      cancelLabel="Cancel"
-      onPrimaryAction={() => console.log('Saved')}
-      onSecondaryAction={() => console.log("Didn't save")}
-      onCancel={() => console.log('Cancelled')}
-    >
-      Do you want to save your changes before closing?
-    </AlertDialog>
-  </DialogTrigger>
-</ExampleCard>
+### Destructive
+
+```tsx preview
+import { AlertDialog, Button, DialogTrigger } from '@geti/ui';
+
+export default function App() {
+  return (
+    <DialogTrigger>
+      <Button variant="negative">Delete item</Button>
+      <AlertDialog
+        variant="destructive"
+        title="Delete item?"
+        primaryActionLabel="Delete"
+        cancelLabel="Cancel"
+        onPrimaryAction={() => console.log('Deleted')}
+        onCancel={() => console.log('Cancelled')}
+      >
+        This will permanently delete the item. This action cannot be undone.
+      </AlertDialog>
+    </DialogTrigger>
+  );
+}
+```
+
+### Informational
+
+```tsx preview
+import { AlertDialog, Button, DialogTrigger } from '@geti/ui';
+
+export default function App() {
+  return (
+    <DialogTrigger>
+      <Button variant="primary">Learn more</Button>
+      <AlertDialog
+        variant="information"
+        title="Feature update"
+        primaryActionLabel="Got it"
+      >
+        A new version of this feature is available. Please review the changes before continuing.
+      </AlertDialog>
+    </DialogTrigger>
+  );
+}
+```
+
+### Warning with secondary action
+
+```tsx preview
+import { AlertDialog, Button, DialogTrigger } from '@geti/ui';
+
+export default function App() {
+  return (
+    <DialogTrigger>
+      <Button variant="primary">Open</Button>
+      <AlertDialog
+        variant="confirmation"
+        title="Save document?"
+        primaryActionLabel="Save"
+        secondaryActionLabel="Don't save"
+        cancelLabel="Cancel"
+        onPrimaryAction={() => console.log('Saved')}
+        onSecondaryAction={() => console.log("Didn't save")}
+        onCancel={() => console.log('Cancelled')}
+      >
+        Do you want to save your changes before closing?
+      </AlertDialog>
+    </DialogTrigger>
+  );
+}
+```
 
 ## Responsibility
 

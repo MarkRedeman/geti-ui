@@ -2,9 +2,6 @@
 title: CornerIndicator
 ---
 
-import { CornerIndicator, ActionButton } from '@geti/ui';
-import { ExampleCard } from '../../../theme/ExampleCard';
-
 # CornerIndicator
 
 CornerIndicator overlays a small blue dot in the top-right corner of any child element to signal a pending change, unsaved state, or notification. Wrap any UI element with it and toggle `isActive` to control visibility.
@@ -15,27 +12,35 @@ import { CornerIndicator } from '@geti/ui';
 
 ## Examples
 
-<ExampleCard
-  title="Active indicator"
-  code={`<CornerIndicator isActive>
-  <ActionButton>Settings</ActionButton>
-</CornerIndicator>`}
->
-  <CornerIndicator isActive>
-    <ActionButton>Settings</ActionButton>
-  </CornerIndicator>
-</ExampleCard>
+### Active indicator
 
-<ExampleCard
-  title="Inactive (no dot)"
-  code={`<CornerIndicator isActive={false}>
-  <ActionButton>Settings</ActionButton>
-</CornerIndicator>`}
->
-  <CornerIndicator isActive={false}>
-    <ActionButton>Settings</ActionButton>
-  </CornerIndicator>
-</ExampleCard>
+```tsx preview
+import { ActionButton, CornerIndicator, View } from '@geti/ui';
+
+export default function App() {
+  return (
+    <View position='absolute'>
+      <CornerIndicator isActive>
+        <ActionButton>Settings</ActionButton>
+      </CornerIndicator>
+    </View>
+  );
+}
+```
+
+### Inactive (no dot)
+
+```tsx preview
+import { ActionButton, CornerIndicator } from '@geti/ui';
+
+export default function App() {
+  return (
+    <CornerIndicator isActive={false}>
+      <ActionButton>Settings</ActionButton>
+    </CornerIndicator>
+  );
+}
+```
 
 ## Responsibility
 

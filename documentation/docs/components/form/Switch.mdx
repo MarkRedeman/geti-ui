@@ -2,9 +2,6 @@
 title: Switch
 ---
 
-import { Switch } from '@geti/ui';
-import { ExampleCard } from '../../../theme/ExampleCard';
-
 # Switch
 
 Switch is a binary toggle for settings that take effect immediately — without requiring a form submit. Use it for live preferences and feature flags, not for choices that are batched in a form.
@@ -18,33 +15,45 @@ import { Switch } from '@geti/ui';
 
 ## Examples
 
-<ExampleCard
-  title="Default (off)"
-  code={`<Switch>Show annotations</Switch>`}
->
-  <Switch>Show annotations</Switch>
-</ExampleCard>
+### Default (off)
 
-<ExampleCard
-  title="On by default"
-  code={`<Switch defaultSelected>Auto-save</Switch>`}
->
-  <Switch defaultSelected>Auto-save</Switch>
-</ExampleCard>
+```tsx preview
+import { Switch } from '@geti/ui';
 
-<ExampleCard
-  title="Emphasized (Geti blue track)"
-  code={`<Switch isEmphasized defaultSelected>Enable feature</Switch>`}
->
-  <Switch isEmphasized defaultSelected>Enable feature</Switch>
-</ExampleCard>
+export default function App() {
+  return <Switch>Show annotations</Switch>;
+}
+```
 
-<ExampleCard
-  title="Disabled"
-  code={`<Switch isDisabled>Unavailable option</Switch>`}
->
-  <Switch isDisabled>Unavailable option</Switch>
-</ExampleCard>
+### On by default
+
+```tsx preview
+import { Switch } from '@geti/ui';
+
+export default function App() {
+  return <Switch defaultSelected>Auto-save</Switch>;
+}
+```
+
+### Emphasized (Geti blue track)
+
+```tsx preview
+import { Switch } from '@geti/ui';
+
+export default function App() {
+  return <Switch isEmphasized defaultSelected>Enable feature</Switch>;
+}
+```
+
+### Disabled
+
+```tsx preview
+import { Switch } from '@geti/ui';
+
+export default function App() {
+  return <Switch isDisabled>Unavailable option</Switch>;
+}
+```
 
 ## Responsibility
 

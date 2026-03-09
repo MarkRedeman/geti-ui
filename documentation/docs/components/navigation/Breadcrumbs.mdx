@@ -2,9 +2,6 @@
 title: Breadcrumbs
 ---
 
-import { Breadcrumbs, BreadcrumbItem as Item } from '@geti/ui';
-import { ExampleCard } from '../../../theme/ExampleCard';
-
 # Breadcrumbs
 
 Breadcrumbs show the user's current location in a hierarchy and let them navigate back to any ancestor page. Use them at the top of deep content hierarchies such as project → dataset → media views.
@@ -18,67 +15,70 @@ import { Breadcrumbs, BreadcrumbItem as Item } from '@geti/ui';
 
 ## Examples
 
-<ExampleCard
-  title="Default"
-  code={`<Breadcrumbs>
-  <Item key="home" href="/">Home</Item>
-  <Item key="projects" href="/projects">Projects</Item>
-  <Item key="current">My Project</Item>
-</Breadcrumbs>`}
->
-  <Breadcrumbs>
-    <Item key="home" href="/">Home</Item>
-    <Item key="projects" href="/projects">Projects</Item>
-    <Item key="current">My Project</Item>
-  </Breadcrumbs>
-</ExampleCard>
+### Default
 
-<ExampleCard
-  title="Multi-level hierarchy"
-  code={`<Breadcrumbs>
-  <Item key="home" href="/">Home</Item>
-  <Item key="section" href="/section">Section</Item>
-  <Item key="subsection" href="/section/subsection">Subsection</Item>
-  <Item key="page">Current Page</Item>
-</Breadcrumbs>`}
->
-  <Breadcrumbs>
-    <Item key="home" href="/">Home</Item>
-    <Item key="section" href="/section">Section</Item>
-    <Item key="subsection" href="/section/subsection">Subsection</Item>
-    <Item key="page">Current Page</Item>
-  </Breadcrumbs>
-</ExampleCard>
+```tsx preview
+import { Breadcrumbs, BreadcrumbItem as Item } from '@geti/ui';
 
-<ExampleCard
-  title="Small size"
-  code={`<Breadcrumbs size="S">
-  <Item key="home" href="/">Home</Item>
-  <Item key="projects" href="/projects">Projects</Item>
-  <Item key="current">My Project</Item>
-</Breadcrumbs>`}
->
-  <Breadcrumbs size="S">
-    <Item key="home" href="/">Home</Item>
-    <Item key="projects" href="/projects">Projects</Item>
-    <Item key="current">My Project</Item>
-  </Breadcrumbs>
-</ExampleCard>
+export default function App() {
+  return (
+    <Breadcrumbs>
+      <Item key="home" href="/">Home</Item>
+      <Item key="projects" href="/projects">Projects</Item>
+      <Item key="current">My Project</Item>
+    </Breadcrumbs>
+  );
+}
+```
 
-<ExampleCard
-  title="Disabled"
-  code={`<Breadcrumbs isDisabled>
-  <Item key="home" href="/">Home</Item>
-  <Item key="products" href="/products">Products</Item>
-  <Item key="current">Current Page</Item>
-</Breadcrumbs>`}
->
-  <Breadcrumbs isDisabled>
-    <Item key="home" href="/">Home</Item>
-    <Item key="products" href="/products">Products</Item>
-    <Item key="current">Current Page</Item>
-  </Breadcrumbs>
-</ExampleCard>
+### Multi-level hierarchy
+
+```tsx preview
+import { Breadcrumbs, BreadcrumbItem as Item } from '@geti/ui';
+
+export default function App() {
+  return (
+    <Breadcrumbs>
+      <Item key="home" href="/">Home</Item>
+      <Item key="section" href="/section">Section</Item>
+      <Item key="subsection" href="/section/subsection">Subsection</Item>
+      <Item key="page">Current Page</Item>
+    </Breadcrumbs>
+  );
+}
+```
+
+### Small size
+
+```tsx preview
+import { Breadcrumbs, BreadcrumbItem as Item } from '@geti/ui';
+
+export default function App() {
+  return (
+    <Breadcrumbs size="S">
+      <Item key="home" href="/">Home</Item>
+      <Item key="projects" href="/projects">Projects</Item>
+      <Item key="current">My Project</Item>
+    </Breadcrumbs>
+  );
+}
+```
+
+### Disabled
+
+```tsx preview
+import { Breadcrumbs, BreadcrumbItem as Item } from '@geti/ui';
+
+export default function App() {
+  return (
+    <Breadcrumbs isDisabled>
+      <Item key="home" href="/">Home</Item>
+      <Item key="products" href="/products">Products</Item>
+      <Item key="current">Current Page</Item>
+    </Breadcrumbs>
+  );
+}
+```
 
 ## Responsibility
 

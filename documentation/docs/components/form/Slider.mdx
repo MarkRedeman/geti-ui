@@ -2,9 +2,6 @@
 title: Slider
 ---
 
-import { Slider } from '@geti/ui';
-import { ExampleCard } from '../../../theme/ExampleCard';
-
 # Slider
 
 Slider is a single-handle range control for selecting a numeric value within a bounded range. Use it for settings with continuous or stepped values where drag interaction is more natural than typed input.
@@ -18,33 +15,49 @@ import { Slider } from '@geti/ui';
 
 ## Examples
 
-<ExampleCard
-  title="Default"
-  code={`<Slider label="Opacity" defaultValue={50} minValue={0} maxValue={100} />`}
->
-  <Slider label="Opacity" defaultValue={50} minValue={0} maxValue={100} />
-</ExampleCard>
+### Default
 
-<ExampleCard
-  title="Filled track (Geti accent color)"
-  code={`<Slider label="Opacity" defaultValue={50} minValue={0} maxValue={100} isFilled />`}
->
-  <Slider label="Opacity" defaultValue={50} minValue={0} maxValue={100} isFilled />
-</ExampleCard>
+```tsx preview
+import { Slider } from '@geti/ui';
 
-<ExampleCard
-  title="With step"
-  code={`<Slider label="Zoom level" defaultValue={100} minValue={25} maxValue={400} step={25} />`}
->
-  <Slider label="Zoom level" defaultValue={100} minValue={25} maxValue={400} step={25} />
-</ExampleCard>
+export default function App() {
+  return <Slider label="Opacity" defaultValue={50} minValue={0} maxValue={100} />;
+}
+```
 
-<ExampleCard
-  title="Disabled"
-  code={`<Slider label="Locked value" defaultValue={50} minValue={0} maxValue={100} isDisabled />`}
->
-  <Slider label="Locked value" defaultValue={50} minValue={0} maxValue={100} isDisabled />
-</ExampleCard>
+### Filled track (Geti accent color)
+
+```tsx preview
+import { Slider } from '@geti/ui';
+
+export default function App() {
+  return <Slider label="Opacity" defaultValue={50} minValue={0} maxValue={100} isFilled />;
+}
+```
+
+### With step
+
+```tsx preview
+import { Slider } from '@geti/ui';
+
+export default function App() {
+  return (
+    <Slider label="Zoom level" defaultValue={100} minValue={25} maxValue={400} step={25} />
+  );
+}
+```
+
+### Disabled
+
+```tsx preview
+import { Slider } from '@geti/ui';
+
+export default function App() {
+  return (
+    <Slider label="Locked value" defaultValue={50} minValue={0} maxValue={100} isDisabled />
+  );
+}
+```
 
 ## Responsibility
 

@@ -3,7 +3,6 @@ title: Toast
 ---
 
 import { Button, ToastContainer, toast } from '@geti/ui';
-import { ExampleCard } from '../../../theme/ExampleCard';
 
 # Toast
 
@@ -44,79 +43,85 @@ toast.neutral('No changes detected');
 
 ## Examples
 
-<ExampleCard
-  title="Success toast"
-  code={`<>
-  <ToastContainer placement="bottom" />
-  <Button variant="accent" onPress={() => toast.positive('Changes saved successfully!')}>
-    Save
-  </Button>
-</>`}
->
-  <>
-    <ToastContainer placement="bottom" />
-    <Button variant="accent" onPress={() => toast.positive('Changes saved successfully!')}>
-      Save
-    </Button>
-  </>
-</ExampleCard>
+### Success toast
 
-<ExampleCard
-  title="Error toast"
-  code={`<Button
-  variant="negative"
-  onPress={() => toast.negative('Upload failed. Please try again.', { timeout: 8000 })}
->
-  Trigger error
-</Button>`}
->
-  <Button
-    variant="negative"
-    onPress={() => toast.negative('Upload failed. Please try again.', { timeout: 8000 })}
-  >
-    Trigger error
-  </Button>
-</ExampleCard>
+```tsx preview
+import { Button, ToastContainer, toast } from '@geti/ui';
 
-<ExampleCard
-  title="Info toast"
-  code={`<Button variant="primary" onPress={() => toast.info('Your session will expire soon.')}>
-  Show info
-</Button>`}
->
-  <Button variant="primary" onPress={() => toast.info('Your session will expire soon.')}>
-    Show info
-  </Button>
-</ExampleCard>
+export default function App() {
+  return (
+    <>
+      <ToastContainer placement="bottom" />
+      <Button variant="accent" onPress={() => toast.positive('Changes saved successfully!')}>
+        Save
+      </Button>
+    </>
+  );
+}
+```
 
-<ExampleCard
-  title="Toast with action button"
-  code={`<Button
-  variant="primary"
-  onPress={() =>
-    toast.info('File ready to download.', {
-      actionLabel: 'Download',
-      onAction: () => console.log('downloading…'),
-      shouldCloseOnAction: true,
-    })
-  }
->
-  Show toast with action
-</Button>`}
->
-  <Button
-    variant="primary"
-    onPress={() =>
-      toast.info('File ready to download.', {
-        actionLabel: 'Download',
-        onAction: () => console.log('downloading…'),
-        shouldCloseOnAction: true,
-      })
-    }
-  >
-    Show toast with action
-  </Button>
-</ExampleCard>
+### Error toast
+
+```tsx preview
+import { Button, ToastContainer, toast } from '@geti/ui';
+
+export default function App() {
+  return (
+    <>
+      <ToastContainer placement="bottom" />
+      <Button
+        variant="negative"
+        onPress={() => toast.negative('Upload failed. Please try again.', { timeout: 8000 })}
+      >
+        Trigger error
+      </Button>
+    </>
+  );
+}
+```
+
+### Info toast
+
+```tsx preview
+import { Button, ToastContainer, toast } from '@geti/ui';
+
+export default function App() {
+  return (
+    <>
+      <ToastContainer placement="bottom" />
+      <Button variant="primary" onPress={() => toast.info('Your session will expire soon.')}>
+        Show info
+      </Button>
+    </>
+  );
+}
+```
+
+### Toast with action button
+
+```tsx preview
+import { Button, ToastContainer, toast } from '@geti/ui';
+
+export default function App() {
+  return (
+    <>
+      <ToastContainer placement="bottom" />
+      <Button
+        variant="primary"
+        onPress={() =>
+          toast.info('File ready to download.', {
+            actionLabel: 'Download',
+            onAction: () => console.log('downloading…'),
+            shouldCloseOnAction: true,
+          })
+        }
+      >
+        Show toast with action
+      </Button>
+    </>
+  );
+}
+```
 
 ## Responsibility
 

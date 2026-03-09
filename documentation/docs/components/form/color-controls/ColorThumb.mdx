@@ -2,9 +2,6 @@
 title: ColorThumb
 ---
 
-import { ColorThumb, Flex } from '@geti/ui';
-import { ExampleCard } from '../../../../theme/ExampleCard';
-
 # ColorThumb
 
 `ColorThumb` is a small square that displays a solid color preview. It is a lightweight Geti-native component (not from React Spectrum) built on `View`. Use it wherever a compact color chip is needed — for example, next to a label name or in a list row.
@@ -17,42 +14,47 @@ import { ColorThumb } from '@geti/ui';
 
 ## Examples
 
-<ExampleCard
-  title="Default"
-  code={`<ColorThumb color="#ff0000" size={20} />`}
->
-  <ColorThumb color="#ff0000" size={20} />
-</ExampleCard>
+### Default
 
-<ExampleCard
-  title="Size variants"
-  code={`<Flex gap="size-200" alignItems="center">
-  <ColorThumb color="#ff0000" size={10} />
-  <ColorThumb color="#00ff00" size={20} />
-  <ColorThumb color="#0000ff" size={40} />
-</Flex>`}
->
-  <Flex gap="size-200" alignItems="center">
-    <ColorThumb color="#ff0000" size={10} />
-    <ColorThumb color="#00ff00" size={20} />
-    <ColorThumb color="#0000ff" size={40} />
-  </Flex>
-</ExampleCard>
+```tsx preview
+import { ColorThumb } from '@geti/ui';
 
-<ExampleCard
-  title="Using CSS color strings"
-  code={`<Flex gap="size-200" alignItems="center">
-  <ColorThumb color="rgba(255,165,0,0.8)" size={20} />
-  <ColorThumb color="hsl(270, 60%, 50%)" size={20} />
-  <ColorThumb color="#cccccc" size={20} />
-</Flex>`}
->
-  <Flex gap="size-200" alignItems="center">
-    <ColorThumb color="rgba(255,165,0,0.8)" size={20} />
-    <ColorThumb color="hsl(270, 60%, 50%)" size={20} />
-    <ColorThumb color="#cccccc" size={20} />
-  </Flex>
-</ExampleCard>
+export default function App() {
+  return <ColorThumb color="#ff0000" size={20} />;
+}
+```
+
+### Size variants
+
+```tsx preview
+import { ColorThumb, Flex } from '@geti/ui';
+
+export default function App() {
+  return (
+    <Flex gap="size-200" alignItems="center">
+      <ColorThumb color="#ff0000" size={10} />
+      <ColorThumb color="#00ff00" size={20} />
+      <ColorThumb color="#0000ff" size={40} />
+    </Flex>
+  );
+}
+```
+
+### Using CSS color strings
+
+```tsx preview
+import { ColorThumb, Flex } from '@geti/ui';
+
+export default function App() {
+  return (
+    <Flex gap="size-200" alignItems="center">
+      <ColorThumb color="rgba(255,165,0,0.8)" size={20} />
+      <ColorThumb color="hsl(270, 60%, 50%)" size={20} />
+      <ColorThumb color="#cccccc" size={20} />
+    </Flex>
+  );
+}
+```
 
 ## Responsibility
 

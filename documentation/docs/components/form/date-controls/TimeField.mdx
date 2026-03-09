@@ -2,9 +2,6 @@
 title: TimeField
 ---
 
-import { TimeField } from '@geti/ui';
-import { ExampleCard } from '../../../../theme/ExampleCard';
-
 # TimeField
 
 `TimeField` is a segmented keyboard input for time-only values. Use it when users should type or step through hours/minutes/seconds without opening a calendar popover.
@@ -18,30 +15,41 @@ import { TimeField } from '@geti/ui';
 
 ## Examples
 
-<ExampleCard
-  title="Default"
-  code={`<TimeField label="Start time" />`}
->
-  <TimeField label="Start time" />
-</ExampleCard>
+### Default
 
-<ExampleCard
-  title="24-hour cycle"
-  code={`<TimeField label="Shift time" hourCycle={24} />`}
->
-  <TimeField label="Shift time" hourCycle={24} />
-</ExampleCard>
+```tsx preview
+import { TimeField } from '@geti/ui';
 
-<ExampleCard
-  title="Invalid state"
-  code={`<TimeField label="Departure time" validationState="invalid" errorMessage="Please enter a future time." />`}
->
-  <TimeField
-    label="Departure time"
-    validationState="invalid"
-    errorMessage="Please enter a future time."
-  />
-</ExampleCard>
+export default function App() {
+  return <TimeField label="Start time" />;
+}
+```
+
+### 24-hour cycle
+
+```tsx preview
+import { TimeField } from '@geti/ui';
+
+export default function App() {
+  return <TimeField label="Shift time" hourCycle={24} />;
+}
+```
+
+### Invalid state
+
+```tsx preview
+import { TimeField } from '@geti/ui';
+
+export default function App() {
+  return (
+    <TimeField
+      label="Departure time"
+      validationState="invalid"
+      errorMessage="Please enter a future time."
+    />
+  );
+}
+```
 
 ## Responsibility
 

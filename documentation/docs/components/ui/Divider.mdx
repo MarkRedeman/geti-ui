@@ -2,9 +2,6 @@
 title: Divider
 ---
 
-import { Divider } from '@geti/ui';
-import { ExampleCard } from '../../../theme/ExampleCard';
-
 # Divider
 
 Divider is a thin horizontal or vertical line that separates sections of content. Use it to add visual breathing room between distinct groups — not as decoration between every element.
@@ -18,34 +15,41 @@ import { Divider } from '@geti/ui';
 
 ## Examples
 
-<ExampleCard
-  title="Horizontal (default)"
-  code={`<Divider />`}
->
-  <Divider />
-</ExampleCard>
+### Horizontal (default)
 
-<ExampleCard
-  title="Small size"
-  code={`<Divider size="S" />`}
->
-  <Divider size="S" />
-</ExampleCard>
+```tsx preview
+import { Divider } from '@geti/ui';
 
-<ExampleCard
-  title="Vertical"
-  code={`<div style={{ display: 'flex', height: 40, alignItems: 'stretch' }}>
-  <span>Left</span>
-  <Divider orientation="vertical" />
-  <span>Right</span>
-</div>`}
->
-  <div style={{ display: 'flex', height: 40, alignItems: 'stretch', gap: 8, color: '#ccc' }}>
-    <span>Left</span>
-    <Divider orientation="vertical" />
-    <span>Right</span>
-  </div>
-</ExampleCard>
+export default function App() {
+  return <Divider />;
+}
+```
+
+### Small size
+
+```tsx preview
+import { Divider } from '@geti/ui';
+
+export default function App() {
+  return <Divider size="S" />;
+}
+```
+
+### Vertical
+
+```tsx preview
+import { Divider } from '@geti/ui';
+
+export default function App() {
+  return (
+    <div style={{ display: 'flex', height: 40, alignItems: 'stretch', gap: 8, color: '#ccc' }}>
+      <span>Left</span>
+      <Divider orientation="vertical" />
+      <span>Right</span>
+    </div>
+  );
+}
+```
 
 ## Responsibility
 

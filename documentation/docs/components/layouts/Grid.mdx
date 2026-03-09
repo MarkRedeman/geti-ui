@@ -2,9 +2,6 @@
 title: Grid
 ---
 
-import { Grid } from '@geti/ui';
-import { ExampleCard } from '../../../theme/ExampleCard';
-
 # Grid
 
 Grid is a CSS grid container that accepts Spectrum dimension tokens for column and row templates, gap, and alignment. Use it when you need a two-dimensional layout such as a card gallery, form with multiple columns, or structured dashboard panel.
@@ -18,58 +15,57 @@ import { Grid } from '@geti/ui';
 
 ## Examples
 
-<ExampleCard
-  title="Three-column grid"
-  code={`<Grid columns="repeat(3, 1fr)" gap="size-200">
-  <div style={{ background: '#3b82f6', padding: '8px 16px', textAlign: 'center', borderRadius: 4 }}>Cell 1</div>
-  <div style={{ background: '#3b82f6', padding: '8px 16px', textAlign: 'center', borderRadius: 4 }}>Cell 2</div>
-  <div style={{ background: '#3b82f6', padding: '8px 16px', textAlign: 'center', borderRadius: 4 }}>Cell 3</div>
-  <div style={{ background: '#3b82f6', padding: '8px 16px', textAlign: 'center', borderRadius: 4 }}>Cell 4</div>
-  <div style={{ background: '#3b82f6', padding: '8px 16px', textAlign: 'center', borderRadius: 4 }}>Cell 5</div>
-  <div style={{ background: '#3b82f6', padding: '8px 16px', textAlign: 'center', borderRadius: 4 }}>Cell 6</div>
-</Grid>`}
->
-  <Grid columns="repeat(3, 1fr)" gap="size-200">
-    <div style={{ background: '#3b82f6', padding: '8px 16px', textAlign: 'center', borderRadius: 4 }}>Cell 1</div>
-    <div style={{ background: '#3b82f6', padding: '8px 16px', textAlign: 'center', borderRadius: 4 }}>Cell 2</div>
-    <div style={{ background: '#3b82f6', padding: '8px 16px', textAlign: 'center', borderRadius: 4 }}>Cell 3</div>
-    <div style={{ background: '#3b82f6', padding: '8px 16px', textAlign: 'center', borderRadius: 4 }}>Cell 4</div>
-    <div style={{ background: '#3b82f6', padding: '8px 16px', textAlign: 'center', borderRadius: 4 }}>Cell 5</div>
-    <div style={{ background: '#3b82f6', padding: '8px 16px', textAlign: 'center', borderRadius: 4 }}>Cell 6</div>
-  </Grid>
-</ExampleCard>
+### Three-column grid
 
-<ExampleCard
-  title="Two-column grid"
-  code={`<Grid columns="repeat(2, 1fr)" gap="size-100">
-  <div style={{ background: '#22c55e', padding: '8px 16px', borderRadius: 4 }}>Alpha</div>
-  <div style={{ background: '#22c55e', padding: '8px 16px', borderRadius: 4 }}>Beta</div>
-  <div style={{ background: '#22c55e', padding: '8px 16px', borderRadius: 4 }}>Gamma</div>
-  <div style={{ background: '#22c55e', padding: '8px 16px', borderRadius: 4 }}>Delta</div>
-</Grid>`}
->
-  <Grid columns="repeat(2, 1fr)" gap="size-100">
-    <div style={{ background: '#22c55e', padding: '8px 16px', borderRadius: 4 }}>Alpha</div>
-    <div style={{ background: '#22c55e', padding: '8px 16px', borderRadius: 4 }}>Beta</div>
-    <div style={{ background: '#22c55e', padding: '8px 16px', borderRadius: 4 }}>Gamma</div>
-    <div style={{ background: '#22c55e', padding: '8px 16px', borderRadius: 4 }}>Delta</div>
-  </Grid>
-</ExampleCard>
+```tsx preview
+import { Grid } from '@geti/ui';
 
-<ExampleCard
-  title="Centered items"
-  code={`<Grid columns="repeat(3, size-1600)" gap="size-200" justifyItems="center" alignItems="center">
-  <div style={{ background: '#a855f7', padding: '8px 16px', borderRadius: 4 }}>A</div>
-  <div style={{ background: '#a855f7', padding: '24px', borderRadius: 4 }}>B</div>
-  <div style={{ background: '#a855f7', padding: '8px 16px', borderRadius: 4 }}>C</div>
-</Grid>`}
->
-  <Grid columns="repeat(3, size-1600)" gap="size-200" justifyItems="center" alignItems="center">
-    <div style={{ background: '#a855f7', padding: '8px 16px', borderRadius: 4 }}>A</div>
-    <div style={{ background: '#a855f7', padding: '24px', borderRadius: 4 }}>B</div>
-    <div style={{ background: '#a855f7', padding: '8px 16px', borderRadius: 4 }}>C</div>
-  </Grid>
-</ExampleCard>
+export default function App() {
+  return (
+    <Grid columns="repeat(3, 1fr)" gap="size-200">
+      <div style={{ background: '#3b82f6', padding: '8px 16px', textAlign: 'center', borderRadius: 4 }}>Cell 1</div>
+      <div style={{ background: '#3b82f6', padding: '8px 16px', textAlign: 'center', borderRadius: 4 }}>Cell 2</div>
+      <div style={{ background: '#3b82f6', padding: '8px 16px', textAlign: 'center', borderRadius: 4 }}>Cell 3</div>
+      <div style={{ background: '#3b82f6', padding: '8px 16px', textAlign: 'center', borderRadius: 4 }}>Cell 4</div>
+      <div style={{ background: '#3b82f6', padding: '8px 16px', textAlign: 'center', borderRadius: 4 }}>Cell 5</div>
+      <div style={{ background: '#3b82f6', padding: '8px 16px', textAlign: 'center', borderRadius: 4 }}>Cell 6</div>
+    </Grid>
+  );
+}
+```
+
+### Two-column grid
+
+```tsx preview
+import { Grid } from '@geti/ui';
+
+export default function App() {
+  return (
+    <Grid columns="repeat(2, 1fr)" gap="size-100">
+      <div style={{ background: '#22c55e', padding: '8px 16px', borderRadius: 4 }}>Alpha</div>
+      <div style={{ background: '#22c55e', padding: '8px 16px', borderRadius: 4 }}>Beta</div>
+      <div style={{ background: '#22c55e', padding: '8px 16px', borderRadius: 4 }}>Gamma</div>
+      <div style={{ background: '#22c55e', padding: '8px 16px', borderRadius: 4 }}>Delta</div>
+    </Grid>
+  );
+}
+```
+
+### Centered items
+
+```tsx preview
+import { Grid } from '@geti/ui';
+
+export default function App() {
+  return (
+    <Grid columns="repeat(3, size-1600)" gap="size-200" justifyItems="center" alignItems="center">
+      <div style={{ background: '#a855f7', padding: '8px 16px', borderRadius: 4 }}>A</div>
+      <div style={{ background: '#a855f7', padding: '24px', borderRadius: 4 }}>B</div>
+      <div style={{ background: '#a855f7', padding: '8px 16px', borderRadius: 4 }}>C</div>
+    </Grid>
+  );
+}
+```
 
 ## Responsibility
 

@@ -2,9 +2,6 @@
 title: Picker
 ---
 
-import { Picker, PickerItem } from '@geti/ui';
-import { ExampleCard } from '../../../../theme/ExampleCard';
-
 # Picker
 
 `Picker` is a dropdown select component for choosing a single option from a list. Use it when the option set is static and the number of choices is too large for radio buttons.
@@ -18,50 +15,53 @@ import { Picker, PickerItem } from '@geti/ui';
 
 ## Examples
 
-<ExampleCard
-  title="Default"
-  code={`<Picker label="Choose a framework">
-  <PickerItem key="react">React</PickerItem>
-  <PickerItem key="vue">Vue</PickerItem>
-  <PickerItem key="angular">Angular</PickerItem>
-  <PickerItem key="svelte">Svelte</PickerItem>
-</Picker>`}
->
-  <Picker label="Choose a framework">
-    <PickerItem key="react">React</PickerItem>
-    <PickerItem key="vue">Vue</PickerItem>
-    <PickerItem key="angular">Angular</PickerItem>
-    <PickerItem key="svelte">Svelte</PickerItem>
-  </Picker>
-</ExampleCard>
+### Default
 
-<ExampleCard
-  title="Default selected key"
-  code={`<Picker label="Choose a framework" defaultSelectedKey="react">
-  <PickerItem key="react">React</PickerItem>
-  <PickerItem key="vue">Vue</PickerItem>
-  <PickerItem key="angular">Angular</PickerItem>
-</Picker>`}
->
-  <Picker label="Choose a framework" defaultSelectedKey="react">
-    <PickerItem key="react">React</PickerItem>
-    <PickerItem key="vue">Vue</PickerItem>
-    <PickerItem key="angular">Angular</PickerItem>
-  </Picker>
-</ExampleCard>
+```tsx preview
+import { Picker, PickerItem } from '@geti/ui';
 
-<ExampleCard
-  title="Disabled"
-  code={`<Picker label="Choose a framework" isDisabled>
-  <PickerItem key="react">React</PickerItem>
-  <PickerItem key="vue">Vue</PickerItem>
-</Picker>`}
->
-  <Picker label="Choose a framework" isDisabled>
-    <PickerItem key="react">React</PickerItem>
-    <PickerItem key="vue">Vue</PickerItem>
-  </Picker>
-</ExampleCard>
+export default function App() {
+  return (
+    <Picker label="Choose a framework">
+      <PickerItem key="react">React</PickerItem>
+      <PickerItem key="vue">Vue</PickerItem>
+      <PickerItem key="angular">Angular</PickerItem>
+      <PickerItem key="svelte">Svelte</PickerItem>
+    </Picker>
+  );
+}
+```
+
+### Default selected key
+
+```tsx preview
+import { Picker, PickerItem } from '@geti/ui';
+
+export default function App() {
+  return (
+    <Picker label="Choose a framework" defaultSelectedKey="react">
+      <PickerItem key="react">React</PickerItem>
+      <PickerItem key="vue">Vue</PickerItem>
+      <PickerItem key="angular">Angular</PickerItem>
+    </Picker>
+  );
+}
+```
+
+### Disabled
+
+```tsx preview
+import { Picker, PickerItem } from '@geti/ui';
+
+export default function App() {
+  return (
+    <Picker label="Choose a framework" isDisabled>
+      <PickerItem key="react">React</PickerItem>
+      <PickerItem key="vue">Vue</PickerItem>
+    </Picker>
+  );
+}
+```
 
 ## Responsibility
 

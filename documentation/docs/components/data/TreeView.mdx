@@ -3,8 +3,6 @@ title: TreeView
 ---
 
 import { TreeView } from '@geti/ui';
-import { Item, Text } from '@adobe/react-spectrum';
-import { ExampleCard } from '../../../theme/ExampleCard';
 
 # TreeView
 
@@ -19,32 +17,28 @@ import { TreeView } from '@geti/ui';
 
 ## Examples
 
-<ExampleCard
-  title="Basic file tree"
-  code={`<TreeView aria-label="Files">
-  <Item textValue="Documents">
-    <Text>Documents</Text>
-    <Item textValue="Project.docx">Project.docx</Item>
-    <Item textValue="Budget.xlsx">Budget.xlsx</Item>
-  </Item>
-  <Item textValue="Images">
-    <Text>Images</Text>
-    <Item textValue="logo.png">logo.png</Item>
-  </Item>
-</TreeView>`}
->
-  <TreeView aria-label="Files">
-    <Item textValue="Documents">
-      <Text>Documents</Text>
-      <Item textValue="Project.docx">Project.docx</Item>
-      <Item textValue="Budget.xlsx">Budget.xlsx</Item>
-    </Item>
-    <Item textValue="Images">
-      <Text>Images</Text>
-      <Item textValue="logo.png">logo.png</Item>
-    </Item>
-  </TreeView>
-</ExampleCard>
+### Basic file tree
+
+```tsx preview
+import { TreeView } from '@geti/ui';
+import { Item, Text } from '@adobe/react-spectrum';
+
+export default function App() {
+  return (
+    <TreeView aria-label="Files">
+      <Item textValue="Documents">
+        <Text>Documents</Text>
+        <Item textValue="Project.docx">Project.docx</Item>
+        <Item textValue="Budget.xlsx">Budget.xlsx</Item>
+      </Item>
+      <Item textValue="Images">
+        <Text>Images</Text>
+        <Item textValue="logo.png">logo.png</Item>
+      </Item>
+    </TreeView>
+  );
+}
+```
 
 ## Responsibility
 

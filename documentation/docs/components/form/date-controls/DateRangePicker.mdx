@@ -2,9 +2,6 @@
 title: DateRangePicker
 ---
 
-import { DateRangePicker } from '@geti/ui';
-import { ExampleCard } from '../../../../theme/ExampleCard';
-
 # DateRangePicker
 
 `DateRangePicker` lets users select a contiguous date range using two segmented inputs and a shared RangeCalendar popover. Use it whenever a start and end date are both required.
@@ -18,26 +15,35 @@ import { DateRangePicker } from '@geti/ui';
 
 ## Examples
 
-<ExampleCard
-  title="Default"
-  code={`<DateRangePicker label="Event range" />`}
->
-  <DateRangePicker label="Event range" />
-</ExampleCard>
+### Default
 
-<ExampleCard
-  title="With time (minute granularity)"
-  code={`<DateRangePicker label="Event range and time" granularity="minute" />`}
->
-  <DateRangePicker label="Event range and time" granularity="minute" />
-</ExampleCard>
+```tsx preview
+import { DateRangePicker } from '@geti/ui';
 
-<ExampleCard
-  title="Disabled"
-  code={`<DateRangePicker label="Event range" isDisabled />`}
->
-  <DateRangePicker label="Event range" isDisabled />
-</ExampleCard>
+export default function App() {
+  return <DateRangePicker label="Event range" />;
+}
+```
+
+### With time (minute granularity)
+
+```tsx preview
+import { DateRangePicker } from '@geti/ui';
+
+export default function App() {
+  return <DateRangePicker label="Event range and time" granularity="minute" />;
+}
+```
+
+### Disabled
+
+```tsx preview
+import { DateRangePicker } from '@geti/ui';
+
+export default function App() {
+  return <DateRangePicker label="Event range" isDisabled />;
+}
+```
 
 ## Responsibility
 

@@ -2,9 +2,6 @@
 title: RangeCalendar
 ---
 
-import { RangeCalendar } from '@geti/ui';
-import { ExampleCard } from '../../../../theme/ExampleCard';
-
 # RangeCalendar
 
 `RangeCalendar` is a standalone calendar for selecting a start and end date.
@@ -19,26 +16,35 @@ import { RangeCalendar } from '@geti/ui';
 
 ## Examples
 
-<ExampleCard
-  title="Default"
-  code={`<RangeCalendar aria-label="Date range" />`}
->
-  <RangeCalendar aria-label="Date range" />
-</ExampleCard>
+### Default
 
-<ExampleCard
-  title="Two months"
-  code={`<RangeCalendar aria-label="Date range" visibleMonths={2} />`}
->
-  <RangeCalendar aria-label="Date range" visibleMonths={2} />
-</ExampleCard>
+```tsx preview
+import { RangeCalendar } from '@geti/ui';
 
-<ExampleCard
-  title="Disabled"
-  code={`<RangeCalendar aria-label="Date range" isDisabled />`}
->
-  <RangeCalendar aria-label="Date range" isDisabled />
-</ExampleCard>
+export default function App() {
+  return <RangeCalendar aria-label="Date range" />;
+}
+```
+
+### Two months
+
+```tsx preview
+import { RangeCalendar } from '@geti/ui';
+
+export default function App() {
+  return <RangeCalendar aria-label="Date range" visibleMonths={2} />;
+}
+```
+
+### Disabled
+
+```tsx preview
+import { RangeCalendar } from '@geti/ui';
+
+export default function App() {
+  return <RangeCalendar aria-label="Date range" isDisabled />;
+}
+```
 
 ## Responsibility
 

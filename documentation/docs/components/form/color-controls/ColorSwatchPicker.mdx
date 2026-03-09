@@ -2,9 +2,6 @@
 title: ColorSwatchPicker
 ---
 
-import { ColorSwatchPicker, ColorSwatchPickerItem } from '@geti/ui';
-import { ExampleCard } from '../../../../theme/ExampleCard';
-
 # ColorSwatchPicker
 
 `ColorSwatchPicker` renders a keyboard-navigable grid of `ColorSwatchPickerItem` swatches and lets the user select one. Use it as a preset palette in a color editor or settings panel.
@@ -18,43 +15,41 @@ import { ColorSwatchPicker, ColorSwatchPickerItem } from '@geti/ui';
 
 ## Examples
 
-<ExampleCard
-  title="Default palette"
-  code={`<ColorSwatchPicker aria-label="Color palette">
-  <ColorSwatchPickerItem color="#f00" aria-label="Red" />
-  <ColorSwatchPickerItem color="#0f0" aria-label="Green" />
-  <ColorSwatchPickerItem color="#00f" aria-label="Blue" />
-  <ColorSwatchPickerItem color="#ff0" aria-label="Yellow" />
-  <ColorSwatchPickerItem color="#f0f" aria-label="Magenta" />
-  <ColorSwatchPickerItem color="#0ff" aria-label="Cyan" />
-</ColorSwatchPicker>`}
->
-  <ColorSwatchPicker aria-label="Color palette">
-    <ColorSwatchPickerItem color="#f00" aria-label="Red" />
-    <ColorSwatchPickerItem color="#0f0" aria-label="Green" />
-    <ColorSwatchPickerItem color="#00f" aria-label="Blue" />
-    <ColorSwatchPickerItem color="#ff0" aria-label="Yellow" />
-    <ColorSwatchPickerItem color="#f0f" aria-label="Magenta" />
-    <ColorSwatchPickerItem color="#0ff" aria-label="Cyan" />
-  </ColorSwatchPicker>
-</ExampleCard>
+### Default palette
 
-<ExampleCard
-  title="Large swatches"
-  code={`<ColorSwatchPicker aria-label="Large palette" size="L">
-  <ColorSwatchPickerItem color="#e73623" aria-label="Geti red" />
-  <ColorSwatchPickerItem color="#0075ff" aria-label="Geti blue" />
-  <ColorSwatchPickerItem color="#1ba04a" aria-label="Geti green" />
-  <ColorSwatchPickerItem color="#f5a623" aria-label="Geti orange" />
-</ColorSwatchPicker>`}
->
-  <ColorSwatchPicker aria-label="Large palette" size="L">
-    <ColorSwatchPickerItem color="#e73623" aria-label="Geti red" />
-    <ColorSwatchPickerItem color="#0075ff" aria-label="Geti blue" />
-    <ColorSwatchPickerItem color="#1ba04a" aria-label="Geti green" />
-    <ColorSwatchPickerItem color="#f5a623" aria-label="Geti orange" />
-  </ColorSwatchPicker>
-</ExampleCard>
+```tsx preview
+import { ColorSwatchPicker, ColorSwatchPickerItem } from '@geti/ui';
+
+export default function App() {
+  return (
+    <ColorSwatchPicker aria-label="Color palette">
+      <ColorSwatchPickerItem color="#f00" aria-label="Red" />
+      <ColorSwatchPickerItem color="#0f0" aria-label="Green" />
+      <ColorSwatchPickerItem color="#00f" aria-label="Blue" />
+      <ColorSwatchPickerItem color="#ff0" aria-label="Yellow" />
+      <ColorSwatchPickerItem color="#f0f" aria-label="Magenta" />
+      <ColorSwatchPickerItem color="#0ff" aria-label="Cyan" />
+    </ColorSwatchPicker>
+  );
+}
+```
+
+### Large swatches
+
+```tsx preview
+import { ColorSwatchPicker, ColorSwatchPickerItem } from '@geti/ui';
+
+export default function App() {
+  return (
+    <ColorSwatchPicker aria-label="Large palette" size="L">
+      <ColorSwatchPickerItem color="#e73623" aria-label="Geti red" />
+      <ColorSwatchPickerItem color="#0075ff" aria-label="Geti blue" />
+      <ColorSwatchPickerItem color="#1ba04a" aria-label="Geti green" />
+      <ColorSwatchPickerItem color="#f5a623" aria-label="Geti orange" />
+    </ColorSwatchPicker>
+  );
+}
+```
 
 ## Responsibility
 

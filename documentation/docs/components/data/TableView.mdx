@@ -3,7 +3,6 @@ title: TableView
 ---
 
 import { TableView, TableHeader, TableBody, Column, Row, Cell } from '@geti/ui';
-import { ExampleCard } from '../../../theme/ExampleCard';
 
 # TableView
 
@@ -18,9 +17,12 @@ import { TableView, TableHeader, TableBody, Column, Row, Cell } from '@geti/ui';
 
 ## Examples
 
-<ExampleCard
-  title="Basic sortable table"
-  code={`const columns = [
+### Basic sortable table
+
+```tsx preview
+import { TableView, TableHeader, TableBody, Column, Row, Cell } from '@geti/ui';
+
+const columns = [
   { name: 'Name', uid: 'name' },
   { name: 'Type', uid: 'type' },
   { name: 'Date', uid: 'date' },
@@ -31,77 +33,78 @@ const rows = [
   { id: 3, name: 'project-gamma', type: 'Segmentation', date: '2024-03-05' },
 ];
 
-<TableView aria-label="Projects" height="size-3000" width="size-6000">
-  <TableHeader columns={columns}>
-    {(col) => <Column key={col.uid} allowsSorting>{col.name}</Column>}
-  </TableHeader>
-  <TableBody items={rows}>
-    {(item) => <Row>{(key) => <Cell>{item[key]}</Cell>}</Row>}
-  </TableBody>
-</TableView>`}
->
-  <TableView aria-label="Projects" height="size-3000" width="size-6000">
-    <TableHeader columns={[{ name: 'Name', uid: 'name' }, { name: 'Type', uid: 'type' }, { name: 'Date', uid: 'date' }]}>
-      {(col) => <Column key={col.uid} allowsSorting>{col.name}</Column>}
-    </TableHeader>
-    <TableBody items={[
-      { id: 1, name: 'project-alpha', type: 'Detection', date: '2024-01-15' },
-      { id: 2, name: 'project-beta', type: 'Classification', date: '2024-02-20' },
-      { id: 3, name: 'project-gamma', type: 'Segmentation', date: '2024-03-05' },
-    ]}>
-      {(item) => <Row>{(key) => <Cell>{item[key]}</Cell>}</Row>}
-    </TableBody>
-  </TableView>
-</ExampleCard>
+export default function App() {
+  return (
+    <TableView aria-label="Projects" height="size-3000" width="size-6000">
+      <TableHeader columns={columns}>
+        {(col) => <Column key={col.uid} allowsSorting>{col.name}</Column>}
+      </TableHeader>
+      <TableBody items={rows}>
+        {(item) => <Row>{(key) => <Cell>{item[key]}</Cell>}</Row>}
+      </TableBody>
+    </TableView>
+  );
+}
+```
 
-<ExampleCard
-  title="Multi-select table"
-  code={`<TableView aria-label="Selectable table" selectionMode="multiple" height="size-3000" width="size-6000">
-  <TableHeader columns={columns}>
-    {(col) => <Column key={col.uid}>{col.name}</Column>}
-  </TableHeader>
-  <TableBody items={rows}>
-    {(item) => <Row>{(key) => <Cell>{item[key]}</Cell>}</Row>}
-  </TableBody>
-</TableView>`}
->
-  <TableView aria-label="Selectable table" selectionMode="multiple" height="size-3000" width="size-6000">
-    <TableHeader columns={[{ name: 'Name', uid: 'name' }, { name: 'Type', uid: 'type' }, { name: 'Date', uid: 'date' }]}>
-      {(col) => <Column key={col.uid}>{col.name}</Column>}
-    </TableHeader>
-    <TableBody items={[
-      { id: 1, name: 'project-alpha', type: 'Detection', date: '2024-01-15' },
-      { id: 2, name: 'project-beta', type: 'Classification', date: '2024-02-20' },
-      { id: 3, name: 'project-gamma', type: 'Segmentation', date: '2024-03-05' },
-    ]}>
-      {(item) => <Row>{(key) => <Cell>{item[key]}</Cell>}</Row>}
-    </TableBody>
-  </TableView>
-</ExampleCard>
+### Multi-select table
 
-<ExampleCard
-  title="Compact density"
-  code={`<TableView aria-label="Compact table" density="compact" height="size-3000" width="size-6000">
-  <TableHeader columns={columns}>
-    {(col) => <Column key={col.uid}>{col.name}</Column>}
-  </TableHeader>
-  <TableBody items={rows}>
-    {(item) => <Row>{(key) => <Cell>{item[key]}</Cell>}</Row>}
-  </TableBody>
-</TableView>`}
->
-  <TableView aria-label="Compact table" density="compact" height="size-3000" width="size-6000">
-    <TableHeader columns={[{ name: 'Name', uid: 'name' }, { name: 'Type', uid: 'type' }, { name: 'Date', uid: 'date' }]}>
-      {(col) => <Column key={col.uid}>{col.name}</Column>}
-    </TableHeader>
-    <TableBody items={[
-      { id: 1, name: 'project-alpha', type: 'Detection', date: '2024-01-15' },
-      { id: 2, name: 'project-beta', type: 'Classification', date: '2024-02-20' },
-    ]}>
-      {(item) => <Row>{(key) => <Cell>{item[key]}</Cell>}</Row>}
-    </TableBody>
-  </TableView>
-</ExampleCard>
+```tsx preview
+import { TableView, TableHeader, TableBody, Column, Row, Cell } from '@geti/ui';
+
+const columns = [
+  { name: 'Name', uid: 'name' },
+  { name: 'Type', uid: 'type' },
+  { name: 'Date', uid: 'date' },
+];
+const rows = [
+  { id: 1, name: 'project-alpha', type: 'Detection', date: '2024-01-15' },
+  { id: 2, name: 'project-beta', type: 'Classification', date: '2024-02-20' },
+  { id: 3, name: 'project-gamma', type: 'Segmentation', date: '2024-03-05' },
+];
+
+export default function App() {
+  return (
+    <TableView aria-label="Selectable table" selectionMode="multiple" height="size-3000" width="size-6000">
+      <TableHeader columns={columns}>
+        {(col) => <Column key={col.uid}>{col.name}</Column>}
+      </TableHeader>
+      <TableBody items={rows}>
+        {(item) => <Row>{(key) => <Cell>{item[key]}</Cell>}</Row>}
+      </TableBody>
+    </TableView>
+  );
+}
+```
+
+### Compact density
+
+```tsx preview
+import { TableView, TableHeader, TableBody, Column, Row, Cell } from '@geti/ui';
+
+const columns = [
+  { name: 'Name', uid: 'name' },
+  { name: 'Type', uid: 'type' },
+  { name: 'Date', uid: 'date' },
+];
+const rows = [
+  { id: 1, name: 'project-alpha', type: 'Detection', date: '2024-01-15' },
+  { id: 2, name: 'project-beta', type: 'Classification', date: '2024-02-20' },
+];
+
+export default function App() {
+  return (
+    <TableView aria-label="Compact table" density="compact" height="size-3000" width="size-6000">
+      <TableHeader columns={columns}>
+        {(col) => <Column key={col.uid}>{col.name}</Column>}
+      </TableHeader>
+      <TableBody items={rows}>
+        {(item) => <Row>{(key) => <Cell>{item[key]}</Cell>}</Row>}
+      </TableBody>
+    </TableView>
+  );
+}
+```
 
 ## Responsibility
 

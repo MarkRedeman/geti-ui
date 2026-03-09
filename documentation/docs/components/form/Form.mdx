@@ -2,9 +2,6 @@
 title: Form
 ---
 
-import { Button, TextField, Form } from '@geti/ui';
-import { ExampleCard } from '../../../theme/ExampleCard';
-
 # Form
 
 Form is a layout container that groups related form controls and propagates shared validation behaviour. Use it to wrap any collection of inputs that are submitted together.
@@ -18,48 +15,52 @@ import { Form } from '@geti/ui';
 
 ## Examples
 
-<ExampleCard
-  title="Basic form"
-  code={`<Form>
-  <TextField label="First name" />
-  <TextField label="Last name" />
-  <Button type="submit">Submit</Button>
-</Form>`}
->
-  <Form>
-    <TextField label="First name" />
-    <TextField label="Last name" />
-    <Button type="submit">Submit</Button>
-  </Form>
-</ExampleCard>
+### Basic form
 
-<ExampleCard
-  title="Disabled form (all fields locked)"
-  code={`<Form isDisabled>
-  <TextField label="First name" />
-  <TextField label="Last name" />
-  <Button type="submit">Submit</Button>
-</Form>`}
->
-  <Form isDisabled>
-    <TextField label="First name" />
-    <TextField label="Last name" />
-    <Button type="submit">Submit</Button>
-  </Form>
-</ExampleCard>
+```tsx preview
+import { Button, TextField, Form } from '@geti/ui';
 
-<ExampleCard
-  title="Native browser validation"
-  code={`<Form validationBehavior="native">
-  <TextField label="Email" type="email" isRequired />
-  <Button type="submit">Submit</Button>
-</Form>`}
->
-  <Form validationBehavior="native">
-    <TextField label="Email" type="email" isRequired />
-    <Button type="submit">Submit</Button>
-  </Form>
-</ExampleCard>
+export default function App() {
+  return (
+    <Form>
+      <TextField label="First name" />
+      <TextField label="Last name" />
+      <Button type="submit">Submit</Button>
+    </Form>
+  );
+}
+```
+
+### Disabled form (all fields locked)
+
+```tsx preview
+import { Button, TextField, Form } from '@geti/ui';
+
+export default function App() {
+  return (
+    <Form isDisabled>
+      <TextField label="First name" />
+      <TextField label="Last name" />
+      <Button type="submit">Submit</Button>
+    </Form>
+  );
+}
+```
+
+### Native browser validation
+
+```tsx preview
+import { Button, TextField, Form } from '@geti/ui';
+
+export default function App() {
+  return (
+    <Form validationBehavior="native">
+      <TextField label="Email" type="email" isRequired />
+      <Button type="submit">Submit</Button>
+    </Form>
+  );
+}
+```
 
 ## Responsibility
 

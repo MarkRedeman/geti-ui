@@ -4,7 +4,6 @@ title: ActionBar
 
 import { ActionBar, ActionBarContainer, ListView, ListItem } from '@geti/ui';
 import { Item, Text } from '@adobe/react-spectrum';
-import { ExampleCard } from '../../../theme/ExampleCard';
 
 # ActionBar
 
@@ -19,48 +18,36 @@ import { ActionBar, ActionBarContainer } from '@geti/ui';
 
 ## Examples
 
-<ExampleCard
-  title="Bulk selection toolbar"
-  code={`<ActionBarContainer height="size-2400">
-  <ListView aria-label="Items" selectionMode="multiple" defaultSelectedKeys={['1', '2']}>
-    <ListItem key="1">Item One</ListItem>
-    <ListItem key="2">Item Two</ListItem>
-    <ListItem key="3">Item Three</ListItem>
-  </ListView>
-  <ActionBar
-    selectedItemCount={2}
-    onAction={(key) => console.log(key)}
-    onClearSelection={() => console.log('cleared')}
-  >
-    <Item key="edit">
-      <Text>Edit</Text>
-    </Item>
-    <Item key="delete">
-      <Text>Delete</Text>
-    </Item>
-  </ActionBar>
-</ActionBarContainer>`}
->
-  <ActionBarContainer height="size-2400">
-    <ListView aria-label="Items" selectionMode="multiple" defaultSelectedKeys={['1', '2']}>
-      <ListItem key="1">Item One</ListItem>
-      <ListItem key="2">Item Two</ListItem>
-      <ListItem key="3">Item Three</ListItem>
-    </ListView>
-    <ActionBar
-      selectedItemCount={2}
-      onAction={(key) => console.log(key)}
-      onClearSelection={() => console.log('cleared')}
-    >
-      <Item key="edit">
-        <Text>Edit</Text>
-      </Item>
-      <Item key="delete">
-        <Text>Delete</Text>
-      </Item>
-    </ActionBar>
-  </ActionBarContainer>
-</ExampleCard>
+### Bulk selection toolbar
+
+```tsx preview
+import { ActionBar, ActionBarContainer, ListItem, ListView } from '@geti/ui';
+import { Item, Text } from '@adobe/react-spectrum';
+
+export default function App() {
+  return (
+    <ActionBarContainer height="size-2400">
+      <ListView aria-label="Items" selectionMode="multiple" defaultSelectedKeys={['1', '2']}>
+        <ListItem key="1">Item One</ListItem>
+        <ListItem key="2">Item Two</ListItem>
+        <ListItem key="3">Item Three</ListItem>
+      </ListView>
+      <ActionBar
+        selectedItemCount={2}
+        onAction={(key) => console.log(key)}
+        onClearSelection={() => console.log('cleared')}
+      >
+        <Item key="edit">
+          <Text>Edit</Text>
+        </Item>
+        <Item key="delete">
+          <Text>Delete</Text>
+        </Item>
+      </ActionBar>
+    </ActionBarContainer>
+  );
+}
+```
 
 ## Responsibility
 

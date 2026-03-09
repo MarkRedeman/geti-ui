@@ -2,9 +2,6 @@
 title: PressableElement
 ---
 
-import { PressableElement } from '@geti/ui';
-import { ExampleCard } from '../../../theme/ExampleCard';
-
 # PressableElement
 
 PressableElement attaches press interaction semantics (mouse, touch, keyboard) to any arbitrary container element. Use it when a non-button UI block needs to be interactive but `ActionButton` or `Button` is not the right semantic fit.
@@ -18,35 +15,37 @@ import { PressableElement } from '@geti/ui';
 
 ## Examples
 
-<ExampleCard
-  title="Basic pressable container"
-  code={`<PressableElement onPress={() => alert('Pressed!')}>
-  <div style={{ padding: '1rem', background: '#2a2a2a', borderRadius: 6, color: '#fff', cursor: 'pointer' }}>
-    Click or press me
-  </div>
-</PressableElement>`}
->
-  <PressableElement>
-    <div style={{ padding: '1rem', background: '#2a2a2a', borderRadius: 6, color: '#ccc', cursor: 'pointer' }}>
-      Click or press me
-    </div>
-  </PressableElement>
-</ExampleCard>
+### Basic pressable container
 
-<ExampleCard
-  title="Truncated text"
-  code={`<PressableElement isTruncated width="size-2400">
-  <div style={{ color: '#ccc' }}>
-    This long text will be truncated with an ellipsis when it overflows the container
-  </div>
-</PressableElement>`}
->
-  <PressableElement isTruncated width="size-2400">
-    <div style={{ color: '#ccc' }}>
-      This long text will be truncated with an ellipsis when it overflows the container
-    </div>
-  </PressableElement>
-</ExampleCard>
+```tsx preview
+import { PressableElement } from '@geti/ui';
+
+export default function App() {
+  return (
+    <PressableElement onPress={() => alert('Pressed!')}>
+      <div style={{ padding: '1rem', background: '#2a2a2a', borderRadius: 6, color: '#fff', cursor: 'pointer' }}>
+        Click or press me
+      </div>
+    </PressableElement>
+  );
+}
+```
+
+### Truncated text
+
+```tsx preview
+import { PressableElement } from '@geti/ui';
+
+export default function App() {
+  return (
+    <PressableElement isTruncated width="size-2400">
+      <div style={{ color: '#ccc' }}>
+        This long text will be truncated with an ellipsis when it overflows the container
+      </div>
+    </PressableElement>
+  );
+}
+```
 
 ## Responsibility
 

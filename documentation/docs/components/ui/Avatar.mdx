@@ -2,9 +2,6 @@
 title: Avatar
 ---
 
-import { Avatar } from '@geti/ui';
-import { ExampleCard } from '../../../theme/ExampleCard';
-
 # Avatar
 
 Avatar displays a thumbnail representation of a user or entity. Use it in user profile headers, comment threads, collaboration panels, and anywhere a face or identity needs visual context.
@@ -18,33 +15,45 @@ import { Avatar } from '@geti/ui';
 
 ## Examples
 
-<ExampleCard
-  title="Default"
-  code={`<Avatar src="https://i.pravatar.cc/150?img=1" alt="User avatar" />`}
->
-  <Avatar src="https://i.pravatar.cc/150?img=1" alt="User avatar" />
-</ExampleCard>
+### Default
 
-<ExampleCard
-  title="Small (avatar-size-50)"
-  code={`<Avatar src="https://i.pravatar.cc/150?img=2" alt="Small avatar" size="avatar-size-50" />`}
->
-  <Avatar src="https://i.pravatar.cc/150?img=2" alt="Small avatar" size="avatar-size-50" />
-</ExampleCard>
+```tsx preview
+import { Avatar } from '@geti/ui';
 
-<ExampleCard
-  title="Large (avatar-size-700)"
-  code={`<Avatar src="https://i.pravatar.cc/150?img=3" alt="Large avatar" size="avatar-size-700" />`}
->
-  <Avatar src="https://i.pravatar.cc/150?img=3" alt="Large avatar" size="avatar-size-700" />
-</ExampleCard>
+export default function App() {
+  return <Avatar src="https://i.pravatar.cc/150?img=1" alt="User avatar" />;
+}
+```
 
-<ExampleCard
-  title="Disabled"
-  code={`<Avatar src="https://i.pravatar.cc/150?img=4" alt="Disabled avatar" isDisabled />`}
->
-  <Avatar src="https://i.pravatar.cc/150?img=4" alt="Disabled avatar" isDisabled />
-</ExampleCard>
+### Small (avatar-size-50)
+
+```tsx preview
+import { Avatar } from '@geti/ui';
+
+export default function App() {
+  return <Avatar src="https://i.pravatar.cc/150?img=2" alt="Small avatar" size="avatar-size-50" />;
+}
+```
+
+### Large (avatar-size-700)
+
+```tsx preview
+import { Avatar } from '@geti/ui';
+
+export default function App() {
+  return <Avatar src="https://i.pravatar.cc/150?img=3" alt="Large avatar" size="avatar-size-700" />;
+}
+```
+
+### Disabled
+
+```tsx preview
+import { Avatar } from '@geti/ui';
+
+export default function App() {
+  return <Avatar src="https://i.pravatar.cc/150?img=4" alt="Disabled avatar" isDisabled />;
+}
+```
 
 ## Responsibility
 

@@ -2,9 +2,6 @@
 title: Well
 ---
 
-import { Well } from '@geti/ui';
-import { ExampleCard } from '../../../theme/ExampleCard';
-
 # Well
 
 Well is a read-only content container that visually separates non-editable information from the surrounding UI. Use it for code samples, system-generated output, preformatted configuration text, or any content the user should read but not edit.
@@ -18,42 +15,49 @@ import { Well } from '@geti/ui';
 
 ## Examples
 
-<ExampleCard
-  title="Default"
-  code={`<Well>
-  This is a standard well. It displays non-editable content separately from other content on the screen.
-</Well>`}
->
-  <Well>
-    This is a standard well. It displays non-editable content separately from other content on the screen.
-  </Well>
-</ExampleCard>
+### Default
 
-<ExampleCard
-  title="Code sample"
-  code={`<Well>
-  <pre>
-    <code>import {'{ Well }'} from '@geti/ui';</code>
-  </pre>
-</Well>`}
->
-  <Well>
-    <pre style={{ margin: 0 }}>
-      <code>{`import { Well } from '@geti/ui';\n\n<Well>Content goes here</Well>`}</code>
-    </pre>
-  </Well>
-</ExampleCard>
+```tsx preview
+import { Well } from '@geti/ui';
 
-<ExampleCard
-  title="With region role"
-  code={`<Well role="region" aria-label="API response">
-  Status: 200 OK
-</Well>`}
->
-  <Well role="region" aria-label="API response">
-    Status: 200 OK
-  </Well>
-</ExampleCard>
+export default function App() {
+  return (
+    <Well>
+      This is a standard well. It displays non-editable content separately from other content on the screen.
+    </Well>
+  );
+}
+```
+
+### Code sample
+
+```tsx preview
+import { Well } from '@geti/ui';
+
+export default function App() {
+  return (
+    <Well>
+      <pre style={{ margin: 0 }}>
+        <code>{`import { Well } from '@geti/ui';\n\n<Well>Content goes here</Well>`}</code>
+      </pre>
+    </Well>
+  );
+}
+```
+
+### With region role
+
+```tsx preview
+import { Well } from '@geti/ui';
+
+export default function App() {
+  return (
+    <Well role="region" aria-label="API response">
+      Status: 200 OK
+    </Well>
+  );
+}
+```
 
 ## Responsibility
 

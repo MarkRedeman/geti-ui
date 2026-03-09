@@ -3,7 +3,6 @@ title: IntelBrandedLoading
 ---
 
 import { IntelBrandedLoading } from '@geti/ui';
-import { ExampleCard } from '../../../theme/ExampleCard';
 
 # IntelBrandedLoading
 
@@ -17,23 +16,29 @@ import { IntelBrandedLoading } from '@geti/ui';
 
 ## Examples
 
-<ExampleCard
-  title="Default"
-  code={`<IntelBrandedLoading />`}
->
-  <IntelBrandedLoading />
-</ExampleCard>
+### Default
 
-<ExampleCard
-  title="Fixed height container"
-  code={`<div style={{ height: 220 }}>
-  <IntelBrandedLoading />
-</div>`}
->
-  <div style={{ height: 220 }}>
-    <IntelBrandedLoading />
-  </div>
-</ExampleCard>
+```tsx preview
+import { IntelBrandedLoading } from '@geti/ui';
+
+export default function App() {
+  return <IntelBrandedLoading />;
+}
+```
+
+### Fixed height container
+
+```tsx preview
+import { IntelBrandedLoading } from '@geti/ui';
+
+export default function App() {
+  return (
+    <div style={{ height: 220 }}>
+      <IntelBrandedLoading />
+    </div>
+  );
+}
+```
 
 ## Responsibility
 

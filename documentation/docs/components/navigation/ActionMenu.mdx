@@ -2,10 +2,6 @@
 title: ActionMenu
 ---
 
-import { ActionMenu } from '@geti/ui';
-import { Item } from '@adobe/react-spectrum';
-import { ExampleCard } from '../../../theme/ExampleCard';
-
 # ActionMenu
 
 ActionMenu combines an icon-button trigger (⋯) with a dropdown menu in a single component. Use it for compact contextual action sets on cards, table rows, and list items where showing individual buttons would be too wide.
@@ -20,63 +16,72 @@ import { Item } from '@adobe/react-spectrum';
 
 ## Examples
 
-<ExampleCard
-  title="Default"
-  code={`<ActionMenu onAction={(key) => console.log(key)}>
-  <Item key="edit">Edit</Item>
-  <Item key="duplicate">Duplicate</Item>
-  <Item key="delete">Delete</Item>
-</ActionMenu>`}
->
-  <ActionMenu onAction={(key) => console.log(key)}>
-    <Item key="edit">Edit</Item>
-    <Item key="duplicate">Duplicate</Item>
-    <Item key="delete">Delete</Item>
-  </ActionMenu>
-</ExampleCard>
+### Default
 
-<ExampleCard
-  title="Quiet"
-  code={`<ActionMenu isQuiet onAction={(key) => console.log(key)}>
-  <Item key="cut">Cut</Item>
-  <Item key="copy">Copy</Item>
-  <Item key="paste">Paste</Item>
-</ActionMenu>`}
->
-  <ActionMenu isQuiet onAction={(key) => console.log(key)}>
-    <Item key="cut">Cut</Item>
-    <Item key="copy">Copy</Item>
-    <Item key="paste">Paste</Item>
-  </ActionMenu>
-</ExampleCard>
+```tsx preview
+import { ActionMenu } from '@geti/ui';
+import { Item } from '@adobe/react-spectrum';
 
-<ExampleCard
-  title="Disabled"
-  code={`<ActionMenu isDisabled>
-  <Item key="edit">Edit</Item>
-  <Item key="delete">Delete</Item>
-</ActionMenu>`}
->
-  <ActionMenu isDisabled>
-    <Item key="edit">Edit</Item>
-    <Item key="delete">Delete</Item>
-  </ActionMenu>
-</ExampleCard>
+export default function App() {
+  return (
+    <ActionMenu onAction={(key) => console.log(key)}>
+      <Item key="edit">Edit</Item>
+      <Item key="duplicate">Duplicate</Item>
+      <Item key="delete">Delete</Item>
+    </ActionMenu>
+  );
+}
+```
 
-<ExampleCard
-  title="With explicit aria-label"
-  code={`<ActionMenu aria-label="More actions">
-  <Item key="share">Share</Item>
-  <Item key="export">Export</Item>
-  <Item key="print">Print</Item>
-</ActionMenu>`}
->
-  <ActionMenu aria-label="More actions">
-    <Item key="share">Share</Item>
-    <Item key="export">Export</Item>
-    <Item key="print">Print</Item>
-  </ActionMenu>
-</ExampleCard>
+### Quiet
+
+```tsx preview
+import { ActionMenu } from '@geti/ui';
+import { Item } from '@adobe/react-spectrum';
+
+export default function App() {
+  return (
+    <ActionMenu isQuiet onAction={(key) => console.log(key)}>
+      <Item key="cut">Cut</Item>
+      <Item key="copy">Copy</Item>
+      <Item key="paste">Paste</Item>
+    </ActionMenu>
+  );
+}
+```
+
+### Disabled
+
+```tsx preview
+import { ActionMenu } from '@geti/ui';
+import { Item } from '@adobe/react-spectrum';
+
+export default function App() {
+  return (
+    <ActionMenu isDisabled>
+      <Item key="edit">Edit</Item>
+      <Item key="delete">Delete</Item>
+    </ActionMenu>
+  );
+}
+```
+
+### With explicit aria-label
+
+```tsx preview
+import { ActionMenu } from '@geti/ui';
+import { Item } from '@adobe/react-spectrum';
+
+export default function App() {
+  return (
+    <ActionMenu aria-label="More actions">
+      <Item key="share">Share</Item>
+      <Item key="export">Export</Item>
+      <Item key="print">Print</Item>
+    </ActionMenu>
+  );
+}
+```
 
 ## Responsibility
 

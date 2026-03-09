@@ -2,9 +2,6 @@
 title: DatePicker
 ---
 
-import { DatePicker } from '@geti/ui';
-import { ExampleCard } from '../../../../theme/ExampleCard';
-
 # DatePicker
 
 `DatePicker` combines a segmented `DateField` with a Calendar popover, letting users enter or pick a date (and optionally time). Use it in forms that require a precise date value.
@@ -18,26 +15,35 @@ import { DatePicker } from '@geti/ui';
 
 ## Examples
 
-<ExampleCard
-  title="Default"
-  code={`<DatePicker label="Event date" />`}
->
-  <DatePicker label="Event date" />
-</ExampleCard>
+### Default
 
-<ExampleCard
-  title="With time (minute granularity)"
-  code={`<DatePicker label="Event date and time" granularity="minute" />`}
->
-  <DatePicker label="Event date and time" granularity="minute" />
-</ExampleCard>
+```tsx preview
+import { DatePicker } from '@geti/ui';
 
-<ExampleCard
-  title="Disabled"
-  code={`<DatePicker label="Event date" isDisabled />`}
->
-  <DatePicker label="Event date" isDisabled />
-</ExampleCard>
+export default function App() {
+  return <DatePicker label="Event date" />;
+}
+```
+
+### With time (minute granularity)
+
+```tsx preview
+import { DatePicker } from '@geti/ui';
+
+export default function App() {
+  return <DatePicker label="Event date and time" granularity="minute" />;
+}
+```
+
+### Disabled
+
+```tsx preview
+import { DatePicker } from '@geti/ui';
+
+export default function App() {
+  return <DatePicker label="Event date" isDisabled />;
+}
+```
 
 ## Responsibility
 

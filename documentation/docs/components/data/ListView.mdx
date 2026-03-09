@@ -3,7 +3,6 @@ title: ListView
 ---
 
 import { ListView, ListItem } from '@geti/ui';
-import { ExampleCard } from '../../../theme/ExampleCard';
 
 # ListView
 
@@ -18,65 +17,69 @@ import { ListView, ListItem } from '@geti/ui';
 
 ## Examples
 
-<ExampleCard
-  title="Single selection"
-  code={`<ListView aria-label="Applications" selectionMode="single" width="size-3000">
-  <ListItem key="1">Adobe Photoshop</ListItem>
-  <ListItem key="2">Adobe XD</ListItem>
-  <ListItem key="3">Adobe Illustrator</ListItem>
-</ListView>`}
->
-  <ListView aria-label="Applications" selectionMode="single" width="size-3000">
-    <ListItem key="1">Adobe Photoshop</ListItem>
-    <ListItem key="2">Adobe XD</ListItem>
-    <ListItem key="3">Adobe Illustrator</ListItem>
-  </ListView>
-</ExampleCard>
+### Single selection
 
-<ExampleCard
-  title="Multiple selection"
-  code={`<ListView aria-label="Models" selectionMode="multiple" width="size-3000">
-  <ListItem key="1">Detection model v1</ListItem>
-  <ListItem key="2">Detection model v2</ListItem>
-  <ListItem key="3">Classification model v1</ListItem>
-</ListView>`}
->
-  <ListView aria-label="Models" selectionMode="multiple" width="size-3000">
-    <ListItem key="1">Detection model v1</ListItem>
-    <ListItem key="2">Detection model v2</ListItem>
-    <ListItem key="3">Classification model v1</ListItem>
-  </ListView>
-</ExampleCard>
+```tsx preview
+import { ListView, ListItem } from '@geti/ui';
 
-<ExampleCard
-  title="Compact density"
-  code={`<ListView aria-label="Compact list" density="compact" selectionMode="single" width="size-3000">
-  <ListItem key="1">Compact Item 1</ListItem>
-  <ListItem key="2">Compact Item 2</ListItem>
-  <ListItem key="3">Compact Item 3</ListItem>
-</ListView>`}
->
-  <ListView aria-label="Compact list" density="compact" selectionMode="single" width="size-3000">
-    <ListItem key="1">Compact Item 1</ListItem>
-    <ListItem key="2">Compact Item 2</ListItem>
-    <ListItem key="3">Compact Item 3</ListItem>
-  </ListView>
-</ExampleCard>
+export default function App() {
+  return (
+    <ListView aria-label="Applications" selectionMode="single" width="size-3000">
+      <ListItem key="1">Adobe Photoshop</ListItem>
+      <ListItem key="2">Adobe XD</ListItem>
+      <ListItem key="3">Adobe Illustrator</ListItem>
+    </ListView>
+  );
+}
+```
 
-<ExampleCard
-  title="Spacious density"
-  code={`<ListView aria-label="Spacious list" density="spacious" selectionMode="single" width="size-3000">
-  <ListItem key="1">Spacious Item 1</ListItem>
-  <ListItem key="2">Spacious Item 2</ListItem>
-  <ListItem key="3">Spacious Item 3</ListItem>
-</ListView>`}
->
-  <ListView aria-label="Spacious list" density="spacious" selectionMode="single" width="size-3000">
-    <ListItem key="1">Spacious Item 1</ListItem>
-    <ListItem key="2">Spacious Item 2</ListItem>
-    <ListItem key="3">Spacious Item 3</ListItem>
-  </ListView>
-</ExampleCard>
+### Multiple selection
+
+```tsx preview
+import { ListView, ListItem } from '@geti/ui';
+
+export default function App() {
+  return (
+    <ListView aria-label="Models" selectionMode="multiple" width="size-3000">
+      <ListItem key="1">Detection model v1</ListItem>
+      <ListItem key="2">Detection model v2</ListItem>
+      <ListItem key="3">Classification model v1</ListItem>
+    </ListView>
+  );
+}
+```
+
+### Compact density
+
+```tsx preview
+import { ListView, ListItem } from '@geti/ui';
+
+export default function App() {
+  return (
+    <ListView aria-label="Compact list" density="compact" selectionMode="single" width="size-3000">
+      <ListItem key="1">Compact Item 1</ListItem>
+      <ListItem key="2">Compact Item 2</ListItem>
+      <ListItem key="3">Compact Item 3</ListItem>
+    </ListView>
+  );
+}
+```
+
+### Spacious density
+
+```tsx preview
+import { ListView, ListItem } from '@geti/ui';
+
+export default function App() {
+  return (
+    <ListView aria-label="Spacious list" density="spacious" selectionMode="single" width="size-3000">
+      <ListItem key="1">Spacious Item 1</ListItem>
+      <ListItem key="2">Spacious Item 2</ListItem>
+      <ListItem key="3">Spacious Item 3</ListItem>
+    </ListView>
+  );
+}
+```
 
 ## Responsibility
 

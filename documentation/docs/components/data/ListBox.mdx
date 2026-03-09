@@ -3,7 +3,6 @@ title: ListBox
 ---
 
 import { ListBox, ListBoxItem } from '@geti/ui';
-import { ExampleCard } from '../../../theme/ExampleCard';
 
 # ListBox
 
@@ -18,52 +17,54 @@ import { ListBox, ListBoxItem } from '@geti/ui';
 
 ## Examples
 
-<ExampleCard
-  title="Single selection"
-  code={`<ListBox aria-label="Pick a color" selectionMode="single" width="size-2400">
-  <ListBoxItem key="red">Red</ListBoxItem>
-  <ListBoxItem key="green">Green</ListBoxItem>
-  <ListBoxItem key="blue">Blue</ListBoxItem>
-</ListBox>`}
->
-  <ListBox aria-label="Pick a color" selectionMode="single" width="size-2400">
-    <ListBoxItem key="red">Red</ListBoxItem>
-    <ListBoxItem key="green">Green</ListBoxItem>
-    <ListBoxItem key="blue">Blue</ListBoxItem>
-  </ListBox>
-</ExampleCard>
+### Single selection
 
-<ExampleCard
-  title="Multiple selection"
-  code={`<ListBox aria-label="Select toppings" selectionMode="multiple" width="size-2400">
-  <ListBoxItem key="cheese">Cheese</ListBoxItem>
-  <ListBoxItem key="mushrooms">Mushrooms</ListBoxItem>
-  <ListBoxItem key="olives">Olives</ListBoxItem>
-  <ListBoxItem key="peppers">Peppers</ListBoxItem>
-</ListBox>`}
->
-  <ListBox aria-label="Select toppings" selectionMode="multiple" width="size-2400">
-    <ListBoxItem key="cheese">Cheese</ListBoxItem>
-    <ListBoxItem key="mushrooms">Mushrooms</ListBoxItem>
-    <ListBoxItem key="olives">Olives</ListBoxItem>
-    <ListBoxItem key="peppers">Peppers</ListBoxItem>
-  </ListBox>
-</ExampleCard>
+```tsx preview
+import { ListBox, ListBoxItem } from '@geti/ui';
 
-<ExampleCard
-  title="No selection (display only)"
-  code={`<ListBox aria-label="Alignment" width="size-2400">
-  <ListBoxItem key="left">Left</ListBoxItem>
-  <ListBoxItem key="center">Center</ListBoxItem>
-  <ListBoxItem key="right">Right</ListBoxItem>
-</ListBox>`}
->
-  <ListBox aria-label="Alignment" width="size-2400">
-    <ListBoxItem key="left">Left</ListBoxItem>
-    <ListBoxItem key="center">Center</ListBoxItem>
-    <ListBoxItem key="right">Right</ListBoxItem>
-  </ListBox>
-</ExampleCard>
+export default function App() {
+  return (
+    <ListBox aria-label="Pick a color" selectionMode="single" width="size-2400">
+      <ListBoxItem key="red">Red</ListBoxItem>
+      <ListBoxItem key="green">Green</ListBoxItem>
+      <ListBoxItem key="blue">Blue</ListBoxItem>
+    </ListBox>
+  );
+}
+```
+
+### Multiple selection
+
+```tsx preview
+import { ListBox, ListBoxItem } from '@geti/ui';
+
+export default function App() {
+  return (
+    <ListBox aria-label="Select toppings" selectionMode="multiple" width="size-2400">
+      <ListBoxItem key="cheese">Cheese</ListBoxItem>
+      <ListBoxItem key="mushrooms">Mushrooms</ListBoxItem>
+      <ListBoxItem key="olives">Olives</ListBoxItem>
+      <ListBoxItem key="peppers">Peppers</ListBoxItem>
+    </ListBox>
+  );
+}
+```
+
+### No selection (display only)
+
+```tsx preview
+import { ListBox, ListBoxItem } from '@geti/ui';
+
+export default function App() {
+  return (
+    <ListBox aria-label="Alignment" width="size-2400">
+      <ListBoxItem key="left">Left</ListBoxItem>
+      <ListBoxItem key="center">Center</ListBoxItem>
+      <ListBoxItem key="right">Right</ListBoxItem>
+    </ListBox>
+  );
+}
+```
 
 ## Responsibility
 

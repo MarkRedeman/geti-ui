@@ -2,9 +2,6 @@
 title: ColorPickerDialog
 ---
 
-import { ColorPickerDialog } from '@geti/ui';
-import { ExampleCard } from '../../../../theme/ExampleCard';
-
 # ColorPickerDialog
 
 `ColorPickerDialog` is a self-contained color picker that opens in a dialog. It combines `ColorArea`, `ColorWheel`, `ColorSlider` (hue + alpha), `ColorField` (hex), and a `ColorSwatchPicker` preset palette into a single trigger-and-confirm workflow.
@@ -17,26 +14,41 @@ import { ColorPickerDialog } from '@geti/ui';
 
 ## Examples
 
-<ExampleCard
-  title="Default"
-  code={`<ColorPickerDialog color="#ff0000" label="Pick Color" onColorChange={(hex) => console.log(hex)} />`}
->
-  <ColorPickerDialog color="#ff0000" label="Pick Color" onColorChange={(hex) => console.log(hex)} />
-</ExampleCard>
+### Default
 
-<ExampleCard
-  title="Custom label"
-  code={`<ColorPickerDialog color="#00ff00" label="Select Theme Color" onColorChange={(hex) => console.log(hex)} />`}
->
-  <ColorPickerDialog color="#00ff00" label="Select Theme Color" onColorChange={(hex) => console.log(hex)} />
-</ExampleCard>
+```tsx preview
+import { ColorPickerDialog } from '@geti/ui';
 
-<ExampleCard
-  title="No initial color (default fallback)"
-  code={`<ColorPickerDialog label="Pick Color" onColorChange={(hex) => console.log(hex)} />`}
->
-  <ColorPickerDialog label="Pick Color" onColorChange={(hex) => console.log(hex)} />
-</ExampleCard>
+export default function App() {
+  return (
+    <ColorPickerDialog color="#ff0000" label="Pick Color" onColorChange={(hex) => console.log(hex)} />
+  );
+}
+```
+
+### Custom label
+
+```tsx preview
+import { ColorPickerDialog } from '@geti/ui';
+
+export default function App() {
+  return (
+    <ColorPickerDialog color="#00ff00" label="Select Theme Color" onColorChange={(hex) => console.log(hex)} />
+  );
+}
+```
+
+### No initial color (default fallback)
+
+```tsx preview
+import { ColorPickerDialog } from '@geti/ui';
+
+export default function App() {
+  return (
+    <ColorPickerDialog label="Pick Color" onColorChange={(hex) => console.log(hex)} />
+  );
+}
+```
 
 ## Responsibility
 

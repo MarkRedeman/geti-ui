@@ -2,9 +2,6 @@
 title: View
 ---
 
-import { View } from '@geti/ui';
-import { ExampleCard } from '../../../theme/ExampleCard';
-
 # View
 
 View is a general-purpose layout container built on Spectrum style props. Use it when you need a div-like box with design-token-aware padding, background color, borders, or positioning — without writing raw CSS.
@@ -18,43 +15,52 @@ import { View } from '@geti/ui';
 
 ## Examples
 
-<ExampleCard
-  title="Padded container"
-  code={`<View padding="size-200" backgroundColor="gray-800" borderRadius="medium">
-  Content inside a padded View
-</View>`}
->
-  <View padding="size-200" backgroundColor="gray-800" borderRadius="medium">
-    <span style={{ color: '#ccc' }}>Content inside a padded View</span>
-  </View>
-</ExampleCard>
+### Padded container
 
-<ExampleCard
-  title="With border"
-  code={`<View
-  padding="size-200"
-  borderWidth="thin"
-  borderColor="blue-400"
-  borderRadius="small"
->
-  Bordered view
-</View>`}
->
-  <View padding="size-200" borderWidth="thin" borderColor="blue-400" borderRadius="small">
-    <span style={{ color: '#ccc' }}>Bordered view</span>
-  </View>
-</ExampleCard>
+```tsx preview
+import { View } from '@geti/ui';
 
-<ExampleCard
-  title="Relative positioning (for overlay children)"
-  code={`<View position="relative" width="size-1600" height="size-1600" backgroundColor="gray-700">
-  <View position="absolute" top="size-0" right="size-0" width="size-200" height="size-200" backgroundColor="blue-500" borderRadius="large" />
-</View>`}
->
-  <View position="relative" width="size-1600" height="size-1600" backgroundColor="gray-700">
-    <View position="absolute" top="size-0" right="size-0" width="size-200" height="size-200" backgroundColor="blue-500" borderRadius="large" />
-  </View>
-</ExampleCard>
+export default function App() {
+  return (
+    <View padding="size-200" backgroundColor="gray-400" borderRadius="medium">
+      Content inside a padded View
+    </View>
+  );
+}
+```
+
+### With border
+
+```tsx preview
+import { View } from '@geti/ui';
+
+export default function App() {
+  return (
+    <View
+      padding="size-200"
+      borderWidth="thin"
+      borderColor="blue-400"
+      borderRadius="small"
+    >
+      Bordered view
+    </View>
+  );
+}
+```
+
+### Relative positioning (for overlay children)
+
+```tsx preview
+import { View } from '@geti/ui';
+
+export default function App() {
+  return (
+    <View position="relative" width="size-1600" height="size-1600" backgroundColor="gray-300">
+      <View position="absolute" top="size-0" right="size-0" width="size-200" height="size-200" backgroundColor="blue-500" borderRadius="large" />
+    </View>
+  );
+}
+```
 
 ## Responsibility
 

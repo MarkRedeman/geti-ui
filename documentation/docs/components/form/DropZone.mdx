@@ -2,9 +2,6 @@
 title: DropZone
 ---
 
-import { DropZone } from '@geti/ui';
-import { ExampleCard } from '../../../theme/ExampleCard';
-
 # DropZone
 
 DropZone is a target area where users can drop files or dragged objects. Use it alongside `FileTrigger` to build upload UIs that support both drag-and-drop and click-to-browse flows.
@@ -18,27 +15,33 @@ import { DropZone } from '@geti/ui';
 
 ## Examples
 
-<ExampleCard
-  title="Basic drop zone"
-  code={`<DropZone>
-  <span style={{ color: '#aaa' }}>Drop files here</span>
-</DropZone>`}
->
-  <DropZone>
-    <span style={{ color: '#aaa' }}>Drop files here</span>
-  </DropZone>
-</ExampleCard>
+### Basic drop zone
 
-<ExampleCard
-  title="Filled state (file already dropped)"
-  code={`<DropZone isFilled>
-  <span style={{ color: '#aaa' }}>File uploaded</span>
-</DropZone>`}
->
-  <DropZone isFilled>
-    <span style={{ color: '#aaa' }}>File uploaded</span>
-  </DropZone>
-</ExampleCard>
+```tsx preview
+import { DropZone } from '@geti/ui';
+
+export default function App() {
+  return (
+    <DropZone>
+      <span style={{ color: '#aaa' }}>Drop files here</span>
+    </DropZone>
+  );
+}
+```
+
+### Filled state (file already dropped)
+
+```tsx preview
+import { DropZone } from '@geti/ui';
+
+export default function App() {
+  return (
+    <DropZone isFilled>
+      <span style={{ color: '#aaa' }}>File uploaded</span>
+    </DropZone>
+  );
+}
+```
 
 ## Responsibility
 

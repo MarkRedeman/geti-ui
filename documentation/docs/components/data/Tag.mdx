@@ -3,7 +3,6 @@ title: Tag
 ---
 
 import { Tag } from '@geti/ui';
-import { ExampleCard } from '../../../theme/ExampleCard';
 
 # Tag
 
@@ -17,46 +16,60 @@ import { Tag } from '@geti/ui';
 
 ## Examples
 
-<ExampleCard
-  title="Default (with accent dot)"
-  code={`<Tag text="Detection" />`}
->
-  <Tag text="Detection" />
-</ExampleCard>
+### Default (with accent dot)
 
-<ExampleCard
-  title="No dot"
-  code={`<Tag text="Classification" withDot={false} />`}
->
-  <Tag text="Classification" withDot={false} />
-</ExampleCard>
+```tsx preview
+import { Tag } from '@geti/ui';
 
-<ExampleCard
-  title="Dark mode"
-  code={`<Tag text="Segmentation" darkMode />`}
->
-  <Tag text="Segmentation" darkMode />
-</ExampleCard>
+export default function App() {
+  return <Tag text="Detection" />;
+}
+```
 
-<ExampleCard
-  title="With tooltip"
-  code={`<Tag text="Hover me" tooltip="Anomaly detection task" />`}
->
-  <Tag text="Hover me" tooltip="Anomaly detection task" />
-</ExampleCard>
+### No dot
 
-<ExampleCard
-  title="With suffix element"
-  code={`<Tag
-  text="Active"
-  suffix={<span style={{ fontSize: '0.7rem', marginLeft: 4, opacity: 0.7 }}>×</span>}
-/>`}
->
-  <Tag
-    text="Active"
-    suffix={<span style={{ fontSize: '0.7rem', marginLeft: 4, opacity: 0.7 }}>×</span>}
-  />
-</ExampleCard>
+```tsx preview
+import { Tag } from '@geti/ui';
+
+export default function App() {
+  return <Tag text="Classification" withDot={false} />;
+}
+```
+
+### Dark mode
+
+```tsx preview
+import { Tag } from '@geti/ui';
+
+export default function App() {
+  return <Tag text="Segmentation" darkMode />;
+}
+```
+
+### With tooltip
+
+```tsx preview
+import { Tag } from '@geti/ui';
+
+export default function App() {
+  return <Tag text="Hover me" tooltip="Anomaly detection task" />;
+}
+```
+
+### With suffix element
+
+```tsx preview
+import { Tag } from '@geti/ui';
+
+export default function App() {
+  return (
+    <Tag
+      text="Active"
+      suffix={<span style={{ fontSize: '0.7rem', marginLeft: 4, opacity: 0.7 }}>×</span>}
+    />
+  );
+}
+```
 
 ## Responsibility
 

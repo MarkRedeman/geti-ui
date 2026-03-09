@@ -2,9 +2,6 @@
 title: TextArea
 ---
 
-import { TextArea } from '@geti/ui';
-import { ExampleCard } from '../../../theme/ExampleCard';
-
 # TextArea
 
 TextArea is a multi-line text input for longer freeform content. Use it for descriptions, comments, notes, and any field where the user needs more than a single line.
@@ -18,47 +15,56 @@ import { TextArea } from '@geti/ui';
 
 ## Examples
 
-<ExampleCard
-  title="Default"
-  code={`<TextArea label="Description" />`}
->
-  <TextArea label="Description" />
-</ExampleCard>
+### Default
 
-<ExampleCard
-  title="With placeholder"
-  code={`<TextArea
-  label="Project notes"
-  placeholder="Add any additional context about this project..."
-/>`}
->
-  <TextArea
-    label="Project notes"
-    placeholder="Add any additional context about this project..."
-  />
-</ExampleCard>
+```tsx preview
+import { TextArea } from '@geti/ui';
 
-<ExampleCard
-  title="With character limit"
-  code={`<TextArea
-  label="Short description"
-  maxLength={200}
-  description="Max 200 characters"
-/>`}
->
-  <TextArea
-    label="Short description"
-    maxLength={200}
-    description="Max 200 characters"
-  />
-</ExampleCard>
+export default function App() {
+  return <TextArea label="Description" />;
+}
+```
 
-<ExampleCard
-  title="Disabled"
-  code={`<TextArea label="Notes" isDisabled defaultValue="Read-only content" />`}
->
-  <TextArea label="Notes" isDisabled defaultValue="Read-only content" />
-</ExampleCard>
+### With placeholder
+
+```tsx preview
+import { TextArea } from '@geti/ui';
+
+export default function App() {
+  return (
+    <TextArea
+      label="Project notes"
+      placeholder="Add any additional context about this project..."
+    />
+  );
+}
+```
+
+### With character limit
+
+```tsx preview
+import { TextArea } from '@geti/ui';
+
+export default function App() {
+  return (
+    <TextArea
+      label="Short description"
+      maxLength={200}
+      description="Max 200 characters"
+    />
+  );
+}
+```
+
+### Disabled
+
+```tsx preview
+import { TextArea } from '@geti/ui';
+
+export default function App() {
+  return <TextArea label="Notes" isDisabled defaultValue="Read-only content" />;
+}
+```
 
 ## Responsibility
 

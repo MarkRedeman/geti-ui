@@ -2,9 +2,6 @@
 title: RangeSlider
 ---
 
-import { RangeSlider } from '@geti/ui';
-import { ExampleCard } from '../../../theme/ExampleCard';
-
 # RangeSlider
 
 RangeSlider is a dual-handle slider for selecting a numeric range. Use it when users need to set both a lower and upper bound — confidence filters, score ranges, date-free numeric intervals.
@@ -18,60 +15,58 @@ import { RangeSlider } from '@geti/ui';
 
 ## Examples
 
-<ExampleCard
-  title="Basic range"
-  code={`<RangeSlider
-  label="Score range"
-  defaultValue={{ start: 20, end: 80 }}
-  minValue={0}
-  maxValue={100}
-/>`}
->
-  <RangeSlider
-    label="Score range"
-    defaultValue={{ start: 20, end: 80 }}
-    minValue={0}
-    maxValue={100}
-  />
-</ExampleCard>
+### Basic range
 
-<ExampleCard
-  title="With step"
-  code={`<RangeSlider
-  label="Confidence filter (%)"
-  defaultValue={{ start: 30, end: 70 }}
-  minValue={0}
-  maxValue={100}
-  step={5}
-/>`}
->
-  <RangeSlider
-    label="Confidence filter (%)"
-    defaultValue={{ start: 30, end: 70 }}
-    minValue={0}
-    maxValue={100}
-    step={5}
-  />
-</ExampleCard>
+```tsx preview
+import { RangeSlider } from '@geti/ui';
 
-<ExampleCard
-  title="Disabled"
-  code={`<RangeSlider
-  label="Locked range"
-  defaultValue={{ start: 25, end: 75 }}
-  minValue={0}
-  maxValue={100}
-  isDisabled
-/>`}
->
-  <RangeSlider
-    label="Locked range"
-    defaultValue={{ start: 25, end: 75 }}
-    minValue={0}
-    maxValue={100}
-    isDisabled
-  />
-</ExampleCard>
+export default function App() {
+  return (
+    <RangeSlider
+      label="Score range"
+      defaultValue={{ start: 20, end: 80 }}
+      minValue={0}
+      maxValue={100}
+    />
+  );
+}
+```
+
+### With step
+
+```tsx preview
+import { RangeSlider } from '@geti/ui';
+
+export default function App() {
+  return (
+    <RangeSlider
+      label="Confidence filter (%)"
+      defaultValue={{ start: 30, end: 70 }}
+      minValue={0}
+      maxValue={100}
+      step={5}
+    />
+  );
+}
+```
+
+### Disabled
+
+```tsx preview
+import { RangeSlider } from '@geti/ui';
+
+export default function App() {
+  return (
+    <RangeSlider
+      label="Locked range"
+      defaultValue={{ start: 25, end: 75 }}
+      minValue={0}
+      maxValue={100}
+      isDisabled
+    />
+  );
+}
+```
 
 ## Responsibility
 

@@ -2,9 +2,6 @@
 title: RadioGroup
 ---
 
-import { Radio, RadioGroup } from '@geti/ui';
-import { ExampleCard } from '../../../theme/ExampleCard';
-
 # RadioGroup
 
 RadioGroup presents a named set of mutually exclusive options. Use it in forms and settings panels when a user must pick exactly one option from a visible list.
@@ -18,61 +15,67 @@ import { Radio, RadioGroup } from '@geti/ui';
 
 ## Examples
 
-<ExampleCard
-  title="Default (vertical)"
-  code={`<RadioGroup label="Annotation type">
-  <Radio value="detection">Object detection</Radio>
-  <Radio value="segmentation">Segmentation</Radio>
-  <Radio value="classification">Classification</Radio>
-</RadioGroup>`}
->
-  <RadioGroup label="Annotation type">
-    <Radio value="detection">Object detection</Radio>
-    <Radio value="segmentation">Segmentation</Radio>
-    <Radio value="classification">Classification</Radio>
-  </RadioGroup>
-</ExampleCard>
+### Default (vertical)
 
-<ExampleCard
-  title="Pre-selected value"
-  code={`<RadioGroup label="Export format" defaultValue="coco">
-  <Radio value="coco">COCO JSON</Radio>
-  <Radio value="pascal">Pascal VOC</Radio>
-  <Radio value="yolo">YOLO</Radio>
-</RadioGroup>`}
->
-  <RadioGroup label="Export format" defaultValue="coco">
-    <Radio value="coco">COCO JSON</Radio>
-    <Radio value="pascal">Pascal VOC</Radio>
-    <Radio value="yolo">YOLO</Radio>
-  </RadioGroup>
-</ExampleCard>
+```tsx preview
+import { Radio, RadioGroup } from '@geti/ui';
 
-<ExampleCard
-  title="Horizontal layout"
-  code={`<RadioGroup label="View mode" orientation="horizontal">
-  <Radio value="grid">Grid</Radio>
-  <Radio value="list">List</Radio>
-</RadioGroup>`}
->
-  <RadioGroup label="View mode" orientation="horizontal">
-    <Radio value="grid">Grid</Radio>
-    <Radio value="list">List</Radio>
-  </RadioGroup>
-</ExampleCard>
+export default function App() {
+  return (
+    <RadioGroup label="Annotation type">
+      <Radio value="detection">Object detection</Radio>
+      <Radio value="segmentation">Segmentation</Radio>
+      <Radio value="classification">Classification</Radio>
+    </RadioGroup>
+  );
+}
+```
 
-<ExampleCard
-  title="Disabled"
-  code={`<RadioGroup label="Locked option" isDisabled defaultValue="a">
-  <Radio value="a">Option A</Radio>
-  <Radio value="b">Option B</Radio>
-</RadioGroup>`}
->
-  <RadioGroup label="Locked option" isDisabled defaultValue="a">
-    <Radio value="a">Option A</Radio>
-    <Radio value="b">Option B</Radio>
-  </RadioGroup>
-</ExampleCard>
+### Pre-selected value
+
+```tsx preview
+import { Radio, RadioGroup } from '@geti/ui';
+
+export default function App() {
+  return (
+    <RadioGroup label="Export format" defaultValue="coco">
+      <Radio value="coco">COCO JSON</Radio>
+      <Radio value="pascal">Pascal VOC</Radio>
+      <Radio value="yolo">YOLO</Radio>
+    </RadioGroup>
+  );
+}
+```
+
+### Horizontal layout
+
+```tsx preview
+import { Radio, RadioGroup } from '@geti/ui';
+
+export default function App() {
+  return (
+    <RadioGroup label="View mode" orientation="horizontal">
+      <Radio value="grid">Grid</Radio>
+      <Radio value="list">List</Radio>
+    </RadioGroup>
+  );
+}
+```
+
+### Disabled
+
+```tsx preview
+import { Radio, RadioGroup } from '@geti/ui';
+
+export default function App() {
+  return (
+    <RadioGroup label="Locked option" isDisabled defaultValue="a">
+      <Radio value="a">Option A</Radio>
+      <Radio value="b">Option B</Radio>
+    </RadioGroup>
+  );
+}
+```
 
 ## Responsibility
 

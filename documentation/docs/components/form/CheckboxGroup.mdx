@@ -2,9 +2,6 @@
 title: CheckboxGroup
 ---
 
-import { Checkbox, CheckboxGroup } from '@geti/ui';
-import { ExampleCard } from '../../../theme/ExampleCard';
-
 # CheckboxGroup
 
 CheckboxGroup manages a set of related checkboxes with a shared label and a single value array. Use it when users can select any combination of options from a named list.
@@ -18,63 +15,68 @@ import { Checkbox, CheckboxGroup } from '@geti/ui';
 
 ## Examples
 
-<ExampleCard
-  title="Default (vertical)"
-  code={`<CheckboxGroup label="Notification channels">
-  <Checkbox value="email">Email</Checkbox>
-  <Checkbox value="sms">SMS</Checkbox>
-  <Checkbox value="push">Push notification</Checkbox>
-</CheckboxGroup>`}
->
-  <CheckboxGroup label="Notification channels">
-    <Checkbox value="email">Email</Checkbox>
-    <Checkbox value="sms">SMS</Checkbox>
-    <Checkbox value="push">Push notification</Checkbox>
-  </CheckboxGroup>
-</ExampleCard>
+### Default (vertical)
 
-<ExampleCard
-  title="Pre-selected values"
-  code={`<CheckboxGroup label="Features" defaultValue={['annotations', 'models']}>
-  <Checkbox value="annotations">Annotations</Checkbox>
-  <Checkbox value="models">Models</Checkbox>
-  <Checkbox value="datasets">Datasets</Checkbox>
-</CheckboxGroup>`}
->
-  <CheckboxGroup label="Features" defaultValue={['annotations', 'models']}>
-    <Checkbox value="annotations">Annotations</Checkbox>
-    <Checkbox value="models">Models</Checkbox>
-    <Checkbox value="datasets">Datasets</Checkbox>
-  </CheckboxGroup>
-</ExampleCard>
+```tsx preview
+import { Checkbox, CheckboxGroup } from '@geti/ui';
 
-<ExampleCard
-  title="Horizontal layout"
-  code={`<CheckboxGroup label="View options" orientation="horizontal">
-  <Checkbox value="grid">Grid</Checkbox>
-  <Checkbox value="list">List</Checkbox>
-  <Checkbox value="map">Map</Checkbox>
-</CheckboxGroup>`}
->
-  <CheckboxGroup label="View options" orientation="horizontal">
-    <Checkbox value="grid">Grid</Checkbox>
-    <Checkbox value="list">List</Checkbox>
-    <Checkbox value="map">Map</Checkbox>
-  </CheckboxGroup>
-</ExampleCard>
+export default function App() {
+  return (
+    <CheckboxGroup label="Notification channels">
+      <Checkbox value="email">Email</Checkbox>
+      <Checkbox value="sms">SMS</Checkbox>
+      <Checkbox value="push">Push notification</Checkbox>
+    </CheckboxGroup>
+  );
+}
+```
 
-<ExampleCard
-  title="Disabled group"
-  code={`<CheckboxGroup label="Locked options" isDisabled>
-  <Checkbox value="a">Option A</Checkbox>
-  <Checkbox value="b">Option B</Checkbox>
-</CheckboxGroup>`}
->
-  <CheckboxGroup label="Locked options" isDisabled>
-    <Checkbox value="a">Option A</Checkbox>
-    <Checkbox value="b">Option B</Checkbox>
-  </CheckboxGroup>
-</ExampleCard>
+### Pre-selected values
+
+```tsx preview
+import { Checkbox, CheckboxGroup } from '@geti/ui';
+
+export default function App() {
+  return (
+    <CheckboxGroup label="Features" defaultValue={['annotations', 'models']}>
+      <Checkbox value="annotations">Annotations</Checkbox>
+      <Checkbox value="models">Models</Checkbox>
+      <Checkbox value="datasets">Datasets</Checkbox>
+    </CheckboxGroup>
+  );
+}
+```
+
+### Horizontal layout
+
+```tsx preview
+import { Checkbox, CheckboxGroup } from '@geti/ui';
+
+export default function App() {
+  return (
+    <CheckboxGroup label="View options" orientation="horizontal">
+      <Checkbox value="grid">Grid</Checkbox>
+      <Checkbox value="list">List</Checkbox>
+      <Checkbox value="map">Map</Checkbox>
+    </CheckboxGroup>
+  );
+}
+```
+
+### Disabled group
+
+```tsx preview
+import { Checkbox, CheckboxGroup } from '@geti/ui';
+
+export default function App() {
+  return (
+    <CheckboxGroup label="Locked options" isDisabled>
+      <Checkbox value="a">Option A</Checkbox>
+      <Checkbox value="b">Option B</Checkbox>
+    </CheckboxGroup>
+  );
+}
+```
 
 ## Responsibility
 

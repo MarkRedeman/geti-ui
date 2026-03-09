@@ -2,9 +2,6 @@
 title: ColorField
 ---
 
-import { ColorField, Flex } from '@geti/ui';
-import { ExampleCard } from '../../../../theme/ExampleCard';
-
 # ColorField
 
 `ColorField` is a text input for entering a hex color or an individual color channel value. Use it as a keyboard-precise companion to graphical color pickers.
@@ -18,32 +15,40 @@ import { ColorField } from '@geti/ui';
 
 ## Examples
 
-<ExampleCard
-  title="Default"
-  code={`<ColorField label="Color" />`}
->
-  <ColorField label="Color" />
-</ExampleCard>
+### Default
 
-<ExampleCard
-  title="With default value"
-  code={`<ColorField label="Primary Color" defaultValue="#e73623" />`}
->
-  <ColorField label="Primary Color" defaultValue="#e73623" />
-</ExampleCard>
+```tsx preview
+import { ColorField } from '@geti/ui';
 
-<ExampleCard
-  title="Validation"
-  code={`<Flex direction="column" gap="size-200">
-  <ColorField label="Required" isRequired />
-  <ColorField label="Invalid" validationState="invalid" errorMessage="Please enter a valid color." />
-</Flex>`}
->
-  <Flex direction="column" gap="size-200">
-    <ColorField label="Required" isRequired />
-    <ColorField label="Invalid" validationState="invalid" errorMessage="Please enter a valid color." />
-  </Flex>
-</ExampleCard>
+export default function App() {
+  return <ColorField label="Color" />;
+}
+```
+
+### With default value
+
+```tsx preview
+import { ColorField } from '@geti/ui';
+
+export default function App() {
+  return <ColorField label="Primary Color" defaultValue="#e73623" />;
+}
+```
+
+### Validation
+
+```tsx preview
+import { ColorField, Flex } from '@geti/ui';
+
+export default function App() {
+  return (
+    <Flex direction="column" gap="size-200">
+      <ColorField label="Required" isRequired />
+      <ColorField label="Invalid" validationState="invalid" errorMessage="Please enter a valid color." />
+    </Flex>
+  );
+}
+```
 
 ## Responsibility
 

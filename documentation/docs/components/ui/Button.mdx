@@ -3,7 +3,6 @@ title: Button
 ---
 
 import { Button } from '@geti/ui';
-import { ExampleCard } from '../../../theme/ExampleCard';
 
 # Button
 
@@ -18,47 +17,65 @@ import { Button } from '@geti/ui';
 
 ## Examples
 
-<ExampleCard
-  title="Accent (default)"
-  code={`<Button variant="accent">Save</Button>`}
->
-  <Button variant="accent">Save</Button>
-</ExampleCard>
+### Accent (default)
 
-<ExampleCard
-  title="Primary"
-  code={`<Button variant="primary">Edit</Button>`}
->
-  <Button variant="primary">Edit</Button>
-</ExampleCard>
+```tsx preview
+import { Button } from '@geti/ui';
 
-<ExampleCard
-  title="Secondary (outline)"
-  code={`<Button variant="secondary" style="outline">Cancel</Button>`}
->
-  <Button variant="secondary" style="outline">Cancel</Button>
-</ExampleCard>
+export default function App() {
+  return <Button variant="accent">Save</Button>;
+}
+```
 
-<ExampleCard
-  title="Negative"
-  code={`<Button variant="negative">Delete</Button>`}
->
-  <Button variant="negative">Delete</Button>
-</ExampleCard>
+### Primary
 
-<ExampleCard
-  title="Pending"
-  code={`<Button isPending>Saving...</Button>`}
->
-  <Button isPending>Saving...</Button>
-</ExampleCard>
+```tsx preview
+import { Button } from '@geti/ui';
 
-<ExampleCard
-  title="Disabled"
-  code={`<Button isDisabled>Disabled</Button>`}
->
-  <Button isDisabled>Disabled</Button>
-</ExampleCard>
+export default function App() {
+  return <Button variant="primary">Edit</Button>;
+}
+```
+
+### Secondary (outline)
+
+```tsx preview
+import { Button } from '@geti/ui';
+
+export default function App() {
+  return <Button variant="secondary" style="outline">Cancel</Button>;
+}
+```
+
+### Negative
+
+```tsx preview
+import { Button } from '@geti/ui';
+
+export default function App() {
+  return <Button variant="negative">Delete</Button>;
+}
+```
+
+### Pending
+
+```tsx preview
+import { Button } from '@geti/ui';
+
+export default function App() {
+  return <Button isPending>Saving...</Button>;
+}
+```
+
+### Disabled
+
+```tsx preview
+import { Button } from '@geti/ui';
+
+export default function App() {
+  return <Button isDisabled>Disabled</Button>;
+}
+```
 
 ## Responsibility
 

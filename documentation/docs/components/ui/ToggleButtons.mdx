@@ -2,9 +2,6 @@
 title: ToggleButtons
 ---
 
-import { ToggleButtons } from '@geti/ui';
-import { ExampleCard } from '../../../theme/ExampleCard';
-
 # ToggleButtons
 
 ToggleButtons renders a group of mutually exclusive buttons — only one option is active at a time. Use it for view mode switching, filter selection, or any compact segmented control where a single choice must be made.
@@ -15,10 +12,14 @@ import { ToggleButtons } from '@geti/ui';
 
 ## Examples
 
-<ExampleCard
-  title="Basic string options"
-  code={`function ViewToggle() {
-  const [selected, setSelected] = React.useState('Grid');
+### Basic string options
+
+```tsx preview
+import { useState } from 'react';
+import { ToggleButtons } from '@geti/ui';
+
+export default function App() {
+  const [selected, setSelected] = useState('Grid');
   return (
     <ToggleButtons
       options={['Grid', 'List', 'Map']}
@@ -26,46 +27,43 @@ import { ToggleButtons } from '@geti/ui';
       onOptionChange={setSelected}
     />
   );
-}`}
->
-  <ToggleButtons
-    options={['Grid', 'List', 'Map']}
-    selectedOption="Grid"
-    onOptionChange={() => {}}
-  />
-</ExampleCard>
+}
+```
 
-<ExampleCard
-  title="Numeric options"
-  code={`<ToggleButtons
-  options={[1, 5, 10, 25]}
-  selectedOption={5}
-  onOptionChange={(n) => console.log('per page:', n)}
-/>`}
->
-  <ToggleButtons
-    options={[1, 5, 10, 25]}
-    selectedOption={5}
-    onOptionChange={() => {}}
-  />
-</ExampleCard>
+### Numeric options
 
-<ExampleCard
-  title="Disabled group"
-  code={`<ToggleButtons
-  options={['A', 'B', 'C']}
-  selectedOption="B"
-  onOptionChange={() => {}}
-  isDisabled
-/>`}
->
-  <ToggleButtons
-    options={['A', 'B', 'C']}
-    selectedOption="B"
-    onOptionChange={() => {}}
-    isDisabled
-  />
-</ExampleCard>
+```tsx preview
+import { useState } from 'react';
+import { ToggleButtons } from '@geti/ui';
+
+export default function App() {
+  const [selected, setSelected] = useState(5);
+  return (
+    <ToggleButtons
+      options={[1, 5, 10, 25]}
+      selectedOption={selected}
+      onOptionChange={setSelected}
+    />
+  );
+}
+```
+
+### Disabled group
+
+```tsx preview
+import { ToggleButtons } from '@geti/ui';
+
+export default function App() {
+  return (
+    <ToggleButtons
+      options={['A', 'B', 'C']}
+      selectedOption="B"
+      onOptionChange={() => {}}
+      isDisabled
+    />
+  );
+}
+```
 
 ## Responsibility
 

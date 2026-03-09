@@ -2,9 +2,6 @@
 title: PhotoPlaceholder
 ---
 
-import { PhotoPlaceholder } from '@geti/ui';
-import { ExampleCard } from '../../../theme/ExampleCard';
-
 # PhotoPlaceholder
 
 PhotoPlaceholder renders a circular or custom-shaped placeholder for a user photo. It shows the first initial of the name on a deterministic background color derived from the `indicator` string. Use it as a fallback when no profile image is available.
@@ -15,33 +12,45 @@ import { PhotoPlaceholder } from '@geti/ui';
 
 ## Examples
 
-<ExampleCard
-  title="Default (circular)"
-  code={`<PhotoPlaceholder name="Alice" indicator="alice@example.com" />`}
->
-  <PhotoPlaceholder name="Alice" indicator="alice@example.com" />
-</ExampleCard>
+### Default (circular)
 
-<ExampleCard
-  title="Different identity (different color)"
-  code={`<PhotoPlaceholder name="Bob" indicator="bob@example.com" />`}
->
-  <PhotoPlaceholder name="Bob" indicator="bob@example.com" />
-</ExampleCard>
+```tsx preview
+import { PhotoPlaceholder } from '@geti/ui';
 
-<ExampleCard
-  title="Custom size"
-  code={`<PhotoPlaceholder name="Carol" indicator="carol@example.com" width="size-800" height="size-800" />`}
->
-  <PhotoPlaceholder name="Carol" indicator="carol@example.com" width="size-800" height="size-800" />
-</ExampleCard>
+export default function App() {
+  return <PhotoPlaceholder name="Alice" indicator="alice@example.com" />;
+}
+```
 
-<ExampleCard
-  title="Square (no border radius)"
-  code={`<PhotoPlaceholder name="Dave" indicator="dave@example.com" borderRadius="8px" />`}
->
-  <PhotoPlaceholder name="Dave" indicator="dave@example.com" borderRadius="8px" />
-</ExampleCard>
+### Different identity (different color)
+
+```tsx preview
+import { PhotoPlaceholder } from '@geti/ui';
+
+export default function App() {
+  return <PhotoPlaceholder name="Bob" indicator="bob@example.com" />;
+}
+```
+
+### Custom size
+
+```tsx preview
+import { PhotoPlaceholder } from '@geti/ui';
+
+export default function App() {
+  return <PhotoPlaceholder name="Carol" indicator="carol@example.com" width="size-800" height="size-800" />;
+}
+```
+
+### Square (no border radius)
+
+```tsx preview
+import { PhotoPlaceholder } from '@geti/ui';
+
+export default function App() {
+  return <PhotoPlaceholder name="Dave" indicator="dave@example.com" borderRadius="8px" />;
+}
+```
 
 ## Responsibility
 

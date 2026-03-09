@@ -3,7 +3,6 @@ title: ProgressCircle
 ---
 
 import { ProgressCircle } from '@geti/ui';
-import { ExampleCard } from '../../../theme/ExampleCard';
 
 # ProgressCircle
 
@@ -18,26 +17,35 @@ import { ProgressCircle } from '@geti/ui';
 
 ## Examples
 
-<ExampleCard
-  title="Determinate"
-  code={`<ProgressCircle aria-label="Training progress" value={64} />`}
->
-  <ProgressCircle aria-label="Training progress" value={64} />
-</ExampleCard>
+### Determinate
 
-<ExampleCard
-  title="Indeterminate"
-  code={`<ProgressCircle aria-label="Loading" isIndeterminate />`}
->
-  <ProgressCircle aria-label="Loading" isIndeterminate />
-</ExampleCard>
+```tsx preview
+import { ProgressCircle } from '@geti/ui';
 
-<ExampleCard
-  title="Custom range"
-  code={`<ProgressCircle aria-label="Epoch progress" minValue={0} maxValue={50} value={21} />`}
->
-  <ProgressCircle aria-label="Epoch progress" minValue={0} maxValue={50} value={21} />
-</ExampleCard>
+export default function App() {
+  return <ProgressCircle aria-label="Training progress" value={64} />;
+}
+```
+
+### Indeterminate
+
+```tsx preview
+import { ProgressCircle } from '@geti/ui';
+
+export default function App() {
+  return <ProgressCircle aria-label="Loading" isIndeterminate />;
+}
+```
+
+### Custom range
+
+```tsx preview
+import { ProgressCircle } from '@geti/ui';
+
+export default function App() {
+  return <ProgressCircle aria-label="Epoch progress" minValue={0} maxValue={50} value={21} />;
+}
+```
 
 ## Responsibility
 

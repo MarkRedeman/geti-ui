@@ -3,7 +3,6 @@ title: Tooltip
 ---
 
 import { Button, Tooltip, TooltipTrigger } from '@geti/ui';
-import { ExampleCard } from '../../../theme/ExampleCard';
 
 # Tooltip
 
@@ -18,70 +17,80 @@ import { Tooltip, TooltipTrigger } from '@geti/ui';
 
 ## Examples
 
-<ExampleCard
-  title="Default"
-  code={`<TooltipTrigger>
-  <Button variant="primary">Hover me</Button>
-  <Tooltip>This is a tooltip</Tooltip>
-</TooltipTrigger>`}
->
-  <TooltipTrigger>
-    <Button variant="primary">Hover me</Button>
-    <Tooltip>This is a tooltip</Tooltip>
-  </TooltipTrigger>
-</ExampleCard>
+### Default
 
-<ExampleCard
-  title="Placement top"
-  code={`<TooltipTrigger placement="top">
-  <Button variant="primary">Top</Button>
-  <Tooltip>Tooltip on top</Tooltip>
-</TooltipTrigger>`}
->
-  <TooltipTrigger placement="top">
-    <Button variant="primary">Top</Button>
-    <Tooltip>Tooltip on top</Tooltip>
-  </TooltipTrigger>
-</ExampleCard>
+```tsx preview
+import { Button, Tooltip, TooltipTrigger } from '@geti/ui';
 
-<ExampleCard
-  title="Placement bottom"
-  code={`<TooltipTrigger placement="bottom">
-  <Button variant="primary">Bottom</Button>
-  <Tooltip>Tooltip on bottom</Tooltip>
-</TooltipTrigger>`}
->
-  <TooltipTrigger placement="bottom">
-    <Button variant="primary">Bottom</Button>
-    <Tooltip>Tooltip on bottom</Tooltip>
-  </TooltipTrigger>
-</ExampleCard>
+export default function App() {
+  return (
+    <TooltipTrigger>
+      <Button variant="primary">Hover me</Button>
+      <Tooltip>This is a tooltip</Tooltip>
+    </TooltipTrigger>
+  );
+}
+```
 
-<ExampleCard
-  title="Placement end"
-  code={`<TooltipTrigger placement="end">
-  <Button variant="primary">End</Button>
-  <Tooltip>Tooltip at end</Tooltip>
-</TooltipTrigger>`}
->
-  <TooltipTrigger placement="end">
-    <Button variant="primary">End</Button>
-    <Tooltip>Tooltip at end</Tooltip>
-  </TooltipTrigger>
-</ExampleCard>
+### Placement top
 
-<ExampleCard
-  title="Disabled (no tooltip shown)"
-  code={`<TooltipTrigger isDisabled>
-  <Button variant="primary">No tooltip</Button>
-  <Tooltip>You won't see this</Tooltip>
-</TooltipTrigger>`}
->
-  <TooltipTrigger isDisabled>
-    <Button variant="primary">No tooltip</Button>
-    <Tooltip>You won't see this</Tooltip>
-  </TooltipTrigger>
-</ExampleCard>
+```tsx preview
+import { Button, Tooltip, TooltipTrigger } from '@geti/ui';
+
+export default function App() {
+  return (
+    <TooltipTrigger placement="top">
+      <Button variant="primary">Top</Button>
+      <Tooltip>Tooltip on top</Tooltip>
+    </TooltipTrigger>
+  );
+}
+```
+
+### Placement bottom
+
+```tsx preview
+import { Button, Tooltip, TooltipTrigger } from '@geti/ui';
+
+export default function App() {
+  return (
+    <TooltipTrigger placement="bottom">
+      <Button variant="primary">Bottom</Button>
+      <Tooltip>Tooltip on bottom</Tooltip>
+    </TooltipTrigger>
+  );
+}
+```
+
+### Placement end
+
+```tsx preview
+import { Button, Tooltip, TooltipTrigger } from '@geti/ui';
+
+export default function App() {
+  return (
+    <TooltipTrigger placement="end">
+      <Button variant="primary">End</Button>
+      <Tooltip>Tooltip at end</Tooltip>
+    </TooltipTrigger>
+  );
+}
+```
+
+### Disabled (no tooltip shown)
+
+```tsx preview
+import { Button, Tooltip, TooltipTrigger } from '@geti/ui';
+
+export default function App() {
+  return (
+    <TooltipTrigger isDisabled>
+      <Button variant="primary">No tooltip</Button>
+      <Tooltip>You won't see this</Tooltip>
+    </TooltipTrigger>
+  );
+}
+```
 
 ## Responsibility
 

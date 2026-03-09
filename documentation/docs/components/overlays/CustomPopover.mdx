@@ -2,9 +2,6 @@
 title: CustomPopover
 ---
 
-import { ActionButton, CustomPopover } from '@geti/ui';
-import { ExampleCard } from '../../../theme/ExampleCard';
-
 # CustomPopover
 
 CustomPopover is a fully styled popover built on `react-aria-components`. Unlike `Popover`, it gives you direct control over the panel appearance including optional arrows and custom widths. Use it when the standard `Dialog`-based structure is too restrictive.
@@ -18,64 +15,77 @@ import { ActionButton, CustomPopover } from '@geti/ui';
 
 ## Examples
 
-<ExampleCard
-  title="Default"
-  code={`<CustomPopover triggerElement={<ActionButton>Open</ActionButton>}>
-  <p>Custom popover content goes here.</p>
-</CustomPopover>`}
->
-  <CustomPopover triggerElement={<ActionButton>Open</ActionButton>}>
-    <p>Custom popover content goes here.</p>
-  </CustomPopover>
-</ExampleCard>
+### Default
 
-<ExampleCard
-  title="With arrow"
-  code={`<CustomPopover showArrow triggerElement={<ActionButton>Open with arrow</ActionButton>}>
-  <p>This popover has a directional arrow.</p>
-</CustomPopover>`}
->
-  <CustomPopover showArrow triggerElement={<ActionButton>Open with arrow</ActionButton>}>
-    <p>This popover has a directional arrow.</p>
-  </CustomPopover>
-</ExampleCard>
+```tsx preview
+import { ActionButton, CustomPopover } from '@geti/ui';
 
-<ExampleCard
-  title="Custom width"
-  code={`<CustomPopover width={320} triggerElement={<ActionButton>Open wide popover</ActionButton>}>
-  <p>This popover has a fixed width of 320px.</p>
-</CustomPopover>`}
->
-  <CustomPopover width={320} triggerElement={<ActionButton>Open wide popover</ActionButton>}>
-    <p>This popover has a fixed width of 320px.</p>
-  </CustomPopover>
-</ExampleCard>
-
-<ExampleCard
-  title="Top placement"
-  code={`<div style={{ marginTop: '4rem' }}>
-  <CustomPopover placement="top" triggerElement={<ActionButton>Top placement</ActionButton>}>
-    <p>Popover placed at the top.</p>
-  </CustomPopover>
-</div>`}
->
-  <div style={{ marginTop: '4rem' }}>
-    <CustomPopover placement="top" triggerElement={<ActionButton>Top placement</ActionButton>}>
-      <p>Popover placed at the top.</p>
+export default function App() {
+  return (
+    <CustomPopover triggerElement={<ActionButton>Open</ActionButton>}>
+      <p>Custom popover content goes here.</p>
     </CustomPopover>
-  </div>
-</ExampleCard>
+  );
+}
+```
 
-<ExampleCard
-  title="Bottom placement"
-  code={`<CustomPopover placement="bottom" triggerElement={<ActionButton>Bottom placement</ActionButton>}>
-  <p>Popover placed at the bottom.</p>
-</CustomPopover>`}
->
-  <CustomPopover placement="bottom" triggerElement={<ActionButton>Bottom placement</ActionButton>}>
-    <p>Popover placed at the bottom.</p>
-  </CustomPopover>
-</ExampleCard>
+### With arrow
+
+```tsx preview
+import { ActionButton, CustomPopover } from '@geti/ui';
+
+export default function App() {
+  return (
+    <CustomPopover showArrow triggerElement={<ActionButton>Open with arrow</ActionButton>}>
+      <p>This popover has a directional arrow.</p>
+    </CustomPopover>
+  );
+}
+```
+
+### Custom width
+
+```tsx preview
+import { ActionButton, CustomPopover } from '@geti/ui';
+
+export default function App() {
+  return (
+    <CustomPopover width={320} triggerElement={<ActionButton>Open wide popover</ActionButton>}>
+      <p>This popover has a fixed width of 320px.</p>
+    </CustomPopover>
+  );
+}
+```
+
+### Top placement
+
+```tsx preview
+import { ActionButton, CustomPopover } from '@geti/ui';
+
+export default function App() {
+  return (
+    <div style={{ marginTop: '4rem' }}>
+      <CustomPopover placement="top" triggerElement={<ActionButton>Top placement</ActionButton>}>
+        <p>Popover placed at the top.</p>
+      </CustomPopover>
+    </div>
+  );
+}
+```
+
+### Bottom placement
+
+```tsx preview
+import { ActionButton, CustomPopover } from '@geti/ui';
+
+export default function App() {
+  return (
+    <CustomPopover placement="bottom" triggerElement={<ActionButton>Bottom placement</ActionButton>}>
+      <p>Popover placed at the bottom.</p>
+    </CustomPopover>
+  );
+}
+```
 
 ## Responsibility
 

@@ -2,9 +2,6 @@
 title: Card
 ---
 
-import { Card } from '@geti/ui';
-import { ExampleCard } from '../../../theme/ExampleCard';
-
 # Card
 
 Card is a bordered, padded container for displaying a unit of summary content. Use it for project tiles, model list items, dataset summaries, or any item that should stand out visually as a discrete entity.
@@ -15,73 +12,73 @@ import { Card } from '@geti/ui';
 
 ## Examples
 
-<ExampleCard
-  title="Static card (read-only)"
-  code={`<Card aria-label="Model card">
-  <div>
-    <strong>Model Name</strong>
-    <p>Detection · 94.2% accuracy</p>
-  </div>
-</Card>`}
->
-  <Card aria-label="Model card">
-    <div>
-      <strong>Model Name</strong>
-      <p style={{ margin: '4px 0 0' }}>Detection · 94.2% accuracy</p>
-    </div>
-  </Card>
-</ExampleCard>
+### Static card (read-only)
 
-<ExampleCard
-  title="Selectable card"
-  code={`<Card aria-label="Select project" onPress={() => console.log('pressed')}>
-  <div>
-    <strong>Project Alpha</strong>
-    <p>Classification · 3 tasks</p>
-  </div>
-</Card>`}
->
-  <Card aria-label="Select project" onPress={() => console.log('pressed')}>
-    <div>
-      <strong>Project Alpha</strong>
-      <p style={{ margin: '4px 0 0' }}>Classification · 3 tasks</p>
-    </div>
-  </Card>
-</ExampleCard>
+```tsx preview
+import { Card } from '@geti/ui';
 
-<ExampleCard
-  title="Selected state"
-  code={`<Card aria-label="Selected project" isSelected onPress={() => console.log('pressed')}>
-  <div>
-    <strong>Project Beta</strong>
-    <p>Detection · 5 tasks</p>
-  </div>
-</Card>`}
->
-  <Card aria-label="Selected project" isSelected onPress={() => console.log('pressed')}>
-    <div>
-      <strong>Project Beta</strong>
-      <p style={{ margin: '4px 0 0' }}>Detection · 5 tasks</p>
-    </div>
-  </Card>
-</ExampleCard>
+export default function App() {
+  return (
+    <Card aria-label="Model card">
+      <div>
+        <strong>Model Name</strong>
+        <p style={{ margin: '4px 0 0' }}>Detection · 94.2% accuracy</p>
+      </div>
+    </Card>
+  );
+}
+```
 
-<ExampleCard
-  title="Disabled card"
-  code={`<Card aria-label="Disabled project" isDisabled onPress={() => console.log('pressed')}>
-  <div>
-    <strong>Project Gamma</strong>
-    <p>Segmentation · unavailable</p>
-  </div>
-</Card>`}
->
-  <Card aria-label="Disabled project" isDisabled onPress={() => console.log('pressed')}>
-    <div>
-      <strong>Project Gamma</strong>
-      <p style={{ margin: '4px 0 0' }}>Segmentation · unavailable</p>
-    </div>
-  </Card>
-</ExampleCard>
+### Selectable card
+
+```tsx preview
+import { Card } from '@geti/ui';
+
+export default function App() {
+  return (
+    <Card aria-label="Select project" onPress={() => console.log('pressed')}>
+      <div>
+        <strong>Project Alpha</strong>
+        <p style={{ margin: '4px 0 0' }}>Classification · 3 tasks</p>
+      </div>
+    </Card>
+  );
+}
+```
+
+### Selected state
+
+```tsx preview
+import { Card } from '@geti/ui';
+
+export default function App() {
+  return (
+    <Card aria-label="Selected project" isSelected onPress={() => console.log('pressed')}>
+      <div>
+        <strong>Project Beta</strong>
+        <p style={{ margin: '4px 0 0' }}>Detection · 5 tasks</p>
+      </div>
+    </Card>
+  );
+}
+```
+
+### Disabled card
+
+```tsx preview
+import { Card } from '@geti/ui';
+
+export default function App() {
+  return (
+    <Card aria-label="Disabled project" isDisabled onPress={() => console.log('pressed')}>
+      <div>
+        <strong>Project Gamma</strong>
+        <p style={{ margin: '4px 0 0' }}>Segmentation · unavailable</p>
+      </div>
+    </Card>
+  );
+}
+```
 
 ## Responsibility
 

@@ -2,9 +2,6 @@
 title: Link
 ---
 
-import { Link } from '@geti/ui';
-import { ExampleCard } from '../../../theme/ExampleCard';
-
 # Link
 
 Link renders a styled anchor for navigating to internal pages or external URLs. Use it wherever plain text navigation is needed — documentation, breadcrumb helpers, or inline contextual references.
@@ -18,33 +15,45 @@ import { Link } from '@geti/ui';
 
 ## Examples
 
-<ExampleCard
-  title="Default (primary)"
-  code={`<Link href="https://example.com">Learn more</Link>`}
->
-  <Link href="https://example.com">Learn more</Link>
-</ExampleCard>
+### Default (primary)
 
-<ExampleCard
-  title="Primary variant"
-  code={`<Link variant="primary" href="https://example.com">Primary link</Link>`}
->
-  <Link variant="primary" href="https://example.com">Primary link</Link>
-</ExampleCard>
+```tsx preview
+import { Link } from '@geti/ui';
 
-<ExampleCard
-  title="Secondary variant"
-  code={`<Link variant="secondary" href="https://example.com">Secondary link</Link>`}
->
-  <Link variant="secondary" href="https://example.com">Secondary link</Link>
-</ExampleCard>
+export default function App() {
+  return <Link href="https://example.com">Learn more</Link>;
+}
+```
 
-<ExampleCard
-  title="Quiet (no underline)"
-  code={`<Link isQuiet href="https://example.com">Quiet link</Link>`}
->
-  <Link isQuiet href="https://example.com">Quiet link</Link>
-</ExampleCard>
+### Primary variant
+
+```tsx preview
+import { Link } from '@geti/ui';
+
+export default function App() {
+  return <Link variant="primary" href="https://example.com">Primary link</Link>;
+}
+```
+
+### Secondary variant
+
+```tsx preview
+import { Link } from '@geti/ui';
+
+export default function App() {
+  return <Link variant="secondary" href="https://example.com">Secondary link</Link>;
+}
+```
+
+### Quiet (no underline)
+
+```tsx preview
+import { Link } from '@geti/ui';
+
+export default function App() {
+  return <Link isQuiet href="https://example.com">Quiet link</Link>;
+}
+```
 
 ## Responsibility
 

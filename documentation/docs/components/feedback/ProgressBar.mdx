@@ -3,7 +3,6 @@ title: ProgressBar
 ---
 
 import { ProgressBar } from '@geti/ui';
-import { ExampleCard } from '../../../theme/ExampleCard';
 
 # ProgressBar
 
@@ -18,26 +17,35 @@ import { ProgressBar } from '@geti/ui';
 
 ## Examples
 
-<ExampleCard
-  title="Determinate progress"
-  code={`<ProgressBar label="Uploading" value={45} />`}
->
-  <ProgressBar label="Uploading" value={45} />
-</ExampleCard>
+### Determinate progress
 
-<ExampleCard
-  title="Indeterminate"
-  code={`<ProgressBar label="Processing" isIndeterminate />`}
->
-  <ProgressBar label="Processing" isIndeterminate />
-</ExampleCard>
+```tsx preview
+import { ProgressBar } from '@geti/ui';
 
-<ExampleCard
-  title="Custom min/max"
-  code={`<ProgressBar label="Batch" minValue={0} maxValue={20} value={8} />`}
->
-  <ProgressBar label="Batch" minValue={0} maxValue={20} value={8} />
-</ExampleCard>
+export default function App() {
+  return <ProgressBar label="Uploading" value={45} />;
+}
+```
+
+### Indeterminate
+
+```tsx preview
+import { ProgressBar } from '@geti/ui';
+
+export default function App() {
+  return <ProgressBar label="Processing" isIndeterminate />;
+}
+```
+
+### Custom min/max
+
+```tsx preview
+import { ProgressBar } from '@geti/ui';
+
+export default function App() {
+  return <ProgressBar label="Batch" minValue={0} maxValue={20} value={8} />;
+}
+```
 
 ## Responsibility
 

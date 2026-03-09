@@ -2,10 +2,6 @@
 title: Tabs
 ---
 
-import { TabItem as Item, TabList, TabPanels, Tabs } from '@geti/ui';
-import { Content } from '@adobe/react-spectrum';
-import { ExampleCard } from '../../../theme/ExampleCard';
-
 # Tabs
 
 Tabs organise sibling content into labelled panels. Only one panel is visible at a time. Use tabs when the sections are parallel — for example Overview / Details / Settings — rather than hierarchical.
@@ -19,121 +15,101 @@ import { TabItem as Item, TabList, TabPanels, Tabs } from '@geti/ui';
 
 ## Examples
 
-<ExampleCard
-  title="Default (horizontal)"
-  code={`<Tabs aria-label="Project sections">
-  <TabList>
-    <Item key="overview">Overview</Item>
-    <Item key="datasets">Datasets</Item>
-    <Item key="models">Models</Item>
-  </TabList>
-  <TabPanels>
-    <Item key="overview"><Content>Overview content.</Content></Item>
-    <Item key="datasets"><Content>Datasets content.</Content></Item>
-    <Item key="models"><Content>Models content.</Content></Item>
-  </TabPanels>
-</Tabs>`}
->
-  <Tabs aria-label="Project sections">
-    <TabList>
-      <Item key="overview">Overview</Item>
-      <Item key="datasets">Datasets</Item>
-      <Item key="models">Models</Item>
-    </TabList>
-    <TabPanels>
-      <Item key="overview"><Content>Overview content.</Content></Item>
-      <Item key="datasets"><Content>Datasets content.</Content></Item>
-      <Item key="models"><Content>Models content.</Content></Item>
-    </TabPanels>
-  </Tabs>
-</ExampleCard>
+### Default (horizontal)
 
-<ExampleCard
-  title="Vertical orientation"
-  code={`<Tabs orientation="vertical" aria-label="Settings">
-  <TabList>
-    <Item key="general">General</Item>
-    <Item key="security">Security</Item>
-    <Item key="notifications">Notifications</Item>
-  </TabList>
-  <TabPanels>
-    <Item key="general"><Content>General settings.</Content></Item>
-    <Item key="security"><Content>Security settings.</Content></Item>
-    <Item key="notifications"><Content>Notification settings.</Content></Item>
-  </TabPanels>
-</Tabs>`}
->
-  <Tabs orientation="vertical" aria-label="Settings">
-    <TabList>
-      <Item key="general">General</Item>
-      <Item key="security">Security</Item>
-      <Item key="notifications">Notifications</Item>
-    </TabList>
-    <TabPanels>
-      <Item key="general"><Content>General settings.</Content></Item>
-      <Item key="security"><Content>Security settings.</Content></Item>
-      <Item key="notifications"><Content>Notification settings.</Content></Item>
-    </TabPanels>
-  </Tabs>
-</ExampleCard>
+```tsx preview
+import { TabItem as Item, TabList, TabPanels, Tabs } from '@geti/ui';
+import { Content } from '@adobe/react-spectrum';
 
-<ExampleCard
-  title="Quiet style"
-  code={`<Tabs isQuiet aria-label="Quiet tabs">
-  <TabList>
-    <Item key="first">First</Item>
-    <Item key="second">Second</Item>
-    <Item key="third">Third</Item>
-  </TabList>
-  <TabPanels>
-    <Item key="first"><Content>First panel.</Content></Item>
-    <Item key="second"><Content>Second panel.</Content></Item>
-    <Item key="third"><Content>Third panel.</Content></Item>
-  </TabPanels>
-</Tabs>`}
->
-  <Tabs isQuiet aria-label="Quiet tabs">
-    <TabList>
-      <Item key="first">First</Item>
-      <Item key="second">Second</Item>
-      <Item key="third">Third</Item>
-    </TabList>
-    <TabPanels>
-      <Item key="first"><Content>First panel.</Content></Item>
-      <Item key="second"><Content>Second panel.</Content></Item>
-      <Item key="third"><Content>Third panel.</Content></Item>
-    </TabPanels>
-  </Tabs>
-</ExampleCard>
+export default function App() {
+  return (
+    <Tabs aria-label="Project sections">
+      <TabList>
+        <Item key="overview">Overview</Item>
+        <Item key="datasets">Datasets</Item>
+        <Item key="models">Models</Item>
+      </TabList>
+      <TabPanels>
+        <Item key="overview"><Content>Overview content.</Content></Item>
+        <Item key="datasets"><Content>Datasets content.</Content></Item>
+        <Item key="models"><Content>Models content.</Content></Item>
+      </TabPanels>
+    </Tabs>
+  );
+}
+```
 
-<ExampleCard
-  title="With disabled tab"
-  code={`<Tabs disabledKeys={['beta']} aria-label="Feature tabs">
-  <TabList>
-    <Item key="stable">Stable</Item>
-    <Item key="beta">Beta (disabled)</Item>
-    <Item key="preview">Preview</Item>
-  </TabList>
-  <TabPanels>
-    <Item key="stable"><Content>Stable feature content.</Content></Item>
-    <Item key="beta"><Content>Beta content.</Content></Item>
-    <Item key="preview"><Content>Preview content.</Content></Item>
-  </TabPanels>
-</Tabs>`}
->
-  <Tabs disabledKeys={['beta']} aria-label="Feature tabs">
-    <TabList>
-      <Item key="stable">Stable</Item>
-      <Item key="beta">Beta (disabled)</Item>
-      <Item key="preview">Preview</Item>
-    </TabList>
-    <TabPanels>
-      <Item key="stable"><Content>Stable feature content.</Content></Item>
-      <Item key="beta"><Content>Beta content.</Content></Item>
-      <Item key="preview"><Content>Preview content.</Content></Item>
-    </TabPanels>
-  </Tabs>
-</ExampleCard>
+### Vertical orientation
+
+```tsx preview
+import { TabItem as Item, TabList, TabPanels, Tabs } from '@geti/ui';
+import { Content } from '@adobe/react-spectrum';
+
+export default function App() {
+  return (
+    <Tabs orientation="vertical" aria-label="Settings">
+      <TabList>
+        <Item key="general">General</Item>
+        <Item key="security">Security</Item>
+        <Item key="notifications">Notifications</Item>
+      </TabList>
+      <TabPanels>
+        <Item key="general"><Content>General settings.</Content></Item>
+        <Item key="security"><Content>Security settings.</Content></Item>
+        <Item key="notifications"><Content>Notification settings.</Content></Item>
+      </TabPanels>
+    </Tabs>
+  );
+}
+```
+
+### Quiet style
+
+```tsx preview
+import { TabItem as Item, TabList, TabPanels, Tabs } from '@geti/ui';
+import { Content } from '@adobe/react-spectrum';
+
+export default function App() {
+  return (
+    <Tabs isQuiet aria-label="Quiet tabs">
+      <TabList>
+        <Item key="first">First</Item>
+        <Item key="second">Second</Item>
+        <Item key="third">Third</Item>
+      </TabList>
+      <TabPanels>
+        <Item key="first"><Content>First panel.</Content></Item>
+        <Item key="second"><Content>Second panel.</Content></Item>
+        <Item key="third"><Content>Third panel.</Content></Item>
+      </TabPanels>
+    </Tabs>
+  );
+}
+```
+
+### With disabled tab
+
+```tsx preview
+import { TabItem as Item, TabList, TabPanels, Tabs } from '@geti/ui';
+import { Content } from '@adobe/react-spectrum';
+
+export default function App() {
+  return (
+    <Tabs disabledKeys={['beta']} aria-label="Feature tabs">
+      <TabList>
+        <Item key="stable">Stable</Item>
+        <Item key="beta">Beta (disabled)</Item>
+        <Item key="preview">Preview</Item>
+      </TabList>
+      <TabPanels>
+        <Item key="stable"><Content>Stable feature content.</Content></Item>
+        <Item key="beta"><Content>Beta content.</Content></Item>
+        <Item key="preview"><Content>Preview content.</Content></Item>
+      </TabPanels>
+    </Tabs>
+  );
+}
+```
 
 ## Responsibility
 

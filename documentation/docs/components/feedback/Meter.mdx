@@ -3,7 +3,6 @@ title: Meter
 ---
 
 import { Meter } from '@geti/ui';
-import { ExampleCard } from '../../../theme/ExampleCard';
 
 # Meter
 
@@ -18,40 +17,55 @@ import { Meter } from '@geti/ui';
 
 ## Examples
 
-<ExampleCard
-  title="Informative (default)"
-  code={`<Meter label="Storage space" value={50} />`}
->
-  <Meter label="Storage space" value={50} />
-</ExampleCard>
+### Informative (default)
 
-<ExampleCard
-  title="Positive"
-  code={`<Meter label="Disk health" value={80} variant="positive" />`}
->
-  <Meter label="Disk health" value={80} variant="positive" />
-</ExampleCard>
+```tsx preview
+import { Meter } from '@geti/ui';
 
-<ExampleCard
-  title="Warning"
-  code={`<Meter label="Memory usage" value={65} variant="warning" />`}
->
-  <Meter label="Memory usage" value={65} variant="warning" />
-</ExampleCard>
+export default function App() {
+  return <Meter label="Storage space" value={50} />;
+}
+```
 
-<ExampleCard
-  title="Critical"
-  code={`<Meter label="CPU usage" value={90} variant="critical" />`}
->
-  <Meter label="CPU usage" value={90} variant="critical" />
-</ExampleCard>
+### Positive
 
-<ExampleCard
-  title="Custom value label"
-  code={`<Meter label="Models trained" value={7} maxValue={10} valueLabel="7 of 10" />`}
->
-  <Meter label="Models trained" value={7} maxValue={10} valueLabel="7 of 10" />
-</ExampleCard>
+```tsx preview
+import { Meter } from '@geti/ui';
+
+export default function App() {
+  return <Meter label="Disk health" value={80} variant="positive" />;
+}
+```
+
+### Warning
+
+```tsx preview
+import { Meter } from '@geti/ui';
+
+export default function App() {
+  return <Meter label="Memory usage" value={65} variant="warning" />;
+}
+```
+
+### Critical
+
+```tsx preview
+import { Meter } from '@geti/ui';
+
+export default function App() {
+  return <Meter label="CPU usage" value={90} variant="critical" />;
+}
+```
+
+### Custom value label
+
+```tsx preview
+import { Meter } from '@geti/ui';
+
+export default function App() {
+  return <Meter label="Models trained" value={7} maxValue={10} valueLabel="7 of 10" />;
+}
+```
 
 ## Responsibility
 

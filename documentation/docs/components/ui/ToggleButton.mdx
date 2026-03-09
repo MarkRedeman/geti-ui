@@ -2,9 +2,6 @@
 title: ToggleButton
 ---
 
-import { ToggleButton } from '@geti/ui';
-import { ExampleCard } from '../../../theme/ExampleCard';
-
 # ToggleButton
 
 ToggleButton is a button that maintains a selected/deselected state. Use it for persistent binary controls — show/hide a panel, lock/unlock an element, or enable/disable a mode.
@@ -18,40 +15,55 @@ import { ToggleButton } from '@geti/ui';
 
 ## Examples
 
-<ExampleCard
-  title="Default (unselected)"
-  code={`<ToggleButton>Mute</ToggleButton>`}
->
-  <ToggleButton>Mute</ToggleButton>
-</ExampleCard>
+### Default (unselected)
 
-<ExampleCard
-  title="Selected by default"
-  code={`<ToggleButton defaultSelected>Pinned</ToggleButton>`}
->
-  <ToggleButton defaultSelected>Pinned</ToggleButton>
-</ExampleCard>
+```tsx preview
+import { ToggleButton } from '@geti/ui';
 
-<ExampleCard
-  title="Emphasized"
-  code={`<ToggleButton isEmphasized defaultSelected>Active</ToggleButton>`}
->
-  <ToggleButton isEmphasized defaultSelected>Active</ToggleButton>
-</ExampleCard>
+export default function App() {
+  return <ToggleButton>Mute</ToggleButton>;
+}
+```
 
-<ExampleCard
-  title="Quiet"
-  code={`<ToggleButton isQuiet>Quiet</ToggleButton>`}
->
-  <ToggleButton isQuiet>Quiet</ToggleButton>
-</ExampleCard>
+### Selected by default
 
-<ExampleCard
-  title="Disabled"
-  code={`<ToggleButton isDisabled>Locked</ToggleButton>`}
->
-  <ToggleButton isDisabled>Locked</ToggleButton>
-</ExampleCard>
+```tsx preview
+import { ToggleButton } from '@geti/ui';
+
+export default function App() {
+  return <ToggleButton defaultSelected>Pinned</ToggleButton>;
+}
+```
+
+### Emphasized
+
+```tsx preview
+import { ToggleButton } from '@geti/ui';
+
+export default function App() {
+  return <ToggleButton isEmphasized defaultSelected>Active</ToggleButton>;
+}
+```
+
+### Quiet
+
+```tsx preview
+import { ToggleButton } from '@geti/ui';
+
+export default function App() {
+  return <ToggleButton isQuiet>Quiet</ToggleButton>;
+}
+```
+
+### Disabled
+
+```tsx preview
+import { ToggleButton } from '@geti/ui';
+
+export default function App() {
+  return <ToggleButton isDisabled>Locked</ToggleButton>;
+}
+```
 
 ## Responsibility
 

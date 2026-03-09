@@ -2,10 +2,6 @@
 title: FullscreenAction
 ---
 
-import { Flex, Text, View } from '@adobe/react-spectrum';
-import { FullscreenAction } from '@geti/ui';
-import { ExampleCard } from '../../../theme/ExampleCard';
-
 # FullscreenAction
 
 FullscreenAction provides a quiet icon button that opens its content in a fullscreen takeover dialog. It is intended for immersive experiences such as image viewers, video players, or rich editing tools that need the full screen.
@@ -18,43 +14,43 @@ import { FullscreenAction } from '@geti/ui';
 
 ## Examples
 
-<ExampleCard
-  title="Default"
-  code={`<FullscreenAction title="Immersive Editor">
-  <Flex direction="column" gap="size-200" UNSAFE_style={{ padding: '20px' }}>
-    <Text>This content is now in fullscreen mode.</Text>
-    <View backgroundColor="gray-200" height="size-2000" width="100%" />
-  </Flex>
-</FullscreenAction>`}
->
-  <FullscreenAction title="Immersive Editor">
-    <Flex direction="column" gap="size-200" UNSAFE_style={{ padding: '20px' }}>
-      <Text>This content is now in fullscreen mode.</Text>
-      <View backgroundColor="gray-200" height="size-2000" width="100%" />
-    </Flex>
-  </FullscreenAction>
-</ExampleCard>
+### Default
 
-<ExampleCard
-  title="With action button"
-  code={`<FullscreenAction
-  title="Photo Viewer"
-  actionButton={<Text UNSAFE_style={{ alignSelf: 'center', marginRight: '10px' }}>Custom Action</Text>}
->
-  <Flex justifyContent="center" alignItems="center" height="100%">
-    <Text>Imagine a large high-resolution image here.</Text>
-  </Flex>
-</FullscreenAction>`}
->
-  <FullscreenAction
-    title="Photo Viewer"
-    actionButton={<Text UNSAFE_style={{ alignSelf: 'center', marginRight: '10px' }}>Custom Action</Text>}
-  >
-    <Flex justifyContent="center" alignItems="center" height="100%">
-      <Text>Imagine a large high-resolution image here.</Text>
-    </Flex>
-  </FullscreenAction>
-</ExampleCard>
+```tsx preview
+import { FullscreenAction } from '@geti/ui';
+import { Flex, Text, View } from '@adobe/react-spectrum';
+
+export default function App() {
+  return (
+    <FullscreenAction title="Immersive Editor">
+      <Flex direction="column" gap="size-200" UNSAFE_style={{ padding: '20px' }}>
+        <Text>This content is now in fullscreen mode.</Text>
+        <View backgroundColor="gray-200" height="size-2000" width="100%" />
+      </Flex>
+    </FullscreenAction>
+  );
+}
+```
+
+### With action button
+
+```tsx preview
+import { FullscreenAction } from '@geti/ui';
+import { Flex, Text } from '@adobe/react-spectrum';
+
+export default function App() {
+  return (
+    <FullscreenAction
+      title="Photo Viewer"
+      actionButton={<Text UNSAFE_style={{ alignSelf: 'center', marginRight: '10px' }}>Custom Action</Text>}
+    >
+      <Flex justifyContent="center" alignItems="center" height="100%">
+        <Text>Imagine a large high-resolution image here.</Text>
+      </Flex>
+    </FullscreenAction>
+  );
+}
+```
 
 ## Responsibility
 

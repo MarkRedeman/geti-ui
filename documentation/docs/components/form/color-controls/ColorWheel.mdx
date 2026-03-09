@@ -2,9 +2,6 @@
 title: ColorWheel
 ---
 
-import { ColorWheel } from '@geti/ui';
-import { ExampleCard } from '../../../../theme/ExampleCard';
-
 # ColorWheel
 
 `ColorWheel` renders a circular hue track that lets users change the hue channel of an HSL or HSB color by rotating a thumb around the ring. Pair it with `ColorArea` for a full HSB color editor.
@@ -18,26 +15,35 @@ import { ColorWheel } from '@geti/ui';
 
 ## Examples
 
-<ExampleCard
-  title="Default"
-  code={`<ColorWheel defaultValue="hsl(0, 100%, 50%)" />`}
->
-  <ColorWheel defaultValue="hsl(0, 100%, 50%)" />
-</ExampleCard>
+### Default
 
-<ExampleCard
-  title="Custom size"
-  code={`<ColorWheel defaultValue="hsl(120, 100%, 50%)" size={300} />`}
->
-  <ColorWheel defaultValue="hsl(120, 100%, 50%)" size={300} />
-</ExampleCard>
+```tsx preview
+import { ColorWheel } from '@geti/ui';
 
-<ExampleCard
-  title="Disabled"
-  code={`<ColorWheel defaultValue="hsl(240, 100%, 50%)" isDisabled />`}
->
-  <ColorWheel defaultValue="hsl(240, 100%, 50%)" isDisabled />
-</ExampleCard>
+export default function App() {
+  return <ColorWheel defaultValue="hsl(0, 100%, 50%)" />;
+}
+```
+
+### Custom size
+
+```tsx preview
+import { ColorWheel } from '@geti/ui';
+
+export default function App() {
+  return <ColorWheel defaultValue="hsl(120, 100%, 50%)" size={300} />;
+}
+```
+
+### Disabled
+
+```tsx preview
+import { ColorWheel } from '@geti/ui';
+
+export default function App() {
+  return <ColorWheel defaultValue="hsl(240, 100%, 50%)" isDisabled />;
+}
+```
 
 ## Responsibility
 

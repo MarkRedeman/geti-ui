@@ -2,9 +2,6 @@
 title: VirtualizedListLayout
 ---
 
-import { VirtualizedListLayout } from '@geti/ui';
-import { ExampleCard } from '../../../theme/ExampleCard';
-
 # VirtualizedListLayout
 
 `VirtualizedListLayout` renders a vertically scrolling list that only mounts the items currently in view. Use it when your list exceeds a few hundred items and `ListView` becomes too slow, or when you need a fully custom item renderer with windowed performance.
@@ -17,48 +14,36 @@ import { VirtualizedListLayout } from '@geti/ui';
 
 ## Examples
 
-<ExampleCard
-  title="1 000-item virtualized list"
-  code={`const items = Array.from({ length: 1000 }, (_, i) => ({
-  id: \`item-\${i}\`,
-  name: \`Item \${i}\`,
-  description: \`Description for item \${i}\`,
-}));
+### 1 000-item virtualized list
 
-<VirtualizedListLayout
-  items={items}
-  ariaLabel="Large virtualized list"
-  containerHeight="size-3000"
-  layoutOptions={{ rowHeight: 60 }}
-  idFormatter={(item) => item.id}
-  textValueFormatter={(item) => item.name}
-  renderItem={(item) => (
-    <div style={{ padding: '10px', borderBottom: '1px solid #333' }}>
-      <strong>{item.name}</strong>
-      <div style={{ opacity: 0.7, fontSize: '0.85rem' }}>{item.description}</div>
-    </div>
-  )}
-/>`}
->
-  <VirtualizedListLayout
-    items={Array.from({ length: 1000 }, (_, i) => ({
-      id: `item-${i}`,
-      name: `Item ${i}`,
-      description: `Description for item ${i}`,
-    }))}
-    ariaLabel="Large virtualized list"
-    containerHeight="size-3000"
-    layoutOptions={{ rowHeight: 60 }}
-    idFormatter={(item) => item.id}
-    textValueFormatter={(item) => item.name}
-    renderItem={(item) => (
-      <div style={{ padding: '10px', borderBottom: '1px solid #444' }}>
-        <strong>{item.name}</strong>
-        <div style={{ opacity: 0.7, fontSize: '0.85rem' }}>{item.description}</div>
-      </div>
-    )}
-  />
-</ExampleCard>
+```tsx preview
+import { VirtualizedListLayout } from '@geti/ui';
+
+export default function App() {
+  const items = Array.from({ length: 1000 }, (_, i) => ({
+    id: `item-${i}`,
+    name: `Item ${i}`,
+    description: `Description for item ${i}`,
+  }));
+
+  return (
+    <VirtualizedListLayout
+      items={items}
+      ariaLabel="Large virtualized list"
+      containerHeight="size-3000"
+      layoutOptions={{ rowHeight: 60 }}
+      idFormatter={(item) => item.id}
+      textValueFormatter={(item) => item.name}
+      renderItem={(item) => (
+        <div style={{ padding: '10px', borderBottom: '1px solid #444' }}>
+          <strong>{item.name}</strong>
+          <div style={{ opacity: 0.7, fontSize: '0.85rem' }}>{item.description}</div>
+        </div>
+      )}
+    />
+  );
+}
+```
 
 ## Responsibility
 

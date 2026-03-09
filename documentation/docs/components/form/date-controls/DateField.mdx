@@ -2,9 +2,6 @@
 title: DateField
 ---
 
-import { DateField, TimeField } from '@geti/ui';
-import { ExampleCard } from '../../../../theme/ExampleCard';
-
 # DateField
 
 `DateField` provides a segmented keyboard input for entering a date value, with each date segment (day, month, year) editable independently. `TimeField` is a co-located companion for time-only values.
@@ -19,54 +16,79 @@ import { DateField, TimeField } from '@geti/ui';
 
 ## Examples
 
-<ExampleCard
-  title="DateField — default"
-  code={`<DateField label="Event date" />`}
->
-  <DateField label="Event date" />
-</ExampleCard>
+### DateField — default
 
-<ExampleCard
-  title="DateField — with description"
-  code={`<DateField label="Birth date" description="Please enter your date of birth." />`}
->
-  <DateField label="Birth date" description="Please enter your date of birth." />
-</ExampleCard>
+```tsx preview
+import { DateField } from '@geti/ui';
 
-<ExampleCard
-  title="DateField — invalid"
-  code={`<DateField label="Expiration date" validationState="invalid" errorMessage="Date must be in the future." />`}
->
-  <DateField label="Expiration date" validationState="invalid" errorMessage="Date must be in the future." />
-</ExampleCard>
+export default function App() {
+  return <DateField label="Event date" />;
+}
+```
 
-<ExampleCard
-  title="DateField — disabled"
-  code={`<DateField label="Release date" isDisabled />`}
->
-  <DateField label="Release date" isDisabled />
-</ExampleCard>
+### DateField — with description
 
-<ExampleCard
-  title="TimeField — default"
-  code={`<TimeField label="Event time" />`}
->
-  <TimeField label="Event time" />
-</ExampleCard>
+```tsx preview
+import { DateField } from '@geti/ui';
 
-<ExampleCard
-  title="TimeField — with description"
-  code={`<TimeField label="Meeting time" description="Please select a time for the meeting." />`}
->
-  <TimeField label="Meeting time" description="Please select a time for the meeting." />
-</ExampleCard>
+export default function App() {
+  return <DateField label="Birth date" description="Please enter your date of birth." />;
+}
+```
 
-<ExampleCard
-  title="TimeField — invalid"
-  code={`<TimeField label="Departure time" validationState="invalid" errorMessage="Time must be in the future." />`}
->
-  <TimeField label="Departure time" validationState="invalid" errorMessage="Time must be in the future." />
-</ExampleCard>
+### DateField — invalid
+
+```tsx preview
+import { DateField } from '@geti/ui';
+
+export default function App() {
+  return (
+    <DateField label="Expiration date" validationState="invalid" errorMessage="Date must be in the future." />
+  );
+}
+```
+
+### DateField — disabled
+
+```tsx preview
+import { DateField } from '@geti/ui';
+
+export default function App() {
+  return <DateField label="Release date" isDisabled />;
+}
+```
+
+### TimeField — default
+
+```tsx preview
+import { TimeField } from '@geti/ui';
+
+export default function App() {
+  return <TimeField label="Event time" />;
+}
+```
+
+### TimeField — with description
+
+```tsx preview
+import { TimeField } from '@geti/ui';
+
+export default function App() {
+  return <TimeField label="Meeting time" description="Please select a time for the meeting." />;
+}
+```
+
+### TimeField — invalid
+
+```tsx preview
+import { TimeField } from '@geti/ui';
+
+export default function App() {
+  return (
+    <TimeField label="Departure time" validationState="invalid" errorMessage="Time must be in the future." />
+  );
+}
+```
 
 ## Responsibility
 

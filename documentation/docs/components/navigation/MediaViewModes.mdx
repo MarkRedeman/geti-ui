@@ -2,9 +2,6 @@
 title: MediaViewModes
 ---
 
-import { MediaViewModes, ViewModes } from '@geti/ui';
-import { ExampleCard } from '../../../theme/ExampleCard';
-
 # MediaViewModes
 
 MediaViewModes provides a compact icon button that opens a menu to switch between grid and list view modes. Use it in media galleries, dataset browsers, and any content grid where users should be able to choose how items are displayed.
@@ -15,61 +12,67 @@ import { MediaViewModes, ViewModes } from '@geti/ui';
 
 ## Examples
 
-<ExampleCard
-  title="Default (medium thumbnails selected)"
-  code={`<MediaViewModes
-  viewMode={ViewModes.MEDIUM}
-  setViewMode={(mode) => console.log(mode)}
-/>`}
->
-  <MediaViewModes
-    viewMode={ViewModes.MEDIUM}
-    setViewMode={(mode) => console.log(mode)}
-  />
-</ExampleCard>
+### Default (medium thumbnails selected)
 
-<ExampleCard
-  title="Details (list) mode selected"
-  code={`<MediaViewModes
-  viewMode={ViewModes.DETAILS}
-  setViewMode={(mode) => console.log(mode)}
-/>`}
->
-  <MediaViewModes
-    viewMode={ViewModes.DETAILS}
-    setViewMode={(mode) => console.log(mode)}
-  />
-</ExampleCard>
+```tsx preview
+import { MediaViewModes, ViewModes } from '@geti/ui';
 
-<ExampleCard
-  title="Disabled"
-  code={`<MediaViewModes
-  viewMode={ViewModes.LARGE}
-  setViewMode={(mode) => console.log(mode)}
-  isDisabled
-/>`}
->
-  <MediaViewModes
-    viewMode={ViewModes.LARGE}
-    setViewMode={(mode) => console.log(mode)}
-    isDisabled
-  />
-</ExampleCard>
+export default function App() {
+  return (
+    <MediaViewModes
+      viewMode={ViewModes.MEDIUM}
+      setViewMode={(mode) => console.log(mode)}
+    />
+  );
+}
+```
 
-<ExampleCard
-  title="Restricted to two modes"
-  code={`<MediaViewModes
-  items={[ViewModes.DETAILS, ViewModes.MEDIUM]}
-  viewMode={ViewModes.MEDIUM}
-  setViewMode={(mode) => console.log(mode)}
-/>`}
->
-  <MediaViewModes
-    items={[ViewModes.DETAILS, ViewModes.MEDIUM]}
-    viewMode={ViewModes.MEDIUM}
-    setViewMode={(mode) => console.log(mode)}
-  />
-</ExampleCard>
+### Details (list) mode selected
+
+```tsx preview
+import { MediaViewModes, ViewModes } from '@geti/ui';
+
+export default function App() {
+  return (
+    <MediaViewModes
+      viewMode={ViewModes.DETAILS}
+      setViewMode={(mode) => console.log(mode)}
+    />
+  );
+}
+```
+
+### Disabled
+
+```tsx preview
+import { MediaViewModes, ViewModes } from '@geti/ui';
+
+export default function App() {
+  return (
+    <MediaViewModes
+      viewMode={ViewModes.LARGE}
+      setViewMode={(mode) => console.log(mode)}
+      isDisabled
+    />
+  );
+}
+```
+
+### Restricted to two modes
+
+```tsx preview
+import { MediaViewModes, ViewModes } from '@geti/ui';
+
+export default function App() {
+  return (
+    <MediaViewModes
+      items={[ViewModes.DETAILS, ViewModes.MEDIUM]}
+      viewMode={ViewModes.MEDIUM}
+      setViewMode={(mode) => console.log(mode)}
+    />
+  );
+}
+```
 
 ## Responsibility
 

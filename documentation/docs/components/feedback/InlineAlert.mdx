@@ -4,7 +4,6 @@ title: InlineAlert
 
 import { InlineAlert } from '@geti/ui';
 import { Heading, Content } from '@adobe/react-spectrum';
-import { ExampleCard } from '../../../theme/ExampleCard';
 
 # InlineAlert
 
@@ -19,70 +18,85 @@ import { InlineAlert } from '@geti/ui';
 
 ## Examples
 
-<ExampleCard
-  title="Neutral — general information"
-  code={`<InlineAlert variant="neutral">
-  <Heading>Note</Heading>
-  <Content>This dataset does not have any annotations yet.</Content>
-</InlineAlert>`}
->
-  <InlineAlert variant="neutral">
-    <Heading>Note</Heading>
-    <Content>This dataset does not have any annotations yet.</Content>
-  </InlineAlert>
-</ExampleCard>
+### Neutral — general information
 
-<ExampleCard
-  title="Info"
-  code={`<InlineAlert variant="info">
-  <Heading>Information</Heading>
-  <Content>Your session will expire in 10 minutes.</Content>
-</InlineAlert>`}
->
-  <InlineAlert variant="info">
-    <Heading>Information</Heading>
-    <Content>Your session will expire in 10 minutes.</Content>
-  </InlineAlert>
-</ExampleCard>
+```tsx preview
+import { InlineAlert } from '@geti/ui';
+import { Heading, Content } from '@adobe/react-spectrum';
 
-<ExampleCard
-  title="Positive — success confirmation"
-  code={`<InlineAlert variant="positive">
-  <Heading>Success</Heading>
-  <Content>Your changes have been saved successfully.</Content>
-</InlineAlert>`}
->
-  <InlineAlert variant="positive">
-    <Heading>Success</Heading>
-    <Content>Your changes have been saved successfully.</Content>
-  </InlineAlert>
-</ExampleCard>
+export default function App() {
+  return (
+    <InlineAlert variant="neutral">
+      <Heading>Note</Heading>
+      <Content>This dataset does not have any annotations yet.</Content>
+    </InlineAlert>
+  );
+}
+```
 
-<ExampleCard
-  title="Notice — warning"
-  code={`<InlineAlert variant="notice">
-  <Heading>Warning</Heading>
-  <Content>This action will remove all existing annotations.</Content>
-</InlineAlert>`}
->
-  <InlineAlert variant="notice">
-    <Heading>Warning</Heading>
-    <Content>This action will remove all existing annotations.</Content>
-  </InlineAlert>
-</ExampleCard>
+### Info
 
-<ExampleCard
-  title="Negative — validation error"
-  code={`<InlineAlert variant="negative">
-  <Heading>Error</Heading>
-  <Content>The form contains errors. Please review and try again.</Content>
-</InlineAlert>`}
->
-  <InlineAlert variant="negative">
-    <Heading>Error</Heading>
-    <Content>The form contains errors. Please review and try again.</Content>
-  </InlineAlert>
-</ExampleCard>
+```tsx preview
+import { InlineAlert } from '@geti/ui';
+import { Heading, Content } from '@adobe/react-spectrum';
+
+export default function App() {
+  return (
+    <InlineAlert variant="info">
+      <Heading>Information</Heading>
+      <Content>Your session will expire in 10 minutes.</Content>
+    </InlineAlert>
+  );
+}
+```
+
+### Positive — success confirmation
+
+```tsx preview
+import { InlineAlert } from '@geti/ui';
+import { Heading, Content } from '@adobe/react-spectrum';
+
+export default function App() {
+  return (
+    <InlineAlert variant="positive">
+      <Heading>Success</Heading>
+      <Content>Your changes have been saved successfully.</Content>
+    </InlineAlert>
+  );
+}
+```
+
+### Notice — warning
+
+```tsx preview
+import { InlineAlert } from '@geti/ui';
+import { Heading, Content } from '@adobe/react-spectrum';
+
+export default function App() {
+  return (
+    <InlineAlert variant="notice">
+      <Heading>Warning</Heading>
+      <Content>This action will remove all existing annotations.</Content>
+    </InlineAlert>
+  );
+}
+```
+
+### Negative — validation error
+
+```tsx preview
+import { InlineAlert } from '@geti/ui';
+import { Heading, Content } from '@adobe/react-spectrum';
+
+export default function App() {
+  return (
+    <InlineAlert variant="negative">
+      <Heading>Error</Heading>
+      <Content>The form contains errors. Please review and try again.</Content>
+    </InlineAlert>
+  );
+}
+```
 
 ## Responsibility
 
