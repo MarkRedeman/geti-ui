@@ -1,3 +1,7 @@
+html {
+    color-scheme: dark !important;
+}
+
 :where(:root) {
     --geti-gray-50: rgb(36, 37, 40);
     --geti-gray-75: rgb(46, 47, 50);
@@ -77,6 +81,7 @@
     --geti-sidebar-item-active: rgb(0 149 202 / 20%);
 
     --rp-code-block-bg: var(--geti-gray-75);
+    --rp-code-title-bg: var(--geti-gray-75);
 }
 
 :where(html:not(.rp-dark)) {
@@ -120,7 +125,12 @@
     --rp-home-background-bg: var(--geti-gray-50);
     --rp-home-feature-bg: var(--geti-gray-75);
 
+    --rp-code-title-bg: var(--geti-gray-75);
     --rp-code-block-bg: var(--geti-gray-75);
+}
+
+.rp-preview--internal__card {
+    background: var(--rp-code-block-bg);
 }
 
 /* Keep homepage navbar consistent with inner pages */
@@ -147,10 +157,6 @@
 }
 :where(html:not(.rp-dark)) .rp-search-button__hotkey {
     background: var(--geti-gray-50);
-}
-
-rp-codeblock__content {
-    background: var(--geti-gray-200);
 }
 
 .rp-home-background {
