@@ -126,17 +126,17 @@
     /* react spectrum additions */
     --react-spectrum-datepicker-placeholder-color: var(--spectrum-global-color-gray-600); /* 4.8:1 contrast ratio */
 
-    --spectrum-global-color-gray-50: #242528;
-    --spectrum-global-color-gray-75: #2e2f32;
-    --spectrum-global-color-gray-100: #313236;
-    --spectrum-global-color-gray-200: #3c3e42;
-    --spectrum-global-color-gray-300: #484a50;
-    --spectrum-global-color-gray-400: #585a62;
-    --spectrum-global-color-gray-500: #6b6e76;
-    --spectrum-global-color-gray-600: #8e9099;
-    --spectrum-global-color-gray-700: #b7b9be;
-    --spectrum-global-color-gray-800: #e3e3e5;
-    --spectrum-global-color-gray-900: #ffffff;
+    --spectrum-global-color-gray-50: rgb(36, 37, 40);
+    --spectrum-global-color-gray-75: rgb(46, 47, 50);
+    --spectrum-global-color-gray-100: rgb(49, 50, 54);
+    --spectrum-global-color-gray-200: rgb(60, 62, 66);
+    --spectrum-global-color-gray-300: rgb(72, 74, 80);
+    --spectrum-global-color-gray-400: rgb(88, 90, 98);
+    --spectrum-global-color-gray-500: rgb(107, 110, 118);
+    --spectrum-global-color-gray-600: rgb(142, 144, 153);
+    --spectrum-global-color-gray-700: rgb(183, 185, 190);
+    --spectrum-global-color-gray-800: rgb(227, 227, 229);
+    --spectrum-global-color-gray-900: rgb(255, 255, 255);
     --spectrum-well-background-color: var(--spectrum-global-color-gray-100);
     --spectrum-alias-background-color-modal-overlay: rgba(0, 0, 0, 0.5);
     --spectrum-semantic-negative-color-text-small: var(--brand-coral-cobalt);

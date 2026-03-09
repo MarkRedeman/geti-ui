@@ -4,11 +4,11 @@ import '@geti/ui/styles.css';
 import './index.css';
 
 export const Layout = () => {
-  return (
-    <ThemeProvider>
-      <OriginalLayout />
-    </ThemeProvider>
-  );
+    return (
+        <ThemeProvider>
+            <OriginalLayout />
+        </ThemeProvider>
+    );
 };
 
 export * from '@rspress/core/theme-original';

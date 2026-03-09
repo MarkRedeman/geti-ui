@@ -11,11 +11,18 @@
   --geti-gray-900: rgb(255, 255, 255);
 
   --geti-classic-blue: #0054ae;
+  --geti-classic-blue-shade-1: #00377c;
+  --geti-classic-blue-shade-2: #001e50;
   --geti-classic-blue-dark: #00377c;
   --geti-classic-blue-deep: #001e50;
   --geti-energy-blue: #00c7fd;
   --geti-energy-blue-shade: #0095ca;
   --geti-energy-blue-light: #6ddcff;
+  --geti-energy-blue-tint: #a0ebff;
+  --geti-blue-steel: #548fad;
+  --geti-moss: #8bae46;
+  --geti-rust: #e96d15;
+  --geti-geode: #8f5da2;
 
   --geti-daisy: #fec91b;
   --geti-coral: #ff5662;
@@ -28,14 +35,14 @@
 
 :where(:root),
 :where(html.rp-dark) {
-  --rp-c-brand: var(--geti-classic-blue);
-  --rp-c-brand-light: var(--geti-energy-blue-shade);
-  --rp-c-brand-dark: var(--geti-classic-blue-dark);
-  --rp-c-brand-darker: var(--geti-classic-blue-deep);
+  --rp-c-brand: var(--geti-energy-blue-shade);
+  --rp-c-brand-light: var(--geti-energy-blue-light);
+  --rp-c-brand-dark: var(--geti-classic-blue);
+  --rp-c-brand-darker: var(--geti-classic-blue-dark);
 
-  --rp-c-bg: var(--geti-gray-75);
-  --rp-c-bg-soft: var(--geti-gray-100);
-  --rp-c-bg-mute: var(--geti-gray-200);
+  --rp-c-bg: var(--geti-gray-50);
+  --rp-c-bg-soft: var(--geti-gray-75);
+  --rp-c-bg-mute: var(--geti-gray-100);
 
   --rp-c-text-1: var(--geti-gray-900);
   --rp-c-text-2: var(--geti-gray-800);
@@ -46,25 +53,25 @@
   --rp-c-divider-light: var(--geti-gray-200);
   --rp-c-border: var(--geti-gray-300);
 
-  --rp-c-link: var(--geti-energy-blue-shade);
-  --rp-c-link-hover: var(--geti-energy-blue-light);
+  --rp-c-link: var(--geti-energy-blue-light);
+  --rp-c-link-hover: var(--geti-energy-blue-tint);
 
-  --rp-c-code-bg: var(--geti-gray-50);
-  --rp-c-code-border: var(--geti-gray-200);
+  --rp-c-code-bg: var(--geti-gray-75);
+  --rp-c-code-border: var(--geti-gray-300);
 
-  --rp-c-tip-bg: rgba(0, 149, 202, 0.12);
+  --rp-c-tip-bg: rgba(0, 199, 253, 0.1);
   --rp-c-tip-border: var(--geti-energy-blue-shade);
-  --rp-c-warning-bg: rgba(254, 201, 27, 0.12);
+  --rp-c-warning-bg: rgba(254, 201, 27, 0.1);
   --rp-c-warning-border: var(--geti-daisy);
-  --rp-c-danger-bg: rgba(255, 86, 98, 0.12);
+  --rp-c-danger-bg: rgba(255, 86, 98, 0.1);
   --rp-c-danger-border: var(--geti-coral);
 
-  --geti-sidebar-item-hover: rgb(0 84 174 / 12%);
-  --geti-sidebar-item-active: rgb(0 84 174 / 20%);
+  --geti-sidebar-item-hover: rgb(0 149 202 / 12%);
+  --geti-sidebar-item-active: rgb(0 149 202 / 20%);
 }
 
 .rp-nav {
-  background: var(--geti-gray-50);
+  background: var(--geti-gray-75);
   border-bottom: 1px solid var(--rp-c-divider);
   box-shadow: var(--geti-shadow-1);
 }
@@ -75,7 +82,7 @@
 }
 
 .rp-sidebar {
-  background: var(--geti-gray-100);
+  background: var(--geti-gray-75);
   border-right: 1px solid var(--rp-c-divider);
 }
 
@@ -104,8 +111,8 @@
 .rp-sidebar a.sidebar-item[aria-current='page'],
 .rp-sidebar .rp-sidebar-item[aria-current='page'] {
   background: var(--geti-sidebar-item-active);
-  color: var(--geti-energy-blue);
-  box-shadow: inset 2px 0 0 var(--geti-classic-blue);
+  color: var(--geti-energy-blue-light);
+  box-shadow: inset 2px 0 0 var(--geti-energy-blue-shade);
   font-weight: 500;
 }
 
@@ -156,13 +163,13 @@
 
 .rp-doc a {
   color: var(--rp-c-link);
-  text-decoration-color: rgb(0 149 202 / 45%);
+  text-decoration-color: rgb(109 220 255 / 45%);
   text-underline-offset: 2px;
 }
 
 .rp-doc a:hover {
   color: var(--rp-c-link-hover);
-  text-decoration-color: rgb(109 220 255 / 60%);
+  text-decoration-color: rgb(160 235 255 / 60%);
 }
 
 .rp-doc pre,
@@ -176,7 +183,7 @@
 .rp-codeblock__title,
 .rp-code-block__title,
 .code-block-title {
-  background: var(--geti-gray-200);
+  background: var(--geti-gray-100);
   border: 1px solid var(--rp-c-code-border);
   border-bottom: none;
   border-radius: var(--geti-radius-md) var(--geti-radius-md) 0 0;
@@ -197,7 +204,7 @@
 .copy-btn,
 .copy-code-button {
   border: 1px solid var(--rp-c-border);
-  background: var(--geti-gray-200);
+  background: var(--geti-gray-100);
   border-radius: var(--geti-radius-sm);
   color: var(--rp-c-text-3);
 }
@@ -206,16 +213,16 @@
 .rp-code-block__copy:hover,
 .copy-btn:hover,
 .copy-code-button:hover {
-  background: var(--geti-classic-blue);
-  border-color: var(--geti-classic-blue);
+  background: var(--geti-classic-blue-shade-1, #00377c);
+  border-color: var(--geti-classic-blue-shade-1, #00377c);
   color: var(--geti-gray-900);
 }
 
 .rp-doc :not(pre) > code {
-  background: rgba(60, 62, 66, 0.7);
+  background: rgba(49, 50, 54, 0.9);
   border: 1px solid var(--rp-c-code-border);
   border-radius: var(--geti-radius-sm);
-  color: #a0ebff;
+  color: var(--geti-energy-blue-tint);
   padding: 0.12em 0.4em;
 }
 
@@ -228,7 +235,7 @@
 }
 
 .rp-doc thead {
-  background: var(--geti-gray-200);
+  background: var(--geti-gray-100);
 }
 
 .rp-doc th,
@@ -285,7 +292,7 @@
   background: linear-gradient(
     135deg,
     var(--geti-gray-50) 0%,
-    var(--geti-classic-blue-deep) 60%,
-    rgba(0, 199, 253, 0.2) 100%
+    var(--geti-classic-blue-shade-2, #001e50) 60%,
+    rgba(0, 199, 253, 0.16) 100%
   );
 }
