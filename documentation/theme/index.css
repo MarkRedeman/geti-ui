@@ -7,6 +7,7 @@
     --geti-gray-400: rgb(88, 90, 98);
     --geti-gray-500: rgb(107, 110, 118);
     --geti-gray-600: rgb(142, 144, 153);
+    --geti-gray-700: rgb(183, 185, 190);
     --geti-gray-800: rgb(227, 227, 229);
     --geti-gray-900: rgb(255, 255, 255);
 
@@ -271,14 +272,6 @@
     text-decoration-color: rgb(160 235 255 / 60%);
 }
 
-.rp-doc pre code,
-.rp-code-block pre code {
-    background: var(--rp-c-code-bg) !important;
-    border: 1px solid var(--rp-c-code-border);
-    border-radius: var(--geti-radius-md);
-    box-shadow: var(--geti-shadow-1);
-}
-
 .rp-codeblock__title,
 .rp-code-block__title,
 .code-block-title {
@@ -394,4 +387,13 @@
         var(--geti-classic-blue-shade-2, #001e50) 60%,
         rgba(0, 199, 253, 0.16) 100%
     );
+}
+
+.rp-search-button {
+    background: none;
+    margin-right: auto;
+}
+
+.rp-search-button__hotkey {
+    background: var(--geti-gray-900);
 }
