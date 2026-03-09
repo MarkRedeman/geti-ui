@@ -11,3 +11,5 @@ coverage
 *.local
 .env
 *.swp
+.slim/
+plans/
