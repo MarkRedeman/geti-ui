@@ -249,8 +249,8 @@
     text-decoration-color: rgb(160 235 255 / 60%);
 }
 
-.rp-doc pre,
-.rp-code-block pre {
+.rp-doc pre code,
+.rp-code-block pre code {
     background: var(--rp-c-code-bg) !important;
     border: 1px solid var(--rp-c-code-border);
     border-radius: var(--geti-radius-md);
