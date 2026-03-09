@@ -85,6 +85,9 @@ const examplesSidebar = [
 
 export default defineConfig({
     root: path.join(__dirname, 'docs'),
+    route: {
+        cleanUrls: true,
+    },
     title: 'Geti UI',
     description: 'Component design system for Intel Geti products',
     // icon: '/favicon.png',
