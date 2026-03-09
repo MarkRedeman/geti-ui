@@ -94,6 +94,16 @@ export default defineConfig({
     ssg: false,
     markdown: {},
     builderConfig: {
+        html: {
+            template: './static/index.html',
+            tags: [
+                {
+                    tag: 'script',
+                    children: "window.RSPRESS_THEME = 'dark';",
+                    append: false,
+                },
+            ],
+        },
         tools: {
             rspack: {
                 module: {
@@ -109,7 +119,7 @@ export default defineConfig({
         },
     },
     themeConfig: {
-        darkMode: true,
+        darkMode: false,
         llmsUI: true,
         nav: [
             { text: 'Components', link: '/components/ui/Button' },
