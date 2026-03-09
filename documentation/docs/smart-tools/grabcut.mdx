@@ -1,0 +1,36 @@
+---
+title: GrabCut
+---
+
+# GrabCut
+
+`buildGrabcutInstance()` creates a GrabCut tool instance backed by OpenCV.
+
+## Use case
+
+Foreground/background segmentation from an ROI rectangle and optional foreground/background marker strokes.
+
+## Example
+
+```ts
+import { buildGrabcutInstance } from '@geti/smart-tools';
+
+const grabcut = await buildGrabcutInstance();
+grabcut.loadImage(imageData);
+
+const polygon = grabcut.startGrabcut({
+  inputRect: { x: 40, y: 60, width: 320, height: 240 },
+  sensitivity: 600,
+  inOrder: true,
+  strokeWidth: 4,
+  foreground: [],
+  background: [],
+});
+```
+
+## Key API
+
+- `loadImage(imageData)`
+- `startGrabcut(data)`
+- `reset()`
+- `terminate()`

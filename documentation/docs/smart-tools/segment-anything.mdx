@@ -1,0 +1,35 @@
+---
+title: Segment Anything
+---
+
+# Segment Anything (ONNX)
+
+Segment Anything in this package exposes encoder/decoder flows via a wrapper.
+
+## Imports
+
+```ts
+import { buildSegmentAnythingInstance, SegmentAnythingModels } from '@geti/smart-tools/segment-anything';
+```
+
+## Example
+
+```ts
+const sam = await buildSegmentAnythingInstance();
+
+await sam.init('SEGMENT_ANYTHING_ENCODER');
+const encoding = await sam.processEncoder(imageData);
+
+await sam.init('SEGMENT_ANYTHING_DECODER');
+const result = await sam.processDecoder(encoding, {
+  points: [{ x: 150, y: 200, positive: true }],
+  boxes: [],
+});
+```
+
+## Model assets
+
+`SegmentAnythingModels` exports model URLs included in package `dist`:
+
+- `encoder`
+- `decoder`

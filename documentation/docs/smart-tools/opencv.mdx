@@ -1,0 +1,40 @@
+---
+title: OpenCV
+---
+
+# OpenCV in `@geti/smart-tools`
+
+Smart tools use a custom OpenCV WASM build with a curated allow list of APIs.
+
+## Build flow
+
+Use the package script scaffold:
+
+```bash
+./packages/smart-tools/scripts/compile-opencv-wasm.sh
+```
+
+This script:
+
+1. Clones OpenCV,
+2. Uses `scripts/opencv_js.config.py`,
+3. Runs the emscripten Docker build,
+4. Produces `opencv.js` output for package usage.
+
+## Why custom build
+
+We compile only the APIs needed by Geti smart tools to reduce size and startup overhead.
+
+## Restrictions
+
+- Only allow-listed methods are available.
+- Adding new OpenCV APIs requires an allow-list update + rebuild.
+- Browser/worker runtime assumptions apply.
+
+## Related tools
+
+- [GrabCut](./grabcut)
+- [Inference Image](./inference-image)
+- [Intelligent Scissors](./intelligent-scissors)
+- [SSIM](./ssim)
+- [Watershed](./watershed)

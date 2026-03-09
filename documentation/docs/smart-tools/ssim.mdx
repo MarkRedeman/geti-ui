@@ -1,0 +1,25 @@
+---
+title: SSIM
+---
+
+# SSIM
+
+`buildSSIMInstance()` performs structural similarity matching in a region of interest.
+
+## Example
+
+```ts
+import { buildSSIMInstance } from '@geti/smart-tools';
+
+const ssim = await buildSSIMInstance();
+const matches = ssim.executeSSIM({
+  imageData,
+  template: { x: 30, y: 40, width: 120, height: 100 },
+  roi: { x: 0, y: 0, width: imageData.width, height: imageData.height },
+});
+```
+
+## Key API
+
+- `executeSSIM({ imageData, template, roi })`
+- `terminate()`

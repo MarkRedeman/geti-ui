@@ -1,0 +1,27 @@
+---
+title: Intelligent Scissors
+---
+
+# Intelligent Scissors
+
+`buildIntelligentScissorsInstance()` provides live-wire contour tracing based on image gradients.
+
+## Example
+
+```ts
+import { buildIntelligentScissorsInstance } from '@geti/smart-tools';
+
+const tool = await buildIntelligentScissorsInstance();
+tool.loadImage(imageData);
+tool.buildMap({ x: 100, y: 120 });
+const contour = tool.calcPoints({ x: 220, y: 180 });
+```
+
+## Key API
+
+- `loadImage(imageData)`
+- `buildMap(point)`
+- `calcPoints(point)`
+- `optimizePolygon(polygon)`
+- `optimizeSegments(segments)`
+- `cleanPoints()` / `cleanImg()` / `terminate()`

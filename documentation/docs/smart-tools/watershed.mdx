@@ -1,0 +1,31 @@
+---
+title: Watershed
+---
+
+# Watershed
+
+`buildWatershedInstance()` segments marker-driven regions into output polygons.
+
+## Example
+
+```ts
+import { buildWatershedInstance } from '@geti/smart-tools';
+
+const watershed = await buildWatershedInstance();
+watershed.loadImage(imageData);
+
+const polygons = watershed.executeWatershed(
+  [
+    { id: 2, label: 'object', points: [{ x: 20, y: 20 }, { x: 40, y: 40 }] },
+    { id: 1, label: 'background', points: [{ x: 5, y: 5 }, { x: 10, y: 10 }] },
+  ],
+  600
+);
+```
+
+## Key API
+
+- `loadImage(imageData)`
+- `executeWatershed(markers, sensitivity)`
+- `clearMemory()`
+- `terminate()`

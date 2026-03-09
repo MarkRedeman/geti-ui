@@ -1,0 +1,49 @@
+---
+title: Installation
+---
+
+# Smart Tools Installation
+
+Install the package:
+
+```bash
+npm install @geti/smart-tools
+```
+
+## What this package provides
+
+- OpenCV WASM based tools:
+  - GrabCut
+  - Inference Image
+  - Intelligent Scissors
+  - SSIM
+  - Watershed
+- ONNX based tools:
+  - RITM
+  - Segment Anything
+
+## Basic import examples
+
+```ts
+import { buildGrabcutInstance, buildWatershedInstance } from '@geti/smart-tools';
+import { buildRITMInstance, RITMModels } from '@geti/smart-tools/ritm';
+import { buildSegmentAnythingInstance, SegmentAnythingModels } from '@geti/smart-tools/segment-anything';
+import type { Shape } from '@geti/smart-tools/types';
+```
+
+## Runtime notes
+
+- The package is browser-worker oriented.
+- ONNX Runtime Web is used for RITM and Segment Anything.
+- ONNX model files are included in package `dist` and exposed via exported model URLs.
+
+## Next pages
+
+- [OpenCV](./opencv)
+- [GrabCut](./grabcut)
+- [Inference Image](./inference-image)
+- [Intelligent Scissors](./intelligent-scissors)
+- [SSIM](./ssim)
+- [Watershed](./watershed)
+- [RITM](./ritm)
+- [Segment Anything](./segment-anything)

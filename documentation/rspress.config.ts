@@ -22,7 +22,29 @@ const smartToolsSidebar = [
   {
     text: 'Smart Tools',
     collapsed: false,
-    items: [{ text: 'Overview', link: '/smart-tools/' }],
+    items: [
+      { text: 'Installation', link: '/smart-tools/installation' },
+      { text: 'OpenCV', link: '/smart-tools/opencv' },
+    ],
+  },
+  {
+    text: 'OpenCV based tools',
+    collapsed: false,
+    items: [
+      { text: 'GrabCut', link: '/smart-tools/grabcut' },
+      { text: 'Inference image', link: '/smart-tools/inference-image' },
+      { text: 'Intelligent scissors', link: '/smart-tools/intelligent-scissors' },
+      { text: 'SSIM', link: '/smart-tools/ssim' },
+      { text: 'Watershed', link: '/smart-tools/watershed' },
+    ],
+  },
+  {
+    text: 'ONNX based tools',
+    collapsed: false,
+    items: [
+      { text: 'RITM', link: '/smart-tools/ritm' },
+      { text: 'Segment Anything', link: '/smart-tools/segment-anything' },
+    ],
   },
 ];
 
@@ -91,7 +113,7 @@ export default defineConfig({
     nav: [
       { text: 'Components', link: '/components/ui/Button' },
       { text: 'Assets', link: '/assets/' },
-      { text: 'Smart Tools', link: '/smart-tools/' },
+      { text: 'Smart tools', link: '/smart-tools/installation' },
       { text: 'Examples', link: '/examples' },
       { text: 'Used By', link: '/used-by' },
     ],

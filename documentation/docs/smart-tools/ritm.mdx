@@ -1,0 +1,34 @@
+---
+title: RITM
+---
+
+# RITM (ONNX)
+
+RITM is an iterative click-based segmentation model.
+
+## Imports
+
+```ts
+import { buildRITMInstance, RITMModels, RITM_TEMPLATE_SIZE } from '@geti/smart-tools/ritm';
+```
+
+## Example
+
+```ts
+const ritm = await buildRITMInstance();
+await ritm.load();
+
+ritm.loadImage(imageData);
+const shape = await ritm.execute(
+  { x: 0, y: 0, width: imageData.width, height: imageData.height },
+  [{ x: 100, y: 120, positive: true }],
+  'polygon'
+);
+```
+
+## Model assets
+
+`RITMModels` exports model URLs included in package `dist`:
+
+- `main`
+- `preprocess`

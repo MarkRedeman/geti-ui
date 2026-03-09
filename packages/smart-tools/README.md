@@ -33,7 +33,7 @@ It must be compiled locally or obtained from the release artifacts.
 # From the repository root:
 cd packages/smart-tools
 
-# Run the build script (compiles OpenCV 4.9.0 with the configured whitelist)
+# Run the build script (compiles OpenCV 4.9.0 with the configured allow list)
 ./scripts/compile-opencv-wasm.sh
 
 # Override the target version (optional)
@@ -48,11 +48,11 @@ EMSCRIPTEN_IMAGE=emscripten/emsdk:3.1.25 ./scripts/compile-opencv-wasm.sh
 
 The script will:
 1. Clone `https://github.com/opencv/opencv.git` at the pinned tag into a temp directory.
-2. Copy `scripts/opencv_js.config.py` (the whitelist config) into the build context.
+2. Copy `scripts/opencv_js.config.py` (the allow-list config) into the build context.
 3. Run the emscripten Docker image to build `opencv.js` with WASM support.
 4. Copy the output to `src/opencv/<version>/opencv.js` (and `opencv.wasm` if present).
 
-### Whitelist configuration
+### Allow-list configuration
 
 `scripts/opencv_js.config.py` controls which OpenCV modules and functions are compiled into the binary.
 Edit this file to add or remove functions — only include what the smart-tools package actually uses to keep the output size small.
