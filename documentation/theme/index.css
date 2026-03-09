@@ -202,11 +202,6 @@
     outline-color: rgb(0, 84, 174);
 }
 
-.rp-nav,
-.rp-nav * {
-    font-size: 0.9rem;
-}
-
 .rp-sidebar {
     background: var(--geti-gray-75);
     border-right: 1px solid var(--rp-c-divider);
@@ -298,8 +293,6 @@
     text-decoration-color: rgb(160 235 255 / 60%);
 }
 
-.rp-codeblock__title,
-.rp-code-block__title,
 .code-block-title {
     background: var(--geti-gray-100);
     border: 1px solid var(--rp-c-code-border);
@@ -310,16 +303,12 @@
     padding: 0.36rem 0.7rem;
 }
 
-.rp-codeblock__title + pre,
-.rp-code-block__title + pre,
 .code-block-title + pre {
     border-top-left-radius: 0;
     border-top-right-radius: 0;
 }
 
-.rp-codeblock__copy,
-.rp-code-block__copy,
-.copy-btn,
+.rp-llms-copy-button,
 .copy-code-button {
     border: 1px solid var(--rp-c-border);
     background: var(--geti-gray-100);
@@ -327,9 +316,7 @@
     color: var(--rp-c-text-3);
 }
 
-.rp-codeblock__copy:hover,
-.rp-code-block__copy:hover,
-.copy-btn:hover,
+.rp-llms-copy-button:hover,
 .copy-code-button:hover {
     background: var(--geti-classic-blue-shade-1, #00377c);
     border-color: var(--geti-classic-blue-shade-1, #00377c);
