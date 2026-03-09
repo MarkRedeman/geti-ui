@@ -40,12 +40,12 @@
   --rp-c-brand-dark: var(--geti-classic-blue);
   --rp-c-brand-darker: var(--geti-classic-blue-dark);
 
-  --rp-c-bg: var(--geti-gray-50);
-  --rp-c-bg-soft: var(--geti-gray-75);
-  --rp-c-bg-mute: var(--geti-gray-100);
+  --rp-c-bg: rgb(36, 37, 40);
+  --rp-c-bg-soft: rgb(68, 73, 80);
+  --rp-c-bg-mute: rgb(68, 73, 80);
 
-  --rp-c-text-1: var(--geti-gray-900);
-  --rp-c-text-2: var(--geti-gray-800);
+  --rp-c-text-1: rgb(233, 234, 235);
+  --rp-c-text-2: rgb(183, 185, 190);
   --rp-c-text-3: var(--geti-gray-600);
   --rp-c-text-4: var(--geti-gray-500);
 
@@ -71,9 +71,29 @@
 }
 
 .rp-nav {
-  background: var(--geti-gray-75);
+  background: #00c7fd;
   border-bottom: 1px solid var(--rp-c-divider);
   box-shadow: var(--geti-shadow-1);
+}
+
+.rp-nav,
+.rp-nav * {
+  color: #000;
+}
+
+.rp-nav a,
+.rp-nav .rp-nav-menu-item,
+.rp-nav .rp-nav-menu-item a,
+.rp-nav .rp-nav-title,
+.rp-nav .rp-nav-logo {
+  color: #000;
+}
+
+.rp-nav a:hover,
+.rp-nav .rp-nav-menu-item:hover,
+.rp-nav .rp-nav-menu-item[aria-current='page'],
+.rp-nav .rp-nav-menu-item.active {
+  color: #000;
 }
 
 .rp-nav,
