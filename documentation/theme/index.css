@@ -144,14 +144,6 @@
     color: #000;
 }
 
-.rp-nav a,
-.rp-nav .rp-nav-menu-item,
-.rp-nav .rp-nav-menu-item a,
-.rp-nav .rp-nav-title,
-.rp-nav .rp-nav-logo {
-    color: #000;
-}
-
 /* Match Geti docs logo sizing in navbar */
 .rp-nav .rp-nav__title {
     align-self: stretch;
@@ -179,9 +171,8 @@
 }
 
 .rp-nav a:hover,
-.rp-nav .rp-nav-menu-item:hover,
-.rp-nav .rp-nav-menu-item[aria-current='page'],
-.rp-nav .rp-nav-menu-item.active {
+.rp-nav-menu__item:hover .rp-nav-menu__item__container,
+.rp-nav-menu__item--active .rp-nav-menu__item__container {
     color: white;
 }
 
@@ -240,12 +231,6 @@
 
 .rp-sidebar a.sidebar-item:hover {
     background: var(--geti-sidebar-item-hover);
-}
-
-.rp-nav-menu__item--active .rp-nav-menu__item__container,
-.rp-nav-menu__item:hover .rp-nav-menu__item__container {
-    color: white;
-    font-size: inherit;
 }
 
 .rp-sidebar a.sidebar-item.active,
