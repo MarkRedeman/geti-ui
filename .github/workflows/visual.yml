@@ -15,7 +15,7 @@ jobs:
     outputs:
       components: ${{ steps.filter.outputs.changes }}
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
         with:
           persist-credentials: false
 
@@ -42,7 +42,7 @@ jobs:
       contents: read
       pull-requests: write # post/update PR result comment
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
         with:
           persist-credentials: false
 
