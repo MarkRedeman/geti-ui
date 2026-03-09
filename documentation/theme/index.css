@@ -203,6 +203,7 @@
 .rp-nav-menu__item--active .rp-nav-menu__item__container,
 .rp-nav-menu__item:hover .rp-nav-menu__item__container {
     color: white;
+    font-size: inherit;
 }
 
 .rp-sidebar a.sidebar-item.active,
