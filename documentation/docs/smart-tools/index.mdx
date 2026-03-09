@@ -1,0 +1,91 @@
+---
+title: Smart Tools
+---
+
+# Smart Tools
+
+`@geti/smart-tools` is the computer-vision runtime library for Intel Geti products.
+It provides OpenCV WASM-backed segmentation tools (watershed, grabcut, intelligent scissors, SSIM) and ONNX-backed AI models (RITM, Segment Anything), together with shared utilities and geometry helpers.
+
+:::tip Initial migration phase
+This package is currently being migrated into the monorepo.
+The API surface documented here reflects the reference implementation.
+Interactive demos are planned for a later phase once full parity is established.
+:::
+
+## Install
+
+```bash
+npm install @geti/smart-tools
+```
+
+## Import examples
+
+### Main entry — utilities and shared types
+
+```ts
+import { someUtil } from '@geti/smart-tools';
+```
+
+### OpenCV type interfaces
+
+```ts
+import type { CV } from '@geti/smart-tools/opencv';
+```
+
+### Utility helpers
+
+```ts
+import { calculateIoU, pointInPolygon } from '@geti/smart-tools/utils';
+```
+
+### Shared domain types
+
+```ts
+import type { Annotation, Shape } from '@geti/smart-tools/types';
+```
+
+### RITM (interactive segmentation model)
+
+```ts
+import { RITMModel } from '@geti/smart-tools/ritm';
+```
+
+### Segment Anything Model
+
+```ts
+import { SAMModel } from '@geti/smart-tools/segment-anything';
+```
+
+## Sub-packages
+
+| Subpath | Contents |
+|---|---|
+| `@geti/smart-tools` | Main entry — re-exports all stable public API |
+| `@geti/smart-tools/opencv` | OpenCV type interfaces and loader |
+| `@geti/smart-tools/utils` | Geometry, polygon, and tool utilities |
+| `@geti/smart-tools/types` | Shared domain types and interfaces |
+| `@geti/smart-tools/ritm` | RITM interactive segmentation model |
+| `@geti/smart-tools/segment-anything` | Segment Anything Model (SAM) |
+
+## OpenCV tools
+
+The following tools are powered by a custom-compiled OpenCV WASM binary:
+
+- **Watershed** — region-based segmentation using marker flooding
+- **GrabCut** — foreground/background separation from a bounding-box hint
+- **Intelligent Scissors** — live-wire boundary tracing along image gradients
+- **SSIM** — Structural Similarity Index for image quality comparison
+- **Inference image** — pre/post-processing helpers for model inference
+
+The OpenCV binary is built from source using a pinned config.
+See [`scripts/compile-opencv-wasm.sh`](https://github.com/open-edge-platform/geti-ui/blob/main/packages/smart-tools/scripts/compile-opencv-wasm.sh) for the local deterministic build script.
+
+## ONNX AI models
+
+The following tools run ONNX Runtime Web in a browser Worker:
+
+- **RITM** — iterative click-based segmentation
+- **Segment Anything** — zero-shot segmentation via prompt encoding
+
+Model artifacts (`.onnx`) are loaded at runtime and are not bundled into the package.

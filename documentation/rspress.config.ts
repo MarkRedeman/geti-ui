@@ -18,6 +18,14 @@ const assetsSidebar = [
   },
 ];
 
+const smartToolsSidebar = [
+  {
+    text: 'Smart Tools',
+    collapsed: false,
+    items: [{ text: 'Overview', link: '/smart-tools/' }],
+  },
+];
+
 const examplesSidebar = [
   {
     text: 'Kitchensinks',
@@ -83,12 +91,15 @@ export default defineConfig({
     nav: [
       { text: 'Components', link: '/components/ui/Button' },
       { text: 'Assets', link: '/assets/' },
+      { text: 'Smart Tools', link: '/smart-tools/' },
       { text: 'Examples', link: '/examples' },
       { text: 'Used By', link: '/used-by' },
     ],
     sidebar: {
       '/assets': assetsSidebar,
       '/assets/': assetsSidebar,
+      '/smart-tools': smartToolsSidebar,
+      '/smart-tools/': smartToolsSidebar,
       '/examples': examplesSidebar,
       '/examples/': examplesSidebar,
     },
