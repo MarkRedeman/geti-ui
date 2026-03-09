@@ -60,7 +60,7 @@ jobs:
       - name: Resolve published @geti/ui version
         if: steps.changesets.outputs.published == 'true'
         id: release_meta
-        uses: actions/github-script@v7
+        uses: actions/github-script@v8
         env:
           PUBLISHED_PACKAGES: ${{ steps.changesets.outputs.publishedPackages }}
         with:
