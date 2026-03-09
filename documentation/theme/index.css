@@ -75,6 +75,8 @@
 
     --geti-sidebar-item-hover: rgb(0 149 202 / 12%);
     --geti-sidebar-item-active: rgb(0 149 202 / 20%);
+
+    --rp-code-block-bg: var(--geti-gray-75);
 }
 
 :where(html:not(.rp-dark)) {
@@ -117,31 +119,46 @@
 
     --rp-home-background-bg: var(--geti-gray-50);
     --rp-home-feature-bg: var(--geti-gray-75);
+
+    --rp-code-block-bg: var(--geti-gray-75);
 }
 
-.rp-nav {
-    background: #00c7fd;
+/* Keep homepage navbar consistent with inner pages */
+.rp-nav,
+.rp-nav-screen,
+.rp-nav-container {
+    background: #00c7fd !important;
     border-bottom: 1px solid var(--rp-c-divider);
     box-shadow: var(--geti-shadow-1);
 }
 
-/* Keep homepage navbar consistent with inner pages */
-.rp-home .rp-nav,
-.rp-home .rp-nav-screen,
-.rp-home .rp-nav-container {
-    background: #00c7fd !important;
+.rp-nav,
+.rp-nav * {
+    color: #000;
 }
+
+.rp-search-button {
+    background: none;
+    margin-right: auto;
+}
+
+.rp-search-button__hotkey {
+    background: var(--geti-gray-900);
+}
+:where(html:not(.rp-dark)) .rp-search-button__hotkey {
+    background: var(--geti-gray-50);
+}
+
+rp-codeblock__content {
+    background: var(--geti-gray-200);
+}
+
 .rp-home-background {
     height: 100%;
 }
 .rp-home-feature__card {
     border-radius: 2px;
     padding: 1.5rem;
-}
-
-.rp-nav,
-.rp-nav * {
-    color: #000;
 }
 
 /* Match Geti docs logo sizing in navbar */
@@ -168,6 +185,20 @@
     max-height: none;
     transform: translateY(-25%);
     object-fit: contain;
+}
+
+.rp-nav-menu {
+    gap: 0.5rem;
+}
+.rp-nav-menu__item a {
+    padding-left: 1rem;
+    padding-right: 1rem;
+}
+.rp-nav-menu__item--active a {
+    background-color: var(--geti-gray-75);
+}
+:where(html:not(.rp-dark)) .rp-nav-menu__item--active a {
+    background-color: var(--geti-gray-800);
 }
 
 .rp-nav a:hover,
@@ -221,93 +252,6 @@
     margin: 0.8rem 0;
 }
 
-.code-block-title {
-    background: var(--geti-gray-100);
-    border: 1px solid var(--rp-c-code-border);
-    border-bottom: none;
-    border-radius: var(--geti-radius-md) var(--geti-radius-md) 0 0;
-    color: var(--rp-c-text-3);
-    font-size: 0.76rem;
-    padding: 0.36rem 0.7rem;
-}
-
-.code-block-title + pre {
-    border-top-left-radius: 0;
-    border-top-right-radius: 0;
-}
-
-.rp-llms-copy-button,
-.copy-code-button {
-    border: 1px solid var(--rp-c-border);
-    background: var(--geti-gray-100);
-    border-radius: var(--geti-radius-sm);
-    color: var(--rp-c-text-3);
-}
-
-.rp-doc :not(pre) > code {
-    background: rgba(49, 50, 54, 0.9);
-    border: 1px solid var(--rp-c-code-border);
-    border-radius: var(--geti-radius-sm);
-    color: var(--geti-energy-blue-tint);
-    padding: 0.12em 0.4em;
-}
-
-.rp-doc table {
-    width: 100%;
-    border-collapse: collapse;
-    border: 1px solid var(--rp-c-border);
-    border-radius: var(--geti-radius-md);
-    overflow: hidden;
-}
-
-.rp-doc thead {
-    background: var(--geti-gray-100);
-}
-
-.rp-doc th,
-.rp-doc td {
-    border-bottom: 1px solid var(--rp-c-divider);
-    padding: 0.52rem 0.8rem;
-    text-align: left;
-}
-
-.rp-doc th {
-    color: var(--rp-c-text-3);
-    font-size: 0.78rem;
-    letter-spacing: 0.04em;
-    text-transform: uppercase;
-}
-
-.rp-doc .rp-custom-container,
-.rp-custom-container,
-.custom-container {
-    border-radius: var(--geti-radius-md);
-    border: 1px solid var(--rp-c-divider);
-    padding: 0.9rem 1rem;
-    box-shadow: var(--geti-shadow-1);
-}
-
-.rp-doc .rp-custom-container.tip,
-.rp-custom-container.tip,
-.custom-container.tip {
-    background: var(--rp-c-tip-bg);
-    border-color: var(--rp-c-tip-border);
-}
-
-.rp-doc .rp-custom-container.warning,
-.rp-custom-container.warning,
-.custom-container.warning {
-    background: var(--rp-c-warning-bg);
-    border-color: var(--rp-c-warning-border);
-}
-
-.rp-doc .rp-custom-container.danger,
-.rp-custom-container.danger,
-.custom-container.danger {
-    background: var(--rp-c-danger-bg);
-    border-color: var(--rp-c-danger-border);
-}
-
 :focus-visible {
     outline: 2px solid var(--geti-classic-blue);
     outline-offset: 2px;
@@ -321,13 +265,4 @@
         var(--geti-classic-blue-shade-2, #001e50) 60%,
         rgba(0, 199, 253, 0.16) 100%
     );
-}
-
-.rp-search-button {
-    background: none;
-    margin-right: auto;
-}
-
-.rp-search-button__hotkey {
-    background: var(--geti-gray-900);
 }
