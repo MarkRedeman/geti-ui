@@ -1,0 +1,84 @@
+name: Release smart-tools
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+    inputs:
+      opencv_version:
+        description: OpenCV version to use for release build
+        required: false
+        default: "4.9.0"
+      emsdk_version:
+        description: Emscripten image tag to use for OpenCV build
+        required: false
+        default: "3.1.25"
+
+concurrency:
+  group: release-smart-tools-${{ github.ref }}
+  cancel-in-progress: false
+
+permissions: {}
+
+jobs:
+  opencv:
+    name: Build OpenCV artifact
+    uses: ./.github/workflows/opencv-build.yml
+    with:
+      opencv_version: ${{ inputs.opencv_version }}
+      emsdk_version: ${{ inputs.emsdk_version }}
+
+  release:
+    name: Publish @geti/smart-tools
+    needs: [opencv]
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write # create tags + release commit when changesets publishes
+      pull-requests: write # open/update Version Packages PR for smart-tools
+      packages: read # read OpenCV artifact image/cache metadata from GHCR
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+
+      - uses: actions/setup-node@v6
+        with:
+          node-version: 24
+          registry-url: https://registry.npmjs.org
+
+      - run: npm ci
+
+      - name: Download OpenCV artifact
+        uses: actions/download-artifact@v6
+        with:
+          name: ${{ needs.opencv.outputs.artifact_name }}
+          path: opencv-artifacts
+
+      - name: Place OpenCV artifact in source path
+        env:
+          OPENCV_VERSION: ${{ needs.opencv.outputs.opencv_version }}
+        run: |
+          set -euo pipefail
+          OUT_DIR="packages/smart-tools/src/opencv/${OPENCV_VERSION}"
+          mkdir -p "$OUT_DIR"
+          cp opencv-artifacts/opencv.js "$OUT_DIR/opencv.js"
+          if [ -f opencv-artifacts/opencv.wasm ]; then
+            cp opencv-artifacts/opencv.wasm "$OUT_DIR/opencv.wasm"
+          fi
+
+      - run: npm run lint --workspace=@geti/smart-tools
+      - run: npm run type-check --workspace=@geti/smart-tools
+      - run: npm run test --workspace=@geti/smart-tools
+      - run: npm run build --workspace=@geti/smart-tools
+
+      - uses: changesets/action@v1
+        id: changesets
+        with:
+          publish: npm publish --workspace=@geti/smart-tools
+          version: npx changeset version
+          commit: "chore(release): version smart-tools"
+          title: "chore(release): version smart-tools"
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}

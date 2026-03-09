@@ -1,0 +1,115 @@
+name: OpenCV Build (smart-tools)
+
+on:
+  workflow_dispatch:
+    inputs:
+      opencv_version:
+        description: OpenCV version/tag
+        required: false
+        default: "4.9.0"
+      emsdk_version:
+        description: Emscripten image tag
+        required: false
+        default: "3.1.25"
+  workflow_call:
+    inputs:
+      opencv_version:
+        required: false
+        type: string
+        default: "4.9.0"
+      emsdk_version:
+        required: false
+        type: string
+        default: "3.1.25"
+    outputs:
+      artifact_name:
+        description: Name of uploaded build artifact
+        value: ${{ jobs.build.outputs.artifact_name }}
+      opencv_version:
+        description: Effective OpenCV version
+        value: ${{ jobs.build.outputs.opencv_version }}
+      config_sha:
+        description: Hash of OpenCV config used for build
+        value: ${{ jobs.build.outputs.config_sha }}
+
+permissions: {}
+
+jobs:
+  build:
+    name: Build OpenCV artifact
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write # push cache/artifact image tags to GHCR
+    outputs:
+      artifact_name: ${{ steps.meta.outputs.artifact_name }}
+      opencv_version: ${{ steps.meta.outputs.opencv_version }}
+      config_sha: ${{ steps.meta.outputs.config_sha }}
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          persist-credentials: false
+
+      - uses: docker/setup-buildx-action@v3
+
+      - uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Resolve build metadata
+        id: meta
+        env:
+          INPUT_OPENCV_VERSION: ${{ inputs.opencv_version }}
+          INPUT_EMSDK_VERSION: ${{ inputs.emsdk_version }}
+          REPOSITORY_OWNER: ${{ github.repository_owner }}
+        run: |
+          set -euo pipefail
+          OPENCV_VERSION="$INPUT_OPENCV_VERSION"
+          EMSDK_VERSION="$INPUT_EMSDK_VERSION"
+          REPOSITORY_OWNER_VALUE="$REPOSITORY_OWNER"
+          CONFIG_SHA=$(sha256sum packages/smart-tools/scripts/opencv_js.config.py | cut -c1-12)
+          ARTIFACT_NAME="opencv-artifacts-${OPENCV_VERSION}-${CONFIG_SHA}"
+          CACHE_REF="ghcr.io/${REPOSITORY_OWNER_VALUE}/opencv-buildcache:opencv-${OPENCV_VERSION}-emsdk-${EMSDK_VERSION}-${CONFIG_SHA}"
+          IMAGE_REF="ghcr.io/${REPOSITORY_OWNER_VALUE}/opencv-artifacts:opencv-${OPENCV_VERSION}-emsdk-${EMSDK_VERSION}-${CONFIG_SHA}"
+
+          echo "opencv_version=${OPENCV_VERSION}" >> "$GITHUB_OUTPUT"
+          echo "emsdk_version=${EMSDK_VERSION}" >> "$GITHUB_OUTPUT"
+          echo "config_sha=${CONFIG_SHA}" >> "$GITHUB_OUTPUT"
+          echo "artifact_name=${ARTIFACT_NAME}" >> "$GITHUB_OUTPUT"
+          echo "cache_ref=${CACHE_REF}" >> "$GITHUB_OUTPUT"
+          echo "image_ref=${IMAGE_REF}" >> "$GITHUB_OUTPUT"
+
+      - name: Build OpenCV artifact with registry cache
+        uses: docker/build-push-action@v6
+        with:
+          context: packages/smart-tools/scripts
+          file: packages/smart-tools/scripts/opencv-build.Dockerfile
+          target: artifact
+          outputs: type=local,dest=opencv-artifacts
+          build-args: |
+            OPENCV_VERSION=${{ steps.meta.outputs.opencv_version }}
+            EMSCRIPTEN_IMAGE=emscripten/emsdk:${{ steps.meta.outputs.emsdk_version }}
+          cache-from: type=registry,ref=${{ steps.meta.outputs.cache_ref }}
+          cache-to: type=registry,ref=${{ steps.meta.outputs.cache_ref }},mode=max
+
+      - name: Publish OpenCV artifact image to GHCR
+        uses: docker/build-push-action@v6
+        with:
+          context: packages/smart-tools/scripts
+          file: packages/smart-tools/scripts/opencv-build.Dockerfile
+          target: artifact
+          push: true
+          tags: ${{ steps.meta.outputs.image_ref }}
+          build-args: |
+            OPENCV_VERSION=${{ steps.meta.outputs.opencv_version }}
+            EMSCRIPTEN_IMAGE=emscripten/emsdk:${{ steps.meta.outputs.emsdk_version }}
+          cache-from: type=registry,ref=${{ steps.meta.outputs.cache_ref }}
+
+      - name: Upload OpenCV artifacts
+        uses: actions/upload-artifact@v7
+        with:
+          name: ${{ steps.meta.outputs.artifact_name }}
+          path: opencv-artifacts/artifacts
+          retention-days: 14

@@ -6,14 +6,14 @@
     "documentation"
   ],
   "scripts": {
-    "build": "npm run build --workspace=@geti/ui",
+    "build": "npm run build --workspace=@geti/ui && npm run build --workspace=@geti/smart-tools",
     "storybook": "npm run storybook --workspace=@geti/ui",
     "storybook:build": "npm run storybook:build --workspace=@geti/ui",
-    "test": "npm run test --workspace=@geti/ui",
+    "test": "npm run test --workspace=@geti/ui && npm run test --workspace=@geti/smart-tools",
     "test:watch": "npm run test:watch --workspace=@geti/ui",
     "test:e2e": "npm run test:e2e --workspace=@geti/ui",
-    "type-check": "npm run type-check --workspace=@geti/ui",
-    "lint": "npm run lint --workspace=@geti/ui",
+    "type-check": "npm run type-check --workspace=@geti/ui && npm run type-check --workspace=@geti/smart-tools",
+    "lint": "npm run lint --workspace=@geti/ui && npm run lint --workspace=@geti/smart-tools",
     "format": "npm run format --workspace=@geti/ui",
     "format:check": "npm run format:check --workspace=@geti/ui",
     "prepare": "husky",
