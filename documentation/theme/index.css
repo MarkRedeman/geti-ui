@@ -89,11 +89,47 @@
   color: #000;
 }
 
+/* Match Geti docs logo sizing in navbar */
+.rp-nav .rp-nav-logo img,
+.rp-nav .rp-nav-title img,
+.rp-nav img[alt*='Geti'] {
+  width: auto;
+  height: 42px;
+  max-height: 42px;
+  object-fit: contain;
+}
+
 .rp-nav a:hover,
 .rp-nav .rp-nav-menu-item:hover,
 .rp-nav .rp-nav-menu-item[aria-current='page'],
 .rp-nav .rp-nav-menu-item.active {
+  color: rgb(0, 84, 174);
+}
+
+/* Search in cyan nav */
+.rp-nav input[type='search'],
+.rp-nav .DocSearch-Button,
+.rp-nav .DocSearch-Input,
+.rp-nav .search-input,
+.rp-nav [class*='search'] input {
+  background: rgb(255 255 255 / 72%);
   color: #000;
+  border: 1px solid rgb(0 0 0 / 18%);
+}
+
+.rp-nav .DocSearch-Button,
+.rp-nav .search-input,
+.rp-nav [class*='search'] {
+  border-radius: 6px;
+}
+
+.rp-nav .DocSearch-Button:hover,
+.rp-nav .DocSearch-Button:focus-visible,
+.rp-nav input[type='search']:focus-visible,
+.rp-nav .DocSearch-Input:focus-visible,
+.rp-nav [class*='search'] input:focus-visible {
+  border-color: rgb(0, 84, 174);
+  outline-color: rgb(0, 84, 174);
 }
 
 .rp-nav,
@@ -131,7 +167,7 @@
 .rp-sidebar a.sidebar-item[aria-current='page'],
 .rp-sidebar .rp-sidebar-item[aria-current='page'] {
   background: var(--geti-sidebar-item-active);
-  color: var(--geti-energy-blue-light);
+  color: rgb(0, 84, 174);
   box-shadow: inset 2px 0 0 var(--geti-energy-blue-shade);
   font-weight: 500;
 }

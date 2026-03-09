@@ -88,7 +88,7 @@ export default defineConfig({
     title: 'Geti UI',
     description: 'Component design system for Intel Geti products',
     // icon: '/favicon.png',
-    // logo: '/logo.png',
+    logo: '/geti-logo.svg',
     // Disable SSG because Adobe React Spectrum uses browser APIs (e.g. `document`)
     // at module evaluation time, which is incompatible with Node.js SSR/SSG.
     ssg: false,
