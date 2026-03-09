@@ -176,67 +176,6 @@
     color: white;
 }
 
-/* Search in cyan nav */
-.rp-nav input[type='search'],
-.rp-nav .DocSearch-Button,
-.rp-nav .DocSearch-Input,
-.rp-nav .search-input,
-.rp-nav [class*='search'] input {
-    background: rgb(255 255 255 / 72%);
-    color: #000;
-    border: 1px solid rgb(0 0 0 / 18%);
-}
-
-.rp-nav .DocSearch-Button,
-.rp-nav .search-input,
-.rp-nav [class*='search'] {
-    border-radius: 6px;
-}
-
-.rp-nav .DocSearch-Button:hover,
-.rp-nav .DocSearch-Button:focus-visible,
-.rp-nav input[type='search']:focus-visible,
-.rp-nav .DocSearch-Input:focus-visible,
-.rp-nav [class*='search'] input:focus-visible {
-    border-color: rgb(0, 84, 174);
-    outline-color: rgb(0, 84, 174);
-}
-
-.rp-sidebar {
-    background: var(--geti-gray-75);
-    border-right: 1px solid var(--rp-c-divider);
-}
-
-.rp-sidebar .sidebar-group-title,
-.rp-sidebar .sidebar-section-title,
-.rp-sidebar .rp-sidebar-group__title {
-    color: var(--rp-c-text-3);
-    font-size: 0.72rem;
-    font-weight: 600;
-    letter-spacing: 0.06em;
-    text-transform: uppercase;
-}
-
-.rp-sidebar a.sidebar-item,
-.rp-sidebar .rp-sidebar-item {
-    border-radius: var(--geti-radius-sm);
-    color: var(--rp-c-text-2);
-    transition: background-color 120ms ease, color 120ms ease;
-}
-
-.rp-sidebar a.sidebar-item:hover {
-    background: var(--geti-sidebar-item-hover);
-}
-
-.rp-sidebar a.sidebar-item.active,
-.rp-sidebar a.sidebar-item[aria-current='page'],
-.rp-sidebar .rp-sidebar-item[aria-current='page'] {
-    background: var(--geti-sidebar-item-active);
-    color: white;
-    box-shadow: inset 2px 0 0 var(--geti-energy-blue-shade);
-    font-weight: 500;
-}
-
 .rp-doc,
 .rp-doc-container {
     max-width: 920px;
@@ -282,17 +221,6 @@
     margin: 0.8rem 0;
 }
 
-.rp-doc a {
-    color: var(--rp-c-link);
-    text-decoration-color: rgb(109 220 255 / 45%);
-    text-underline-offset: 2px;
-}
-
-.rp-doc a:hover {
-    color: var(--rp-c-link-hover);
-    text-decoration-color: rgb(160 235 255 / 60%);
-}
-
 .code-block-title {
     background: var(--geti-gray-100);
     border: 1px solid var(--rp-c-code-border);
@@ -314,13 +242,6 @@
     background: var(--geti-gray-100);
     border-radius: var(--geti-radius-sm);
     color: var(--rp-c-text-3);
-}
-
-.rp-llms-copy-button:hover,
-.copy-code-button:hover {
-    background: var(--geti-classic-blue-shade-1, #00377c);
-    border-color: var(--geti-classic-blue-shade-1, #00377c);
-    color: var(--geti-gray-900);
 }
 
 .rp-doc :not(pre) > code {
