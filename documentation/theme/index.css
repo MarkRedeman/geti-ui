@@ -66,6 +66,13 @@
     --rp-c-danger-bg: rgba(255, 86, 98, 0.1);
     --rp-c-danger-border: var(--geti-coral);
 
+    /* Home page theming (Rspress vars) */
+    --rp-home-hero-secondary-color: var(--geti-energy-blue-light);
+    --rp-home-hero-title-color: transparent;
+    --rp-home-hero-title-bg: var(--geti-energy-blue);
+    --rp-home-background-bg: var(--geti-gray-50);
+    --rp-home-feature-bg: var(--geti-gray-100);
+
     --geti-sidebar-item-hover: rgb(0 149 202 / 12%);
     --geti-sidebar-item-active: rgb(0 149 202 / 20%);
 }
@@ -74,6 +81,20 @@
     background: #00c7fd;
     border-bottom: 1px solid var(--rp-c-divider);
     box-shadow: var(--geti-shadow-1);
+}
+
+/* Keep homepage navbar consistent with inner pages */
+.rp-home .rp-nav,
+.rp-home .rp-nav-screen,
+.rp-home .rp-nav-container {
+    background: #00c7fd !important;
+}
+.rp-home-background {
+    height: 100%;
+}
+.rp-home-feature__card {
+    border-radius: 2px;
+    padding: 1.5rem;
 }
 
 .rp-nav,
