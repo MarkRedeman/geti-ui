@@ -1,84 +1,84 @@
 :where(:root) {
-  --geti-gray-50: rgb(36, 37, 40);
-  --geti-gray-75: rgb(46, 47, 50);
-  --geti-gray-100: rgb(49, 50, 54);
-  --geti-gray-200: rgb(60, 62, 66);
-  --geti-gray-300: rgb(72, 74, 80);
-  --geti-gray-400: rgb(88, 90, 98);
-  --geti-gray-500: rgb(107, 110, 118);
-  --geti-gray-600: rgb(142, 144, 153);
-  --geti-gray-800: rgb(227, 227, 229);
-  --geti-gray-900: rgb(255, 255, 255);
+    --geti-gray-50: rgb(36, 37, 40);
+    --geti-gray-75: rgb(46, 47, 50);
+    --geti-gray-100: rgb(49, 50, 54);
+    --geti-gray-200: rgb(60, 62, 66);
+    --geti-gray-300: rgb(72, 74, 80);
+    --geti-gray-400: rgb(88, 90, 98);
+    --geti-gray-500: rgb(107, 110, 118);
+    --geti-gray-600: rgb(142, 144, 153);
+    --geti-gray-800: rgb(227, 227, 229);
+    --geti-gray-900: rgb(255, 255, 255);
 
-  --geti-classic-blue: #0054ae;
-  --geti-classic-blue-shade-1: #00377c;
-  --geti-classic-blue-shade-2: #001e50;
-  --geti-classic-blue-dark: #00377c;
-  --geti-classic-blue-deep: #001e50;
-  --geti-energy-blue: #00c7fd;
-  --geti-energy-blue-shade: #0095ca;
-  --geti-energy-blue-light: #6ddcff;
-  --geti-energy-blue-tint: #a0ebff;
-  --geti-blue-steel: #548fad;
-  --geti-moss: #8bae46;
-  --geti-rust: #e96d15;
-  --geti-geode: #8f5da2;
+    --geti-classic-blue: #0054ae;
+    --geti-classic-blue-shade-1: #00377c;
+    --geti-classic-blue-shade-2: #001e50;
+    --geti-classic-blue-dark: #00377c;
+    --geti-classic-blue-deep: #001e50;
+    --geti-energy-blue: #00c7fd;
+    --geti-energy-blue-shade: #0095ca;
+    --geti-energy-blue-light: #6ddcff;
+    --geti-energy-blue-tint: #a0ebff;
+    --geti-blue-steel: #548fad;
+    --geti-moss: #8bae46;
+    --geti-rust: #e96d15;
+    --geti-geode: #8f5da2;
 
-  --geti-daisy: #fec91b;
-  --geti-coral: #ff5662;
+    --geti-daisy: #fec91b;
+    --geti-coral: #ff5662;
 
-  --geti-radius-sm: 4px;
-  --geti-radius-md: 6px;
-  --geti-shadow-1: 0 1px 2px rgb(0 0 0 / 35%);
-  --geti-shadow-2: 0 4px 12px rgb(0 0 0 / 40%);
+    --geti-radius-sm: 4px;
+    --geti-radius-md: 6px;
+    --geti-shadow-1: 0 1px 2px rgb(0 0 0 / 35%);
+    --geti-shadow-2: 0 4px 12px rgb(0 0 0 / 40%);
 }
 
 :where(:root),
 :where(html.rp-dark) {
-  --rp-c-brand: var(--geti-energy-blue-shade);
-  --rp-c-brand-light: var(--geti-energy-blue-light);
-  --rp-c-brand-dark: var(--geti-classic-blue);
-  --rp-c-brand-darker: var(--geti-classic-blue-dark);
+    --rp-c-brand: var(--geti-energy-blue-shade);
+    --rp-c-brand-light: var(--geti-energy-blue-light);
+    --rp-c-brand-dark: var(--geti-classic-blue);
+    --rp-c-brand-darker: var(--geti-classic-blue-dark);
 
-  --rp-c-bg: rgb(36, 37, 40);
-  --rp-c-bg-soft: rgb(68, 73, 80);
-  --rp-c-bg-mute: rgb(68, 73, 80);
+    --rp-c-bg: rgb(36, 37, 40);
+    --rp-c-bg-soft: rgb(68, 73, 80);
+    --rp-c-bg-mute: rgb(68, 73, 80);
 
-  --rp-c-text-1: rgb(233, 234, 235);
-  --rp-c-text-2: rgb(183, 185, 190);
-  --rp-c-text-3: var(--geti-gray-600);
-  --rp-c-text-4: var(--geti-gray-500);
+    --rp-c-text-1: rgb(233, 234, 235);
+    --rp-c-text-2: rgb(183, 185, 190);
+    --rp-c-text-3: var(--geti-gray-600);
+    --rp-c-text-4: var(--geti-gray-500);
 
-  --rp-c-divider: var(--geti-gray-200);
-  --rp-c-divider-light: var(--geti-gray-200);
-  --rp-c-border: var(--geti-gray-300);
+    --rp-c-divider: var(--geti-gray-200);
+    --rp-c-divider-light: var(--geti-gray-200);
+    --rp-c-border: var(--geti-gray-300);
 
-  --rp-c-link: var(--geti-energy-blue-light);
-  --rp-c-link-hover: var(--geti-energy-blue-tint);
+    --rp-c-link: var(--geti-energy-blue-light);
+    --rp-c-link-hover: var(--geti-energy-blue-tint);
 
-  --rp-c-code-bg: var(--geti-gray-75);
-  --rp-c-code-border: var(--geti-gray-300);
+    --rp-c-code-bg: var(--geti-gray-75);
+    --rp-c-code-border: var(--geti-gray-300);
 
-  --rp-c-tip-bg: rgba(0, 199, 253, 0.1);
-  --rp-c-tip-border: var(--geti-energy-blue-shade);
-  --rp-c-warning-bg: rgba(254, 201, 27, 0.1);
-  --rp-c-warning-border: var(--geti-daisy);
-  --rp-c-danger-bg: rgba(255, 86, 98, 0.1);
-  --rp-c-danger-border: var(--geti-coral);
+    --rp-c-tip-bg: rgba(0, 199, 253, 0.1);
+    --rp-c-tip-border: var(--geti-energy-blue-shade);
+    --rp-c-warning-bg: rgba(254, 201, 27, 0.1);
+    --rp-c-warning-border: var(--geti-daisy);
+    --rp-c-danger-bg: rgba(255, 86, 98, 0.1);
+    --rp-c-danger-border: var(--geti-coral);
 
-  --geti-sidebar-item-hover: rgb(0 149 202 / 12%);
-  --geti-sidebar-item-active: rgb(0 149 202 / 20%);
+    --geti-sidebar-item-hover: rgb(0 149 202 / 12%);
+    --geti-sidebar-item-active: rgb(0 149 202 / 20%);
 }
 
 .rp-nav {
-  background: #00c7fd;
-  border-bottom: 1px solid var(--rp-c-divider);
-  box-shadow: var(--geti-shadow-1);
+    background: #00c7fd;
+    border-bottom: 1px solid var(--rp-c-divider);
+    box-shadow: var(--geti-shadow-1);
 }
 
 .rp-nav,
 .rp-nav * {
-  color: #000;
+    color: #000;
 }
 
 .rp-nav a,
@@ -86,24 +86,40 @@
 .rp-nav .rp-nav-menu-item a,
 .rp-nav .rp-nav-title,
 .rp-nav .rp-nav-logo {
-  color: #000;
+    color: #000;
 }
 
 /* Match Geti docs logo sizing in navbar */
-.rp-nav .rp-nav-logo img,
-.rp-nav .rp-nav-title img,
-.rp-nav img[alt*='Geti'] {
-  width: auto;
-  height: 42px;
-  max-height: 42px;
-  object-fit: contain;
+.rp-nav .rp-nav__title {
+    align-self: stretch;
+    height: 100%;
+    min-height: var(--rp-nav-height, 3.5rem);
+    display: inline-flex;
+    align-items: center;
+    background: #242528;
+}
+
+.rp-nav .rp-nav__title__link {
+    height: 100%;
+    display: inline-flex;
+    align-items: center;
+    padding: 0 0.25rem;
+}
+
+.rp-nav .rp-nav__title img,
+.rp-nav img[alt*='logo'] {
+    width: 100px;
+    height: auto;
+    max-height: none;
+    transform: translateY(-25%);
+    object-fit: contain;
 }
 
 .rp-nav a:hover,
 .rp-nav .rp-nav-menu-item:hover,
 .rp-nav .rp-nav-menu-item[aria-current='page'],
 .rp-nav .rp-nav-menu-item.active {
-  color: rgb(0, 84, 174);
+    color: rgb(0, 84, 174);
 }
 
 /* Search in cyan nav */
@@ -112,15 +128,15 @@
 .rp-nav .DocSearch-Input,
 .rp-nav .search-input,
 .rp-nav [class*='search'] input {
-  background: rgb(255 255 255 / 72%);
-  color: #000;
-  border: 1px solid rgb(0 0 0 / 18%);
+    background: rgb(255 255 255 / 72%);
+    color: #000;
+    border: 1px solid rgb(0 0 0 / 18%);
 }
 
 .rp-nav .DocSearch-Button,
 .rp-nav .search-input,
 .rp-nav [class*='search'] {
-  border-radius: 6px;
+    border-radius: 6px;
 }
 
 .rp-nav .DocSearch-Button:hover,
@@ -128,227 +144,227 @@
 .rp-nav input[type='search']:focus-visible,
 .rp-nav .DocSearch-Input:focus-visible,
 .rp-nav [class*='search'] input:focus-visible {
-  border-color: rgb(0, 84, 174);
-  outline-color: rgb(0, 84, 174);
+    border-color: rgb(0, 84, 174);
+    outline-color: rgb(0, 84, 174);
 }
 
 .rp-nav,
 .rp-nav * {
-  font-size: 0.9rem;
+    font-size: 0.9rem;
 }
 
 .rp-sidebar {
-  background: var(--geti-gray-75);
-  border-right: 1px solid var(--rp-c-divider);
+    background: var(--geti-gray-75);
+    border-right: 1px solid var(--rp-c-divider);
 }
 
 .rp-sidebar .sidebar-group-title,
 .rp-sidebar .sidebar-section-title,
 .rp-sidebar .rp-sidebar-group__title {
-  color: var(--rp-c-text-3);
-  font-size: 0.72rem;
-  font-weight: 600;
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
+    color: var(--rp-c-text-3);
+    font-size: 0.72rem;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
 }
 
 .rp-sidebar a.sidebar-item,
 .rp-sidebar .rp-sidebar-item {
-  border-radius: var(--geti-radius-sm);
-  color: var(--rp-c-text-2);
-  transition: background-color 120ms ease, color 120ms ease;
+    border-radius: var(--geti-radius-sm);
+    color: var(--rp-c-text-2);
+    transition: background-color 120ms ease, color 120ms ease;
 }
 
 .rp-sidebar a.sidebar-item:hover {
-  background: var(--geti-sidebar-item-hover);
+    background: var(--geti-sidebar-item-hover);
 }
 
 .rp-sidebar a.sidebar-item.active,
 .rp-sidebar a.sidebar-item[aria-current='page'],
 .rp-sidebar .rp-sidebar-item[aria-current='page'] {
-  background: var(--geti-sidebar-item-active);
-  color: rgb(0, 84, 174);
-  box-shadow: inset 2px 0 0 var(--geti-energy-blue-shade);
-  font-weight: 500;
+    background: var(--geti-sidebar-item-active);
+    color: rgb(0, 84, 174);
+    box-shadow: inset 2px 0 0 var(--geti-energy-blue-shade);
+    font-weight: 500;
 }
 
 .rp-doc,
 .rp-doc-container {
-  max-width: 920px;
+    max-width: 920px;
 }
 
 .rp-doc {
-  line-height: 1.7;
+    line-height: 1.7;
 }
 
 .rp-doc h1,
 .rp-doc h2,
 .rp-doc h3 {
-  color: var(--rp-c-text-1);
-  letter-spacing: -0.01em;
+    color: var(--rp-c-text-1);
+    letter-spacing: -0.01em;
 }
 
 .rp-doc h1 {
-  font-size: clamp(2rem, 3.2vw, 2.4rem);
-  line-height: 1.15;
-  margin-bottom: 0.75rem;
+    font-size: clamp(2rem, 3.2vw, 2.4rem);
+    line-height: 1.15;
+    margin-bottom: 0.75rem;
 }
 
 .rp-doc h2 {
-  font-size: 1.5rem;
-  margin-top: 2rem;
-  margin-bottom: 0.8rem;
-  padding-bottom: 0.35rem;
-  border-bottom: 1px solid var(--rp-c-divider);
+    font-size: 1.5rem;
+    margin-top: 2rem;
+    margin-bottom: 0.8rem;
+    padding-bottom: 0.35rem;
+    border-bottom: 1px solid var(--rp-c-divider);
 }
 
 .rp-doc h3 {
-  font-size: 1.16rem;
-  margin-top: 1.4rem;
-  margin-bottom: 0.6rem;
+    font-size: 1.16rem;
+    margin-top: 1.4rem;
+    margin-bottom: 0.6rem;
 }
 
 .rp-doc p,
 .rp-doc li {
-  color: var(--rp-c-text-2);
+    color: var(--rp-c-text-2);
 }
 
 .rp-doc p {
-  margin: 0.8rem 0;
+    margin: 0.8rem 0;
 }
 
 .rp-doc a {
-  color: var(--rp-c-link);
-  text-decoration-color: rgb(109 220 255 / 45%);
-  text-underline-offset: 2px;
+    color: var(--rp-c-link);
+    text-decoration-color: rgb(109 220 255 / 45%);
+    text-underline-offset: 2px;
 }
 
 .rp-doc a:hover {
-  color: var(--rp-c-link-hover);
-  text-decoration-color: rgb(160 235 255 / 60%);
+    color: var(--rp-c-link-hover);
+    text-decoration-color: rgb(160 235 255 / 60%);
 }
 
 .rp-doc pre,
 .rp-code-block pre {
-  background: var(--rp-c-code-bg) !important;
-  border: 1px solid var(--rp-c-code-border);
-  border-radius: var(--geti-radius-md);
-  box-shadow: var(--geti-shadow-1);
+    background: var(--rp-c-code-bg) !important;
+    border: 1px solid var(--rp-c-code-border);
+    border-radius: var(--geti-radius-md);
+    box-shadow: var(--geti-shadow-1);
 }
 
 .rp-codeblock__title,
 .rp-code-block__title,
 .code-block-title {
-  background: var(--geti-gray-100);
-  border: 1px solid var(--rp-c-code-border);
-  border-bottom: none;
-  border-radius: var(--geti-radius-md) var(--geti-radius-md) 0 0;
-  color: var(--rp-c-text-3);
-  font-size: 0.76rem;
-  padding: 0.36rem 0.7rem;
+    background: var(--geti-gray-100);
+    border: 1px solid var(--rp-c-code-border);
+    border-bottom: none;
+    border-radius: var(--geti-radius-md) var(--geti-radius-md) 0 0;
+    color: var(--rp-c-text-3);
+    font-size: 0.76rem;
+    padding: 0.36rem 0.7rem;
 }
 
 .rp-codeblock__title + pre,
 .rp-code-block__title + pre,
 .code-block-title + pre {
-  border-top-left-radius: 0;
-  border-top-right-radius: 0;
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
 }
 
 .rp-codeblock__copy,
 .rp-code-block__copy,
 .copy-btn,
 .copy-code-button {
-  border: 1px solid var(--rp-c-border);
-  background: var(--geti-gray-100);
-  border-radius: var(--geti-radius-sm);
-  color: var(--rp-c-text-3);
+    border: 1px solid var(--rp-c-border);
+    background: var(--geti-gray-100);
+    border-radius: var(--geti-radius-sm);
+    color: var(--rp-c-text-3);
 }
 
 .rp-codeblock__copy:hover,
 .rp-code-block__copy:hover,
 .copy-btn:hover,
 .copy-code-button:hover {
-  background: var(--geti-classic-blue-shade-1, #00377c);
-  border-color: var(--geti-classic-blue-shade-1, #00377c);
-  color: var(--geti-gray-900);
+    background: var(--geti-classic-blue-shade-1, #00377c);
+    border-color: var(--geti-classic-blue-shade-1, #00377c);
+    color: var(--geti-gray-900);
 }
 
 .rp-doc :not(pre) > code {
-  background: rgba(49, 50, 54, 0.9);
-  border: 1px solid var(--rp-c-code-border);
-  border-radius: var(--geti-radius-sm);
-  color: var(--geti-energy-blue-tint);
-  padding: 0.12em 0.4em;
+    background: rgba(49, 50, 54, 0.9);
+    border: 1px solid var(--rp-c-code-border);
+    border-radius: var(--geti-radius-sm);
+    color: var(--geti-energy-blue-tint);
+    padding: 0.12em 0.4em;
 }
 
 .rp-doc table {
-  width: 100%;
-  border-collapse: collapse;
-  border: 1px solid var(--rp-c-border);
-  border-radius: var(--geti-radius-md);
-  overflow: hidden;
+    width: 100%;
+    border-collapse: collapse;
+    border: 1px solid var(--rp-c-border);
+    border-radius: var(--geti-radius-md);
+    overflow: hidden;
 }
 
 .rp-doc thead {
-  background: var(--geti-gray-100);
+    background: var(--geti-gray-100);
 }
 
 .rp-doc th,
 .rp-doc td {
-  border-bottom: 1px solid var(--rp-c-divider);
-  padding: 0.52rem 0.8rem;
-  text-align: left;
+    border-bottom: 1px solid var(--rp-c-divider);
+    padding: 0.52rem 0.8rem;
+    text-align: left;
 }
 
 .rp-doc th {
-  color: var(--rp-c-text-3);
-  font-size: 0.78rem;
-  letter-spacing: 0.04em;
-  text-transform: uppercase;
+    color: var(--rp-c-text-3);
+    font-size: 0.78rem;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
 }
 
 .rp-doc .rp-custom-container,
 .rp-custom-container,
 .custom-container {
-  border-radius: var(--geti-radius-md);
-  border: 1px solid var(--rp-c-divider);
-  padding: 0.9rem 1rem;
-  box-shadow: var(--geti-shadow-1);
+    border-radius: var(--geti-radius-md);
+    border: 1px solid var(--rp-c-divider);
+    padding: 0.9rem 1rem;
+    box-shadow: var(--geti-shadow-1);
 }
 
 .rp-doc .rp-custom-container.tip,
 .rp-custom-container.tip,
 .custom-container.tip {
-  background: var(--rp-c-tip-bg);
-  border-color: var(--rp-c-tip-border);
+    background: var(--rp-c-tip-bg);
+    border-color: var(--rp-c-tip-border);
 }
 
 .rp-doc .rp-custom-container.warning,
 .rp-custom-container.warning,
 .custom-container.warning {
-  background: var(--rp-c-warning-bg);
-  border-color: var(--rp-c-warning-border);
+    background: var(--rp-c-warning-bg);
+    border-color: var(--rp-c-warning-border);
 }
 
 .rp-doc .rp-custom-container.danger,
 .rp-custom-container.danger,
 .custom-container.danger {
-  background: var(--rp-c-danger-bg);
-  border-color: var(--rp-c-danger-border);
+    background: var(--rp-c-danger-bg);
+    border-color: var(--rp-c-danger-border);
 }
 
 :focus-visible {
-  outline: 2px solid var(--geti-classic-blue);
-  outline-offset: 2px;
-  border-radius: var(--geti-radius-sm);
+    outline: 2px solid var(--geti-classic-blue);
+    outline-offset: 2px;
+    border-radius: var(--geti-radius-sm);
 }
 
 .rp-hero {
-  background: linear-gradient(
-    135deg,
-    var(--geti-gray-50) 0%,
-    var(--geti-classic-blue-shade-2, #001e50) 60%,
-    rgba(0, 199, 253, 0.16) 100%
-  );
+    background: linear-gradient(
+        135deg,
+        var(--geti-gray-50) 0%,
+        var(--geti-classic-blue-shade-2, #001e50) 60%,
+        rgba(0, 199, 253, 0.16) 100%
+    );
 }
