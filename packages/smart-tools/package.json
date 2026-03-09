@@ -1,0 +1,66 @@
+{
+    "name": "@geti/smart-tools",
+    "version": "0.0.1",
+    "description": "Geti smart tools utils and interfaces",
+    "type": "module",
+    "exports": {
+        ".": {
+            "import": "./dist/esm/index.js",
+            "require": "./dist/cjs/index.js",
+            "types": "./dist/types/index.d.ts"
+        },
+        "./utils": {
+            "import": "./dist/esm/utils.js",
+            "require": "./dist/cjs/utils.cjs",
+            "types": "./dist/types/utils/index.d.ts"
+        },
+        "./types": {
+            "import": "./dist/esm/types.js",
+            "require": "./dist/cjs/types.cjs",
+            "types": "./dist/types/shared/index.d.ts"
+        },
+        "./opencv": {
+            "types": "./dist/types/opencv/interfaces/index.d.ts"
+        },
+        "./ritm": {
+            "import": "./dist/esm/ritm.js",
+            "require": "./dist/cjs/ritm.cjs",
+            "types": "./dist/types/ritm/index.d.ts"
+        },
+        "./segment-anything": {
+            "import": "./dist/esm/segment-anything.js",
+            "require": "./dist/cjs/segment-anything.cjs",
+            "types": "./dist/types/segment-anything/index.d.ts"
+        }
+    },
+    "main": "./dist/cjs/index.js",
+    "module": "./dist/esm/index.js",
+    "types": "./dist/types/index.d.ts",
+    "files": [
+        "dist"
+    ],
+    "scripts": {
+        "build": "rslib build",
+        "test": "rstest run",
+        "test:watch": "rstest",
+        "type-check": "tsc --noEmit -p tsconfig.json",
+        "lint": "rslint",
+        "lint:fix": "rslint --fix .",
+        "format": "prettier --write .",
+        "format:check": "prettier --check ."
+    },
+    "dependencies": {
+        "@doodle3d/clipper-js": "~1.0.11",
+        "onnxruntime-web": "^1.20.1",
+        "polylabel": "~1.1.0"
+    },
+    "devDependencies": {
+        "@rslib/core": "^0.12.2",
+        "@rslint/core": "^0.2.1",
+        "@rstest/core": "^0.2.2",
+        "@types/polylabel": "^1.1.3",
+        "comlink": "^4.4.2",
+        "prettier": "^3.8.1",
+        "typescript": "^5.9.3"
+    }
+}
