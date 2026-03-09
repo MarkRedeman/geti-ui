@@ -6,15 +6,9 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const packageRoot = path.resolve(__dirname, '..');
 
-const modelDirs = [
-    path.join(packageRoot, 'src/ritm/models'),
-    path.join(packageRoot, 'src/segment-anything/models'),
-];
+const modelDirs = [path.join(packageRoot, 'src/ritm/models'), path.join(packageRoot, 'src/segment-anything/models')];
 
-const outputDirs = [
-    path.join(packageRoot, 'dist/esm'),
-    path.join(packageRoot, 'dist/cjs'),
-];
+const outputDirs = [path.join(packageRoot, 'dist/esm'), path.join(packageRoot, 'dist/cjs')];
 
 for (const outputDir of outputDirs) {
     await mkdir(outputDir, { recursive: true });

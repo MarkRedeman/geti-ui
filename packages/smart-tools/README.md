@@ -24,8 +24,7 @@ It must be compiled locally or obtained from the release artifacts.
 
 ### Prerequisites
 
-- **Docker** — used to run the emscripten build in an isolated container
-- **git** — used to clone the OpenCV source at the pinned version
+- **Docker** — used to run a deterministic Dockerfile-based build
 
 ### Steps
 
@@ -42,17 +41,22 @@ OPENCV_VERSION=4.9.0 ./scripts/compile-opencv-wasm.sh
 # Override the emscripten Docker image (optional)
 EMSCRIPTEN_IMAGE=emscripten/emsdk:3.1.25 ./scripts/compile-opencv-wasm.sh
 
-# Keep the cloned source tree after the build (for debugging)
+# `--skip-cleanup` is accepted for backward compatibility (no-op now)
 ./scripts/compile-opencv-wasm.sh --skip-cleanup
 ```
 
 The script will:
-1. Clone `https://github.com/opencv/opencv.git` at the pinned tag into a temp directory.
-2. Copy `scripts/opencv_js.config.py` (the allow-list config) into the build context.
-3. Run the emscripten Docker image to build `opencv.js` with WASM support.
-4. Copy the output to `src/opencv/<version>/opencv.js` (and `opencv.wasm` if present).
 
-### Allow-list configuration
+1. Build `scripts/opencv-build.Dockerfile` with pinned OpenCV + emscripten versions.
+2. Use `scripts/opencv_js.config.py` (the whitelist config) in the image build.
+3. Extract `/artifacts/opencv.js` (and optionally `opencv.wasm`) from the built image.
+4. Copy outputs to `src/opencv/<version>/`.
+
+### Dockerfile source of truth
+
+`scripts/opencv-build.Dockerfile` is now the canonical OpenCV build definition used by local and CI automation.
+
+### Whitelist configuration
 
 `scripts/opencv_js.config.py` controls which OpenCV modules and functions are compiled into the binary.
 Edit this file to add or remove functions — only include what the smart-tools package actually uses to keep the output size small.
@@ -71,14 +75,14 @@ This makes config changes traceable through artifact identity.
 
 ## Sub-packages
 
-| Subpath | Contents |
-|---|---|
-| `@geti/smart-tools` | Main entry |
-| `@geti/smart-tools/opencv` | OpenCV type interfaces |
-| `@geti/smart-tools/utils` | Geometry and tool utilities |
-| `@geti/smart-tools/types` | Shared domain types |
-| `@geti/smart-tools/ritm` | RITM interactive segmentation model |
-| `@geti/smart-tools/segment-anything` | Segment Anything Model (SAM) |
+| Subpath                              | Contents                            |
+| ------------------------------------ | ----------------------------------- |
+| `@geti/smart-tools`                  | Main entry                          |
+| `@geti/smart-tools/opencv`           | OpenCV type interfaces              |
+| `@geti/smart-tools/utils`            | Geometry and tool utilities         |
+| `@geti/smart-tools/types`            | Shared domain types                 |
+| `@geti/smart-tools/ritm`             | RITM interactive segmentation model |
+| `@geti/smart-tools/segment-anything` | Segment Anything Model (SAM)        |
 
 ---
 
