@@ -119,7 +119,7 @@
 .rp-nav .rp-nav-menu-item:hover,
 .rp-nav .rp-nav-menu-item[aria-current='page'],
 .rp-nav .rp-nav-menu-item.active {
-    color: rgb(0, 84, 174);
+    color: white;
 }
 
 /* Search in cyan nav */
@@ -179,11 +179,16 @@
     background: var(--geti-sidebar-item-hover);
 }
 
+.rp-nav-menu__item--active .rp-nav-menu__item__container,
+.rp-nav-menu__item:hover .rp-nav-menu__item__container {
+    color: white;
+}
+
 .rp-sidebar a.sidebar-item.active,
 .rp-sidebar a.sidebar-item[aria-current='page'],
 .rp-sidebar .rp-sidebar-item[aria-current='page'] {
     background: var(--geti-sidebar-item-active);
-    color: rgb(0, 84, 174);
+    color: white;
     box-shadow: inset 2px 0 0 var(--geti-energy-blue-shade);
     font-weight: 500;
 }
