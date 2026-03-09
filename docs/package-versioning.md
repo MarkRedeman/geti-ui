@@ -1,6 +1,6 @@
-# Releasing Geti UI
+# Releasing Geti packages
 
-This document describes the automated packaging and release strategy for the `@geti/ui` library.
+This document describes the automated packaging and release strategy for the packages in this monorepo.
 
 ## Architecture Design
 
@@ -36,13 +36,13 @@ The following steps must be performed manually to activate the automated pipelin
 ## 🚀 Release Workflow
 
 ### 1. Development & Change Tracking
-When you make a change that warrants a version bump, you must create a "changeset":
+When you make a change that warrants a version bump, create a changeset:
 
 ```bash
 npx changeset
 ```
 
-*   **Follow the prompt**: Select `@geti/ui`.
+*   **Follow the prompt**: Select the affected package(s), e.g. `@geti/ui` and/or `@geti/smart-tools`.
 *   **Select Bump Level**: `patch` (bug fix), `minor` (new feature), or `major` (breaking change).
 *   **Write Summary**: A brief explanation of the change. This creates a `.changeset/xxx-xxx.md` file.
 *   **Commit**: Include the changeset file in your PR.
@@ -56,18 +56,21 @@ npx changeset
 
 ### 3. Merging & Versioning PR
 When a PR with a changeset is merged into `main`:
-1.  The `Release` workflow triggers.
-2.  **Changesets** detects the new changeset file and opens a persistent **"Version Packages" PR**.
-3.  This PR automatically updates `package.json` and `CHANGELOG.md`.
-4.  **Action**: You must merge this "Version Packages" PR when you are ready to publish.
+1.  Release workflows trigger.
+2.  **Changesets** detects new changesets and opens/updates a persistent **"Version Packages" PR**.
+3.  This PR updates versions/changelogs for affected package(s).
+4.  **Action**: merge this PR when ready to publish.
 
 ### 4. Automated Publishing
 When the "Version Packages" PR is merged:
-1.  The `Release` workflow triggers again.
-2.  It runs `npm publish` to push the new version to NPM.
-3.  It creates a git tag (e.g., `v1.2.3`).
-4.  **git-cliff** parses the commits since the last tag and generates rich release notes.
-5.  An official **GitHub Release** is created with these notes.
+1.  Package-specific release workflows run.
+2.  They run package build/test checks and `npm publish` for the targeted package.
+3.  They create a tag (e.g., `v1.2.3`) and GitHub release notes.
+
+### Package-specific release notes
+
+- `@geti/ui` release path is handled by `release.yml`.
+- `@geti/smart-tools` release path is handled by `release-smart-tools.yml` and uses `opencv-build.yml` to prepare OpenCV artifacts.
 
 ---
 

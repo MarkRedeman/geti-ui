@@ -68,3 +68,14 @@ Security checks are intended to be mandatory for all Pull Requests. The recommen
 - Approval from a maintainer before merging.
 
 > **Note:** These requirements are enforced via GitHub branch-protection rules on the repository. Workflow files alone do not prevent merging; the rules must be configured in `Settings > Branches` to take effect.
+
+### Release security considerations
+
+`@geti/smart-tools` uses a dedicated release workflow that builds OpenCV artifacts via Docker and caches build layers in GHCR.
+
+Recommended controls:
+
+- Scope workflow permissions to least privilege (`contents`, `packages`, `pull-requests` only when required).
+- Keep OpenCV build definitions (`opencv-build.Dockerfile`, `opencv_js.config.py`) code-owner protected.
+- Periodically rotate and audit npm/GitHub credentials used by release workflows.
+- Prefer action pinning to commit SHAs for release and Docker-related workflows.
