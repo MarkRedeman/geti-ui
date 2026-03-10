@@ -42,7 +42,7 @@ When you make a change that warrants a version bump, create a changeset:
 npx changeset
 ```
 
-*   **Follow the prompt**: Select the affected package(s), e.g. `@geti-ai/ui` and/or `@geti-ai/smart-tools`.
+*   **Follow the prompt**: Select the affected package(s), e.g. `@geti-ai/ui`, `@geti-ai/smart-tools`, and/or `@geti-ai/charts`.
 *   **Select Bump Level**: `patch` (bug fix), `minor` (new feature), or `major` (breaking change).
 *   **Write Summary**: A brief explanation of the change. This creates a `.changeset/xxx-xxx.md` file.
 *   **Commit**: Include the changeset file in your PR.
@@ -71,6 +71,7 @@ When the "Version Packages" PR is merged:
 
 - `@geti-ai/ui` release path is handled by `release.yml`.
 - `@geti-ai/smart-tools` release path is handled by `release-smart-tools.yml` and uses `opencv-build.yml` to prepare OpenCV artifacts.
+- `@geti-ai/charts` release path is handled by `release-charts.yml`.
 
 ---
 
