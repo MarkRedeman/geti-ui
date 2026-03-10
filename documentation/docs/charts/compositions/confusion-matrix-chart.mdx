@@ -87,4 +87,128 @@ export default function App() {
 }
 ```
 
+## Variant — 10 categories
+
+```tsx preview
+import { ConfusionMatrixChart } from '@geti-ai/charts';
+
+const labels = [
+  'Car',
+  'Person',
+  'Bicycle',
+  'Sign',
+  'Truck',
+  'Bus',
+  'Dog',
+  'Cat',
+  'Helmet',
+  'Backpack',
+];
+
+const matrix = labels.map((_, row) =>
+  labels.map((__, col) => {
+    if (row === col) return 120 - row * 4;
+    const distance = Math.abs(row - col);
+    return Math.max(2, 18 - distance * 4);
+  })
+);
+
+export default function App() {
+  return (
+    <ConfusionMatrixChart
+      labels={labels}
+      matrix={matrix}
+      normalize="none"
+      aria-label="Confusion matrix with 10 categories"
+      height={520}
+    />
+  );
+}
+```
+
+## Variant — 20 categories (scrollable container)
+
+```tsx preview
+import { ConfusionMatrixChart } from '@geti-ai/charts';
+
+const labels = Array.from({ length: 20 }, (_, i) => `Class ${i + 1}`);
+
+const matrix = labels.map((_, row) =>
+  labels.map((__, col) => {
+    if (row === col) return 220 - row * 3;
+    const distance = Math.abs(row - col);
+    return Math.max(1, 24 - distance * 3);
+  })
+);
+
+export default function App() {
+  return (
+    <div
+      style={{
+        maxHeight: 520,
+        overflow: 'auto',
+        border: '1px solid var(--spectrum-global-color-gray-700)',
+        borderRadius: 6,
+        padding: 8,
+      }}
+    >
+      <div style={{ minWidth: 960, minHeight: 960 }}>
+        <ConfusionMatrixChart
+          labels={labels}
+          matrix={matrix}
+          normalize="row"
+          aria-label="Confusion matrix with 20 categories in a scrollable area"
+          height={960}
+        />
+      </div>
+    </div>
+  );
+}
+```
+
+## Variant — 100 categories (large, bi-directional scroll)
+
+```tsx preview
+import { ConfusionMatrixChart } from '@geti-ai/charts';
+
+const labels = Array.from({ length: 100 }, (_, i) => `C${String(i + 1).padStart(3, '0')}`);
+
+const matrix = labels.map((_, row) =>
+  labels.map((__, col) => {
+    if (row === col) return 420 - (row % 20) * 8;
+    const distance = Math.abs(row - col);
+    return Math.max(0, 20 - distance);
+  })
+);
+
+export default function App() {
+  return (
+    <div
+      style={{
+        maxHeight: 560,
+        maxWidth: '100%',
+        overflow: 'auto',
+        border: '1px solid var(--spectrum-global-color-gray-700)',
+        borderRadius: 6,
+        padding: 8,
+      }}
+    >
+      <div style={{ width: 3200, height: 3200 }}>
+        <ConfusionMatrixChart
+          labels={labels}
+          matrix={matrix}
+          normalize="row"
+          showValues={false}
+          minOpacity={0.08}
+          maxOpacity={0.95}
+          aria-label="Confusion matrix with 100 categories in a large scrollable area"
+          width={3200}
+          height={3200}
+        />
+      </div>
+    </div>
+  );
+}
+```
+
 Related: [Custom charts](/charts/custom-charts)
