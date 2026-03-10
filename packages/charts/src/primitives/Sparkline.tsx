@@ -1,5 +1,5 @@
 import type { CSSProperties } from 'react';
-import { LineChart, Line, ResponsiveContainer } from 'recharts';
+import { AreaChart, Area, ResponsiveContainer } from 'recharts';
 import { useChartsTheme } from '../hooks/useChartsTheme';
 
 /**
@@ -40,6 +40,8 @@ export interface SparklineProps {
     /** Stroke width of the line. @default 1.5 */
     strokeWidth?: number;
     /** Whether to fill the area under the line. @default false */
+    area?: boolean;
+    /** @deprecated Use `area` instead. */
     filled?: boolean;
     /** Opacity of the fill area (0–1). @default 0.15 */
     fillOpacity?: number;
@@ -67,7 +69,8 @@ export function Sparkline({
     height = 40,
     color,
     strokeWidth = 1.5,
-    filled = false,
+    area,
+    filled,
     fillOpacity = 0.15,
     curve = 'monotone',
     animate = false,
@@ -75,6 +78,7 @@ export function Sparkline({
 }: SparklineProps) {
     const theme = useChartsTheme();
     const lineColor = color ?? theme.dataColors[0];
+    const showArea = area ?? filled ?? false;
 
     return (
         <div
@@ -83,8 +87,8 @@ export function Sparkline({
             style={{ width, height, display: 'inline-block' }}
         >
             <ResponsiveContainer width="100%" height={height}>
-                <LineChart data={data} margin={{ top: 2, right: 2, bottom: 2, left: 2 }}>
-                    <Line
+                <AreaChart data={data} margin={{ top: 2, right: 2, bottom: 2, left: 2 }}>
+                    <Area
                         type={curve}
                         dataKey={dataKey}
                         stroke={lineColor}
@@ -92,10 +96,10 @@ export function Sparkline({
                         dot={false}
                         activeDot={false}
                         isAnimationActive={animate}
-                        fill={filled ? lineColor : 'none'}
-                        fillOpacity={filled ? fillOpacity : 0}
+                        fill={showArea ? lineColor : 'none'}
+                        fillOpacity={showArea ? fillOpacity : 0}
                     />
-                </LineChart>
+                </AreaChart>
             </ResponsiveContainer>
         </div>
     );

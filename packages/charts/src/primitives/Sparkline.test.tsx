@@ -44,7 +44,12 @@ describe('Sparkline', () => {
         expect(screen.getByRole('img')).toBeInTheDocument();
     });
 
-    it('renders with filled=true without crashing', () => {
+    it('renders with area=true without crashing', () => {
+        renderSparkline({ area: true });
+        expect(screen.getByRole('img')).toBeInTheDocument();
+    });
+
+    it('renders with filled=true without crashing (deprecated alias)', () => {
         renderSparkline({ filled: true });
         expect(screen.getByRole('img')).toBeInTheDocument();
     });
