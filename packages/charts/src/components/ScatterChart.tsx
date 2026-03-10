@@ -1,4 +1,4 @@
-import { type CSSProperties } from 'react';
+import { type CSSProperties, useLayoutEffect, useRef, useState } from 'react';
 import {
     ScatterChart as RechartsScatterChart,
     Scatter,
@@ -122,12 +122,57 @@ function VoronoiTooltip({
     offsetX = 12,
     offsetY = -8,
 }: VoronoiTooltipProps) {
-    const { point, mouseX, mouseY } = activePoint;
+    const { point } = activePoint;
+    const tooltipRef = useRef<HTMLDivElement | null>(null);
+    const [tooltipSize, setTooltipSize] = useState({ width: 0, height: 0 });
 
+    useLayoutEffect(() => {
+        if (!tooltipRef.current) return;
+        const { width, height } = tooltipRef.current.getBoundingClientRect();
+        setTooltipSize((prev) =>
+            prev.width !== width || prev.height !== height
+                ? { width, height }
+                : prev
+        );
+    }, [point.px, point.py, point.xValue, point.yValue, point.seriesName]);
+
+    const PAD = 8;
+    const { containerWidth, containerHeight } = activePoint;
+
+    const tooltipWidth = tooltipSize.width;
+    const tooltipHeight = tooltipSize.height;
+    const horizontalGap = Math.max(0, offsetX);
+    const verticalGap = Math.max(0, Math.abs(offsetY));
+
+    // Horizontal placement: prefer right side of point, flip to left if needed.
+    let left = point.px + horizontalGap;
+    if (tooltipWidth > 0 && left + tooltipWidth + PAD > containerWidth) {
+        left = point.px - horizontalGap - tooltipWidth;
+    }
+
+    // Vertical placement: prefer above point, fallback below if needed.
+    let top = point.py - verticalGap - tooltipHeight;
+    if (tooltipHeight > 0 && top < PAD) {
+        top = point.py + verticalGap;
+    }
+
+    // Final hard clamp keeps the tooltip entirely inside the chart canvas.
+    if (tooltipWidth > 0) {
+        const maxLeft = Math.max(PAD, containerWidth - tooltipWidth - PAD);
+        left = Math.max(PAD, Math.min(left, maxLeft));
+    }
+    if (tooltipHeight > 0) {
+        const maxTop = Math.max(PAD, containerHeight - tooltipHeight - PAD);
+        top = Math.max(PAD, Math.min(top, maxTop));
+    }
+
+    // Anchor the tooltip to the actual dot position (container-relative px/py),
+    // not the cursor position. This prevents the tooltip from drifting as the
+    // user moves around inside a Voronoi region.
     const containerStyle: CSSProperties = {
         position: 'absolute',
-        left: mouseX + offsetX,
-        top: mouseY + offsetY,
+        left,
+        top,
         pointerEvents: 'none',
         zIndex: 9999,
         backgroundColor: theme.tooltip.backgroundColor,
@@ -138,7 +183,6 @@ function VoronoiTooltip({
         boxShadow: theme.tooltip.boxShadow,
         fontSize: theme.typography.fontSize,
         fontFamily: theme.typography.fontFamily,
-        transform: 'translateY(-100%)',
         whiteSpace: 'nowrap',
     };
 
@@ -167,7 +211,7 @@ function VoronoiTooltip({
     };
 
     return (
-        <div style={containerStyle}>
+        <div ref={tooltipRef} style={containerStyle}>
             <div style={labelStyle}>{point.seriesName}</div>
             <div style={rowStyle}>
                 <span style={dotStyle} />
@@ -192,16 +236,17 @@ function VoronoiTooltip({
 
 interface ActiveDotOverlayProps {
     activePoint: VoronoiActivePoint;
-    margin: { top: number; right: number; bottom: number; left: number };
     theme: ReturnType<typeof useChartsTheme>;
 }
 
-function ActiveDotOverlay({ activePoint, margin, theme }: ActiveDotOverlayProps) {
+function ActiveDotOverlay({ activePoint, theme }: ActiveDotOverlayProps) {
     const { point } = activePoint;
 
-    // point.px / point.py are relative to the plot area; add margin to get SVG coords
-    const cx = point.px + margin.left;
-    const cy = point.py + margin.top;
+    // point.px / point.py are now container-relative (the DOM-reading approach in
+    // useVoronoiHover returns getBoundingClientRect-based positions relative to
+    // the container div), so no margin offset is needed here.
+    const cx = point.px;
+    const cy = point.py;
 
     return (
         <svg
@@ -312,8 +357,11 @@ export function ScatterChart({
     );
 
     // Voronoi hook — safe to call even when disabled (returns nulls).
+    // seriesColors is threaded in so the hook can populate point.color correctly
+    // without re-resolving the theme palette internally.
     const { containerRef, handleMouseMove, handleMouseLeave, activePoint } = useVoronoiHover({
         series,
+        seriesColors,
         margin,
         maxDistance: voronoiMaxDistance,
         enabled: useVoronoi && showTooltip,
@@ -405,7 +453,7 @@ export function ScatterChart({
 
             {/* Voronoi active-point visual feedback layers */}
             {useVoronoi && activePoint && (
-                <ActiveDotOverlay activePoint={activePoint} margin={margin} theme={theme} />
+                <ActiveDotOverlay activePoint={activePoint} theme={theme} />
             )}
             {useVoronoi && showTooltip && activePoint && (
                 <VoronoiTooltip
