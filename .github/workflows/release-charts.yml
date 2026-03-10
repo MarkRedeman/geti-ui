@@ -15,8 +15,8 @@ jobs:
     name: Publish @geti-ai/charts
     runs-on: ubuntu-latest
     permissions:
-      contents: write
-      pull-requests: write
+      contents: write # create tags + GitHub Releases
+      pull-requests: write # open/update Version Packages PR
 
     steps:
       - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6
@@ -28,6 +28,7 @@ jobs:
         with:
           node-version: 24
           registry-url: https://registry.npmjs.org
+          package-manager-cache: false
 
       - run: npm ci
 
@@ -36,7 +37,7 @@ jobs:
       - run: npm run test --workspace=@geti-ai/charts
       - run: npm run build --workspace=@geti-ai/charts
 
-      - uses: changesets/action@v1
+      - uses: changesets/action@6a0a831ff30acef54f2c6aa1cbbc1096b066edaf # v1.7.0
         id: changesets
         with:
           publish: npm publish --workspace=@geti-ai/charts

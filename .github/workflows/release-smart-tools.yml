@@ -45,6 +45,7 @@ jobs:
         with:
           node-version: 24
           registry-url: https://registry.npmjs.org
+          package-manager-cache: false
 
       - run: npm ci
 
@@ -71,7 +72,7 @@ jobs:
       - run: npm run test --workspace=@geti-ai/smart-tools
       - run: npm run build --workspace=@geti-ai/smart-tools
 
-      - uses: changesets/action@v1
+      - uses: changesets/action@6a0a831ff30acef54f2c6aa1cbbc1096b066edaf # v1.7.0
         id: changesets
         with:
           publish: npm publish --workspace=@geti-ai/smart-tools
