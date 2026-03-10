@@ -65,3 +65,6 @@ export type { AreaChartProps, AreaChartSeriesConfig } from './components/AreaCha
 
 export { ScatterChart } from './components/ScatterChart';
 export type { ScatterChartProps, ScatterChartSeriesConfig } from './components/ScatterChart';
+
+export { PieChart } from './components/PieChart';
+export type { PieChartProps } from './components/PieChart';

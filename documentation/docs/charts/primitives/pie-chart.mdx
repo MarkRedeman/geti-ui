@@ -1,0 +1,106 @@
+---
+title: Pie chart
+---
+
+# Pie chart (primitive)
+
+Use Recharts `PieChart` + `Pie` with Geti primitives when you want complete low-level control.
+
+## Variant — default
+
+```tsx preview
+import { Cell, Pie, PieChart } from 'recharts';
+import { GetiLegend, GetiResponsiveContainer, GetiTooltip } from '@geti-ai/charts/primitives';
+
+const data = [
+  { name: 'Images', value: 52 },
+  { name: 'Videos', value: 18 },
+  { name: 'Annotations', value: 22 },
+  { name: 'Models', value: 8 },
+];
+
+const colors = ['var(--spectrum-global-color-blue-500)', 'var(--spectrum-global-color-green-500)', 'var(--spectrum-global-color-yellow-500)', 'var(--spectrum-global-color-purple-500)'];
+
+export default function App() {
+  return (
+    <GetiResponsiveContainer height={320}>
+      <PieChart>
+        <Pie data={data} dataKey="value" nameKey="name" outerRadius="80%" isAnimationActive={false}>
+          {data.map((_entry, index) => <Cell key={index} fill={colors[index % colors.length]} />)}
+        </Pie>
+        <GetiTooltip />
+        <GetiLegend />
+      </PieChart>
+    </GetiResponsiveContainer>
+  );
+}
+```
+
+## Variant — labels + padding angle
+
+```tsx preview
+import { Cell, Pie, PieChart } from 'recharts';
+import { GetiLegend, GetiResponsiveContainer, GetiTooltip } from '@geti-ai/charts/primitives';
+
+const data = [
+  { name: 'Train', value: 70 },
+  { name: 'Validation', value: 20 },
+  { name: 'Test', value: 10 },
+];
+
+const colors = ['#22c55e', '#ef4444', '#f59e0b'];
+
+export default function App() {
+  return (
+    <GetiResponsiveContainer height={320}>
+      <PieChart>
+        <Pie data={data} dataKey="value" nameKey="name" outerRadius="78%" paddingAngle={2} label isAnimationActive={false}>
+          {data.map((_entry, index) => <Cell key={index} fill={colors[index % colors.length]} />)}
+        </Pie>
+        <GetiTooltip />
+        <GetiLegend />
+      </PieChart>
+    </GetiResponsiveContainer>
+  );
+}
+```
+
+## Variant — exploded slice
+
+```tsx preview
+import { Cell, Pie, PieChart } from 'recharts';
+import { GetiLegend, GetiResponsiveContainer, GetiTooltip } from '@geti-ai/charts/primitives';
+
+const data = [
+  { name: 'Car', value: 4200 },
+  { name: 'Person', value: 5600 },
+  { name: 'Bicycle', value: 2100 },
+  { name: 'Bus', value: 1400 },
+];
+
+const colors = ['#60a5fa', '#34d399', '#fbbf24', '#f472b6'];
+
+export default function App() {
+  return (
+    <GetiResponsiveContainer height={320}>
+      <PieChart>
+        <Pie
+          data={data}
+          dataKey="value"
+          nameKey="name"
+          outerRadius="78%"
+          activeIndex={1}
+          activeShape={{ outerRadius: 108 }}
+          isAnimationActive={false}
+        >
+          {data.map((_entry, index) => <Cell key={index} fill={colors[index % colors.length]} />)}
+        </Pie>
+        <GetiTooltip />
+        <GetiLegend />
+      </PieChart>
+    </GetiResponsiveContainer>
+  );
+}
+```
+
+Related: [Pie chart (composition)](/charts/compositions/pie-chart)

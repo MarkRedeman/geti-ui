@@ -1,0 +1,80 @@
+---
+title: Pie chart
+---
+
+# Pie chart (composition)
+
+`PieChart` is a ready-to-use composition for part-to-whole categorical distributions.
+
+## Variant — default
+
+```tsx preview
+import { PieChart } from '@geti-ai/charts';
+
+const data = [
+  { name: 'Images', value: 52 },
+  { name: 'Videos', value: 18 },
+  { name: 'Annotations', value: 22 },
+  { name: 'Models', value: 8 },
+];
+
+export default function App() {
+  return (
+    <PieChart
+      data={data}
+      aria-label="Dataset storage share"
+      height={320}
+    />
+  );
+}
+```
+
+## Variant — labels on
+
+```tsx preview
+import { PieChart } from '@geti-ai/charts';
+
+const data = [
+  { name: 'Car', value: 4200 },
+  { name: 'Person', value: 5600 },
+  { name: 'Bicycle', value: 2100 },
+  { name: 'Bus', value: 1400 },
+];
+
+export default function App() {
+  return (
+    <PieChart
+      data={data}
+      showLabels
+      aria-label="Class distribution with labels"
+      height={320}
+    />
+  );
+}
+```
+
+## Variant — no legend, custom palette
+
+```tsx preview
+import { PieChart } from '@geti-ai/charts';
+
+const data = [
+  { name: 'Accepted', value: 71 },
+  { name: 'Rejected', value: 19 },
+  { name: 'Needs review', value: 10 },
+];
+
+export default function App() {
+  return (
+    <PieChart
+      data={data}
+      showLegend={false}
+      colors={['#22c55e', '#ef4444', '#f59e0b']}
+      aria-label="Review status split"
+      height={300}
+    />
+  );
+}
+```
+
+Related: [Pie chart (primitive)](/charts/primitives/pie-chart)
