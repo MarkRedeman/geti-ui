@@ -73,6 +73,7 @@ const chartsSidebar = [
                     { text: 'IoU distribution chart', link: '/charts/compositions/iou-distribution-chart' },
                     { text: 'Distribution ridge chart', link: '/charts/compositions/distribution-ridge-chart' },
                     { text: 'Error breakdown chart', link: '/charts/compositions/error-breakdown-chart' },
+                    { text: 'Confidence histogram', link: '/charts/compositions/confidence-histogram' },
                 ],
             },
             { text: 'Custom Charts', link: '/charts/custom-charts' },

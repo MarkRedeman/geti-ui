@@ -1,0 +1,70 @@
+---
+title: Confidence histogram
+---
+
+# Confidence histogram (composition)
+
+`ConfidenceHistogram` shows the distribution of prediction confidences and helps select thresholds.
+
+## Variant — raw confidence counts
+
+```tsx preview
+import { ConfidenceHistogram } from '@geti-ai/charts';
+
+const data = [
+  { binStart: 0.0, binEnd: 0.1, count: 12 },
+  { binStart: 0.1, binEnd: 0.2, count: 21 },
+  { binStart: 0.2, binEnd: 0.3, count: 33 },
+  { binStart: 0.3, binEnd: 0.4, count: 57 },
+  { binStart: 0.4, binEnd: 0.5, count: 79 },
+  { binStart: 0.5, binEnd: 0.6, count: 104 },
+  { binStart: 0.6, binEnd: 0.7, count: 132 },
+  { binStart: 0.7, binEnd: 0.8, count: 162 },
+  { binStart: 0.8, binEnd: 0.9, count: 141 },
+  { binStart: 0.9, binEnd: 1.0, count: 93 },
+];
+
+export default function App() {
+  return (
+    <ConfidenceHistogram
+      data={data}
+      aria-label="Prediction confidence histogram"
+      height={320}
+    />
+  );
+}
+```
+
+## Variant — normalized frequency with threshold line
+
+```tsx preview
+import { ConfidenceHistogram } from '@geti-ai/charts';
+
+const data = [
+  { binStart: 0.0, binEnd: 0.1, count: 12 },
+  { binStart: 0.1, binEnd: 0.2, count: 21 },
+  { binStart: 0.2, binEnd: 0.3, count: 33 },
+  { binStart: 0.3, binEnd: 0.4, count: 57 },
+  { binStart: 0.4, binEnd: 0.5, count: 79 },
+  { binStart: 0.5, binEnd: 0.6, count: 104 },
+  { binStart: 0.6, binEnd: 0.7, count: 132 },
+  { binStart: 0.7, binEnd: 0.8, count: 162 },
+  { binStart: 0.8, binEnd: 0.9, count: 141 },
+  { binStart: 0.9, binEnd: 1.0, count: 93 },
+];
+
+export default function App() {
+  return (
+    <ConfidenceHistogram
+      data={data}
+      showFrequency
+      threshold={0.62}
+      yAxisProps={{ tickFormatter: (value) => `${Math.round(Number(value) * 100)}%` }}
+      aria-label="Confidence histogram with normalized frequencies and threshold"
+      height={320}
+    />
+  );
+}
+```
+
+Related: [Custom charts](/charts/custom-charts)

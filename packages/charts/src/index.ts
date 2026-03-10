@@ -108,5 +108,8 @@ export type { DistributionRidgeChartProps, DistributionRidgeSeries } from './com
 export { ErrorBreakdownChart } from './components/ml/ErrorBreakdownChart';
 export type { ErrorBreakdownChartProps, ErrorBreakdownSeries } from './components/ml/ErrorBreakdownChart';
 
+export { ConfidenceHistogram } from './components/ml/ConfidenceHistogram';
+export type { ConfidenceHistogramProps, ConfidenceHistogramDatum } from './components/ml/ConfidenceHistogram';
+
 export { TreemapChart } from './components/TreemapChart';
 export type { TreemapChartProps } from './components/TreemapChart';
