@@ -37,7 +37,6 @@ const chartsSidebar = [
                     { text: 'Radar chart', link: '/charts/primitives/radar-chart' },
                     { text: 'RadialBar chart', link: '/charts/primitives/radial-bar-chart' },
                     { text: 'Meter chart', link: '/charts/primitives/meter-chart' },
-                    { text: 'Training metrics chart', link: '/charts/primitives/training-metrics-chart' },
                     { text: 'Treemap chart', link: '/charts/primitives/treemap-chart' },
                     { text: 'Sparkline chart', link: '/charts/primitives/sparkline-chart' },
                 ],
@@ -57,9 +56,30 @@ const chartsSidebar = [
                     { text: 'Radar chart', link: '/charts/compositions/radar-chart' },
                     { text: 'RadialBar chart', link: '/charts/compositions/radial-bar-chart' },
                     { text: 'Meter chart', link: '/charts/compositions/meter-chart' },
-                    { text: 'Training metrics chart', link: '/charts/compositions/training-metrics-chart' },
                     { text: 'Treemap chart', link: '/charts/compositions/treemap-chart' },
                     { text: 'Sparkline chart', link: '/charts/compositions/sparkline-chart' },
+                ],
+            },
+            {
+                text: 'Machine Learning',
+                collapsed: false,
+                items: [
+                    {
+                        text: 'Compositions',
+                        collapsed: false,
+                        items: [
+                            { text: 'Training metrics chart', link: '/charts/compositions/training-metrics-chart' },
+                            { text: 'Run comparison chart', link: '/charts/compositions/run-comparison-chart' },
+                        ],
+                    },
+                    {
+                        text: 'Primitives',
+                        collapsed: false,
+                        items: [
+                            { text: 'Training metrics chart', link: '/charts/primitives/training-metrics-chart' },
+                            { text: 'Run comparison chart', link: '/charts/primitives/run-comparison-chart' },
+                        ],
+                    },
                 ],
             },
             { text: 'Custom Charts', link: '/charts/custom-charts' },

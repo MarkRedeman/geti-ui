@@ -1,0 +1,85 @@
+---
+title: Run comparison chart
+---
+
+# Run comparison chart (primitive)
+
+Use Recharts `BarChart` primitives when you need full control for experiment-run comparisons.
+
+## Variant — grouped run metrics
+
+```tsx preview
+import { Bar, BarChart } from 'recharts';
+import {
+  GetiCartesianGrid,
+  GetiLegend,
+  GetiResponsiveContainer,
+  GetiTooltip,
+  GetiXAxis,
+  GetiYAxis,
+} from '@geti-ai/charts/primitives';
+
+const data = [
+  { run: 'Run A', map: 0.81, f1: 0.77 },
+  { run: 'Run B', map: 0.84, f1: 0.80 },
+  { run: 'Run C', map: 0.86, f1: 0.82 },
+  { run: 'Run D', map: 0.83, f1: 0.79 },
+];
+
+export default function App() {
+  return (
+    <GetiResponsiveContainer height={320}>
+      <BarChart data={data} layout="vertical" margin={{ top: 8, right: 16, bottom: 8, left: 0 }}>
+        <GetiCartesianGrid />
+        <GetiXAxis type="number" domain={[0, 1]} />
+        <GetiYAxis type="category" dataKey="run" />
+        <GetiTooltip formatter={(value) => [`${(Number(value) * 100).toFixed(1)}%`, 'score']} />
+        <GetiLegend />
+
+        <Bar dataKey="map" name="mAP" fill="var(--spectrum-global-color-blue-500)" isAnimationActive={false} />
+        <Bar dataKey="f1" name="F1" fill="var(--spectrum-global-color-purple-500)" isAnimationActive={false} />
+      </BarChart>
+    </GetiResponsiveContainer>
+  );
+}
+```
+
+## Variant — stacked quality split per run
+
+```tsx preview
+import { Bar, BarChart } from 'recharts';
+import {
+  GetiCartesianGrid,
+  GetiLegend,
+  GetiResponsiveContainer,
+  GetiTooltip,
+  GetiXAxis,
+  GetiYAxis,
+} from '@geti-ai/charts/primitives';
+
+const data = [
+  { run: 'Run A', pass: 710, review: 110, fail: 40 },
+  { run: 'Run B', pass: 740, review: 95, fail: 35 },
+  { run: 'Run C', pass: 765, review: 88, fail: 31 },
+];
+
+export default function App() {
+  return (
+    <GetiResponsiveContainer height={320}>
+      <BarChart data={data}>
+        <GetiCartesianGrid />
+        <GetiXAxis dataKey="run" />
+        <GetiYAxis />
+        <GetiTooltip />
+        <GetiLegend />
+
+        <Bar dataKey="pass" stackId="quality" fill="var(--spectrum-global-color-green-500)" isAnimationActive={false} />
+        <Bar dataKey="review" stackId="quality" fill="var(--spectrum-global-color-yellow-500)" isAnimationActive={false} />
+        <Bar dataKey="fail" stackId="quality" fill="var(--spectrum-global-color-red-500)" isAnimationActive={false} />
+      </BarChart>
+    </GetiResponsiveContainer>
+  );
+}
+```
+
+Related: [Run comparison chart (composition)](/charts/compositions/run-comparison-chart)

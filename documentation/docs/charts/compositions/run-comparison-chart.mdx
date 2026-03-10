@@ -1,0 +1,94 @@
+---
+title: Run comparison chart
+---
+
+# Run comparison chart (composition)
+
+`RunComparisonChart` is an ML-oriented bar composition for comparing experiment runs.
+
+## Variant — compare mAP and F1 by run (horizontal bars)
+
+```tsx preview
+import { RunComparisonChart } from '@geti-ai/charts';
+
+const data = [
+  { run: 'Run A', map: 0.81, f1: 0.77 },
+  { run: 'Run B', map: 0.84, f1: 0.80 },
+  { run: 'Run C', map: 0.86, f1: 0.82 },
+  { run: 'Run D', map: 0.83, f1: 0.79 },
+];
+
+export default function App() {
+  return (
+    <RunComparisonChart
+      data={data}
+      xAxisKey="run"
+      layout="vertical"
+      series={[
+        { dataKey: 'map', name: 'mAP' },
+        { dataKey: 'f1', name: 'F1 score' },
+      ]}
+      aria-label="Run comparison for mAP and F1"
+      height={320}
+    />
+  );
+}
+```
+
+## Variant — stacked quality breakdown per run
+
+```tsx preview
+import { RunComparisonChart } from '@geti-ai/charts';
+
+const data = [
+  { run: 'Run A', pass: 710, review: 110, fail: 40 },
+  { run: 'Run B', pass: 740, review: 95, fail: 35 },
+  { run: 'Run C', pass: 765, review: 88, fail: 31 },
+];
+
+export default function App() {
+  return (
+    <RunComparisonChart
+      data={data}
+      xAxisKey="run"
+      stacked
+      series={[
+        { dataKey: 'pass', name: 'Pass', color: 'var(--spectrum-global-color-green-500)' },
+        { dataKey: 'review', name: 'Review', color: 'var(--spectrum-global-color-yellow-500)' },
+        { dataKey: 'fail', name: 'Fail', color: 'var(--spectrum-global-color-red-500)' },
+      ]}
+      aria-label="Stacked run quality breakdown"
+      height={320}
+    />
+  );
+}
+```
+
+## Variant — log scale for throughput comparison
+
+```tsx preview
+import { RunComparisonChart } from '@geti-ai/charts';
+
+const data = [
+  { run: 'CPU baseline', throughput: 12 },
+  { run: 'GPU T4', throughput: 85 },
+  { run: 'GPU A10', throughput: 240 },
+  { run: 'GPU A100', throughput: 760 },
+];
+
+export default function App() {
+  return (
+    <RunComparisonChart
+      data={data}
+      xAxisKey="run"
+      layout="horizontal"
+      yScale={{ scale: 'log', domain: [1, 'auto'] }}
+      series={[{ dataKey: 'throughput', name: 'Images/s' }]}
+      aria-label="Run throughput comparison on logarithmic scale"
+      height={320}
+    />
+  );
+}
+```
+
+Related: [Run comparison chart (primitive)](/charts/primitives/run-comparison-chart)

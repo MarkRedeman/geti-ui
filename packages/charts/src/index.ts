@@ -84,5 +84,8 @@ export type { MeterChartProps } from './components/MeterChart';
 export { TrainingMetricsChart } from './components/TrainingMetricsChart';
 export type { TrainingMetricsChartProps, TrainingMetricSeriesConfig } from './components/TrainingMetricsChart';
 
+export { RunComparisonChart } from './components/RunComparisonChart';
+export type { RunComparisonChartProps, RunComparisonSeriesConfig } from './components/RunComparisonChart';
+
 export { TreemapChart } from './components/TreemapChart';
 export type { TreemapChartProps } from './components/TreemapChart';
