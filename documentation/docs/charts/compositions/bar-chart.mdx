@@ -92,4 +92,82 @@ export default function App() {
 }
 ```
 
+## Variant — vertical bars (`layout="horizontal"`)
+
+```tsx preview
+import { BarChart } from '@geti-ai/charts';
+
+const data = [
+  { model: 'MobileNet', mAP: 0.78 },
+  { model: 'ResNet-50', mAP: 0.84 },
+  { model: 'EfficientDet', mAP: 0.88 },
+  { model: 'ViTDet', mAP: 0.91 },
+];
+
+export default function App() {
+  return (
+    <BarChart
+      data={data}
+      xAxisKey="model"
+      layout="horizontal"
+      series={[{ dataKey: 'mAP', name: 'mAP' }]}
+      aria-label="Vertical bar chart"
+      height={260}
+    />
+  );
+}
+```
+
+## Variant — horizontal bars (`layout="vertical"`)
+
+```tsx preview
+import { BarChart } from '@geti-ai/charts';
+
+const data = [
+  { label: 'Background cleanup', seconds: 12 },
+  { label: 'Augmentation', seconds: 28 },
+  { label: 'Training', seconds: 140 },
+  { label: 'Validation', seconds: 34 },
+];
+
+export default function App() {
+  return (
+    <BarChart
+      data={data}
+      xAxisKey="label"
+      layout="vertical"
+      series={[{ dataKey: 'seconds', name: 'Duration (s)' }]}
+      aria-label="Horizontal bar chart"
+      height={280}
+    />
+  );
+}
+```
+
+## Variant — log scale on value axis
+
+```tsx preview
+import { BarChart } from '@geti-ai/charts';
+
+const data = [
+  { stage: 'raw', count: 12 },
+  { stage: 'filtered', count: 140 },
+  { stage: 'augmented', count: 2300 },
+  { stage: 'final', count: 10500 },
+];
+
+export default function App() {
+  return (
+    <BarChart
+      data={data}
+      xAxisKey="stage"
+      yScale={{ scale: 'log', domain: [1, 'auto'] }}
+      series={[{ dataKey: 'count', name: 'Samples' }]}
+      aria-label="Log-scale vertical bar chart"
+      height={260}
+    />
+  );
+}
+```
+
 Related: [Bar chart (primitive)](/charts/primitives/bar-chart)

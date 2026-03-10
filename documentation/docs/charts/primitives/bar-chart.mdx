@@ -78,4 +78,106 @@ export default function App() {
 }
 ```
 
+## Variant — vertical bars (`layout="horizontal"`)
+
+```tsx preview
+import { Bar, BarChart } from 'recharts';
+import {
+  GetiCartesianGrid,
+  GetiResponsiveContainer,
+  GetiTooltip,
+  GetiXAxis,
+  GetiYAxis,
+} from '@geti-ai/charts/primitives';
+
+const data = [
+  { model: 'MobileNet', mAP: 0.78 },
+  { model: 'ResNet-50', mAP: 0.84 },
+  { model: 'EfficientDet', mAP: 0.88 },
+  { model: 'ViTDet', mAP: 0.91 },
+];
+
+export default function App() {
+  return (
+    <GetiResponsiveContainer height={260}>
+      <BarChart data={data} layout="horizontal">
+        <GetiCartesianGrid />
+        <GetiXAxis dataKey="model" />
+        <GetiYAxis />
+        <GetiTooltip />
+        <Bar dataKey="mAP" fill="var(--spectrum-global-color-blue-500)" isAnimationActive={false} />
+      </BarChart>
+    </GetiResponsiveContainer>
+  );
+}
+```
+
+## Variant — horizontal bars (`layout="vertical"`)
+
+```tsx preview
+import { Bar, BarChart } from 'recharts';
+import {
+  GetiCartesianGrid,
+  GetiResponsiveContainer,
+  GetiTooltip,
+  GetiXAxis,
+  GetiYAxis,
+} from '@geti-ai/charts/primitives';
+
+const data = [
+  { label: 'Background cleanup', seconds: 12 },
+  { label: 'Augmentation', seconds: 28 },
+  { label: 'Training', seconds: 140 },
+  { label: 'Validation', seconds: 34 },
+];
+
+export default function App() {
+  return (
+    <GetiResponsiveContainer height={280}>
+      <BarChart data={data} layout="vertical" margin={{ top: 8, right: 16, bottom: 8, left: 60 }}>
+        <GetiCartesianGrid />
+        <GetiXAxis type="number" />
+        <GetiYAxis type="category" dataKey="label" width={120} />
+        <GetiTooltip />
+        <Bar dataKey="seconds" fill="var(--spectrum-global-color-blue-500)" isAnimationActive={false} />
+      </BarChart>
+    </GetiResponsiveContainer>
+  );
+}
+```
+
+## Variant — log scale on value axis
+
+```tsx preview
+import { Bar, BarChart } from 'recharts';
+import {
+  GetiCartesianGrid,
+  GetiResponsiveContainer,
+  GetiTooltip,
+  GetiXAxis,
+  GetiYAxis,
+} from '@geti-ai/charts/primitives';
+
+const data = [
+  { stage: 'raw', count: 12 },
+  { stage: 'filtered', count: 140 },
+  { stage: 'augmented', count: 2300 },
+  { stage: 'final', count: 10500 },
+];
+
+export default function App() {
+  return (
+    <GetiResponsiveContainer height={260}>
+      <BarChart data={data} layout="horizontal">
+        <GetiCartesianGrid />
+        <GetiXAxis dataKey="stage" />
+        <GetiYAxis scale="log" domain={[1, 'auto']} />
+        <GetiTooltip />
+        <Bar dataKey="count" fill="var(--spectrum-global-color-blue-500)" isAnimationActive={false} />
+      </BarChart>
+    </GetiResponsiveContainer>
+  );
+}
+```
+
 Related: [Bar chart (composition)](/charts/compositions/bar-chart)
