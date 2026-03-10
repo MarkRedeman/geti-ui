@@ -47,6 +47,8 @@ export interface BarChartProps {
     barCategoryGap?: string | number;
     /** Gap between bars within a group (0–1). @default '4%' */
     barGap?: string | number;
+    /** Whether multiple series should be stacked instead of grouped. @default false */
+    stacked?: boolean;
     /** Show grid. @default true */
     showGrid?: boolean;
     /** Show tooltip. @default true */
@@ -120,6 +122,7 @@ export function BarChart({
     layout = 'horizontal',
     barCategoryGap = '20%',
     barGap = '4%',
+    stacked = false,
     showGrid = true,
     showTooltip = true,
     showLegend = false,
@@ -188,6 +191,7 @@ export function BarChart({
                                 key={s.dataKey}
                                 dataKey={s.dataKey}
                                 name={s.name ?? s.dataKey}
+                                stackId={stacked ? 'stack' : undefined}
                                 fill={s.color ?? defaultColor}
                                 radius={[s.radius ?? 2, s.radius ?? 2, 0, 0]}
                                 isAnimationActive={animate}
