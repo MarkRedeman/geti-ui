@@ -72,4 +72,73 @@ export default function App() {
 }
 ```
 
+## Variant — log/log axes
+
+```tsx preview
+import { Scatter, ScatterChart } from 'recharts';
+import {
+  GetiCartesianGrid,
+  GetiResponsiveContainer,
+  GetiTooltip,
+  GetiXAxis,
+  GetiYAxis,
+} from '@geti-ai/charts/primitives';
+
+const models = [
+  { x: 2e6, y: 1.2e9 },
+  { x: 8e6, y: 4.6e9 },
+  { x: 2.4e7, y: 1.1e10 },
+  { x: 6.4e7, y: 3.0e10 },
+];
+
+export default function App() {
+  return (
+    <GetiResponsiveContainer height={300}>
+      <ScatterChart margin={{ top: 8, right: 16, bottom: 8, left: 0 }}>
+        <GetiCartesianGrid />
+        <GetiXAxis type="number" dataKey="x" scale="log" domain={[1e6, 'auto']} name="Parameters" />
+        <GetiYAxis type="number" dataKey="y" scale="log" domain={[1e8, 'auto']} name="FLOPs" />
+        <GetiTooltip />
+        <Scatter data={models} fill="var(--spectrum-global-color-blue-500)" isAnimationActive={false} />
+      </ScatterChart>
+    </GetiResponsiveContainer>
+  );
+}
+```
+
+## Variant — bubble scatter with Z axis
+
+```tsx preview
+import { Scatter, ScatterChart, ZAxis } from 'recharts';
+import {
+  GetiCartesianGrid,
+  GetiResponsiveContainer,
+  GetiTooltip,
+  GetiXAxis,
+  GetiYAxis,
+} from '@geti-ai/charts/primitives';
+
+const points = [
+  { x: 18, y: 0.72, z: 1200 },
+  { x: 24, y: 0.81, z: 3400 },
+  { x: 33, y: 0.87, z: 5200 },
+  { x: 41, y: 0.90, z: 8600 },
+];
+
+export default function App() {
+  return (
+    <GetiResponsiveContainer height={300}>
+      <ScatterChart margin={{ top: 8, right: 16, bottom: 8, left: 0 }}>
+        <GetiCartesianGrid />
+        <GetiXAxis type="number" dataKey="x" name="Latency (ms)" />
+        <GetiYAxis type="number" dataKey="y" name="F1" />
+        <ZAxis dataKey="z" range={[40, 400]} name="Samples" />
+        <GetiTooltip />
+        <Scatter data={points} fill="var(--spectrum-global-color-blue-500)" isAnimationActive={false} />
+      </ScatterChart>
+    </GetiResponsiveContainer>
+  );
+}
+```
+
 Related: [Scatter chart (composition)](/charts/compositions/scatter-chart)
