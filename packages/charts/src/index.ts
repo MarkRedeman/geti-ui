@@ -96,5 +96,8 @@ export type { PrecisionRecallCurveProps, PrecisionRecallCurveSeriesConfig } from
 export { RocCurve } from './components/ml/RocCurve';
 export type { RocCurveProps, RocCurveSeriesConfig } from './components/ml/RocCurve';
 
+export { ClassAPChart } from './components/ml/ClassAPChart';
+export type { ClassAPChartProps, ClassAPChartDatum } from './components/ml/ClassAPChart';
+
 export { TreemapChart } from './components/TreemapChart';
 export type { TreemapChartProps } from './components/TreemapChart';

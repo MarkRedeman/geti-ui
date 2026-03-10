@@ -1,0 +1,63 @@
+---
+title: Class AP chart
+---
+
+# Class AP chart (composition)
+
+`ClassAPChart` visualizes per-class average precision as sortable horizontal bars.
+
+## Variant — AP50 per class
+
+```tsx preview
+import { ClassAPChart } from '@geti-ai/charts';
+
+const data = [
+  { className: 'person', score: 0.73 },
+  { className: 'car', score: 0.81 },
+  { className: 'traffic light', score: 0.42 },
+  { className: 'bicycle', score: 0.66 },
+  { className: 'truck', score: 0.58 },
+  { className: 'bus', score: 0.61 },
+  { className: 'dog', score: 0.49 },
+  { className: 'cat', score: 0.53 },
+];
+
+export default function App() {
+  return (
+    <ClassAPChart
+      data={data}
+      metric="AP50"
+      aria-label="Per-class AP50"
+      height={420}
+    />
+  );
+}
+```
+
+## Variant — AP75 unsorted input order
+
+```tsx preview
+import { ClassAPChart } from '@geti-ai/charts';
+
+const data = [
+  { className: 'person', score: 0.52 },
+  { className: 'car', score: 0.69 },
+  { className: 'traffic light', score: 0.26 },
+  { className: 'bicycle', score: 0.48 },
+  { className: 'truck', score: 0.41 },
+];
+
+export default function App() {
+  return (
+    <ClassAPChart
+      data={data}
+      metric="AP75"
+      sortDescending={false}
+      aria-label="Per-class AP75 in dataset order"
+      height={360}
+    />
+  );
+}
+```
+
+Related: [Custom charts](/charts/custom-charts)

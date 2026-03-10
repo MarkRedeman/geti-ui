@@ -69,6 +69,7 @@ const chartsSidebar = [
                     { text: 'Confusion matrix chart', link: '/charts/compositions/confusion-matrix-chart' },
                     { text: 'Precision recall curve', link: '/charts/compositions/precision-recall-curve' },
                     { text: 'ROC curve', link: '/charts/compositions/roc-curve' },
+                    { text: 'Class AP chart', link: '/charts/compositions/class-ap-chart' },
                 ],
             },
             { text: 'Custom Charts', link: '/charts/custom-charts' },
