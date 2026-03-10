@@ -19,11 +19,11 @@ jobs:
         permissions:
             contents: read
         steps:
-            - uses: actions/checkout@v6
+            - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6
               with:
                   persist-credentials: false
 
-            - uses: actions/setup-node@v6
+            - uses: actions/setup-node@53b83947a5a98c8d113130e565377fae1a50d02f # v6
               with:
                   node-version: 24
                   cache: npm
@@ -46,11 +46,11 @@ jobs:
         permissions:
             contents: read
         steps:
-            - uses: actions/checkout@v6
+            - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6
               with:
                   persist-credentials: false
 
-            - uses: actions/setup-node@v6
+            - uses: actions/setup-node@53b83947a5a98c8d113130e565377fae1a50d02f # v6
               with:
                   node-version: 24
                   cache: npm
@@ -105,11 +105,11 @@ jobs:
         permissions:
             contents: read
         steps:
-            - uses: actions/checkout@v6
+            - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6
               with:
                   persist-credentials: false
 
-            - uses: actions/setup-node@v6
+            - uses: actions/setup-node@53b83947a5a98c8d113130e565377fae1a50d02f # v6
               with:
                   node-version: 24
                   cache: npm
@@ -126,7 +126,7 @@ jobs:
                   CI: true
 
             - name: Upload docs Playwright report
-              uses: actions/upload-artifact@v7
+              uses: actions/upload-artifact@bbbca2ddaa5d8feaa63e36b76fdaad77386f024f # v7
               if: always()
               with:
                   name: docs-playwright-report
