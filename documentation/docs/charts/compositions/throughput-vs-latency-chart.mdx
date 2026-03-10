@@ -1,0 +1,94 @@
+---
+title: Throughput vs latency chart
+---
+
+# Throughput vs latency chart (composition)
+
+`ThroughputVsLatencyChart` helps analyze deployment trade-offs between throughput and latency.
+
+## Variant — batch-size operating points
+
+```tsx preview
+import { ThroughputVsLatencyChart } from '@geti-ai/charts';
+
+const points = [
+  { throughput: 42, latency: 12.1, label: 'B1' },
+  { throughput: 78, latency: 16.9, label: 'B2' },
+  { throughput: 133, latency: 24.8, label: 'B4' },
+  { throughput: 205, latency: 36.7, label: 'B8' },
+  { throughput: 278, latency: 54.2, label: 'B16' },
+];
+
+export default function App() {
+  return (
+    <ThroughputVsLatencyChart
+      series={[{ name: 'Model A', data: points }]}
+      aria-label="Throughput versus latency operating points"
+      height={360}
+    />
+  );
+}
+```
+
+## Variant — compare two models
+
+```tsx preview
+import { ThroughputVsLatencyChart } from '@geti-ai/charts';
+
+const modelA = [
+  { throughput: 42, latency: 12.1, label: 'B1' },
+  { throughput: 78, latency: 16.9, label: 'B2' },
+  { throughput: 133, latency: 24.8, label: 'B4' },
+  { throughput: 205, latency: 36.7, label: 'B8' },
+  { throughput: 278, latency: 54.2, label: 'B16' },
+];
+
+const modelB = [
+  { throughput: 39, latency: 10.7, label: 'B1' },
+  { throughput: 70, latency: 14.8, label: 'B2' },
+  { throughput: 121, latency: 21.9, label: 'B4' },
+  { throughput: 189, latency: 32.8, label: 'B8' },
+  { throughput: 263, latency: 49.5, label: 'B16' },
+];
+
+export default function App() {
+  return (
+    <ThroughputVsLatencyChart
+      series={[
+        { name: 'Model A', data: modelA },
+        { name: 'Model B', data: modelB },
+      ]}
+      aria-label="Throughput versus latency model comparison"
+      height={360}
+    />
+  );
+}
+```
+
+## Variant — log-log comparison
+
+```tsx preview
+import { ThroughputVsLatencyChart } from '@geti-ai/charts';
+
+const points = [
+  { throughput: 18, latency: 8.4, label: 'CPU small' },
+  { throughput: 46, latency: 12.3, label: 'CPU large' },
+  { throughput: 125, latency: 20.8, label: 'GPU T4' },
+  { throughput: 312, latency: 38.1, label: 'GPU A10' },
+  { throughput: 708, latency: 72.6, label: 'GPU A100' },
+];
+
+export default function App() {
+  return (
+    <ThroughputVsLatencyChart
+      series={[{ name: 'Deploy targets', data: points }]}
+      xLogScale
+      yLogScale
+      aria-label="Log-scale throughput versus latency comparison"
+      height={360}
+    />
+  );
+}
+```
+
+Related: [Custom charts](/charts/custom-charts)

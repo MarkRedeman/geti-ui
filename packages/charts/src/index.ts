@@ -145,5 +145,12 @@ export type {
 export { LatencyPercentileChart } from './components/ml/LatencyPercentileChart';
 export type { LatencyPercentileChartProps } from './components/ml/LatencyPercentileChart';
 
+export { ThroughputVsLatencyChart } from './components/ml/ThroughputVsLatencyChart';
+export type {
+    ThroughputVsLatencyChartProps,
+    ThroughputVsLatencySeries,
+    ThroughputVsLatencyPoint,
+} from './components/ml/ThroughputVsLatencyChart';
+
 export { TreemapChart } from './components/TreemapChart';
 export type { TreemapChartProps } from './components/TreemapChart';

@@ -81,6 +81,7 @@ const chartsSidebar = [
                     { text: 'Confidence vs IoU chart', link: '/charts/compositions/confidence-vs-iou-chart' },
                     { text: 'Embedding distance distribution', link: '/charts/compositions/embedding-distance-distribution' },
                     { text: 'Latency percentile chart', link: '/charts/compositions/latency-percentile-chart' },
+                    { text: 'Throughput vs latency chart', link: '/charts/compositions/throughput-vs-latency-chart' },
                 ],
             },
             { text: 'Custom Charts', link: '/charts/custom-charts' },
