@@ -81,20 +81,20 @@ export type { RadialBarChartProps } from './components/RadialBarChart';
 export { MeterChart } from './components/MeterChart';
 export type { MeterChartProps } from './components/MeterChart';
 
-export { TrainingMetricsChart } from './components/TrainingMetricsChart';
-export type { TrainingMetricsChartProps, TrainingMetricSeriesConfig } from './components/TrainingMetricsChart';
+export { TrainingMetricsChart } from './components/ml/TrainingMetricsChart';
+export type { TrainingMetricsChartProps, TrainingMetricSeriesConfig } from './components/ml/TrainingMetricsChart';
 
-export { RunComparisonChart } from './components/RunComparisonChart';
-export type { RunComparisonChartProps, RunComparisonSeriesConfig } from './components/RunComparisonChart';
+export { RunComparisonChart } from './components/ml/RunComparisonChart';
+export type { RunComparisonChartProps, RunComparisonSeriesConfig } from './components/ml/RunComparisonChart';
 
-export { ConfusionMatrixChart } from './components/ConfusionMatrixChart';
-export type { ConfusionMatrixChartProps } from './components/ConfusionMatrixChart';
+export { ConfusionMatrixChart } from './components/ml/ConfusionMatrixChart';
+export type { ConfusionMatrixChartProps } from './components/ml/ConfusionMatrixChart';
 
-export { PrecisionRecallCurve } from './components/PrecisionRecallCurve';
-export type { PrecisionRecallCurveProps, PrecisionRecallCurveSeriesConfig } from './components/PrecisionRecallCurve';
+export { PrecisionRecallCurve } from './components/ml/PrecisionRecallCurve';
+export type { PrecisionRecallCurveProps, PrecisionRecallCurveSeriesConfig } from './components/ml/PrecisionRecallCurve';
 
-export { RocCurve } from './components/RocCurve';
-export type { RocCurveProps, RocCurveSeriesConfig } from './components/RocCurve';
+export { RocCurve } from './components/ml/RocCurve';
+export type { RocCurveProps, RocCurveSeriesConfig } from './components/ml/RocCurve';
 
 export { TreemapChart } from './components/TreemapChart';
 export type { TreemapChartProps } from './components/TreemapChart';
