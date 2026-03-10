@@ -192,4 +192,82 @@ export default function App() {
 }
 ```
 
+## Variant — custom line color palette
+
+```tsx preview
+import { Line, LineChart } from 'recharts';
+import {
+  GetiCartesianGrid,
+  GetiLegend,
+  GetiResponsiveContainer,
+  GetiTooltip,
+  GetiXAxis,
+  GetiYAxis,
+} from '@geti-ai/charts/primitives';
+
+const data = [
+  { step: 1, small: 130, medium: 90, large: 52 },
+  { step: 2, small: 165, medium: 112, large: 68 },
+  { step: 3, small: 201, medium: 138, large: 82 },
+  { step: 4, small: 228, medium: 156, large: 97 },
+  { step: 5, small: 259, medium: 173, large: 109 },
+];
+
+export default function App() {
+  return (
+    <GetiResponsiveContainer height={280}>
+      <LineChart data={data}>
+        <GetiCartesianGrid />
+        <GetiXAxis dataKey="step" />
+        <GetiYAxis />
+        <GetiTooltip />
+        <GetiLegend />
+        <Line type="monotone" dataKey="small" stroke="#f97316" dot={false} isAnimationActive={false} />
+        <Line type="monotone" dataKey="medium" stroke="#fb7185" dot={false} isAnimationActive={false} />
+        <Line type="monotone" dataKey="large" stroke="#eab308" dot={false} isAnimationActive={false} />
+      </LineChart>
+    </GetiResponsiveContainer>
+  );
+}
+```
+
+## Variant — dataset subset line colors
+
+```tsx preview
+import { Line, LineChart } from 'recharts';
+import {
+  GetiCartesianGrid,
+  GetiLegend,
+  GetiResponsiveContainer,
+  GetiTooltip,
+  GetiXAxis,
+  GetiYAxis,
+} from '@geti-ai/charts/primitives';
+import { getDatasetSubsetColor } from '@geti-ai/charts';
+
+const data = [
+  { epoch: 1, train: 1.42, val: 1.50, test: 1.55 },
+  { epoch: 2, train: 1.10, val: 1.20, test: 1.28 },
+  { epoch: 3, train: 0.87, val: 0.98, test: 1.06 },
+  { epoch: 4, train: 0.71, val: 0.82, test: 0.90 },
+];
+
+export default function App() {
+  return (
+    <GetiResponsiveContainer height={280}>
+      <LineChart data={data}>
+        <GetiCartesianGrid />
+        <GetiXAxis dataKey="epoch" />
+        <GetiYAxis />
+        <GetiTooltip />
+        <GetiLegend />
+        <Line type="monotone" dataKey="train" stroke={getDatasetSubsetColor('train')} dot={false} isAnimationActive={false} />
+        <Line type="monotone" dataKey="val" stroke={getDatasetSubsetColor('val')} dot={false} isAnimationActive={false} />
+        <Line type="monotone" dataKey="test" stroke={getDatasetSubsetColor('test')} dot={false} isAnimationActive={false} />
+      </LineChart>
+    </GetiResponsiveContainer>
+  );
+}
+```
+
 Related: [Line chart (composition)](/charts/compositions/line-chart)

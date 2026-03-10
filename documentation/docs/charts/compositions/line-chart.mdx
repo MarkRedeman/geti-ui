@@ -200,6 +200,68 @@ export default function App() {
 }
 ```
 
+## Variant — explicit per-series colors
+
+```tsx preview
+import { LineChart } from '@geti-ai/charts';
+
+const data = [
+  { epoch: 1, precision: 0.62, recall: 0.55, f1: 0.58 },
+  { epoch: 2, precision: 0.69, recall: 0.60, f1: 0.64 },
+  { epoch: 3, precision: 0.74, recall: 0.66, f1: 0.70 },
+  { epoch: 4, precision: 0.79, recall: 0.71, f1: 0.75 },
+  { epoch: 5, precision: 0.83, recall: 0.76, f1: 0.79 },
+];
+
+export default function App() {
+  return (
+    <LineChart
+      data={data}
+      xAxisKey="epoch"
+      showLegend
+      series={[
+        { dataKey: 'precision', name: 'Precision', color: 'var(--spectrum-global-color-blue-500)' },
+        { dataKey: 'recall', name: 'Recall', color: 'var(--spectrum-global-color-orange-500)' },
+        { dataKey: 'f1', name: 'F1 score', color: 'var(--spectrum-global-color-purple-500)' },
+      ]}
+      aria-label="Explicit per-series line colors"
+      height={280}
+    />
+  );
+}
+```
+
+## Variant — warm custom palette
+
+```tsx preview
+import { LineChart } from '@geti-ai/charts';
+
+const data = [
+  { step: 1, small: 130, medium: 90, large: 52 },
+  { step: 2, small: 165, medium: 112, large: 68 },
+  { step: 3, small: 201, medium: 138, large: 82 },
+  { step: 4, small: 228, medium: 156, large: 97 },
+  { step: 5, small: 259, medium: 173, large: 109 },
+];
+
+export default function App() {
+  return (
+    <LineChart
+      data={data}
+      xAxisKey="step"
+      showLegend
+      series={[
+        { dataKey: 'small', name: 'Small objects', color: '#f97316' },
+        { dataKey: 'medium', name: 'Medium objects', color: '#fb7185' },
+        { dataKey: 'large', name: 'Large objects', color: '#eab308' },
+      ]}
+      aria-label="Warm custom line palette"
+      height={280}
+    />
+  );
+}
+```
+
 ## Variant — time-based X axis
 
 ```tsx preview

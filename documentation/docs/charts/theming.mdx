@@ -29,17 +29,29 @@ export function Dashboard() {
 Use `useGetiUIChartsTheme` to read an adapter theme object from currently available CSS variables:
 
 ```tsx preview
-import { useGetiUIChartsTheme } from '@geti-ai/charts';
+import { getDatasetSubsetColor, useGetiUIChartsTheme } from '@geti-ai/charts';
 
 export default function App() {
   const theme = useGetiUIChartsTheme();
+  
+  const lineColors = theme.dataColors?.map((value, idx) => ({ name: `lineColor[${idx}]`, value })) ?? [];
+
+  const swatches = [
+    { name: 'backgroundColor', value: theme.backgroundColor },
+    { name: 'grid.stroke', value: theme.grid?.stroke },
+    { name: 'axis.tickColor', value: theme.axis?.tickColor },
+    ...lineColors,
+    { name: 'subset.train', value: getDatasetSubsetColor('train') },
+    { name: 'subset.validation', value: getDatasetSubsetColor('validation') },
+    { name: 'subset.test', value: getDatasetSubsetColor('test') },
+  ];
 
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: 8, fontSize: 13 }}>
-      <p style={{ color: 'var(--spectrum-global-color-gray-300)', margin: 0 }}>
+      <p style={{ color: 'var(--spectrum-global-color-gray-700)', margin: 0 }}>
         Active chart theme tokens:
       </p>
-      {Object.entries(theme).slice(0, 8).map(([name, value]) => (
+      {swatches.map(({ name, value }) => (
         <div key={name} style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
           <span
             style={{
@@ -47,10 +59,12 @@ export default function App() {
               height: 16,
               borderRadius: 3,
               background: typeof value === 'string' ? value : 'var(--spectrum-global-color-gray-500)',
+              border: '1px solid var(--spectrum-global-color-gray-700)',
+              boxSizing: 'border-box',
               flexShrink: 0,
             }}
           />
-          <code style={{ color: 'var(--spectrum-global-color-gray-200)', fontSize: 12 }}>
+          <code style={{ color: 'var(--spectrum-global-color-gray-700)', fontSize: 12 }}>
             {name}: {typeof value === 'string' ? value : '[object]'}
           </code>
         </div>
