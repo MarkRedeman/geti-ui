@@ -41,4 +41,29 @@ export default function App() {
 }
 ```
 
+## Variant — categorical mini-trends
+
+```tsx preview
+import { Sparkline } from '@geti-ai/charts/primitives';
+
+const trends = {
+  car: [51, 52, 53, 54, 55, 56, 56],
+  person: [63, 62, 61, 63, 64, 65, 66],
+  bike: [44, 45, 44, 47, 46, 48, 49],
+};
+
+export default function App() {
+  return (
+    <div style={{ display: 'grid', gap: 10 }}>
+      {Object.entries(trends).map(([label, values]) => (
+        <div key={label} style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
+          <span style={{ width: 70, textTransform: 'capitalize' }}>{label}</span>
+          <Sparkline data={values.map((value) => ({ value }))} area />
+        </div>
+      ))}
+    </div>
+  );
+}
+```
+
 Related: [Sparkline chart (composition)](/charts/compositions/sparkline-chart)
