@@ -38,6 +38,7 @@ We use a self-hosted **Renovate** bot to monitor our `package.json` and other de
 - **Scheduled Updates:** Minor and patch updates are grouped and scheduled to minimize noise.
 - **Security Fixes:** High-priority security updates are addressed immediately.
 - **Configuration Validation:** Every change to `.github/renovate.json5` is validated by a dedicated workflow to ensure the bot continues to operate correctly.
+- **GitHub Actions hardening:** Renovate is configured to pin and maintain GitHub Actions digests, reducing supply-chain risk from mutable action tags.
 
 ---
 
@@ -78,4 +79,4 @@ Recommended controls:
 - Scope workflow permissions to least privilege (`contents`, `packages`, `pull-requests` only when required).
 - Keep OpenCV build definitions (`opencv-build.Dockerfile`, `opencv_js.config.py`) code-owner protected.
 - Periodically rotate and audit npm/GitHub credentials used by release workflows.
-- Prefer action pinning to commit SHAs for release and Docker-related workflows.
+- Prefer action pinning to commit SHAs for release and Docker-related workflows (automated via Renovate where applicable).

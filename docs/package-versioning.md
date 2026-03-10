@@ -25,7 +25,8 @@ The following steps must be performed manually to activate the automated pipelin
     *   Add it to your GitHub Repository Secrets as `NPM_TOKEN`.
 2.  **GitHub Action Permissions**:
     *   Go to `Settings > Actions > General` in your GitHub repo.
-    *   Ensure "Workflow permissions" is set to **Read and write permissions**.
+    *   Keep default workflow permissions at the minimum required by your repository policy.
+    *   This repo grants write scopes at the **job level** only where release automation requires them.
     *   Check "Allow GitHub Actions to create and approve pull requests".
 3.  **Local Hooks**:
     *   Run `npm install` locally to activate the Husky hooks.
@@ -65,7 +66,13 @@ When a PR with a changeset is merged into `main`:
 When the "Version Packages" PR is merged:
 1.  Package-specific release workflows run.
 2.  They run package build/test checks and `npm publish` for the targeted package.
-3.  They create a tag (e.g., `v1.2.3`) and GitHub release notes.
+3.  They create package release tags and GitHub release notes.
+
+Tag naming conventions:
+
+- `@geti-ai/ui`: `v{version}`
+- `@geti-ai/smart-tools`: `smart-tools-v{version}`
+- `@geti-ai/charts`: `charts-v{version}`
 
 ### Package-specific release notes
 

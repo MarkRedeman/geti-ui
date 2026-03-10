@@ -6,6 +6,7 @@ This repository currently contains:
 
 - `@geti-ai/ui` — React component design system for Intel Geti products.
 - `@geti-ai/smart-tools` — browser/worker smart-tooling utilities (OpenCV/ONNX based).
+- `@geti-ai/charts` — composable chart primitives and ML-oriented chart compositions.
 
 ---
 
@@ -14,6 +15,8 @@ This repository currently contains:
 `@geti-ai/ui` follows a thin-wrapper pattern on top of [React Spectrum v3](https://react-spectrum.adobe.com/v3/getting-started.html) and `react-aria-components`.
 
 `@geti-ai/smart-tools` provides framework-agnostic tool logic, model wrappers, and utility functions, with package docs under `documentation/docs/smart-tools/`.
+
+`@geti-ai/charts` provides themed chart primitives and higher-level ML composition charts, with docs under `documentation/docs/charts/`.
 
 ### Future Roadmap
 We are planning a gradual migration from React Spectrum v3 to a [react-aria-components](https://react-spectrum.adobe.com/react-aria/react-aria-components.html)-based implementation. This transition will be executed in phases, allowing us to maintain visual consistency while gaining more control over the DOM structure and styling.
@@ -133,7 +136,7 @@ We use **Changesets** for versioning. When contributing changes that affect pack
 npx changeset
 ```
 
-Select the package(s) affected (`@geti-ai/ui` and/or `@geti-ai/smart-tools`) in the prompt.
+Select the package(s) affected (`@geti-ai/ui`, `@geti-ai/smart-tools`, and/or `@geti-ai/charts`) in the prompt.
 
 ---
 
