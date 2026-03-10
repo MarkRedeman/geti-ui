@@ -1,3 +1,4 @@
+import { useId } from 'react';
 import {
     AreaChart as RechartsAreaChart,
     Area,
@@ -26,6 +27,12 @@ export interface AreaChartSeriesConfig {
     strokeWidth?: number;
     /** Fill opacity for the area. @default 0.15 */
     fillOpacity?: number;
+    /**
+     * When true, use a vertical fade gradient like custom charts
+     * (stronger near the line, fading to transparent at the bottom).
+     * @default false
+     */
+    fade?: boolean;
     /** Whether the areas from multiple series stack on top of each other. @default false */
     stacked?: boolean;
 }
@@ -128,6 +135,7 @@ export function AreaChart({
     'aria-label': ariaLabel,
 }: AreaChartProps) {
     const theme = useChartsTheme();
+    const chartId = useId().replace(/:/g, '');
 
     const axisStyle = {
         fontSize: theme.typography.fontSize,
@@ -142,6 +150,24 @@ export function AreaChart({
         <div role="img" aria-label={ariaLabel} style={{ width, height }}>
             <ResponsiveContainer width="100%" height={height}>
                 <RechartsAreaChart data={data} margin={margin}>
+                    {series.some((s) => s.fade) && (
+                        <defs>
+                            {series.map((s, index) => {
+                                if (!s.fade) return null;
+                                const color = s.color ?? theme.dataColors[index % theme.dataColors.length];
+                                const gradientId = `${chartId}-area-gradient-${index}`;
+                                const startOpacity = s.fillOpacity ?? 0.3;
+
+                                return (
+                                    <linearGradient key={gradientId} id={gradientId} x1="0" y1="0" x2="0" y2="1">
+                                        <stop offset="5%" stopColor={color} stopOpacity={startOpacity} />
+                                        <stop offset="95%" stopColor={color} stopOpacity={0} />
+                                    </linearGradient>
+                                );
+                            })}
+                        </defs>
+                    )}
+
                     {showGrid && <ChartGrid {...gridProps} />}
 
                     <XAxis
@@ -169,6 +195,7 @@ export function AreaChart({
 
                     {series.map((s, index) => {
                         const color = s.color ?? theme.dataColors[index % theme.dataColors.length];
+                        const gradientId = `${chartId}-area-gradient-${index}`;
                         return (
                             <Area
                                 key={s.dataKey}
@@ -177,8 +204,8 @@ export function AreaChart({
                                 name={s.name ?? s.dataKey}
                                 stroke={color}
                                 strokeWidth={s.strokeWidth ?? 2}
-                                fill={color}
-                                fillOpacity={s.fillOpacity ?? 0.15}
+                                fill={s.fade ? `url(#${gradientId})` : color}
+                                fillOpacity={s.fade ? 1 : (s.fillOpacity ?? 0.15)}
                                 stackId={hasStacked && s.stacked ? 'stack' : undefined}
                                 isAnimationActive={animate}
                             />

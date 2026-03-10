@@ -159,6 +159,21 @@ describe('AreaChart — axis scale', () => {
         );
         expect(screen.getByRole('img', { name: 'area pow' })).toBeInTheDocument();
     });
+
+    it('renders fade gradient areas without crash', () => {
+        wrap(
+            <AreaChart
+                data={linearData}
+                xAxisKey="x"
+                series={[
+                    { dataKey: 'y', name: 'Series A', fade: true },
+                    { dataKey: 'y', name: 'Series B', fade: false },
+                ]}
+                aria-label="area fade"
+            />
+        );
+        expect(screen.getByRole('img', { name: 'area fade' })).toBeInTheDocument();
+    });
 });
 
 // ---------------------------------------------------------------------------
