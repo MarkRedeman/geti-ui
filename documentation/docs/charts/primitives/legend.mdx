@@ -51,6 +51,43 @@ export default function App() {
 }
 ```
 
+## Variant — custom alignment and layout
+
+```tsx preview
+import { Line, LineChart } from 'recharts';
+import {
+  GetiCartesianGrid,
+  GetiLegend,
+  GetiResponsiveContainer,
+  GetiTooltip,
+  GetiXAxis,
+  GetiYAxis,
+} from '@geti-ai/charts/primitives';
+
+const data = [
+  { epoch: 1, train: 1.42, val: 1.50 },
+  { epoch: 2, train: 1.10, val: 1.20 },
+  { epoch: 3, train: 0.87, val: 0.98 },
+  { epoch: 4, train: 0.71, val: 0.82 },
+];
+
+export default function App() {
+  return (
+    <GetiResponsiveContainer height={280}>
+      <LineChart data={data} margin={{ top: 8, right: 16, bottom: 32, left: 0 }}>
+        <GetiCartesianGrid />
+        <GetiXAxis dataKey="epoch" />
+        <GetiYAxis />
+        <GetiTooltip />
+        <GetiLegend align="left" verticalAlign="bottom" layout="horizontal" />
+        <Line type="monotone" dataKey="train" name="Train loss" stroke="var(--spectrum-global-color-blue-500)" dot={false} isAnimationActive={false} />
+        <Line type="monotone" dataKey="val" name="Val loss" stroke="var(--spectrum-global-color-green-500)" dot={false} isAnimationActive={false} />
+      </LineChart>
+    </GetiResponsiveContainer>
+  );
+}
+```
+
 ## Notes
 
 - `GetiLegend` accepts standard Recharts `Legend` props.
