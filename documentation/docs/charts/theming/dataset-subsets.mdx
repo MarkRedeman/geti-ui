@@ -289,6 +289,38 @@ export default function App() {
 
 For the upcoming charts, use the same `withDatasetSubsetPalette` or `getDatasetSubsetColor` patterns based on whether the chart API is multi-series (`withDatasetSubsetPalette`) or single-series slices (`getDatasetSubsetColor`).
 
+## Radar chart example
+
+```tsx preview
+import { RadarChart, withDatasetSubsetPalette } from '@geti-ai/charts';
+
+const data = [
+  { metric: 'mAP', train: 0.88, val: 0.82, test: 0.80 },
+  { metric: 'Recall', train: 0.91, val: 0.86, test: 0.84 },
+  { metric: 'Precision', train: 0.89, val: 0.84, test: 0.83 },
+  { metric: 'Stability', train: 0.76, val: 0.71, test: 0.70 },
+  { metric: 'Latency score', train: 0.66, val: 0.69, test: 0.68 },
+];
+
+export default function App() {
+  const series = withDatasetSubsetPalette([
+    { dataKey: 'train', name: 'Training', fillOpacity: 0.2 },
+    { dataKey: 'val', name: 'Validation', fillOpacity: 0.2 },
+    { dataKey: 'test', name: 'Test', fillOpacity: 0.2 },
+  ]);
+
+  return (
+    <RadarChart
+      data={data}
+      categoryKey="metric"
+      series={series}
+      aria-label="Dataset subset radar comparison"
+      height={360}
+    />
+  );
+}
+```
+
 ## Related
 
 - [Charts theming overview](/charts/theming)

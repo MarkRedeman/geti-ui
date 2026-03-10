@@ -1,0 +1,131 @@
+---
+title: Radar chart
+---
+
+# Radar chart (composition)
+
+`RadarChart` is a ready-to-use composition for multi-metric profile comparisons across categories.
+
+## Variant — default (filled)
+
+```tsx preview
+import { RadarChart } from '@geti-ai/charts';
+
+const data = [
+  { metric: 'mAP', train: 0.88, val: 0.82 },
+  { metric: 'Recall', train: 0.91, val: 0.86 },
+  { metric: 'Precision', train: 0.89, val: 0.84 },
+  { metric: 'Stability', train: 0.76, val: 0.71 },
+  { metric: 'Latency score', train: 0.66, val: 0.69 },
+];
+
+export default function App() {
+  return (
+    <RadarChart
+      data={data}
+      categoryKey="metric"
+      series={[
+        { dataKey: 'train', name: 'Train' },
+        { dataKey: 'val', name: 'Validation' },
+      ]}
+      aria-label="Train vs validation radar profile"
+      height={360}
+    />
+  );
+}
+```
+
+## Variant — outline only (`filled={false}`)
+
+```tsx preview
+import { RadarChart } from '@geti-ai/charts';
+
+const data = [
+  { metric: 'mAP', train: 0.88, val: 0.82 },
+  { metric: 'Recall', train: 0.91, val: 0.86 },
+  { metric: 'Precision', train: 0.89, val: 0.84 },
+  { metric: 'Stability', train: 0.76, val: 0.71 },
+  { metric: 'Latency score', train: 0.66, val: 0.69 },
+];
+
+export default function App() {
+  return (
+    <RadarChart
+      data={data}
+      categoryKey="metric"
+      filled={false}
+      series={[
+        { dataKey: 'train', name: 'Train' },
+        { dataKey: 'val', name: 'Validation' },
+      ]}
+      aria-label="Radar outlines only"
+      height={360}
+    />
+  );
+}
+```
+
+## Variant — no legend + custom colors
+
+```tsx preview
+import { RadarChart } from '@geti-ai/charts';
+
+const data = [
+  { metric: 'Crop quality', yolo: 0.82, unet: 0.77, detr: 0.74 },
+  { metric: 'Localization', yolo: 0.86, unet: 0.80, detr: 0.84 },
+  { metric: 'Generalization', yolo: 0.78, unet: 0.83, detr: 0.79 },
+  { metric: 'Speed', yolo: 0.92, unet: 0.68, detr: 0.55 },
+  { metric: 'Robustness', yolo: 0.76, unet: 0.81, detr: 0.83 },
+];
+
+export default function App() {
+  return (
+    <RadarChart
+      data={data}
+      categoryKey="metric"
+      showLegend={false}
+      series={[
+        { dataKey: 'yolo', name: 'YOLO', color: '#60a5fa' },
+        { dataKey: 'unet', name: 'UNet', color: '#34d399' },
+        { dataKey: 'detr', name: 'DETR', color: '#f59e0b' },
+      ]}
+      aria-label="Model family radar comparison"
+      height={360}
+    />
+  );
+}
+```
+
+## Variant — train / validation / test palette
+
+```tsx preview
+import { RadarChart, withDatasetSubsetPalette } from '@geti-ai/charts';
+
+const data = [
+  { metric: 'mAP', train: 0.88, val: 0.82, test: 0.80 },
+  { metric: 'Recall', train: 0.91, val: 0.86, test: 0.84 },
+  { metric: 'Precision', train: 0.89, val: 0.84, test: 0.83 },
+  { metric: 'Stability', train: 0.76, val: 0.71, test: 0.70 },
+  { metric: 'Latency score', train: 0.66, val: 0.69, test: 0.68 },
+];
+
+export default function App() {
+  const series = withDatasetSubsetPalette([
+    { dataKey: 'train', name: 'Training', fillOpacity: 0.2 },
+    { dataKey: 'val', name: 'Validation', fillOpacity: 0.2 },
+    { dataKey: 'test', name: 'Test', fillOpacity: 0.2 },
+  ]);
+
+  return (
+    <RadarChart
+      data={data}
+      categoryKey="metric"
+      series={series}
+      aria-label="Dataset subset radar comparison"
+      height={360}
+    />
+  );
+}
+```
+
+Related: [Radar chart (primitive)](/charts/primitives/radar-chart)

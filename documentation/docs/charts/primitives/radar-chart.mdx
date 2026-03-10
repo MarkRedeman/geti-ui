@@ -1,0 +1,104 @@
+---
+title: Radar chart
+---
+
+# Radar chart (primitive)
+
+Use Recharts `RadarChart` primitives when you need full control over polar axes, grid, and radar styling.
+
+## Variant — default (filled)
+
+```tsx preview
+import { PolarAngleAxis, PolarGrid, PolarRadiusAxis, Radar, RadarChart } from 'recharts';
+import { GetiLegend, GetiResponsiveContainer, GetiTooltip } from '@geti-ai/charts/primitives';
+
+const data = [
+  { metric: 'mAP', train: 0.88, val: 0.82 },
+  { metric: 'Recall', train: 0.91, val: 0.86 },
+  { metric: 'Precision', train: 0.89, val: 0.84 },
+  { metric: 'Stability', train: 0.76, val: 0.71 },
+  { metric: 'Latency score', train: 0.66, val: 0.69 },
+];
+
+export default function App() {
+  return (
+    <GetiResponsiveContainer height={360}>
+      <RadarChart data={data}>
+        <PolarGrid stroke="var(--spectrum-global-color-gray-700)" />
+        <PolarAngleAxis dataKey="metric" />
+        <PolarRadiusAxis />
+        <Radar name="Train" dataKey="train" stroke="var(--spectrum-global-color-green-500)" fill="var(--spectrum-global-color-green-500)" fillOpacity={0.22} isAnimationActive={false} />
+        <Radar name="Validation" dataKey="val" stroke="var(--spectrum-global-color-red-500)" fill="var(--spectrum-global-color-red-500)" fillOpacity={0.22} isAnimationActive={false} />
+        <GetiTooltip />
+        <GetiLegend />
+      </RadarChart>
+    </GetiResponsiveContainer>
+  );
+}
+```
+
+## Variant — outlines only
+
+```tsx preview
+import { PolarAngleAxis, PolarGrid, PolarRadiusAxis, Radar, RadarChart } from 'recharts';
+import { GetiLegend, GetiResponsiveContainer, GetiTooltip } from '@geti-ai/charts/primitives';
+
+const data = [
+  { metric: 'mAP', train: 0.88, val: 0.82 },
+  { metric: 'Recall', train: 0.91, val: 0.86 },
+  { metric: 'Precision', train: 0.89, val: 0.84 },
+  { metric: 'Stability', train: 0.76, val: 0.71 },
+  { metric: 'Latency score', train: 0.66, val: 0.69 },
+];
+
+export default function App() {
+  return (
+    <GetiResponsiveContainer height={360}>
+      <RadarChart data={data}>
+        <PolarGrid stroke="var(--spectrum-global-color-gray-700)" />
+        <PolarAngleAxis dataKey="metric" />
+        <PolarRadiusAxis />
+        <Radar name="Train" dataKey="train" stroke="var(--spectrum-global-color-green-500)" fill="none" isAnimationActive={false} />
+        <Radar name="Validation" dataKey="val" stroke="var(--spectrum-global-color-red-500)" fill="none" isAnimationActive={false} />
+        <GetiTooltip />
+        <GetiLegend />
+      </RadarChart>
+    </GetiResponsiveContainer>
+  );
+}
+```
+
+## Variant — train / validation / test palette
+
+```tsx preview
+import { PolarAngleAxis, PolarGrid, PolarRadiusAxis, Radar, RadarChart } from 'recharts';
+import { GetiLegend, GetiResponsiveContainer, GetiTooltip } from '@geti-ai/charts/primitives';
+import { getDatasetSubsetColor } from '@geti-ai/charts';
+
+const data = [
+  { metric: 'mAP', train: 0.88, val: 0.82, test: 0.80 },
+  { metric: 'Recall', train: 0.91, val: 0.86, test: 0.84 },
+  { metric: 'Precision', train: 0.89, val: 0.84, test: 0.83 },
+  { metric: 'Stability', train: 0.76, val: 0.71, test: 0.70 },
+  { metric: 'Latency score', train: 0.66, val: 0.69, test: 0.68 },
+];
+
+export default function App() {
+  return (
+    <GetiResponsiveContainer height={360}>
+      <RadarChart data={data}>
+        <PolarGrid stroke="var(--spectrum-global-color-gray-700)" />
+        <PolarAngleAxis dataKey="metric" />
+        <PolarRadiusAxis />
+        <Radar name="Train" dataKey="train" stroke={getDatasetSubsetColor('train')} fill={getDatasetSubsetColor('train')} fillOpacity={0.2} isAnimationActive={false} />
+        <Radar name="Validation" dataKey="val" stroke={getDatasetSubsetColor('val')} fill={getDatasetSubsetColor('val')} fillOpacity={0.2} isAnimationActive={false} />
+        <Radar name="Test" dataKey="test" stroke={getDatasetSubsetColor('test')} fill={getDatasetSubsetColor('test')} fillOpacity={0.2} isAnimationActive={false} />
+        <GetiTooltip />
+        <GetiLegend />
+      </RadarChart>
+    </GetiResponsiveContainer>
+  );
+}
+```
+
+Related: [Radar chart (composition)](/charts/compositions/radar-chart)
