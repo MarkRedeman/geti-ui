@@ -149,4 +149,57 @@ export default function App() {
 }
 ```
 
+## Variant — model families (category + bubble size)
+
+```tsx preview
+import { ScatterChart } from '@geti-ai/charts';
+
+const yolo = [
+  { x: 3.2e6, y: 0.41, z: 8.1, model: 'YOLO-N' },
+  { x: 1.1e7, y: 0.49, z: 28.7, model: 'YOLO-S' },
+  { x: 2.6e7, y: 0.54, z: 78.9, model: 'YOLO-M' },
+];
+
+const unet = [
+  { x: 7.8e6, y: 0.44, z: 21.5, model: 'UNet-Tiny' },
+  { x: 2.0e7, y: 0.51, z: 64.1, model: 'UNet-Base' },
+  { x: 3.9e7, y: 0.56, z: 118.3, model: 'UNet-Large' },
+];
+
+const detr = [
+  { x: 4.1e7, y: 0.52, z: 97.2, model: 'DETR-R50' },
+  { x: 6.8e7, y: 0.57, z: 162.4, model: 'DETR-R101' },
+];
+
+export default function App() {
+  return (
+    <ScatterChart
+      series={[
+        { name: 'YOLO', data: yolo, xKey: 'x', yKey: 'y', zKey: 'z', shape: 'circle' },
+        { name: 'UNet', data: unet, xKey: 'x', yKey: 'y', zKey: 'z', shape: 'diamond' },
+        { name: 'DETR', data: detr, xKey: 'x', yKey: 'y', zKey: 'z', shape: 'triangle' },
+      ]}
+      zAxisProps={{ dataKey: 'z', range: [50, 460], name: 'GFLOPs' }}
+      showLegend
+      useVoronoi
+      xScale={{ scale: 'log', domain: [1e6, 'auto'] }}
+      xAxisLabel="Number of parameters"
+      yAxisLabel="M5 COCO mAP @ 50:95"
+      tooltipProps={{
+        formatter: (value, name) => {
+          if (name === 'z') return [`${Number(value).toFixed(1)} GFLOPs`, 'Complexity'];
+          if (name === 'x') return [Number(value).toLocaleString(), 'Parameters'];
+          return [value, name];
+        },
+        labelFormatter: (label) => String(label),
+      }}
+      aria-label="Model families by parameters, mAP, and complexity"
+      height={340}
+    />
+  );
+}
+```
+
+This pattern maps **category/family** to series (and therefore color/legend), while the `z` dimension controls bubble size.
+
 Related: [Scatter chart (primitive)](/charts/primitives/scatter-chart)

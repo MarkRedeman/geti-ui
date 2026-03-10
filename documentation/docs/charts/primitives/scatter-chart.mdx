@@ -141,4 +141,56 @@ export default function App() {
 }
 ```
 
+## Variant — model families (category + bubble size)
+
+```tsx preview
+import { Scatter, ScatterChart, ZAxis } from 'recharts';
+import {
+  GetiCartesianGrid,
+  GetiLegend,
+  GetiResponsiveContainer,
+  GetiTooltip,
+  GetiXAxis,
+  GetiYAxis,
+} from '@geti-ai/charts/primitives';
+
+const yolo = [
+  { params: 3.2e6, map: 0.41, gflops: 8.1 },
+  { params: 1.1e7, map: 0.49, gflops: 28.7 },
+  { params: 2.6e7, map: 0.54, gflops: 78.9 },
+];
+
+const unet = [
+  { params: 7.8e6, map: 0.44, gflops: 21.5 },
+  { params: 2.0e7, map: 0.51, gflops: 64.1 },
+  { params: 3.9e7, map: 0.56, gflops: 118.3 },
+];
+
+const detr = [
+  { params: 4.1e7, map: 0.52, gflops: 97.2 },
+  { params: 6.8e7, map: 0.57, gflops: 162.4 },
+];
+
+export default function App() {
+  return (
+    <GetiResponsiveContainer height={340}>
+      <ScatterChart margin={{ top: 8, right: 16, bottom: 8, left: 8 }}>
+        <GetiCartesianGrid />
+        <GetiXAxis type="number" dataKey="params" scale="log" domain={[1e6, 'auto']} name="Parameters" />
+        <GetiYAxis type="number" dataKey="map" name="M5 COCO mAP @ 50:95" />
+        <ZAxis dataKey="gflops" range={[50, 460]} name="GFLOPs" />
+        <GetiTooltip />
+        <GetiLegend />
+
+        <Scatter name="YOLO" data={yolo} fill="var(--spectrum-global-color-blue-500)" shape="circle" isAnimationActive={false} />
+        <Scatter name="UNet" data={unet} fill="var(--spectrum-global-color-green-500)" shape="diamond" isAnimationActive={false} />
+        <Scatter name="DETR" data={detr} fill="var(--spectrum-global-color-orange-500)" shape="triangle" isAnimationActive={false} />
+      </ScatterChart>
+    </GetiResponsiveContainer>
+  );
+}
+```
+
+Here, **model family** is represented by separate scatter series (driving legend + color), while bubble size encodes `gflops`.
+
 Related: [Scatter chart (composition)](/charts/compositions/scatter-chart)
