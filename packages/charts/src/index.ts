@@ -142,5 +142,8 @@ export type {
     EmbeddingDistanceDistributionDatum,
 } from './components/ml/EmbeddingDistanceDistribution';
 
+export { LatencyPercentileChart } from './components/ml/LatencyPercentileChart';
+export type { LatencyPercentileChartProps } from './components/ml/LatencyPercentileChart';
+
 export { TreemapChart } from './components/TreemapChart';
 export type { TreemapChartProps } from './components/TreemapChart';

@@ -80,6 +80,7 @@ const chartsSidebar = [
                     { text: 'Reliability diagram', link: '/charts/compositions/reliability-diagram' },
                     { text: 'Confidence vs IoU chart', link: '/charts/compositions/confidence-vs-iou-chart' },
                     { text: 'Embedding distance distribution', link: '/charts/compositions/embedding-distance-distribution' },
+                    { text: 'Latency percentile chart', link: '/charts/compositions/latency-percentile-chart' },
                 ],
             },
             { text: 'Custom Charts', link: '/charts/custom-charts' },
