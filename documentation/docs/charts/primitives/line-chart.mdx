@@ -6,6 +6,8 @@ title: Line chart
 
 Use Recharts `LineChart` with Geti primitives when you need custom low-level control.
 
+## Variant — no legend
+
 ```tsx preview
 import { Line, LineChart } from 'recharts';
 import {
@@ -32,6 +34,43 @@ export default function App() {
         <GetiYAxis />
         <GetiTooltip />
         <Line type="monotone" dataKey="loss" stroke="var(--spectrum-global-color-blue-500)" dot={false} isAnimationActive={false} />
+      </LineChart>
+    </GetiResponsiveContainer>
+  );
+}
+```
+
+## Variant — legend on
+
+```tsx preview
+import { Line, LineChart } from 'recharts';
+import {
+  GetiCartesianGrid,
+  GetiLegend,
+  GetiResponsiveContainer,
+  GetiTooltip,
+  GetiXAxis,
+  GetiYAxis,
+} from '@geti-ai/charts/primitives';
+
+const data = [
+  { epoch: 1, train: 1.42, val: 1.50 },
+  { epoch: 2, train: 1.10, val: 1.20 },
+  { epoch: 3, train: 0.87, val: 0.98 },
+  { epoch: 4, train: 0.71, val: 0.82 },
+];
+
+export default function App() {
+  return (
+    <GetiResponsiveContainer height={260}>
+      <LineChart data={data}>
+        <GetiCartesianGrid />
+        <GetiXAxis dataKey="epoch" />
+        <GetiYAxis />
+        <GetiTooltip />
+        <GetiLegend />
+        <Line type="monotone" dataKey="train" stroke="var(--spectrum-global-color-blue-500)" dot={false} isAnimationActive={false} />
+        <Line type="monotone" dataKey="val" stroke="var(--spectrum-global-color-green-500)" dot={false} isAnimationActive={false} />
       </LineChart>
     </GetiResponsiveContainer>
   );

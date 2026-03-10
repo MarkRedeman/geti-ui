@@ -6,6 +6,8 @@ title: Line chart
 
 `LineChart` is a ready-to-use composition. It wires responsive container, axes, grid, tooltip, and series rendering for you.
 
+## Default (boolean props off)
+
 ```tsx preview
 import { LineChart } from '@geti-ai/charts';
 
@@ -26,6 +28,62 @@ export default function App() {
         { dataKey: 'val', name: 'Val loss' },
       ]}
       aria-label="Training and validation loss"
+      height={260}
+    />
+  );
+}
+```
+
+## Variant — `showLegend` on
+
+```tsx preview
+import { LineChart } from '@geti-ai/charts';
+
+const data = [
+  { epoch: 1, train: 1.42, val: 1.50 },
+  { epoch: 2, train: 1.10, val: 1.20 },
+  { epoch: 3, train: 0.87, val: 0.98 },
+  { epoch: 4, train: 0.71, val: 0.82 },
+];
+
+export default function App() {
+  return (
+    <LineChart
+      data={data}
+      xAxisKey="epoch"
+      showLegend
+      series={[
+        { dataKey: 'train', name: 'Train loss' },
+        { dataKey: 'val', name: 'Val loss' },
+      ]}
+      aria-label="Training and validation loss with legend"
+      height={260}
+    />
+  );
+}
+```
+
+## Variant — `animate` on
+
+```tsx preview
+import { LineChart } from '@geti-ai/charts';
+
+const data = [
+  { epoch: 1, loss: 1.42 },
+  { epoch: 2, loss: 1.10 },
+  { epoch: 3, loss: 0.87 },
+  { epoch: 4, loss: 0.71 },
+  { epoch: 5, loss: 0.60 },
+];
+
+export default function App() {
+  return (
+    <LineChart
+      data={data}
+      xAxisKey="epoch"
+      animate
+      series={[{ dataKey: 'loss', name: 'Training loss' }]}
+      aria-label="Animated training loss"
       height={260}
     />
   );
