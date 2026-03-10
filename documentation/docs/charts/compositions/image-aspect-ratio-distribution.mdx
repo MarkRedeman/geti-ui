@@ -1,0 +1,70 @@
+---
+title: Image aspect ratio distribution
+---
+
+# Image aspect ratio distribution (composition)
+
+`ImageAspectRatioDistribution` visualizes dataset skew across image width/height ratios.
+
+## Variant — aspect ratio histogram
+
+```tsx preview
+import { ImageAspectRatioDistribution } from '@geti-ai/charts';
+
+const data = [
+  { binStart: 0.40, binEnd: 0.55, count: 14 },
+  { binStart: 0.55, binEnd: 0.70, count: 37 },
+  { binStart: 0.70, binEnd: 0.85, count: 58 },
+  { binStart: 0.85, binEnd: 1.00, count: 83 },
+  { binStart: 1.00, binEnd: 1.15, count: 126 },
+  { binStart: 1.15, binEnd: 1.30, count: 141 },
+  { binStart: 1.30, binEnd: 1.45, count: 112 },
+  { binStart: 1.45, binEnd: 1.60, count: 79 },
+  { binStart: 1.60, binEnd: 1.75, count: 48 },
+  { binStart: 1.75, binEnd: 1.90, count: 26 },
+  { binStart: 1.90, binEnd: 2.05, count: 13 },
+];
+
+export default function App() {
+  return (
+    <ImageAspectRatioDistribution
+      data={data}
+      aria-label="Image aspect ratio distribution"
+      height={320}
+    />
+  );
+}
+```
+
+## Variant — target ratio marker (16:9)
+
+```tsx preview
+import { ImageAspectRatioDistribution } from '@geti-ai/charts';
+
+const data = [
+  { binStart: 0.40, binEnd: 0.55, count: 14 },
+  { binStart: 0.55, binEnd: 0.70, count: 37 },
+  { binStart: 0.70, binEnd: 0.85, count: 58 },
+  { binStart: 0.85, binEnd: 1.00, count: 83 },
+  { binStart: 1.00, binEnd: 1.15, count: 126 },
+  { binStart: 1.15, binEnd: 1.30, count: 141 },
+  { binStart: 1.30, binEnd: 1.45, count: 112 },
+  { binStart: 1.45, binEnd: 1.60, count: 79 },
+  { binStart: 1.60, binEnd: 1.75, count: 48 },
+  { binStart: 1.75, binEnd: 1.90, count: 26 },
+  { binStart: 1.90, binEnd: 2.05, count: 13 },
+];
+
+export default function App() {
+  return (
+    <ImageAspectRatioDistribution
+      data={data}
+      targetRatio={16 / 9}
+      aria-label="Image aspect ratio distribution with 16:9 target marker"
+      height={320}
+    />
+  );
+}
+```
+
+Related: [Custom charts](/charts/custom-charts)

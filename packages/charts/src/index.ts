@@ -120,5 +120,11 @@ export type {
     ImageBrightnessDistributionDatum,
 } from './components/ml/ImageBrightnessDistribution';
 
+export { ImageAspectRatioDistribution } from './components/ml/ImageAspectRatioDistribution';
+export type {
+    ImageAspectRatioDistributionProps,
+    ImageAspectRatioDistributionDatum,
+} from './components/ml/ImageAspectRatioDistribution';
+
 export { TreemapChart } from './components/TreemapChart';
 export type { TreemapChartProps } from './components/TreemapChart';

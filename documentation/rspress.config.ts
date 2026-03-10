@@ -76,6 +76,7 @@ const chartsSidebar = [
                     { text: 'Confidence histogram', link: '/charts/compositions/confidence-histogram' },
                     { text: 'Class distribution chart', link: '/charts/compositions/class-distribution-chart' },
                     { text: 'Image brightness distribution', link: '/charts/compositions/image-brightness-distribution' },
+                    { text: 'Image aspect ratio distribution', link: '/charts/compositions/image-aspect-ratio-distribution' },
                 ],
             },
             { text: 'Custom Charts', link: '/charts/custom-charts' },
