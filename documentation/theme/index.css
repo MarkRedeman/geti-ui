@@ -372,22 +372,22 @@ html {
 }
 
 .geti-home-bento {
-    display: grid;
-    grid-template-columns: repeat(5, minmax(0, 1fr));
+    display: flex;
+    flex-wrap: wrap;
     justify-content: center;
-    gap: 1rem;
+    gap: 1rem 2rem;
 }
 
 .geti-home-card {
-    display: block;
+    display: flex;
+    flex-direction: column;
     text-decoration: none;
     border: 1px solid #3c3e42;
     background: #242528;
     border-radius: 0;
     padding: 0;
-    width: 100%;
-    max-width: 400px;
-    justify-self: center;
+    width: min(100%, 22rem);
+    max-width: 22rem;
     min-height: 260px;
     overflow: hidden;
     transition: border-color 0.14s ease;
@@ -400,13 +400,14 @@ html {
 .geti-home-card__header {
     background: #242528;
     border-bottom: 1px solid #3c3e42;
-    padding: 1rem;
+    padding: 1.25rem;
 }
 
 .geti-home-card__body {
     background: #2e2f32;
     color: rgb(183, 185, 190);
-    padding: 1rem;
+    padding: 1.25rem;
+    flex: 1;
     min-height: 168px;
     display: flex;
     flex-direction: column;
@@ -464,8 +465,7 @@ html {
 
 @media (max-width: 1023px) {
     .geti-home-bento {
-        grid-template-columns: repeat(2, minmax(0, 1fr));
-        justify-content: center;
+        gap: 1rem 1.5rem;
     }
 
     .geti-home-ecosystem {
@@ -506,8 +506,7 @@ html {
     }
 
     .geti-home-bento {
-        grid-template-columns: 1fr;
-        justify-content: center;
+        gap: 1rem;
     }
 
     .geti-home-ecosystem {

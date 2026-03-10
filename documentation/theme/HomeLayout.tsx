@@ -1,5 +1,5 @@
 import { Fragment } from 'react';
-import { LineChart } from '@geti-ai/charts';
+import { LineChart, getDatasetSubsetColor } from '@geti-ai/charts';
 import { HomeFooter } from '@rspress/core/theme-original';
 import type { HomeLayoutProps } from '@rspress/core/theme-original';
 
@@ -49,8 +49,17 @@ export const HomeLayout = (props: HomeLayoutProps) => {
                                 xAxisKey="step"
                                 yScale={{ domain: [0, 1] }}
                                 series={[
-                                    { dataKey: 'train', name: 'Train' },
-                                    { dataKey: 'val', name: 'Validation', dashed: true },
+                                    {
+                                        dataKey: 'train',
+                                        name: 'Train',
+                                        color: getDatasetSubsetColor('train'),
+                                    },
+                                    {
+                                        dataKey: 'val',
+                                        name: 'Validation',
+                                        color: getDatasetSubsetColor('validation'),
+                                        dashed: true,
+                                    },
                                 ]}
                                 showLegend={false}
                                 aria-label="Model quality trend chart"
