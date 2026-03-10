@@ -1,0 +1,68 @@
+---
+title: Reliability diagram
+---
+
+# Reliability diagram (composition)
+
+`ReliabilityDiagram` compares predicted confidence against observed accuracy to assess calibration.
+
+## Variant — basic calibration curve
+
+```tsx preview
+import { ReliabilityDiagram } from '@geti-ai/charts';
+
+const data = [
+  { confidence: 0.05, accuracy: 0.12, samples: 54 },
+  { confidence: 0.15, accuracy: 0.21, samples: 81 },
+  { confidence: 0.25, accuracy: 0.31, samples: 92 },
+  { confidence: 0.35, accuracy: 0.40, samples: 120 },
+  { confidence: 0.45, accuracy: 0.49, samples: 147 },
+  { confidence: 0.55, accuracy: 0.58, samples: 164 },
+  { confidence: 0.65, accuracy: 0.66, samples: 171 },
+  { confidence: 0.75, accuracy: 0.74, samples: 160 },
+  { confidence: 0.85, accuracy: 0.79, samples: 124 },
+  { confidence: 0.95, accuracy: 0.84, samples: 88 },
+];
+
+export default function App() {
+  return (
+    <ReliabilityDiagram
+      data={data}
+      aria-label="Reliability diagram for model calibration"
+      height={340}
+    />
+  );
+}
+```
+
+## Variant — hide perfect calibration baseline
+
+```tsx preview
+import { ReliabilityDiagram } from '@geti-ai/charts';
+
+const data = [
+  { confidence: 0.05, accuracy: 0.09, samples: 62 },
+  { confidence: 0.15, accuracy: 0.18, samples: 79 },
+  { confidence: 0.25, accuracy: 0.27, samples: 95 },
+  { confidence: 0.35, accuracy: 0.37, samples: 113 },
+  { confidence: 0.45, accuracy: 0.46, samples: 139 },
+  { confidence: 0.55, accuracy: 0.54, samples: 151 },
+  { confidence: 0.65, accuracy: 0.63, samples: 168 },
+  { confidence: 0.75, accuracy: 0.70, samples: 159 },
+  { confidence: 0.85, accuracy: 0.74, samples: 126 },
+  { confidence: 0.95, accuracy: 0.79, samples: 91 },
+];
+
+export default function App() {
+  return (
+    <ReliabilityDiagram
+      data={data}
+      showPerfectCalibration={false}
+      aria-label="Reliability diagram without baseline"
+      height={340}
+    />
+  );
+}
+```
+
+Related: [Custom charts](/charts/custom-charts)

@@ -77,6 +77,7 @@ const chartsSidebar = [
                     { text: 'Class distribution chart', link: '/charts/compositions/class-distribution-chart' },
                     { text: 'Image brightness distribution', link: '/charts/compositions/image-brightness-distribution' },
                     { text: 'Image aspect ratio distribution', link: '/charts/compositions/image-aspect-ratio-distribution' },
+                    { text: 'Reliability diagram', link: '/charts/compositions/reliability-diagram' },
                 ],
             },
             { text: 'Custom Charts', link: '/charts/custom-charts' },

@@ -126,5 +126,8 @@ export type {
     ImageAspectRatioDistributionDatum,
 } from './components/ml/ImageAspectRatioDistribution';
 
+export { ReliabilityDiagram } from './components/ml/ReliabilityDiagram';
+export type { ReliabilityDiagramProps, ReliabilityDiagramDatum } from './components/ml/ReliabilityDiagram';
+
 export { TreemapChart } from './components/TreemapChart';
 export type { TreemapChartProps } from './components/TreemapChart';
