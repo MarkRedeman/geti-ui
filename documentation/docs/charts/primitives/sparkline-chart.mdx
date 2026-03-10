@@ -6,6 +6,18 @@ title: Sparkline chart
 
 `Sparkline` is exported from primitives and can be used as a compact inline primitive.
 
+## Variant — `area` off
+
+```tsx preview
+import { Sparkline } from '@geti-ai/charts/primitives';
+
+export default function App() {
+  return <Sparkline data={[72, 75, 79, 81, 83, 85, 88].map((value) => ({ value }))} area={false} />;
+}
+```
+
+## Variant — `area` on
+
 ```tsx preview
 import { Sparkline } from '@geti-ai/charts/primitives';
 
@@ -16,6 +28,16 @@ export default function App() {
       <Sparkline data={[80, 82, 84, 86, 87, 89, 91].map((value) => ({ value }))} />
     </div>
   );
+}
+```
+
+## Variant — `animate` on
+
+```tsx preview
+import { Sparkline } from '@geti-ai/charts/primitives';
+
+export default function App() {
+  return <Sparkline data={[60, 65, 70, 74, 80, 84, 90].map((value) => ({ value }))} animate />;
 }
 ```
 
