@@ -13,3 +13,4 @@ coverage
 *.swp
 .slim/
 plans/
+playwright-report/
