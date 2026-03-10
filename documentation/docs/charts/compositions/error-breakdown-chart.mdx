@@ -1,0 +1,68 @@
+---
+title: Error breakdown chart
+---
+
+# Error breakdown chart (composition)
+
+`ErrorBreakdownChart` visualizes model error categories (false positives, false negatives, localization errors, classification errors).
+
+## Variant — stacked breakdown by model
+
+```tsx preview
+import { ErrorBreakdownChart } from '@geti-ai/charts';
+
+const data = [
+  { label: 'YOLOv8-n', fp: 124, fn: 96, loc: 71, cls: 39 },
+  { label: 'YOLOv8-s', fp: 108, fn: 82, loc: 55, cls: 31 },
+  { label: 'RT-DETR', fp: 93, fn: 75, loc: 48, cls: 27 },
+];
+
+export default function App() {
+  return (
+    <ErrorBreakdownChart
+      data={data}
+      xAxisKey="label"
+      series={[
+        { dataKey: 'fp', name: 'False positives' },
+        { dataKey: 'fn', name: 'False negatives' },
+        { dataKey: 'loc', name: 'Localization errors' },
+        { dataKey: 'cls', name: 'Classification errors' },
+      ]}
+      aria-label="Stacked error breakdown by model"
+      height={340}
+    />
+  );
+}
+```
+
+## Variant — grouped comparison by run
+
+```tsx preview
+import { ErrorBreakdownChart } from '@geti-ai/charts';
+
+const data = [
+  { label: 'Run A', fp: 140, fn: 112, loc: 82, cls: 44 },
+  { label: 'Run B', fp: 126, fn: 103, loc: 77, cls: 40 },
+  { label: 'Run C', fp: 110, fn: 91, loc: 64, cls: 34 },
+];
+
+export default function App() {
+  return (
+    <ErrorBreakdownChart
+      data={data}
+      stacked={false}
+      xAxisKey="label"
+      series={[
+        { dataKey: 'fp', name: 'False positives' },
+        { dataKey: 'fn', name: 'False negatives' },
+        { dataKey: 'loc', name: 'Localization errors' },
+        { dataKey: 'cls', name: 'Classification errors' },
+      ]}
+      aria-label="Grouped error breakdown by run"
+      height={340}
+    />
+  );
+}
+```
+
+Related: [Custom charts](/charts/custom-charts)

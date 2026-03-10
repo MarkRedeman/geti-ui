@@ -72,6 +72,7 @@ const chartsSidebar = [
                     { text: 'Class AP chart', link: '/charts/compositions/class-ap-chart' },
                     { text: 'IoU distribution chart', link: '/charts/compositions/iou-distribution-chart' },
                     { text: 'Distribution ridge chart', link: '/charts/compositions/distribution-ridge-chart' },
+                    { text: 'Error breakdown chart', link: '/charts/compositions/error-breakdown-chart' },
                 ],
             },
             { text: 'Custom Charts', link: '/charts/custom-charts' },

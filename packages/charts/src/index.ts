@@ -105,5 +105,8 @@ export type { IoUDistributionChartProps, IoUDistributionDatum } from './componen
 export { DistributionRidgeChart } from './components/ml/DistributionRidgeChart';
 export type { DistributionRidgeChartProps, DistributionRidgeSeries } from './components/ml/DistributionRidgeChart';
 
+export { ErrorBreakdownChart } from './components/ml/ErrorBreakdownChart';
+export type { ErrorBreakdownChartProps, ErrorBreakdownSeries } from './components/ml/ErrorBreakdownChart';
+
 export { TreemapChart } from './components/TreemapChart';
 export type { TreemapChartProps } from './components/TreemapChart';
