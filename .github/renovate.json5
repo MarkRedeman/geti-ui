@@ -1,6 +1,14 @@
 {
     "$schema": "https://docs.renovatebot.com/renovate-schema.json",
     "extends": ["config:recommended", "group:all"],
+    "pinDigests": true,
+    "packageRules": [
+        {
+            "matchManagers": ["github-actions"],
+            "pinDigests": true,
+            "groupName": "github-actions"
+        }
+    ],
     "schedule": ["before 5am on Monday"],
     "labels": ["dependencies"],
     "prCreation": "immediate",

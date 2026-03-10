@@ -52,7 +52,7 @@ jobs:
         uses: orhun/git-cliff-action@v4
         with:
           config: cliff.toml
-          args: --latest --strip header
+          args: --latest --strip header --tag-pattern "charts-v[0-9].*"
         env:
           OUTPUT: RELEASE_NOTES.md
           GITHUB_REPO: ${{ github.repository }}
@@ -68,13 +68,14 @@ jobs:
             const packages = JSON.parse(process.env.PUBLISHED_PACKAGES || '[]');
             const target = packages.find((pkg) => pkg.name === '@geti-ai/charts') ?? packages[0];
             if (!target?.version) {
-              core.setFailed('Could not resolve published package version');
+              core.warning('Package not published in this run; skipping GitHub Release.');
+              core.setOutput('version', '');
               return;
             }
             core.setOutput('version', target.version);
 
       - name: Create GitHub Release
-        if: steps.changesets.outputs.published == 'true' && hashFiles('RELEASE_NOTES.md') != ''
+        if: steps.changesets.outputs.published == 'true' && steps.release_meta.outputs.version != '' && hashFiles('RELEASE_NOTES.md') != ''
         uses: softprops/action-gh-release@v2
         with:
           body_path: RELEASE_NOTES.md

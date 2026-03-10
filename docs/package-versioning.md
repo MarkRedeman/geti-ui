@@ -69,7 +69,7 @@ When the "Version Packages" PR is merged:
 
 ### Package-specific release notes
 
-- `@geti-ai/ui` release path is handled by `release.yml`.
+- `@geti-ai/ui` release path is handled by `release-ui.yaml`.
 - `@geti-ai/smart-tools` release path is handled by `release-smart-tools.yml` and uses `opencv-build.yml` to prepare OpenCV artifacts.
 - `@geti-ai/charts` release path is handled by `release-charts.yml`.
 
