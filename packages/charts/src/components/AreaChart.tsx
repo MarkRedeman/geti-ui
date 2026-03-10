@@ -144,7 +144,7 @@ export function AreaChart({
     return (
         <div role="img" aria-label={ariaLabel} style={{ width, height }}>
             <ResponsiveContainer width="100%" height={height}>
-                <RechartsAreaChart data={data} margin={margin} accessibilityLayer={false}>
+                <RechartsAreaChart data={data} margin={margin}>
                     {series.some((s) => s.fade) && (
                         <defs>
                             {series.map((s, index) => {

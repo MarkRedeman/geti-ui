@@ -148,7 +148,7 @@ export function LineChart({
     return (
         <div role="img" aria-label={ariaLabel} style={{ width, height }}>
             <ResponsiveContainer width="100%" height={height}>
-                <RechartsLineChart data={data} margin={margin} accessibilityLayer={false}>
+                <RechartsLineChart data={data} margin={margin}>
                     {showGrid && <ChartGrid {...gridProps} />}
 
                     <XAxis

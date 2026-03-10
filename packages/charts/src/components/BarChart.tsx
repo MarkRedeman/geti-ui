@@ -160,7 +160,6 @@ export function BarChart({
                     barCategoryGap={barCategoryGap}
                     barGap={barGap}
                     margin={margin}
-                    accessibilityLayer={false}
                 >
                     {showGrid && <ChartGrid {...gridProps} />}
 

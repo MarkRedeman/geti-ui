@@ -86,7 +86,7 @@ export function RadarChart({
     return (
         <div role="img" aria-label={ariaLabel} style={{ width, height }}>
             <ResponsiveContainer width="100%" height={height}>
-                <RechartsRadarChart data={data} accessibilityLayer={false}>
+                <RechartsRadarChart data={data}>
                     {showGrid && <PolarGrid stroke={polarGridStroke} strokeOpacity={0.45} />}
                     <PolarAngleAxis dataKey={categoryKey} tick={axisText} {...angleAxisProps} />
                     <PolarRadiusAxis
