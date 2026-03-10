@@ -114,5 +114,11 @@ export type { ConfidenceHistogramProps, ConfidenceHistogramDatum } from './compo
 export { ClassDistributionChart } from './components/ml/ClassDistributionChart';
 export type { ClassDistributionChartProps, ClassDistributionDatum } from './components/ml/ClassDistributionChart';
 
+export { ImageBrightnessDistribution } from './components/ml/ImageBrightnessDistribution';
+export type {
+    ImageBrightnessDistributionProps,
+    ImageBrightnessDistributionDatum,
+} from './components/ml/ImageBrightnessDistribution';
+
 export { TreemapChart } from './components/TreemapChart';
 export type { TreemapChartProps } from './components/TreemapChart';

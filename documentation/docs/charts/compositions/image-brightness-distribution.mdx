@@ -1,0 +1,81 @@
+---
+title: Image brightness distribution
+---
+
+# Image brightness distribution (composition)
+
+`ImageBrightnessDistribution` visualizes dataset brightness characteristics and highlights under/over exposure ranges.
+
+## Variant — baseline brightness histogram
+
+```tsx preview
+import { ImageBrightnessDistribution } from '@geti-ai/charts';
+
+const data = [
+  { binStart: 0, binEnd: 16, count: 28 },
+  { binStart: 16, binEnd: 32, count: 46 },
+  { binStart: 32, binEnd: 48, count: 67 },
+  { binStart: 48, binEnd: 64, count: 91 },
+  { binStart: 64, binEnd: 80, count: 122 },
+  { binStart: 80, binEnd: 96, count: 144 },
+  { binStart: 96, binEnd: 112, count: 162 },
+  { binStart: 112, binEnd: 128, count: 183 },
+  { binStart: 128, binEnd: 144, count: 176 },
+  { binStart: 144, binEnd: 160, count: 148 },
+  { binStart: 160, binEnd: 176, count: 117 },
+  { binStart: 176, binEnd: 192, count: 86 },
+  { binStart: 192, binEnd: 208, count: 58 },
+  { binStart: 208, binEnd: 224, count: 33 },
+  { binStart: 224, binEnd: 240, count: 16 },
+  { binStart: 240, binEnd: 255, count: 7 },
+];
+
+export default function App() {
+  return (
+    <ImageBrightnessDistribution
+      data={data}
+      aria-label="Image brightness distribution"
+      height={320}
+    />
+  );
+}
+```
+
+## Variant — low/high brightness thresholds
+
+```tsx preview
+import { ImageBrightnessDistribution } from '@geti-ai/charts';
+
+const data = [
+  { binStart: 0, binEnd: 16, count: 28 },
+  { binStart: 16, binEnd: 32, count: 46 },
+  { binStart: 32, binEnd: 48, count: 67 },
+  { binStart: 48, binEnd: 64, count: 91 },
+  { binStart: 64, binEnd: 80, count: 122 },
+  { binStart: 80, binEnd: 96, count: 144 },
+  { binStart: 96, binEnd: 112, count: 162 },
+  { binStart: 112, binEnd: 128, count: 183 },
+  { binStart: 128, binEnd: 144, count: 176 },
+  { binStart: 144, binEnd: 160, count: 148 },
+  { binStart: 160, binEnd: 176, count: 117 },
+  { binStart: 176, binEnd: 192, count: 86 },
+  { binStart: 192, binEnd: 208, count: 58 },
+  { binStart: 208, binEnd: 224, count: 33 },
+  { binStart: 224, binEnd: 240, count: 16 },
+  { binStart: 240, binEnd: 255, count: 7 },
+];
+
+export default function App() {
+  return (
+    <ImageBrightnessDistribution
+      data={data}
+      lowThreshold={55}
+      highThreshold={205}
+      aria-label="Image brightness with low/high exposure thresholds"
+      height={320}
+    />
+  );
+}
+```
+
+Related: [Custom charts](/charts/custom-charts)
