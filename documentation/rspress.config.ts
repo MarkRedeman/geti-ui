@@ -72,6 +72,7 @@ const chartsSidebar = [
                             { text: 'Run comparison chart', link: '/charts/compositions/run-comparison-chart' },
                             { text: 'Confusion matrix chart', link: '/charts/compositions/confusion-matrix-chart' },
                             { text: 'Precision recall curve', link: '/charts/compositions/precision-recall-curve' },
+                            { text: 'ROC curve', link: '/charts/compositions/roc-curve' },
                         ],
                     },
                     {
@@ -82,6 +83,7 @@ const chartsSidebar = [
                             { text: 'Run comparison chart', link: '/charts/primitives/run-comparison-chart' },
                             { text: 'Confusion matrix chart', link: '/charts/primitives/confusion-matrix-chart' },
                             { text: 'Precision recall curve', link: '/charts/primitives/precision-recall-curve' },
+                            { text: 'ROC curve', link: '/charts/primitives/roc-curve' },
                         ],
                     },
                 ],

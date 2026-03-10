@@ -93,5 +93,8 @@ export type { ConfusionMatrixChartProps } from './components/ConfusionMatrixChar
 export { PrecisionRecallCurve } from './components/PrecisionRecallCurve';
 export type { PrecisionRecallCurveProps, PrecisionRecallCurveSeriesConfig } from './components/PrecisionRecallCurve';
 
+export { RocCurve } from './components/RocCurve';
+export type { RocCurveProps, RocCurveSeriesConfig } from './components/RocCurve';
+
 export { TreemapChart } from './components/TreemapChart';
 export type { TreemapChartProps } from './components/TreemapChart';

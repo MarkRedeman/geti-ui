@@ -1,0 +1,96 @@
+---
+title: ROC curve
+---
+
+# ROC curve (primitive)
+
+Use Recharts primitives when you need full control over ROC curves and custom model annotations.
+
+## Variant — single ROC line with diagonal baseline
+
+```tsx preview
+import { Line, LineChart, ReferenceLine } from 'recharts';
+import {
+  GetiCartesianGrid,
+  GetiLegend,
+  GetiResponsiveContainer,
+  GetiTooltip,
+  GetiXAxis,
+  GetiYAxis,
+} from '@geti-ai/charts/primitives';
+
+const data = [
+  { fpr: 0.0, tpr: 0.0 },
+  { fpr: 0.02, tpr: 0.28 },
+  { fpr: 0.05, tpr: 0.48 },
+  { fpr: 0.10, tpr: 0.66 },
+  { fpr: 0.20, tpr: 0.81 },
+  { fpr: 0.35, tpr: 0.90 },
+  { fpr: 0.55, tpr: 0.96 },
+  { fpr: 1.0, tpr: 1.0 },
+];
+
+export default function App() {
+  return (
+    <GetiResponsiveContainer height={320}>
+      <LineChart data={data}>
+        <GetiCartesianGrid />
+        <GetiXAxis type="number" dataKey="fpr" domain={[0, 1]} />
+        <GetiYAxis type="number" domain={[0, 1]} />
+        <GetiTooltip />
+        <GetiLegend />
+
+        <ReferenceLine segment={[{ x: 0, y: 0 }, { x: 1, y: 1 }]} stroke="var(--spectrum-global-color-gray-500)" strokeDasharray="4 3" />
+
+        <Line dataKey="tpr" name="Detector A" stroke="var(--spectrum-global-color-blue-500)" dot={false} isAnimationActive={false} />
+      </LineChart>
+    </GetiResponsiveContainer>
+  );
+}
+```
+
+## Variant — two-model ROC comparison
+
+```tsx preview
+import { Line, LineChart, ReferenceLine } from 'recharts';
+import {
+  GetiCartesianGrid,
+  GetiLegend,
+  GetiResponsiveContainer,
+  GetiTooltip,
+  GetiXAxis,
+  GetiYAxis,
+} from '@geti-ai/charts/primitives';
+
+const data = [
+  { fpr: 0.0, modelA: 0.0, modelB: 0.0 },
+  { fpr: 0.02, modelA: 0.28, modelB: 0.21 },
+  { fpr: 0.05, modelA: 0.48, modelB: 0.39 },
+  { fpr: 0.10, modelA: 0.66, modelB: 0.54 },
+  { fpr: 0.20, modelA: 0.81, modelB: 0.70 },
+  { fpr: 0.35, modelA: 0.90, modelB: 0.84 },
+  { fpr: 0.55, modelA: 0.96, modelB: 0.93 },
+  { fpr: 1.0, modelA: 1.0, modelB: 1.0 },
+];
+
+export default function App() {
+  return (
+    <GetiResponsiveContainer height={320}>
+      <LineChart data={data}>
+        <GetiCartesianGrid />
+        <GetiXAxis type="number" dataKey="fpr" domain={[0, 1]} />
+        <GetiYAxis type="number" domain={[0, 1]} />
+        <GetiTooltip />
+        <GetiLegend />
+
+        <ReferenceLine segment={[{ x: 0, y: 0 }, { x: 1, y: 1 }]} stroke="var(--spectrum-global-color-gray-500)" strokeDasharray="4 3" />
+
+        <Line dataKey="modelA" name="Detector A" stroke="var(--spectrum-global-color-blue-500)" dot={false} isAnimationActive={false} />
+        <Line dataKey="modelB" name="Detector B" stroke="var(--spectrum-global-color-purple-500)" dot={false} isAnimationActive={false} />
+      </LineChart>
+    </GetiResponsiveContainer>
+  );
+}
+```
+
+Related: [ROC curve (composition)](/charts/compositions/roc-curve)
