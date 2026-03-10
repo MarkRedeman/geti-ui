@@ -216,4 +216,62 @@ export default function App() {
 }
 ```
 
+## Variant — 7 data categories (cumulative / stacked-like)
+
+Line charts do not support true stacking like area/bar charts. To achieve a stacked-like view, **you must precompute cumulative values in your own data layer**.
+
+```tsx preview
+import { LineChart } from '@geti-ai/charts';
+
+const raw = [
+  { epoch: 1, car: 0.41, person: 0.52, bicycle: 0.33, bus: 0.45, truck: 0.38, dog: 0.49, cat: 0.47 },
+  { epoch: 2, car: 0.46, person: 0.57, bicycle: 0.37, bus: 0.48, truck: 0.42, dog: 0.53, cat: 0.50 },
+  { epoch: 3, car: 0.50, person: 0.61, bicycle: 0.40, bus: 0.52, truck: 0.46, dog: 0.56, cat: 0.54 },
+  { epoch: 4, car: 0.55, person: 0.65, bicycle: 0.44, bus: 0.56, truck: 0.49, dog: 0.60, cat: 0.58 },
+  { epoch: 5, car: 0.59, person: 0.69, bicycle: 0.48, bus: 0.60, truck: 0.53, dog: 0.63, cat: 0.62 },
+];
+
+const cumulative = raw.map((row) => {
+  const c1 = row.car;
+  const c2 = c1 + row.person;
+  const c3 = c2 + row.bicycle;
+  const c4 = c3 + row.bus;
+  const c5 = c4 + row.truck;
+  const c6 = c5 + row.dog;
+  const c7 = c6 + row.cat;
+
+  return {
+    epoch: row.epoch,
+    carCum: c1,
+    personCum: c2,
+    bicycleCum: c3,
+    busCum: c4,
+    truckCum: c5,
+    dogCum: c6,
+    catCum: c7,
+  };
+});
+
+export default function App() {
+  return (
+    <LineChart
+      data={cumulative}
+      xAxisKey="epoch"
+      showLegend
+      series={[
+        { dataKey: 'carCum', name: 'Car (cum)' },
+        { dataKey: 'personCum', name: 'Person (cum)' },
+        { dataKey: 'bicycleCum', name: 'Bicycle (cum)' },
+        { dataKey: 'busCum', name: 'Bus (cum)' },
+        { dataKey: 'truckCum', name: 'Truck (cum)' },
+        { dataKey: 'dogCum', name: 'Dog (cum)' },
+        { dataKey: 'catCum', name: 'Cat (cum)' },
+      ]}
+      aria-label="Seven-category cumulative line chart"
+      height={340}
+    />
+  );
+}
+```
+
 Related: [Line chart (primitive)](/charts/primitives/line-chart)
