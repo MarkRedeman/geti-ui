@@ -1,0 +1,115 @@
+---
+title: Primitives
+---
+
+# Chart Primitives
+
+Primitives are low-level building blocks. Use them when you need to assemble a chart layout that is not covered by the [composition components](./compositions).
+
+```ts
+import {
+  GetiCartesianGrid,
+  GetiXAxis,
+  GetiYAxis,
+  GetiTooltip,
+  GetiLegend,
+  GetiResponsiveContainer,
+} from '@geti-ai/charts/primitives';
+```
+
+## `GetiResponsiveContainer`
+
+A thin wrapper around Recharts `ResponsiveContainer` that enforces `width="100%"` and adds a default `minHeight`.
+
+```tsx preview
+import { GetiResponsiveContainer } from '@geti-ai/charts/primitives';
+
+export default function App() {
+  return (
+    <GetiResponsiveContainer height={120}>
+      <div
+        style={{
+          width: '100%',
+          height: '100%',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          border: '1px dashed var(--spectrum-global-color-gray-500)',
+          borderRadius: 4,
+          color: 'var(--spectrum-global-color-gray-400)',
+          fontSize: 13,
+        }}
+      >
+        Chart content renders here
+      </div>
+    </GetiResponsiveContainer>
+  );
+}
+```
+
+## `GetiCartesianGrid`
+
+Renders a subtle grid using Geti's `gray-700` token. Stroke-dasharray and opacity are pre-configured.
+
+| Prop | Default | Description |
+|---|---|---|
+| `strokeDasharray` | `"3 3"` | Dash pattern for grid lines |
+| `vertical` | `false` | Show vertical grid lines |
+| `horizontal` | `true` | Show horizontal grid lines |
+
+## `GetiXAxis` / `GetiYAxis`
+
+Pre-styled axes with Geti's typography tokens applied. Both accept all Recharts `XAxis`/`YAxis` props.
+
+```tsx preview
+import {
+  ComposedChart,
+  Line,
+} from 'recharts';
+import {
+  GetiCartesianGrid,
+  GetiXAxis,
+  GetiYAxis,
+  GetiResponsiveContainer,
+} from '@geti-ai/charts/primitives';
+
+const data = [
+  { t: '09:00', val: 42 },
+  { t: '10:00', val: 58 },
+  { t: '11:00', val: 53 },
+  { t: '12:00', val: 67 },
+  { t: '13:00', val: 71 },
+];
+
+export default function App() {
+  return (
+    <GetiResponsiveContainer height={220}>
+      <ComposedChart data={data}>
+        <GetiCartesianGrid />
+        <GetiXAxis dataKey="t" />
+        <GetiYAxis domain={[30, 80]} />
+        <Line
+          type="monotone"
+          dataKey="val"
+          stroke="var(--spectrum-global-color-blue-500)"
+          dot={false}
+          isAnimationActive={false}
+        />
+      </ComposedChart>
+    </GetiResponsiveContainer>
+  );
+}
+```
+
+## `GetiTooltip`
+
+A styled tooltip with Geti's dark panel background and border tokens.
+
+| Prop | Default | Description |
+|---|---|---|
+| `formatter` | — | Custom value formatter function |
+| `labelFormatter` | — | Custom label formatter function |
+
+## `GetiLegend`
+
+Horizontal legend using Geti typography tokens, aligned to the bottom-center of the chart by default.

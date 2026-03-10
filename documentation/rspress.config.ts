@@ -5,6 +5,21 @@ import { pluginSitemap } from '@rspress/plugin-sitemap';
 import path from 'node:path';
 import { componentDocsPlugin } from './plugins/component-docs';
 
+const chartsSidebar = [
+    {
+        text: 'Charts',
+        collapsed: false,
+        items: [
+            { text: 'Installation', link: '/charts/installation' },
+            { text: 'Overview', link: '/charts/overview' },
+            { text: 'Primitives', link: '/charts/primitives' },
+            { text: 'Compositions', link: '/charts/compositions' },
+            { text: 'Custom Charts', link: '/charts/custom-charts' },
+            { text: 'Theming', link: '/charts/theming' },
+        ],
+    },
+];
+
 const assetsSidebar = [
     {
         text: 'Assets',
@@ -127,6 +142,7 @@ export default defineConfig({
         nav: [
             { text: 'Components', link: '/components/ui/Button' },
             { text: 'Assets', link: '/assets/' },
+            { text: 'Charts', link: '/charts/installation' },
             { text: 'Smart tools', link: '/smart-tools/installation' },
             { text: 'Examples', link: '/examples' },
             { text: 'Used By', link: '/used-by' },
@@ -134,6 +150,8 @@ export default defineConfig({
         sidebar: {
             '/assets': assetsSidebar,
             '/assets/': assetsSidebar,
+            '/charts': chartsSidebar,
+            '/charts/': chartsSidebar,
             '/smart-tools': smartToolsSidebar,
             '/smart-tools/': smartToolsSidebar,
             '/examples': examplesSidebar,

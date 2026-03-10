@@ -6,14 +6,14 @@
     "documentation"
   ],
   "scripts": {
-    "build": "npm run build --workspace=@geti-ai/ui && npm run build --workspace=@geti-ai/smart-tools",
+    "build": "npm run build --workspace=@geti-ai/ui && npm run build --workspace=@geti-ai/smart-tools && npm run build --workspace=@geti-ai/charts",
     "storybook": "npm run storybook --workspace=@geti-ai/ui",
     "storybook:build": "npm run storybook:build --workspace=@geti-ai/ui",
-    "test": "npm run test --workspace=@geti-ai/ui && npm run test --workspace=@geti-ai/smart-tools",
+    "test": "npm run test --workspace=@geti-ai/ui && npm run test --workspace=@geti-ai/smart-tools && npm run test --workspace=@geti-ai/charts",
     "test:watch": "npm run test:watch --workspace=@geti-ai/ui",
     "test:e2e": "npm run test:e2e --workspace=@geti-ai/ui",
-    "type-check": "npm run type-check --workspace=@geti-ai/ui && npm run type-check --workspace=@geti-ai/smart-tools",
-    "lint": "npm run lint --workspace=@geti-ai/ui && npm run lint --workspace=@geti-ai/smart-tools",
+    "type-check": "npm run type-check --workspace=@geti-ai/ui && npm run type-check --workspace=@geti-ai/smart-tools && npm run type-check --workspace=@geti-ai/charts",
+    "lint": "npm run lint --workspace=@geti-ai/ui && npm run lint --workspace=@geti-ai/smart-tools && npm run lint --workspace=@geti-ai/charts",
     "format": "npm run format --workspace=@geti-ai/ui",
     "format:check": "npm run format:check --workspace=@geti-ai/ui",
     "prepare": "husky",

@@ -1,0 +1,156 @@
+---
+title: Theming
+---
+
+# Charts Theming
+
+`@geti-ai/charts` ships its own theme layer built on top of Geti design tokens. It integrates with `ThemeProvider` from `@geti-ai/ui` but can also be used standalone.
+
+## `ChartsThemeProvider`
+
+Wrap the section of your app that renders charts:
+
+```tsx
+import { ChartsThemeProvider } from '@geti-ai/charts';
+
+export function Dashboard() {
+  return (
+    <ChartsThemeProvider>
+      <MyCharts />
+    </ChartsThemeProvider>
+  );
+}
+```
+
+`ChartsThemeProvider` provides a chart theme context consumed by all chart primitives and components. It does **not** require `ThemeProvider` from `@geti-ai/ui`, but should be nested inside it when both are present.
+
+## `useGetiUIChartsTheme`
+
+Use `useGetiUIChartsTheme` to read an adapter theme object from currently available CSS variables:
+
+```tsx preview
+import { useGetiUIChartsTheme } from '@geti-ai/charts';
+
+export default function App() {
+  const theme = useGetiUIChartsTheme();
+
+  return (
+    <div style={{ display: 'flex', flexDirection: 'column', gap: 8, fontSize: 13 }}>
+      <p style={{ color: 'var(--spectrum-global-color-gray-300)', margin: 0 }}>
+        Active chart theme tokens:
+      </p>
+      {Object.entries(theme).slice(0, 8).map(([name, value]) => (
+        <div key={name} style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
+          <span
+            style={{
+              width: 16,
+              height: 16,
+              borderRadius: 3,
+              background: typeof value === 'string' ? value : 'var(--spectrum-global-color-gray-500)',
+              flexShrink: 0,
+            }}
+          />
+          <code style={{ color: 'var(--spectrum-global-color-gray-200)', fontSize: 12 }}>
+            {name}: {typeof value === 'string' ? value : '[object]'}
+          </code>
+        </div>
+      ))}
+    </div>
+  );
+}
+```
+
+The returned object is a partial chart theme override (compatible with `ChartsThemeProvider theme={...}`):
+
+```ts
+type PartialChartTheme = ReturnType<typeof useGetiUIChartsTheme>;
+```
+
+## Using theme colours in custom charts
+
+Pass theme colours directly to Recharts elements:
+
+```tsx preview
+import { Line, LineChart as RechartsLineChart } from 'recharts';
+import { GetiCartesianGrid, GetiXAxis, GetiYAxis, GetiTooltip, GetiResponsiveContainer } from '@geti-ai/charts/primitives';
+import { useGetiUIChartsTheme } from '@geti-ai/charts';
+
+const data = [
+  { t: 0, a: 10, b: 20, c: 15 },
+  { t: 1, a: 18, b: 17, c: 22 },
+  { t: 2, a: 24, b: 14, c: 19 },
+  { t: 3, a: 20, b: 21, c: 25 },
+  { t: 4, a: 28, b: 25, c: 30 },
+];
+
+export default function App() {
+  const theme = useGetiUIChartsTheme();
+  const series = theme.dataColors ?? ['#4C9BE8', '#5CE6A2', '#F9C846'];
+  const [c0, c1, c2] = series;
+
+  return (
+    <GetiResponsiveContainer height={240}>
+      <RechartsLineChart data={data}>
+        <GetiCartesianGrid />
+        <GetiXAxis dataKey="t" />
+        <GetiYAxis />
+        <GetiTooltip />
+        {[
+          { key: 'a', color: c0 },
+          { key: 'b', color: c1 },
+          { key: 'c', color: c2 },
+        ].map(({ key, color }) => (
+          <Line
+            key={key}
+            type="monotone"
+            dataKey={key}
+            stroke={color}
+            dot={false}
+            isAnimationActive={false}
+          />
+        ))}
+      </RechartsLineChart>
+    </GetiResponsiveContainer>
+  );
+}
+```
+
+## Overriding theme tokens
+
+Use `ChartsThemeProvider` overrides to customize chart visuals in a scoped region:
+
+```tsx
+import { ChartsThemeProvider, LineChart } from '@geti-ai/charts';
+
+export function MyDashboard() {
+  return (
+    <ChartsThemeProvider
+      theme={{
+        dataColors: ['var(--spectrum-global-color-magenta-500)', '#4C9BE8', '#5CE6A2'],
+        grid: { stroke: 'var(--spectrum-global-color-gray-800)' },
+      }}
+    >
+      <LineChart data={data} series={[{ dataKey: 'value' }]} aria-label="Custom themed chart" />
+    </ChartsThemeProvider>
+  );
+}
+```
+
+## Design token mapping
+
+`useGetiUIChartsTheme` maps these Spectrum variables when available:
+
+| Spectrum variable | Chart theme field |
+|---|---|
+| `--spectrum-global-color-gray-100` | `backgroundColor` |
+| `--spectrum-global-color-gray-700` | `typography.color`, `legend.color` |
+| `--spectrum-global-color-gray-300` | `grid.stroke` |
+| `--spectrum-global-color-gray-400` | `axis.lineColor`, `axis.tickColor`, `tooltip.borderColor` |
+| `--spectrum-global-color-gray-200` | `tooltip.backgroundColor` |
+
+## Related
+
+- [Installation](./installation)
+- [Overview](./overview)
+- [Custom Charts](./custom-charts)
+- [Geti UI Theming](/components/theming)

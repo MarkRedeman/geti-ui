@@ -1,0 +1,61 @@
+{
+    "name": "@geti-ai/charts",
+    "version": "0.0.1",
+    "description": "Geti AI charts component library built on Recharts",
+    "type": "module",
+    "exports": {
+        ".": {
+            "import": "./dist/esm/index.js",
+            "require": "./dist/cjs/index.js",
+            "types": "./dist/types/index.d.ts"
+        },
+        "./primitives": {
+            "import": "./dist/esm/primitives.js",
+            "require": "./dist/cjs/primitives.js",
+            "types": "./dist/types/primitives.d.ts"
+        }
+    },
+    "main": "./dist/cjs/index.js",
+    "module": "./dist/esm/index.js",
+    "types": "./dist/types/index.d.ts",
+    "files": [
+        "dist"
+    ],
+    "scripts": {
+        "dev": "rslib build --watch",
+        "build": "rslib build",
+        "build:watch": "rslib build --watch",
+        "test": "rstest run",
+        "test:watch": "rstest",
+        "type-check": "tsc --noEmit -p tsconfig.json",
+        "lint": "rslint",
+        "lint:fix": "rslint --fix .",
+        "format": "prettier --write .",
+        "format:check": "prettier --check ."
+    },
+    "peerDependencies": {
+        "react": ">=18.0.0",
+        "react-dom": ">=18.0.0"
+    },
+    "dependencies": {
+        "recharts": "^3.8.0"
+    },
+    "devDependencies": {
+        "@rsbuild/core": "^1.7.3",
+        "@rsbuild/plugin-react": "^1.4.5",
+        "@rslib/core": "^0.12.2",
+        "@rslint/core": "^0.2.1",
+        "@rstest/core": "^0.2.2",
+        "@testing-library/jest-dom": "^6.9.1",
+        "@testing-library/react": "^16.3.2",
+        "@testing-library/user-event": "^14.6.1",
+        "@types/react": "^18.3.28",
+        "@types/react-dom": "^18.3.7",
+        "jsdom": "^28.1.0",
+        "null-loader": "^4.0.1",
+        "prettier": "^3.8.1",
+        "react": "^18.3.1",
+        "react-dom": "^18.3.1",
+        "typescript": "^5.9.3"
+    }
+}

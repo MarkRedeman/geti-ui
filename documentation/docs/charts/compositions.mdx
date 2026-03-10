@@ -1,0 +1,247 @@
+---
+title: Compositions
+---
+
+# Chart Compositions
+
+Compositions are fully assembled chart components. Import and render them with data — no Recharts wiring required.
+
+```ts
+import { LineChart, BarChart, ScatterChart, Sparkline } from '@geti-ai/charts';
+```
+
+## `LineChart`
+
+Renders one or more continuous data series as lines.
+
+### Props
+
+| Prop | Type | Default | Description |
+|---|---|---|---|
+| `data` | `object[]` | required | Array of data points |
+| `xAxisKey` | `string` | `"name"` | Key for the x-axis values |
+| `series` | `SeriesConfig[]` | required | Each series: `{ dataKey, name?, color? }` |
+| `height` | `number` | `300` | Chart height in px |
+| `aria-label` | `string` | — | Accessible label for the chart |
+| `animate` | `boolean` | `false` | Opt-in per-chart animations |
+
+### Example — single series
+
+```tsx preview
+import { LineChart } from '@geti-ai/charts';
+
+const data = [
+  { epoch: 1, loss: 1.42 },
+  { epoch: 2, loss: 1.10 },
+  { epoch: 3, loss: 0.87 },
+  { epoch: 4, loss: 0.71 },
+  { epoch: 5, loss: 0.60 },
+  { epoch: 6, loss: 0.52 },
+];
+
+export default function App() {
+  return (
+    <LineChart
+      data={data}
+      xAxisKey="epoch"
+      series={[{ dataKey: 'loss', name: 'Training loss' }]}
+      aria-label="Training loss per epoch"
+      height={260}
+    />
+  );
+}
+```
+
+### Example — multiple series
+
+```tsx preview
+import { LineChart } from '@geti-ai/charts';
+
+const data = [
+  { epoch: 1, train: 1.42, val: 1.50 },
+  { epoch: 2, train: 1.10, val: 1.20 },
+  { epoch: 3, train: 0.87, val: 0.98 },
+  { epoch: 4, train: 0.71, val: 0.82 },
+  { epoch: 5, train: 0.60, val: 0.69 },
+  { epoch: 6, train: 0.52, val: 0.61 },
+];
+
+export default function App() {
+  return (
+    <LineChart
+      data={data}
+      xAxisKey="epoch"
+      series={[
+         { dataKey: 'train', name: 'Train loss' },
+         { dataKey: 'val', name: 'Val loss' },
+       ]}
+      aria-label="Training vs validation loss"
+      height={260}
+    />
+  );
+}
+```
+
+---
+
+## `BarChart`
+
+Renders categorical data as vertical bars. Supports grouped and stacked layouts.
+
+### Props
+
+| Prop | Type | Default | Description |
+|---|---|---|---|
+| `data` | `object[]` | required | Array of data points |
+| `xAxisKey` | `string` | `"name"` | Key for the category axis |
+| `series` | `SeriesConfig[]` | required | Each series: `{ dataKey, name?, color? }` |
+| `stacked` | `boolean` | `false` | Stack bars when true |
+| `height` | `number` | `300` | Chart height in px |
+| `animate` | `boolean` | `false` | Opt-in per-chart animations |
+
+### Example — grouped
+
+```tsx preview
+import { BarChart } from '@geti-ai/charts';
+
+const data = [
+  { model: 'MobileNet', precision: 84, recall: 80 },
+  { model: 'ResNet-50', precision: 89, recall: 87 },
+  { model: 'EfficientDet', precision: 91, recall: 90 },
+];
+
+export default function App() {
+  return (
+    <BarChart
+      data={data}
+      xAxisKey="model"
+      series={[
+         { dataKey: 'precision', name: 'Precision (%)' },
+         { dataKey: 'recall', name: 'Recall (%)' },
+       ]}
+      aria-label="Model comparison — precision vs recall"
+      height={260}
+    />
+  );
+}
+```
+
+### Example — stacked
+
+```tsx preview
+import { BarChart } from '@geti-ai/charts';
+
+const data = [
+  { label: 'Annotated', ok: 900, review: 60, rejected: 40 },
+  { label: 'Unannotated', ok: 0, review: 0, rejected: 0 },
+  { label: 'Total', ok: 900, review: 60, rejected: 40 },
+];
+
+export default function App() {
+  return (
+    <BarChart
+      data={data}
+      xAxisKey="label"
+      stacked
+      series={[
+         { dataKey: 'ok', name: 'Approved' },
+         { dataKey: 'review', name: 'In review' },
+         { dataKey: 'rejected', name: 'Rejected' },
+       ]}
+      aria-label="Dataset annotation breakdown"
+      height={260}
+    />
+  );
+}
+```
+
+---
+
+## `ScatterChart`
+
+Visualises the relationship between two continuous variables.
+
+### Props
+
+| Prop | Type | Default | Description |
+|---|---|---|---|
+| `series` | `SeriesConfig[]` | required | Series array with `name` and `data` |
+| `xAxisLabel` | `string` | — | X-axis label |
+| `yAxisLabel` | `string` | — | Y-axis label |
+| `height` | `number` | `300` | Chart height in px |
+| `animate` | `boolean` | `false` | Opt-in per-chart animations |
+
+### Example
+
+```tsx preview
+import { ScatterChart } from '@geti-ai/charts';
+
+const points = [
+  { x: 0.1, y: 0.85, name: 'cat' },
+  { x: 0.3, y: 0.72, name: 'dog' },
+  { x: 0.5, y: 0.91, name: 'car' },
+  { x: 0.2, y: 0.68, name: 'person' },
+  { x: 0.7, y: 0.77, name: 'bicycle' },
+  { x: 0.4, y: 0.83, name: 'truck' },
+  { x: 0.6, y: 0.95, name: 'bus' },
+];
+
+export default function App() {
+  return (
+    <ScatterChart
+      series={[{ name: 'Per class', data: points }]}
+      xAxisLabel="False positive rate"
+      yAxisLabel="True positive rate"
+      aria-label="ROC scatter — per class"
+      height={280}
+    />
+  );
+}
+```
+
+---
+
+## `Sparkline`
+
+A minimal inline chart with no axes, ticks, or legend. Designed for use inside tables, cards, and list items.
+
+### Props
+
+| Prop | Type | Default | Description |
+|---|---|---|---|
+| `data` | `object[]` | required | Ordered data values |
+| `width` | `number` | `120` | Width in px |
+| `height` | `number` | `40` | Height in px |
+| `color` | `string` | theme primary | Line colour (CSS colour or token) |
+| `animate` | `boolean` | `false` | Opt-in per-chart animations |
+
+### Example
+
+```tsx preview
+import { Sparkline } from '@geti-ai/charts';
+
+export default function App() {
+  return (
+    <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
+      <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
+        <span style={{ color: 'var(--spectrum-global-color-gray-300)', fontSize: 13, width: 120 }}>
+          MobileNet v3
+        </span>
+        <Sparkline data={[72, 75, 79, 81, 83, 85, 88].map((value) => ({ value }))} />
+      </div>
+      <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
+        <span style={{ color: 'var(--spectrum-global-color-gray-300)', fontSize: 13, width: 120 }}>
+          ResNet-50
+        </span>
+        <Sparkline data={[80, 82, 84, 86, 87, 89, 91].map((value) => ({ value }))} />
+      </div>
+      <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
+        <span style={{ color: 'var(--spectrum-global-color-gray-300)', fontSize: 13, width: 120 }}>
+          EfficientDet
+        </span>
+        <Sparkline data={[60, 65, 70, 74, 80, 84, 90].map((value) => ({ value }))} />
+      </div>
+    </div>
+  );
+}
+```

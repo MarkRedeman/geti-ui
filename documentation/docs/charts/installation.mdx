@@ -1,0 +1,78 @@
+---
+title: Installation
+---
+
+# Charts Installation
+
+Install the charts package:
+
+```bash
+npm install @geti-ai/charts
+```
+
+`@geti-ai/charts` is published separately from `@geti-ai/ui` to keep chart dependencies (Recharts, D3) optional for teams that don't need them.
+
+## Peer dependencies
+
+| Package | Version |
+|---|---|
+| `react` | `^18 \|\| ^19` |
+| `react-dom` | `^18 \|\| ^19` |
+| `recharts` | `^3.8` |
+
+## Basic import
+
+```ts
+import {
+  LineChart,
+  BarChart,
+  ScatterChart,
+  Sparkline,
+  ChartsThemeProvider,
+} from '@geti-ai/charts';
+```
+
+## Provider setup
+
+Wrap the portion of your app that renders charts once with `ChartsThemeProvider`:
+
+```tsx
+import { ChartsThemeProvider } from '@geti-ai/charts';
+
+export function App() {
+  return (
+    <ChartsThemeProvider>
+      <MyDashboard />
+    </ChartsThemeProvider>
+  );
+}
+```
+
+If you are already using `ThemeProvider` from `@geti-ai/ui`, nest `ChartsThemeProvider` inside it:
+
+```tsx
+import { ThemeProvider } from '@geti-ai/ui';
+import { ChartsThemeProvider } from '@geti-ai/charts';
+
+export function App() {
+  return (
+    <ThemeProvider>
+      <ChartsThemeProvider>
+        <MyDashboard />
+      </ChartsThemeProvider>
+    </ThemeProvider>
+  );
+}
+```
+
+## TypeScript
+
+The package ships its own declaration files — no `@types/` package is needed.
+
+## Next pages
+
+- [Overview](./overview)
+- [Primitives](./primitives)
+- [Compositions](./compositions)
+- [Custom Charts](./custom-charts)
+- [Theming](./theming)
