@@ -90,6 +90,84 @@ export default function App() {
 }
 ```
 
+## Variant — interpolation: linear
+
+```tsx preview
+import { LineChart } from '@geti-ai/charts';
+
+const data = [
+  { epoch: 1, value: 1.42 },
+  { epoch: 2, value: 1.10 },
+  { epoch: 3, value: 0.87 },
+  { epoch: 4, value: 0.71 },
+  { epoch: 5, value: 0.60 },
+];
+
+export default function App() {
+  return (
+    <LineChart
+      data={data}
+      xAxisKey="epoch"
+      series={[{ dataKey: 'value', name: 'Linear interpolation', curve: 'linear' }]}
+      aria-label="Line chart with linear interpolation"
+      height={260}
+    />
+  );
+}
+```
+
+## Variant — interpolation: natural spline
+
+```tsx preview
+import { LineChart } from '@geti-ai/charts';
+
+const data = [
+  { epoch: 1, value: 1.42 },
+  { epoch: 2, value: 1.10 },
+  { epoch: 3, value: 0.87 },
+  { epoch: 4, value: 0.71 },
+  { epoch: 5, value: 0.60 },
+];
+
+export default function App() {
+  return (
+    <LineChart
+      data={data}
+      xAxisKey="epoch"
+      series={[{ dataKey: 'value', name: 'Natural interpolation', curve: 'natural' }]}
+      aria-label="Line chart with natural interpolation"
+      height={260}
+    />
+  );
+}
+```
+
+## Variant — interpolation: step
+
+```tsx preview
+import { LineChart } from '@geti-ai/charts';
+
+const data = [
+  { epoch: 1, value: 1.42 },
+  { epoch: 2, value: 1.10 },
+  { epoch: 3, value: 0.87 },
+  { epoch: 4, value: 0.71 },
+  { epoch: 5, value: 0.60 },
+];
+
+export default function App() {
+  return (
+    <LineChart
+      data={data}
+      xAxisKey="epoch"
+      series={[{ dataKey: 'value', name: 'Step interpolation', curve: 'stepAfter' }]}
+      aria-label="Line chart with step interpolation"
+      height={260}
+    />
+  );
+}
+```
+
 ## Variant — train / validation / test palette
 
 ```tsx preview

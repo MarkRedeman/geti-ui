@@ -55,7 +55,7 @@ export type { SparklineProps, SparklineCurve } from './primitives/Sparkline';
 
 // Chart components
 export { LineChart } from './components/LineChart';
-export type { LineChartProps, LineChartSeriesConfig } from './components/LineChart';
+export type { LineChartProps, LineChartSeriesConfig, LineChartCurve } from './components/LineChart';
 
 export { BarChart } from './components/BarChart';
 export type { BarChartProps, BarChartSeriesConfig } from './components/BarChart';

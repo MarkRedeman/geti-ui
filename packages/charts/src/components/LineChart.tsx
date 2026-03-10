@@ -15,6 +15,20 @@ import type { AxisScaleConfig } from '../types/axisScale';
 
 export type { AxisScaleConfig };
 
+export type LineChartCurve =
+    | 'basis'
+    | 'basisClosed'
+    | 'basisOpen'
+    | 'linear'
+    | 'linearClosed'
+    | 'natural'
+    | 'monotoneX'
+    | 'monotoneY'
+    | 'monotone'
+    | 'step'
+    | 'stepBefore'
+    | 'stepAfter';
+
 export interface LineChartSeriesConfig {
     /** Data key to plot on the Y axis. */
     dataKey: string;
@@ -28,6 +42,8 @@ export interface LineChartSeriesConfig {
     dotRadius?: number;
     /** Whether this series renders as dashed. @default false */
     dashed?: boolean;
+    /** Line interpolation method. @default 'monotone' */
+    curve?: LineChartCurve;
 }
 
 export interface LineChartProps {
@@ -168,7 +184,7 @@ export function LineChart({
                         return (
                             <Line
                                 key={s.dataKey}
-                                type="monotone"
+                                type={s.curve ?? 'monotone'}
                                 dataKey={s.dataKey}
                                 name={s.name ?? s.dataKey}
                                 stroke={color}
