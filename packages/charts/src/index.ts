@@ -111,5 +111,8 @@ export type { ErrorBreakdownChartProps, ErrorBreakdownSeries } from './component
 export { ConfidenceHistogram } from './components/ml/ConfidenceHistogram';
 export type { ConfidenceHistogramProps, ConfidenceHistogramDatum } from './components/ml/ConfidenceHistogram';
 
+export { ClassDistributionChart } from './components/ml/ClassDistributionChart';
+export type { ClassDistributionChartProps, ClassDistributionDatum } from './components/ml/ClassDistributionChart';
+
 export { TreemapChart } from './components/TreemapChart';
 export type { TreemapChartProps } from './components/TreemapChart';

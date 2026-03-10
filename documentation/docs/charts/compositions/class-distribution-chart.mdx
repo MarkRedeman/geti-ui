@@ -1,0 +1,105 @@
+---
+title: Class distribution chart
+---
+
+# Class distribution chart (composition)
+
+`ClassDistributionChart` helps visualize long-tail class imbalance in datasets.
+
+## Variant — sorted long-tail distribution
+
+```tsx preview
+import { ClassDistributionChart } from '@geti-ai/charts';
+
+const data = [
+  { className: 'person', count: 12840 },
+  { className: 'car', count: 9732 },
+  { className: 'bicycle', count: 5220 },
+  { className: 'truck', count: 3188 },
+  { className: 'bus', count: 2874 },
+  { className: 'dog', count: 2142 },
+  { className: 'cat', count: 1891 },
+  { className: 'helmet', count: 1012 },
+  { className: 'backpack', count: 740 },
+  { className: 'traffic light', count: 504 },
+  { className: 'stroller', count: 181 },
+  { className: 'wheelchair', count: 67 },
+];
+
+export default function App() {
+  return (
+    <ClassDistributionChart
+      data={data}
+      aria-label="Class distribution long-tail"
+      height={460}
+    />
+  );
+}
+```
+
+## Variant — top 8 classes only
+
+```tsx preview
+import { ClassDistributionChart } from '@geti-ai/charts';
+
+const data = [
+  { className: 'person', count: 12840 },
+  { className: 'car', count: 9732 },
+  { className: 'bicycle', count: 5220 },
+  { className: 'truck', count: 3188 },
+  { className: 'bus', count: 2874 },
+  { className: 'dog', count: 2142 },
+  { className: 'cat', count: 1891 },
+  { className: 'helmet', count: 1012 },
+  { className: 'backpack', count: 740 },
+  { className: 'traffic light', count: 504 },
+  { className: 'stroller', count: 181 },
+  { className: 'wheelchair', count: 67 },
+];
+
+export default function App() {
+  return (
+    <ClassDistributionChart
+      data={data}
+      topN={8}
+      aria-label="Top classes by sample count"
+      height={400}
+    />
+  );
+}
+```
+
+## Variant — log scale for extreme imbalance
+
+```tsx preview
+import { ClassDistributionChart } from '@geti-ai/charts';
+
+const data = [
+  { className: 'person', count: 12840 },
+  { className: 'car', count: 9732 },
+  { className: 'bicycle', count: 5220 },
+  { className: 'truck', count: 3188 },
+  { className: 'bus', count: 2874 },
+  { className: 'dog', count: 2142 },
+  { className: 'cat', count: 1891 },
+  { className: 'helmet', count: 1012 },
+  { className: 'backpack', count: 740 },
+  { className: 'traffic light', count: 504 },
+  { className: 'stroller', count: 181 },
+  { className: 'wheelchair', count: 67 },
+];
+
+export default function App() {
+  return (
+    <ClassDistributionChart
+      data={data}
+      useLogScale
+      xAxisProps={{ tickFormatter: (value) => Number(value).toLocaleString() }}
+      aria-label="Class distribution with logarithmic x-axis"
+      height={460}
+    />
+  );
+}
+```
+
+Related: [Custom charts](/charts/custom-charts)

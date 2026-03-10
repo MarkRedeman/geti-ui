@@ -74,6 +74,7 @@ const chartsSidebar = [
                     { text: 'Distribution ridge chart', link: '/charts/compositions/distribution-ridge-chart' },
                     { text: 'Error breakdown chart', link: '/charts/compositions/error-breakdown-chart' },
                     { text: 'Confidence histogram', link: '/charts/compositions/confidence-histogram' },
+                    { text: 'Class distribution chart', link: '/charts/compositions/class-distribution-chart' },
                 ],
             },
             { text: 'Custom Charts', link: '/charts/custom-charts' },
