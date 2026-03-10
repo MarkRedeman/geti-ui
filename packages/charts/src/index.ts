@@ -77,3 +77,6 @@ export type { RadarChartProps, RadarChartSeriesConfig } from './components/Radar
 
 export { RadialBarChart } from './components/RadialBarChart';
 export type { RadialBarChartProps } from './components/RadialBarChart';
+
+export { MeterChart } from './components/MeterChart';
+export type { MeterChartProps } from './components/MeterChart';

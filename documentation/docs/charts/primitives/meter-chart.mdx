@@ -1,0 +1,110 @@
+---
+title: Meter chart
+---
+
+# Meter chart (primitive)
+
+Use Recharts `PieChart` primitives to build custom half-donut meters with full control.
+
+## Variant — default half-donut
+
+```tsx preview
+import { Cell, Pie, PieChart } from 'recharts';
+import { GetiResponsiveContainer } from '@geti-ai/charts/primitives';
+
+const value = 84;
+const max = 100;
+const data = [
+  { name: 'value', value },
+  { name: 'remaining', value: max - value },
+];
+
+export default function App() {
+  return (
+    <div style={{ position: 'relative', height: 220 }}>
+      <GetiResponsiveContainer height={220}>
+        <PieChart>
+          <Pie data={data} dataKey="value" startAngle={180} endAngle={0} innerRadius="72%" outerRadius="100%" stroke="none" isAnimationActive={false}>
+            <Cell fill="var(--spectrum-global-color-blue-500)" />
+            <Cell fill="var(--spectrum-global-color-gray-700)" />
+          </Pie>
+        </PieChart>
+      </GetiResponsiveContainer>
+      <div style={{ position: 'absolute', left: '50%', top: '72%', transform: 'translate(-50%, -50%)', fontWeight: 700 }}>84%</div>
+    </div>
+  );
+}
+```
+
+## Variant — mAP scale (0..1)
+
+```tsx preview
+import { Cell, Pie, PieChart } from 'recharts';
+import { GetiResponsiveContainer } from '@geti-ai/charts/primitives';
+
+const value = 0.873;
+const max = 1;
+const data = [
+  { name: 'value', value },
+  { name: 'remaining', value: max - value },
+];
+
+export default function App() {
+  return (
+    <div style={{ position: 'relative', height: 220 }}>
+      <GetiResponsiveContainer height={220}>
+        <PieChart>
+          <Pie data={data} dataKey="value" startAngle={180} endAngle={0} innerRadius="72%" outerRadius="100%" stroke="none" isAnimationActive={false}>
+            <Cell fill="var(--spectrum-global-color-green-500)" />
+            <Cell fill="var(--spectrum-global-color-gray-700)" />
+          </Pie>
+        </PieChart>
+      </GetiResponsiveContainer>
+      <div style={{ position: 'absolute', left: '50%', top: '72%', transform: 'translate(-50%, -50%)', fontWeight: 700 }}>mAP 0.873</div>
+    </div>
+  );
+}
+```
+
+## Variant — train / validation / test palette
+
+```tsx preview
+import { Cell, Pie, PieChart } from 'recharts';
+import { GetiResponsiveContainer } from '@geti-ai/charts/primitives';
+import { getDatasetSubsetColor } from '@geti-ai/charts';
+
+const scores = [
+  { label: 'Train', value: 91, color: getDatasetSubsetColor('train') },
+  { label: 'Validation', value: 86, color: getDatasetSubsetColor('validation') },
+  { label: 'Test', value: 84, color: getDatasetSubsetColor('test') },
+];
+
+export default function App() {
+  return (
+    <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, minmax(0, 1fr))', gap: 12 }}>
+      {scores.map((score) => {
+        const data = [
+          { name: 'value', value: score.value },
+          { name: 'remaining', value: 100 - score.value },
+        ];
+
+        return (
+          <div key={score.label} style={{ position: 'relative', height: 210 }}>
+            <GetiResponsiveContainer height={210}>
+              <PieChart>
+                <Pie data={data} dataKey="value" startAngle={180} endAngle={0} innerRadius="72%" outerRadius="100%" stroke="none" isAnimationActive={false}>
+                  <Cell fill={score.color} />
+                  <Cell fill="var(--spectrum-global-color-gray-700)" />
+                </Pie>
+              </PieChart>
+            </GetiResponsiveContainer>
+            <div style={{ position: 'absolute', left: '50%', top: '72%', transform: 'translate(-50%, -50%)', fontWeight: 700 }}>{score.value}%</div>
+          </div>
+        );
+      })}
+    </div>
+  );
+}
+```
+
+Related: [Meter chart (composition)](/charts/compositions/meter-chart)

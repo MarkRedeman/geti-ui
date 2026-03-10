@@ -348,6 +348,22 @@ export default function App() {
 }
 ```
 
+## Meter chart example
+
+```tsx preview
+import { MeterChart, getDatasetSubsetColor } from '@geti-ai/charts';
+
+export default function App() {
+  return (
+    <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, minmax(0, 1fr))', gap: 12 }}>
+      <MeterChart value={91} color={getDatasetSubsetColor('train')} aria-label="Train meter" height={210} />
+      <MeterChart value={86} color={getDatasetSubsetColor('validation')} aria-label="Validation meter" height={210} />
+      <MeterChart value={84} color={getDatasetSubsetColor('test')} aria-label="Test meter" height={210} />
+    </div>
+  );
+}
+```
+
 ## Related
 
 - [Charts theming overview](/charts/theming)
