@@ -94,6 +94,38 @@ export default function App() {
 }
 ```
 
+## Variant — train / validation / test palette
+
+```tsx preview
+import { AreaChart, withDatasetSubsetPalette } from '@geti-ai/charts';
+
+const data = [
+  { step: 1, train: 0.45, val: 0.41, test: 0.39 },
+  { step: 2, train: 0.51, val: 0.46, test: 0.44 },
+  { step: 3, train: 0.62, val: 0.57, test: 0.53 },
+  { step: 4, train: 0.71, val: 0.65, test: 0.60 },
+];
+
+export default function App() {
+  const series = withDatasetSubsetPalette([
+    { dataKey: 'train', name: 'Training', fade: true },
+    { dataKey: 'val', name: 'Validation', fade: true },
+    { dataKey: 'test', name: 'Test', fade: true },
+  ]);
+
+  return (
+    <AreaChart
+      data={data}
+      xAxisKey="step"
+      showLegend
+      series={series}
+      aria-label="Training/validation/test IoU"
+      height={260}
+    />
+  );
+}
+```
+
 ## Variant — time-based X axis
 
 ```tsx preview

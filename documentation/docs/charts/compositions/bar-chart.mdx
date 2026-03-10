@@ -92,6 +92,37 @@ export default function App() {
 }
 ```
 
+## Variant — train / validation / test palette
+
+```tsx preview
+import { BarChart, withDatasetSubsetPalette } from '@geti-ai/charts';
+
+const data = [
+  { split: 'Fold A', train: 0.91, val: 0.85, test: 0.83 },
+  { split: 'Fold B', train: 0.93, val: 0.86, test: 0.84 },
+  { split: 'Fold C', train: 0.92, val: 0.87, test: 0.85 },
+];
+
+export default function App() {
+  const series = withDatasetSubsetPalette([
+    { dataKey: 'train', name: 'Training' },
+    { dataKey: 'val', name: 'Validation' },
+    { dataKey: 'test', name: 'Test' },
+  ]);
+
+  return (
+    <BarChart
+      data={data}
+      xAxisKey="split"
+      showLegend
+      series={series}
+      aria-label="Training/validation/test metric by split"
+      height={260}
+    />
+  );
+}
+```
+
 ## Variant — vertical bars (`layout="horizontal"`)
 
 ```tsx preview

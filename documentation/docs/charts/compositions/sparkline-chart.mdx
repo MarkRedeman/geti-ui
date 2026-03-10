@@ -66,4 +66,41 @@ export default function App() {
 }
 ```
 
+## Variant — train / validation / test palette
+
+```tsx preview
+import { Sparkline, getDatasetSubsetColor } from '@geti-ai/charts';
+
+export default function App() {
+  return (
+    <div style={{ display: 'grid', gap: 10 }}>
+      <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
+        <span style={{ width: 80 }}>Train</span>
+        <Sparkline
+          data={[1.42, 1.10, 0.87, 0.71].map((value) => ({ value }))}
+          color={getDatasetSubsetColor('train')}
+          area
+        />
+      </div>
+      <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
+        <span style={{ width: 80 }}>Validation</span>
+        <Sparkline
+          data={[1.50, 1.20, 0.98, 0.82].map((value) => ({ value }))}
+          color={getDatasetSubsetColor('val')}
+          area
+        />
+      </div>
+      <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
+        <span style={{ width: 80 }}>Test</span>
+        <Sparkline
+          data={[1.55, 1.28, 1.06, 0.90].map((value) => ({ value }))}
+          color={getDatasetSubsetColor('test')}
+          area
+        />
+      </div>
+    </div>
+  );
+}
+```
+
 Related: [Sparkline chart (primitive)](/charts/primitives/sparkline-chart)

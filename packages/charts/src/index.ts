@@ -19,6 +19,21 @@ export type { UseVoronoiHoverOptions, UseVoronoiHoverReturn, VoronoiActivePoint 
 export type { ScatterDataPoint, VoronoiHitResult } from './utils/voronoiUtils';
 export { buildVoronoiLookup, linearProject, computeDomain } from './utils/voronoiUtils';
 
+// Dataset subset palette utilities (train/validation/test)
+export type {
+    DatasetSubset,
+    DatasetSubsetPalette,
+    DatasetSubsetAliases,
+    DatasetSubsetColorizeOptions,
+} from './utils/datasetSubsetPalette';
+export {
+    defaultDatasetSubsetPalette,
+    defaultDatasetSubsetAliases,
+    createDatasetSubsetPalette,
+    getDatasetSubsetColor,
+    withDatasetSubsetPalette,
+} from './utils/datasetSubsetPalette';
+
 // Primitives
 export { ChartsThemeProvider, ChartsThemeContext } from './primitives/ChartsThemeProvider';
 export type { ChartsThemeProviderProps } from './primitives/ChartsThemeProvider';

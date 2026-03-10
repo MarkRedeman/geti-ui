@@ -149,6 +149,49 @@ export default function App() {
 }
 ```
 
+## Variant — train / validation / test palette
+
+```tsx preview
+import { ScatterChart, withDatasetSubsetPalette } from '@geti-ai/charts';
+
+const train = [
+  { x: 2.8e6, y: 0.47, z: 9.8 },
+  { x: 1.1e7, y: 0.54, z: 27.0 },
+];
+const val = [
+  { x: 2.8e6, y: 0.44, z: 9.8 },
+  { x: 1.1e7, y: 0.50, z: 27.0 },
+];
+const test = [
+  { x: 2.8e6, y: 0.42, z: 9.8 },
+  { x: 1.1e7, y: 0.48, z: 27.0 },
+];
+
+export default function App() {
+  const series = withDatasetSubsetPalette(
+    [
+      { name: 'Train', data: train, zKey: 'z' },
+      { name: 'Validation', data: val, zKey: 'z' },
+      { name: 'Test', data: test, zKey: 'z' },
+    ],
+    { matchBy: 'name' }
+  );
+
+  return (
+    <ScatterChart
+      series={series}
+      zAxisProps={{ dataKey: 'z', range: [80, 320], name: 'GFLOPs' }}
+      showLegend
+      xScale={{ scale: 'log', domain: [1e6, 'auto'] }}
+      xAxisLabel="Parameters"
+      yAxisLabel="mAP @ 50:95"
+      aria-label="Train/validation/test model comparison"
+      height={320}
+    />
+  );
+}
+```
+
 ## Variant — model families (category + bubble size)
 
 ```tsx preview
