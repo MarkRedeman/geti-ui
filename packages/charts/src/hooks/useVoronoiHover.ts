@@ -9,7 +9,7 @@
  *  4. Expose an `activePoint` that the parent chart can use to show a tooltip.
  */
 
-import { useCallback, useRef, useState } from 'react';
+import { useCallback, useLayoutEffect, useRef, useState } from 'react';
 import { buildVoronoiLookup, ScatterDataPoint } from '../utils/voronoiUtils';
 import type { ScatterChartSeriesConfig } from '../components/ScatterChart';
 
@@ -131,10 +131,27 @@ export function useVoronoiHover({
 
     // Store the container DOM element so we can measure it on demand.
     const containerEl = useRef<HTMLDivElement | null>(null);
+    const lookupRef = useRef<ReturnType<typeof buildVoronoiLookup> | null>(null);
 
     const containerRef = useCallback((el: HTMLDivElement | null) => {
         containerEl.current = el;
     }, []);
+
+    useLayoutEffect(() => {
+        if (!enabled) {
+            lookupRef.current = null;
+            return;
+        }
+
+        const el = containerEl.current;
+        if (!el) {
+            lookupRef.current = null;
+            return;
+        }
+
+        const points = readPointsFromDOM(el, series, seriesColors);
+        lookupRef.current = points.length > 0 ? buildVoronoiLookup(points) : null;
+    }, [enabled, series, seriesColors]);
 
     const handleMouseLeave = useCallback(() => {
         setActivePoint(null);
@@ -152,18 +169,7 @@ export function useVoronoiHover({
             const containerX = e.clientX - rect.left;
             const containerY = e.clientY - rect.top;
 
-            // Read actual rendered dot positions from the DOM.
-            // This is the single source of truth: Recharts has already computed
-            // its own axis domains, padding, and tick layout — we simply read the
-            // resulting pixel positions rather than re-implementing that logic.
-            const points = readPointsFromDOM(el, series, seriesColors);
-
-            if (points.length === 0) {
-                setActivePoint(null);
-                return;
-            }
-
-            const lookup = buildVoronoiLookup(points);
+            const lookup = lookupRef.current;
             if (!lookup) {
                 setActivePoint(null);
                 return;
@@ -184,7 +190,7 @@ export function useVoronoiHover({
                 containerHeight: rect.height,
             });
         },
-        [enabled, series, seriesColors, maxDistance]
+        [enabled, maxDistance]
     );
 
     return { containerRef, handleMouseMove, handleMouseLeave, activePoint };

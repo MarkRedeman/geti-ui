@@ -76,8 +76,14 @@ export function ConfusionMatrixChart({
 }: ConfusionMatrixChartProps) {
     const theme = useChartsTheme();
 
-    const size = Math.min(labels.length, matrix.length);
-    const rows = matrix.slice(0, size).map((row) => row.slice(0, size));
+    const size = useMemo(
+        () => Math.min(labels.length, matrix.length),
+        [labels.length, matrix.length]
+    );
+    const rows = useMemo(
+        () => matrix.slice(0, size).map((row) => row.slice(0, size)),
+        [matrix, size]
+    );
 
     const rgb = parseColorToRgb(theme.dataColors[0]) ?? { r: 76, g: 155, b: 232 };
 
