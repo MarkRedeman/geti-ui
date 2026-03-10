@@ -321,6 +321,33 @@ export default function App() {
 }
 ```
 
+## RadialBar chart example
+
+```tsx preview
+import { RadialBarChart, getDatasetSubsetColor } from '@geti-ai/charts';
+
+const data = [
+  { name: 'Train', value: 91 },
+  { name: 'Validation', value: 86 },
+  { name: 'Test', value: 84 },
+];
+
+export default function App() {
+  return (
+    <RadialBarChart
+      data={data}
+      colors={[
+        getDatasetSubsetColor('train')!,
+        getDatasetSubsetColor('validation')!,
+        getDatasetSubsetColor('test')!,
+      ]}
+      aria-label="Dataset subset radial bars"
+      height={340}
+    />
+  );
+}
+```
+
 ## Related
 
 - [Charts theming overview](/charts/theming)

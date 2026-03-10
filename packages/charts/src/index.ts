@@ -74,3 +74,6 @@ export type { DonutChartProps } from './components/DonutChart';
 
 export { RadarChart } from './components/RadarChart';
 export type { RadarChartProps, RadarChartSeriesConfig } from './components/RadarChart';
+
+export { RadialBarChart } from './components/RadialBarChart';
+export type { RadialBarChartProps } from './components/RadialBarChart';

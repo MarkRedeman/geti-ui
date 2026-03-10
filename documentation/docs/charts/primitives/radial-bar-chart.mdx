@@ -1,0 +1,89 @@
+---
+title: RadialBar chart
+---
+
+# RadialBar chart (primitive)
+
+Use Recharts `RadialBarChart` primitives when you need full control over radial starts/ends, tracks, and labels.
+
+## Variant — default
+
+```tsx preview
+import { PolarAngleAxis, RadialBar, RadialBarChart } from 'recharts';
+import { GetiLegend, GetiResponsiveContainer, GetiTooltip } from '@geti-ai/charts/primitives';
+
+const data = [
+  { name: 'Precision', value: 88, fill: 'var(--spectrum-global-color-blue-500)' },
+  { name: 'Recall', value: 84, fill: 'var(--spectrum-global-color-green-500)' },
+  { name: 'F1', value: 86, fill: 'var(--spectrum-global-color-yellow-500)' },
+  { name: 'Stability', value: 74, fill: 'var(--spectrum-global-color-purple-500)' },
+];
+
+export default function App() {
+  return (
+    <GetiResponsiveContainer height={360}>
+      <RadialBarChart data={data} startAngle={90} endAngle={-270} innerRadius="20%" outerRadius="90%">
+        <PolarAngleAxis type="number" domain={[0, 100]} tick={false} />
+        <RadialBar dataKey="value" background cornerRadius={6} isAnimationActive={false} />
+        <GetiTooltip />
+        <GetiLegend />
+      </RadialBarChart>
+    </GetiResponsiveContainer>
+  );
+}
+```
+
+## Variant — clockwise direction
+
+```tsx preview
+import { PolarAngleAxis, RadialBar, RadialBarChart } from 'recharts';
+import { GetiLegend, GetiResponsiveContainer, GetiTooltip } from '@geti-ai/charts/primitives';
+
+const data = [
+  { name: 'Precision', value: 88, fill: '#60a5fa' },
+  { name: 'Recall', value: 84, fill: '#34d399' },
+  { name: 'F1', value: 86, fill: '#f59e0b' },
+];
+
+export default function App() {
+  return (
+    <GetiResponsiveContainer height={360}>
+      <RadialBarChart data={data} startAngle={90} endAngle={450} innerRadius="30%" outerRadius="92%">
+        <PolarAngleAxis type="number" domain={[0, 100]} tick={false} />
+        <RadialBar dataKey="value" background cornerRadius={6} isAnimationActive={false} />
+        <GetiTooltip />
+        <GetiLegend />
+      </RadialBarChart>
+    </GetiResponsiveContainer>
+  );
+}
+```
+
+## Variant — train / validation / test palette
+
+```tsx preview
+import { PolarAngleAxis, RadialBar, RadialBarChart } from 'recharts';
+import { GetiLegend, GetiResponsiveContainer, GetiTooltip } from '@geti-ai/charts/primitives';
+import { getDatasetSubsetColor } from '@geti-ai/charts';
+
+const data = [
+  { name: 'Train', value: 91, fill: getDatasetSubsetColor('train') },
+  { name: 'Validation', value: 86, fill: getDatasetSubsetColor('validation') },
+  { name: 'Test', value: 84, fill: getDatasetSubsetColor('test') },
+];
+
+export default function App() {
+  return (
+    <GetiResponsiveContainer height={340}>
+      <RadialBarChart data={data} startAngle={90} endAngle={-270} innerRadius="28%" outerRadius="90%">
+        <PolarAngleAxis type="number" domain={[0, 100]} tick={false} />
+        <RadialBar dataKey="value" background cornerRadius={6} isAnimationActive={false} />
+        <GetiTooltip />
+        <GetiLegend />
+      </RadialBarChart>
+    </GetiResponsiveContainer>
+  );
+}
+```
+
+Related: [RadialBar chart (composition)](/charts/compositions/radial-bar-chart)

@@ -1,0 +1,105 @@
+---
+title: RadialBar chart
+---
+
+# RadialBar chart (composition)
+
+`RadialBarChart` is a ready-to-use composition for radial progress comparisons and score bands.
+
+## Variant — default
+
+```tsx preview
+import { RadialBarChart } from '@geti-ai/charts';
+
+const data = [
+  { name: 'Precision', value: 88 },
+  { name: 'Recall', value: 84 },
+  { name: 'F1', value: 86 },
+  { name: 'Stability', value: 74 },
+];
+
+export default function App() {
+  return <RadialBarChart data={data} aria-label="Model quality radial bars" height={360} />;
+}
+```
+
+## Variant — clockwise + custom ring bounds
+
+```tsx preview
+import { RadialBarChart } from '@geti-ai/charts';
+
+const data = [
+  { name: 'Precision', value: 88 },
+  { name: 'Recall', value: 84 },
+  { name: 'F1', value: 86 },
+  { name: 'Stability', value: 74 },
+];
+
+export default function App() {
+  return (
+    <RadialBarChart
+      data={data}
+      startAngle={90}
+      endAngle={450}
+      innerRadius="32%"
+      outerRadius="92%"
+      aria-label="Clockwise radial bars"
+      height={360}
+    />
+  );
+}
+```
+
+## Variant — no legend, no track
+
+```tsx preview
+import { RadialBarChart } from '@geti-ai/charts';
+
+const data = [
+  { name: 'Queued', value: 22 },
+  { name: 'Running', value: 54 },
+  { name: 'Completed', value: 91 },
+];
+
+export default function App() {
+  return (
+    <RadialBarChart
+      data={data}
+      showLegend={false}
+      track={false}
+      colors={['#f59e0b', '#60a5fa', '#22c55e']}
+      aria-label="Pipeline status radial bars"
+      height={340}
+    />
+  );
+}
+```
+
+## Variant — train / validation / test palette
+
+```tsx preview
+import { RadialBarChart, getDatasetSubsetColor } from '@geti-ai/charts';
+
+const data = [
+  { name: 'Train', value: 91 },
+  { name: 'Validation', value: 86 },
+  { name: 'Test', value: 84 },
+];
+
+export default function App() {
+  return (
+    <RadialBarChart
+      data={data}
+      colors={[
+        getDatasetSubsetColor('train')!,
+        getDatasetSubsetColor('validation')!,
+        getDatasetSubsetColor('test')!,
+      ]}
+      aria-label="Dataset subset radial bars"
+      height={340}
+    />
+  );
+}
+```
+
+Related: [RadialBar chart (primitive)](/charts/primitives/radial-bar-chart)
