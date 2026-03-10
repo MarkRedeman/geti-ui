@@ -254,13 +254,12 @@ html {
     width: 100vw;
     margin-left: calc(50% - 50vw);
     margin-right: calc(50% - 50vw);
-    background:
-        radial-gradient(circle at 5% 12%, rgb(110 231 216 / 12%), transparent 34%),
+    background: radial-gradient(circle at 5% 12%, rgb(110 231 216 / 12%), transparent 34%),
         radial-gradient(circle at 95% 85%, rgb(29 161 242 / 13%), transparent 32%),
         linear-gradient(135deg, #2a2d33 0%, #1f2126 100%);
     border-top: 1px solid #33363d;
     border-bottom: 1px solid #33363d;
-    padding: 3.2rem 0;
+    padding: 7.5rem 0 9.25rem;
 }
 
 .geti-home-hero__inner {
@@ -366,9 +365,11 @@ html {
     width: 100vw;
     margin-left: calc(50% - 50vw);
     margin-right: calc(50% - 50vw);
+    margin-top: -6rem;
     padding: 0 1.5rem;
-    padding-top: 2rem;
     padding-bottom: 2rem;
+    position: relative;
+    z-index: 1;
 }
 
 .geti-home-bento {
@@ -400,15 +401,15 @@ html {
 .geti-home-card__header {
     background: #242528;
     border-bottom: 1px solid #3c3e42;
-    padding: 1.25rem;
+    padding: 2.5rem;
 }
 
 .geti-home-card__body {
     background: #2e2f32;
     color: rgb(183, 185, 190);
-    padding: 1.25rem;
+    padding: 1rem 2.25rem 2.25rem;
     flex: 1;
-    min-height: 168px;
+    min-height: 12rem;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
@@ -489,7 +490,7 @@ html {
     }
 
     .geti-home-hero {
-        padding: 2rem 0;
+        padding: 2.5rem 0 3.25rem;
     }
 
     .geti-home-hero__inner {
@@ -520,5 +521,4 @@ html {
     .geti-home-card--assets {
         grid-column: span 1;
     }
-
 }

@@ -24,13 +24,11 @@ export const HomeLayout = (props: HomeLayoutProps) => {
                 <section className="geti-home-hero">
                     <div className="geti-home-hero__inner">
                         <div className="geti-home-hero__panel">
-                            <p className="geti-home-hero__eyebrow">Open Edge Platform · Geti Packages</p>
-                            <h1 className="geti-home-hero__title">
-                                Build interactive AI applications with one unified developer stack.
-                            </h1>
+                            <p className="geti-home-hero__eyebrow">Geti Packages</p>
+                            <h1 className="geti-home-hero__title">Build interactive AI applications</h1>
                             <p className="geti-home-hero__subtitle">
-                                UI components, visual assets, browser vision runtimes, and ML-native charts—
-                                designed to work together out of the box.
+                                UI components, visual assets, browser based vision tools, and charts designed to work
+                                work for interactive AI applications.
                             </p>
                             <div className="geti-home-hero__actions">
                                 <a className="geti-home-btn geti-home-btn--primary" href="/components/ui/Button">
@@ -80,7 +78,8 @@ export const HomeLayout = (props: HomeLayoutProps) => {
                             </div>
                             <div className="geti-home-card__body">
                                 <p className="geti-home-card__desc">
-                                    Accessible, themeable React components for interactive AI workflows.
+                                    Accessible, themeable React components for interactive AI workflows. Based on
+                                    Adobe's Spectrum and react aria components.
                                 </p>
                                 <span className="geti-home-card__link">Read more →</span>
                             </div>
@@ -93,7 +92,8 @@ export const HomeLayout = (props: HomeLayoutProps) => {
                             </div>
                             <div className="geti-home-card__body">
                                 <p className="geti-home-card__desc">
-                                    Browser-optimized vision tooling with OpenCV and ONNX Runtime.
+                                    Browser-optimized vision tools that run natively in the browser. Including
+                                    Structured Similarity matching, and Segment Anything using OpenCV and ONNX Runtime.
                                 </p>
                                 <span className="geti-home-card__link">Read more →</span>
                             </div>
@@ -106,7 +106,8 @@ export const HomeLayout = (props: HomeLayoutProps) => {
                             </div>
                             <div className="geti-home-card__body">
                                 <p className="geti-home-card__desc">
-                                    AI-centric chart compositions on Recharts for evaluation and monitoring.
+                                    Build on top of Recharts and designed to work with the Geti design system. Use ready
+                                    made charts designed for ML applications, or use primitives to design your own.
                                 </p>
                                 <span className="geti-home-card__link">Read more →</span>
                             </div>
