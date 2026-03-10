@@ -12,6 +12,7 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       contents: read
+      pull-requests: read # required for changed-files API access on pull_request
     outputs:
       components: ${{ steps.filter.outputs.changes }}
     steps:

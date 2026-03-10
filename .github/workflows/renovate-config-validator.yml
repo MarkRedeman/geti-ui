@@ -13,6 +13,7 @@ concurrency:
 
 jobs:
   validate:
+    name: Validate renovate config file
     runs-on: ubuntu-latest
     permissions:
       contents: read # to checkout code

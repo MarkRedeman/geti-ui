@@ -18,6 +18,7 @@ permissions: {} # No permissions by default
 
 jobs:
   zizmor-scan:
+    name: Zizmor workflow audit
     runs-on: ubuntu-latest
     permissions:
       contents: read
@@ -37,6 +38,7 @@ jobs:
           fail-on-findings: ${{ github.event_name == 'pull_request' && 'true' || 'false' }}
 
   trivy-scan:
+    name: Trivy filesystem scan
     runs-on: ubuntu-latest
     if: github.event_name != 'pull_request'
     permissions:
@@ -61,6 +63,7 @@ jobs:
           ignore_unfixed: "false"
 
   semgrep-scan:
+    name: Semgrep code scan
     runs-on: ubuntu-latest
     permissions:
       contents: read
