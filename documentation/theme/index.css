@@ -239,29 +239,79 @@ html {
 
 /* Custom homepage */
 .geti-home-bg {
-    background: var(--rp-home-background-bg);
+    background:
+        radial-gradient(circle at 18% 2%, rgb(63 208 255 / 14%), transparent 38%),
+        radial-gradient(circle at 82% 12%, rgb(0 188 212 / 12%), transparent 42%),
+        linear-gradient(180deg, #1f2126 0%, #1a1c21 100%);
 }
 
 .geti-home-wrapper {
     max-width: 1200px;
     margin: 0 auto;
-    padding: 3.5rem 1.5rem 4rem;
+    padding: 2rem 1.5rem 4rem;
     display: grid;
     gap: 3rem;
 }
 
+.geti-topbar {
+    background: linear-gradient(90deg, #00bcd4 0%, #3fd0ff 50%, #1da1f2 100%);
+    color: #0b1218;
+    border-radius: 8px;
+    min-height: 42px;
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    align-items: center;
+    gap: 1rem;
+    padding: 0 0.8rem;
+}
+
+.geti-topbar__brand {
+    font-weight: 700;
+    font-size: 0.86rem;
+    letter-spacing: 0.03em;
+}
+
+.geti-topbar__nav {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+}
+
+.geti-topbar__nav a,
+.geti-topbar__actions a,
+.geti-topbar__actions button {
+    color: #0b1218;
+    text-decoration: none;
+    font-size: 0.84rem;
+    font-weight: 600;
+    background: transparent;
+    border: 0;
+    padding: 0.25rem;
+    cursor: pointer;
+}
+
+.geti-topbar__actions {
+    display: flex;
+    align-items: center;
+    gap: 0.35rem;
+}
+
 .geti-home-hero {
-    position: relative;
-    border: 1px solid var(--rp-c-divider);
-    background: var(--rp-c-bg-soft);
+    border: 1px solid #33363d;
+    background:
+        radial-gradient(circle at 5% 12%, rgb(110 231 216 / 12%), transparent 34%),
+        radial-gradient(circle at 95% 85%, rgb(29 161 242 / 13%), transparent 32%),
+        linear-gradient(135deg, #2a2d33 0%, #1f2126 100%);
     border-radius: 12px;
-    padding: 3rem 2rem;
-    overflow: hidden;
+    padding: 2.6rem 2rem;
+    display: grid;
+    grid-template-columns: 1.3fr 0.9fr;
+    gap: 2rem;
 }
 
 .geti-home-hero__eyebrow {
     margin: 0;
-    color: var(--geti-classic-blue);
+    color: #6ee7d8;
     font-size: 0.82rem;
     text-transform: uppercase;
     letter-spacing: 0.08em;
@@ -277,7 +327,7 @@ html {
 }
 
 .geti-home-hero__title-accent {
-    color: var(--geti-energy-blue-shade);
+    color: #3fd0ff;
 }
 
 .geti-home-hero__subtitle {
@@ -285,6 +335,46 @@ html {
     max-width: 720px;
     color: var(--rp-c-text-2);
     font-size: 1.06rem;
+}
+
+.geti-home-hero__aside {
+    background: rgb(21 23 27 / 55%);
+    border: 1px solid #33363d;
+    border-radius: 10px;
+    padding: 1rem;
+    align-self: center;
+}
+
+.geti-home-hero__aside h2 {
+    margin: 0;
+    font-size: 0.95rem;
+    color: #fff;
+}
+
+.geti-home-hero__aside ul {
+    margin: 0.8rem 0 0;
+    padding: 0;
+    list-style: none;
+    display: grid;
+    gap: 0.4rem;
+}
+
+.geti-home-hero__aside li {
+    color: #c7cbd1;
+    font-size: 0.93rem;
+    padding-left: 0.8rem;
+    position: relative;
+}
+
+.geti-home-hero__aside li::before {
+    content: '';
+    width: 5px;
+    height: 5px;
+    background: #3fd0ff;
+    border-radius: 999px;
+    position: absolute;
+    left: 0;
+    top: 0.46rem;
 }
 
 .geti-home-hero__actions {
@@ -302,27 +392,29 @@ html {
     border-radius: var(--geti-radius-md);
     font-weight: 600;
     text-decoration: none;
-    transition: background-color 0.14s ease, border-color 0.14s ease;
+    transition: background-color 0.14s ease, border-color 0.14s ease, box-shadow 0.14s ease;
     border: 1px solid transparent;
 }
 
 .geti-home-btn--primary {
-    background: var(--geti-classic-blue);
-    color: var(--geti-gray-900);
+    background: linear-gradient(90deg, #6ee7d8 0%, #3fd0ff 50%, #00bcd4 100%);
+    color: #0b1218;
+    box-shadow: 0 0 0 1px rgb(63 208 255 / 35%), 0 8px 24px rgb(0 188 212 / 20%);
 }
 
 .geti-home-btn--primary:hover {
-    background: var(--geti-classic-blue-dark);
+    box-shadow: 0 0 0 1px rgb(63 208 255 / 50%), 0 10px 28px rgb(0 188 212 / 28%);
 }
 
 .geti-home-btn--secondary {
     background: transparent;
-    color: var(--rp-c-text-1);
-    border-color: var(--rp-c-border);
+    color: #c7cbd1;
+    border-color: #3a3e46;
 }
 
 .geti-home-btn--secondary:hover {
-    background: var(--rp-c-bg-soft);
+    background: rgb(51 54 61 / 45%);
+    color: #fff;
 }
 
 .geti-home-section-title {
@@ -341,22 +433,24 @@ html {
 .geti-home-card {
     display: block;
     text-decoration: none;
-    border: 1px solid var(--rp-c-divider);
-    background: var(--rp-c-bg-soft);
+    border: 1px solid #3a3e46;
+    background: #33363d;
     border-radius: 10px;
     padding: 1.25rem;
     min-height: 172px;
-    transition: border-color 0.14s ease, background-color 0.14s ease;
+    box-shadow: 0 4px 14px rgb(0 0 0 / 28%);
+    transition: border-color 0.14s ease, background-color 0.14s ease, box-shadow 0.14s ease;
 }
 
 .geti-home-card:hover {
-    border-color: var(--geti-classic-blue);
-    background: var(--geti-gray-100);
+    border-color: #3fd0ff;
+    background: #383c44;
+    box-shadow: 0 10px 28px rgb(0 0 0 / 34%);
 }
 
 .geti-home-card__kicker {
     margin: 0;
-    color: var(--geti-classic-blue);
+    color: #6ee7d8;
     font-size: 0.78rem;
     text-transform: uppercase;
     letter-spacing: 0.07em;
@@ -375,6 +469,14 @@ html {
     line-height: 1.5;
 }
 
+.geti-home-card__link {
+    display: inline-block;
+    margin-top: 0.85rem;
+    color: #3fd0ff;
+    font-weight: 600;
+    font-size: 0.9rem;
+}
+
 .geti-home-card--ui {
     grid-column: span 4;
 }
@@ -389,11 +491,136 @@ html {
     grid-column: span 2;
 }
 
+.geti-home-install {
+    border: 1px solid #33363d;
+    background: #2a2d33;
+    border-radius: 10px;
+    padding: 1.4rem;
+    display: grid;
+    gap: 0.9rem;
+}
+
+.geti-home-install__tabs {
+    display: flex;
+    gap: 0.5rem;
+}
+
+.geti-home-install__tabs button {
+    border: 1px solid #3a3e46;
+    background: #1f2126;
+    color: #c7cbd1;
+    border-radius: 6px;
+    padding: 0.4rem 0.8rem;
+    cursor: pointer;
+    font-weight: 600;
+}
+
+.geti-home-install__tabs button.is-active {
+    border-color: #3fd0ff;
+    color: #fff;
+    background: #2f343d;
+}
+
+.geti-home-install__panel {
+    border: 1px solid #3a3e46;
+    border-radius: 8px;
+    background: #15171b;
+    padding: 0.9rem;
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 0.8rem;
+    align-items: center;
+}
+
+.geti-home-install__panel code {
+    color: #c7cbd1;
+    font-size: 0.88rem;
+    line-height: 1.55;
+    word-break: break-word;
+}
+
+.geti-home-install__panel button {
+    border: 1px solid #3fd0ff;
+    background: transparent;
+    color: #3fd0ff;
+    border-radius: 6px;
+    padding: 0.38rem 0.65rem;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.geti-home-install__panel button:hover {
+    background: rgb(63 208 255 / 12%);
+}
+
+.geti-home-alt-section {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.2rem;
+    align-items: center;
+}
+
+.geti-home-alt-section--reverse .geti-home-alt-section__text {
+    order: 2;
+}
+
+.geti-home-alt-section--reverse .geti-home-alt-section__visual {
+    order: 1;
+}
+
+.geti-home-alt-section__text h2 {
+    margin: 0;
+    color: #fff;
+    font-size: 1.55rem;
+}
+
+.geti-home-alt-section__text p {
+    margin: 0.7rem 0 0;
+    color: #c7cbd1;
+}
+
+.geti-home-alt-section__text a {
+    display: inline-block;
+    margin-top: 0.8rem;
+    color: #3fd0ff;
+    text-decoration: none;
+    font-weight: 600;
+}
+
+.geti-home-visual-frame {
+    border: 1px solid #3a3e46;
+    border-radius: 10px;
+    background: #2a2d33;
+    padding: 0.8rem;
+}
+
+.geti-home-visual-frame__bar {
+    height: 8px;
+    border-radius: 999px;
+    background: linear-gradient(90deg, #6ee7d8 0%, #3fd0ff 55%, #00bcd4 100%);
+    margin-bottom: 0.8rem;
+}
+
+.geti-home-visual-frame__content {
+    height: 176px;
+    border: 1px solid #3a3e46;
+    border-radius: 8px;
+    background:
+        linear-gradient(180deg, rgb(63 208 255 / 10%) 0%, transparent 70%),
+        #1f2126;
+}
+
+.geti-home-visual-frame__content--alt {
+    background:
+        linear-gradient(135deg, rgb(110 231 216 / 12%) 0%, transparent 64%),
+        #1f2126;
+}
+
 .geti-home-feature-strip {
-    border: 1px solid var(--rp-c-divider);
-    background: var(--rp-c-bg-soft);
+    border: 1px solid #3a3e46;
+    background: #2a2d33;
     border-radius: 12px;
-    padding: 2.5rem 2rem;
+    padding: 2.2rem 2rem;
     display: grid;
     gap: 0.9rem;
     justify-items: start;
@@ -401,14 +628,30 @@ html {
 
 .geti-home-feature-strip__title {
     margin: 0;
-    color: var(--rp-c-text-1);
+    color: #fff;
     font-size: clamp(1.35rem, 2.3vw, 2rem);
 }
 
 .geti-home-feature-strip__desc {
     margin: 0;
-    color: var(--rp-c-text-2);
+    color: #c7cbd1;
     max-width: 720px;
+}
+
+@media (max-width: 1090px) {
+    .geti-home-hero {
+        grid-template-columns: 1fr;
+    }
+
+    .geti-home-alt-section,
+    .geti-home-alt-section--reverse {
+        grid-template-columns: 1fr;
+    }
+
+    .geti-home-alt-section--reverse .geti-home-alt-section__text,
+    .geti-home-alt-section--reverse .geti-home-alt-section__visual {
+        order: initial;
+    }
 }
 
 @media (max-width: 1023px) {
@@ -430,6 +673,18 @@ html {
         padding-top: 2.6rem;
         padding-left: 1rem;
         padding-right: 1rem;
+    }
+
+    .geti-topbar {
+        grid-template-columns: 1fr;
+        justify-items: start;
+        gap: 0.4rem;
+        padding: 0.65rem;
+    }
+
+    .geti-topbar__nav {
+        justify-content: start;
+        flex-wrap: wrap;
     }
 
     .geti-home-hero {
@@ -455,5 +710,9 @@ html {
     .geti-home-card--icons,
     .geti-home-card--assets {
         grid-column: span 1;
+    }
+
+    .geti-home-install__panel {
+        grid-template-columns: 1fr;
     }
 }
