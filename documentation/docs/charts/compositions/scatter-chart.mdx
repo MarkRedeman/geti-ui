@@ -6,6 +6,34 @@ title: Scatter chart
 
 `ScatterChart` is a ready-to-use composition for 2D point data, including optional Voronoi hover.
 
+## Variant — `useVoronoi` off
+
+```tsx preview
+import { ScatterChart } from '@geti-ai/charts';
+
+const points = [
+  { x: 0.1, y: 0.85, name: 'cat' },
+  { x: 0.3, y: 0.72, name: 'dog' },
+  { x: 0.5, y: 0.91, name: 'car' },
+  { x: 0.7, y: 0.77, name: 'bicycle' },
+];
+
+export default function App() {
+  return (
+    <ScatterChart
+      series={[{ name: 'Per class', data: points }]}
+      xAxisLabel="False positive rate"
+      yAxisLabel="True positive rate"
+      aria-label="Scatter without Voronoi"
+      height={280}
+      useVoronoi={false}
+    />
+  );
+}
+```
+
+## Variant — `useVoronoi` on
+
 ```tsx preview
 import { ScatterChart } from '@geti-ai/charts';
 
@@ -25,6 +53,42 @@ export default function App() {
       aria-label="ROC-style class scatter"
       height={280}
       useVoronoi
+    />
+  );
+}
+```
+
+## Variant — chart booleans on (`showLegend`, `animate`)
+
+```tsx preview
+import { ScatterChart } from '@geti-ai/charts';
+
+const trainPoints = [
+  { x: 0.1, y: 0.85, name: 'cat' },
+  { x: 0.3, y: 0.72, name: 'dog' },
+  { x: 0.5, y: 0.91, name: 'car' },
+];
+
+const valPoints = [
+  { x: 0.2, y: 0.80, name: 'cat' },
+  { x: 0.4, y: 0.70, name: 'dog' },
+  { x: 0.6, y: 0.88, name: 'car' },
+];
+
+export default function App() {
+  return (
+    <ScatterChart
+      series={[
+        { name: 'Train', data: trainPoints },
+        { name: 'Val', data: valPoints },
+      ]}
+      showLegend
+      animate
+      useVoronoi
+      xAxisLabel="False positive rate"
+      yAxisLabel="True positive rate"
+      aria-label="Scatter with legend and animation"
+      height={280}
     />
   );
 }

@@ -6,6 +6,8 @@ title: Scatter chart
 
 Use Recharts `ScatterChart` with Geti primitives when you need bespoke scatter behavior.
 
+## Variant — tooltip on
+
 ```tsx preview
 import { Scatter, ScatterChart } from 'recharts';
 import {
@@ -31,6 +33,38 @@ export default function App() {
         <GetiXAxis type="number" dataKey="x" name="False positive rate" />
         <GetiYAxis type="number" dataKey="y" name="True positive rate" />
         <GetiTooltip />
+        <Scatter data={points} fill="var(--spectrum-global-color-blue-500)" isAnimationActive={false} />
+      </ScatterChart>
+    </GetiResponsiveContainer>
+  );
+}
+```
+
+## Variant — tooltip off
+
+```tsx preview
+import { Scatter, ScatterChart } from 'recharts';
+import {
+  GetiCartesianGrid,
+  GetiResponsiveContainer,
+  GetiXAxis,
+  GetiYAxis,
+} from '@geti-ai/charts/primitives';
+
+const points = [
+  { x: 0.1, y: 0.85 },
+  { x: 0.3, y: 0.72 },
+  { x: 0.5, y: 0.91 },
+  { x: 0.7, y: 0.77 },
+];
+
+export default function App() {
+  return (
+    <GetiResponsiveContainer height={280}>
+      <ScatterChart margin={{ top: 8, right: 16, bottom: 8, left: 0 }}>
+        <GetiCartesianGrid />
+        <GetiXAxis type="number" dataKey="x" name="False positive rate" />
+        <GetiYAxis type="number" dataKey="y" name="True positive rate" />
         <Scatter data={points} fill="var(--spectrum-global-color-blue-500)" isAnimationActive={false} />
       </ScatterChart>
     </GetiResponsiveContainer>
