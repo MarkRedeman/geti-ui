@@ -136,5 +136,11 @@ export type {
     ConfidenceVsIoUPoint,
 } from './components/ml/ConfidenceVsIoUChart';
 
+export { EmbeddingDistanceDistribution } from './components/ml/EmbeddingDistanceDistribution';
+export type {
+    EmbeddingDistanceDistributionProps,
+    EmbeddingDistanceDistributionDatum,
+} from './components/ml/EmbeddingDistanceDistribution';
+
 export { TreemapChart } from './components/TreemapChart';
 export type { TreemapChartProps } from './components/TreemapChart';

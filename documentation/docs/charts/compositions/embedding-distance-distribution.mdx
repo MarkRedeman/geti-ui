@@ -1,0 +1,74 @@
+---
+title: Embedding distance distribution
+---
+
+# Embedding distance distribution (composition)
+
+`EmbeddingDistanceDistribution` visualizes nearest-neighbor distance distributions in embedding space.
+
+## Variant — raw distance histogram
+
+```tsx preview
+import { EmbeddingDistanceDistribution } from '@geti-ai/charts';
+
+const data = [
+  { binStart: 0.00, binEnd: 0.05, count: 73 },
+  { binStart: 0.05, binEnd: 0.10, count: 118 },
+  { binStart: 0.10, binEnd: 0.15, count: 156 },
+  { binStart: 0.15, binEnd: 0.20, count: 191 },
+  { binStart: 0.20, binEnd: 0.25, count: 177 },
+  { binStart: 0.25, binEnd: 0.30, count: 141 },
+  { binStart: 0.30, binEnd: 0.35, count: 96 },
+  { binStart: 0.35, binEnd: 0.40, count: 62 },
+  { binStart: 0.40, binEnd: 0.45, count: 39 },
+  { binStart: 0.45, binEnd: 0.50, count: 22 },
+  { binStart: 0.50, binEnd: 0.55, count: 11 },
+  { binStart: 0.55, binEnd: 0.60, count: 6 },
+];
+
+export default function App() {
+  return (
+    <EmbeddingDistanceDistribution
+      data={data}
+      aria-label="Embedding nearest-neighbor distance distribution"
+      height={340}
+    />
+  );
+}
+```
+
+## Variant — normalized + outlier threshold
+
+```tsx preview
+import { EmbeddingDistanceDistribution } from '@geti-ai/charts';
+
+const data = [
+  { binStart: 0.00, binEnd: 0.05, count: 73 },
+  { binStart: 0.05, binEnd: 0.10, count: 118 },
+  { binStart: 0.10, binEnd: 0.15, count: 156 },
+  { binStart: 0.15, binEnd: 0.20, count: 191 },
+  { binStart: 0.20, binEnd: 0.25, count: 177 },
+  { binStart: 0.25, binEnd: 0.30, count: 141 },
+  { binStart: 0.30, binEnd: 0.35, count: 96 },
+  { binStart: 0.35, binEnd: 0.40, count: 62 },
+  { binStart: 0.40, binEnd: 0.45, count: 39 },
+  { binStart: 0.45, binEnd: 0.50, count: 22 },
+  { binStart: 0.50, binEnd: 0.55, count: 11 },
+  { binStart: 0.55, binEnd: 0.60, count: 6 },
+];
+
+export default function App() {
+  return (
+    <EmbeddingDistanceDistribution
+      data={data}
+      showFrequency
+      outlierThreshold={0.42}
+      yAxisProps={{ tickFormatter: (value) => `${Math.round(Number(value) * 100)}%` }}
+      aria-label="Embedding distance frequency with outlier threshold"
+      height={340}
+    />
+  );
+}
+```
+
+Related: [Custom charts](/charts/custom-charts)
