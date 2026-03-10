@@ -227,6 +227,75 @@ Custom charts use Recharts props directly. Pass `isAnimationActive={false}` (the
 <Line dataKey="value" isAnimationActive={false} />
 ```
 
+## Machine Learning custom chart examples
+
+These examples intentionally use primitives/custom composition patterns rather than dedicated "ML primitive" pages.
+
+### Training metrics (custom)
+
+```tsx preview
+import { Line, LineChart } from 'recharts';
+import { GetiCartesianGrid, GetiLegend, GetiResponsiveContainer, GetiTooltip, GetiXAxis, GetiYAxis } from '@geti-ai/charts/primitives';
+
+const data = [
+  { epoch: 1, trainLoss: 1.42, valLoss: 1.53 },
+  { epoch: 2, trainLoss: 1.08, valLoss: 1.20 },
+  { epoch: 3, trainLoss: 0.86, valLoss: 0.98 },
+  { epoch: 4, trainLoss: 0.70, valLoss: 0.83 },
+];
+
+export default function App() {
+  return (
+    <GetiResponsiveContainer height={300}>
+      <LineChart data={data}>
+        <GetiCartesianGrid />
+        <GetiXAxis dataKey="epoch" />
+        <GetiYAxis />
+        <GetiTooltip />
+        <GetiLegend />
+        <Line dataKey="trainLoss" name="Train" stroke="var(--spectrum-global-color-green-500)" dot={false} isAnimationActive={false} />
+        <Line dataKey="valLoss" name="Validation" stroke="var(--spectrum-global-color-red-500)" dot={false} strokeDasharray="5 3" isAnimationActive={false} />
+      </LineChart>
+    </GetiResponsiveContainer>
+  );
+}
+```
+
+### Confusion matrix (custom grid)
+
+```tsx preview
+import { GetiChartContainer } from '@geti-ai/charts/primitives';
+
+const labels = ['Car', 'Person', 'Bike'];
+const matrix = [
+  [124, 7, 3],
+  [8, 116, 5],
+  [4, 9, 98],
+];
+const max = Math.max(...matrix.flat());
+
+export default function App() {
+  return (
+    <GetiChartContainer aria-label="Confusion matrix custom chart" height={340}>
+      <div style={{ display: 'grid', gridTemplateColumns: `96px repeat(${labels.length}, 1fr)`, gridTemplateRows: `32px repeat(${labels.length}, 1fr)`, gap: 4, height: '100%', padding: 8 }}>
+        <div />
+        {labels.map((label) => <div key={`c-${label}`} style={{ textAlign: 'center', fontWeight: 600 }}>{label}</div>)}
+        {matrix.map((row, r) => (
+          <div key={`row-${r}`} style={{ display: 'contents' }}>
+            <div style={{ fontWeight: 600 }}>{labels[r]}</div>
+            {row.map((v, c) => <div key={`${r}-${c}`} style={{ display: 'grid', placeItems: 'center', border: '1px solid var(--spectrum-global-color-gray-700)', borderRadius: 4, backgroundColor: `rgba(76,155,232,${0.15 + 0.75 * (v / max)})`, fontWeight: 600 }}>{v}</div>)}
+          </div>
+        ))}
+      </div>
+    </GetiChartContainer>
+  );
+}
+```
+
+### PR / ROC (custom)
+
+Use raw `LineChart` + `ReferenceLine` with `GetiXAxis`/`GetiYAxis` domain `[0,1]` for evaluation curves.
+
 ## Related
 
 - [Primitives reference](./primitives)

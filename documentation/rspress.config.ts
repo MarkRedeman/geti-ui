@@ -64,28 +64,11 @@ const chartsSidebar = [
                 text: 'Machine Learning',
                 collapsed: false,
                 items: [
-                    {
-                        text: 'Compositions',
-                        collapsed: false,
-                        items: [
-                            { text: 'Training metrics chart', link: '/charts/compositions/training-metrics-chart' },
-                            { text: 'Run comparison chart', link: '/charts/compositions/run-comparison-chart' },
-                            { text: 'Confusion matrix chart', link: '/charts/compositions/confusion-matrix-chart' },
-                            { text: 'Precision recall curve', link: '/charts/compositions/precision-recall-curve' },
-                            { text: 'ROC curve', link: '/charts/compositions/roc-curve' },
-                        ],
-                    },
-                    {
-                        text: 'Primitives',
-                        collapsed: false,
-                        items: [
-                            { text: 'Training metrics chart', link: '/charts/primitives/training-metrics-chart' },
-                            { text: 'Run comparison chart', link: '/charts/primitives/run-comparison-chart' },
-                            { text: 'Confusion matrix chart', link: '/charts/primitives/confusion-matrix-chart' },
-                            { text: 'Precision recall curve', link: '/charts/primitives/precision-recall-curve' },
-                            { text: 'ROC curve', link: '/charts/primitives/roc-curve' },
-                        ],
-                    },
+                    { text: 'Training metrics chart', link: '/charts/compositions/training-metrics-chart' },
+                    { text: 'Run comparison chart', link: '/charts/compositions/run-comparison-chart' },
+                    { text: 'Confusion matrix chart', link: '/charts/compositions/confusion-matrix-chart' },
+                    { text: 'Precision recall curve', link: '/charts/compositions/precision-recall-curve' },
+                    { text: 'ROC curve', link: '/charts/compositions/roc-curve' },
                 ],
             },
             { text: 'Custom Charts', link: '/charts/custom-charts' },
