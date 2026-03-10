@@ -6,6 +6,36 @@ title: Bar chart
 
 `BarChart` is a ready-to-use composition for grouped or stacked categorical comparisons.
 
+## Variant — `stacked` off (grouped)
+
+```tsx preview
+import { BarChart } from '@geti-ai/charts';
+
+const data = [
+  { model: 'MobileNet', precision: 84, recall: 80 },
+  { model: 'ResNet-50', precision: 89, recall: 87 },
+  { model: 'EfficientDet', precision: 91, recall: 90 },
+];
+
+export default function App() {
+  return (
+    <BarChart
+      data={data}
+      xAxisKey="model"
+      stacked={false}
+      series={[
+        { dataKey: 'precision', name: 'Precision (%)' },
+        { dataKey: 'recall', name: 'Recall (%)' },
+      ]}
+      aria-label="Grouped bar chart"
+      height={260}
+    />
+  );
+}
+```
+
+## Variant — `stacked` on
+
 ```tsx preview
 import { BarChart } from '@geti-ai/charts';
 
@@ -26,6 +56,36 @@ export default function App() {
         { dataKey: 'rejected', name: 'Rejected' },
       ]}
       aria-label="Dataset annotation breakdown"
+      height={260}
+    />
+  );
+}
+```
+
+## Variant — `showLegend` and `animate` on
+
+```tsx preview
+import { BarChart } from '@geti-ai/charts';
+
+const data = [
+  { label: 'Annotated', ok: 900, review: 60, rejected: 40 },
+  { label: 'Total', ok: 900, review: 60, rejected: 40 },
+];
+
+export default function App() {
+  return (
+    <BarChart
+      data={data}
+      xAxisKey="label"
+      stacked
+      showLegend
+      animate
+      series={[
+        { dataKey: 'ok', name: 'Approved' },
+        { dataKey: 'review', name: 'In review' },
+        { dataKey: 'rejected', name: 'Rejected' },
+      ]}
+      aria-label="Stacked bar chart with legend and animation"
       height={260}
     />
   );
