@@ -17,6 +17,7 @@ import { ChartTooltip, type ChartTooltipProps } from '../primitives/ChartTooltip
 import { ChartLegend, type ChartLegendProps } from '../primitives/ChartLegend';
 import type { VoronoiActivePoint } from '../hooks/useVoronoiHover';
 import type { AxisScaleConfig } from '../types/axisScale';
+import { getAxisLineStyle, getAxisTickLineStyle, getAxisTickStyle } from '../utils/axisStyles';
 
 export interface ScatterChartSeriesConfig {
     /** Unique name for this scatter series (used in legend/tooltip). */
@@ -355,11 +356,7 @@ export function ScatterChart({
         left: marginProp.left ?? 0,
     };
 
-    const axisStyle = {
-        fontSize: theme.typography.fontSize,
-        fontFamily: theme.typography.fontFamily,
-        fill: theme.typography.color,
-    };
+    const axisStyle = getAxisTickStyle(theme);
 
     // Resolve series colors once so we can pass them to the tooltip.
     const seriesColors = useMemo(
@@ -395,8 +392,8 @@ export function ScatterChart({
                         type="number"
                         name={xAxisLabel}
                         tick={axisStyle}
-                        axisLine={{ stroke: theme.axis.lineColor, strokeWidth: theme.axis.strokeWidth }}
-                        tickLine={{ stroke: theme.axis.tickColor }}
+                        axisLine={getAxisLineStyle(theme)}
+                        tickLine={getAxisTickLineStyle(theme)}
                         label={
                             xAxisLabel
                                 ? {
@@ -418,8 +415,8 @@ export function ScatterChart({
                         type="number"
                         name={yAxisLabel}
                         tick={axisStyle}
-                        axisLine={{ stroke: theme.axis.lineColor, strokeWidth: theme.axis.strokeWidth }}
-                        tickLine={{ stroke: theme.axis.tickColor }}
+                        axisLine={getAxisLineStyle(theme)}
+                        tickLine={getAxisTickLineStyle(theme)}
                         label={
                             yAxisLabel
                                 ? {

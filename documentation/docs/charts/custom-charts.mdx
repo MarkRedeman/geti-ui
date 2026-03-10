@@ -8,7 +8,7 @@ Use primitives directly to build charts that are not covered by the [composition
 
 ## When to reach for primitives
 
-- You need a chart type not in the composition library (e.g. area, radar, funnel).
+- You need a chart type not in the composition library (e.g. funnel, candlestick, sankey).
 - You need to compose multiple Recharts layers in a single chart.
 - You need per-series control beyond what `SeriesConfig` exposes.
 
@@ -25,10 +25,12 @@ Checklist:
    - `animate?: boolean` with default `false`
    - `aria-label` passthrough
    - expose extension props (`...AxisProps`, tooltip/legend/grid props) where relevant
+   - **Use `getAxisTickStyle`, `getAxisLineStyle`, `getAxisTickLineStyle` from `../utils/axisStyles`** for all axis styling — do not inline theme token reads
 2. Export from `packages/charts/src/index.ts`
 3. Add docs pages:
    - `documentation/docs/charts/compositions/<name>-chart.mdx`
    - `documentation/docs/charts/primitives/<name>-chart.mdx`
+   - **Update this file (`custom-charts.mdx`):** if the new chart makes an existing "when to reach for primitives" example stale, update that section too
 4. Add links/navigation:
    - `documentation/docs/charts/compositions.mdx`
    - `documentation/docs/charts/primitives.mdx`

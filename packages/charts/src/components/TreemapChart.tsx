@@ -16,7 +16,15 @@ export interface TreemapChartProps {
     width?: number | string;
     /** Chart height in pixels. @default 320 */
     height?: number;
-    /** Optional fixed color for all treemap tiles. */
+    /**
+     * Optional color palette for the treemap tiles. Colors are cycled across tiles
+     * in the order provided. When omitted, falls back to the full theme `dataColors` palette.
+     * Use `fill` instead if you want all tiles to share a single color.
+     *
+     * @example colors={['#4C9BE8', '#5CE6A2', '#F9C846']}
+     */
+    colors?: string[];
+    /** Optional fixed color for all treemap tiles. Takes precedence over `colors`. */
     fill?: string;
     /** Show tooltip. @default true */
     showTooltip?: boolean;
@@ -34,6 +42,7 @@ export function TreemapChart({
     nameKey = 'name',
     width = '100%',
     height = 320,
+    colors,
     fill,
     showTooltip = true,
     animate = false,
@@ -41,6 +50,12 @@ export function TreemapChart({
     'aria-label': ariaLabel,
 }: TreemapChartProps) {
     const theme = useChartsTheme();
+
+    // When `fill` is given, use it as the sole tile color.
+    // When `colors` is given, pass it as the Recharts colorPanel to cycle across tiles.
+    // Otherwise fall back to the full theme palette.
+    const resolvedFill = fill ?? undefined;
+    const colorPanel = fill ? undefined : (colors ?? theme.dataColors);
 
     return (
         <div role="img" aria-label={ariaLabel} style={{ width, height }}>
@@ -50,7 +65,8 @@ export function TreemapChart({
                     dataKey={dataKey}
                     nameKey={nameKey}
                     stroke={theme.grid.stroke}
-                    fill={fill ?? theme.dataColors[0]}
+                    fill={resolvedFill}
+                    colorPanel={colorPanel}
                     isAnimationActive={animate}
                 >
                     {showTooltip && <ChartTooltip {...tooltipProps} />}

@@ -88,6 +88,10 @@ Pre-styled axes with Geti's typography tokens applied. Both accept all Recharts 
 
 | Prop | Type | Description |
 |---|---|---|
+| `dataKey` | `string` | Key in the data object to read values from |
+| `type` | `'number' \| 'category'` | Axis value type — use `'number'` for scatter/bubble chart axes |
+| `label` | `string \| object` | Axis label text. Pass an object for position control: `{ value, position, fill, fontSize }` |
+| `tickFormatter` | `(value) => string` | Format tick labels (e.g. add units, abbreviate numbers) |
 | `scale` | `AxisScaleType` | Scale type: `'linear'`, `'log'`, `'sqrt'`, `'pow'`, `'time'`, `'band'`, `'point'`, etc. |
 | `domain` | `[min, max]` | Explicit axis domain. Each bound can be a number, `'auto'`, `'dataMin'`, or `'dataMax'`. |
 | `allowDataOverflow` | `boolean` | When `true`, data outside the `domain` is still rendered (clipped at viewport). |

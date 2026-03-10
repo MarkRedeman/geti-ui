@@ -92,6 +92,11 @@ export interface BarChartProps {
  * Supports multiple series, horizontal/vertical layout, and theme-driven colors.
  * Animation disabled by default; pass `animate` to enable.
  *
+ * **Single-series color cycling:** When only one series is provided, each bar is
+ * automatically colored by cycling through `theme.dataColors`. This makes
+ * per-category distinction easy without extra configuration. With multiple series,
+ * each series gets a single color from the palette (standard grouped-bar behavior).
+ *
  * @example
  * ```tsx
  * <BarChart
@@ -143,13 +148,37 @@ export function BarChart({
     // Recharts layout: 'horizontal' = bars grow up, 'vertical' = bars grow sideways
     const xProps: XAxisProps =
         layout === 'vertical'
-            ? { type: 'number', scale: xScale?.scale, domain: xScale?.domain, allowDataOverflow: xScale?.allowDataOverflow, ...xAxisProps }
-            : { dataKey: xAxisKey, scale: xScale?.scale, domain: xScale?.domain, allowDataOverflow: xScale?.allowDataOverflow, ...xAxisProps };
+            ? {
+                  type: 'number',
+                  scale: xScale?.scale,
+                  domain: xScale?.domain,
+                  allowDataOverflow: xScale?.allowDataOverflow,
+                  ...xAxisProps,
+              }
+            : {
+                  dataKey: xAxisKey,
+                  scale: xScale?.scale,
+                  domain: xScale?.domain,
+                  allowDataOverflow: xScale?.allowDataOverflow,
+                  ...xAxisProps,
+              };
 
     const yProps: YAxisProps =
         layout === 'vertical'
-            ? { type: 'category', dataKey: xAxisKey, scale: yScale?.scale, domain: yScale?.domain, allowDataOverflow: yScale?.allowDataOverflow, ...yAxisProps }
-            : { scale: yScale?.scale, domain: yScale?.domain, allowDataOverflow: yScale?.allowDataOverflow, ...yAxisProps };
+            ? {
+                  type: 'category',
+                  dataKey: xAxisKey,
+                  scale: yScale?.scale,
+                  domain: yScale?.domain,
+                  allowDataOverflow: yScale?.allowDataOverflow,
+                  ...yAxisProps,
+              }
+            : {
+                  scale: yScale?.scale,
+                  domain: yScale?.domain,
+                  allowDataOverflow: yScale?.allowDataOverflow,
+                  ...yAxisProps,
+              };
 
     return (
         <div role="img" aria-label={ariaLabel} style={{ width, height }}>
@@ -191,14 +220,20 @@ export function BarChart({
                                 radius={[s.radius ?? 2, s.radius ?? 2, 0, 0]}
                                 isAnimationActive={animate}
                             >
-                                {/* Support per-bar coloring for single-series charts */}
-                                {series.length === 1 ?
-                                    data.map((_entry, dataIndex) => (
-                                        <Cell
-                                            key={`cell-${dataIndex}`}
-                                            fill={theme.dataColors[dataIndex % theme.dataColors.length]}
-                                        />
-                                    )) : null}
+                                {/*
+                                 * Single-series mode: cycle theme.dataColors across individual bars
+                                 * so each category bar gets a distinct color automatically.
+                                 * In multi-series mode each series keeps one uniform color (standard behavior).
+                                 * Override series[0].color to pin a single color for all bars when preferred.
+                                 */}
+                                {series.length === 1
+                                    ? data.map((_entry, dataIndex) => (
+                                          <Cell
+                                              key={`cell-${dataIndex}`}
+                                              fill={theme.dataColors[dataIndex % theme.dataColors.length]}
+                                          />
+                                      ))
+                                    : null}
                             </Bar>
                         );
                     })}

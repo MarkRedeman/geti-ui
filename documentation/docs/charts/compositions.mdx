@@ -158,6 +158,8 @@ Renders categorical data as vertical bars. Supports grouped and stacked layouts.
 | `xScale` | `AxisScaleConfig` | — | Scale config for X axis (value axis when `layout="vertical"`) |
 | `yScale` | `AxisScaleConfig` | — | Scale config for Y axis (value axis when `layout="horizontal"`) |
 
+> **Stacking API note:** `BarChart` uses a top-level `stacked` prop that applies to all series simultaneously. `AreaChart` uses a per-series `stacked` field on each `SeriesConfig` entry, so individual series can be mixed between stacked and non-stacked in the same chart.
+
 ### Example — grouped
 
 ```tsx preview
