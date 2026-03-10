@@ -1,4 +1,4 @@
-import { type CSSProperties, useLayoutEffect, useRef, useState } from 'react';
+import { type CSSProperties, type ReactNode, useLayoutEffect, useMemo, useRef, useState } from 'react';
 import {
     ScatterChart as RechartsScatterChart,
     Scatter,
@@ -17,8 +17,6 @@ import { ChartTooltip, type ChartTooltipProps } from '../primitives/ChartTooltip
 import { ChartLegend, type ChartLegendProps } from '../primitives/ChartLegend';
 import type { VoronoiActivePoint } from '../hooks/useVoronoiHover';
 import type { AxisScaleConfig } from '../types/axisScale';
-
-export type { AxisScaleConfig };
 
 export interface ScatterChartSeriesConfig {
     /** Unique name for this scatter series (used in legend/tooltip). */
@@ -99,6 +97,8 @@ export interface ScatterChartProps {
      * @default 80
      */
     voronoiMaxDistance?: number;
+    /** Optional custom content for Voronoi tooltip overlay. */
+    renderVoronoiTooltip?: (activePoint: VoronoiActivePoint) => ReactNode;
 }
 
 // ---------------------------------------------------------------------------
@@ -114,6 +114,7 @@ interface VoronoiTooltipProps {
     /** Offset from mouse position. */
     offsetX?: number;
     offsetY?: number;
+    renderContent?: (activePoint: VoronoiActivePoint) => ReactNode;
 }
 
 function VoronoiTooltip({
@@ -121,6 +122,7 @@ function VoronoiTooltip({
     theme,
     offsetX = 12,
     offsetY = -8,
+    renderContent,
 }: VoronoiTooltipProps) {
     const { point } = activePoint;
     const tooltipRef = useRef<HTMLDivElement | null>(null);
@@ -210,21 +212,27 @@ function VoronoiTooltip({
         color: theme.tooltip.color,
     };
 
+    const customContent = renderContent?.(activePoint);
+
     return (
         <div ref={tooltipRef} style={containerStyle}>
-            <div style={labelStyle}>{point.seriesName}</div>
-            <div style={rowStyle}>
-                <span style={dotStyle} />
-                <span>
-                    x: <strong>{point.xValue}</strong>
-                </span>
-            </div>
-            <div style={rowStyle}>
-                <span style={{ ...dotStyle, backgroundColor: 'transparent' }} />
-                <span>
-                    y: <strong>{point.yValue}</strong>
-                </span>
-            </div>
+            {customContent ?? (
+                <>
+                    <div style={labelStyle}>{point.seriesName}</div>
+                    <div style={rowStyle}>
+                        <span style={dotStyle} />
+                        <span>
+                            x: <strong>{point.xValue}</strong>
+                        </span>
+                    </div>
+                    <div style={rowStyle}>
+                        <span style={{ ...dotStyle, backgroundColor: 'transparent' }} />
+                        <span>
+                            y: <strong>{point.yValue}</strong>
+                        </span>
+                    </div>
+                </>
+            )}
         </div>
     );
 }
@@ -285,7 +293,8 @@ function ActiveDotOverlay({ activePoint, theme }: ActiveDotOverlayProps) {
  * **Voronoi hover** (enabled by default via `useVoronoi`): the nearest data
  * point to the cursor is highlighted and a tooltip is shown even when the
  * cursor is not exactly on top of a dot. Use `voronoiMaxDistance` to control
- * how far away the cursor can be.
+ * how far away the cursor can be. Use `renderVoronoiTooltip` to customize the
+ * Voronoi tooltip content for advanced ML payloads.
  *
  * @example
  * ```tsx
@@ -334,6 +343,7 @@ export function ScatterChart({
     'aria-label': ariaLabel,
     useVoronoi = true,
     voronoiMaxDistance = 80,
+    renderVoronoiTooltip,
 }: ScatterChartProps) {
     const theme = useChartsTheme();
 
@@ -352,8 +362,9 @@ export function ScatterChart({
     };
 
     // Resolve series colors once so we can pass them to the tooltip.
-    const seriesColors = series.map(
-        (s, i) => s.color ?? theme.dataColors[i % theme.dataColors.length]
+    const seriesColors = useMemo(
+        () => series.map((s, i) => s.color ?? theme.dataColors[i % theme.dataColors.length]),
+        [series, theme.dataColors]
     );
 
     // Voronoi hook — safe to call even when disabled (returns nulls).
@@ -362,7 +373,6 @@ export function ScatterChart({
     const { containerRef, handleMouseMove, handleMouseLeave, activePoint } = useVoronoiHover({
         series,
         seriesColors,
-        margin,
         maxDistance: voronoiMaxDistance,
         enabled: useVoronoi && showTooltip,
     });
@@ -377,7 +387,7 @@ export function ScatterChart({
             onMouseLeave={handleMouseLeave}
         >
             <ResponsiveContainer width="100%" height={height}>
-                <RechartsScatterChart margin={margin}>
+                <RechartsScatterChart margin={margin} accessibilityLayer={false}>
                     {showGrid && <ChartGrid {...gridProps} />}
 
                     <XAxis
@@ -460,6 +470,7 @@ export function ScatterChart({
                     activePoint={activePoint}
                     seriesColors={seriesColors}
                     theme={theme}
+                    renderContent={renderVoronoiTooltip}
                 />
             )}
         </div>

@@ -1,4 +1,4 @@
-import { createContext, type ReactNode } from 'react';
+import { createContext, type ReactNode, useMemo } from 'react';
 import type { ChartTheme } from '../theming/types';
 import { defaultGetiChartTheme } from '../theming/tokens';
 import { mergeChartTheme, type DeepPartial } from '../theming/chartTheme';
@@ -31,6 +31,9 @@ export interface ChartsThemeProviderProps {
  * ```
  */
 export function ChartsThemeProvider({ theme, children }: ChartsThemeProviderProps) {
-    const resolvedTheme = theme ? mergeChartTheme(theme) : defaultGetiChartTheme;
+    const resolvedTheme = useMemo(
+        () => (theme ? mergeChartTheme(theme) : defaultGetiChartTheme),
+        [theme]
+    );
     return <ChartsThemeContext.Provider value={resolvedTheme}>{children}</ChartsThemeContext.Provider>;
 }

@@ -24,9 +24,13 @@ export function Dashboard() {
 
 `ChartsThemeProvider` provides a chart theme context consumed by all chart primitives and components. It does **not** require `ThemeProvider` from `@geti-ai/ui`, but should be nested inside it when both are present.
 
+For best React render performance, pass a stable `theme` object reference (e.g. from `useMemo`), especially in frequently re-rendering dashboards.
+
 ## `useGetiUIChartsTheme`
 
 Use `useGetiUIChartsTheme` to read an adapter theme object from currently available CSS variables:
+
+`useGetiUIChartsTheme` performs a synchronous read of current CSS variables and returns a stable mapped theme object for the current mount.
 
 ```tsx preview
 import { getDatasetSubsetColor, useGetiUIChartsTheme } from '@geti-ai/charts';

@@ -1,10 +1,9 @@
 import {
     Treemap,
     ResponsiveContainer,
-    Tooltip,
 } from 'recharts';
-import type { ComponentProps } from 'react';
 import { useChartsTheme } from '../hooks/useChartsTheme';
+import { ChartTooltip, type ChartTooltipProps } from '../primitives/ChartTooltip';
 
 export interface TreemapChartProps {
     /** Hierarchical tree data. */
@@ -23,8 +22,8 @@ export interface TreemapChartProps {
     showTooltip?: boolean;
     /** Enable animation. @default false */
     animate?: boolean;
-    /** Props passed to Recharts Tooltip. */
-    tooltipProps?: Partial<ComponentProps<typeof Tooltip>>;
+    /** Props passed to tooltip primitive. */
+    tooltipProps?: ChartTooltipProps;
     /** Accessible label for screen readers. */
     'aria-label'?: string;
 }
@@ -54,7 +53,7 @@ export function TreemapChart({
                     fill={fill ?? theme.dataColors[0]}
                     isAnimationActive={animate}
                 >
-                    {showTooltip && <Tooltip {...tooltipProps} />}
+                    {showTooltip && <ChartTooltip {...tooltipProps} />}
                 </Treemap>
             </ResponsiveContainer>
         </div>

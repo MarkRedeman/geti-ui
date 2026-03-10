@@ -11,8 +11,15 @@ title: Overview
 | Component | Description |
 |---|---|
 | `LineChart` | Time-series and continuous data trends |
+| `AreaChart` | Continuous trends with optional filled areas |
 | `BarChart` | Categorical comparisons, stacked or grouped |
 | `ScatterChart` | Correlation between two continuous variables |
+| `PieChart` | Proportional slices for single-series distribution |
+| `DonutChart` | Pie variant with center hole for compact composition |
+| `RadarChart` | Multi-metric profile comparison across categories |
+| `RadialBarChart` | Circular progress-style category comparison |
+| `MeterChart` | Half-donut KPI gauge with center value label |
+| `TreemapChart` | Hierarchical proportional data as nested rectangles |
 | `Sparkline` | Compact inline trend indicator with no axes |
 
 ## Primitives vs compositions
@@ -20,7 +27,7 @@ title: Overview
 You're exactly right:
 
 - **Primitives** are low-level, themed building blocks (axes, grid, tooltip, legend, responsive container, sparkline) that you compose manually inside Recharts charts.
-- **Compositions** are higher-level ready-to-use chart components (`LineChart`, `AreaChart`, `BarChart`, `ScatterChart`, `Sparkline`) that already wire common chart parts for you.
+- **Compositions** are higher-level ready-to-use chart components (`LineChart`, `AreaChart`, `BarChart`, `ScatterChart`, `PieChart`, `DonutChart`, `RadarChart`, `RadialBarChart`, `MeterChart`, `TreemapChart`, `Sparkline`) that already wire common chart parts for you.
 
 ### In practice
 
@@ -52,20 +59,20 @@ See dedicated pages:
 
 ### Animation policy
 
-**Animations are off by default.** Enabling them is opt-in per chart via the `isAnimationActive` prop. This avoids unnecessary motion in dense dashboards and respects `prefers-reduced-motion`.
+**Animations are off by default.** Enabling them is opt-in per chart via the `animate` prop. This avoids unnecessary motion in dense dashboards and respects `prefers-reduced-motion`.
 
 ```tsx
 // Animations off (default)
-<LineChart data={data} series={[{ key: 'value' }]} />
+<LineChart data={data} series={[{ dataKey: 'value' }]} />
 
 // Animations on (opt-in)
-<LineChart data={data} series={[{ key: 'value' }]} isAnimationActive />
+<LineChart data={data} series={[{ dataKey: 'value' }]} animate />
 ```
 
 ### Accessibility
 
-- All charts render a hidden `<table>` summary by default for screen readers.
-- Provide a `title` and `description` prop to label the chart for assistive technology.
+- Provide an `aria-label` (or `aria-labelledby`) so assistive technologies can identify chart purpose.
+- Recharts accessibility focus layer is disabled in composition charts to avoid distracting focus rectangles in dense dashboards.
 
 ### Axis scales
 
@@ -91,7 +98,7 @@ Charts fill their container width by default (`width="100%"`). Wrap in a sized c
 
 ```tsx
 <div style={{ width: '100%', height: 300 }}>
-  <LineChart data={data} series={[{ key: 'value' }]} />
+  <LineChart data={data} series={[{ dataKey: 'value' }]} />
 </div>
 ```
 

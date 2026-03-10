@@ -34,8 +34,6 @@ export interface UseVoronoiHoverOptions {
     /** Resolved series colors (same length as `series`). Used to populate
      *  `point.color` from the parent's resolved palette. */
     seriesColors: string[];
-    /** Chart margins — used to locate the SVG within the container. */
-    margin: { top: number; right: number; bottom: number; left: number };
     /** Maximum pixel distance from mouse to nearest point. Points farther than
      *  this threshold are ignored so the tooltip disappears in empty areas.
      *  @default 80 */
@@ -126,7 +124,6 @@ function readPointsFromDOM(
 export function useVoronoiHover({
     series,
     seriesColors,
-    margin,
     maxDistance = 80,
     enabled = true,
 }: UseVoronoiHoverOptions): UseVoronoiHoverReturn {
@@ -187,11 +184,7 @@ export function useVoronoiHover({
                 containerHeight: rect.height,
             });
         },
-        // margin is listed in deps for API stability but is no longer used internally
-        // for point projection (DOM reading replaced that). It is still part of the
-        // public interface and may be used by consumers.
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-        [enabled, series, seriesColors, maxDistance, margin]
+        [enabled, series, seriesColors, maxDistance]
     );
 
     return { containerRef, handleMouseMove, handleMouseLeave, activePoint };

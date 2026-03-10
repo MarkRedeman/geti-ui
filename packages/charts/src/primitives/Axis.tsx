@@ -5,6 +5,7 @@ import {
     type YAxisProps,
 } from 'recharts';
 import { useChartsTheme } from '../hooks/useChartsTheme';
+import { getAxisLineStyle, getAxisTickLineStyle, getAxisTickStyle } from '../utils/axisStyles';
 
 export interface GetiXAxisProps extends XAxisProps {}
 export interface GetiYAxisProps extends YAxisProps {}
@@ -14,18 +15,9 @@ export function GetiXAxis(props: GetiXAxisProps) {
 
     return (
         <XAxis
-            tick={{
-                fontSize: theme.typography.fontSize,
-                fontFamily: theme.typography.fontFamily,
-                fill: theme.typography.color,
-            }}
-            axisLine={{
-                stroke: theme.axis.lineColor,
-                strokeWidth: theme.axis.strokeWidth,
-            }}
-            tickLine={{
-                stroke: theme.axis.tickColor,
-            }}
+            tick={getAxisTickStyle(theme)}
+            axisLine={getAxisLineStyle(theme)}
+            tickLine={getAxisTickLineStyle(theme)}
             {...props}
         />
     );
@@ -37,18 +29,9 @@ export function GetiYAxis(props: GetiYAxisProps) {
 
     return (
         <YAxis
-            tick={{
-                fontSize: theme.typography.fontSize,
-                fontFamily: theme.typography.fontFamily,
-                fill: theme.typography.color,
-            }}
-            axisLine={{
-                stroke: theme.axis.lineColor,
-                strokeWidth: theme.axis.strokeWidth,
-            }}
-            tickLine={{
-                stroke: theme.axis.tickColor,
-            }}
+            tick={getAxisTickStyle(theme)}
+            axisLine={getAxisLineStyle(theme)}
+            tickLine={getAxisTickLineStyle(theme)}
             {...props}
         />
     );

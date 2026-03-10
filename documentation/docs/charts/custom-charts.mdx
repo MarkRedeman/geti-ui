@@ -12,6 +12,34 @@ Use primitives directly to build charts that are not covered by the [composition
 - You need to compose multiple Recharts layers in a single chart.
 - You need per-series control beyond what `SeriesConfig` exposes.
 
+Note: custom charts use **raw Recharts chart roots** (`AreaChart`, `ComposedChart`, etc.) together with Geti primitives (`GetiXAxis`, `GetiYAxis`, `GetiTooltip`, `GetiCartesianGrid`, ...).
+
+## Adding a new composition chart (contributor workflow)
+
+When a pattern is reused often and should be easy for product teams to consume, add a composition chart in `packages/charts/src/components`.
+
+Checklist:
+
+1. Create `packages/charts/src/components/<Name>Chart.tsx`
+   - Functional component
+   - `animate?: boolean` with default `false`
+   - `aria-label` passthrough
+   - Recharts root gets `accessibilityLayer={false}` where supported
+   - expose extension props (`...AxisProps`, tooltip/legend/grid props) where relevant
+2. Export from `packages/charts/src/index.ts`
+3. Add docs pages:
+   - `documentation/docs/charts/compositions/<name>-chart.mdx`
+   - `documentation/docs/charts/primitives/<name>-chart.mdx`
+4. Add links/navigation:
+   - `documentation/docs/charts/compositions.mdx`
+   - `documentation/docs/charts/primitives.mdx`
+   - `documentation/rspress.config.ts`
+5. Add dataset subset theming example to:
+   - `documentation/docs/charts/theming/dataset-subsets.mdx`
+6. Verify:
+   - `npm run type-check --workspace=@geti-ai/charts`
+   - `npm run build --workspace=@geti-ai/charts`
+
 ## Building a custom area chart
 
 ```tsx preview

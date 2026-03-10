@@ -12,8 +12,7 @@ import { ChartGrid, type ChartGridProps } from '../primitives/ChartGrid';
 import { ChartTooltip, type ChartTooltipProps } from '../primitives/ChartTooltip';
 import { ChartLegend, type ChartLegendProps } from '../primitives/ChartLegend';
 import type { AxisScaleConfig } from '../types/axisScale';
-
-export type { AxisScaleConfig };
+import { getAxisLineStyle, getAxisTickLineStyle, getAxisTickStyle } from '../utils/axisStyles';
 
 export type LineChartCurve =
     | 'basis'
@@ -144,23 +143,19 @@ export function LineChart({
 }: LineChartProps) {
     const theme = useChartsTheme();
 
-    const axisStyle = {
-        fontSize: theme.typography.fontSize,
-        fontFamily: theme.typography.fontFamily,
-        fill: theme.typography.color,
-    };
+    const axisStyle = getAxisTickStyle(theme);
 
     return (
         <div role="img" aria-label={ariaLabel} style={{ width, height }}>
             <ResponsiveContainer width="100%" height={height}>
-                <RechartsLineChart data={data} margin={margin}>
+                <RechartsLineChart data={data} margin={margin} accessibilityLayer={false}>
                     {showGrid && <ChartGrid {...gridProps} />}
 
                     <XAxis
                         dataKey={xAxisKey}
                         tick={axisStyle}
-                        axisLine={{ stroke: theme.axis.lineColor, strokeWidth: theme.axis.strokeWidth }}
-                        tickLine={{ stroke: theme.axis.tickColor }}
+                        axisLine={getAxisLineStyle(theme)}
+                        tickLine={getAxisTickLineStyle(theme)}
                         scale={xScale?.scale}
                         domain={xScale?.domain}
                         allowDataOverflow={xScale?.allowDataOverflow}
@@ -168,8 +163,8 @@ export function LineChart({
                     />
                     <YAxis
                         tick={axisStyle}
-                        axisLine={{ stroke: theme.axis.lineColor, strokeWidth: theme.axis.strokeWidth }}
-                        tickLine={{ stroke: theme.axis.tickColor }}
+                        axisLine={getAxisLineStyle(theme)}
+                        tickLine={getAxisTickLineStyle(theme)}
                         scale={yScale?.scale}
                         domain={yScale?.domain}
                         allowDataOverflow={yScale?.allowDataOverflow}
