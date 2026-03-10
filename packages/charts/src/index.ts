@@ -129,5 +129,12 @@ export type {
 export { ReliabilityDiagram } from './components/ml/ReliabilityDiagram';
 export type { ReliabilityDiagramProps, ReliabilityDiagramDatum } from './components/ml/ReliabilityDiagram';
 
+export { ConfidenceVsIoUChart } from './components/ml/ConfidenceVsIoUChart';
+export type {
+    ConfidenceVsIoUChartProps,
+    ConfidenceVsIoUSeries,
+    ConfidenceVsIoUPoint,
+} from './components/ml/ConfidenceVsIoUChart';
+
 export { TreemapChart } from './components/TreemapChart';
 export type { TreemapChartProps } from './components/TreemapChart';

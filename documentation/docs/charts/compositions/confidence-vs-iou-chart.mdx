@@ -1,0 +1,82 @@
+---
+title: Confidence vs IoU chart
+---
+
+# Confidence vs IoU chart (composition)
+
+`ConfidenceVsIoUChart` helps diagnose overconfident incorrect predictions by plotting confidence against IoU.
+
+## Variant — single model scatter
+
+```tsx preview
+import { ConfidenceVsIoUChart } from '@geti-ai/charts';
+
+const points = [
+  { confidence: 0.95, iou: 0.89 },
+  { confidence: 0.91, iou: 0.77 },
+  { confidence: 0.88, iou: 0.52 },
+  { confidence: 0.84, iou: 0.68 },
+  { confidence: 0.81, iou: 0.43 },
+  { confidence: 0.76, iou: 0.72 },
+  { confidence: 0.72, iou: 0.35 },
+  { confidence: 0.67, iou: 0.61 },
+  { confidence: 0.61, iou: 0.29 },
+  { confidence: 0.54, iou: 0.55 },
+  { confidence: 0.48, iou: 0.21 },
+  { confidence: 0.42, iou: 0.49 },
+  { confidence: 0.36, iou: 0.18 },
+];
+
+export default function App() {
+  return (
+    <ConfidenceVsIoUChart
+      series={[{ name: 'Detector A', data: points }]}
+      aria-label="Confidence versus IoU scatter"
+      height={360}
+    />
+  );
+}
+```
+
+## Variant — compare two models with thresholds
+
+```tsx preview
+import { ConfidenceVsIoUChart } from '@geti-ai/charts';
+
+const modelA = [
+  { confidence: 0.95, iou: 0.89 },
+  { confidence: 0.91, iou: 0.77 },
+  { confidence: 0.88, iou: 0.52 },
+  { confidence: 0.84, iou: 0.68 },
+  { confidence: 0.81, iou: 0.43 },
+  { confidence: 0.76, iou: 0.72 },
+  { confidence: 0.72, iou: 0.35 },
+];
+
+const modelB = [
+  { confidence: 0.93, iou: 0.83 },
+  { confidence: 0.89, iou: 0.74 },
+  { confidence: 0.85, iou: 0.48 },
+  { confidence: 0.79, iou: 0.63 },
+  { confidence: 0.74, iou: 0.40 },
+  { confidence: 0.68, iou: 0.57 },
+  { confidence: 0.62, iou: 0.31 },
+];
+
+export default function App() {
+  return (
+    <ConfidenceVsIoUChart
+      series={[
+        { name: 'Detector A', data: modelA },
+        { name: 'Detector B', data: modelB },
+      ]}
+      confidenceThreshold={0.6}
+      iouThreshold={0.5}
+      aria-label="Confidence versus IoU with threshold guides"
+      height={360}
+    />
+  );
+}
+```
+
+Related: [Custom charts](/charts/custom-charts)
