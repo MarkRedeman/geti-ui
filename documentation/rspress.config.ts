@@ -13,6 +13,15 @@ const chartsSidebar = [
             { text: 'Installation', link: '/charts/installation' },
             { text: 'Overview', link: '/charts/overview' },
             {
+                text: 'Theming',
+                link: '/charts/theming',
+                collapsed: false,
+                items: [
+                    { text: 'Overview', link: '/charts/theming' },
+                    { text: 'Dataset subsets', link: '/charts/theming/dataset-subsets' },
+                ],
+            },
+            {
                 text: 'Primitives',
                 link: '/charts/primitives',
                 collapsed: false,
@@ -42,7 +51,6 @@ const chartsSidebar = [
                 ],
             },
             { text: 'Custom Charts', link: '/charts/custom-charts' },
-            { text: 'Theming', link: '/charts/theming' },
         ],
     },
 ];

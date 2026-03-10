@@ -1,0 +1,269 @@
+---
+title: Dataset subsets
+---
+
+# Dataset subsets palette
+
+Use the built-in dataset subset palette utilities to keep **training / validation / testing** colors consistent across charts.
+
+Default mapping:
+
+- `train` → green
+- `validation` / `val` → red
+- `test` → yellow
+
+## Basic usage
+
+```tsx
+import { withDatasetSubsetPalette } from '@geti-ai/charts';
+
+const series = withDatasetSubsetPalette([
+  { dataKey: 'train', name: 'Training set' },
+  { dataKey: 'val', name: 'Validation set' },
+  { dataKey: 'test', name: 'Test set' },
+]);
+```
+
+## Override palette and aliases
+
+```tsx
+import { withDatasetSubsetPalette } from '@geti-ai/charts';
+
+const series = withDatasetSubsetPalette(
+  [
+    { dataKey: 'training' },
+    { dataKey: 'validation' },
+    { dataKey: 'testing' },
+  ],
+  {
+    palette: {
+      train: '#22c55e',
+      validation: '#ef4444',
+      test: '#f59e0b',
+    },
+    aliases: {
+      train: ['training'],
+      validation: ['validation'],
+      test: ['testing'],
+    },
+  }
+);
+```
+
+## Pie chart example
+
+For pie-like charts (single series), use `getDatasetSubsetColor` directly per slice:
+
+```tsx preview
+import { PieChart, getDatasetSubsetColor } from '@geti-ai/charts';
+
+const data = [
+  { name: 'Train', value: 70 },
+  { name: 'Validation', value: 20 },
+  { name: 'Test', value: 10 },
+];
+
+export default function App() {
+  return (
+    <PieChart
+      data={data}
+      colors={[
+        getDatasetSubsetColor('train')!,
+        getDatasetSubsetColor('validation')!,
+        getDatasetSubsetColor('test')!,
+      ]}
+      showLabels
+      aria-label="Dataset subsets as pie slices"
+      height={320}
+    />
+  );
+}
+```
+
+## Line chart example
+
+```tsx preview
+import { LineChart, withDatasetSubsetPalette } from '@geti-ai/charts';
+
+const data = [
+  { epoch: 1, train: 1.42, val: 1.50, test: 1.55 },
+  { epoch: 2, train: 1.10, val: 1.20, test: 1.28 },
+  { epoch: 3, train: 0.87, val: 0.98, test: 1.06 },
+  { epoch: 4, train: 0.71, val: 0.82, test: 0.90 },
+];
+
+export default function App() {
+  const series = withDatasetSubsetPalette([
+    { dataKey: 'train', name: 'Training' },
+    { dataKey: 'val', name: 'Validation' },
+    { dataKey: 'test', name: 'Test' },
+  ]);
+
+  return (
+    <LineChart
+      data={data}
+      xAxisKey="epoch"
+      showLegend
+      series={series}
+      aria-label="Train/validation/test loss"
+      height={260}
+    />
+  );
+}
+```
+
+## Area chart example
+
+```tsx preview
+import { AreaChart, withDatasetSubsetPalette } from '@geti-ai/charts';
+
+const data = [
+  { step: 1, train: 0.45, val: 0.41, test: 0.39 },
+  { step: 2, train: 0.51, val: 0.46, test: 0.44 },
+  { step: 3, train: 0.62, val: 0.57, test: 0.53 },
+  { step: 4, train: 0.71, val: 0.65, test: 0.60 },
+];
+
+export default function App() {
+  const series = withDatasetSubsetPalette([
+    { dataKey: 'train', name: 'Training', fade: true },
+    { dataKey: 'val', name: 'Validation', fade: true },
+    { dataKey: 'test', name: 'Test', fade: true },
+  ]);
+
+  return (
+    <AreaChart
+      data={data}
+      xAxisKey="step"
+      showLegend
+      series={series}
+      aria-label="Train/validation/test IoU"
+      height={260}
+    />
+  );
+}
+```
+
+## Bar chart example
+
+```tsx preview
+import { BarChart, withDatasetSubsetPalette } from '@geti-ai/charts';
+
+const data = [
+  { split: 'Fold A', train: 0.91, val: 0.85, test: 0.83 },
+  { split: 'Fold B', train: 0.93, val: 0.86, test: 0.84 },
+  { split: 'Fold C', train: 0.92, val: 0.87, test: 0.85 },
+];
+
+export default function App() {
+  const series = withDatasetSubsetPalette([
+    { dataKey: 'train', name: 'Training' },
+    { dataKey: 'val', name: 'Validation' },
+    { dataKey: 'test', name: 'Test' },
+  ]);
+
+  return (
+    <BarChart
+      data={data}
+      xAxisKey="split"
+      showLegend
+      series={series}
+      aria-label="Train/validation/test per split"
+      height={260}
+    />
+  );
+}
+```
+
+## Scatter / bubble chart example
+
+```tsx preview
+import { ScatterChart, withDatasetSubsetPalette } from '@geti-ai/charts';
+
+const train = [
+  { x: 2.8e6, y: 0.47, z: 9.8 },
+  { x: 1.1e7, y: 0.54, z: 27.0 },
+];
+const val = [
+  { x: 2.8e6, y: 0.44, z: 9.8 },
+  { x: 1.1e7, y: 0.50, z: 27.0 },
+];
+const test = [
+  { x: 2.8e6, y: 0.42, z: 9.8 },
+  { x: 1.1e7, y: 0.48, z: 27.0 },
+];
+
+export default function App() {
+  const series = withDatasetSubsetPalette(
+    [
+      { name: 'Train', data: train, zKey: 'z' },
+      { name: 'Validation', data: val, zKey: 'z' },
+      { name: 'Test', data: test, zKey: 'z' },
+    ],
+    { matchBy: 'name' }
+  );
+
+  return (
+    <ScatterChart
+      series={series}
+      zAxisProps={{ dataKey: 'z', range: [80, 320], name: 'GFLOPs' }}
+      showLegend
+      xScale={{ scale: 'log', domain: [1e6, 'auto'] }}
+      xAxisLabel="Parameters"
+      yAxisLabel="mAP @ 50:95"
+      aria-label="Train/validation/test model comparison"
+      height={320}
+    />
+  );
+}
+```
+
+## Sparkline example
+
+```tsx preview
+import { Sparkline, getDatasetSubsetColor } from '@geti-ai/charts';
+
+export default function App() {
+  return (
+    <div style={{ display: 'grid', gap: 10 }}>
+      <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
+        <span style={{ width: 80 }}>Train</span>
+        <Sparkline
+          data={[1.42, 1.10, 0.87, 0.71].map((value) => ({ value }))}
+          color={getDatasetSubsetColor('train')}
+          area
+        />
+      </div>
+      <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
+        <span style={{ width: 80 }}>Validation</span>
+        <Sparkline
+          data={[1.50, 1.20, 0.98, 0.82].map((value) => ({ value }))}
+          color={getDatasetSubsetColor('val')}
+          area
+        />
+      </div>
+      <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
+        <span style={{ width: 80 }}>Test</span>
+        <Sparkline
+          data={[1.55, 1.28, 1.06, 0.90].map((value) => ({ value }))}
+          color={getDatasetSubsetColor('test')}
+          area
+        />
+      </div>
+    </div>
+  );
+}
+```
+
+## Donut chart example
+
+Use the same palette with donut-style charts by passing subset colors as the `colors` array.
+
+## Radar / radial / meter / treemap
+
+For the upcoming charts, use the same `withDatasetSubsetPalette` or `getDatasetSubsetColor` patterns based on whether the chart API is multi-series (`withDatasetSubsetPalette`) or single-series slices (`getDatasetSubsetColor`).
+
+## Related
+
+- [Charts theming overview](/charts/theming)
+- [Pie chart composition](/charts/compositions/pie-chart)

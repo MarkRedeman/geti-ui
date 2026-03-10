@@ -77,4 +77,32 @@ export default function App() {
 }
 ```
 
+## Variant — train / validation / test palette
+
+```tsx preview
+import { PieChart, getDatasetSubsetColor } from '@geti-ai/charts';
+
+const data = [
+  { name: 'Train', value: 70 },
+  { name: 'Validation', value: 20 },
+  { name: 'Test', value: 10 },
+];
+
+export default function App() {
+  return (
+    <PieChart
+      data={data}
+      colors={[
+        getDatasetSubsetColor('train')!,
+        getDatasetSubsetColor('validation')!,
+        getDatasetSubsetColor('test')!,
+      ]}
+      showLabels
+      aria-label="Dataset subset split"
+      height={320}
+    />
+  );
+}
+```
+
 Related: [Pie chart (primitive)](/charts/primitives/pie-chart)
