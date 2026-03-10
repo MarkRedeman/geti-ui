@@ -234,4 +234,38 @@ export default function App() {
 }
 ```
 
+## Variant — 7 data categories (stacked)
+
+```tsx preview
+import { BarChart } from '@geti-ai/charts';
+
+const data = [
+  { split: 'Train', car: 4200, person: 5600, bicycle: 2100, bus: 1400, truck: 1900, dog: 2600, cat: 2400 },
+  { split: 'Validation', car: 900, person: 1200, bicycle: 430, bus: 280, truck: 360, dog: 520, cat: 470 },
+  { split: 'Test', car: 880, person: 1160, bicycle: 410, bus: 260, truck: 340, dog: 500, cat: 450 },
+];
+
+export default function App() {
+  return (
+    <BarChart
+      data={data}
+      xAxisKey="split"
+      stacked
+      showLegend
+      series={[
+        { dataKey: 'car', name: 'Car' },
+        { dataKey: 'person', name: 'Person' },
+        { dataKey: 'bicycle', name: 'Bicycle' },
+        { dataKey: 'bus', name: 'Bus' },
+        { dataKey: 'truck', name: 'Truck' },
+        { dataKey: 'dog', name: 'Dog' },
+        { dataKey: 'cat', name: 'Cat' },
+      ]}
+      aria-label="Seven-category stacked distribution by dataset split"
+      height={340}
+    />
+  );
+}
+```
+
 Related: [Bar chart (primitive)](/charts/primitives/bar-chart)

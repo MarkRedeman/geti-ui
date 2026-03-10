@@ -220,4 +220,39 @@ export default function App() {
 }
 ```
 
+## Variant — 7 data categories (stacked)
+
+```tsx preview
+import { AreaChart } from '@geti-ai/charts';
+
+const data = [
+  { step: 1, car: 0.41, person: 0.52, bicycle: 0.33, bus: 0.45, truck: 0.38, dog: 0.49, cat: 0.47 },
+  { step: 2, car: 0.46, person: 0.57, bicycle: 0.37, bus: 0.48, truck: 0.42, dog: 0.53, cat: 0.50 },
+  { step: 3, car: 0.50, person: 0.61, bicycle: 0.40, bus: 0.52, truck: 0.46, dog: 0.56, cat: 0.54 },
+  { step: 4, car: 0.55, person: 0.65, bicycle: 0.44, bus: 0.56, truck: 0.49, dog: 0.60, cat: 0.58 },
+  { step: 5, car: 0.59, person: 0.69, bicycle: 0.48, bus: 0.60, truck: 0.53, dog: 0.63, cat: 0.62 },
+];
+
+export default function App() {
+  return (
+    <AreaChart
+      data={data}
+      xAxisKey="step"
+      showLegend
+      series={[
+        { dataKey: 'car', name: 'Car', stacked: true, fade: true },
+        { dataKey: 'person', name: 'Person', stacked: true, fade: true },
+        { dataKey: 'bicycle', name: 'Bicycle', stacked: true, fade: true },
+        { dataKey: 'bus', name: 'Bus', stacked: true, fade: true },
+        { dataKey: 'truck', name: 'Truck', stacked: true, fade: true },
+        { dataKey: 'dog', name: 'Dog', stacked: true, fade: true },
+        { dataKey: 'cat', name: 'Cat', stacked: true, fade: true },
+      ]}
+      aria-label="Seven-category stacked area chart"
+      height={340}
+    />
+  );
+}
+```
+
 Related: [Area chart (primitive)](/charts/primitives/area-chart)
