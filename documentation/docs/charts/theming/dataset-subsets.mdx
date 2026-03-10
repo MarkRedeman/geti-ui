@@ -285,10 +285,6 @@ export default function App() {
 }
 ```
 
-## Radar / radial / meter / treemap
-
-For the upcoming charts, use the same `withDatasetSubsetPalette` or `getDatasetSubsetColor` patterns based on whether the chart API is multi-series (`withDatasetSubsetPalette`) or single-series slices (`getDatasetSubsetColor`).
-
 ## Radar chart example
 
 ```tsx preview
@@ -360,6 +356,52 @@ export default function App() {
       <MeterChart value={86} color={getDatasetSubsetColor('validation')} aria-label="Validation meter" height={210} />
       <MeterChart value={84} color={getDatasetSubsetColor('test')} aria-label="Test meter" height={210} />
     </div>
+  );
+}
+```
+
+## Treemap chart example
+
+```tsx preview
+import { Treemap, Tooltip } from 'recharts';
+import { GetiResponsiveContainer } from '@geti-ai/charts/primitives';
+import { getDatasetSubsetColor } from '@geti-ai/charts';
+
+const data = [
+  {
+    name: 'Train',
+    fill: getDatasetSubsetColor('train'),
+    children: [
+      { name: 'Train/P1', value: 220 },
+      { name: 'Train/P2', value: 180 },
+      { name: 'Train/P3', value: 120 },
+    ],
+  },
+  {
+    name: 'Validation',
+    fill: getDatasetSubsetColor('validation'),
+    children: [
+      { name: 'Val/P1', value: 100 },
+      { name: 'Val/P2', value: 70 },
+    ],
+  },
+  {
+    name: 'Test',
+    fill: getDatasetSubsetColor('test'),
+    children: [
+      { name: 'Test/P1', value: 80 },
+      { name: 'Test/P2', value: 55 },
+    ],
+  },
+];
+
+export default function App() {
+  return (
+    <GetiResponsiveContainer height={360}>
+      <Treemap data={data} dataKey="value" nameKey="name" stroke="var(--spectrum-global-color-gray-700)" isAnimationActive={false}>
+        <Tooltip formatter={(value) => [value, 'Images']} />
+      </Treemap>
+    </GetiResponsiveContainer>
   );
 }
 ```

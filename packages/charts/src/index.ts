@@ -80,3 +80,6 @@ export type { RadialBarChartProps } from './components/RadialBarChart';
 
 export { MeterChart } from './components/MeterChart';
 export type { MeterChartProps } from './components/MeterChart';
+
+export { TreemapChart } from './components/TreemapChart';
+export type { TreemapChartProps } from './components/TreemapChart';

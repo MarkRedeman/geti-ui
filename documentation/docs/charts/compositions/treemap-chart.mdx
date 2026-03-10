@@ -1,0 +1,106 @@
+---
+title: Treemap chart
+---
+
+# Treemap chart (composition)
+
+`TreemapChart` is a composition for hierarchical proportional data.
+
+## Variant — default
+
+```tsx preview
+import { TreemapChart } from '@geti-ai/charts';
+
+const data = [
+  {
+    name: 'Classes',
+    children: [
+      { name: 'Person', value: 420 },
+      { name: 'Car', value: 260 },
+      { name: 'Sign', value: 120 },
+      { name: 'Bicycle', value: 90 },
+    ],
+  },
+];
+
+export default function App() {
+  return <TreemapChart data={data} aria-label="Class distribution treemap" height={340} />;
+}
+```
+
+## Variant — custom tile color + tooltip formatter
+
+```tsx preview
+import { TreemapChart } from '@geti-ai/charts';
+
+const data = [
+  {
+    name: 'Labels',
+    children: [
+      { name: 'Accept', value: 610 },
+      { name: 'Review', value: 140 },
+      { name: 'Reject', value: 65 },
+    ],
+  },
+];
+
+export default function App() {
+  return (
+    <TreemapChart
+      data={data}
+      fill="var(--spectrum-global-color-blue-600)"
+      tooltipProps={{ formatter: (value) => [value, 'Images'] }}
+      aria-label="Annotation status treemap"
+      height={320}
+    />
+  );
+}
+```
+
+## Variant — interactive load more leafs
+
+```tsx preview
+import * as React from 'react';
+import { TreemapChart } from '@geti-ai/charts';
+
+const allLeafs = [
+  { name: 'Person', value: 420 },
+  { name: 'Car', value: 260 },
+  { name: 'Sign', value: 120 },
+  { name: 'Bicycle', value: 90 },
+  { name: 'Truck', value: 80 },
+  { name: 'Bus', value: 62 },
+  { name: 'Helmet', value: 55 },
+  { name: 'Backpack', value: 44 },
+  { name: 'Dog', value: 39 },
+  { name: 'Cat', value: 28 },
+];
+
+export default function App() {
+  const [visible, setVisible] = React.useState(4);
+  const canLoadMore = visible < allLeafs.length;
+
+  const data = [
+    {
+      name: 'Classes',
+      children: allLeafs.slice(0, visible),
+    },
+  ];
+
+  return (
+    <div style={{ display: 'grid', gap: 12 }}>
+      <TreemapChart data={data} aria-label="Expandable class treemap" height={340} />
+      <button
+        type="button"
+        onClick={() => setVisible((v) => Math.min(v + 3, allLeafs.length))}
+        disabled={!canLoadMore}
+        style={{ justifySelf: 'start' }}
+      >
+        {canLoadMore ? 'Load more leafs' : 'All leafs loaded'}
+      </button>
+    </div>
+  );
+}
+```
+
+Related: [Treemap chart (primitive)](/charts/primitives/treemap-chart)

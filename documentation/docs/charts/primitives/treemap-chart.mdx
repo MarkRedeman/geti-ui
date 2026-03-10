@@ -1,0 +1,135 @@
+---
+title: Treemap chart
+---
+
+# Treemap chart (primitive)
+
+Use Recharts `Treemap` primitives when you need custom content, tooltip behavior, and manual data shaping.
+
+## Variant — default
+
+```tsx preview
+import { Treemap, Tooltip } from 'recharts';
+import { GetiResponsiveContainer } from '@geti-ai/charts/primitives';
+
+const data = [
+  {
+    name: 'Classes',
+    children: [
+      { name: 'Person', value: 420 },
+      { name: 'Car', value: 260 },
+      { name: 'Sign', value: 120 },
+      { name: 'Bicycle', value: 90 },
+    ],
+  },
+];
+
+export default function App() {
+  return (
+    <GetiResponsiveContainer height={340}>
+      <Treemap data={data} dataKey="value" nameKey="name" stroke="var(--spectrum-global-color-gray-700)" fill="var(--spectrum-global-color-blue-500)" isAnimationActive={false}>
+        <Tooltip />
+      </Treemap>
+    </GetiResponsiveContainer>
+  );
+}
+```
+
+## Variant — train / validation / test groups
+
+```tsx preview
+import { Treemap, Tooltip } from 'recharts';
+import { GetiResponsiveContainer } from '@geti-ai/charts/primitives';
+import { getDatasetSubsetColor } from '@geti-ai/charts';
+
+const data = [
+  {
+    name: 'Train',
+    fill: getDatasetSubsetColor('train'),
+    children: [
+      { name: 'Train/P1', value: 220 },
+      { name: 'Train/P2', value: 180 },
+      { name: 'Train/P3', value: 120 },
+    ],
+  },
+  {
+    name: 'Validation',
+    fill: getDatasetSubsetColor('validation'),
+    children: [
+      { name: 'Val/P1', value: 100 },
+      { name: 'Val/P2', value: 70 },
+    ],
+  },
+  {
+    name: 'Test',
+    fill: getDatasetSubsetColor('test'),
+    children: [
+      { name: 'Test/P1', value: 80 },
+      { name: 'Test/P2', value: 55 },
+    ],
+  },
+];
+
+export default function App() {
+  return (
+    <GetiResponsiveContainer height={360}>
+      <Treemap data={data} dataKey="value" nameKey="name" stroke="var(--spectrum-global-color-gray-700)" isAnimationActive={false}>
+        <Tooltip formatter={(value) => [value, 'Images']} />
+      </Treemap>
+    </GetiResponsiveContainer>
+  );
+}
+```
+
+## Variant — interactive load more leafs
+
+```tsx preview
+import * as React from 'react';
+import { Treemap, Tooltip } from 'recharts';
+import { GetiResponsiveContainer } from '@geti-ai/charts/primitives';
+
+const allLeafs = [
+  { name: 'Person', value: 420 },
+  { name: 'Car', value: 260 },
+  { name: 'Sign', value: 120 },
+  { name: 'Bicycle', value: 90 },
+  { name: 'Truck', value: 80 },
+  { name: 'Bus', value: 62 },
+  { name: 'Helmet', value: 55 },
+  { name: 'Backpack', value: 44 },
+  { name: 'Dog', value: 39 },
+  { name: 'Cat', value: 28 },
+];
+
+export default function App() {
+  const [visible, setVisible] = React.useState(4);
+  const canLoadMore = visible < allLeafs.length;
+
+  const data = [
+    {
+      name: 'Classes',
+      children: allLeafs.slice(0, visible),
+    },
+  ];
+
+  return (
+    <div style={{ display: 'grid', gap: 12 }}>
+      <GetiResponsiveContainer height={340}>
+        <Treemap data={data} dataKey="value" nameKey="name" stroke="var(--spectrum-global-color-gray-700)" fill="var(--spectrum-global-color-blue-500)" isAnimationActive={false}>
+          <Tooltip />
+        </Treemap>
+      </GetiResponsiveContainer>
+      <button
+        type="button"
+        onClick={() => setVisible((v) => Math.min(v + 3, allLeafs.length))}
+        disabled={!canLoadMore}
+        style={{ justifySelf: 'start' }}
+      >
+        {canLoadMore ? 'Load more leafs' : 'All leafs loaded'}
+      </button>
+    </div>
+  );
+}
+```
+
+Related: [Treemap chart (composition)](/charts/compositions/treemap-chart)
