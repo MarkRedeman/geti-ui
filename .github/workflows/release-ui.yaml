@@ -19,12 +19,12 @@ jobs:
       pull-requests: write  # open "Version Packages" PR
 
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6
         with:
           fetch-depth: 0      # git-cliff needs full history
           persist-credentials: false
 
-      - uses: actions/setup-node@v6
+      - uses: actions/setup-node@53b83947a5a98c8d113130e565377fae1a50d02f # v6
         with:
           node-version: 24
           registry-url: https://registry.npmjs.org
@@ -53,7 +53,7 @@ jobs:
       # After publish: generate release notes with git-cliff and create GitHub Release
       - name: Generate release notes with git-cliff
         if: steps.changesets.outputs.published == 'true'
-        uses: orhun/git-cliff-action@v4
+        uses: orhun/git-cliff-action@c93ef52f3d0ddcdcc9bd5447d98d458a11cd4f72 # v4
         with:
           config: cliff.toml
           args: --latest --strip header --tag-pattern "v[0-9].*"
@@ -64,7 +64,7 @@ jobs:
       - name: Resolve published @geti-ai/ui version
         if: steps.changesets.outputs.published == 'true'
         id: release_meta
-        uses: actions/github-script@v8
+        uses: actions/github-script@ed597411d8f924073f98dfc5c65a23a2325f34cd # v8
         env:
           PUBLISHED_PACKAGES: ${{ steps.changesets.outputs.publishedPackages }}
         with:
@@ -80,7 +80,7 @@ jobs:
 
       - name: Create GitHub Release
         if: steps.changesets.outputs.published == 'true' && steps.release_meta.outputs.version != '' && hashFiles('RELEASE_NOTES.md') != ''
-        uses: softprops/action-gh-release@v2
+        uses: softprops/action-gh-release@a06a81a03ee405af7f2048a818ed3f03bbf83c7b # v2
         with:
           body_path: RELEASE_NOTES.md
           tag_name: ${{ format('v{0}', steps.release_meta.outputs.version) }}
