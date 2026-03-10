@@ -1,0 +1,69 @@
+---
+title: IoU distribution chart
+---
+
+# IoU distribution chart (composition)
+
+`IoUDistributionChart` visualizes intersection-over-union quality as a histogram.
+
+## Variant — raw count histogram
+
+```tsx preview
+import { IoUDistributionChart } from '@geti-ai/charts';
+
+const data = [
+  { binStart: 0.0, binEnd: 0.1, count: 18 },
+  { binStart: 0.1, binEnd: 0.2, count: 25 },
+  { binStart: 0.2, binEnd: 0.3, count: 41 },
+  { binStart: 0.3, binEnd: 0.4, count: 62 },
+  { binStart: 0.4, binEnd: 0.5, count: 88 },
+  { binStart: 0.5, binEnd: 0.6, count: 120 },
+  { binStart: 0.6, binEnd: 0.7, count: 157 },
+  { binStart: 0.7, binEnd: 0.8, count: 189 },
+  { binStart: 0.8, binEnd: 0.9, count: 171 },
+  { binStart: 0.9, binEnd: 1.0, count: 96 },
+];
+
+export default function App() {
+  return (
+    <IoUDistributionChart
+      data={data}
+      aria-label="IoU distribution histogram"
+      height={320}
+    />
+  );
+}
+```
+
+## Variant — normalized frequency
+
+```tsx preview
+import { IoUDistributionChart } from '@geti-ai/charts';
+
+const data = [
+  { binStart: 0.0, binEnd: 0.1, count: 18 },
+  { binStart: 0.1, binEnd: 0.2, count: 25 },
+  { binStart: 0.2, binEnd: 0.3, count: 41 },
+  { binStart: 0.3, binEnd: 0.4, count: 62 },
+  { binStart: 0.4, binEnd: 0.5, count: 88 },
+  { binStart: 0.5, binEnd: 0.6, count: 120 },
+  { binStart: 0.6, binEnd: 0.7, count: 157 },
+  { binStart: 0.7, binEnd: 0.8, count: 189 },
+  { binStart: 0.8, binEnd: 0.9, count: 171 },
+  { binStart: 0.9, binEnd: 1.0, count: 96 },
+];
+
+export default function App() {
+  return (
+    <IoUDistributionChart
+      data={data}
+      showFrequency
+      yAxisProps={{ tickFormatter: (value) => `${Math.round(Number(value) * 100)}%` }}
+      aria-label="Normalized IoU frequency histogram"
+      height={320}
+    />
+  );
+}
+```
+
+Related: [Custom charts](/charts/custom-charts)

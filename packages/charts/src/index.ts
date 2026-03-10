@@ -99,5 +99,11 @@ export type { RocCurveProps, RocCurveSeriesConfig } from './components/ml/RocCur
 export { ClassAPChart } from './components/ml/ClassAPChart';
 export type { ClassAPChartProps, ClassAPChartDatum } from './components/ml/ClassAPChart';
 
+export { IoUDistributionChart } from './components/ml/IoUDistributionChart';
+export type { IoUDistributionChartProps, IoUDistributionDatum } from './components/ml/IoUDistributionChart';
+
+export { DistributionRidgeChart } from './components/ml/DistributionRidgeChart';
+export type { DistributionRidgeChartProps, DistributionRidgeSeries } from './components/ml/DistributionRidgeChart';
+
 export { TreemapChart } from './components/TreemapChart';
 export type { TreemapChartProps } from './components/TreemapChart';

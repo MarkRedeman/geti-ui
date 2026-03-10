@@ -1,0 +1,82 @@
+---
+title: Distribution ridge chart
+---
+
+# Distribution ridge chart (composition)
+
+`DistributionRidgeChart` overlays multiple distribution curves with semi-transparent area fills.
+
+## Variant — class score distributions
+
+```tsx preview
+import { DistributionRidgeChart } from '@geti-ai/charts';
+
+const data = [
+  { x: '0.0', person: 2, car: 1, bicycle: 1 },
+  { x: '0.1', person: 5, car: 3, bicycle: 2 },
+  { x: '0.2', person: 9, car: 7, bicycle: 4 },
+  { x: '0.3', person: 13, car: 11, bicycle: 7 },
+  { x: '0.4', person: 18, car: 15, bicycle: 11 },
+  { x: '0.5', person: 21, car: 19, bicycle: 15 },
+  { x: '0.6', person: 24, car: 22, bicycle: 20 },
+  { x: '0.7', person: 20, car: 18, bicycle: 23 },
+  { x: '0.8', person: 13, car: 12, bicycle: 18 },
+  { x: '0.9', person: 7, car: 6, bicycle: 9 },
+  { x: '1.0', person: 3, car: 2, bicycle: 4 },
+];
+
+export default function App() {
+  return (
+    <DistributionRidgeChart
+      data={data}
+      xAxisKey="x"
+      series={[
+        { name: 'Person', dataKey: 'person' },
+        { name: 'Car', dataKey: 'car' },
+        { name: 'Bicycle', dataKey: 'bicycle' },
+      ]}
+      aria-label="Distribution ridge chart for class scores"
+      height={360}
+    />
+  );
+}
+```
+
+## Variant — lower fill opacity
+
+```tsx preview
+import { DistributionRidgeChart } from '@geti-ai/charts';
+
+const data = [
+  { x: '0.0', train: 1, val: 0, test: 0 },
+  { x: '0.1', train: 3, val: 1, test: 1 },
+  { x: '0.2', train: 7, val: 4, test: 2 },
+  { x: '0.3', train: 12, val: 8, test: 5 },
+  { x: '0.4', train: 18, val: 14, test: 9 },
+  { x: '0.5', train: 24, val: 21, test: 14 },
+  { x: '0.6', train: 22, val: 20, test: 17 },
+  { x: '0.7', train: 15, val: 16, test: 19 },
+  { x: '0.8', train: 9, val: 11, test: 14 },
+  { x: '0.9', train: 4, val: 5, test: 8 },
+  { x: '1.0', train: 1, val: 2, test: 3 },
+];
+
+export default function App() {
+  return (
+    <DistributionRidgeChart
+      data={data}
+      xAxisKey="x"
+      fillOpacity={0.15}
+      series={[
+        { name: 'Train', dataKey: 'train' },
+        { name: 'Validation', dataKey: 'val' },
+        { name: 'Test', dataKey: 'test' },
+      ]}
+      aria-label="Distribution ridge chart with low fill opacity"
+      height={360}
+    />
+  );
+}
+```
+
+Related: [Custom charts](/charts/custom-charts)
