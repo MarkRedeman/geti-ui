@@ -6,6 +6,13 @@ title: Primitives
 
 Primitives are low-level building blocks. Use them when you need to assemble a chart layout that is not covered by the [composition components](./compositions).
 
+## Primitives vs compositions
+
+- **Primitives** = themed chart parts you wire manually (`GetiXAxis`, `GetiYAxis`, `GetiTooltip`, etc.) inside native Recharts charts.
+- **Compositions** = ready-to-use chart components (`LineChart`, `AreaChart`, `BarChart`, `ScatterChart`, `Sparkline`) that already wire common parts.
+
+Use primitives when you need custom structure, mixed chart types, or lower-level Recharts control.
+
 ```ts
 import {
   GetiCartesianGrid,
@@ -16,6 +23,15 @@ import {
   GetiResponsiveContainer,
 } from '@geti-ai/charts/primitives';
 ```
+
+## Dedicated primitive chart guides
+
+- [Legend primitive](./primitives/legend)
+- [Line chart (primitive)](./primitives/line-chart)
+- [Area chart (primitive)](./primitives/area-chart)
+- [Bar chart (primitive)](./primitives/bar-chart)
+- [Scatter chart (primitive)](./primitives/scatter-chart)
+- [Sparkline chart (primitive)](./primitives/sparkline-chart)
 
 ## `GetiResponsiveContainer`
 

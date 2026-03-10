@@ -1,0 +1,33 @@
+---
+title: Scatter chart
+---
+
+# Scatter chart (composition)
+
+`ScatterChart` is a ready-to-use composition for 2D point data, including optional Voronoi hover.
+
+```tsx preview
+import { ScatterChart } from '@geti-ai/charts';
+
+const points = [
+  { x: 0.1, y: 0.85, name: 'cat' },
+  { x: 0.3, y: 0.72, name: 'dog' },
+  { x: 0.5, y: 0.91, name: 'car' },
+  { x: 0.7, y: 0.77, name: 'bicycle' },
+];
+
+export default function App() {
+  return (
+    <ScatterChart
+      series={[{ name: 'Per class', data: points }]}
+      xAxisLabel="False positive rate"
+      yAxisLabel="True positive rate"
+      aria-label="ROC-style class scatter"
+      height={280}
+      useVoronoi
+    />
+  );
+}
+```
+
+Related: [Scatter chart (primitive)](/charts/primitives/scatter-chart)

@@ -1,0 +1,41 @@
+---
+title: Line chart
+---
+
+# Line chart (primitive)
+
+Use Recharts `LineChart` with Geti primitives when you need custom low-level control.
+
+```tsx preview
+import { Line, LineChart } from 'recharts';
+import {
+  GetiCartesianGrid,
+  GetiResponsiveContainer,
+  GetiTooltip,
+  GetiXAxis,
+  GetiYAxis,
+} from '@geti-ai/charts/primitives';
+
+const data = [
+  { epoch: 1, loss: 1.42 },
+  { epoch: 2, loss: 1.10 },
+  { epoch: 3, loss: 0.87 },
+  { epoch: 4, loss: 0.71 },
+];
+
+export default function App() {
+  return (
+    <GetiResponsiveContainer height={260}>
+      <LineChart data={data}>
+        <GetiCartesianGrid />
+        <GetiXAxis dataKey="epoch" />
+        <GetiYAxis />
+        <GetiTooltip />
+        <Line type="monotone" dataKey="loss" stroke="var(--spectrum-global-color-blue-500)" dot={false} isAnimationActive={false} />
+      </LineChart>
+    </GetiResponsiveContainer>
+  );
+}
+```
+
+Related: [Line chart (composition)](/charts/compositions/line-chart)

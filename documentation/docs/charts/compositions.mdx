@@ -6,9 +6,24 @@ title: Compositions
 
 Compositions are fully assembled chart components. Import and render them with data — no Recharts wiring required.
 
+## Primitives vs compositions
+
+- **Compositions** = ready-made components with common chart wiring built in (axes, grid, tooltip, legend, responsive container behavior).
+- **Primitives** = lower-level themed parts you compose manually with Recharts when you need custom behavior.
+
+Use compositions by default. Switch to primitives for non-standard layouts.
+
 ```ts
 import { LineChart, BarChart, ScatterChart, Sparkline } from '@geti-ai/charts';
 ```
+
+## Dedicated composition chart guides
+
+- [Line chart (composition)](./compositions/line-chart)
+- [Area chart (composition)](./compositions/area-chart)
+- [Bar chart (composition)](./compositions/bar-chart)
+- [Scatter chart (composition)](./compositions/scatter-chart)
+- [Sparkline chart (composition)](./compositions/sparkline-chart)
 
 ## `LineChart`
 
@@ -357,6 +372,8 @@ A minimal inline chart with no axes, ticks, or legend. Designed for use inside t
 | `width` | `number` | `120` | Width in px |
 | `height` | `number` | `40` | Height in px |
 | `color` | `string` | theme primary | Line colour (CSS colour or token) |
+| `area` | `boolean` | `false` | Fill the area under the sparkline |
+| `fillOpacity` | `number` | `0.15` | Area fill opacity when `area` is enabled |
 | `animate` | `boolean` | `false` | Opt-in per-chart animations |
 
 ### Example

@@ -1,0 +1,37 @@
+---
+title: Area chart
+---
+
+# Area chart (composition)
+
+`AreaChart` is a ready-to-use composition with themed defaults, optional stacking, and optional fade gradients.
+
+```tsx preview
+import { AreaChart } from '@geti-ai/charts';
+
+const data = [
+  { step: 1, train: 0.45, val: 0.41 },
+  { step: 2, train: 0.51, val: 0.46 },
+  { step: 3, train: 0.62, val: 0.57 },
+  { step: 4, train: 0.71, val: 0.65 },
+];
+
+export default function App() {
+  return (
+    <AreaChart
+      data={data}
+      xAxisKey="step"
+      series={[
+        { dataKey: 'train', name: 'Train IoU', stacked: true, fade: true },
+        { dataKey: 'val', name: 'Val IoU', stacked: true, fade: true },
+      ]}
+      aria-label="IoU over training steps"
+      height={260}
+    />
+  );
+}
+```
+
+`series[].fade` uses a vertical gradient fill (strong near the line, fading to transparent at the bottom), matching the custom-chart style.
+
+Related: [Area chart (primitive)](/charts/primitives/area-chart)

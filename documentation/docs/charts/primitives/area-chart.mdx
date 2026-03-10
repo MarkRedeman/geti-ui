@@ -1,0 +1,44 @@
+---
+title: Area chart
+---
+
+# Area chart (primitive)
+
+Use Recharts `AreaChart` with Geti primitives for custom fills and layered styling.
+
+```tsx preview
+import { Area, AreaChart } from 'recharts';
+import {
+  GetiCartesianGrid,
+  GetiLegend,
+  GetiResponsiveContainer,
+  GetiTooltip,
+  GetiXAxis,
+  GetiYAxis,
+} from '@geti-ai/charts/primitives';
+
+const data = [
+  { step: 1, train: 0.45, val: 0.41 },
+  { step: 2, train: 0.51, val: 0.46 },
+  { step: 3, train: 0.62, val: 0.57 },
+  { step: 4, train: 0.71, val: 0.65 },
+];
+
+export default function App() {
+  return (
+    <GetiResponsiveContainer height={260}>
+      <AreaChart data={data}>
+        <GetiCartesianGrid />
+        <GetiXAxis dataKey="step" />
+        <GetiYAxis />
+        <GetiTooltip />
+        <GetiLegend />
+        <Area type="monotone" dataKey="train" stroke="var(--spectrum-global-color-blue-500)" fill="var(--spectrum-global-color-blue-500)" fillOpacity={0.2} isAnimationActive={false} />
+        <Area type="monotone" dataKey="val" stroke="var(--spectrum-global-color-green-500)" fill="var(--spectrum-global-color-green-500)" fillOpacity={0.2} isAnimationActive={false} />
+      </AreaChart>
+    </GetiResponsiveContainer>
+  );
+}
+```
+
+Related: [Area chart (composition)](/charts/compositions/area-chart)

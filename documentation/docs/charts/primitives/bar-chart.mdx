@@ -1,0 +1,43 @@
+---
+title: Bar chart
+---
+
+# Bar chart (primitive)
+
+Use Recharts `BarChart` primitives when you need full control over stack groups and mixed layers.
+
+```tsx preview
+import { Bar, BarChart } from 'recharts';
+import {
+  GetiCartesianGrid,
+  GetiLegend,
+  GetiResponsiveContainer,
+  GetiTooltip,
+  GetiXAxis,
+  GetiYAxis,
+} from '@geti-ai/charts/primitives';
+
+const data = [
+  { label: 'Annotated', ok: 900, review: 60, rejected: 40 },
+  { label: 'Total', ok: 900, review: 60, rejected: 40 },
+];
+
+export default function App() {
+  return (
+    <GetiResponsiveContainer height={260}>
+      <BarChart data={data}>
+        <GetiCartesianGrid />
+        <GetiXAxis dataKey="label" />
+        <GetiYAxis />
+        <GetiTooltip />
+        <GetiLegend />
+        <Bar dataKey="ok" stackId="stack" fill="var(--spectrum-global-color-green-500)" isAnimationActive={false} />
+        <Bar dataKey="review" stackId="stack" fill="var(--spectrum-global-color-yellow-500)" isAnimationActive={false} />
+        <Bar dataKey="rejected" stackId="stack" fill="var(--spectrum-global-color-red-500)" isAnimationActive={false} />
+      </BarChart>
+    </GetiResponsiveContainer>
+  );
+}
+```
+
+Related: [Bar chart (composition)](/charts/compositions/bar-chart)

@@ -15,6 +15,39 @@ title: Overview
 | `ScatterChart` | Correlation between two continuous variables |
 | `Sparkline` | Compact inline trend indicator with no axes |
 
+## Primitives vs compositions
+
+You're exactly right:
+
+- **Primitives** are low-level, themed building blocks (axes, grid, tooltip, legend, responsive container, sparkline) that you compose manually inside Recharts charts.
+- **Compositions** are higher-level ready-to-use chart components (`LineChart`, `AreaChart`, `BarChart`, `ScatterChart`, `Sparkline`) that already wire common chart parts for you.
+
+### In practice
+
+- Use **compositions** when your chart fits the standard APIs and you want fast implementation with sensible defaults.
+- Use **primitives** when you need custom chart structures, mixed chart types, or low-level Recharts control.
+
+```tsx
+// Composition: batteries included
+<LineChart data={data} xAxisKey="epoch" series={[{ dataKey: 'loss' }]} />
+
+// Primitive approach: you wire parts manually
+<GetiResponsiveContainer height={260}>
+  <ComposedChart data={data}>
+    <GetiCartesianGrid />
+    <GetiXAxis dataKey="epoch" />
+    <GetiYAxis />
+    <GetiTooltip />
+    <Line dataKey="loss" isAnimationActive={false} />
+  </ComposedChart>
+</GetiResponsiveContainer>
+```
+
+See dedicated pages:
+
+- [Primitives overview](./primitives)
+- [Compositions overview](./compositions)
+
 ## Design principles
 
 ### Animation policy

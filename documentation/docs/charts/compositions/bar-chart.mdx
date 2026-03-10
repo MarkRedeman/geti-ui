@@ -1,0 +1,35 @@
+---
+title: Bar chart
+---
+
+# Bar chart (composition)
+
+`BarChart` is a ready-to-use composition for grouped or stacked categorical comparisons.
+
+```tsx preview
+import { BarChart } from '@geti-ai/charts';
+
+const data = [
+  { label: 'Annotated', ok: 900, review: 60, rejected: 40 },
+  { label: 'Total', ok: 900, review: 60, rejected: 40 },
+];
+
+export default function App() {
+  return (
+    <BarChart
+      data={data}
+      xAxisKey="label"
+      stacked
+      series={[
+        { dataKey: 'ok', name: 'Approved' },
+        { dataKey: 'review', name: 'In review' },
+        { dataKey: 'rejected', name: 'Rejected' },
+      ]}
+      aria-label="Dataset annotation breakdown"
+      height={260}
+    />
+  );
+}
+```
+
+Related: [Bar chart (primitive)](/charts/primitives/bar-chart)
