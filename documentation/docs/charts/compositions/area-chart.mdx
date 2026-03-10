@@ -6,6 +6,36 @@ title: Area chart
 
 `AreaChart` is a ready-to-use composition with themed defaults, optional stacking, and optional fade gradients.
 
+## Variant — `stacked` and `fade` off
+
+```tsx preview
+import { AreaChart } from '@geti-ai/charts';
+
+const data = [
+  { step: 1, train: 0.45, val: 0.41 },
+  { step: 2, train: 0.51, val: 0.46 },
+  { step: 3, train: 0.62, val: 0.57 },
+  { step: 4, train: 0.71, val: 0.65 },
+];
+
+export default function App() {
+  return (
+    <AreaChart
+      data={data}
+      xAxisKey="step"
+      series={[
+        { dataKey: 'train', name: 'Train IoU', stacked: false, fade: false },
+        { dataKey: 'val', name: 'Val IoU', stacked: false, fade: false },
+      ]}
+      aria-label="IoU unstacked no fade"
+      height={260}
+    />
+  );
+}
+```
+
+## Variant — `stacked` and `fade` on
+
 ```tsx preview
 import { AreaChart } from '@geti-ai/charts';
 
@@ -33,5 +63,35 @@ export default function App() {
 ```
 
 `series[].fade` uses a vertical gradient fill (strong near the line, fading to transparent at the bottom), matching the custom-chart style.
+
+## Variant — chart-level booleans on (`showLegend`, `animate`)
+
+```tsx preview
+import { AreaChart } from '@geti-ai/charts';
+
+const data = [
+  { step: 1, train: 0.45, val: 0.41 },
+  { step: 2, train: 0.51, val: 0.46 },
+  { step: 3, train: 0.62, val: 0.57 },
+  { step: 4, train: 0.71, val: 0.65 },
+];
+
+export default function App() {
+  return (
+    <AreaChart
+      data={data}
+      xAxisKey="step"
+      showLegend
+      animate
+      series={[
+        { dataKey: 'train', name: 'Train IoU', fade: true },
+        { dataKey: 'val', name: 'Val IoU', fade: true },
+      ]}
+      aria-label="IoU with legend and animation"
+      height={260}
+    />
+  );
+}
+```
 
 Related: [Area chart (primitive)](/charts/primitives/area-chart)

@@ -6,6 +6,8 @@ title: Area chart
 
 Use Recharts `AreaChart` with Geti primitives for custom fills and layered styling.
 
+## Variant — solid fill (no fade)
+
 ```tsx preview
 import { Area, AreaChart } from 'recharts';
 import {
@@ -35,6 +37,53 @@ export default function App() {
         <GetiLegend />
         <Area type="monotone" dataKey="train" stroke="var(--spectrum-global-color-blue-500)" fill="var(--spectrum-global-color-blue-500)" fillOpacity={0.2} isAnimationActive={false} />
         <Area type="monotone" dataKey="val" stroke="var(--spectrum-global-color-green-500)" fill="var(--spectrum-global-color-green-500)" fillOpacity={0.2} isAnimationActive={false} />
+      </AreaChart>
+    </GetiResponsiveContainer>
+  );
+}
+```
+
+## Variant — fade gradient fill
+
+```tsx preview
+import { Area, AreaChart } from 'recharts';
+import {
+  GetiCartesianGrid,
+  GetiLegend,
+  GetiResponsiveContainer,
+  GetiTooltip,
+  GetiXAxis,
+  GetiYAxis,
+} from '@geti-ai/charts/primitives';
+
+const data = [
+  { step: 1, train: 0.45, val: 0.41 },
+  { step: 2, train: 0.51, val: 0.46 },
+  { step: 3, train: 0.62, val: 0.57 },
+  { step: 4, train: 0.71, val: 0.65 },
+];
+
+export default function App() {
+  return (
+    <GetiResponsiveContainer height={260}>
+      <AreaChart data={data}>
+        <defs>
+          <linearGradient id="trainGrad" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="5%" stopColor="var(--spectrum-global-color-blue-500)" stopOpacity={0.3} />
+            <stop offset="95%" stopColor="var(--spectrum-global-color-blue-500)" stopOpacity={0} />
+          </linearGradient>
+          <linearGradient id="valGrad" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="5%" stopColor="var(--spectrum-global-color-green-500)" stopOpacity={0.3} />
+            <stop offset="95%" stopColor="var(--spectrum-global-color-green-500)" stopOpacity={0} />
+          </linearGradient>
+        </defs>
+        <GetiCartesianGrid />
+        <GetiXAxis dataKey="step" />
+        <GetiYAxis />
+        <GetiTooltip />
+        <GetiLegend />
+        <Area type="monotone" dataKey="train" stroke="var(--spectrum-global-color-blue-500)" fill="url(#trainGrad)" isAnimationActive={false} />
+        <Area type="monotone" dataKey="val" stroke="var(--spectrum-global-color-green-500)" fill="url(#valGrad)" isAnimationActive={false} />
       </AreaChart>
     </GetiResponsiveContainer>
   );
