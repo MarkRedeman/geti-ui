@@ -149,4 +149,39 @@ export default function App() {
 }
 ```
 
+## Variant — 7 data categories
+
+```tsx preview
+import { LineChart } from '@geti-ai/charts';
+
+const data = [
+  { epoch: 1, car: 0.41, person: 0.52, bicycle: 0.33, bus: 0.45, truck: 0.38, dog: 0.49, cat: 0.47 },
+  { epoch: 2, car: 0.46, person: 0.57, bicycle: 0.37, bus: 0.48, truck: 0.42, dog: 0.53, cat: 0.50 },
+  { epoch: 3, car: 0.50, person: 0.61, bicycle: 0.40, bus: 0.52, truck: 0.46, dog: 0.56, cat: 0.54 },
+  { epoch: 4, car: 0.55, person: 0.65, bicycle: 0.44, bus: 0.56, truck: 0.49, dog: 0.60, cat: 0.58 },
+  { epoch: 5, car: 0.59, person: 0.69, bicycle: 0.48, bus: 0.60, truck: 0.53, dog: 0.63, cat: 0.62 },
+];
+
+export default function App() {
+  return (
+    <LineChart
+      data={data}
+      xAxisKey="epoch"
+      showLegend
+      series={[
+        { dataKey: 'car', name: 'Car' },
+        { dataKey: 'person', name: 'Person' },
+        { dataKey: 'bicycle', name: 'Bicycle' },
+        { dataKey: 'bus', name: 'Bus' },
+        { dataKey: 'truck', name: 'Truck' },
+        { dataKey: 'dog', name: 'Dog' },
+        { dataKey: 'cat', name: 'Cat' },
+      ]}
+      aria-label="Per-category metrics across seven classes"
+      height={320}
+    />
+  );
+}
+```
+
 Related: [Line chart (primitive)](/charts/primitives/line-chart)
