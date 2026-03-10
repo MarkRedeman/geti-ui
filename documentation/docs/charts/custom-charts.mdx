@@ -129,6 +129,63 @@ export default function App() {
 }
 ```
 
+## Log scale with primitives
+
+Pass `scale="log"` directly on `GetiYAxis` (or `GetiXAxis`) when building custom charts. Always set an explicit `domain` — Recharts log scale requires strictly positive values.
+
+```tsx preview
+import { ScatterChart, Scatter } from 'recharts';
+import {
+  GetiCartesianGrid,
+  GetiXAxis,
+  GetiYAxis,
+  GetiTooltip,
+  GetiResponsiveContainer,
+} from '@geti-ai/charts/primitives';
+
+// Model size (MB) vs mAP — both axes span orders of magnitude
+const models = [
+  { size: 2,   map: 28.1, name: 'MobileNet-v3-S' },
+  { size: 5,   map: 34.6, name: 'MobileNet-v3-L' },
+  { size: 14,  map: 41.2, name: 'EfficientDet-D0' },
+  { size: 52,  map: 49.8, name: 'EfficientDet-D3' },
+  { size: 98,  map: 55.3, name: 'ResNet-50 FPN' },
+  { size: 232, map: 60.7, name: 'ResNet-101 FPN' },
+  { size: 440, map: 63.1, name: 'Swin-L' },
+];
+
+export default function App() {
+  return (
+    <GetiResponsiveContainer height={300}>
+      <ScatterChart margin={{ top: 10, right: 20, bottom: 20, left: 20 }}>
+        <GetiCartesianGrid />
+        <GetiXAxis
+          dataKey="size"
+          name="Model size (MB)"
+          scale="log"
+          domain={[1, 'auto']}
+          type="number"
+          label={{ value: 'Model size (MB) — log scale', position: 'insideBottom', offset: -10, fill: 'var(--spectrum-global-color-gray-400)', fontSize: 12 }}
+        />
+        <GetiYAxis
+          dataKey="map"
+          name="mAP"
+          scale="log"
+          domain={[20, 70]}
+          label={{ value: 'mAP — log scale', angle: -90, position: 'insideLeft', fill: 'var(--spectrum-global-color-gray-400)', fontSize: 12 }}
+        />
+        <GetiTooltip cursor={{ strokeDasharray: '3 3' }} />
+        <Scatter
+          data={models}
+          fill="var(--spectrum-global-color-blue-400)"
+          isAnimationActive={false}
+        />
+      </ScatterChart>
+    </GetiResponsiveContainer>
+  );
+}
+```
+
 ## Animation in custom charts
 
 Custom charts use Recharts props directly. Pass `isAnimationActive={false}` (the library default) on every series element to keep animations off, or pass `isAnimationActive={true}` to opt in:

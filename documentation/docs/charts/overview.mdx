@@ -34,6 +34,24 @@ title: Overview
 - All charts render a hidden `<table>` summary by default for screen readers.
 - Provide a `title` and `description` prop to label the chart for assistive technology.
 
+### Axis scales
+
+All composition charts (`LineChart`, `BarChart`, `AreaChart`, `ScatterChart`) accept `xScale` and `yScale` props to change the axis scale type. The default is linear/category — no changes needed for most charts.
+
+```tsx
+// Log scale on the Y axis (e.g. loss curves)
+<LineChart
+  data={data}
+  xAxisKey="epoch"
+  series={[{ dataKey: 'loss', name: 'Loss' }]}
+  yScale={{ scale: 'log', domain: [0.001, 'auto'] }}
+/>
+```
+
+Supported scale types: `'linear'`, `'log'`, `'sqrt'`, `'pow'`, `'time'`, `'band'`, `'point'`. See the [Compositions reference](./compositions) for full prop details and examples.
+
+> **Log scale caveat:** all data values must be strictly positive (> 0). Set an explicit `domain` to avoid rendering artifacts near zero.
+
 ### Responsiveness
 
 Charts fill their container width by default (`width="100%"`). Wrap in a sized container:

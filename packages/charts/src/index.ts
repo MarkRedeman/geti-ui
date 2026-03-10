@@ -6,9 +6,18 @@ export { defaultGetiChartTheme } from './theming/tokens';
 export { mergeChartTheme } from './theming/chartTheme';
 export type { DeepPartial } from './theming/chartTheme';
 
+// Axis scale types
+export type { AxisScaleType, AxisScaleConfig } from './types/axisScale';
+
 // Hooks
 export { useChartsTheme } from './hooks/useChartsTheme';
 export { useGetiUIChartsTheme } from './hooks/useGetiUIChartsTheme';
+export { useVoronoiHover } from './hooks/useVoronoiHover';
+export type { UseVoronoiHoverOptions, UseVoronoiHoverReturn, VoronoiActivePoint } from './hooks/useVoronoiHover';
+
+// Voronoi utilities (for custom chart implementations)
+export type { ScatterDataPoint, VoronoiHitResult } from './utils/voronoiUtils';
+export { buildVoronoiLookup, linearProject, computeDomain } from './utils/voronoiUtils';
 
 // Primitives
 export { ChartsThemeProvider, ChartsThemeContext } from './primitives/ChartsThemeProvider';

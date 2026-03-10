@@ -38,6 +38,7 @@
         "react-dom": ">=18.0.0"
     },
     "dependencies": {
+        "d3-delaunay": "^6.0.4",
         "recharts": "^3.8.0"
     },
     "devDependencies": {

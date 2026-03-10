@@ -11,6 +11,9 @@ import { useChartsTheme } from '../hooks/useChartsTheme';
 import { ChartGrid, type ChartGridProps } from '../primitives/ChartGrid';
 import { ChartTooltip, type ChartTooltipProps } from '../primitives/ChartTooltip';
 import { ChartLegend, type ChartLegendProps } from '../primitives/ChartLegend';
+import type { AxisScaleConfig } from '../types/axisScale';
+
+export type { AxisScaleConfig };
 
 export interface LineChartSeriesConfig {
     /** Data key to plot on the Y axis. */
@@ -49,6 +52,20 @@ export interface LineChartProps {
     showLegend?: boolean;
     /** Enable animation. @default false */
     animate?: boolean;
+    /**
+     * Scale configuration for the X axis.
+     * Controls the scale type, domain, and overflow behaviour.
+     *
+     * @example { scale: 'log', domain: [1, 'auto'] }
+     */
+    xScale?: AxisScaleConfig;
+    /**
+     * Scale configuration for the Y axis.
+     * Controls the scale type, domain, and overflow behaviour.
+     *
+     * @example { scale: 'log', domain: [1, 'auto'] }
+     */
+    yScale?: AxisScaleConfig;
     /** Props passed to the X axis. */
     xAxisProps?: Omit<XAxisProps, 'dataKey'>;
     /** Props passed to the Y axis. */
@@ -78,6 +95,16 @@ export interface LineChartProps {
  *   aria-label="Monthly sales"
  * />
  * ```
+ *
+ * @example Log scale — useful for loss curves spanning orders of magnitude
+ * ```tsx
+ * <LineChart
+ *   data={data}
+ *   series={[{ dataKey: 'loss' }]}
+ *   yScale={{ scale: 'log', domain: [0.001, 'auto'] }}
+ *   aria-label="Log-scale loss"
+ * />
+ * ```
  */
 export function LineChart({
     data,
@@ -89,6 +116,8 @@ export function LineChart({
     showTooltip = true,
     showLegend = false,
     animate = false,
+    xScale,
+    yScale,
     xAxisProps,
     yAxisProps,
     gridProps,
@@ -116,12 +145,18 @@ export function LineChart({
                         tick={axisStyle}
                         axisLine={{ stroke: theme.axis.lineColor, strokeWidth: theme.axis.strokeWidth }}
                         tickLine={{ stroke: theme.axis.tickColor }}
+                        scale={xScale?.scale}
+                        domain={xScale?.domain}
+                        allowDataOverflow={xScale?.allowDataOverflow}
                         {...xAxisProps}
                     />
                     <YAxis
                         tick={axisStyle}
                         axisLine={{ stroke: theme.axis.lineColor, strokeWidth: theme.axis.strokeWidth }}
                         tickLine={{ stroke: theme.axis.tickColor }}
+                        scale={yScale?.scale}
+                        domain={yScale?.domain}
+                        allowDataOverflow={yScale?.allowDataOverflow}
                         {...yAxisProps}
                     />
 

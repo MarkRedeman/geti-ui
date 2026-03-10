@@ -24,6 +24,8 @@ Renders one or more continuous data series as lines.
 | `height` | `number` | `300` | Chart height in px |
 | `aria-label` | `string` | — | Accessible label for the chart |
 | `animate` | `boolean` | `false` | Opt-in per-chart animations |
+| `xScale` | `AxisScaleConfig` | — | Scale config for the X axis (type, domain, overflow) |
+| `yScale` | `AxisScaleConfig` | — | Scale config for the Y axis (type, domain, overflow) |
 
 ### Example — single series
 
@@ -82,6 +84,40 @@ export default function App() {
 }
 ```
 
+### Example — log scale (loss curve)
+
+Use `yScale` to switch the Y axis to a logarithmic scale. This is ideal for loss curves that drop rapidly at first and then slow down.
+
+> ⚠ **Log scale requires all values to be > 0.** Pass `domain: [minPositive, 'auto']` to prevent Recharts from including zero in the range.
+
+```tsx preview
+import { LineChart } from '@geti-ai/charts';
+
+const data = [
+  { epoch: 1, loss: 2.31 },
+  { epoch: 2, loss: 1.10 },
+  { epoch: 3, loss: 0.52 },
+  { epoch: 4, loss: 0.24 },
+  { epoch: 5, loss: 0.11 },
+  { epoch: 6, loss: 0.05 },
+  { epoch: 7, loss: 0.023 },
+  { epoch: 8, loss: 0.011 },
+];
+
+export default function App() {
+  return (
+    <LineChart
+      data={data}
+      xAxisKey="epoch"
+      series={[{ dataKey: 'loss', name: 'Training loss' }]}
+      yScale={{ scale: 'log', domain: [0.005, 'auto'] }}
+      aria-label="Log-scale training loss"
+      height={260}
+    />
+  );
+}
+```
+
 ---
 
 ## `BarChart`
@@ -98,6 +134,8 @@ Renders categorical data as vertical bars. Supports grouped and stacked layouts.
 | `stacked` | `boolean` | `false` | Stack bars when true |
 | `height` | `number` | `300` | Chart height in px |
 | `animate` | `boolean` | `false` | Opt-in per-chart animations |
+| `xScale` | `AxisScaleConfig` | — | Scale config for X axis (value axis when `layout="vertical"`) |
+| `yScale` | `AxisScaleConfig` | — | Scale config for Y axis (value axis when `layout="horizontal"`) |
 
 ### Example — grouped
 
@@ -148,7 +186,38 @@ export default function App() {
          { dataKey: 'review', name: 'In review' },
          { dataKey: 'rejected', name: 'Rejected' },
        ]}
-      aria-label="Dataset annotation breakdown"
+       aria-label="Dataset annotation breakdown"
+      height={260}
+    />
+  );
+}
+```
+
+### Example — log scale on the value axis
+
+Log scale is useful for count data that spans orders of magnitude (e.g. class imbalance).
+
+> ⚠ All bar values must be > 0 when using log scale.
+
+```tsx preview
+import { BarChart } from '@geti-ai/charts';
+
+const data = [
+  { label: 'Cat',     count: 1200 },
+  { label: 'Dog',     count: 340  },
+  { label: 'Car',     count: 85   },
+  { label: 'Bicycle', count: 12   },
+  { label: 'Sign',    count: 3    },
+];
+
+export default function App() {
+  return (
+    <BarChart
+      data={data}
+      xAxisKey="label"
+      series={[{ dataKey: 'count', name: 'Instances' }]}
+      yScale={{ scale: 'log', domain: [1, 'auto'] }}
+      aria-label="Class imbalance — log scale"
       height={260}
     />
   );
@@ -158,6 +227,7 @@ export default function App() {
 ---
 
 ## `ScatterChart`
+
 
 Visualises the relationship between two continuous variables.
 
@@ -170,6 +240,20 @@ Visualises the relationship between two continuous variables.
 | `yAxisLabel` | `string` | — | Y-axis label |
 | `height` | `number` | `300` | Chart height in px |
 | `animate` | `boolean` | `false` | Opt-in per-chart animations |
+| `useVoronoi` | `boolean` | `true` | Enable Voronoi nearest-point hover (see below) |
+| `voronoiMaxDistance` | `number` | `80` | Max pixel distance for Voronoi tooltip activation |
+| `xScale` | `AxisScaleConfig` | — | Scale config for the X axis |
+| `yScale` | `AxisScaleConfig` | — | Scale config for the Y axis |
+
+### Voronoi hover
+
+By default `ScatterChart` uses **Voronoi-based hover** (powered by [d3-delaunay](https://github.com/d3/d3-delaunay)). Instead of requiring the cursor to land exactly on a small dot, the chart divides the plot area into regions — one per data point — using a Delaunay triangulation. Moving the cursor anywhere inside a region highlights the owning point and shows a tooltip.
+
+Key behaviours:
+
+- **`useVoronoi={true}` (default)** — nearest-point lookup is active. Recharts' built-in cursor line is hidden; a custom active-dot ring and an absolutely-positioned HTML tooltip are rendered instead.
+- **`useVoronoi={false}`** — falls back to standard Recharts hover, where the cursor must intersect a dot to show the tooltip.
+- **`voronoiMaxDistance`** — clamps the lookup radius. Points farther than this many pixels from the cursor are ignored, so the tooltip disappears in truly empty areas of the chart. Raise this value for sparse data; lower it for very dense scatter plots.
 
 ### Example
 
@@ -193,6 +277,66 @@ export default function App() {
       xAxisLabel="False positive rate"
       yAxisLabel="True positive rate"
       aria-label="ROC scatter — per class"
+      height={280}
+    />
+  );
+}
+```
+
+### Example — Voronoi disabled (standard hover)
+
+```tsx preview
+import { ScatterChart } from '@geti-ai/charts';
+
+const points = [
+  { x: 0.1, y: 0.85, name: 'cat' },
+  { x: 0.3, y: 0.72, name: 'dog' },
+  { x: 0.5, y: 0.91, name: 'car' },
+  { x: 0.2, y: 0.68, name: 'person' },
+  { x: 0.7, y: 0.77, name: 'bicycle' },
+  { x: 0.4, y: 0.83, name: 'truck' },
+  { x: 0.6, y: 0.95, name: 'bus' },
+];
+
+export default function App() {
+  return (
+    <ScatterChart
+      series={[{ name: 'Per class', data: points }]}
+      xAxisLabel="False positive rate"
+      yAxisLabel="True positive rate"
+      aria-label="ROC scatter — standard hover"
+      height={280}
+      useVoronoi={false}
+    />
+  );
+}
+```
+
+### Example — log-log scatter (model size vs accuracy)
+
+Log scales on both axes are useful when comparing data that spans many orders of magnitude.
+
+> ⚠ Both axes require all values to be > 0.
+
+```tsx preview
+import { ScatterChart } from '@geti-ai/charts';
+
+const models = [
+  { x: 3.4e6,  y: 72 },
+  { x: 11.7e6, y: 80 },
+  { x: 25.6e6, y: 85 },
+  { x: 44.5e6, y: 88 },
+  { x: 138e6,  y: 91 },
+];
+
+export default function App() {
+  return (
+    <ScatterChart
+      series={[{ name: 'Models', data: models }]}
+      xScale={{ scale: 'log', domain: [1e6, 'auto'] }}
+      xAxisLabel="Parameters"
+      yAxisLabel="Top-1 accuracy (%)"
+      aria-label="Model size vs accuracy"
       height={280}
     />
   );

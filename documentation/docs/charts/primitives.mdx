@@ -22,26 +22,29 @@ import {
 A thin wrapper around Recharts `ResponsiveContainer` that enforces `width="100%"` and adds a default `minHeight`.
 
 ```tsx preview
+import { ComposedChart, Line } from 'recharts';
 import { GetiResponsiveContainer } from '@geti-ai/charts/primitives';
+
+const data = [
+  { t: '09:00', val: 42 },
+  { t: '10:00', val: 58 },
+  { t: '11:00', val: 53 },
+  { t: '12:00', val: 67 },
+  { t: '13:00', val: 71 },
+];
 
 export default function App() {
   return (
     <GetiResponsiveContainer height={120}>
-      <div
-        style={{
-          width: '100%',
-          height: '100%',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-          border: '1px dashed var(--spectrum-global-color-gray-500)',
-          borderRadius: 4,
-          color: 'var(--spectrum-global-color-gray-400)',
-          fontSize: 13,
-        }}
-      >
-        Chart content renders here
-      </div>
+      <ComposedChart data={data} margin={{ top: 8, right: 8, bottom: 8, left: 8 }}>
+        <Line
+          type="monotone"
+          dataKey="val"
+          stroke="var(--spectrum-global-color-blue-500)"
+          dot={false}
+          isAnimationActive={false}
+        />
+      </ComposedChart>
     </GetiResponsiveContainer>
   );
 }
@@ -59,7 +62,13 @@ Renders a subtle grid using Geti's `gray-700` token. Stroke-dasharray and opacit
 
 ## `GetiXAxis` / `GetiYAxis`
 
-Pre-styled axes with Geti's typography tokens applied. Both accept all Recharts `XAxis`/`YAxis` props.
+Pre-styled axes with Geti's typography tokens applied. Both accept all Recharts `XAxis`/`YAxis` props including `scale`, `domain`, and `allowDataOverflow` for custom scale control.
+
+| Prop | Type | Description |
+|---|---|---|
+| `scale` | `AxisScaleType` | Scale type: `'linear'`, `'log'`, `'sqrt'`, `'pow'`, `'time'`, `'band'`, `'point'`, etc. |
+| `domain` | `[min, max]` | Explicit axis domain. Each bound can be a number, `'auto'`, `'dataMin'`, or `'dataMax'`. |
+| `allowDataOverflow` | `boolean` | When `true`, data outside the `domain` is still rendered (clipped at viewport). |
 
 ```tsx preview
 import {
@@ -91,6 +100,52 @@ export default function App() {
         <Line
           type="monotone"
           dataKey="val"
+          stroke="var(--spectrum-global-color-blue-500)"
+          dot={false}
+          isAnimationActive={false}
+        />
+      </ComposedChart>
+    </GetiResponsiveContainer>
+  );
+}
+```
+
+### Log scale with primitives
+
+Pass `scale="log"` and a positive `domain` directly to `GetiYAxis`:
+
+> ⚠ Log scale requires all values to be > 0. Always provide a `domain` with a positive lower bound.
+
+```tsx preview
+import { ComposedChart, Line } from 'recharts';
+import {
+  GetiCartesianGrid,
+  GetiXAxis,
+  GetiYAxis,
+  GetiResponsiveContainer,
+} from '@geti-ai/charts/primitives';
+
+const data = [
+  { epoch: 1, loss: 2.31 },
+  { epoch: 2, loss: 1.05 },
+  { epoch: 3, loss: 0.48 },
+  { epoch: 4, loss: 0.22 },
+  { epoch: 5, loss: 0.10 },
+  { epoch: 6, loss: 0.046 },
+  { epoch: 7, loss: 0.021 },
+  { epoch: 8, loss: 0.010 },
+];
+
+export default function App() {
+  return (
+    <GetiResponsiveContainer height={240}>
+      <ComposedChart data={data}>
+        <GetiCartesianGrid />
+        <GetiXAxis dataKey="epoch" />
+        <GetiYAxis scale="log" domain={[0.005, 'auto']} />
+        <Line
+          type="monotone"
+          dataKey="loss"
           stroke="var(--spectrum-global-color-blue-500)"
           dot={false}
           isAnimationActive={false}

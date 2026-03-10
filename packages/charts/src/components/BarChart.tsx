@@ -12,6 +12,9 @@ import { useChartsTheme } from '../hooks/useChartsTheme';
 import { ChartGrid, type ChartGridProps } from '../primitives/ChartGrid';
 import { ChartTooltip, type ChartTooltipProps } from '../primitives/ChartTooltip';
 import { ChartLegend, type ChartLegendProps } from '../primitives/ChartLegend';
+import type { AxisScaleConfig } from '../types/axisScale';
+
+export type { AxisScaleConfig };
 
 export interface BarChartSeriesConfig {
     /** Data key to plot. */
@@ -52,6 +55,21 @@ export interface BarChartProps {
     showLegend?: boolean;
     /** Enable animation. @default false */
     animate?: boolean;
+    /**
+     * Scale configuration for the X axis (value axis when `layout="vertical"`).
+     * For bar charts, scale is most commonly applied to the numeric axis.
+     *
+     * ⚠ Logarithmic scale on a bar chart requires all values to be > 0.
+     *
+     * @example { scale: 'log', domain: [1, 'auto'] }
+     */
+    xScale?: AxisScaleConfig;
+    /**
+     * Scale configuration for the Y axis (value axis when `layout="horizontal"`).
+     *
+     * @example { scale: 'log', domain: [1, 'auto'] }
+     */
+    yScale?: AxisScaleConfig;
     /** Props passed to the X axis. */
     xAxisProps?: Omit<XAxisProps, 'dataKey'>;
     /** Props passed to the Y axis. */
@@ -82,6 +100,16 @@ export interface BarChartProps {
  *   aria-label="Category counts"
  * />
  * ```
+ *
+ * @example Log scale on the value axis
+ * ```tsx
+ * <BarChart
+ *   data={data}
+ *   series={[{ dataKey: 'count' }]}
+ *   yScale={{ scale: 'log', domain: [1, 'auto'] }}
+ *   aria-label="Log-scale bar chart"
+ * />
+ * ```
  */
 export function BarChart({
     data,
@@ -96,6 +124,8 @@ export function BarChart({
     showTooltip = true,
     showLegend = false,
     animate = false,
+    xScale,
+    yScale,
     xAxisProps,
     yAxisProps,
     gridProps,
@@ -115,13 +145,13 @@ export function BarChart({
     // Recharts layout: 'horizontal' = bars grow up, 'vertical' = bars grow sideways
     const xProps: XAxisProps =
         layout === 'vertical'
-            ? { type: 'number', ...xAxisProps }
-            : { dataKey: xAxisKey, ...xAxisProps };
+            ? { type: 'number', scale: xScale?.scale, domain: xScale?.domain, allowDataOverflow: xScale?.allowDataOverflow, ...xAxisProps }
+            : { dataKey: xAxisKey, scale: xScale?.scale, domain: xScale?.domain, allowDataOverflow: xScale?.allowDataOverflow, ...xAxisProps };
 
     const yProps: YAxisProps =
         layout === 'vertical'
-            ? { type: 'category', dataKey: xAxisKey, ...yAxisProps }
-            : { ...yAxisProps };
+            ? { type: 'category', dataKey: xAxisKey, scale: yScale?.scale, domain: yScale?.domain, allowDataOverflow: yScale?.allowDataOverflow, ...yAxisProps }
+            : { scale: yScale?.scale, domain: yScale?.domain, allowDataOverflow: yScale?.allowDataOverflow, ...yAxisProps };
 
     return (
         <div role="img" aria-label={ariaLabel} style={{ width, height }}>
