@@ -90,4 +90,63 @@ export default function App() {
 }
 ```
 
+## Variant — time-based X axis
+
+```tsx preview
+import { LineChart } from '@geti-ai/charts';
+
+const data = [
+  { ts: Date.parse('2026-01-01T00:00:00Z'), throughput: 22 },
+  { ts: Date.parse('2026-01-02T00:00:00Z'), throughput: 28 },
+  { ts: Date.parse('2026-01-03T00:00:00Z'), throughput: 31 },
+  { ts: Date.parse('2026-01-04T00:00:00Z'), throughput: 26 },
+  { ts: Date.parse('2026-01-05T00:00:00Z'), throughput: 34 },
+];
+
+export default function App() {
+  return (
+    <LineChart
+      data={data}
+      xAxisKey="ts"
+      xScale={{ scale: 'time' }}
+      xAxisProps={{
+        type: 'number',
+        domain: ['dataMin', 'dataMax'],
+        tickFormatter: (v) => new Date(Number(v)).toLocaleDateString('en-US', { month: 'short', day: 'numeric' }),
+      }}
+      series={[{ dataKey: 'throughput', name: 'Images/sec' }]}
+      aria-label="Throughput over time"
+      height={260}
+    />
+  );
+}
+```
+
+## Variant — log-scaled Y axis
+
+```tsx preview
+import { LineChart } from '@geti-ai/charts';
+
+const data = [
+  { epoch: 1, loss: 1200 },
+  { epoch: 2, loss: 380 },
+  { epoch: 3, loss: 110 },
+  { epoch: 4, loss: 42 },
+  { epoch: 5, loss: 12 },
+];
+
+export default function App() {
+  return (
+    <LineChart
+      data={data}
+      xAxisKey="epoch"
+      yScale={{ scale: 'log', domain: [1, 'auto'] }}
+      series={[{ dataKey: 'loss', name: 'Loss' }]}
+      aria-label="Log-scale loss curve"
+      height={260}
+    />
+  );
+}
+```
+
 Related: [Line chart (primitive)](/charts/primitives/line-chart)
