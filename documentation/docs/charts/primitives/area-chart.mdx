@@ -90,4 +90,80 @@ export default function App() {
 }
 ```
 
+## Variant — time-based area chart
+
+```tsx preview
+import { Area, AreaChart } from 'recharts';
+import {
+  GetiCartesianGrid,
+  GetiResponsiveContainer,
+  GetiTooltip,
+  GetiXAxis,
+  GetiYAxis,
+} from '@geti-ai/charts/primitives';
+
+const data = [
+  { ts: Date.parse('2026-01-01T00:00:00Z'), value: 0.42 },
+  { ts: Date.parse('2026-01-02T00:00:00Z'), value: 0.55 },
+  { ts: Date.parse('2026-01-03T00:00:00Z'), value: 0.63 },
+  { ts: Date.parse('2026-01-04T00:00:00Z'), value: 0.58 },
+  { ts: Date.parse('2026-01-05T00:00:00Z'), value: 0.71 },
+];
+
+export default function App() {
+  return (
+    <GetiResponsiveContainer height={260}>
+      <AreaChart data={data}>
+        <GetiCartesianGrid />
+        <GetiXAxis
+          dataKey="ts"
+          type="number"
+          scale="time"
+          domain={['dataMin', 'dataMax']}
+          tickFormatter={(v) => new Date(Number(v)).toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}
+        />
+        <GetiYAxis />
+        <GetiTooltip />
+        <Area type="monotone" dataKey="value" stroke="var(--spectrum-global-color-blue-500)" fill="var(--spectrum-global-color-blue-500)" fillOpacity={0.2} isAnimationActive={false} />
+      </AreaChart>
+    </GetiResponsiveContainer>
+  );
+}
+```
+
+## Variant — log scale on Y axis
+
+```tsx preview
+import { Area, AreaChart } from 'recharts';
+import {
+  GetiCartesianGrid,
+  GetiResponsiveContainer,
+  GetiTooltip,
+  GetiXAxis,
+  GetiYAxis,
+} from '@geti-ai/charts/primitives';
+
+const data = [
+  { batch: 1, error: 600 },
+  { batch: 2, error: 240 },
+  { batch: 3, error: 95 },
+  { batch: 4, error: 36 },
+  { batch: 5, error: 15 },
+];
+
+export default function App() {
+  return (
+    <GetiResponsiveContainer height={260}>
+      <AreaChart data={data}>
+        <GetiCartesianGrid />
+        <GetiXAxis dataKey="batch" />
+        <GetiYAxis scale="log" domain={[1, 'auto']} />
+        <GetiTooltip />
+        <Area type="monotone" dataKey="error" stroke="var(--spectrum-global-color-blue-500)" fill="var(--spectrum-global-color-blue-500)" fillOpacity={0.2} isAnimationActive={false} />
+      </AreaChart>
+    </GetiResponsiveContainer>
+  );
+}
+```
+
 Related: [Area chart (composition)](/charts/compositions/area-chart)

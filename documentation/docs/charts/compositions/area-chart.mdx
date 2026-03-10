@@ -94,4 +94,63 @@ export default function App() {
 }
 ```
 
+## Variant — time-based X axis
+
+```tsx preview
+import { AreaChart } from '@geti-ai/charts';
+
+const data = [
+  { ts: Date.parse('2026-01-01T00:00:00Z'), utilization: 0.42 },
+  { ts: Date.parse('2026-01-02T00:00:00Z'), utilization: 0.55 },
+  { ts: Date.parse('2026-01-03T00:00:00Z'), utilization: 0.63 },
+  { ts: Date.parse('2026-01-04T00:00:00Z'), utilization: 0.58 },
+  { ts: Date.parse('2026-01-05T00:00:00Z'), utilization: 0.71 },
+];
+
+export default function App() {
+  return (
+    <AreaChart
+      data={data}
+      xAxisKey="ts"
+      xScale={{ scale: 'time' }}
+      xAxisProps={{
+        type: 'number',
+        domain: ['dataMin', 'dataMax'],
+        tickFormatter: (v) => new Date(Number(v)).toLocaleDateString('en-US', { month: 'short', day: 'numeric' }),
+      }}
+      series={[{ dataKey: 'utilization', name: 'GPU utilization', fade: true }]}
+      aria-label="Utilization over time"
+      height={260}
+    />
+  );
+}
+```
+
+## Variant — log-scaled Y axis
+
+```tsx preview
+import { AreaChart } from '@geti-ai/charts';
+
+const data = [
+  { batch: 1, error: 600 },
+  { batch: 2, error: 240 },
+  { batch: 3, error: 95 },
+  { batch: 4, error: 36 },
+  { batch: 5, error: 15 },
+];
+
+export default function App() {
+  return (
+    <AreaChart
+      data={data}
+      xAxisKey="batch"
+      yScale={{ scale: 'log', domain: [1, 'auto'] }}
+      series={[{ dataKey: 'error', name: 'Error', fade: true }]}
+      aria-label="Log-scale area chart"
+      height={260}
+    />
+  );
+}
+```
+
 Related: [Area chart (primitive)](/charts/primitives/area-chart)
