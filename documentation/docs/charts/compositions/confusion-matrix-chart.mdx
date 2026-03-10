@@ -1,0 +1,90 @@
+---
+title: Confusion matrix chart
+---
+
+# Confusion matrix chart (composition)
+
+`ConfusionMatrixChart` renders class-vs-class prediction quality using a color-intensity matrix.
+
+## Variant — raw counts
+
+```tsx preview
+import { ConfusionMatrixChart } from '@geti-ai/charts';
+
+const labels = ['Car', 'Person', 'Bicycle', 'Sign'];
+const matrix = [
+  [148, 7, 3, 2],
+  [9, 121, 6, 4],
+  [5, 8, 97, 10],
+  [3, 5, 11, 84],
+];
+
+export default function App() {
+  return (
+    <ConfusionMatrixChart
+      labels={labels}
+      matrix={matrix}
+      normalize="none"
+      aria-label="Confusion matrix with raw counts"
+      height={420}
+    />
+  );
+}
+```
+
+## Variant — row-normalized percentages
+
+```tsx preview
+import { ConfusionMatrixChart } from '@geti-ai/charts';
+
+const labels = ['Car', 'Person', 'Bicycle', 'Sign'];
+const matrix = [
+  [148, 7, 3, 2],
+  [9, 121, 6, 4],
+  [5, 8, 97, 10],
+  [3, 5, 11, 84],
+];
+
+export default function App() {
+  return (
+    <ConfusionMatrixChart
+      labels={labels}
+      matrix={matrix}
+      normalize="row"
+      aria-label="Row-normalized confusion matrix"
+      height={420}
+    />
+  );
+}
+```
+
+## Variant — hide values, color-only density
+
+```tsx preview
+import { ConfusionMatrixChart } from '@geti-ai/charts';
+
+const labels = ['Car', 'Person', 'Bicycle', 'Sign'];
+const matrix = [
+  [148, 7, 3, 2],
+  [9, 121, 6, 4],
+  [5, 8, 97, 10],
+  [3, 5, 11, 84],
+];
+
+export default function App() {
+  return (
+    <ConfusionMatrixChart
+      labels={labels}
+      matrix={matrix}
+      normalize="global"
+      showValues={false}
+      minOpacity={0.14}
+      maxOpacity={0.9}
+      aria-label="Global-normalized confusion matrix without labels"
+      height={420}
+    />
+  );
+}
+```
+
+Related: [Confusion matrix chart (primitive)](/charts/primitives/confusion-matrix-chart)

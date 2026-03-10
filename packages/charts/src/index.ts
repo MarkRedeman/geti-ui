@@ -87,5 +87,8 @@ export type { TrainingMetricsChartProps, TrainingMetricSeriesConfig } from './co
 export { RunComparisonChart } from './components/RunComparisonChart';
 export type { RunComparisonChartProps, RunComparisonSeriesConfig } from './components/RunComparisonChart';
 
+export { ConfusionMatrixChart } from './components/ConfusionMatrixChart';
+export type { ConfusionMatrixChartProps } from './components/ConfusionMatrixChart';
+
 export { TreemapChart } from './components/TreemapChart';
 export type { TreemapChartProps } from './components/TreemapChart';

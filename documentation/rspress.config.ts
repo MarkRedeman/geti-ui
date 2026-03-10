@@ -70,6 +70,7 @@ const chartsSidebar = [
                         items: [
                             { text: 'Training metrics chart', link: '/charts/compositions/training-metrics-chart' },
                             { text: 'Run comparison chart', link: '/charts/compositions/run-comparison-chart' },
+                            { text: 'Confusion matrix chart', link: '/charts/compositions/confusion-matrix-chart' },
                         ],
                     },
                     {
@@ -78,6 +79,7 @@ const chartsSidebar = [
                         items: [
                             { text: 'Training metrics chart', link: '/charts/primitives/training-metrics-chart' },
                             { text: 'Run comparison chart', link: '/charts/primitives/run-comparison-chart' },
+                            { text: 'Confusion matrix chart', link: '/charts/primitives/confusion-matrix-chart' },
                         ],
                     },
                 ],

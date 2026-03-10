@@ -1,0 +1,144 @@
+---
+title: Confusion matrix chart
+---
+
+# Confusion matrix chart (primitive)
+
+Use chart primitives to build confusion-matrix style layouts when you need custom labels, annotations, and interaction.
+
+## Variant — custom matrix grid with `GetiChartContainer`
+
+```tsx preview
+import { GetiChartContainer } from '@geti-ai/charts/primitives';
+
+const labels = ['Car', 'Person', 'Bicycle', 'Sign'];
+const matrix = [
+  [148, 7, 3, 2],
+  [9, 121, 6, 4],
+  [5, 8, 97, 10],
+  [3, 5, 11, 84],
+];
+
+const max = Math.max(...matrix.flat());
+
+export default function App() {
+  return (
+    <GetiChartContainer aria-label="Primitive confusion matrix" height={420}>
+      <div
+        style={{
+          display: 'grid',
+          gridTemplateColumns: `120px repeat(${labels.length}, minmax(0, 1fr))`,
+          gridTemplateRows: `44px repeat(${labels.length}, minmax(0, 1fr))`,
+          gap: 4,
+          height: '100%',
+          padding: 8,
+        }}
+      >
+        <div />
+        {labels.map((label) => (
+          <div key={`header-col-${label}`} style={{ textAlign: 'center', alignSelf: 'center', fontWeight: 600 }}>
+            {label}
+          </div>
+        ))}
+
+        {matrix.map((row, rowIndex) => (
+          <>
+            <div key={`header-row-${labels[rowIndex]}`} style={{ alignSelf: 'center', fontWeight: 600 }}>
+              {labels[rowIndex]}
+            </div>
+            {row.map((value, colIndex) => {
+              const opacity = 0.12 + 0.8 * (value / max);
+              return (
+                <div
+                  key={`cell-${rowIndex}-${colIndex}`}
+                  style={{
+                    display: 'grid',
+                    placeItems: 'center',
+                    border: '1px solid var(--spectrum-global-color-gray-700)',
+                    borderRadius: 4,
+                    backgroundColor: `rgba(76, 155, 232, ${opacity})`,
+                    fontWeight: 600,
+                  }}
+                >
+                  {value}
+                </div>
+              );
+            })}
+          </>
+        ))}
+      </div>
+    </GetiChartContainer>
+  );
+}
+```
+
+## Variant — row-normalized matrix
+
+```tsx preview
+import { GetiChartContainer } from '@geti-ai/charts/primitives';
+
+const labels = ['Car', 'Person', 'Bicycle', 'Sign'];
+const matrix = [
+  [148, 7, 3, 2],
+  [9, 121, 6, 4],
+  [5, 8, 97, 10],
+  [3, 5, 11, 84],
+];
+
+const normalized = matrix.map((row) => {
+  const max = Math.max(...row, 0);
+  return row.map((value) => (max > 0 ? value / max : 0));
+});
+
+export default function App() {
+  return (
+    <GetiChartContainer aria-label="Primitive row-normalized confusion matrix" height={420}>
+      <div
+        style={{
+          display: 'grid',
+          gridTemplateColumns: `120px repeat(${labels.length}, minmax(0, 1fr))`,
+          gridTemplateRows: `44px repeat(${labels.length}, minmax(0, 1fr))`,
+          gap: 4,
+          height: '100%',
+          padding: 8,
+        }}
+      >
+        <div />
+        {labels.map((label) => (
+          <div key={`header-col-${label}`} style={{ textAlign: 'center', alignSelf: 'center', fontWeight: 600 }}>
+            {label}
+          </div>
+        ))}
+
+        {normalized.map((row, rowIndex) => (
+          <>
+            <div key={`header-row-${labels[rowIndex]}`} style={{ alignSelf: 'center', fontWeight: 600 }}>
+              {labels[rowIndex]}
+            </div>
+            {row.map((value, colIndex) => {
+              const opacity = 0.12 + 0.8 * value;
+              return (
+                <div
+                  key={`cell-${rowIndex}-${colIndex}`}
+                  style={{
+                    display: 'grid',
+                    placeItems: 'center',
+                    border: '1px solid var(--spectrum-global-color-gray-700)',
+                    borderRadius: 4,
+                    backgroundColor: `rgba(76, 155, 232, ${opacity})`,
+                    fontWeight: 600,
+                  }}
+                >
+                  {(value * 100).toFixed(1)}%
+                </div>
+              );
+            })}
+          </>
+        ))}
+      </div>
+    </GetiChartContainer>
+  );
+}
+```
+
+Related: [Confusion matrix chart (composition)](/charts/compositions/confusion-matrix-chart)
