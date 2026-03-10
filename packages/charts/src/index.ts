@@ -68,3 +68,6 @@ export type { ScatterChartProps, ScatterChartSeriesConfig } from './components/S
 
 export { PieChart } from './components/PieChart';
 export type { PieChartProps } from './components/PieChart';
+
+export { DonutChart } from './components/DonutChart';
+export type { DonutChartProps } from './components/DonutChart';

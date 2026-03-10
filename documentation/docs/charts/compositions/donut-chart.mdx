@@ -1,0 +1,97 @@
+---
+title: Donut chart
+---
+
+# Donut chart (composition)
+
+`DonutChart` is a pie-style composition with a hollow center, useful for share-of-total summaries and score distributions.
+
+## Variant — default
+
+```tsx preview
+import { DonutChart } from '@geti-ai/charts';
+
+const data = [
+  { name: 'Images', value: 52 },
+  { name: 'Videos', value: 18 },
+  { name: 'Annotations', value: 22 },
+  { name: 'Models', value: 8 },
+];
+
+export default function App() {
+  return <DonutChart data={data} aria-label="Dataset storage share" height={320} />;
+}
+```
+
+## Variant — labels on
+
+```tsx preview
+import { DonutChart } from '@geti-ai/charts';
+
+const data = [
+  { name: 'Car', value: 4200 },
+  { name: 'Person', value: 5600 },
+  { name: 'Bicycle', value: 2100 },
+  { name: 'Bus', value: 1400 },
+];
+
+export default function App() {
+  return <DonutChart data={data} showLabels aria-label="Class share with labels" height={320} />;
+}
+```
+
+## Variant — no legend, custom ring thickness
+
+```tsx preview
+import { DonutChart } from '@geti-ai/charts';
+
+const data = [
+  { name: 'Accepted', value: 71 },
+  { name: 'Rejected', value: 19 },
+  { name: 'Needs review', value: 10 },
+];
+
+export default function App() {
+  return (
+    <DonutChart
+      data={data}
+      showLegend={false}
+      innerRadius="68%"
+      outerRadius="86%"
+      colors={['#22c55e', '#ef4444', '#f59e0b']}
+      aria-label="Review status donut"
+      height={300}
+    />
+  );
+}
+```
+
+## Variant — train / validation / test palette
+
+```tsx preview
+import { DonutChart, getDatasetSubsetColor } from '@geti-ai/charts';
+
+const data = [
+  { name: 'Train', value: 70 },
+  { name: 'Validation', value: 20 },
+  { name: 'Test', value: 10 },
+];
+
+export default function App() {
+  return (
+    <DonutChart
+      data={data}
+      colors={[
+        getDatasetSubsetColor('train')!,
+        getDatasetSubsetColor('validation')!,
+        getDatasetSubsetColor('test')!,
+      ]}
+      showLabels
+      aria-label="Dataset subset donut"
+      height={320}
+    />
+  );
+}
+```
+
+Related: [Donut chart (primitive)](/charts/primitives/donut-chart)

@@ -259,6 +259,32 @@ export default function App() {
 
 Use the same palette with donut-style charts by passing subset colors as the `colors` array.
 
+```tsx preview
+import { DonutChart, getDatasetSubsetColor } from '@geti-ai/charts';
+
+const data = [
+  { name: 'Train', value: 70 },
+  { name: 'Validation', value: 20 },
+  { name: 'Test', value: 10 },
+];
+
+export default function App() {
+  return (
+    <DonutChart
+      data={data}
+      colors={[
+        getDatasetSubsetColor('train')!,
+        getDatasetSubsetColor('validation')!,
+        getDatasetSubsetColor('test')!,
+      ]}
+      showLabels
+      aria-label="Dataset subsets as donut slices"
+      height={320}
+    />
+  );
+}
+```
+
 ## Radar / radial / meter / treemap
 
 For the upcoming charts, use the same `withDatasetSubsetPalette` or `getDatasetSubsetColor` patterns based on whether the chart API is multi-series (`withDatasetSubsetPalette`) or single-series slices (`getDatasetSubsetColor`).
