@@ -68,7 +68,7 @@ jobs:
           set -euo pipefail
           OPENCV_VERSION="$INPUT_OPENCV_VERSION"
           EMSDK_VERSION="$INPUT_EMSDK_VERSION"
-          REPOSITORY_OWNER_VALUE="$REPOSITORY_OWNER"
+          REPOSITORY_OWNER_VALUE=$(printf '%s' "$REPOSITORY_OWNER" | tr '[:upper:]' '[:lower:]')
           CONFIG_SHA=$(sha256sum packages/smart-tools/scripts/opencv_js.config.py | cut -c1-12)
           ARTIFACT_NAME="opencv-artifacts-${OPENCV_VERSION}-${CONFIG_SHA}"
           CACHE_REF="ghcr.io/${REPOSITORY_OWNER_VALUE}/opencv-buildcache:opencv-${OPENCV_VERSION}-emsdk-${EMSDK_VERSION}-${CONFIG_SHA}"
