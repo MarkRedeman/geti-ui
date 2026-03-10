@@ -239,10 +239,7 @@ html {
 
 /* Custom homepage */
 .geti-home-bg {
-    background:
-        radial-gradient(circle at 20% 0%, rgb(0 199 253 / 10%), transparent 38%),
-        radial-gradient(circle at 80% 20%, rgb(0 84 174 / 12%), transparent 42%),
-        var(--rp-home-background-bg);
+    background: var(--rp-home-background-bg);
 }
 
 .geti-home-wrapper {
@@ -256,24 +253,15 @@ html {
 .geti-home-hero {
     position: relative;
     border: 1px solid var(--rp-c-divider);
-    background: linear-gradient(135deg, rgb(0 84 174 / 14%) 0%, rgb(0 199 253 / 8%) 100%);
+    background: var(--rp-c-bg-soft);
     border-radius: 12px;
     padding: 3rem 2rem;
     overflow: hidden;
 }
 
-.geti-home-hero__glow {
-    position: absolute;
-    inset: -20% auto auto -15%;
-    width: 360px;
-    height: 360px;
-    background: radial-gradient(circle, rgb(0 199 253 / 16%) 0%, transparent 70%);
-    pointer-events: none;
-}
-
 .geti-home-hero__eyebrow {
     margin: 0;
-    color: var(--geti-energy-blue-light);
+    color: var(--geti-classic-blue);
     font-size: 0.82rem;
     text-transform: uppercase;
     letter-spacing: 0.08em;
@@ -289,7 +277,7 @@ html {
 }
 
 .geti-home-hero__title-accent {
-    color: var(--geti-energy-blue-light);
+    color: var(--geti-energy-blue-shade);
 }
 
 .geti-home-hero__subtitle {
@@ -314,18 +302,13 @@ html {
     border-radius: var(--geti-radius-md);
     font-weight: 600;
     text-decoration: none;
-    transition: transform 0.14s ease, box-shadow 0.14s ease, background-color 0.14s ease;
+    transition: background-color 0.14s ease, border-color 0.14s ease;
     border: 1px solid transparent;
-}
-
-.geti-home-btn:hover {
-    transform: translateY(-1px);
 }
 
 .geti-home-btn--primary {
     background: var(--geti-classic-blue);
     color: var(--geti-gray-900);
-    box-shadow: var(--geti-shadow-1);
 }
 
 .geti-home-btn--primary:hover {
@@ -361,20 +344,19 @@ html {
     border: 1px solid var(--rp-c-divider);
     background: var(--rp-c-bg-soft);
     border-radius: 10px;
-    padding: 1rem;
+    padding: 1.25rem;
     min-height: 172px;
-    transition: transform 0.14s ease, border-color 0.14s ease, box-shadow 0.14s ease;
+    transition: border-color 0.14s ease, background-color 0.14s ease;
 }
 
 .geti-home-card:hover {
-    transform: translateY(-2px);
-    border-color: var(--geti-energy-blue-shade);
-    box-shadow: var(--geti-shadow-2);
+    border-color: var(--geti-classic-blue);
+    background: var(--geti-gray-100);
 }
 
 .geti-home-card__kicker {
     margin: 0;
-    color: var(--geti-energy-blue-light);
+    color: var(--geti-classic-blue);
     font-size: 0.78rem;
     text-transform: uppercase;
     letter-spacing: 0.07em;
@@ -409,9 +391,9 @@ html {
 
 .geti-home-feature-strip {
     border: 1px solid var(--rp-c-divider);
-    background: linear-gradient(180deg, rgb(0 84 174 / 9%) 0%, transparent 100%);
+    background: var(--rp-c-bg-soft);
     border-radius: 12px;
-    padding: 2rem;
+    padding: 2.5rem 2rem;
     display: grid;
     gap: 0.9rem;
     justify-items: start;

@@ -12,7 +12,6 @@ export const HomeLayout = (props: HomeLayoutProps) => {
             {beforeHero}
             <main className="geti-home-wrapper">
                 <section className="geti-home-hero">
-                    <div className="geti-home-hero__glow" />
                     <p className="geti-home-hero__eyebrow">Intel Geti Design System</p>
                     <h1 className="geti-home-hero__title">
                         The React platform for
