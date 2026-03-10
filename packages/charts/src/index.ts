@@ -90,5 +90,8 @@ export type { RunComparisonChartProps, RunComparisonSeriesConfig } from './compo
 export { ConfusionMatrixChart } from './components/ConfusionMatrixChart';
 export type { ConfusionMatrixChartProps } from './components/ConfusionMatrixChart';
 
+export { PrecisionRecallCurve } from './components/PrecisionRecallCurve';
+export type { PrecisionRecallCurveProps, PrecisionRecallCurveSeriesConfig } from './components/PrecisionRecallCurve';
+
 export { TreemapChart } from './components/TreemapChart';
 export type { TreemapChartProps } from './components/TreemapChart';

@@ -1,0 +1,106 @@
+---
+title: Precision recall curve
+---
+
+# Precision recall curve (composition)
+
+`PrecisionRecallCurve` is an ML composition for evaluating classifier trade-offs across thresholds.
+
+## Variant — single model PR curve
+
+```tsx preview
+import { PrecisionRecallCurve } from '@geti-ai/charts';
+
+const data = [
+  { recall: 0.0, precision: 1.0 },
+  { recall: 0.1, precision: 0.98 },
+  { recall: 0.2, precision: 0.95 },
+  { recall: 0.35, precision: 0.91 },
+  { recall: 0.5, precision: 0.87 },
+  { recall: 0.65, precision: 0.80 },
+  { recall: 0.8, precision: 0.69 },
+  { recall: 0.9, precision: 0.55 },
+  { recall: 1.0, precision: 0.42 },
+];
+
+export default function App() {
+  return (
+    <PrecisionRecallCurve
+      data={data}
+      series={[{ dataKey: 'precision', name: 'Detector A' }]}
+      aria-label="Precision recall curve for detector A"
+      height={320}
+    />
+  );
+}
+```
+
+## Variant — compare two models + baseline
+
+```tsx preview
+import { PrecisionRecallCurve } from '@geti-ai/charts';
+
+const data = [
+  { recall: 0.0, modelA: 1.0, modelB: 1.0 },
+  { recall: 0.1, modelA: 0.98, modelB: 0.96 },
+  { recall: 0.2, modelA: 0.95, modelB: 0.92 },
+  { recall: 0.35, modelA: 0.91, modelB: 0.86 },
+  { recall: 0.5, modelA: 0.87, modelB: 0.79 },
+  { recall: 0.65, modelA: 0.80, modelB: 0.71 },
+  { recall: 0.8, modelA: 0.69, modelB: 0.60 },
+  { recall: 0.9, modelA: 0.55, modelB: 0.48 },
+  { recall: 1.0, modelA: 0.42, modelB: 0.38 },
+];
+
+export default function App() {
+  return (
+    <PrecisionRecallCurve
+      data={data}
+      series={[
+        { dataKey: 'modelA', name: 'Detector A' },
+        { dataKey: 'modelB', name: 'Detector B' },
+      ]}
+      showBaseline
+      baselineValue={0.38}
+      aria-label="Precision recall comparison with baseline"
+      height={320}
+    />
+  );
+}
+```
+
+## Variant — custom axis tick formatting
+
+```tsx preview
+import { PrecisionRecallCurve } from '@geti-ai/charts';
+
+const data = [
+  { recall: 0.0, precision: 1.0 },
+  { recall: 0.1, precision: 0.98 },
+  { recall: 0.2, precision: 0.95 },
+  { recall: 0.35, precision: 0.91 },
+  { recall: 0.5, precision: 0.87 },
+  { recall: 0.65, precision: 0.80 },
+  { recall: 0.8, precision: 0.69 },
+  { recall: 0.9, precision: 0.55 },
+  { recall: 1.0, precision: 0.42 },
+];
+
+const percent = (value: number) => `${Math.round(value * 100)}%`;
+
+export default function App() {
+  return (
+    <PrecisionRecallCurve
+      data={data}
+      series={[{ dataKey: 'precision', name: 'Detector A' }]}
+      xAxisProps={{ tickFormatter: percent }}
+      yAxisProps={{ tickFormatter: percent }}
+      tooltipProps={{ formatter: (value) => [percent(Number(value)), 'Precision'] }}
+      aria-label="Precision recall with percent formatting"
+      height={320}
+    />
+  );
+}
+```
+
+Related: [Precision recall curve (primitive)](/charts/primitives/precision-recall-curve)
