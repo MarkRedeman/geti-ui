@@ -248,62 +248,28 @@ html {
 .geti-home-wrapper {
     max-width: 1200px;
     margin: 0 auto;
-    padding: 2rem 1.5rem 4rem;
+    padding: 0 1.5rem 4rem;
     display: grid;
     gap: 3rem;
 }
 
-.geti-topbar {
-    background: linear-gradient(90deg, #00bcd4 0%, #3fd0ff 50%, #1da1f2 100%);
-    color: #0b1218;
-    border-radius: 8px;
-    min-height: 42px;
-    display: grid;
-    grid-template-columns: auto 1fr auto;
-    align-items: center;
-    gap: 1rem;
-    padding: 0 0.8rem;
-}
-
-.geti-topbar__brand {
-    font-weight: 700;
-    font-size: 0.86rem;
-    letter-spacing: 0.03em;
-}
-
-.geti-topbar__nav {
-    display: flex;
-    justify-content: center;
-    gap: 1rem;
-}
-
-.geti-topbar__nav a,
-.geti-topbar__actions a,
-.geti-topbar__actions button {
-    color: #0b1218;
-    text-decoration: none;
-    font-size: 0.84rem;
-    font-weight: 600;
-    background: transparent;
-    border: 0;
-    padding: 0.25rem;
-    cursor: pointer;
-}
-
-.geti-topbar__actions {
-    display: flex;
-    align-items: center;
-    gap: 0.35rem;
-}
-
 .geti-home-hero {
-    border: 1px solid #33363d;
+    width: 100vw;
+    margin-left: calc(50% - 50vw);
+    margin-right: calc(50% - 50vw);
     background:
         radial-gradient(circle at 5% 12%, rgb(110 231 216 / 12%), transparent 34%),
         radial-gradient(circle at 95% 85%, rgb(29 161 242 / 13%), transparent 32%),
         linear-gradient(135deg, #2a2d33 0%, #1f2126 100%);
-    border-radius: 12px;
-    padding: 2.6rem 2rem;
+    border-top: 1px solid #33363d;
+    border-bottom: 1px solid #33363d;
+    padding: 3.2rem 0;
+}
+
+.geti-home-hero__inner {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 1.5rem;
     display: grid;
     grid-template-columns: 1.3fr 0.9fr;
     gap: 2rem;
@@ -639,7 +605,7 @@ html {
 }
 
 @media (max-width: 1090px) {
-    .geti-home-hero {
+    .geti-home-hero__inner {
         grid-template-columns: 1fr;
     }
 
@@ -670,25 +636,17 @@ html {
 
 @media (max-width: 767px) {
     .geti-home-wrapper {
-        padding-top: 2.6rem;
+        padding-top: 0;
         padding-left: 1rem;
         padding-right: 1rem;
     }
 
-    .geti-topbar {
-        grid-template-columns: 1fr;
-        justify-items: start;
-        gap: 0.4rem;
-        padding: 0.65rem;
-    }
-
-    .geti-topbar__nav {
-        justify-content: start;
-        flex-wrap: wrap;
-    }
-
     .geti-home-hero {
-        padding: 2rem 1.1rem;
+        padding: 2rem 0;
+    }
+
+    .geti-home-hero__inner {
+        padding: 0 1rem;
     }
 
     .geti-home-hero__actions {
