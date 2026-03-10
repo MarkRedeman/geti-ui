@@ -6,6 +6,20 @@ title: Area chart
 
 Use Recharts `AreaChart` with Geti primitives for custom fills and layered styling.
 
+## Props
+
+Key Recharts props used on the `Area` primitive:
+
+| Prop | Type | Default | Description |
+|---|---|---|---|
+| `dataKey` | `string` | required | Key in each data object to plot |
+| `type` | `string` | `'linear'` | Curve interpolation (e.g. `'monotone'`, `'linear'`, `'step'`) |
+| `stroke` | `string` | — | Line/border color |
+| `fill` | `string` | — | Fill color or gradient reference (e.g. `url(#id)`) |
+| `fillOpacity` | `number` | `0.5` | Opacity of the filled area (0–1) |
+| `isAnimationActive` | `boolean` | `true` | Disable for static/SSR renders |
+| `name` | `string` | — | Series label shown in tooltip and legend |
+
 ## Variant — solid fill (no fade)
 
 ```tsx preview

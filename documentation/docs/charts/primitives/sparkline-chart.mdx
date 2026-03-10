@@ -6,6 +6,22 @@ title: Sparkline chart
 
 `Sparkline` is exported from primitives and can be used as a compact inline primitive.
 
+## Props
+
+| Prop | Type | Default | Description |
+|---|---|---|---|
+| `data` | `Record<string, unknown>[]` | required | Array of data objects to plot |
+| `dataKey` | `string` | `'value'` | Key in each data object holding the numeric value |
+| `width` | `string \| number` | `'100%'` | Width of the sparkline |
+| `height` | `number` | `40` | Height of the sparkline in pixels |
+| `color` | `string` | theme default | Line (and fill) color override |
+| `strokeWidth` | `number` | `1.5` | Width of the line stroke |
+| `area` | `boolean` | `false` | Fill the area under the line |
+| `fillOpacity` | `number` | `0.15` | Opacity of the fill area (0–1) |
+| `curve` | `SparklineCurve` | `'monotone'` | Curve interpolation type |
+| `animate` | `boolean` | `false` | Enable entry animation |
+| `aria-label` | `string` | `'Sparkline chart'` | Accessible label for screen readers |
+
 ## Variant — `area` off
 
 ```tsx preview

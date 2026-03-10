@@ -6,6 +6,20 @@ title: Meter chart
 
 Use Recharts `PieChart` primitives to build custom half-donut meters with full control.
 
+## Props
+
+Key Recharts props used on the `Pie` primitive when building a meter:
+
+| Prop | Type | Default | Description |
+|---|---|---|---|
+| `dataKey` | `string` | required | Key in each data object for the segment value |
+| `startAngle` | `number` | `0` | Start angle in degrees; use `180` for a left-to-right half-donut |
+| `endAngle` | `number` | `360` | End angle in degrees; use `0` for a half-donut sweep |
+| `innerRadius` | `number \| string` | `0` | Inner hole radius (e.g. `'72%'`) |
+| `outerRadius` | `number \| string` | `'80%'` | Outer radius of the arc |
+| `stroke` | `string` | — | Segment border color; set `'none'` to remove gaps |
+| `isAnimationActive` | `boolean` | `true` | Disable for static/SSR renders |
+
 ## Variant — default half-donut
 
 ```tsx preview

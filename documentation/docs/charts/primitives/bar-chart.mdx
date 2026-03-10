@@ -6,6 +6,19 @@ title: Bar chart
 
 Use Recharts `BarChart` primitives when you need full control over stack groups and mixed layers.
 
+## Props
+
+Key Recharts props used on the `Bar` and `BarChart` primitives:
+
+| Prop | Type | Default | Description |
+|---|---|---|---|
+| `dataKey` | `string` | required | Key in each data object to plot |
+| `fill` | `string` | — | Bar fill color |
+| `stackId` | `string` | — | Bars sharing the same `stackId` are stacked |
+| `isAnimationActive` | `boolean` | `true` | Disable for static/SSR renders |
+| `name` | `string` | — | Series label shown in tooltip and legend |
+| `layout` | `'horizontal' \| 'vertical'` | `'horizontal'` | Orientation of the bar chart |
+
 ## Variant — grouped bars (`stackId` off)
 
 ```tsx preview

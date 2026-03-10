@@ -6,6 +6,23 @@ title: Latency percentile chart
 
 `LatencyPercentileChart` visualizes P50/P95/P99 latency trends across runs or batch sizes.
 
+## Props
+
+| Prop | Type | Default | Description |
+|---|---|---|---|
+| `data` | `Record<string, unknown>[]` | — | Array of data objects, one per run or batch size |
+| `xAxisKey` | `string` | `'label'` | Key in each data object for the X (category) axis |
+| `p50Key` | `string` | `'p50'` | Key in each data object for the P50 latency value |
+| `p95Key` | `string` | `'p95'` | Key in each data object for the P95 latency value |
+| `p99Key` | `string` | `'p99'` | Key in each data object for the P99 latency value |
+| `unit` | `string` | `'ms'` | Unit suffix appended to tooltip values |
+| `height` | `number` | `300` | Chart height in pixels |
+| `showGrid` | `boolean` | `true` | Show background grid lines |
+| `showTooltip` | `boolean` | `true` | Show hover tooltip |
+| `showLegend` | `boolean` | `true` | Show legend below chart |
+| `animate` | `boolean` | `false` | Enable entry animation |
+| `targetLatency` | `number` | — | Draw a horizontal reference line at this latency value |
+
 ## Variant — latency percentiles by batch size
 
 ```tsx preview

@@ -6,6 +6,22 @@ title: Throughput vs latency chart
 
 `ThroughputVsLatencyChart` helps analyze deployment trade-offs between throughput and latency.
 
+## Props
+
+| Prop | Type | Default | Description |
+|---|---|---|---|
+| `series` | `ScatterSeriesConfig[]` | — | Per-series data; each has `name` and `data` (array of `{ throughput, latency, label? }` objects) |
+| `height` | `number` | `300` | Chart height in pixels |
+| `showGrid` | `boolean` | `true` | Show background grid lines |
+| `showTooltip` | `boolean` | `true` | Show hover tooltip |
+| `showLegend` | `boolean` | `true` | Show legend below chart |
+| `animate` | `boolean` | `false` | Enable entry animation |
+| `markerSize` | `number` | `10` | Dot size for scatter points |
+| `xLogScale` | `boolean` | `false` | Use logarithmic scale on the X (throughput) axis |
+| `yLogScale` | `boolean` | `false` | Use logarithmic scale on the Y (latency) axis |
+| `xAxisProps` | `XAxisProps` | — | Extra props forwarded to the Recharts `XAxis` |
+| `yAxisProps` | `YAxisProps` | — | Extra props forwarded to the Recharts `YAxis` |
+
 ## Variant — batch-size operating points
 
 ```tsx preview

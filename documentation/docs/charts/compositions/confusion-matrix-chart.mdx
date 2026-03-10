@@ -6,6 +6,20 @@ title: Confusion matrix chart
 
 `ConfusionMatrixChart` renders class-vs-class prediction quality using a color-intensity matrix.
 
+## Props
+
+| Prop | Type | Default | Description |
+|---|---|---|---|
+| `matrix` | `number[][]` | — | 2D array of prediction counts (rows = actual, columns = predicted) |
+| `labels` | `string[]` | — | Ordered class label strings matching rows/columns |
+| `width` | `number` | — | Fixed pixel width (omit for responsive) |
+| `height` | `number` | `300` | Chart height in pixels |
+| `normalize` | `'none' \| 'row' \| 'column' \| 'global'` | `'none'` | Normalize values per row, column, globally, or not at all |
+| `showValues` | `boolean` | `true` | Render numeric values inside each cell |
+| `minOpacity` | `number` | `0.1` | Minimum cell fill opacity for low values |
+| `maxOpacity` | `number` | `0.92` | Maximum cell fill opacity for high values |
+| `valueFormatter` | `(value: number) => string` | — | Custom formatter for cell label text |
+
 ## Variant — raw counts
 
 ```tsx preview

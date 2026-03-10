@@ -6,6 +6,23 @@ title: Area chart
 
 `AreaChart` is a ready-to-use composition with themed defaults, optional stacking, and optional fade gradients.
 
+## Props
+
+| Prop | Type | Default | Description |
+|---|---|---|---|
+| `data` | `Record<string, unknown>[]` | — | Array of data objects for the chart |
+| `series` | `AreaSeriesConfig[]` | — | Series definitions; each entry has `dataKey`, `name`, `color?`, `stacked?`, `fade?` |
+| `xAxisKey` | `string` | — | Key in each data object for the X axis |
+| `height` | `number` | `300` | Chart height in pixels |
+| `showGrid` | `boolean` | `true` | Show background grid lines |
+| `showTooltip` | `boolean` | `true` | Show hover tooltip |
+| `showLegend` | `boolean` | `false` | Show legend below chart |
+| `animate` | `boolean` | `false` | Enable entry animation |
+| `xScale` | `ScaleConfig` | — | X axis scale config (e.g. `{ scale: 'time' }`) |
+| `yScale` | `ScaleConfig` | — | Y axis scale config (e.g. `{ scale: 'log', domain: [1, 'auto'] }`) |
+| `xAxisProps` | `XAxisProps` | — | Extra props forwarded to the Recharts `XAxis` |
+| `yAxisProps` | `YAxisProps` | — | Extra props forwarded to the Recharts `YAxis` |
+
 ## Variant — `stacked` and `fade` off
 
 ```tsx preview

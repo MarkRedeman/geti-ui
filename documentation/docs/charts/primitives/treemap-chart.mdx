@@ -6,6 +6,19 @@ title: Treemap chart
 
 Use Recharts `Treemap` primitives when you need custom content, tooltip behavior, and manual data shaping.
 
+## Props
+
+Key Recharts props used on the `Treemap` primitive:
+
+| Prop | Type | Default | Description |
+|---|---|---|---|
+| `data` | `object[]` | required | Hierarchical data; leaf nodes need `value`, parent nodes use `children` |
+| `dataKey` | `string` | `'value'` | Key used to size each leaf tile |
+| `nameKey` | `string` | `'name'` | Key used for the node name in tooltip |
+| `fill` | `string` | — | Default fill color for leaf tiles |
+| `stroke` | `string` | — | Border color between tiles |
+| `isAnimationActive` | `boolean` | `true` | Disable for static/SSR renders |
+
 ## Variant — default
 
 ```tsx preview

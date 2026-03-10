@@ -6,6 +6,21 @@ title: Class distribution chart
 
 `ClassDistributionChart` helps visualize long-tail class imbalance in datasets.
 
+## Props
+
+| Prop | Type | Default | Description |
+|---|---|---|---|
+| `data` | `{ className: string; count: number }[]` | — | Array of class name + sample count pairs |
+| `height` | `number` | `300` | Chart height in pixels |
+| `sortDescending` | `boolean` | `true` | Sort bars from highest to lowest count |
+| `topN` | `number` | — | Limit to the top N classes by count |
+| `useLogScale` | `boolean` | `false` | Use logarithmic scale on the value axis |
+| `showGrid` | `boolean` | `true` | Show background grid lines |
+| `showTooltip` | `boolean` | `true` | Show hover tooltip |
+| `animate` | `boolean` | `false` | Enable entry animation |
+| `xAxisProps` | `XAxisProps` | — | Extra props forwarded to the Recharts `XAxis` |
+| `yAxisProps` | `YAxisProps` | — | Extra props forwarded to the Recharts `YAxis` |
+
 ## Variant — sorted long-tail distribution
 
 ```tsx preview

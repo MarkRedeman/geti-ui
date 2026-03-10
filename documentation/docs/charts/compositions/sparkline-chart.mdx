@@ -6,6 +6,22 @@ title: Sparkline chart
 
 `Sparkline` is a compact, axis-free trend chart for inline usage.
 
+## Props
+
+| Prop | Type | Default | Description |
+|---|---|---|---|
+| `data` | `Record<string, unknown>[]` | — | Array of data objects with a numeric value per point |
+| `dataKey` | `string` | `'value'` | Key in each data object that holds the value to plot |
+| `width` | `CSSProperties['width']` | `'100%'` | Width of the sparkline |
+| `height` | `number` | `40` | Height of the sparkline in pixels |
+| `color` | `string` | theme color | Stroke color override |
+| `strokeWidth` | `number` | `1.5` | Line stroke width |
+| `area` | `boolean` | `false` | Fill the area under the line |
+| `fillOpacity` | `number` | `0.15` | Opacity of the fill area (0–1) |
+| `curve` | `SparklineCurve` | `'monotone'` | Curve interpolation type |
+| `animate` | `boolean` | `false` | Enable entry animation |
+| `aria-label` | `string` | — | Accessible label for screen readers |
+
 ## Variant — `area` off
 
 ```tsx preview

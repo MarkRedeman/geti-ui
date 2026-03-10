@@ -6,6 +6,26 @@ title: Scatter chart
 
 Use Recharts `ScatterChart` with Geti primitives when you need bespoke scatter behavior.
 
+## Props
+
+Key Recharts props used on the `Scatter` primitive:
+
+| Prop | Type | Default | Description |
+|---|---|---|---|
+| `data` | `object[]` | required | Array of data points for this scatter series |
+| `fill` | `string` | — | Point fill color |
+| `name` | `string` | — | Series label shown in tooltip and legend |
+| `shape` | `'circle' \| 'cross' \| 'diamond' \| 'square' \| 'triangle' \| 'star'` | `'circle'` | Marker shape |
+| `isAnimationActive` | `boolean` | `true` | Disable for static/SSR renders |
+
+`ZAxis` (bubble chart) props:
+
+| Prop | Type | Default | Description |
+|---|---|---|---|
+| `dataKey` | `string` | — | Key used for bubble size |
+| `range` | `[min, max]` | `[64, 64]` | Pixel area range for bubbles |
+| `name` | `string` | — | Label shown in tooltip for the Z dimension |
+
 ## Variant — tooltip on
 
 ```tsx preview

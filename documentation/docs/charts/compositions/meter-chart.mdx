@@ -6,6 +6,23 @@ title: Meter chart
 
 `MeterChart` is a half-donut score indicator with a centered value label.
 
+## Props
+
+| Prop | Type | Default | Description |
+|---|---|---|---|
+| `value` | `number` | — | Current value to display |
+| `max` | `number` | `100` | Maximum value (defines the full arc) |
+| `color` | `string` | theme accent | Fill color of the active arc |
+| `trackColor` | `string` | theme track | Background track color |
+| `innerRadius` | `string \| number` | `'72%'` | Inner radius of the gauge ring |
+| `outerRadius` | `string \| number` | `'100%'` | Outer radius of the gauge ring |
+| `startAngle` | `number` | `180` | Start angle of the arc in degrees |
+| `endAngle` | `number` | `0` | End angle of the arc in degrees |
+| `showValue` | `boolean` | `true` | Display the numeric value in the center |
+| `valueFormatter` | `(value: number) => string` | — | Custom formatter for the center label |
+| `animate` | `boolean` | `false` | Enable entry animation |
+| `height` | `number` | `300` | Chart height in pixels |
+
 ## Variant — default
 
 ```tsx preview

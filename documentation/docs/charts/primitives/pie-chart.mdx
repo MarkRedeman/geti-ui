@@ -6,6 +6,21 @@ title: Pie chart
 
 Use Recharts `PieChart` + `Pie` with Geti primitives when you want complete low-level control.
 
+## Props
+
+Key Recharts props used on the `Pie` primitive:
+
+| Prop | Type | Default | Description |
+|---|---|---|---|
+| `dataKey` | `string` | required | Key in each data object for the slice value |
+| `nameKey` | `string` | — | Key used for the slice name in tooltip/legend |
+| `outerRadius` | `number \| string` | `'80%'` | Outer radius of the pie |
+| `paddingAngle` | `number` | `0` | Gap in degrees between slices |
+| `label` | `boolean \| object \| function` | `false` | Render slice labels |
+| `activeIndex` | `number \| number[]` | — | Index of the slice(s) to render as active (exploded) |
+| `activeShape` | `object \| function` | — | Shape config for the active slice (e.g. `{ outerRadius: 108 }`) |
+| `isAnimationActive` | `boolean` | `true` | Disable for static/SSR renders |
+
 ## Variant — default
 
 ```tsx preview

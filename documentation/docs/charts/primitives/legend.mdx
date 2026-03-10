@@ -8,6 +8,18 @@ title: Legend
 
 It wraps Recharts `Legend` with Geti typography and default positioning so legend items match chart styling out of the box.
 
+## Props
+
+`GetiLegend` props (exposed by the wrapper):
+
+| Prop | Type | Default | Description |
+|---|---|---|---|
+| `verticalAlign` | `'top' \| 'middle' \| 'bottom'` | `'bottom'` | Legend position relative to the chart |
+| `align` | `'left' \| 'center' \| 'right'` | `'center'` | Horizontal alignment of legend items |
+| `layout` | `'horizontal' \| 'vertical'` | `'horizontal'` | Direction items are arranged |
+
+All standard Recharts `Legend` props are also accepted and forwarded.
+
 ## Import
 
 ```ts

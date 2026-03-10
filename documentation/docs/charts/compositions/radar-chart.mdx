@@ -8,6 +8,22 @@ title: Radar chart
 
 Use `radiusAxisProps={{ domain: [0, 1] }}` for normalized scores, and `radiusAxisProps={{ domain: [0, 100] }}` for percentage-style metrics.
 
+## Props
+
+| Prop | Type | Default | Description |
+|---|---|---|---|
+| `data` | `Record<string, unknown>[]` | — | Array of objects, one per category axis |
+| `series` | `RadarSeriesConfig[]` | — | Series definitions; each entry has `dataKey`, `name`, `color?`, `fillOpacity?` |
+| `categoryKey` | `string` | `'subject'` | Key in each data object for the axis label |
+| `filled` | `boolean` | `true` | Fill the area under each radar series |
+| `showGrid` | `boolean` | `true` | Show polar grid lines |
+| `showTooltip` | `boolean` | `true` | Show hover tooltip |
+| `showLegend` | `boolean` | `true` | Show legend below chart |
+| `animate` | `boolean` | `false` | Enable entry animation |
+| `angleAxisProps` | `PolarAngleAxisProps` | — | Extra props forwarded to the Recharts `PolarAngleAxis` |
+| `radiusAxisProps` | `PolarRadiusAxisProps` | — | Extra props forwarded to the Recharts `PolarRadiusAxis` (e.g. `domain`) |
+| `height` | `number` | `300` | Chart height in pixels |
+
 ## Variant — default (filled)
 
 ```tsx preview

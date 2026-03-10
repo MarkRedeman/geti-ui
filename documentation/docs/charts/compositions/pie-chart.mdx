@@ -6,6 +6,23 @@ title: Pie chart
 
 `PieChart` is a ready-to-use composition for part-to-whole categorical distributions.
 
+## Props
+
+| Prop | Type | Default | Description |
+|---|---|---|---|
+| `data` | `Record<string, unknown>[]` | — | Array of data objects with name/value keys |
+| `valueKey` | `string` | `'value'` | Key in each data object for the numeric value |
+| `nameKey` | `string` | `'name'` | Key in each data object for the slice label |
+| `colors` | `string[]` | theme colors | Array of fill colors for slices |
+| `innerRadius` | `string \| number` | `0` | Inner radius (set > 0 for a donut effect) |
+| `outerRadius` | `string \| number` | `'80%'` | Outer radius of the pie |
+| `paddingAngle` | `number` | `2` | Gap in degrees between slices |
+| `showLegend` | `boolean` | `true` | Show legend below chart |
+| `showTooltip` | `boolean` | `true` | Show hover tooltip |
+| `showLabels` | `boolean` | `false` | Render percentage labels on slices |
+| `animate` | `boolean` | `false` | Enable entry animation |
+| `height` | `number` | `300` | Chart height in pixels |
+
 ## Variant — default
 
 ```tsx preview

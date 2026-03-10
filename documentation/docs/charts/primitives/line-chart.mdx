@@ -6,6 +6,19 @@ title: Line chart
 
 Use Recharts `LineChart` with Geti primitives when you need custom low-level control.
 
+## Props
+
+Key Recharts props used on the `Line` primitive:
+
+| Prop | Type | Default | Description |
+|---|---|---|---|
+| `dataKey` | `string` | required | Key in each data object to plot |
+| `type` | `string` | `'linear'` | Curve interpolation (e.g. `'monotone'`, `'linear'`, `'natural'`, `'stepAfter'`) |
+| `stroke` | `string` | — | Line color |
+| `dot` | `boolean \| object` | `true` | Render dots at data points; set `false` to hide |
+| `isAnimationActive` | `boolean` | `true` | Disable for static/SSR renders |
+| `name` | `string` | — | Series label shown in tooltip and legend |
+
 ## Variant — no legend
 
 ```tsx preview

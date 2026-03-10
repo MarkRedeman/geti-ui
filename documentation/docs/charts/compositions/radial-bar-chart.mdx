@@ -6,6 +6,24 @@ title: RadialBar chart
 
 `RadialBarChart` is a ready-to-use composition for radial progress comparisons and score bands.
 
+## Props
+
+| Prop | Type | Default | Description |
+|---|---|---|---|
+| `data` | `Record<string, unknown>[]` | — | Array of data objects, each with `name` and a value key |
+| `categoryKey` | `string` | `'name'` | Key in each data object for the bar label |
+| `valueKey` | `string` | `'value'` | Key in each data object for the bar value |
+| `colors` | `string[]` | theme colors | Array of fill colors for bars |
+| `startAngle` | `number` | `90` | Start angle of the arcs in degrees |
+| `endAngle` | `number` | `-270` | End angle of the arcs in degrees |
+| `innerRadius` | `string \| number` | `'20%'` | Inner radius of the innermost ring |
+| `outerRadius` | `string \| number` | `'90%'` | Outer radius of the outermost ring |
+| `track` | `boolean` | `true` | Show a full-circle background track |
+| `cornerRadius` | `number` | `6` | Corner radius for bar end-caps |
+| `showTooltip` | `boolean` | `true` | Show hover tooltip |
+| `showLegend` | `boolean` | `true` | Show legend below chart |
+| `height` | `number` | `300` | Chart height in pixels |
+
 ## Variant — default
 
 ```tsx preview

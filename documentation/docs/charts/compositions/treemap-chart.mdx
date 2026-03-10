@@ -6,6 +6,20 @@ title: Treemap chart
 
 `TreemapChart` is a composition for hierarchical proportional data.
 
+## Props
+
+| Prop | Type | Default | Description |
+|---|---|---|---|
+| `data` | `TreemapNode[]` | — | Root node(s) containing `children` with `name` and `value` leaf objects |
+| `dataKey` | `string` | `'value'` | Key used for sizing each tile |
+| `nameKey` | `string` | `'name'` | Key used for labelling each tile |
+| `colors` | `string[]` | theme colors | Fill colors cycled across top-level children |
+| `fill` | `string` | — | Single fill color override for all tiles |
+| `height` | `number` | `300` | Chart height in pixels |
+| `showTooltip` | `boolean` | `true` | Show hover tooltip |
+| `animate` | `boolean` | `false` | Enable entry animation |
+| `tooltipProps` | `TooltipProps` | — | Extra props forwarded to the Recharts `Tooltip` |
+
 ## Variant — default
 
 ```tsx preview

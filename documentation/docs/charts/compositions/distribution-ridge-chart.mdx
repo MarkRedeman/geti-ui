@@ -6,6 +6,21 @@ title: Distribution ridge chart
 
 `DistributionRidgeChart` overlays multiple distribution curves with semi-transparent area fills.
 
+## Props
+
+| Prop | Type | Default | Description |
+|---|---|---|---|
+| `data` | `Record<string, unknown>[]` | — | Array of data objects, one per bin/x-value |
+| `series` | `{ dataKey: string; name: string; color?: string }[]` | — | Series to overlay; each references a key in `data` |
+| `xAxisKey` | `string` | `'x'` | Key in each data object for the X axis |
+| `height` | `number` | `300` | Chart height in pixels |
+| `showGrid` | `boolean` | `true` | Show background grid lines |
+| `showTooltip` | `boolean` | `true` | Show hover tooltip |
+| `animate` | `boolean` | `false` | Enable entry animation |
+| `fillOpacity` | `number` | `0.24` | Opacity of the area fill (0–1) |
+| `xAxisProps` | `XAxisProps` | — | Extra props forwarded to the Recharts `XAxis` |
+| `yAxisProps` | `YAxisProps` | — | Extra props forwarded to the Recharts `YAxis` |
+
 ## Variant — class score distributions
 
 ```tsx preview

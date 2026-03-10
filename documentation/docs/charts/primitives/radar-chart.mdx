@@ -8,6 +8,20 @@ Use Recharts `RadarChart` primitives when you need full control over polar axes,
 
 Use `PolarRadiusAxis domain={[0, 1]}` for normalized scores, and `PolarRadiusAxis domain={[0, 100]}` for percentage-style metrics.
 
+## Props
+
+Key Recharts props used on the `Radar` and polar axis primitives:
+
+| Prop | Type | Default | Description |
+|---|---|---|---|
+| `dataKey` | `string` | required | Key in each data object to plot on the `Radar` |
+| `name` | `string` | — | Series label shown in tooltip and legend |
+| `stroke` | `string` | — | Outline color of the radar polygon |
+| `fill` | `string` | — | Fill color of the radar polygon; use `'none'` for outline-only |
+| `fillOpacity` | `number` | `0.5` | Opacity of the fill (0–1) |
+| `isAnimationActive` | `boolean` | `true` | Disable for static/SSR renders |
+| `domain` | `[min, max]` | — | Value range for `PolarRadiusAxis` (e.g. `[0, 1]` or `[0, 100]`) |
+
 ## Variant — default (filled)
 
 ```tsx preview

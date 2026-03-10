@@ -6,6 +6,23 @@ title: Donut chart
 
 `DonutChart` is a pie-style composition with a hollow center, useful for share-of-total summaries and score distributions.
 
+## Props
+
+| Prop | Type | Default | Description |
+|---|---|---|---|
+| `data` | `Record<string, unknown>[]` | — | Array of data objects with name/value keys |
+| `valueKey` | `string` | `'value'` | Key in each data object for the numeric value |
+| `nameKey` | `string` | `'name'` | Key in each data object for the slice label |
+| `colors` | `string[]` | theme colors | Array of fill colors for slices |
+| `innerRadius` | `string \| number` | `'58%'` | Inner radius of the donut hole |
+| `outerRadius` | `string \| number` | `'82%'` | Outer radius of the ring |
+| `paddingAngle` | `number` | `2` | Gap in degrees between slices |
+| `showLegend` | `boolean` | `true` | Show legend below chart |
+| `showTooltip` | `boolean` | `true` | Show hover tooltip |
+| `showLabels` | `boolean` | `false` | Render percentage labels on slices |
+| `animate` | `boolean` | `false` | Enable entry animation |
+| `height` | `number` | `300` | Chart height in pixels |
+
 ## Variant — default
 
 ```tsx preview
