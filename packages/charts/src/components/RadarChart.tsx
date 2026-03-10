@@ -81,13 +81,19 @@ export function RadarChart({
         fill: theme.axis.tickColor,
     };
 
+    const polarGridStroke = theme.typography.color;
+
     return (
         <div role="img" aria-label={ariaLabel} style={{ width, height }}>
             <ResponsiveContainer width="100%" height={height}>
-                <RechartsRadarChart data={data}>
-                    {showGrid && <PolarGrid stroke={theme.grid.stroke} strokeDasharray={theme.grid.strokeDasharray} />}
+                <RechartsRadarChart data={data} accessibilityLayer={false}>
+                    {showGrid && <PolarGrid stroke={polarGridStroke} strokeOpacity={0.45} />}
                     <PolarAngleAxis dataKey={categoryKey} tick={axisText} {...angleAxisProps} />
-                    <PolarRadiusAxis tick={axisText} axisLine={{ stroke: theme.axis.lineColor }} {...radiusAxisProps} />
+                    <PolarRadiusAxis
+                        tick={axisText}
+                        axisLine={{ stroke: polarGridStroke, strokeOpacity: 0.45 }}
+                        {...radiusAxisProps}
+                    />
                     {showTooltip && <ChartTooltip {...tooltipProps} />}
                     {showLegend && <ChartLegend {...legendProps} />}
 
@@ -99,6 +105,7 @@ export function RadarChart({
                                 dataKey={s.dataKey}
                                 name={s.name ?? s.dataKey}
                                 stroke={color}
+                                strokeWidth={2}
                                 fill={filled ? color : 'none'}
                                 fillOpacity={filled ? (s.fillOpacity ?? 0.25) : 0}
                                 isAnimationActive={animate}

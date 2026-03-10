@@ -104,7 +104,7 @@ export function MeterChart({
                     style={{
                         position: 'absolute',
                         left: '50%',
-                        top: '72%',
+                        top: '58%',
                         transform: 'translate(-50%, -50%)',
                         color: theme.typography.color,
                         fontFamily: theme.typography.fontFamily,

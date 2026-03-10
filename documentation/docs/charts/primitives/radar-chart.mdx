@@ -6,6 +6,8 @@ title: Radar chart
 
 Use Recharts `RadarChart` primitives when you need full control over polar axes, grid, and radar styling.
 
+Use `PolarRadiusAxis domain={[0, 1]}` for normalized scores, and `PolarRadiusAxis domain={[0, 100]}` for percentage-style metrics.
+
 ## Variant — default (filled)
 
 ```tsx preview
@@ -26,7 +28,7 @@ export default function App() {
       <RadarChart data={data}>
         <PolarGrid stroke="var(--spectrum-global-color-gray-700)" />
         <PolarAngleAxis dataKey="metric" />
-        <PolarRadiusAxis />
+        <PolarRadiusAxis domain={[0, 1]} />
         <Radar name="Train" dataKey="train" stroke="var(--spectrum-global-color-green-500)" fill="var(--spectrum-global-color-green-500)" fillOpacity={0.22} isAnimationActive={false} />
         <Radar name="Validation" dataKey="val" stroke="var(--spectrum-global-color-red-500)" fill="var(--spectrum-global-color-red-500)" fillOpacity={0.22} isAnimationActive={false} />
         <GetiTooltip />
@@ -57,7 +59,7 @@ export default function App() {
       <RadarChart data={data}>
         <PolarGrid stroke="var(--spectrum-global-color-gray-700)" />
         <PolarAngleAxis dataKey="metric" />
-        <PolarRadiusAxis />
+        <PolarRadiusAxis domain={[0, 1]} />
         <Radar name="Train" dataKey="train" stroke="var(--spectrum-global-color-green-500)" fill="none" isAnimationActive={false} />
         <Radar name="Validation" dataKey="val" stroke="var(--spectrum-global-color-red-500)" fill="none" isAnimationActive={false} />
         <GetiTooltip />
@@ -89,7 +91,7 @@ export default function App() {
       <RadarChart data={data}>
         <PolarGrid stroke="var(--spectrum-global-color-gray-700)" />
         <PolarAngleAxis dataKey="metric" />
-        <PolarRadiusAxis />
+        <PolarRadiusAxis domain={[0, 1]} />
         <Radar name="Train" dataKey="train" stroke={getDatasetSubsetColor('train')} fill={getDatasetSubsetColor('train')} fillOpacity={0.2} isAnimationActive={false} />
         <Radar name="Validation" dataKey="val" stroke={getDatasetSubsetColor('val')} fill={getDatasetSubsetColor('val')} fillOpacity={0.2} isAnimationActive={false} />
         <Radar name="Test" dataKey="test" stroke={getDatasetSubsetColor('test')} fill={getDatasetSubsetColor('test')} fillOpacity={0.2} isAnimationActive={false} />

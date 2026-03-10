@@ -221,3 +221,18 @@ html {
         rgba(0, 199, 253, 0.16) 100%
     );
 }
+
+/* Charts preview focus ring tuning: keep accessibility layer behavior,
+   but avoid bright white outlines in docs previews. */
+.rp-preview .recharts-wrapper:focus,
+.rp-preview .recharts-surface:focus,
+.rp-preview [tabindex]:focus {
+    outline: none;
+}
+
+.rp-preview .recharts-wrapper:focus-visible,
+.rp-preview .recharts-surface:focus-visible,
+.rp-preview [tabindex]:focus-visible {
+    outline: 1px solid var(--geti-gray-500);
+    outline-offset: 2px;
+}

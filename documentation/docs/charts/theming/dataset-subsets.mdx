@@ -309,6 +309,7 @@ export default function App() {
     <RadarChart
       data={data}
       categoryKey="metric"
+      radiusAxisProps={{ domain: [0, 1] }}
       series={series}
       aria-label="Dataset subset radar comparison"
       height={360}

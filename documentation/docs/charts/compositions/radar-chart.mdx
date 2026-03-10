@@ -6,6 +6,8 @@ title: Radar chart
 
 `RadarChart` is a ready-to-use composition for multi-metric profile comparisons across categories.
 
+Use `radiusAxisProps={{ domain: [0, 1] }}` for normalized scores, and `radiusAxisProps={{ domain: [0, 100] }}` for percentage-style metrics.
+
 ## Variant — default (filled)
 
 ```tsx preview
@@ -24,6 +26,7 @@ export default function App() {
     <RadarChart
       data={data}
       categoryKey="metric"
+      radiusAxisProps={{ domain: [0, 1] }}
       series={[
         { dataKey: 'train', name: 'Train' },
         { dataKey: 'val', name: 'Validation' },
@@ -54,6 +57,7 @@ export default function App() {
       data={data}
       categoryKey="metric"
       filled={false}
+      radiusAxisProps={{ domain: [0, 1] }}
       series={[
         { dataKey: 'train', name: 'Train' },
         { dataKey: 'val', name: 'Validation' },
@@ -84,6 +88,7 @@ export default function App() {
       data={data}
       categoryKey="metric"
       showLegend={false}
+      radiusAxisProps={{ domain: [0, 1] }}
       series={[
         { dataKey: 'yolo', name: 'YOLO', color: '#60a5fa' },
         { dataKey: 'unet', name: 'UNet', color: '#34d399' },
@@ -120,6 +125,7 @@ export default function App() {
     <RadarChart
       data={data}
       categoryKey="metric"
+      radiusAxisProps={{ domain: [0, 1] }}
       series={series}
       aria-label="Dataset subset radar comparison"
       height={360}
