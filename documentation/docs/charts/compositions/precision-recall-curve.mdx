@@ -6,6 +6,19 @@ title: Precision recall curve
 
 `PrecisionRecallCurve` is an ML composition for evaluating classifier trade-offs across thresholds.
 
+## Props
+
+| Prop | Type | Default | Description |
+|---|---|---|---|
+| `data` | `object[]` | required | PR rows with recall + one/more precision keys |
+| `series` | `PrecisionRecallCurveSeriesConfig[]` | required | Precision curves to draw |
+| `xAxisKey` | `string` | `'recall'` | Recall axis key |
+| `showBaseline` | `boolean` | `false` | Show no-skill baseline |
+| `baselineValue` | `number` | `0.5` | Baseline precision value |
+| `showLegend` | `boolean` | `true` | Show legend |
+| `showTooltip` | `boolean` | `true` | Show tooltip |
+| `animate` | `boolean` | `false` | Opt-in animation |
+
 ## Variant — single model PR curve
 
 ```tsx preview

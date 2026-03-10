@@ -234,7 +234,7 @@ These examples intentionally use primitives/custom composition patterns rather t
 ### Training metrics (custom)
 
 ```tsx preview
-import { Line, LineChart } from 'recharts';
+import { Line, LineChart as RechartsLineChart } from 'recharts';
 import { GetiCartesianGrid, GetiLegend, GetiResponsiveContainer, GetiTooltip, GetiXAxis, GetiYAxis } from '@geti-ai/charts/primitives';
 
 const data = [
@@ -247,7 +247,7 @@ const data = [
 export default function App() {
   return (
     <GetiResponsiveContainer height={300}>
-      <LineChart data={data}>
+      <RechartsLineChart data={data}>
         <GetiCartesianGrid />
         <GetiXAxis dataKey="epoch" />
         <GetiYAxis />
@@ -255,7 +255,7 @@ export default function App() {
         <GetiLegend />
         <Line dataKey="trainLoss" name="Train" stroke="var(--spectrum-global-color-green-500)" dot={false} isAnimationActive={false} />
         <Line dataKey="valLoss" name="Validation" stroke="var(--spectrum-global-color-red-500)" dot={false} strokeDasharray="5 3" isAnimationActive={false} />
-      </LineChart>
+      </RechartsLineChart>
     </GetiResponsiveContainer>
   );
 }
@@ -294,7 +294,44 @@ export default function App() {
 
 ### PR / ROC (custom)
 
-Use raw `LineChart` + `ReferenceLine` with `GetiXAxis`/`GetiYAxis` domain `[0,1]` for evaluation curves.
+```tsx preview
+import { Line, LineChart as RechartsLineChart, ReferenceLine } from 'recharts';
+import {
+  GetiCartesianGrid,
+  GetiLegend,
+  GetiResponsiveContainer,
+  GetiTooltip,
+  GetiXAxis,
+  GetiYAxis,
+} from '@geti-ai/charts/primitives';
+
+const data = [
+  { fpr: 0.0, tpr: 0.0 },
+  { fpr: 0.02, tpr: 0.28 },
+  { fpr: 0.05, tpr: 0.48 },
+  { fpr: 0.10, tpr: 0.66 },
+  { fpr: 0.20, tpr: 0.81 },
+  { fpr: 0.35, tpr: 0.90 },
+  { fpr: 0.55, tpr: 0.96 },
+  { fpr: 1.0, tpr: 1.0 },
+];
+
+export default function App() {
+  return (
+    <GetiResponsiveContainer height={320}>
+      <RechartsLineChart data={data}>
+        <GetiCartesianGrid />
+        <GetiXAxis type="number" dataKey="fpr" domain={[0, 1]} />
+        <GetiYAxis type="number" domain={[0, 1]} />
+        <GetiTooltip />
+        <GetiLegend />
+        <ReferenceLine segment={[{ x: 0, y: 0 }, { x: 1, y: 1 }]} stroke="var(--spectrum-global-color-gray-500)" strokeDasharray="4 3" />
+        <Line dataKey="tpr" name="ROC" stroke="var(--spectrum-global-color-blue-500)" dot={false} isAnimationActive={false} />
+      </RechartsLineChart>
+    </GetiResponsiveContainer>
+  );
+}
+```
 
 ## Related
 

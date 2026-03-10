@@ -6,6 +6,20 @@ title: Run comparison chart
 
 `RunComparisonChart` is an ML-oriented bar composition for comparing experiment runs.
 
+## Props
+
+| Prop | Type | Default | Description |
+|---|---|---|---|
+| `data` | `object[]` | required | Comparison rows |
+| `series` | `RunComparisonSeriesConfig[]` | required | Metrics to compare |
+| `xAxisKey` | `string` | `'run'` | Category key |
+| `layout` | `'vertical' \| 'horizontal'` | `'vertical'` | Bar orientation |
+| `stacked` | `boolean` | `false` | Stack all series |
+| `showLegend` | `boolean` | `true` | Show legend |
+| `showTooltip` | `boolean` | `true` | Show tooltip |
+| `animate` | `boolean` | `false` | Opt-in animation |
+| `xScale` / `yScale` | `AxisScaleConfig` | — | Axis scale settings |
+
 ## Variant — compare mAP and F1 by run (horizontal bars)
 
 ```tsx preview

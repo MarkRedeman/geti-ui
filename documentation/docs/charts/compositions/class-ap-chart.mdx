@@ -6,6 +6,17 @@ title: Class AP chart
 
 `ClassAPChart` visualizes per-class average precision as sortable horizontal bars.
 
+## Props
+
+| Prop | Type | Default | Description |
+|---|---|---|---|
+| `data` | `ClassAPChartDatum[]` | required | Per-class AP rows |
+| `metric` | `string` | `'AP50'` | Metric label in tooltip/legend |
+| `sortDescending` | `boolean` | `true` | Sort by score descending |
+| `showTooltip` | `boolean` | `true` | Show tooltip |
+| `animate` | `boolean` | `false` | Opt-in animation |
+| `xAxisProps` / `yAxisProps` | `XAxisProps` / `YAxisProps` | — | Axis passthrough props |
+
 ## Variant — AP50 per class
 
 ```tsx preview

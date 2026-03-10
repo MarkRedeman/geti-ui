@@ -6,6 +6,19 @@ title: Training metrics chart
 
 `TrainingMetricsChart` is an ML-focused composition for train/validation/test metric timelines.
 
+## Props
+
+| Prop | Type | Default | Description |
+|---|---|---|---|
+| `data` | `object[]` | required | Timeline rows (e.g. epochs) |
+| `metrics` | `TrainingMetricSeriesConfig[]` | required | Metric groups with `trainKey` and optional `validationKey`/`testKey` |
+| `xAxisKey` | `string` | `'epoch'` | X-axis key |
+| `showLegend` | `boolean` | `true` | Show legend |
+| `showTooltip` | `boolean` | `true` | Show tooltip |
+| `animate` | `boolean` | `false` | Opt-in animation |
+| `xScale` / `yScale` | `AxisScaleConfig` | — | Axis scale settings (e.g. log) |
+| `xAxisProps` / `yAxisProps` | `XAxisProps` / `YAxisProps` | — | Axis passthrough props |
+
 ## Variant — loss + mAP over epochs
 
 ```tsx preview

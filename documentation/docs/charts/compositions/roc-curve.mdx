@@ -6,6 +6,18 @@ title: ROC curve
 
 `RocCurve` is an ML composition for visualizing true-positive-rate vs false-positive-rate trade-offs.
 
+## Props
+
+| Prop | Type | Default | Description |
+|---|---|---|---|
+| `data` | `object[]` | required | ROC rows with FPR + one/more TPR keys |
+| `series` | `RocCurveSeriesConfig[]` | required | ROC curves to draw |
+| `xAxisKey` | `string` | `'fpr'` | False-positive-rate key |
+| `showBaseline` | `boolean` | `true` | Show random-classifier diagonal |
+| `showLegend` | `boolean` | `true` | Show legend |
+| `showTooltip` | `boolean` | `true` | Show tooltip |
+| `animate` | `boolean` | `false` | Opt-in animation |
+
 ## Variant — single model ROC
 
 ```tsx preview
