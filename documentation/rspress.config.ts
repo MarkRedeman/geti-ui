@@ -82,6 +82,7 @@ const chartsSidebar = [
                     { text: 'Embedding distance distribution', link: '/charts/compositions/embedding-distance-distribution' },
                     { text: 'Latency percentile chart', link: '/charts/compositions/latency-percentile-chart' },
                     { text: 'Throughput vs latency chart', link: '/charts/compositions/throughput-vs-latency-chart' },
+                    { text: 'BBox size distribution chart', link: '/charts/compositions/bbox-size-distribution-chart' },
                 ],
             },
             { text: 'Custom Charts', link: '/charts/custom-charts' },

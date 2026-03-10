@@ -152,5 +152,12 @@ export type {
     ThroughputVsLatencyPoint,
 } from './components/ml/ThroughputVsLatencyChart';
 
+export { BBoxSizeDistributionChart } from './components/ml/BBoxSizeDistributionChart';
+export type {
+    BBoxSizeDistributionChartProps,
+    BBoxSizeSeries,
+    BBoxSizePoint,
+} from './components/ml/BBoxSizeDistributionChart';
+
 export { TreemapChart } from './components/TreemapChart';
 export type { TreemapChartProps } from './components/TreemapChart';
