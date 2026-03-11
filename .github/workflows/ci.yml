@@ -40,6 +40,9 @@ jobs:
             - name: Build documentation
               run: npm run docs:build
 
+            - name: Build MCP server (uses doc_build from previous step)
+              run: npm run mcp:build
+
     ci:
         name: Build & Test
         runs-on: ubuntu-latest
@@ -69,6 +72,10 @@ jobs:
             - name: Type check (charts)
               run: npm run type-check
               working-directory: packages/charts
+
+            - name: Type check (mcp)
+              run: npm run type-check
+              working-directory: packages/mcp
 
             - name: Format check
               run: npm run format:check

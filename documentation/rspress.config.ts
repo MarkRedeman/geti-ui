@@ -203,6 +203,7 @@ export default defineConfig({
             { text: 'Charts', link: '/charts/installation' },
             { text: 'Smart tools', link: '/smart-tools/installation' },
             { text: 'Examples', link: '/examples' },
+            { text: 'MCP', link: '/mcp' },
             { text: 'Used By', link: '/used-by' },
         ],
         sidebar: {
