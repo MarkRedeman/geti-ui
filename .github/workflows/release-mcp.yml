@@ -38,13 +38,13 @@ jobs:
       # Build documentation (generates llms.txt + markdown files in doc_build/)
       - run: npm run docs:build
 
-      # Type-check MCP package
-      - run: npm run type-check
-        working-directory: packages/mcp
+      # Quality checks
+      - run: npm run lint --workspace=@geti-ai/mcp
+      - run: npm run type-check --workspace=@geti-ai/mcp
+      - run: npm run test --workspace=@geti-ai/mcp
 
       # Build MCP server (compiles source, then bundles doc_build/ into dist/data/)
-      - run: npm run build
-        working-directory: packages/mcp
+      - run: npm run build --workspace=@geti-ai/mcp
 
       # Either opens "Version Packages" PR, or publishes if that PR was just merged
       - uses: changesets/action@6a0a831ff30acef54f2c6aa1cbbc1096b066edaf # v1.7.0

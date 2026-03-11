@@ -26,8 +26,6 @@ npm run docs:build   # Build the Rspress documentation site
 
 ```
 packages/mcp/
-├── docs/
-│   └── mcp.md                # This file
 ├── scripts/
 │   └── bundle-docs.mjs       # Copies doc_build/ → dist/data/ at build time
 ├── src/
@@ -36,19 +34,24 @@ packages/mcp/
 │   ├── page-manager.ts       # llms.txt parsing, page index, fuzzy page resolution
 │   ├── content-reader.ts     # Reads content from bundled / local / remote sources
 │   ├── parser.ts             # Markdown parsing (sections, props, name extraction)
+│   ├── parser.test.ts        # Parser unit tests
 │   ├── search.ts             # Full-text search across all pages
 │   ├── component-tools.ts    # list_geti_ui_components, get_geti_ui_component_props
 │   ├── chart-tools.ts        # list_geti_ui_charts
 │   ├── types.ts              # Shared type definitions
-│   └── utils.ts              # Error handling, path/env helpers
+│   ├── utils.ts              # Error handling, path/env helpers
+│   └── utils.test.ts         # Utils unit tests
 ├── dist/                     # Build output (gitignored)
 │   ├── index.js              # Single bundled ESM entry
 │   └── data/                 # Bundled documentation files
 │       ├── llms.txt
 │       ├── llms-full.txt
 │       └── **/*.md
+├── .prettierignore            # Excludes dist/ from formatting
 ├── package.json
+├── rslint.jsonc               # Lint config
 ├── rslib.config.ts
+├── rstest.config.ts           # Unit test config
 ├── tsconfig.json
 └── README.md
 ```
@@ -75,9 +78,10 @@ The build does two things in sequence:
 The order matters: rslib cleans `dist/` before building, so the doc bundling must
 happen after.
 
-If `documentation/doc_build/` does not exist, the bundle-docs script prints a warning
-and exits cleanly — the build still succeeds, but the server will have no bundled data
-and will only work with `DOCS_DIR` or `DOCS_BASE_URL`.
+If `documentation/doc_build/` does not exist and `CI=true` is set, the bundle-docs
+script exits with code 1 (failing the build). In local development it prints a warning
+and exits cleanly — the build succeeds, but the server will have no bundled data and
+will only work with `DOCS_DIR` or `DOCS_BASE_URL`.
 
 ---
 
@@ -380,7 +384,44 @@ The rslib config (`rslib.config.ts`) produces a single ESM bundle:
 npm run type-check --workspace=@geti-ai/mcp
 ```
 
-This runs `tsc --noEmit` against the source files.
+This runs `tsc --noEmit` against the source files. Test files (`**/*.test.ts`) are
+excluded from type checking via `tsconfig.json`.
+
+---
+
+## Linting
+
+```bash
+npm run lint --workspace=@geti-ai/mcp       # Check
+npm run lint:fix --workspace=@geti-ai/mcp    # Auto-fix
+```
+
+Uses rslint with the configuration in `rslint.jsonc`. Also included in the root
+`npm run lint` aggregate command.
+
+---
+
+## Formatting
+
+```bash
+npm run format --workspace=@geti-ai/mcp        # Write formatted files
+npm run format:check --workspace=@geti-ai/mcp   # Check only (CI)
+```
+
+Uses prettier with the repo's `.prettierrc.json` config. The `.prettierignore` file in
+`packages/mcp/` excludes `dist/` to prevent formatting bundled documentation files.
+
+---
+
+## Unit tests
+
+```bash
+npm run test --workspace=@geti-ai/mcp        # Run once
+npm run test:watch --workspace=@geti-ai/mcp   # Watch mode
+```
+
+Uses rstest (vitest-compatible). Tests are in `src/parser.test.ts` and
+`src/utils.test.ts`. Also included in the root `npm run test` aggregate command.
 
 ---
 

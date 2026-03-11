@@ -43,7 +43,7 @@ Add to `.cursor/mcp.json`:
 
 ### Windsurf
 
-Add to `~/.windsurf/mcp_config.json`:
+Add to `~/.codeium/windsurf/mcp_config.json`:
 
 ```json
 {
@@ -88,6 +88,21 @@ npm run mcp:start            # Start the server
 # Or point to a local doc_build directory:
 DOCS_DIR=./documentation/doc_build node packages/mcp/dist/index.js
 ```
+
+## Development tooling
+
+```bash
+npm run test                 # Run unit tests (rstest)
+npm run test:watch           # Watch mode
+npm run lint                 # Lint (rslint)
+npm run lint:fix             # Auto-fix lint issues
+npm run format               # Format (prettier)
+npm run format:check         # Check formatting (CI)
+npm run type-check           # TypeScript check
+```
+
+For the full developer guide (testing the MCP handshake, architecture internals,
+adding new tools), see [`docs/mcp.md`](../../docs/mcp.md).
 
 ## License
 
