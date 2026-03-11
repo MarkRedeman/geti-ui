@@ -131,12 +131,7 @@ To ensure automated releases and clean changelogs, we strictly follow [Conventio
 - `fix(table): resolve overflow in narrow containers`
 
 ### Releases
-We use **Changesets** for versioning. When contributing changes that affect package versions, run:
-```bash
-npx changeset
-```
-
-Select the package(s) affected (`@geti-ai/ui`, `@geti-ai/smart-tools`, and/or `@geti-ai/charts`) in the prompt.
+We use **semantic-release** for automated versioning. When your PR is merged to `main`, semantic-release analyses your conventional commit messages and automatically determines the version bump, publishes to npm, and creates a GitHub Release. No manual version management is needed — just write good commit messages.
 
 ---
 

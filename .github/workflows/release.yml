@@ -1,0 +1,143 @@
+name: Release
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+    inputs:
+      opencv_version:
+        description: OpenCV version to use for release build
+        required: false
+        default: "4.9.0"
+      emsdk_version:
+        description: Emscripten image tag to use for OpenCV build
+        required: false
+        default: "3.1.25"
+
+concurrency:
+  group: release-${{ github.ref }}
+  cancel-in-progress: false
+
+permissions: {}
+
+jobs:
+  # ── Job 1: Detect whether smart-tools changed since last tag ──────────
+  check-smart-tools:
+    name: Check smart-tools changes
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    outputs:
+      needs_opencv: ${{ steps.diff.outputs.needs_opencv }}
+    steps:
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+
+      - name: Detect changes in packages/smart-tools
+        id: diff
+        run: |
+          set -euo pipefail
+          # Find the latest release tag (v*)
+          LAST_TAG=$(git tag --list 'v*' --sort=-v:refname | head -n1 || true)
+          if [ -z "$LAST_TAG" ]; then
+            echo "No previous tag found — treating as first release"
+            echo "needs_opencv=true" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+          echo "Last tag: $LAST_TAG"
+          CHANGED=$(git diff --name-only "$LAST_TAG"..HEAD -- packages/smart-tools/ || true)
+          if [ -n "$CHANGED" ]; then
+            echo "Smart-tools changes detected:"
+            echo "$CHANGED"
+            echo "needs_opencv=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "No smart-tools changes since $LAST_TAG"
+            echo "needs_opencv=false" >> "$GITHUB_OUTPUT"
+          fi
+
+  # ── Job 2: Build OpenCV (only when smart-tools changed) ──────────────
+  opencv:
+    name: Build OpenCV artifact
+    needs: [check-smart-tools]
+    if: needs.check-smart-tools.outputs.needs_opencv == 'true'
+    uses: ./.github/workflows/opencv-build.yml
+    with:
+      opencv_version: ${{ inputs.opencv_version || '4.9.0' }}
+      emsdk_version: ${{ inputs.emsdk_version || '3.1.25' }}
+
+  # ── Job 3: Build, test, and release all packages ─────────────────────
+  release:
+    name: Release all packages
+    needs: [check-smart-tools, opencv]
+    # Run even when opencv was skipped (i.e. no smart-tools changes)
+    if: always() && needs.check-smart-tools.result == 'success' && (needs.opencv.result == 'success' || needs.opencv.result == 'skipped')
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write       # push version commit + tags
+      issues: write         # semantic-release comments on issues
+      pull-requests: write  # semantic-release comments on PRs
+    steps:
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6
+        with:
+          fetch-depth: 0
+          persist-credentials: true # needed for @semantic-release/git to push
+
+      - uses: actions/setup-node@53b83947a5a98c8d113130e565377fae1a50d02f # v6
+        with:
+          node-version: 24
+          registry-url: https://registry.npmjs.org
+          cache: npm
+
+      - run: npm ci
+
+      # Download OpenCV artifact if the opencv job ran
+      - name: Download OpenCV artifact
+        if: needs.opencv.result == 'success'
+        uses: actions/download-artifact@70fc10c6e5e1ce46ad2ea6f2b72d43f7d47b13c3 # v8
+        with:
+          name: ${{ needs.opencv.outputs.artifact_name }}
+          path: opencv-artifacts
+
+      - name: Place OpenCV artifact in source path
+        if: needs.opencv.result == 'success'
+        env:
+          OPENCV_VERSION: ${{ needs.opencv.outputs.opencv_version }}
+        run: |
+          set -euo pipefail
+          OUT_DIR="packages/smart-tools/src/opencv/${OPENCV_VERSION}"
+          mkdir -p "$OUT_DIR"
+          cp opencv-artifacts/opencv.js "$OUT_DIR/opencv.js"
+          if [ -f opencv-artifacts/opencv.wasm ]; then
+            cp opencv-artifacts/opencv.wasm "$OUT_DIR/opencv.wasm"
+          fi
+
+      # Build all library packages (order: ui → smart-tools → charts)
+      - name: Build libraries
+        run: npm run build
+
+      # Build documentation (generates llms.txt + markdown for MCP bundling)
+      - name: Build documentation
+        run: npm run docs:build
+
+      # Build MCP server (compiles source, then bundles doc_build/ into dist/data/)
+      - name: Build MCP server
+        run: npm run mcp:build
+
+      # Quality gates
+      - name: Lint
+        run: npm run lint
+
+      - name: Type check
+        run: npm run type-check
+
+      - name: Unit tests
+        run: npm run test
+
+      # Run semantic-release
+      - name: Semantic Release
+        run: npx semantic-release
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}

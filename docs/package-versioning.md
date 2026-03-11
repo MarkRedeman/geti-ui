@@ -4,19 +4,29 @@ This document describes the automated packaging and release strategy for the pac
 
 ## Architecture Design
 
-Our release pipeline uses a hybrid approach to ensure high-quality versioning and human-readable changelogs.
+Our release pipeline uses **semantic-release** as the single source of truth for versioning, changelogs, npm publishing, git tagging, and GitHub Release creation.
 
 | Tool | Responsibility |
 | :--- | :--- |
-| **Changesets** | Manages the release loop: tracking changes, bumping versions, and publishing to NPM. |
-| **git-cliff** | Generates human-readable, categorized changelogs and GitHub Release notes from conventional commits. |
+| **semantic-release** | Analyses conventional commits, determines version bumps, generates changelogs, publishes to npm, creates git tags, and creates GitHub Releases — all in one automated pipeline. |
 | **Husky + Commitlint** | Enforces Conventional Commits and automates local Git configuration. |
 | **Commit Template** | Provides interactive guidance and examples directly in the Git editor during `git commit`. |
-| **GitHub Actions** | Orchestrates CI (lint/test/build), Visual Regression, and Automated Publishing. |
+| **GitHub Actions** | Orchestrates CI (lint/test/build), Visual Regression, and the unified Release workflow. |
+
+### Shared version
+
+All four packages share a single version number:
+
+- `@geti-ai/ui`
+- `@geti-ai/smart-tools`
+- `@geti-ai/charts`
+- `@geti-ai/mcp`
+
+When semantic-release determines a version bump, every package is updated to the same version and published together.
 
 ---
 
-## 🛠 Manual Setup Required (One-time)
+## Manual Setup Required (One-time)
 
 The following steps must be performed manually to activate the automated pipeline:
 
@@ -27,69 +37,71 @@ The following steps must be performed manually to activate the automated pipelin
     *   Go to `Settings > Actions > General` in your GitHub repo.
     *   Keep default workflow permissions at the minimum required by your repository policy.
     *   This repo grants write scopes at the **job level** only where release automation requires them.
-    *   Check "Allow GitHub Actions to create and approve pull requests".
 3.  **Local Hooks**:
     *   Run `npm install` locally to activate the Husky hooks.
     *   Husky will automatically configure `git config --local commit.template .gitmessage` on post-install.
 
 ---
 
-## 🚀 Release Workflow
+## Release Workflow
 
-### 1. Development & Change Tracking
-When you make a change that warrants a version bump, create a changeset:
+### 1. Development
 
-```bash
-npx changeset
+Write code using [Conventional Commits](https://www.conventionalcommits.org/) format:
+
+```
+feat(button): add loading state
+fix(table): resolve overflow in narrow containers
 ```
 
-*   **Follow the prompt**: Select the affected package(s), e.g. `@geti-ai/ui`, `@geti-ai/smart-tools`, and/or `@geti-ai/charts`.
-*   **Select Bump Level**: `patch` (bug fix), `minor` (new feature), or `major` (breaking change).
-*   **Write Summary**: A brief explanation of the change. This creates a `.changeset/xxx-xxx.md` file.
-*   **Commit**: Include the changeset file in your PR.
+Semantic-release analyses these commit messages automatically to determine the version bump — no manual changeset files needed.
 
 ### 2. PR Process
-*   **Conventional Commits**: Ensure your commit messages follow the `type(scope): description` format (e.g., `feat(button): add loading state`).
+
+*   **Conventional Commits**: Ensure your commit messages follow the `type(scope): description` format.
     *   **Guidance**: When running `git commit`, an automated template will appear in your editor with examples and type definitions.
     *   **Validation**: Commit messages are validated locally via Husky; if a message is invalid, it will be rejected with an error message explaining the requirements.
 *   **CI Verification**: GitHub Actions will run `lint`, `type-check`, `rstest` (unit tests), and `playwright` visual regression tests.
 *   **Visual Comments**: An automated bot will comment on your PR with a list of changed component categories and a link to visual diffs.
 
-### 3. Merging & Versioning PR
-When a PR with a changeset is merged into `main`:
-1.  Release workflows trigger.
-2.  **Changesets** detects new changesets and opens/updates a persistent **"Version Packages" PR**.
-3.  This PR updates versions/changelogs for affected package(s).
-4.  **Action**: merge this PR when ready to publish.
+### 3. Merging & Automated Publishing
 
-### 4. Automated Publishing
-When the "Version Packages" PR is merged:
-1.  Package-specific release workflows run.
-2.  They run package build/test checks and `npm publish` for the targeted package.
-3.  They create package release tags and GitHub release notes.
+When a PR is merged into `main`, the unified `release.yml` workflow runs automatically:
 
-Tag naming conventions:
+1.  **Check smart-tools changes** — detects whether `packages/smart-tools/` changed since the last release tag.
+2.  **Build OpenCV** (conditional) — only runs if smart-tools has changes. Uses the `opencv-build.yml` reusable workflow.
+3.  **Release** — builds all packages, runs quality gates (lint, type-check, tests), then runs semantic-release which:
+    *   Analyses commits since the last tag to determine the bump level (patch/minor/major)
+    *   Generates release notes
+    *   Writes `CHANGELOG.md`
+    *   Updates all four `package.json` versions
+    *   Publishes all four packages to npm (sequentially, in dependency order)
+    *   Commits the updated files back to `main` (with `[skip ci]`)
+    *   Creates a git tag (`v{version}`)
+    *   Creates a GitHub Release with the generated notes
 
-- `@geti-ai/ui`: `v{version}`
-- `@geti-ai/smart-tools`: `smart-tools-v{version}`
-- `@geti-ai/charts`: `charts-v{version}`
+### Tag format
 
-### Package-specific release notes
-
-- `@geti-ai/ui` release path is handled by `release-ui.yaml`.
-- `@geti-ai/smart-tools` release path is handled by `release-smart-tools.yml` and uses `opencv-build.yml` to prepare OpenCV artifacts.
-- `@geti-ai/charts` release path is handled by `release-charts.yml`.
+All packages share a single tag: `v{version}` (e.g., `v0.1.0`, `v1.0.0`).
 
 ---
 
-## 📜 Conventional Commit Reference
+## Conventional Commit Reference
 
-| Type | SemVer equivalent | Category in Changelog |
+| Type | SemVer equivalent | Category in Release Notes |
 | :--- | :--- | :--- |
-| `feat` | Minor | ✨ Features |
-| `fix` | Patch | 🐛 Bug Fixes |
-| `perf` | Patch | ⚡ Performance |
-| `refactor` | Patch | ♻️ Refactoring |
-| `chore/ci/docs` | N/A | 🔧 Maintenance |
+| `feat` | Minor | Features |
+| `fix` | Patch | Bug Fixes |
+| `perf` | Patch | Performance Improvements |
+| `refactor` | Patch | (not included by default) |
+| `chore/ci/docs` | N/A | (not included by default) |
 
-*Add a `!` after the type (e.g., `feat!: ...`) to indicate a **Breaking Change** (Major bump).*
+*Add a `!` after the type (e.g., `feat!: ...`) or include `BREAKING CHANGE:` in the commit footer to indicate a **Breaking Change** (Major bump).*
+
+---
+
+## Configuration
+
+- **`release.config.mjs`** — semantic-release plugin chain and configuration (repo root)
+- **`scripts/publish-all.sh`** — sequential npm publish script for all 4 workspaces
+- **`.github/workflows/release.yml`** — unified 3-job release workflow
