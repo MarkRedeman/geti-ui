@@ -1,0 +1,174 @@
+# MCP Server
+
+`@geti-ai/mcp` is an MCP (Model Context Protocol) server that exposes the full Geti UI
+documentation to AI coding agents. It ships with all documentation bundled, so
+`npx @geti-ai/mcp` works out of the box with zero configuration.
+
+## What is MCP?
+
+The [Model Context Protocol](https://modelcontextprotocol.io/) is an open standard that
+lets AI tools (Claude Code, Cursor, VS Code Copilot, Windsurf, etc.) connect to external
+data sources via a lightweight server. By running the Geti UI MCP server, your AI
+assistant gains direct access to component documentation, chart docs, prop definitions,
+and usage examples without you needing to paste anything into the chat.
+
+## Install
+
+```bash
+npm install @geti-ai/mcp
+```
+
+Or run directly with `npx` (no install required):
+
+```bash
+npx @geti-ai/mcp
+```
+
+## Configure your AI tool
+
+### Claude Code
+
+Add to `.mcp.json` at the root of your project:
+
+```json
+{
+  "mcpServers": {
+    "geti-ui": {
+      "command": "npx",
+      "args": ["@geti-ai/mcp@latest"]
+    }
+  }
+}
+```
+
+### VS Code (GitHub Copilot)
+
+Add to `.vscode/mcp.json`:
+
+```json
+{
+  "servers": {
+    "geti-ui": {
+      "command": "npx",
+      "args": ["@geti-ai/mcp@latest"]
+    }
+  }
+}
+```
+
+### Cursor
+
+Add to `.cursor/mcp.json`:
+
+```json
+{
+  "mcpServers": {
+    "geti-ui": {
+      "command": "npx",
+      "args": ["@geti-ai/mcp@latest"]
+    }
+  }
+}
+```
+
+### Windsurf
+
+Add to `~/.codeium/windsurf/mcp_config.json`:
+
+```json
+{
+  "mcpServers": {
+    "geti-ui": {
+      "command": "npx",
+      "args": ["@geti-ai/mcp@latest"]
+    }
+  }
+}
+```
+
+## Available tools
+
+Once connected, the MCP server exposes 7 tools to your AI agent:
+
+### Core documentation tools
+
+| Tool | Description |
+|------|-------------|
+| `list_geti_ui_pages` | Lists all documentation pages with optional descriptions. |
+| `get_geti_ui_page_info` | Returns a page's description and section headings. |
+| `get_geti_ui_page` | Returns full markdown content for a page, or a specific section. |
+
+### Search
+
+| Tool | Description |
+|------|-------------|
+| `search_geti_ui_docs` | Full-text search across all documentation pages. Returns matching pages with line context. |
+
+### Component tools
+
+| Tool | Description |
+|------|-------------|
+| `list_geti_ui_components` | Lists all UI components with name, category, and description. Filterable by category. |
+| `get_geti_ui_component_props` | Extracts structured prop information from a component page, grouped by category. |
+
+### Chart tools
+
+| Tool | Description |
+|------|-------------|
+| `list_geti_ui_charts` | Lists all chart components. Filterable by type (composition or primitive). |
+
+## Environment variables
+
+The server reads bundled documentation by default. Override the content source with:
+
+| Variable | Description |
+|----------|-------------|
+| `DOCS_DIR` | Read docs from a local directory (e.g. `./documentation/doc_build`). |
+| `DOCS_BASE_URL` | Fetch docs from a remote URL (e.g. `https://docs.geti-ui.markredeman.nl`). |
+
+### Local development example
+
+Point the server at your local docs build output:
+
+```bash
+DOCS_DIR=./documentation/doc_build npx @geti-ai/mcp
+```
+
+This is useful when authoring new documentation pages and testing them immediately
+through the MCP server without publishing.
+
+## How it works
+
+The MCP server is built on top of the
+[`@rspress/plugin-llms`](https://rspress.rs/plugin/official-plugins/llms) output. When
+the documentation site is built with `rspress build`, the plugin generates:
+
+- **`llms.txt`** -- an index of all pages with titles, paths, and descriptions
+- **`llms-full.txt`** -- the full documentation concatenated into a single file
+- **Individual `.md` files** -- one per documentation page
+
+The MCP server bundles these files at publish time. At runtime it parses `llms.txt` to
+build a page index, then serves individual markdown files on demand when an AI agent
+requests them.
+
+## Architecture
+
+```
+  AI Agent (Claude, Cursor, VS Code)
+              │
+              │  MCP (stdio)
+              ▼
+    ┌──────────────────┐
+    │  @geti-ai/mcp    │
+    │                  │
+    │  7 tools         │
+    └────────┬─────────┘
+             │
+   ┌─────────┼─────────┐
+   ▼         ▼         ▼
+ Bundled   Local     Remote
+ data/     dir       URL
+```
+
+The server communicates via the MCP stdio transport (JSON-RPC over stdin/stdout),
+which is the standard transport supported by all major AI tools.

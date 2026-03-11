@@ -23,7 +23,9 @@
     "docs:preview": "npm run preview --workspace=@geti-ai/documentation",
     "docs:check:coverage": "npm run check:coverage --workspace=@geti-ai/documentation",
     "docs:check:no-stories-imports": "npm run check:no-stories-imports --workspace=@geti-ai/documentation",
-    "docs:test:e2e": "npm run test:e2e --workspace=@geti-ai/documentation"
+    "docs:test:e2e": "npm run test:e2e --workspace=@geti-ai/documentation",
+    "mcp:build": "npm run build --workspace=@geti-ai/mcp",
+    "mcp:start": "npm run start --workspace=@geti-ai/mcp"
   },
   "engines": {
     "node": ">=24.0.0"
