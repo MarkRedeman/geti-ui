@@ -16,13 +16,13 @@ Add to `.vscode/mcp.json`:
 
 ```json
 {
-  "servers": {
-    "geti-ui": {
-      "type": "stdio",
-      "command": "npx",
-      "args": ["@geti-ai/mcp@latest"]
+    "servers": {
+        "geti-ui": {
+            "type": "stdio",
+            "command": "npx",
+            "args": ["@geti-ai/mcp@latest"]
+        }
     }
-  }
 }
 ```
 
@@ -32,12 +32,12 @@ Add to `.cursor/mcp.json`:
 
 ```json
 {
-  "mcpServers": {
-    "geti-ui": {
-      "command": "npx",
-      "args": ["@geti-ai/mcp@latest"]
+    "mcpServers": {
+        "geti-ui": {
+            "command": "npx",
+            "args": ["@geti-ai/mcp@latest"]
+        }
     }
-  }
 }
 ```
 
@@ -47,33 +47,33 @@ Add to `~/.windsurf/mcp_config.json`:
 
 ```json
 {
-  "mcpServers": {
-    "geti-ui": {
-      "command": "npx",
-      "args": ["@geti-ai/mcp@latest"]
+    "mcpServers": {
+        "geti-ui": {
+            "command": "npx",
+            "args": ["@geti-ai/mcp@latest"]
+        }
     }
-  }
 }
 ```
 
 ## Available tools
 
-| Tool | Description |
-|------|-------------|
-| `list_geti_ui_pages` | List all documentation pages |
-| `get_geti_ui_page_info` | Get page description and section list |
-| `get_geti_ui_page` | Get full page markdown or a specific section |
-| `search_geti_ui_docs` | Full-text search across all docs |
-| `list_geti_ui_components` | List UI components by category |
-| `get_geti_ui_component_props` | Get structured prop info for a component |
-| `list_geti_ui_charts` | List chart components by type |
+| Tool                          | Description                                  |
+| ----------------------------- | -------------------------------------------- |
+| `list_geti_ui_pages`          | List all documentation pages                 |
+| `get_geti_ui_page_info`       | Get page description and section list        |
+| `get_geti_ui_page`            | Get full page markdown or a specific section |
+| `search_geti_ui_docs`         | Full-text search across all docs             |
+| `list_geti_ui_components`     | List UI components by category               |
+| `get_geti_ui_component_props` | Get structured prop info for a component     |
+| `list_geti_ui_charts`         | List chart components by type                |
 
 ## Environment variables
 
-| Variable | Description |
-|----------|-------------|
-| `DOCS_BASE_URL` | Fetch docs from a remote URL instead of bundled data |
-| `DOCS_DIR` | Read docs from a local directory instead of bundled data |
+| Variable        | Description                                              |
+| --------------- | -------------------------------------------------------- |
+| `DOCS_BASE_URL` | Fetch docs from a remote URL instead of bundled data     |
+| `DOCS_DIR`      | Read docs from a local directory instead of bundled data |
 
 By default, the server reads from bundled documentation shipped with the npm package. No configuration needed.
 

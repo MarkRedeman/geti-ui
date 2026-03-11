@@ -81,6 +81,10 @@ jobs:
               run: npm run format:check
               working-directory: packages/ui
 
+            - name: Lint (mcp)
+              run: npm run lint
+              working-directory: packages/mcp
+
             - name: Unit tests
               run: npm run test
               working-directory: packages/ui
@@ -92,6 +96,10 @@ jobs:
             - name: Unit tests (charts)
               run: npm run test
               working-directory: packages/charts
+
+            - name: Unit tests (mcp)
+              run: npm run test
+              working-directory: packages/mcp
 
             - name: Build library
               run: npm run build

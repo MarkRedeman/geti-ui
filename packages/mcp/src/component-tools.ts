@@ -9,32 +9,32 @@ import type { PageInfo, PropInfo } from './types.js';
  * Categories are derived from the path structure (e.g. "ui", "form", "data").
  */
 export async function listComponents(
-  category?: string,
+    category?: string
 ): Promise<Array<{ name: string; category: string; description: string }>> {
-  const pages = await buildPageIndex();
+    const pages = await buildPageIndex();
 
-  const componentPages = pages.filter((p) => p.key.startsWith('components/'));
+    const componentPages = pages.filter((p) => p.key.startsWith('components/'));
 
-  const results: Array<{ name: string; category: string; description: string }> = [];
+    const results: Array<{ name: string; category: string; description: string }> = [];
 
-  for (const page of componentPages) {
-    // Extract category from path: components/{category}/Name → category
-    const parts = page.key.split('/');
-    // Category is everything between "components/" and the last segment
-    const cat = parts.slice(1, -1).join('/');
+    for (const page of componentPages) {
+        // Extract category from path: components/{category}/Name → category
+        const parts = page.key.split('/');
+        // Category is everything between "components/" and the last segment
+        const cat = parts.slice(1, -1).join('/');
 
-    if (category && cat !== category && !cat.startsWith(`${category}/`)) {
-      continue;
+        if (category && cat !== category && !cat.startsWith(`${category}/`)) {
+            continue;
+        }
+
+        results.push({
+            name: page.name,
+            category: cat,
+            description: page.description || '',
+        });
     }
 
-    results.push({
-      name: page.name,
-      category: cat,
-      description: page.description || '',
-    });
-  }
-
-  return results.sort((a, b) => a.name.localeCompare(b.name));
+    return results.sort((a, b) => a.name.localeCompare(b.name));
 }
 
 /**
@@ -44,30 +44,30 @@ export async function listComponents(
  * as parsed from the `## Props (deep dive)` section.
  */
 export async function getComponentProps(
-  componentName: string,
-  resolvePageRef: (name: string) => Promise<PageInfo>,
+    componentName: string,
+    resolvePageRef: (name: string) => Promise<PageInfo>
 ): Promise<Record<string, PropInfo[]>> {
-  const ref = await resolvePageRef(componentName);
-  const text = await readPageContent(ref);
-  const lines = text.split(/\r?\n/);
-  const props = extractComponentProps(lines);
+    const ref = await resolvePageRef(componentName);
+    const text = await readPageContent(ref);
+    const lines = text.split(/\r?\n/);
+    const props = extractComponentProps(lines);
 
-  // If no bullet-style props found, the page may not have a "Props (deep dive)" section
-  const hasProps = Object.values(props).some((arr) => arr.length > 0);
-  if (!hasProps) {
-    // Try to get at least a description
-    const parsed = await ensureParsedPage(ref);
-    return {
-      _info: [
-        {
-          name: parsed.name,
-          description:
-            parsed.description ||
-            'No structured props found. Use get_geti_ui_page with section_name "Props" to get raw content.',
-        },
-      ],
-    };
-  }
+    // If no bullet-style props found, the page may not have a "Props (deep dive)" section
+    const hasProps = Object.values(props).some((arr) => arr.length > 0);
+    if (!hasProps) {
+        // Try to get at least a description
+        const parsed = await ensureParsedPage(ref);
+        return {
+            _info: [
+                {
+                    name: parsed.name,
+                    description:
+                        parsed.description ||
+                        'No structured props found. Use get_geti_ui_page with section_name "Props" to get raw content.',
+                },
+            ],
+        };
+    }
 
-  return props;
+    return props;
 }

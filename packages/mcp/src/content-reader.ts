@@ -10,24 +10,24 @@ let source: ContentSource | undefined;
 let baseDir: string | undefined;
 
 function getSource(): ContentSource {
-  if (!source) {
-    source = resolveContentSource();
-  }
-  return source;
+    if (!source) {
+        source = resolveContentSource();
+    }
+    return source;
 }
 
 function getBaseDir(): string {
-  if (!baseDir) {
-    const s = getSource();
-    if (s.type === 'local') {
-      baseDir = s.dir;
-    } else if (s.type === 'bundled') {
-      baseDir = resolveDataDir();
-    } else {
-      throw new Error('getBaseDir() called for remote source');
+    if (!baseDir) {
+        const s = getSource();
+        if (s.type === 'local') {
+            baseDir = s.dir;
+        } else if (s.type === 'bundled') {
+            baseDir = resolveDataDir();
+        } else {
+            throw new Error('getBaseDir() called for remote source');
+        }
     }
-  }
-  return baseDir;
+    return baseDir;
 }
 
 /**
@@ -39,15 +39,15 @@ function getBaseDir(): string {
  * 3. Default → bundled `dist/data/`
  */
 export async function readContent(relativePath: string): Promise<string> {
-  const s = getSource();
+    const s = getSource();
 
-  if (s.type === 'remote') {
-    const url = `${s.baseUrl}/${relativePath}`;
-    return fetchText(url);
-  }
+    if (s.type === 'remote') {
+        const url = `${s.baseUrl}/${relativePath}`;
+        return fetchText(url);
+    }
 
-  const fullPath = path.join(getBaseDir(), relativePath);
-  return fs.readFile(fullPath, 'utf-8');
+    const fullPath = path.join(getBaseDir(), relativePath);
+    return fs.readFile(fullPath, 'utf-8');
 }
 
 /**
@@ -56,36 +56,33 @@ export async function readContent(relativePath: string): Promise<string> {
  * Returns paths relative to the data directory.
  */
 export async function listContentFiles(subdir?: string): Promise<string[]> {
-  const s = getSource();
+    const s = getSource();
 
-  if (s.type === 'remote') {
-    // For remote sources, we rely on llms.txt for the file listing
-    return [];
-  }
+    if (s.type === 'remote') {
+        // For remote sources, we rely on llms.txt for the file listing
+        return [];
+    }
 
-  const dir = subdir ? path.join(getBaseDir(), subdir) : getBaseDir();
-  return collectMarkdownFiles(dir, getBaseDir());
+    const dir = subdir ? path.join(getBaseDir(), subdir) : getBaseDir();
+    return collectMarkdownFiles(dir, getBaseDir());
 }
 
-async function collectMarkdownFiles(
-  dir: string,
-  rootDir: string,
-): Promise<string[]> {
-  const results: string[] = [];
-  let entries;
-  try {
-    entries = await fs.readdir(dir, { withFileTypes: true });
-  } catch {
-    return results;
-  }
-  for (const entry of entries) {
-    const full = path.join(dir, entry.name);
-    if (entry.isDirectory()) {
-      const sub = await collectMarkdownFiles(full, rootDir);
-      results.push(...sub);
-    } else if (entry.isFile() && entry.name.endsWith('.md')) {
-      results.push(path.relative(rootDir, full));
+async function collectMarkdownFiles(dir: string, rootDir: string): Promise<string[]> {
+    const results: string[] = [];
+    let entries;
+    try {
+        entries = await fs.readdir(dir, { withFileTypes: true });
+    } catch {
+        return results;
     }
-  }
-  return results;
+    for (const entry of entries) {
+        const full = path.join(dir, entry.name);
+        if (entry.isDirectory()) {
+            const sub = await collectMarkdownFiles(full, rootDir);
+            results.push(...sub);
+        } else if (entry.isFile() && entry.name.endsWith('.md')) {
+            results.push(path.relative(rootDir, full));
+        }
+    }
+    return results;
 }
