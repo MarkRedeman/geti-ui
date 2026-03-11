@@ -21,6 +21,9 @@
     "files": [
         "dist"
     ],
+    "publishConfig": {
+        "access": "public"
+    },
     "scripts": {
         "dev": "rslib build --watch",
         "build": "rslib build",

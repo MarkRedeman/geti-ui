@@ -131,12 +131,7 @@ To ensure automated releases and clean changelogs, we strictly follow [Conventio
 - `fix(table): resolve overflow in narrow containers`
 
 ### Releases
-We use **Changesets** for versioning. When contributing changes that affect package versions, run:
-```bash
-npx changeset
-```
-
-Select the package(s) affected (`@geti-ai/ui`, `@geti-ai/smart-tools`, and/or `@geti-ai/charts`) in the prompt.
+Releases are automated via **git-cliff** and a unified GitHub Actions workflow. When conventional commits are pushed to `main`, git-cliff determines the next version from commit history and publishes all packages automatically. No manual version bumping is required.
 
 ---
 

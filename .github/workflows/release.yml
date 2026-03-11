@@ -1,0 +1,198 @@
+name: Release
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+    inputs:
+      opencv_version:
+        description: OpenCV version to use for release build
+        required: false
+        default: "4.9.0"
+      emsdk_version:
+        description: Emscripten image tag to use for OpenCV build
+        required: false
+        default: "3.1.25"
+
+concurrency:
+  group: release-${{ github.ref }}
+  cancel-in-progress: false
+
+permissions: {}
+
+jobs:
+  # -------------------------------------------------------------------
+  # Job 1: Fast check — determine if a version bump is needed
+  # Uses git-cliff --bumped-version to analyze conventional commits
+  # -------------------------------------------------------------------
+  check:
+    name: Check for version bump
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    outputs:
+      version: ${{ steps.eval.outputs.version }}
+      should_release: ${{ steps.eval.outputs.should_release }}
+    steps:
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+
+      - name: Install git-cliff
+        uses: taiki-e/install-action@735e5933943e29f43a6df3517ee9a1f48d368925 # v2
+        with:
+          tool: git-cliff
+
+      - name: Evaluate version bump
+        id: eval
+        run: |
+          set -euo pipefail
+
+          # Read current version from packages/ui/package.json
+          CURRENT=$(node -p "require('./packages/ui/package.json').version")
+
+          # Get bumped version from git-cliff (strips 'v' prefix if present)
+          NEXT=$(git cliff --bumped-version | sed 's/^v//')
+
+          echo "current=$CURRENT"
+          echo "next=$NEXT"
+
+          if [ "$NEXT" = "$CURRENT" ] || [ -z "$NEXT" ]; then
+            echo "No version bump needed"
+            echo "should_release=false" >> "$GITHUB_OUTPUT"
+            echo "version=" >> "$GITHUB_OUTPUT"
+          else
+            echo "Version bump: $CURRENT -> $NEXT"
+            echo "should_release=true" >> "$GITHUB_OUTPUT"
+            echo "version=$NEXT" >> "$GITHUB_OUTPUT"
+          fi
+
+  # -------------------------------------------------------------------
+  # Job 2: Build OpenCV WASM artifact (only when releasing)
+  # -------------------------------------------------------------------
+  opencv:
+    name: Build OpenCV artifact
+    needs: [check]
+    if: needs.check.outputs.should_release == 'true'
+    uses: ./.github/workflows/opencv-build.yml
+    with:
+      opencv_version: ${{ inputs.opencv_version }}
+      emsdk_version: ${{ inputs.emsdk_version }}
+
+  # -------------------------------------------------------------------
+  # Job 3: Build, test, publish, tag, and create GitHub Release
+  # -------------------------------------------------------------------
+  release:
+    name: Publish packages
+    needs: [check, opencv]
+    if: needs.check.outputs.should_release == 'true'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6
+        with:
+          fetch-depth: 0
+
+      - uses: actions/setup-node@53b83947a5a98c8d113130e565377fae1a50d02f # v6
+        with:
+          node-version: 24
+          registry-url: https://registry.npmjs.org
+          package-manager-cache: false
+
+      - run: npm ci
+
+      - name: Install git-cliff
+        uses: taiki-e/install-action@735e5933943e29f43a6df3517ee9a1f48d368925 # v2
+        with:
+          tool: git-cliff
+
+      # ── Version bump ────────────────────────────────────────────────
+      - name: Bump versions and generate changelog
+        env:
+          VERSION: ${{ needs.check.outputs.version }}
+        run: |
+          set -euo pipefail
+          npm version "$VERSION" --no-git-tag-version \
+            --workspace=@geti-ai/ui \
+            --workspace=@geti-ai/charts \
+            --workspace=@geti-ai/smart-tools \
+            --workspace=@geti-ai/mcp
+          git cliff --bump -o CHANGELOG.md
+
+      # ── Download OpenCV artifact ────────────────────────────────────
+      - name: Download OpenCV artifact
+        uses: actions/download-artifact@70fc10c6e5e1ce46ad2ea6f2b72d43f7d47b13c3 # v8
+        with:
+          name: ${{ needs.opencv.outputs.artifact_name }}
+          path: opencv-artifacts
+
+      - name: Place OpenCV artifact in source path
+        env:
+          OPENCV_VERSION: ${{ needs.opencv.outputs.opencv_version }}
+        run: |
+          set -euo pipefail
+          OUT_DIR="packages/smart-tools/src/opencv/${OPENCV_VERSION}"
+          mkdir -p "$OUT_DIR"
+          cp opencv-artifacts/opencv.js "$OUT_DIR/opencv.js"
+          if [ -f opencv-artifacts/opencv.wasm ]; then
+            cp opencv-artifacts/opencv.wasm "$OUT_DIR/opencv.wasm"
+          fi
+
+      # ── Build all packages ──────────────────────────────────────────
+      - run: npm run build --workspace=@geti-ai/ui
+      - run: npm run build --workspace=@geti-ai/smart-tools
+      - run: npm run build --workspace=@geti-ai/charts
+      - run: npm run docs:build
+      - run: npm run build --workspace=@geti-ai/mcp
+
+      # ── Quality gates ───────────────────────────────────────────────
+      - run: npm run lint
+      - run: npm run type-check
+      - run: npm run test
+
+      # ── Publish to npm ──────────────────────────────────────────────
+      - run: npm publish --workspace=@geti-ai/ui
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+      - run: npm publish --workspace=@geti-ai/charts
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+      - run: npm publish --workspace=@geti-ai/smart-tools
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+      - run: npm publish --workspace=@geti-ai/mcp
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+
+      # ── Git tag and push ────────────────────────────────────────────
+      - name: Commit version bump and tag
+        env:
+          VERSION: ${{ needs.check.outputs.version }}
+        run: |
+          set -euo pipefail
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add -A
+          git commit -m "chore(release): v${VERSION}"
+          git tag "v${VERSION}"
+          git push origin main --follow-tags
+
+      # ── GitHub Release ──────────────────────────────────────────────
+      - name: Generate release notes
+        uses: orhun/git-cliff-action@c93ef52f3d0ddcdcc9bd5447d98d458a11cd4f72 # v4
+        with:
+          config: cliff.toml
+          args: --latest --strip header
+        env:
+          OUTPUT: RELEASE_NOTES.md
+          GITHUB_REPO: ${{ github.repository }}
+
+      - name: Create GitHub Release
+        if: hashFiles('RELEASE_NOTES.md') != ''
+        uses: softprops/action-gh-release@a06a81a03ee405af7f2048a818ed3f03bbf83c7b # v2
+        with:
+          body_path: RELEASE_NOTES.md
+          tag_name: v${{ needs.check.outputs.version }}
+          token: ${{ secrets.GITHUB_TOKEN }}

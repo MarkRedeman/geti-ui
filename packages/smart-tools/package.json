@@ -39,6 +39,9 @@
     "files": [
         "dist"
     ],
+    "publishConfig": {
+        "access": "public"
+    },
     "scripts": {
         "build": "rslib build && node ./scripts/copy-models.mjs",
         "test": "rstest run",
