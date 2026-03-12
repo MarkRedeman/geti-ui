@@ -4,6 +4,7 @@ import { pluginPreview } from '@rspress/plugin-preview';
 import { pluginSitemap } from '@rspress/plugin-sitemap';
 import path from 'node:path';
 import { componentDocsPlugin } from './plugins/component-docs';
+import { pluginSkills } from './plugins/skills-endpoint';
 
 const chartsSidebar = [
     { text: 'Installation', link: '/charts/installation' },
@@ -232,5 +233,6 @@ export default defineConfig({
             defaultChangeFreq: 'weekly',
             defaultPriority: '0.7',
         }),
+        pluginSkills(),
     ],
 });
