@@ -10,7 +10,6 @@ const chartsSidebar = [
     { text: 'Overview', link: '/charts/overview' },
     {
         text: 'Theming',
-        link: '/charts/theming',
         collapsed: false,
         items: [
             { text: 'Overview', link: '/charts/theming' },
@@ -19,7 +18,6 @@ const chartsSidebar = [
     },
     {
         text: 'Primitives',
-        link: '/charts/primitives',
         collapsed: false,
         items: [
             { text: 'Overview', link: '/charts/primitives' },
@@ -39,7 +37,6 @@ const chartsSidebar = [
     },
     {
         text: 'Compositions',
-        link: '/charts/compositions',
         collapsed: false,
         items: [
             { text: 'Overview', link: '/charts/compositions' },
@@ -198,11 +195,11 @@ export default defineConfig({
         darkMode: false,
         llmsUI: true,
         nav: [
-            { text: 'Components', link: '/components/installation' },
-            { text: 'Assets', link: '/assets/' },
-            { text: 'Charts', link: '/charts/installation' },
-            { text: 'Smart tools', link: '/smart-tools/installation' },
-            { text: 'Examples', link: '/examples' },
+            { text: 'Components', link: '/components/installation', activeMatch: '/components/' },
+            { text: 'Assets', link: '/assets/', activeMatch: '/assets/' },
+            { text: 'Charts', link: '/charts/installation', activeMatch: '/charts/' },
+            { text: 'Smart tools', link: '/smart-tools/installation', activeMatch: '/smart-tools/' },
+            { text: 'Examples', link: '/examples', activeMatch: '/examples' },
             { text: 'MCP', link: '/mcp' },
         ],
         sidebar: {
