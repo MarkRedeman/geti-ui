@@ -1,4 +1,4 @@
-import { type CSSProperties, type ReactNode, useLayoutEffect, useMemo, useRef, useState } from 'react';
+import { type CSSProperties, type ReactNode, useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react';
 import {
     ScatterChart as RechartsScatterChart,
     Scatter,
@@ -11,6 +11,8 @@ import {
     type ZAxisProps,
 } from 'recharts';
 import { useChartsTheme } from '../hooks/useChartsTheme';
+import type { HighlightConfig } from '../highlight';
+import { extractLegendSeriesKey, useSeriesHighlight } from '../highlight';
 import { useVoronoiHover } from '../hooks/useVoronoiHover';
 import { ChartGrid, type ChartGridProps } from '../primitives/ChartGrid';
 import { ChartTooltip, type ChartTooltipProps } from '../primitives/ChartTooltip';
@@ -100,6 +102,8 @@ export interface ScatterChartProps {
     voronoiMaxDistance?: number;
     /** Optional custom content for Voronoi tooltip overlay. */
     renderVoronoiTooltip?: (activePoint: VoronoiActivePoint) => ReactNode;
+    /** Optional series highlighting interactions (hover, legend hover/click, Voronoi source). */
+    highlight?: HighlightConfig;
 }
 
 // ---------------------------------------------------------------------------
@@ -345,8 +349,21 @@ export function ScatterChart({
     useVoronoi = true,
     voronoiMaxDistance = 80,
     renderVoronoiTooltip,
+    highlight,
 }: ScatterChartProps) {
     const theme = useChartsTheme();
+
+    const highlightEnabled = highlight !== undefined && highlight.enabled !== false;
+    const interaction = highlight?.interaction;
+    const pointHoverEnabled = interaction?.lineHover ?? true;
+    const legendHoverEnabled = interaction?.legendHover ?? true;
+    const legendClickEnabled = interaction?.legendClick ?? false;
+    const voronoiHighlightEnabled = interaction?.voronoi ?? false;
+
+    const highlightState = useSeriesHighlight({
+        ...highlight,
+        enabled: highlightEnabled,
+    });
 
     // Normalise margin so all four sides are always numbers.
     const margin = {
@@ -373,6 +390,56 @@ export function ScatterChart({
         maxDistance: voronoiMaxDistance,
         enabled: useVoronoi && showTooltip,
     });
+
+    useEffect(() => {
+        if (!highlightEnabled || !voronoiHighlightEnabled || !useVoronoi) {
+            return;
+        }
+
+        if (activePoint?.point.seriesName) {
+            highlightState.setHovered([activePoint.point.seriesName]);
+            return;
+        }
+
+        highlightState.clearHover();
+    }, [
+        activePoint,
+        highlightEnabled,
+        highlightState.clearHover,
+        highlightState.setHovered,
+        useVoronoi,
+        voronoiHighlightEnabled,
+    ]);
+
+    const handleLegendMouseEnter: ChartLegendProps['onMouseEnter'] = (entry, index, event) => {
+        legendProps?.onMouseEnter?.(entry, index, event);
+        if (!highlightEnabled || !legendHoverEnabled) {
+            return;
+        }
+        const key = extractLegendSeriesKey(entry);
+        if (key) {
+            highlightState.setHovered([key]);
+        }
+    };
+
+    const handleLegendMouseLeave: ChartLegendProps['onMouseLeave'] = (entry, index, event) => {
+        legendProps?.onMouseLeave?.(entry, index, event);
+        if (!highlightEnabled || !legendHoverEnabled) {
+            return;
+        }
+        highlightState.clearHover();
+    };
+
+    const handleLegendClick: ChartLegendProps['onClick'] = (entry, index, event) => {
+        legendProps?.onClick?.(entry, index, event);
+        if (!highlightEnabled || !legendClickEnabled) {
+            return;
+        }
+        const key = extractLegendSeriesKey(entry);
+        if (key) {
+            highlightState.togglePinnedKey(key, 'legend-click');
+        }
+    };
 
     return (
         <div
@@ -440,7 +507,14 @@ export function ScatterChart({
                     {showTooltip && !useVoronoi && <ChartTooltip {...tooltipProps} />}
                     {showTooltip && useVoronoi && <ChartTooltip cursor={false} {...tooltipProps} />}
 
-                    {showLegend && <ChartLegend {...legendProps} />}
+                    {showLegend && (
+                        <ChartLegend
+                            {...legendProps}
+                            onMouseEnter={handleLegendMouseEnter}
+                            onMouseLeave={handleLegendMouseLeave}
+                            onClick={handleLegendClick}
+                        />
+                    )}
 
                     {series.map((s, index) => {
                         const color = seriesColors[index];
@@ -450,7 +524,18 @@ export function ScatterChart({
                                 name={s.name}
                                 data={s.data}
                                 fill={color}
+                                fillOpacity={highlightState.getOpacity(s.name)}
                                 shape={s.shape ?? 'circle'}
+                                onMouseEnter={
+                                    highlightEnabled && pointHoverEnabled
+                                        ? () => highlightState.setHovered([s.name])
+                                        : undefined
+                                }
+                                onMouseLeave={
+                                    highlightEnabled && pointHoverEnabled
+                                        ? () => highlightState.clearHover()
+                                        : undefined
+                                }
                                 isAnimationActive={animate}
                             />
                         );

@@ -19,6 +19,18 @@ function limitKeys(keys: string[], mode: HighlightMode, maxHighlighted?: number)
     return deduped;
 }
 
+function areKeyArraysEqual(a: string[], b: string[]): boolean {
+    if (a.length !== b.length) {
+        return false;
+    }
+    for (let i = 0; i < a.length; i += 1) {
+        if (a[i] !== b[i]) {
+            return false;
+        }
+    }
+    return true;
+}
+
 export function useSeriesHighlight(options: UseSeriesHighlightOptions = {}) {
     const {
         enabled = false,
@@ -62,14 +74,15 @@ export function useSeriesHighlight(options: UseSeriesHighlightOptions = {}) {
     const setHovered = useCallback(
         (keys: string[]) => {
             if (!enabled) return;
-            setHoveredKeys(limitKeys(keys, mode, maxHighlighted));
+            const next = limitKeys(keys, mode, maxHighlighted);
+            setHoveredKeys((previous) => (areKeyArraysEqual(previous, next) ? previous : next));
         },
         [enabled, maxHighlighted, mode]
     );
 
     const clearHover = useCallback(() => {
         if (!enabled) return;
-        setHoveredKeys([]);
+        setHoveredKeys((previous) => (previous.length === 0 ? previous : []));
     }, [enabled]);
 
     const togglePinnedKey = useCallback(
