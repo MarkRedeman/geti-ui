@@ -1,0 +1,35 @@
+# AI Integration
+
+Geti UI provides two complementary ways for AI coding agents to access component documentation, usage examples, and design system knowledge.
+
+## MCP Server
+
+The **[MCP Server](/ai/mcp)** (Model Context Protocol) gives AI agents real-time, tool-based access to the full documentation set. The agent can list pages, search content, inspect component props, and browse charts — all through a standardized protocol supported by Claude Code, Cursor, VS Code Copilot, and Windsurf.
+
+```bash
+npx @geti-ai/mcp
+```
+
+Best for: **interactive sessions** where the agent explores documentation on demand.
+
+## Skills
+
+**[Skills](/ai/skills)** are portable instruction bundles that teach an AI agent how to use a library. Each skill contains setup instructions, conventions, and links to relevant documentation pages. Install them once and they persist across sessions.
+
+```bash
+npx skills add https://docs.geti-ui.markredeman.nl
+```
+
+Best for: **ongoing projects** where you want the agent to always know how to use Geti UI without re-discovering it each time.
+
+## Which should I use?
+
+| | MCP Server | Skills |
+|---|---|---|
+| Setup | Configure in your AI tool's MCP config | Run `npx skills add` once |
+| Access | On-demand tool calls during a session | Pre-loaded context, always available |
+| Scope | Full docs — search, browse, inspect | Curated per-library instruction sets |
+| Updates | Always fetches latest docs | Update with `npx skills update` |
+| Best for | Exploration, detailed prop lookup | Established workflows, code generation |
+
+You can use both at the same time. Skills provide baseline knowledge, while the MCP server lets the agent dive deeper when needed.

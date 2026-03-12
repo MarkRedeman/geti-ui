@@ -120,6 +120,12 @@ const smartToolsSidebar = [
     },
 ];
 
+const aiSidebar = [
+    { text: 'Overview', link: '/ai/overview' },
+    { text: 'MCP Server', link: '/ai/mcp' },
+    { text: 'Skills', link: '/ai/skills' },
+];
+
 const examplesSidebar = [
     {
         text: 'Kitchensinks',
@@ -201,7 +207,7 @@ export default defineConfig({
             { text: 'Charts', link: '/charts/installation', activeMatch: '/charts/' },
             { text: 'Smart tools', link: '/smart-tools/installation', activeMatch: '/smart-tools/' },
             { text: 'Examples', link: '/examples', activeMatch: '/examples' },
-            { text: 'MCP', link: '/mcp' },
+            { text: 'AI', link: '/ai/overview', activeMatch: '/ai/' },
         ],
         sidebar: {
             '/assets': assetsSidebar,
@@ -212,6 +218,8 @@ export default defineConfig({
             '/smart-tools/': smartToolsSidebar,
             '/examples': examplesSidebar,
             '/examples/': examplesSidebar,
+            '/ai': aiSidebar,
+            '/ai/': aiSidebar,
         },
         socialLinks: [
             {
