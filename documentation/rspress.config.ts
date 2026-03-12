@@ -198,13 +198,12 @@ export default defineConfig({
         darkMode: false,
         llmsUI: true,
         nav: [
-            { text: 'Components', link: '/components/ui/Button' },
+            { text: 'Components', link: '/components/installation' },
             { text: 'Assets', link: '/assets/' },
             { text: 'Charts', link: '/charts/installation' },
             { text: 'Smart tools', link: '/smart-tools/installation' },
             { text: 'Examples', link: '/examples' },
             { text: 'MCP', link: '/mcp' },
-            { text: 'Used By', link: '/used-by' },
         ],
         sidebar: {
             '/assets': assetsSidebar,
