@@ -5,6 +5,8 @@ import {
     ResponsiveContainer,
 } from 'recharts';
 import { useChartsTheme } from '../hooks/useChartsTheme';
+import type { HighlightConfig } from '../highlight';
+import { extractLegendSeriesKey, useSeriesHighlight } from '../highlight';
 import { ChartTooltip, type ChartTooltipProps } from '../primitives/ChartTooltip';
 import { ChartLegend, type ChartLegendProps } from '../primitives/ChartLegend';
 
@@ -45,6 +47,8 @@ export interface RadialBarChartProps {
     legendProps?: ChartLegendProps;
     /** Accessible label for screen readers. */
     'aria-label'?: string;
+    /** Optional category highlighting interactions (hover, legend hover/click). */
+    highlight?: HighlightConfig;
 }
 
 export function RadialBarChart({
@@ -66,13 +70,61 @@ export function RadialBarChart({
     tooltipProps,
     legendProps,
     'aria-label': ariaLabel,
+    highlight,
 }: RadialBarChartProps) {
     const theme = useChartsTheme();
+
+    const highlightEnabled = highlight !== undefined && highlight.enabled !== false;
+    const interaction = highlight?.interaction;
+    const barHoverEnabled = interaction?.lineHover ?? true;
+    const legendHoverEnabled = interaction?.legendHover ?? true;
+    const legendClickEnabled = interaction?.legendClick ?? false;
+
+    const highlightState = useSeriesHighlight({
+        ...highlight,
+        enabled: highlightEnabled,
+    });
+
+    const getCategoryKey = (row: Record<string, unknown>): string => {
+        const raw = row[categoryKey];
+        return typeof raw === 'string' ? raw : String(raw);
+    };
 
     const filledData = data.map((row, index) => ({
         ...row,
         fill: colors?.[index] ?? theme.dataColors[index % theme.dataColors.length],
+        fillOpacity: highlightState.getOpacity(getCategoryKey(row)),
     }));
+
+    const handleLegendMouseEnter: ChartLegendProps['onMouseEnter'] = (entry, index, event) => {
+        legendProps?.onMouseEnter?.(entry, index, event);
+        if (!highlightEnabled || !legendHoverEnabled) {
+            return;
+        }
+        const key = extractLegendSeriesKey(entry);
+        if (key) {
+            highlightState.setHovered([key]);
+        }
+    };
+
+    const handleLegendMouseLeave: ChartLegendProps['onMouseLeave'] = (entry, index, event) => {
+        legendProps?.onMouseLeave?.(entry, index, event);
+        if (!highlightEnabled || !legendHoverEnabled) {
+            return;
+        }
+        highlightState.clearHover();
+    };
+
+    const handleLegendClick: ChartLegendProps['onClick'] = (entry, index, event) => {
+        legendProps?.onClick?.(entry, index, event);
+        if (!highlightEnabled || !legendClickEnabled) {
+            return;
+        }
+        const key = extractLegendSeriesKey(entry);
+        if (key) {
+            highlightState.togglePinnedKey(key, 'legend-click');
+        }
+    };
 
     return (
         <div role="img" aria-label={ariaLabel} style={{ width, height }}>
@@ -91,10 +143,30 @@ export function RadialBarChart({
                         label={{ position: 'insideStart', fill: theme.typography.color, fontSize: theme.typography.fontSize }}
                         background={track}
                         cornerRadius={cornerRadius}
+                        onMouseEnter={
+                            highlightEnabled && barHoverEnabled
+                                ? (entry) =>
+                                      highlightState.setHovered([
+                                          getCategoryKey((entry as unknown as { payload?: Record<string, unknown> }).payload ?? {}),
+                                      ])
+                                : undefined
+                        }
+                        onMouseLeave={
+                            highlightEnabled && barHoverEnabled
+                                ? () => highlightState.clearHover()
+                                : undefined
+                        }
                         isAnimationActive={animate}
                     />
                     {showTooltip && <ChartTooltip {...tooltipProps} />}
-                    {showLegend && <ChartLegend {...legendProps} />}
+                    {showLegend && (
+                        <ChartLegend
+                            {...legendProps}
+                            onMouseEnter={handleLegendMouseEnter}
+                            onMouseLeave={handleLegendMouseLeave}
+                            onClick={handleLegendClick}
+                        />
+                    )}
                 </RechartsRadialBarChart>
             </ResponsiveContainer>
         </div>
