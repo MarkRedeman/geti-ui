@@ -8,6 +8,7 @@ import { componentDocsPlugin } from './plugins/component-docs';
 const chartsSidebar = [
     { text: 'Installation', link: '/charts/installation' },
     { text: 'Overview', link: '/charts/overview' },
+    { text: 'Highlights', link: '/charts/highlights' },
     {
         text: 'Theming',
         link: '/charts/theming',
