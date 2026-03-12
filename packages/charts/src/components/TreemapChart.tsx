@@ -3,7 +3,30 @@ import {
     ResponsiveContainer,
 } from 'recharts';
 import { useChartsTheme } from '../hooks/useChartsTheme';
+import type { HighlightConfig } from '../highlight';
+import { useSeriesHighlight } from '../highlight';
 import { ChartTooltip, type ChartTooltipProps } from '../primitives/ChartTooltip';
+
+function withAlpha(color: string, alpha: number): string {
+    const a = Math.max(0, Math.min(1, alpha));
+    if (color.startsWith('#')) {
+        const hex = color.slice(1);
+        if (hex.length === 3) {
+            const [r, g, b] = hex.split('');
+            const rr = parseInt(`${r}${r}`, 16);
+            const gg = parseInt(`${g}${g}`, 16);
+            const bb = parseInt(`${b}${b}`, 16);
+            return `rgba(${rr}, ${gg}, ${bb}, ${a})`;
+        }
+        if (hex.length === 6) {
+            const rr = parseInt(hex.slice(0, 2), 16);
+            const gg = parseInt(hex.slice(2, 4), 16);
+            const bb = parseInt(hex.slice(4, 6), 16);
+            return `rgba(${rr}, ${gg}, ${bb}, ${a})`;
+        }
+    }
+    return color;
+}
 
 export interface TreemapChartProps {
     /** Hierarchical tree data. */
@@ -34,6 +57,8 @@ export interface TreemapChartProps {
     tooltipProps?: ChartTooltipProps;
     /** Accessible label for screen readers. */
     'aria-label'?: string;
+    /** Optional tile highlighting interactions (hover only). */
+    highlight?: HighlightConfig;
 }
 
 export function TreemapChart({
@@ -48,14 +73,41 @@ export function TreemapChart({
     animate = false,
     tooltipProps,
     'aria-label': ariaLabel,
+    highlight,
 }: TreemapChartProps) {
     const theme = useChartsTheme();
+
+    const highlightEnabled = highlight !== undefined && highlight.enabled !== false;
+    const tileHoverEnabled = highlight?.interaction?.lineHover ?? true;
+
+    const highlightState = useSeriesHighlight({
+        ...highlight,
+        enabled: highlightEnabled,
+    });
+
+    const getTileKey = (entry: Record<string, unknown>): string => {
+        const raw = entry[nameKey];
+        return typeof raw === 'string' ? raw : String(raw);
+    };
+
+    const palette = fill ? [fill] : (colors ?? theme.dataColors);
+    const hasActiveHighlight = highlightEnabled && highlightState.activeKeys.length > 0;
+    const dimmedOpacity = highlight?.dimmedOpacity ?? 0.2;
+
+    const effectiveColorPanel = hasActiveHighlight
+        ? data.map((row, index) => {
+              const baseColor = palette[index % palette.length];
+              return highlightState.activeKeys.includes(getTileKey(row))
+                  ? baseColor
+                  : withAlpha(baseColor, dimmedOpacity);
+          })
+        : palette;
 
     // When `fill` is given, use it as the sole tile color.
     // When `colors` is given, pass it as the Recharts colorPanel to cycle across tiles.
     // Otherwise fall back to the full theme palette.
     const resolvedFill = fill ?? undefined;
-    const colorPanel = fill ? undefined : (colors ?? theme.dataColors);
+    const colorPanel = fill ? undefined : effectiveColorPanel;
 
     return (
         <div role="img" aria-label={ariaLabel} style={{ width, height }}>
@@ -67,6 +119,22 @@ export function TreemapChart({
                     stroke={theme.grid.stroke}
                     fill={resolvedFill}
                     colorPanel={colorPanel}
+                    onMouseEnter={
+                        highlightEnabled && tileHoverEnabled
+                            ? (entry) =>
+                                  highlightState.setHovered([
+                                      getTileKey(
+                                          (entry as unknown as { payload?: Record<string, unknown> }).payload ??
+                                              (entry as unknown as Record<string, unknown>)
+                                      ),
+                                  ])
+                            : undefined
+                    }
+                    onMouseLeave={
+                        highlightEnabled && tileHoverEnabled
+                            ? () => highlightState.clearHover()
+                            : undefined
+                    }
                     isAnimationActive={animate}
                 >
                     {showTooltip && <ChartTooltip {...tooltipProps} />}
