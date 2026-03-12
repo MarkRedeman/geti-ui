@@ -9,6 +9,8 @@ import {
     type YAxisProps,
 } from 'recharts';
 import { useChartsTheme } from '../hooks/useChartsTheme';
+import type { HighlightConfig } from '../highlight';
+import { extractLegendSeriesKey, useSeriesHighlight } from '../highlight';
 import { ChartGrid, type ChartGridProps } from '../primitives/ChartGrid';
 import { ChartTooltip, type ChartTooltipProps } from '../primitives/ChartTooltip';
 import { ChartLegend, type ChartLegendProps } from '../primitives/ChartLegend';
@@ -85,6 +87,8 @@ export interface BarChartProps {
     margin?: { top?: number; right?: number; bottom?: number; left?: number };
     /** Accessible label for screen readers. */
     'aria-label'?: string;
+    /** Optional series highlighting interactions (hover, legend hover/click). */
+    highlight?: HighlightConfig;
 }
 
 /**
@@ -140,8 +144,20 @@ export function BarChart({
     legendProps,
     margin = { top: 8, right: 16, bottom: 8, left: 0 },
     'aria-label': ariaLabel,
+    highlight,
 }: BarChartProps) {
     const theme = useChartsTheme();
+
+    const highlightEnabled = highlight !== undefined && highlight.enabled !== false;
+    const interaction = highlight?.interaction;
+    const barHoverEnabled = interaction?.lineHover ?? true;
+    const legendHoverEnabled = interaction?.legendHover ?? true;
+    const legendClickEnabled = interaction?.legendClick ?? false;
+
+    const highlightState = useSeriesHighlight({
+        ...highlight,
+        enabled: highlightEnabled,
+    });
 
     const axisStyle = getAxisTickStyle(theme);
 
@@ -180,6 +196,36 @@ export function BarChart({
                   ...yAxisProps,
               };
 
+    const handleLegendMouseEnter: ChartLegendProps['onMouseEnter'] = (entry, index, event) => {
+        legendProps?.onMouseEnter?.(entry, index, event);
+        if (!highlightEnabled || !legendHoverEnabled) {
+            return;
+        }
+        const key = extractLegendSeriesKey(entry);
+        if (key) {
+            highlightState.setHovered([key]);
+        }
+    };
+
+    const handleLegendMouseLeave: ChartLegendProps['onMouseLeave'] = (entry, index, event) => {
+        legendProps?.onMouseLeave?.(entry, index, event);
+        if (!highlightEnabled || !legendHoverEnabled) {
+            return;
+        }
+        highlightState.clearHover();
+    };
+
+    const handleLegendClick: ChartLegendProps['onClick'] = (entry, index, event) => {
+        legendProps?.onClick?.(entry, index, event);
+        if (!highlightEnabled || !legendClickEnabled) {
+            return;
+        }
+        const key = extractLegendSeriesKey(entry);
+        if (key) {
+            highlightState.togglePinnedKey(key, 'legend-click');
+        }
+    };
+
     return (
         <div role="img" aria-label={ariaLabel} style={{ width, height }}>
             <ResponsiveContainer width="100%" height={height}>
@@ -206,7 +252,14 @@ export function BarChart({
                     />
 
                     {showTooltip && <ChartTooltip {...tooltipProps} />}
-                    {showLegend && <ChartLegend {...legendProps} />}
+                    {showLegend && (
+                        <ChartLegend
+                            {...legendProps}
+                            onMouseEnter={handleLegendMouseEnter}
+                            onMouseLeave={handleLegendMouseLeave}
+                            onClick={handleLegendClick}
+                        />
+                    )}
 
                     {series.map((s, seriesIndex) => {
                         const defaultColor = theme.dataColors[seriesIndex % theme.dataColors.length];
@@ -217,7 +270,18 @@ export function BarChart({
                                 name={s.name ?? s.dataKey}
                                 stackId={stacked ? 'stack' : undefined}
                                 fill={s.color ?? defaultColor}
+                                fillOpacity={highlightState.getOpacity(s.dataKey)}
                                 radius={[s.radius ?? 2, s.radius ?? 2, 0, 0]}
+                                onMouseEnter={
+                                    highlightEnabled && barHoverEnabled
+                                        ? () => highlightState.setHovered([s.dataKey])
+                                        : undefined
+                                }
+                                onMouseLeave={
+                                    highlightEnabled && barHoverEnabled
+                                        ? () => highlightState.clearHover()
+                                        : undefined
+                                }
                                 isAnimationActive={animate}
                             >
                                 {/*
