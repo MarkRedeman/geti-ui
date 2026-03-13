@@ -6,14 +6,7 @@ import path from 'node:path';
 import { pluginSkills } from './plugins/skills-endpoint';
 import sidebars from './sidebars.json';
 
-const {
-    componentsSidebar,
-    chartsSidebar,
-    assetsSidebar,
-    smartToolsSidebar,
-    aiSidebar,
-    examplesSidebar,
-} = sidebars;
+const { componentsSidebar, chartsSidebar, assetsSidebar, smartToolsSidebar, aiSidebar, examplesSidebar } = sidebars;
 
 export default defineConfig({
     root: path.join(__dirname, 'docs'),
