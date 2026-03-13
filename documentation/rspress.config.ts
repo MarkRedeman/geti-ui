@@ -3,162 +3,17 @@ import { pluginLlms } from '@rspress/plugin-llms';
 import { pluginPreview } from '@rspress/plugin-preview';
 import { pluginSitemap } from '@rspress/plugin-sitemap';
 import path from 'node:path';
-import { componentDocsPlugin } from './plugins/component-docs';
 import { pluginSkills } from './plugins/skills-endpoint';
+import sidebars from './sidebars.json';
 
-const chartsSidebar = [
-    { text: 'Installation', link: '/charts/installation' },
-    { text: 'Overview', link: '/charts/overview' },
-    {
-        text: 'Theming',
-        collapsed: false,
-        items: [
-            { text: 'Overview', link: '/charts/theming' },
-            { text: 'Dataset subsets', link: '/charts/theming/dataset-subsets' },
-        ],
-    },
-    {
-        text: 'Primitives',
-        collapsed: false,
-        items: [
-            { text: 'Overview', link: '/charts/primitives' },
-            { text: 'Legend', link: '/charts/primitives/legend' },
-            { text: 'Line chart', link: '/charts/primitives/line-chart' },
-            { text: 'Area chart', link: '/charts/primitives/area-chart' },
-            { text: 'Bar chart', link: '/charts/primitives/bar-chart' },
-            { text: 'Scatter chart', link: '/charts/primitives/scatter-chart' },
-            { text: 'Pie chart', link: '/charts/primitives/pie-chart' },
-            { text: 'Donut chart', link: '/charts/primitives/donut-chart' },
-            { text: 'Radar chart', link: '/charts/primitives/radar-chart' },
-            { text: 'RadialBar chart', link: '/charts/primitives/radial-bar-chart' },
-            { text: 'Meter chart', link: '/charts/primitives/meter-chart' },
-            { text: 'Treemap chart', link: '/charts/primitives/treemap-chart' },
-            { text: 'Sparkline chart', link: '/charts/primitives/sparkline-chart' },
-        ],
-    },
-    {
-        text: 'Compositions',
-        collapsed: false,
-        items: [
-            { text: 'Overview', link: '/charts/compositions' },
-            { text: 'Line chart', link: '/charts/compositions/line-chart' },
-            { text: 'Area chart', link: '/charts/compositions/area-chart' },
-            { text: 'Bar chart', link: '/charts/compositions/bar-chart' },
-            { text: 'Scatter chart', link: '/charts/compositions/scatter-chart' },
-            { text: 'Pie chart', link: '/charts/compositions/pie-chart' },
-            { text: 'Donut chart', link: '/charts/compositions/donut-chart' },
-            { text: 'Radar chart', link: '/charts/compositions/radar-chart' },
-            { text: 'RadialBar chart', link: '/charts/compositions/radial-bar-chart' },
-            { text: 'Meter chart', link: '/charts/compositions/meter-chart' },
-            { text: 'Treemap chart', link: '/charts/compositions/treemap-chart' },
-            { text: 'Sparkline chart', link: '/charts/compositions/sparkline-chart' },
-        ],
-    },
-    {
-        text: 'Machine Learning',
-        collapsed: false,
-        items: [
-            { text: 'Training metrics chart', link: '/charts/compositions/training-metrics-chart' },
-            { text: 'Run comparison chart', link: '/charts/compositions/run-comparison-chart' },
-            { text: 'Confusion matrix chart', link: '/charts/compositions/confusion-matrix-chart' },
-            { text: 'Precision recall curve', link: '/charts/compositions/precision-recall-curve' },
-            { text: 'ROC curve', link: '/charts/compositions/roc-curve' },
-            { text: 'Class AP chart', link: '/charts/compositions/class-ap-chart' },
-            { text: 'IoU distribution chart', link: '/charts/compositions/iou-distribution-chart' },
-            { text: 'Distribution ridge chart', link: '/charts/compositions/distribution-ridge-chart' },
-            { text: 'Error breakdown chart', link: '/charts/compositions/error-breakdown-chart' },
-            { text: 'Confidence histogram', link: '/charts/compositions/confidence-histogram' },
-            { text: 'Class distribution chart', link: '/charts/compositions/class-distribution-chart' },
-            { text: 'Image brightness distribution', link: '/charts/compositions/image-brightness-distribution' },
-            { text: 'Image aspect ratio distribution', link: '/charts/compositions/image-aspect-ratio-distribution' },
-            { text: 'Reliability diagram', link: '/charts/compositions/reliability-diagram' },
-            { text: 'Confidence vs IoU chart', link: '/charts/compositions/confidence-vs-iou-chart' },
-            { text: 'Embedding distance distribution', link: '/charts/compositions/embedding-distance-distribution' },
-            { text: 'Latency percentile chart', link: '/charts/compositions/latency-percentile-chart' },
-            { text: 'Throughput vs latency chart', link: '/charts/compositions/throughput-vs-latency-chart' },
-            { text: 'BBox size distribution chart', link: '/charts/compositions/bbox-size-distribution-chart' },
-        ],
-    },
-    { text: 'Custom Charts', link: '/charts/custom-charts' },
-];
-
-const assetsSidebar = [
-    { text: 'Overview', link: '/assets/' },
-    { text: 'Icons', link: '/assets/icons' },
-    { text: 'Images', link: '/assets/images' },
-    { text: 'Domains', link: '/assets/domains' },
-    { text: 'Primary Tools', link: '/assets/primary-tools' },
-];
-
-const smartToolsSidebar = [
-    {
-        text: 'Smart Tools',
-        collapsed: false,
-        items: [
-            { text: 'Installation', link: '/smart-tools/installation' },
-            { text: 'OpenCV', link: '/smart-tools/opencv' },
-        ],
-    },
-    {
-        text: 'OpenCV based tools',
-        collapsed: false,
-        items: [
-            { text: 'GrabCut', link: '/smart-tools/grabcut' },
-            { text: 'Inference image', link: '/smart-tools/inference-image' },
-            { text: 'Intelligent scissors', link: '/smart-tools/intelligent-scissors' },
-            { text: 'SSIM', link: '/smart-tools/ssim' },
-            { text: 'Watershed', link: '/smart-tools/watershed' },
-        ],
-    },
-    {
-        text: 'ONNX based tools',
-        collapsed: false,
-        items: [
-            { text: 'RITM', link: '/smart-tools/ritm' },
-            { text: 'Segment Anything', link: '/smart-tools/segment-anything' },
-        ],
-    },
-];
-
-const aiSidebar = [
-    { text: 'Overview', link: '/ai/overview' },
-    { text: 'MCP Server', link: '/ai/mcp' },
-    { text: 'Skills', link: '/ai/skills' },
-];
-
-const examplesSidebar = [
-    {
-        text: 'Kitchensinks',
-        collapsed: false,
-        items: [
-            { text: 'Kitchensink', link: '/examples/kitchensink' },
-            { text: 'UI kitchensink', link: '/examples/kitchensink-ui' },
-            { text: 'Form kitchensink', link: '/examples/kitchensink-form' },
-            { text: 'Date controls kitchensink', link: '/examples/kitchensink-date-controls' },
-            { text: 'Color controls kitchensink', link: '/examples/kitchensink-color-controls' },
-            { text: 'Data kitchensink', link: '/examples/kitchensink-data' },
-            { text: 'Overlays kitchensink', link: '/examples/kitchensink-overlays' },
-            { text: 'Feedback kitchensink', link: '/examples/kitchensink-feedback' },
-            { text: 'Navigation kitchensink', link: '/examples/kitchensink-navigation' },
-            { text: 'Layouts kitchensink', link: '/examples/kitchensink-layouts' },
-        ],
-    },
-    {
-        text: 'Composed examples',
-        collapsed: false,
-        items: [
-            { text: 'Job management panel', link: '/examples/job-management-panel' },
-            { text: 'Model list', link: '/examples/model-list' },
-            { text: 'Annotation components', link: '/examples/annotation-components' },
-            { text: 'Media filter', link: '/examples/media-filter' },
-            { text: 'Media grid', link: '/examples/media-grid' },
-            { text: 'Toolbar', link: '/examples/toolbar' },
-            { text: 'Project list', link: '/examples/project-list' },
-            { text: 'Project menu', link: '/examples/project-menu' },
-            { text: 'Advanced parameters', link: '/examples/advanced-parameters' },
-        ],
-    },
-];
+const {
+    componentsSidebar,
+    chartsSidebar,
+    assetsSidebar,
+    smartToolsSidebar,
+    aiSidebar,
+    examplesSidebar,
+} = sidebars;
 
 export default defineConfig({
     root: path.join(__dirname, 'docs'),
@@ -210,6 +65,8 @@ export default defineConfig({
             { text: 'AI', link: '/ai/overview', activeMatch: '/ai/' },
         ],
         sidebar: {
+            '/components': componentsSidebar,
+            '/components/': componentsSidebar,
             '/assets': assetsSidebar,
             '/assets/': assetsSidebar,
             '/charts': chartsSidebar,
@@ -233,7 +90,6 @@ export default defineConfig({
         },
     },
     plugins: [
-        componentDocsPlugin(),
         pluginPreview(),
         pluginLlms(),
         pluginSitemap({

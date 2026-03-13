@@ -1,0 +1,306 @@
+{
+  "componentsSidebar": [
+    {
+      "text": "Guides",
+      "collapsed": false,
+      "items": [
+        { "text": "Installation", "link": "/components/installation" },
+        { "text": "Theming", "link": "/components/theming" }
+      ]
+    },
+    {
+      "text": "UI",
+      "collapsed": false,
+      "items": [
+        { "text": "ActionButton", "link": "/components/ui/ActionButton" },
+        { "text": "Avatar", "link": "/components/ui/Avatar" },
+        { "text": "AvatarGroup", "link": "/components/ui/AvatarGroup" },
+        { "text": "Button", "link": "/components/ui/Button" },
+        { "text": "CornerIndicator", "link": "/components/ui/CornerIndicator" },
+        { "text": "Divider", "link": "/components/ui/Divider" },
+        { "text": "Heading", "link": "/components/ui/Heading" },
+        { "text": "Image", "link": "/components/ui/Image" },
+        { "text": "PhotoPlaceholder", "link": "/components/ui/PhotoPlaceholder" },
+        { "text": "PressableElement", "link": "/components/ui/PressableElement" },
+        { "text": "Text", "link": "/components/ui/Text" },
+        { "text": "ToggleButton", "link": "/components/ui/ToggleButton" },
+        { "text": "ToggleButtons", "link": "/components/ui/ToggleButtons" },
+        { "text": "View", "link": "/components/ui/View" }
+      ]
+    },
+    {
+      "text": "Form Controls",
+      "collapsed": false,
+      "items": [
+        { "text": "Checkbox", "link": "/components/form/Checkbox" },
+        { "text": "CheckboxGroup", "link": "/components/form/CheckboxGroup" },
+        { "text": "DropZone", "link": "/components/form/DropZone" },
+        { "text": "FileTrigger", "link": "/components/form/FileTrigger" },
+        { "text": "Form", "link": "/components/form/Form" },
+        { "text": "NumberField", "link": "/components/form/NumberField" },
+        { "text": "PasswordField", "link": "/components/form/PasswordField" },
+        { "text": "RadioGroup", "link": "/components/form/RadioGroup" },
+        { "text": "RangeSlider", "link": "/components/form/RangeSlider" },
+        { "text": "SearchField", "link": "/components/form/SearchField" },
+        { "text": "Slider", "link": "/components/form/Slider" },
+        { "text": "Switch", "link": "/components/form/Switch" },
+        { "text": "TextArea", "link": "/components/form/TextArea" },
+        { "text": "TextField", "link": "/components/form/TextField" }
+      ]
+    },
+    {
+      "text": "Date Controls",
+      "collapsed": false,
+      "items": [
+        { "text": "Calendar", "link": "/components/form/date-controls/Calendar" },
+        { "text": "DateField", "link": "/components/form/date-controls/DateField" },
+        { "text": "DatePicker", "link": "/components/form/date-controls/DatePicker" },
+        { "text": "DateRangePicker", "link": "/components/form/date-controls/DateRangePicker" },
+        { "text": "RangeCalendar", "link": "/components/form/date-controls/RangeCalendar" },
+        { "text": "TimeField", "link": "/components/form/date-controls/TimeField" }
+      ]
+    },
+    {
+      "text": "Color Controls",
+      "collapsed": false,
+      "items": [
+        { "text": "ColorArea", "link": "/components/form/color-controls/ColorArea" },
+        { "text": "ColorField", "link": "/components/form/color-controls/ColorField" },
+        { "text": "ColorPickerDialog", "link": "/components/form/color-controls/ColorPickerDialog" },
+        { "text": "ColorSlider", "link": "/components/form/color-controls/ColorSlider" },
+        { "text": "ColorSwatch", "link": "/components/form/color-controls/ColorSwatch" },
+        { "text": "ColorSwatchPicker", "link": "/components/form/color-controls/ColorSwatchPicker" },
+        { "text": "ColorThumb", "link": "/components/form/color-controls/ColorThumb" },
+        { "text": "ColorWheel", "link": "/components/form/color-controls/ColorWheel" }
+      ]
+    },
+    {
+      "text": "Pickers",
+      "collapsed": false,
+      "items": [
+        { "text": "ComboBox", "link": "/components/form/pickers/ComboBox" },
+        { "text": "Picker", "link": "/components/form/pickers/Picker" }
+      ]
+    },
+    {
+      "text": "Data Display",
+      "collapsed": false,
+      "items": [
+        { "text": "ActionBar", "link": "/components/data/ActionBar" },
+        { "text": "CardView", "link": "/components/data/CardView" },
+        { "text": "ListBox", "link": "/components/data/ListBox" },
+        { "text": "ListView", "link": "/components/data/ListView" },
+        { "text": "TableView", "link": "/components/data/TableView" },
+        { "text": "Tag", "link": "/components/data/Tag" },
+        { "text": "TagGroup", "link": "/components/data/TagGroup" },
+        { "text": "TreeView", "link": "/components/data/TreeView" },
+        { "text": "VirtualizedHorizontalGrid", "link": "/components/data/VirtualizedHorizontalGrid" },
+        { "text": "VirtualizedListLayout", "link": "/components/data/VirtualizedListLayout" }
+      ]
+    },
+    {
+      "text": "Status & Feedback",
+      "collapsed": false,
+      "items": [
+        { "text": "Badge", "link": "/components/feedback/Badge" },
+        { "text": "IllustratedMessage", "link": "/components/feedback/IllustratedMessage" },
+        { "text": "InlineAlert", "link": "/components/feedback/InlineAlert" },
+        { "text": "IntelBrandedLoading", "link": "/components/feedback/IntelBrandedLoading" },
+        { "text": "Loading", "link": "/components/feedback/Loading" },
+        { "text": "Meter", "link": "/components/feedback/Meter" },
+        { "text": "ProgressBar", "link": "/components/feedback/ProgressBar" },
+        { "text": "ProgressCircle", "link": "/components/feedback/ProgressCircle" },
+        { "text": "Skeleton", "link": "/components/feedback/Skeleton" },
+        { "text": "StatusLight", "link": "/components/feedback/StatusLight" },
+        { "text": "Toast", "link": "/components/feedback/Toast" }
+      ]
+    },
+    {
+      "text": "Navigation",
+      "collapsed": false,
+      "items": [
+        { "text": "ActionMenu", "link": "/components/navigation/ActionMenu" },
+        { "text": "Breadcrumbs", "link": "/components/navigation/Breadcrumbs" },
+        { "text": "Link", "link": "/components/navigation/Link" },
+        { "text": "MediaViewModes", "link": "/components/navigation/MediaViewModes" },
+        { "text": "Menu", "link": "/components/navigation/Menu" },
+        { "text": "Tabs", "link": "/components/navigation/Tabs" }
+      ]
+    },
+    {
+      "text": "Overlays",
+      "collapsed": false,
+      "items": [
+        { "text": "AlertDialog", "link": "/components/overlays/AlertDialog" },
+        { "text": "ContextualHelp", "link": "/components/overlays/ContextualHelp" },
+        { "text": "CustomPopover", "link": "/components/overlays/CustomPopover" },
+        { "text": "Dialog", "link": "/components/overlays/Dialog" },
+        { "text": "DialogContainer", "link": "/components/overlays/DialogContainer" },
+        { "text": "FullscreenAction", "link": "/components/overlays/FullscreenAction" },
+        { "text": "Popover", "link": "/components/overlays/Popover" },
+        { "text": "Tooltip", "link": "/components/overlays/Tooltip" }
+      ]
+    },
+    {
+      "text": "Layout & Structure",
+      "collapsed": false,
+      "items": [
+        { "text": "Accordion", "link": "/components/layouts/Accordion" },
+        { "text": "Card", "link": "/components/layouts/Card" },
+        { "text": "Disclosure", "link": "/components/layouts/Disclosure" },
+        { "text": "Flex", "link": "/components/layouts/Flex" },
+        { "text": "Grid", "link": "/components/layouts/Grid" },
+        { "text": "Well", "link": "/components/layouts/Well" }
+      ]
+    }
+  ],
+  "chartsSidebar": [
+    { "text": "Installation", "link": "/charts/installation" },
+    { "text": "Overview", "link": "/charts/overview" },
+    {
+      "text": "Theming",
+      "collapsed": false,
+      "items": [
+        { "text": "Overview", "link": "/charts/theming" },
+        { "text": "Dataset subsets", "link": "/charts/theming/dataset-subsets" }
+      ]
+    },
+    {
+      "text": "Primitives",
+      "collapsed": false,
+      "items": [
+        { "text": "Overview", "link": "/charts/primitives" },
+        { "text": "Legend", "link": "/charts/primitives/legend" },
+        { "text": "Line chart", "link": "/charts/primitives/line-chart" },
+        { "text": "Area chart", "link": "/charts/primitives/area-chart" },
+        { "text": "Bar chart", "link": "/charts/primitives/bar-chart" },
+        { "text": "Scatter chart", "link": "/charts/primitives/scatter-chart" },
+        { "text": "Pie chart", "link": "/charts/primitives/pie-chart" },
+        { "text": "Donut chart", "link": "/charts/primitives/donut-chart" },
+        { "text": "Radar chart", "link": "/charts/primitives/radar-chart" },
+        { "text": "RadialBar chart", "link": "/charts/primitives/radial-bar-chart" },
+        { "text": "Meter chart", "link": "/charts/primitives/meter-chart" },
+        { "text": "Treemap chart", "link": "/charts/primitives/treemap-chart" },
+        { "text": "Sparkline chart", "link": "/charts/primitives/sparkline-chart" }
+      ]
+    },
+    {
+      "text": "Compositions",
+      "collapsed": false,
+      "items": [
+        { "text": "Overview", "link": "/charts/compositions" },
+        { "text": "Line chart", "link": "/charts/compositions/line-chart" },
+        { "text": "Area chart", "link": "/charts/compositions/area-chart" },
+        { "text": "Bar chart", "link": "/charts/compositions/bar-chart" },
+        { "text": "Scatter chart", "link": "/charts/compositions/scatter-chart" },
+        { "text": "Pie chart", "link": "/charts/compositions/pie-chart" },
+        { "text": "Donut chart", "link": "/charts/compositions/donut-chart" },
+        { "text": "Radar chart", "link": "/charts/compositions/radar-chart" },
+        { "text": "RadialBar chart", "link": "/charts/compositions/radial-bar-chart" },
+        { "text": "Meter chart", "link": "/charts/compositions/meter-chart" },
+        { "text": "Treemap chart", "link": "/charts/compositions/treemap-chart" },
+        { "text": "Sparkline chart", "link": "/charts/compositions/sparkline-chart" }
+      ]
+    },
+    {
+      "text": "Machine Learning",
+      "collapsed": false,
+      "items": [
+        { "text": "Training metrics chart", "link": "/charts/compositions/training-metrics-chart" },
+        { "text": "Run comparison chart", "link": "/charts/compositions/run-comparison-chart" },
+        { "text": "Confusion matrix chart", "link": "/charts/compositions/confusion-matrix-chart" },
+        { "text": "Precision recall curve", "link": "/charts/compositions/precision-recall-curve" },
+        { "text": "ROC curve", "link": "/charts/compositions/roc-curve" },
+        { "text": "Class AP chart", "link": "/charts/compositions/class-ap-chart" },
+        { "text": "IoU distribution chart", "link": "/charts/compositions/iou-distribution-chart" },
+        { "text": "Distribution ridge chart", "link": "/charts/compositions/distribution-ridge-chart" },
+        { "text": "Error breakdown chart", "link": "/charts/compositions/error-breakdown-chart" },
+        { "text": "Confidence histogram", "link": "/charts/compositions/confidence-histogram" },
+        { "text": "Class distribution chart", "link": "/charts/compositions/class-distribution-chart" },
+        { "text": "Image brightness distribution", "link": "/charts/compositions/image-brightness-distribution" },
+        { "text": "Image aspect ratio distribution", "link": "/charts/compositions/image-aspect-ratio-distribution" },
+        { "text": "Reliability diagram", "link": "/charts/compositions/reliability-diagram" },
+        { "text": "Confidence vs IoU chart", "link": "/charts/compositions/confidence-vs-iou-chart" },
+        { "text": "Embedding distance distribution", "link": "/charts/compositions/embedding-distance-distribution" },
+        { "text": "Latency percentile chart", "link": "/charts/compositions/latency-percentile-chart" },
+        { "text": "Throughput vs latency chart", "link": "/charts/compositions/throughput-vs-latency-chart" },
+        { "text": "BBox size distribution chart", "link": "/charts/compositions/bbox-size-distribution-chart" }
+      ]
+    },
+    { "text": "Custom Charts", "link": "/charts/custom-charts" }
+  ],
+  "assetsSidebar": [
+    { "text": "Overview", "link": "/assets/" },
+    { "text": "Icons", "link": "/assets/icons" },
+    { "text": "Images", "link": "/assets/images" },
+    { "text": "Domains", "link": "/assets/domains" },
+    { "text": "Primary Tools", "link": "/assets/primary-tools" }
+  ],
+  "smartToolsSidebar": [
+    {
+      "text": "Smart Tools",
+      "collapsed": false,
+      "items": [
+        { "text": "Installation", "link": "/smart-tools/installation" },
+        { "text": "OpenCV", "link": "/smart-tools/opencv" }
+      ]
+    },
+    {
+      "text": "OpenCV based tools",
+      "collapsed": false,
+      "items": [
+        { "text": "GrabCut", "link": "/smart-tools/grabcut" },
+        { "text": "Inference image", "link": "/smart-tools/inference-image" },
+        { "text": "Intelligent scissors", "link": "/smart-tools/intelligent-scissors" },
+        { "text": "SSIM", "link": "/smart-tools/ssim" },
+        { "text": "Watershed", "link": "/smart-tools/watershed" }
+      ]
+    },
+    {
+      "text": "ONNX based tools",
+      "collapsed": false,
+      "items": [
+        { "text": "RITM", "link": "/smart-tools/ritm" },
+        { "text": "Segment Anything", "link": "/smart-tools/segment-anything" }
+      ]
+    }
+  ],
+  "aiSidebar": [
+    { "text": "Overview", "link": "/ai/overview" },
+    { "text": "MCP Server", "link": "/ai/mcp" },
+    { "text": "Skills", "link": "/ai/skills" }
+  ],
+  "examplesSidebar": [
+    {
+      "text": "Kitchensinks",
+      "collapsed": false,
+      "items": [
+        { "text": "Kitchensink", "link": "/examples/kitchensink" },
+        { "text": "UI kitchensink", "link": "/examples/kitchensink-ui" },
+        { "text": "Form kitchensink", "link": "/examples/kitchensink-form" },
+        { "text": "Date controls kitchensink", "link": "/examples/kitchensink-date-controls" },
+        { "text": "Color controls kitchensink", "link": "/examples/kitchensink-color-controls" },
+        { "text": "Data kitchensink", "link": "/examples/kitchensink-data" },
+        { "text": "Overlays kitchensink", "link": "/examples/kitchensink-overlays" },
+        { "text": "Feedback kitchensink", "link": "/examples/kitchensink-feedback" },
+        { "text": "Navigation kitchensink", "link": "/examples/kitchensink-navigation" },
+        { "text": "Layouts kitchensink", "link": "/examples/kitchensink-layouts" }
+      ]
+    },
+    {
+      "text": "Composed examples",
+      "collapsed": false,
+      "items": [
+        { "text": "Job management panel", "link": "/examples/job-management-panel" },
+        { "text": "Model list", "link": "/examples/model-list" },
+        { "text": "Annotation components", "link": "/examples/annotation-components" },
+        { "text": "Media filter", "link": "/examples/media-filter" },
+        { "text": "Media grid", "link": "/examples/media-grid" },
+        { "text": "Toolbar", "link": "/examples/toolbar" },
+        { "text": "Project list", "link": "/examples/project-list" },
+        { "text": "Project menu", "link": "/examples/project-menu" },
+        { "text": "Advanced parameters", "link": "/examples/advanced-parameters" }
+      ]
+    }
+  ]
+}
