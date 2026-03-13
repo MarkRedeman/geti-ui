@@ -1,0 +1,43 @@
+import { Meta, Controls, Stories } from '@storybook/addon-docs/blocks';
+import * as DocStories from './Text.stories';
+
+<Meta of={DocStories} />
+
+# Text
+
+`Text` renders inline or block text with Spectrum typography semantics.
+
+```tsx
+import { Text } from '@geti-ai/ui';
+```
+
+- [React Spectrum Text](https://react-spectrum.adobe.com/react-spectrum/Text.html)
+
+<Stories />
+
+## Responsibility
+
+`Text` is a thin wrapper around React Spectrum `Text`. It keeps text primitives available from the `@geti-ai/ui` entry point for consistent imports.
+
+## Variants and states
+
+`Text` has no wrapper-specific variants.
+
+## Props
+
+<Controls of={DocStories.Default} />
+
+### Content
+
+- `children`: text or inline markup.
+
+### Accessibility
+
+- Use semantic inline markup inside `Text` where needed (`strong`, `em`).
+- For larger content sections, compose `Text` with semantic structure around it.
+
+## Related components
+
+- `Heading` for section and page titles.
+- `View` for container styling.
+- `Flex` for one-dimensional layout composition.

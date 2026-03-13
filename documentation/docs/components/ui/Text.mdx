@@ -1,0 +1,71 @@
+---
+title: Text
+---
+
+# Text
+
+`Text` renders inline or block text with Spectrum typography semantics and styling.
+
+```tsx
+import { Text } from '@geti-ai/ui';
+```
+
+- [React Spectrum Text ↗](https://react-spectrum.adobe.com/react-spectrum/Text.html)
+- [Geti UI Theming](/components/theming)
+
+## Examples
+
+### Inline text
+
+```tsx preview
+import { Text } from '@geti-ai/ui';
+
+export default function App() {
+  return <Text>Dataset upload completed successfully.</Text>;
+}
+```
+
+### In a layout container
+
+```tsx preview
+import { Flex, Text, View } from '@geti-ai/ui';
+
+export default function App() {
+  return (
+    <View padding="size-200" backgroundColor="gray-300" borderRadius="medium">
+      <Flex direction="column" gap="size-50">
+        <Text>
+          <strong>Training set</strong>
+        </Text>
+        <Text>1,240 images</Text>
+        <Text>Updated 2 hours ago</Text>
+      </Flex>
+    </View>
+  );
+}
+```
+
+## Responsibility
+
+`Text` is a thin wrapper around React Spectrum `Text`. It keeps text primitives available from the `@geti-ai/ui` entry point for consistent imports across components and docs.
+
+## Variants and states
+
+`Text` has no visual variants in the wrapper itself. Styling and semantics come from content and parent context.
+
+## Props (deep dive)
+
+### Content
+
+- `children`: text or inline content.
+
+### Accessibility
+
+- Use semantic markup inside `Text` where needed (e.g. `strong`, `em`).
+- For long-form copy or rich text regions, prefer semantic HTML structure around `Text` nodes.
+
+## Related components
+
+- `View` - generic container for spacing, borders, and background.
+- `Flex` - one-dimensional layout for grouped text blocks.
+- `Heading` from React Spectrum - use for section titles and document hierarchy.
