@@ -1,0 +1,40 @@
+name: Docs External Link Check
+
+on:
+  pull_request:
+    branches: [main]
+  push:
+    branches: [main]
+
+permissions: {}
+
+jobs:
+  external-links:
+    name: External links (warning only)
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    continue-on-error: true
+    steps:
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6
+        with:
+          persist-credentials: false
+
+      - name: Lychee external links
+        uses: lycheeverse/lychee-action@v2.6.1
+        with:
+          args: >-
+            --verbose
+            --no-progress
+            --accept 200,206,301,302,303,307,308,403,429
+            --exclude-mail
+            --config ./documentation/lychee.toml
+            './documentation/docs/**/*.mdx'
+
+      - name: Upload external link report
+        if: always()
+        uses: actions/upload-artifact@bbbca2ddaa5d8feaa63e36b76fdaad77386f024f # v7
+        with:
+          name: docs-external-links
+          path: lychee/out.md
+          retention-days: 7

@@ -1,0 +1,7 @@
+exclude = [
+  "https://react-spectrum.adobe.com/.*"
+]
+
+timeout = 20
+max_retries = 2
+insecure = false

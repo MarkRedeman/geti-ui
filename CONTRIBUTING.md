@@ -60,7 +60,7 @@ This setup lets you edit components in `packages/ui/src/**` and verify behavior 
 - Composed examples: `/examples/...`
 - Kitchensinks: `/examples/kitchensink-*`
 
-Docs are the primary verification surface. Storybook can still be used as an optional sandbox.
+Docs are the primary verification surface.
 
 ## Quality checks before opening a PR
 
@@ -70,8 +70,9 @@ Run from repo root:
 npm run lint
 npm run type-check
 npm run test
-npm run docs:check:no-stories-imports
 npm run docs:check:coverage
+npm run docs:check:sidebar
+npm run docs:check:links
 npm run docs:build
 npm run docs:test:e2e
 ```
@@ -81,7 +82,6 @@ npm run docs:test:e2e
 ## Documentation authoring rules
 
 - Author component docs in `documentation/docs/components/**`.
-- Do **not** import `*.stories.tsx` inside `documentation/**`.
 - Prefer explicit examples using `@geti-ai/ui` components.
 
 ## Commit format

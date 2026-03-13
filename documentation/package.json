@@ -11,7 +11,8 @@
     "pretest:e2e": "npm run build",
     "preview": "rspress preview",
     "check:coverage": "node ./scripts/check-docs-coverage.mjs",
-    "check:no-stories-imports": "node ./scripts/check-docs-no-stories-imports.mjs",
+    "check:sidebar": "node ./scripts/check-docs-coverage.mjs",
+    "check:links": "node ./scripts/check-docs-links.mjs",
     "test:e2e": "playwright test"
   },
   "dependencies": {

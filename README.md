@@ -48,7 +48,8 @@ npm run test
 
 npm run docs:build
 npm run docs:check:coverage
-npm run docs:check:no-stories-imports
+npm run docs:check:sidebar
+npm run docs:check:links
 npm run docs:test:e2e
 ```
 

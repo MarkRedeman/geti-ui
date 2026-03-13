@@ -7,8 +7,6 @@
   ],
   "scripts": {
     "build": "npm run build --workspace=@geti-ai/ui && npm run build --workspace=@geti-ai/smart-tools && npm run build --workspace=@geti-ai/charts",
-    "storybook": "npm run storybook --workspace=@geti-ai/ui",
-    "storybook:build": "npm run storybook:build --workspace=@geti-ai/ui",
     "test": "npm run test --workspace=@geti-ai/ui && npm run test --workspace=@geti-ai/smart-tools && npm run test --workspace=@geti-ai/charts && npm run test --workspace=@geti-ai/mcp",
     "test:watch": "npm run test:watch --workspace=@geti-ai/ui",
     "test:e2e": "npm run test:e2e --workspace=@geti-ai/ui",
@@ -22,7 +20,8 @@
     "docs:build": "npm run build --workspace=@geti-ai/documentation",
     "docs:preview": "npm run preview --workspace=@geti-ai/documentation",
     "docs:check:coverage": "npm run check:coverage --workspace=@geti-ai/documentation",
-    "docs:check:no-stories-imports": "npm run check:no-stories-imports --workspace=@geti-ai/documentation",
+    "docs:check:sidebar": "npm run check:sidebar --workspace=@geti-ai/documentation",
+    "docs:check:links": "npm run check:links --workspace=@geti-ai/documentation",
     "docs:test:e2e": "npm run test:e2e --workspace=@geti-ai/documentation",
     "mcp:build": "npm run build --workspace=@geti-ai/mcp",
     "mcp:start": "npm run start --workspace=@geti-ai/mcp"

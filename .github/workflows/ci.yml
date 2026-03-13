@@ -34,8 +34,11 @@ jobs:
             - name: Documentation coverage check
               run: npm run docs:check:coverage
 
-            - name: Documentation no-stories-imports check
-              run: npm run docs:check:no-stories-imports
+            - name: Documentation sidebar check
+              run: npm run docs:check:sidebar
+
+            - name: Documentation internal links check
+              run: npm run docs:check:links
 
             - name: Build documentation
               run: npm run docs:build
