@@ -1,0 +1,676 @@
+---
+title: Application logs
+---
+
+import { Tab, Tabs } from '@rspress/core/theme';
+
+# Logs block
+
+`@geti-ai/blocks` now provides composable, UI-only log viewer building blocks.
+
+No API/SSE fetching is built in — these components only render and filter logs you pass in as props.
+
+```tsx
+import { LogEntry, LogsContent, type LogEntryData } from '@geti-ai/blocks';
+```
+
+Use `LogsContent` to visualize application logs. This component allows users to search, filter, and copy logs. It also uses virtualized rendering to stay performant even when viewing thousands of log lines.
+
+```tsx preview
+import { ThemeProvider } from '@geti-ai/ui';
+import { LogsContent, type LogEntryData } from '@geti-ai/blocks';
+
+const levelCycle = [
+  { name: 'TRACE', no: 5, icon: '🔍' },
+  { name: 'DEBUG', no: 10, icon: '🐛' },
+  { name: 'INFO', no: 20, icon: 'ℹ️' },
+  { name: 'SUCCESS', no: 25, icon: '✅' },
+  { name: 'WARNING', no: 30, icon: '⚠️' },
+  { name: 'ERROR', no: 40, icon: '❌' },
+  { name: 'CRITICAL', no: 50, icon: '🚨' },
+];
+
+const logs: LogEntryData[] = Array.from({ length: 12000 }, (_, index) => {
+  const level = levelCycle[index % levelCycle.length];
+  const timestamp = 1773405572 + index;
+
+  return {
+    text: `${new Date(timestamp * 10000).toISOString()} | ${level.name} | line=${index + 1}`,
+    record: {
+      time: {
+        timestamp,
+        repr: new Date(timestamp * 10000).toISOString(),
+      },
+      level,
+      module: `service.worker.${index % 12}`,
+      function: `process_${index % 5}`,
+      line: 100 + (index % 300),
+      message: `Log entry #${index + 1} processed for dataset item ${index % 97}`,
+    },
+  };
+});
+
+export default function App() {
+  return (
+    <ThemeProvider>
+      <div style={{ height: 420 }}>
+        <LogsContent logs={logs} />
+      </div>
+    </ThemeProvider>
+  );
+}
+```
+
+### Dialog integration
+
+Use `LogsContent` inside a `Dialog` opened by `DialogTrigger` from `@geti-ai/ui`.
+
+This dialog example intentionally renders **10000 log lines** to demonstrate performance in an overlay context.
+
+```tsx preview
+import {
+  Button,
+  Dialog,
+  DialogTrigger,
+  ThemeProvider,
+} from '@geti-ai/ui';
+import { ButtonGroup, Content, Divider, Footer, Heading } from '@adobe/react-spectrum';
+import { LogsContent, type LogEntryData } from '@geti-ai/blocks';
+
+const levelCycle = [
+  { name: 'TRACE', no: 5, icon: '🔍' },
+  { name: 'DEBUG', no: 10, icon: '🐛' },
+  { name: 'INFO', no: 20, icon: 'ℹ️' },
+  { name: 'SUCCESS', no: 25, icon: '✅' },
+  { name: 'WARNING', no: 30, icon: '⚠️' },
+  { name: 'ERROR', no: 40, icon: '❌' },
+  { name: 'CRITICAL', no: 50, icon: '🚨' },
+];
+
+const logs: LogEntryData[] = Array.from({ length: 10000 }, (_, index) => {
+  const level = levelCycle[index % levelCycle.length];
+  const timestamp = 1773405572 + index;
+
+  return {
+    text: `${new Date(timestamp * 10000).toISOString()} | ${level.name} | line=${index + 1}`,
+    record: {
+      time: {
+        timestamp,
+        repr: new Date(timestamp * 10000).toISOString(),
+      },
+      level,
+      module: `api.logs.${index % 8}`,
+      function: `stream_${index % 4}`,
+      line: 40 + (index % 160),
+      message: `Dialog log line #${index + 1}: background task heartbeat`,
+    },
+  };
+});
+
+export default function App() {
+  return (
+    <ThemeProvider>
+      <DialogTrigger type="fullscreen">
+        <Button variant="accent">Open logs</Button>
+        {(close) => (
+          <Dialog>
+            <Heading>Logs</Heading>
+            <Divider />
+            <Content>
+              <LogsContent logs={logs} />
+            </Content>
+            <Footer>
+              <ButtonGroup>
+                <Button variant="secondary" onPress={close}>Close</Button>
+              </ButtonGroup>
+            </Footer>
+          </Dialog>
+        )}
+      </DialogTrigger>
+    </ThemeProvider>
+  );
+}
+```
+
+### Virtualized rendering and container height
+
+`LogsContent` virtualizes rows by rendering only the visible window plus a small buffer, rather than mounting every log line at once. For this to work correctly, the component must receive a bounded height from its parent. If the parent has no height constraint, the virtualizer cannot establish a stable viewport.
+
+<Tabs>
+<Tab label="Fixed height">
+
+Use this when logs are part of a dashboard card or split panel with a predictable size. A fixed height gives the virtualizer a stable viewport, improving scroll performance for large lists.
+
+```tsx
+import { ThemeProvider } from '@geti-ai/ui';
+import { LogsContent, type LogEntryData } from '@geti-ai/blocks';
+
+const logs: LogEntryData[] = Array.from({ length: 1200 }, (_, index) => ({
+  record: {
+    time: { timestamp: 1773405572 + index, repr: new Date((1773405572 + index) * 1000).toISOString() },
+    level: { name: index % 2 === 0 ? 'INFO' : 'ERROR', no: index % 2 === 0 ? 20 : 40, icon: index % 2 === 0 ? 'ℹ️' : '❌' },
+    module: `service.worker.${index % 8}`,
+    function: `process_${index % 4}`,
+    line: 100 + (index % 200),
+    message: `Log line #${index + 1}`,
+  },
+}));
+
+export default function App() {
+  return (
+    <ThemeProvider>
+      <div style={{ height: 280 }}>
+        <LogsContent logs={logs} />
+      </div>
+    </ThemeProvider>
+  );
+}
+```
+
+</Tab>
+<Tab label="Flex fill">
+
+Use this when logs share space with headers, toolbars, or side panels. The `minHeight: 0` rule lets the virtualized viewport shrink correctly so scrolling remains smooth.
+
+```tsx 
+import { ThemeProvider } from '@geti-ai/ui';
+import { LogsContent, type LogEntryData } from '@geti-ai/blocks';
+
+const logs: LogEntryData[] = Array.from({ length: 1200 }, (_, index) => ({
+  record: {
+    time: { timestamp: 1773405572 + index, repr: new Date((1773405572 + index) * 1000).toISOString() },
+    level: { name: index % 2 === 0 ? 'INFO' : 'ERROR', no: index % 2 === 0 ? 20 : 40, icon: index % 2 === 0 ? 'ℹ️' : '❌' },
+    module: `service.worker.${index % 8}`,
+    function: `process_${index % 4}`,
+    line: 100 + (index % 200),
+    message: `Log line #${index + 1}`,
+  },
+}));
+
+export default function App() {
+  return (
+    <ThemeProvider>
+      <div style={{ display: 'flex', flexDirection: 'column', height: 280, border: '1px solid var(--spectrum-global-color-gray-300)' }}>
+        <div style={{ padding: 8, borderBottom: '1px solid var(--spectrum-global-color-gray-300)' }}>Header</div>
+        <div style={{ flex: 1, minHeight: 0 }}>
+          <LogsContent logs={logs} />
+        </div>
+      </div>
+    </ThemeProvider>
+  );
+}
+```
+
+</Tab>
+<Tab label="Fullscreen dialog">
+
+Use this for investigation workflows where logs should take the full available dialog/page space. A larger viewport reduces scroll churn while keeping virtualized rendering efficient for thousands of rows.
+
+```tsx
+import {
+  Button,
+  Dialog,
+  DialogTrigger,
+  ThemeProvider,
+} from '@geti-ai/ui';
+import { ButtonGroup, Content, Divider, Footer, Heading } from '@adobe/react-spectrum';
+import { LogsContent, type LogEntryData } from '@geti-ai/blocks';
+
+const logs: LogEntryData[] = Array.from({ length: 1200 }, (_, index) => ({
+  record: {
+    time: { timestamp: 1773405572 + index, repr: new Date((1773405572 + index) * 1000).toISOString() },
+    level: { name: index % 2 === 0 ? 'INFO' : 'ERROR', no: index % 2 === 0 ? 20 : 40, icon: index % 2 === 0 ? 'ℹ️' : '❌' },
+    module: `service.worker.${index % 8}`,
+    function: `process_${index % 4}`,
+    line: 100 + (index % 200),
+    message: `Log line #${index + 1}`,
+  },
+}));
+
+export default function App() {
+  return (
+    <ThemeProvider>
+      <DialogTrigger type="fullscreen">
+        <Button variant="accent">Open logs</Button>
+        {(close) => (
+          <Dialog>
+            <Heading>Logs</Heading>
+            <Divider />
+            <Content>
+              <LogsContent logs={logs} />
+            </Content>
+            <Footer>
+              <ButtonGroup>
+                <Button variant="secondary" onPress={close}>Close</Button>
+              </ButtonGroup>
+            </Footer>
+          </Dialog>
+        )}
+      </DialogTrigger>
+    </ThemeProvider>
+  );
+}
+```
+
+</Tab>
+</Tabs>
+
+## Block composition
+
+`LogsContent` is built from smaller, reusable components:
+
+- `LogsFilters` (toolbar)
+- `LogLevelDropdown` (level picker)
+- `LogEntry` (single row renderer)
+
+If you need a custom layout or interaction model, you can also use these individual components separately.
+
+## `LogsFilters`
+
+Standalone toolbar that combines search, level filtering, auto-scroll, and copy action.
+
+`LogsFilters` now uses a single `filters` object (`LogFilters`) plus `onFiltersChange`, matching the reference-based implementation.
+
+```tsx preview
+import { useState } from 'react';
+import { ThemeProvider } from '@geti-ai/ui';
+import { LogsFilters, DEFAULT_LOG_FILTERS, LOG_LEVELS, type LogFilters } from '@geti-ai/blocks';
+
+const totalCount = 1240;
+const filteredCount = 326;
+
+export default function App() {
+  const [filters, setFilters] = useState<LogFilters>({
+    ...DEFAULT_LOG_FILTERS,
+    levels: new Set(LOG_LEVELS),
+  });
+  const [autoScroll, setAutoScroll] = useState(true);
+
+  return (
+    <ThemeProvider>
+      <LogsFilters
+        filters={filters}
+        onFiltersChange={setFilters}
+        allLevels={LOG_LEVELS}
+        autoScroll={autoScroll}
+        onAutoScrollChange={setAutoScroll}
+        totalCount={totalCount}
+        filteredCount={filteredCount}
+        onCopy={async () => {
+          await navigator.clipboard.writeText(`Showing ${filteredCount} filtered logs`);
+        }}
+      />
+    </ThemeProvider>
+  );
+}
+```
+
+## `LogLevelDropdown`
+
+Standalone level selector popover that can be used independently of `LogsContent`.
+
+```tsx preview
+import { useState } from 'react';
+import { Flex, View, Text, ThemeProvider } from '@geti-ai/ui';
+import { LogLevelDropdown, type LogLevelName } from '@geti-ai/blocks';
+
+const allLevels: LogLevelName[] = ['TRACE', 'DEBUG', 'INFO', 'SUCCESS', 'WARNING', 'ERROR', 'CRITICAL'];
+
+export default function App() {
+  const [selectedLevels, setSelectedLevels] = useState<Set<string>>(new Set(allLevels));
+
+  const onLevelChange = (level: string, selected: boolean) => {
+    setSelectedLevels((prev) => {
+      const next = new Set(prev);
+      if (selected) {
+        next.add(level);
+      } else {
+        next.delete(level);
+      }
+      return next;
+    });
+  };
+
+  return (
+    <ThemeProvider>
+      <Flex direction="column" gap="size-150">
+        <View>
+          <LogLevelDropdown
+            levels={allLevels}
+            selectedLevels={selectedLevels}
+            onLevelChange={onLevelChange}
+            onSelectAll={() => setSelectedLevels(new Set(allLevels))}
+            onClearAll={() => setSelectedLevels(new Set())}
+          />
+        </View>
+
+        <Text>Selected: {Array.from(selectedLevels).join(', ') || 'none'}</Text>
+      </Flex>
+    </ThemeProvider>
+  );
+}
+```
+
+## `LogEntry`
+
+Small row renderer for a single log record.
+
+```tsx preview
+import { ThemeProvider } from '@geti-ai/ui';
+import { LogEntry, type LogEntryData } from '@geti-ai/blocks';
+
+const entry: LogEntryData = {
+  text: '2026-03-13 13:39:32.175 | INFO ...',
+  record: {
+    time: { timestamp: 1773405572.175342, repr: '2026-03-13 13:39:32.175342+01:00' },
+    level: { name: 'INFO', no: 20, icon: 'ℹ️' },
+    module: 'uvicorn.protocols.http.httptools_impl',
+    function: 'send',
+    line: 483,
+    message: '127.0.0.1:50506 - "GET /api/projects/123 HTTP/1.1" 200',
+  },
+};
+
+export default function App() {
+  return (
+    <ThemeProvider>
+      <LogEntry entry={entry} />
+    </ThemeProvider>
+  );
+}
+```
+
+### `TRACE`
+
+```tsx preview
+import { ThemeProvider } from '@geti-ai/ui';
+import { LogEntry, type LogEntryData } from '@geti-ai/blocks';
+
+const entry: LogEntryData = {
+  record: {
+    time: { timestamp: 1773405571.804185, repr: '2026-03-13 13:39:31.804185+01:00' },
+    level: { name: 'TRACE', no: 5, icon: '🔍' },
+    module: 'scheduler.loop',
+    function: 'tick',
+    line: 42,
+    message: 'Tick loop wake-up, queue length=3',
+  },
+};
+
+export default function App() {
+  return <ThemeProvider><LogEntry entry={entry} /></ThemeProvider>;
+}
+```
+
+### `DEBUG`
+
+```tsx preview
+import { ThemeProvider } from '@geti-ai/ui';
+import { LogEntry, type LogEntryData } from '@geti-ai/blocks';
+
+const entry: LogEntryData = {
+  record: {
+    time: { timestamp: 1773405572.004185, repr: '2026-03-13 13:39:32.004185+01:00' },
+    level: { name: 'DEBUG', no: 10, icon: '🐛' },
+    module: 'trainer.metrics',
+    function: 'print_table',
+    line: 144,
+    message: `┏━━━━━━━━━━┳━━━━━━━┓\n┃ metric   ┃ value ┃\n┣━━━━━━━━━━╋━━━━━━━┫\n┃ loss     ┃ 0.192 ┃\n┃ accuracy ┃ 0.941 ┃\n┗━━━━━━━━━━┻━━━━━━━┛`,
+  },
+};
+
+export default function App() {
+  return <ThemeProvider><LogEntry entry={entry} /></ThemeProvider>;
+}
+```
+
+### `INFO`
+
+```tsx preview
+import { ThemeProvider } from '@geti-ai/ui';
+import { LogEntry, type LogEntryData } from '@geti-ai/blocks';
+
+const entry: LogEntryData = {
+  record: {
+    time: { timestamp: 1773405572.175342, repr: '2026-03-13 13:39:32.175342+01:00' },
+    level: { name: 'INFO', no: 20, icon: 'ℹ️' },
+    module: 'uvicorn.protocols.http.httptools_impl',
+    function: 'send',
+    line: 483,
+    message: '127.0.0.1:50506 - "GET /api/projects/868a51e7 HTTP/1.1" 200',
+  },
+};
+
+export default function App() {
+  return <ThemeProvider><LogEntry entry={entry} /></ThemeProvider>;
+}
+```
+
+### `SUCCESS`
+
+```tsx preview
+import { ThemeProvider } from '@geti-ai/ui';
+import { LogEntry, type LogEntryData } from '@geti-ai/blocks';
+
+const entry: LogEntryData = {
+  record: {
+    time: { timestamp: 1773405572.244185, repr: '2026-03-13 13:39:32.244185+01:00' },
+    level: { name: 'SUCCESS', no: 25, icon: '✅' },
+    module: 'pipeline.deploy',
+    function: 'publish_model',
+    line: 88,
+    message: 'Model version v1.14.2 published successfully',
+  },
+};
+
+export default function App() {
+  return <ThemeProvider><LogEntry entry={entry} /></ThemeProvider>;
+}
+```
+
+### `WARNING`
+
+```tsx preview
+import { ThemeProvider } from '@geti-ai/ui';
+import { LogEntry, type LogEntryData } from '@geti-ai/blocks';
+
+const entry: LogEntryData = {
+  record: {
+    time: { timestamp: 1773405572.304185, repr: '2026-03-13 13:39:32.304185+01:00' },
+    level: { name: 'WARNING', no: 30, icon: '⚠️' },
+    module: 'pipeline.runner',
+    function: 'poll_job',
+    line: 218,
+    message: 'Polling job status took longer than expected',
+  },
+};
+
+export default function App() {
+  return <ThemeProvider><LogEntry entry={entry} /></ThemeProvider>;
+}
+```
+
+### `ERROR`
+
+```tsx preview
+import { ThemeProvider } from '@geti-ai/ui';
+import { LogEntry, type LogEntryData } from '@geti-ai/blocks';
+
+const entry: LogEntryData = {
+  record: {
+    time: { timestamp: 1773405573.004185, repr: '2026-03-13 13:39:33.004185+01:00' },
+    level: { name: 'ERROR', no: 40, icon: '❌' },
+    module: 'training.worker',
+    function: 'run_task',
+    line: 91,
+    message: 'Task failed: timeout while downloading dataset metadata',
+  },
+};
+
+export default function App() {
+  return <ThemeProvider><LogEntry entry={entry} /></ThemeProvider>;
+}
+```
+
+### `CRITICAL`
+
+```tsx preview
+import { ThemeProvider } from '@geti-ai/ui';
+import { LogEntry, type LogEntryData } from '@geti-ai/blocks';
+
+const entry: LogEntryData = {
+  record: {
+    time: { timestamp: 1773405573.904185, repr: '2026-03-13 13:39:33.904185+01:00' },
+    level: { name: 'CRITICAL', no: 50, icon: '🚨' },
+    module: 'runtime.supervisor',
+    function: 'panic_shutdown',
+    line: 17,
+    message: 'Unrecoverable state detected, shutting down all workers',
+  },
+};
+
+export default function App() {
+  return <ThemeProvider><LogEntry entry={entry} /></ThemeProvider>;
+}
+```
+
+## Example: streaming logs from Server-Sent Events
+
+`@geti-ai/blocks` is UI-only. Networking and streaming stay in your application layer.
+
+If you already use TanStack Query, a good pattern is the same one used by the reference implementation: stream SSE events with `experimental_streamedQuery`, validate each payload, and render with `LogsContent`.
+
+<Tabs>
+<Tab label="example.tsx">
+
+```tsx
+import { useMemo } from 'react';
+import { queryOptions, experimental_streamedQuery as streamedQuery, useQuery } from '@tanstack/react-query';
+import { LogsContent, type LogEntryData } from '@geti-ai/blocks';
+import { fetchSSE } from './fetch-sse';
+
+type RawLog = unknown;
+
+const isLogEntryData = (value: RawLog): value is LogEntryData => {
+  if (value === null || typeof value !== 'object') return false;
+
+  const candidate = value as { record?: unknown };
+  if (candidate.record === null || typeof candidate.record !== 'object') return false;
+
+  const record = candidate.record as {
+    time?: { timestamp?: unknown };
+    level?: { name?: unknown };
+    message?: unknown;
+  };
+
+  return (
+    typeof record.time?.timestamp === 'number' &&
+    typeof record.level?.name === 'string' &&
+    typeof record.message === 'string'
+  );
+};
+
+export default function LogsStream({ sourceId }: { sourceId: string }) {
+  const query = useQuery(
+    queryOptions({
+      queryKey: ['logs-stream', sourceId],
+      queryFn: streamedQuery({
+        queryFn: (context) => {
+          const url = `/api/logs/${sourceId}/stream`;
+          return fetchSSE<RawLog>(url, { signal: context.signal });
+        },
+      }),
+      staleTime: Infinity,
+    })
+  );
+
+  const logs = useMemo(() => {
+    if (!query.data) return [];
+    return query.data.filter(isLogEntryData);
+  }, [query.data]);
+
+  return (
+    <div style={{ height: 520 }}>
+      <LogsContent logs={logs} isLoading={query.isLoading} />
+    </div>
+  );
+}
+```
+
+</Tab>
+<Tab label="fetch-sse.ts">
+
+```tsx
+interface FetchSSEOptions {
+  signal?: AbortSignal;
+}
+
+export function fetchSSE<T = unknown>(url: string, options: FetchSSEOptions = {}) {
+  return {
+    async *[Symbol.asyncIterator](): AsyncGenerator<T> {
+      if (options.signal?.aborted) {
+        return;
+      }
+
+      const eventSource = new EventSource(url);
+      let aborted = false;
+      let onAbort: (() => void) | undefined;
+
+      try {
+        let { promise, resolve, reject } = Promise.withResolvers<string>();
+
+        onAbort = () => {
+          aborted = true;
+          eventSource.close();
+          resolve('DONE');
+        };
+
+        options.signal?.addEventListener('abort', onAbort, { once: true });
+
+        eventSource.onmessage = (event) => {
+          if (event.data === 'DONE' || event.data.includes('COMPLETED')) {
+            eventSource.close();
+            resolve('DONE');
+            return;
+          }
+          resolve(event.data);
+        };
+
+        eventSource.onerror = () => {
+          eventSource.close();
+          reject(new Error('EventSource connection failed'));
+        };
+
+        while (true) {
+          const message = await promise;
+
+          if (message === 'DONE') {
+            break;
+          }
+
+          try {
+            yield JSON.parse(message);
+          } catch {
+            // Skip unparseable messages.
+          }
+
+          ({ promise, resolve, reject } = Promise.withResolvers<string>());
+        }
+      } finally {
+        if (onAbort) {
+          options.signal?.removeEventListener('abort', onAbort);
+        }
+        if (!aborted && options.signal?.aborted) {
+          aborted = true;
+        }
+        eventSource.close();
+      }
+    },
+  };
+}
+```
+
+</Tab>
+</Tabs>
+
+This keeps stream transport concerns outside `@geti-ai/blocks` while still giving you a high-performance UI for large, live log streams.

@@ -1,0 +1,32 @@
+---
+title: Dataset tabs
+---
+
+# Dataset tabs block
+
+`DatasetTabsBlock` is the reusable dataset-tabs workflow from our examples, now published from `@geti-ai/blocks`.
+
+```tsx
+import { DatasetTabsBlock } from '@geti-ai/blocks';
+```
+
+## Default usage
+
+```tsx preview
+import { ThemeProvider } from '@geti-ai/ui';
+import { DatasetTabsBlock } from '@geti-ai/blocks';
+
+export default function App() {
+  return (
+    <ThemeProvider>
+      <DatasetTabsBlock />
+    </ThemeProvider>
+  );
+}
+```
+
+## Notes
+
+- Includes overflow handling for large tab sets.
+- Supports active-tab actions (`Edit`, `Delete`, `Export`, `Import`).
+- Includes an `Add dataset` action.

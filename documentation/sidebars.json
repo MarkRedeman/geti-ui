@@ -154,6 +154,26 @@
       ]
     }
   ],
+  "blocksSidebar": [
+    { "text": "Overview", "link": "/blocks/overview" },
+    {
+      "text": "Blocks",
+      "collapsed": false,
+      "items": [
+        { "text": "Dataset tabs", "link": "/blocks/dataset-tabs" },
+        { "text": "Logs", "link": "/blocks/logs" },
+        { "text": "Job management panel", "link": "/blocks/job-management-panel" },
+        { "text": "Model list", "link": "/blocks/model-list" },
+        { "text": "Annotation components", "link": "/blocks/annotation-components" },
+        { "text": "Media filter", "link": "/blocks/media-filter" },
+        { "text": "Media grid", "link": "/blocks/media-grid" },
+        { "text": "Toolbar", "link": "/blocks/toolbar" },
+        { "text": "Project list", "link": "/blocks/project-list" },
+        { "text": "Project menu", "link": "/blocks/project-menu" },
+        { "text": "Advanced parameters", "link": "/blocks/advanced-parameters" }
+      ]
+    }
+  ],
   "chartsSidebar": [
     { "text": "Installation", "link": "/charts/installation" },
     { "text": "Overview", "link": "/charts/overview" },
@@ -275,36 +295,14 @@
     { "text": "Skills", "link": "/ai/skills" }
   ],
   "examplesSidebar": [
-    {
-      "text": "Kitchensinks",
-      "collapsed": false,
-      "items": [
-        { "text": "Kitchensink", "link": "/examples/kitchensink" },
-        { "text": "UI kitchensink", "link": "/examples/kitchensink-ui" },
-        { "text": "Form kitchensink", "link": "/examples/kitchensink-form" },
-        { "text": "Date controls kitchensink", "link": "/examples/kitchensink-date-controls" },
-        { "text": "Color controls kitchensink", "link": "/examples/kitchensink-color-controls" },
-        { "text": "Data kitchensink", "link": "/examples/kitchensink-data" },
-        { "text": "Overlays kitchensink", "link": "/examples/kitchensink-overlays" },
-        { "text": "Feedback kitchensink", "link": "/examples/kitchensink-feedback" },
-        { "text": "Navigation kitchensink", "link": "/examples/kitchensink-navigation" },
-        { "text": "Layouts kitchensink", "link": "/examples/kitchensink-layouts" }
-      ]
-    },
-    {
-      "text": "Composed examples",
-      "collapsed": false,
-      "items": [
-        { "text": "Job management panel", "link": "/examples/job-management-panel" },
-        { "text": "Model list", "link": "/examples/model-list" },
-        { "text": "Annotation components", "link": "/examples/annotation-components" },
-        { "text": "Media filter", "link": "/examples/media-filter" },
-        { "text": "Media grid", "link": "/examples/media-grid" },
-        { "text": "Toolbar", "link": "/examples/toolbar" },
-        { "text": "Project list", "link": "/examples/project-list" },
-        { "text": "Project menu", "link": "/examples/project-menu" },
-        { "text": "Advanced parameters", "link": "/examples/advanced-parameters" }
-      ]
-    }
+    { "text": "UI kitchensink", "link": "/examples/kitchensink-ui" },
+    { "text": "Form kitchensink", "link": "/examples/kitchensink-form" },
+    { "text": "Date controls kitchensink", "link": "/examples/kitchensink-date-controls" },
+    { "text": "Color controls kitchensink", "link": "/examples/kitchensink-color-controls" },
+    { "text": "Data kitchensink", "link": "/examples/kitchensink-data" },
+    { "text": "Overlays kitchensink", "link": "/examples/kitchensink-overlays" },
+    { "text": "Feedback kitchensink", "link": "/examples/kitchensink-feedback" },
+    { "text": "Navigation kitchensink", "link": "/examples/kitchensink-navigation" },
+    { "text": "Layouts kitchensink", "link": "/examples/kitchensink-layouts" }
   ]
 }

@@ -1,0 +1,24 @@
+[
+    {
+        "$schema": "https://raw.githubusercontent.com/web-infra-dev/rslint/main/packages/core/schema.json",
+        "language": "javascript",
+        "source": {
+            "include": ["src/**/*.{ts,tsx}"],
+            "exclude": ["src/test/**", "**/*.stories.tsx"]
+        },
+        "languageOptions": {
+            "parserOptions": {
+                "project": ["./tsconfig.json"]
+            }
+        },
+        "plugins": ["typescript-eslint"],
+        "linter": {
+            "enabled": true,
+            "rules": {
+                "@typescript-eslint/no-empty-object-type": "off",
+                "@typescript-eslint/no-explicit-any": "warn",
+                "@typescript-eslint/ban-ts-comment": "off"
+            }
+        }
+    }
+]

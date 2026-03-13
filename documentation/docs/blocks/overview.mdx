@@ -1,0 +1,31 @@
+---
+title: Overview
+---
+
+# Blocks
+
+`@geti-ai/blocks` contains reusable **application-level** building blocks composed from `@geti-ai/ui` primitives.
+
+Use blocks for patterns like dataset tabs, application logs, project lists, and other workflows that are too opinionated for primitive UI components.
+
+## Install
+
+```bash
+npm install @geti-ai/blocks @geti-ai/ui
+```
+
+## Required styles
+
+`@geti-ai/blocks` ships component styles separately. Make sure you load both UI and blocks styles in your app entry/theme setup:
+
+```tsx
+import '@geti-ai/ui/styles.css';
+import '@geti-ai/blocks/styles.css';
+```
+
+Without the blocks stylesheet, class names will be rendered but block-specific rules will not be applied.
+
+## Scope
+
+- `@geti-ai/ui`: primitive design-system components
+- `@geti-ai/blocks`: composed workflows and feature blocks

@@ -5,7 +5,7 @@ const REPO_ROOT = path.resolve(new URL('.', import.meta.url).pathname, '..', '..
 const DOCS_ROOT = path.join(REPO_ROOT, 'documentation/docs');
 const SIDEBARS_PATH = path.join(REPO_ROOT, 'documentation/sidebars.json');
 
-const INCLUDE_SECTIONS = ['components', 'charts', 'smart-tools'];
+const INCLUDE_SECTIONS = ['components', 'charts', 'blocks', 'smart-tools'];
 
 const sidebars = JSON.parse(fs.readFileSync(SIDEBARS_PATH, 'utf-8'));
 
@@ -80,6 +80,7 @@ for (const section of INCLUDE_SECTIONS) {
 const sidebarSections = {
   components: sidebars.componentsSidebar,
   charts: sidebars.chartsSidebar,
+  blocks: sidebars.blocksSidebar,
   'smart-tools': sidebars.smartToolsSidebar,
 };
 

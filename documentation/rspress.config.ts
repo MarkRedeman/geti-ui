@@ -6,14 +6,7 @@ import path from 'node:path';
 import { pluginSkills } from './plugins/skills-endpoint';
 import sidebars from './sidebars.json';
 
-const {
-    componentsSidebar,
-    chartsSidebar,
-    assetsSidebar,
-    smartToolsSidebar,
-    aiSidebar,
-    examplesSidebar,
-} = sidebars;
+const { componentsSidebar, chartsSidebar, blocksSidebar, assetsSidebar, smartToolsSidebar, aiSidebar, examplesSidebar } = sidebars;
 
 export default defineConfig({
     root: path.join(__dirname, 'docs'),
@@ -58,15 +51,18 @@ export default defineConfig({
         llmsUI: true,
         nav: [
             { text: 'Components', link: '/components/installation', activeMatch: '/components/' },
+            { text: 'Blocks', link: '/blocks/overview', activeMatch: '/blocks/' },
             { text: 'Assets', link: '/assets/', activeMatch: '/assets/' },
             { text: 'Charts', link: '/charts/installation', activeMatch: '/charts/' },
             { text: 'Smart tools', link: '/smart-tools/installation', activeMatch: '/smart-tools/' },
-            { text: 'Examples', link: '/examples', activeMatch: '/examples' },
+            { text: 'Examples', link: '/examples/kitchensink-ui', activeMatch: '/examples' },
             { text: 'AI', link: '/ai/overview', activeMatch: '/ai/' },
         ],
         sidebar: {
             '/components': componentsSidebar,
             '/components/': componentsSidebar,
+            '/blocks': blocksSidebar,
+            '/blocks/': blocksSidebar,
             '/assets': assetsSidebar,
             '/assets/': assetsSidebar,
             '/charts': chartsSidebar,

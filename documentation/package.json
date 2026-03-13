@@ -4,9 +4,9 @@
   "version": "0.0.1",
   "type": "module",
   "scripts": {
-    "predev": "npm run build --workspace=@geti-ai/ui && npm run build --workspace=@geti-ai/charts",
+    "predev": "npm run build --workspace=@geti-ai/ui && npm run build --workspace=@geti-ai/charts && npm run build --workspace=@geti-ai/blocks",
     "dev": "rspress dev",
-    "prebuild": "npm run build --workspace=@geti-ai/ui && npm run build --workspace=@geti-ai/charts",
+    "prebuild": "npm run build --workspace=@geti-ai/ui && npm run build --workspace=@geti-ai/charts && npm run build --workspace=@geti-ai/blocks",
     "build": "rspress build",
     "pretest:e2e": "npm run build",
     "preview": "rspress preview",
@@ -17,6 +17,7 @@
   },
   "dependencies": {
     "@adobe/react-spectrum": "^3.46.2",
+    "@geti-ai/blocks": "*",
     "@geti-ai/charts": "*",
     "@geti-ai/ui": "*",
     "react": "^19.2.4",

@@ -3,7 +3,7 @@
   "changelog": "@changesets/cli/changelog",
   "commit": false,
   "fixed": [],
-  "linked": [["@geti-ai/ui", "@geti-ai/charts", "@geti-ai/smart-tools", "@geti-ai/mcp"]],
+  "linked": [["@geti-ai/ui", "@geti-ai/charts", "@geti-ai/smart-tools", "@geti-ai/mcp", "@geti-ai/blocks"]],
   "access": "public",
   "baseBranch": "main",
   "updateInternalDependencies": "patch",

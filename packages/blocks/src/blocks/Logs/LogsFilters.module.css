@@ -1,0 +1,22 @@
+.filtersContainer {
+    flex-shrink: 0;
+    padding: var(--spectrum-global-dimension-size-100) var(--spectrum-global-dimension-size-150);
+    background: var(--spectrum-global-color-gray-100);
+    border-radius: var(--spectrum-global-dimension-size-50);
+}
+
+.searchContainer {
+    flex: 1;
+    min-width: 180px;
+    max-width: 280px;
+}
+
+.autoScroll {
+    font-size: var(--spectrum-global-dimension-font-size-75);
+}
+
+.statsText {
+    font-size: var(--spectrum-global-dimension-font-size-75);
+    color: var(--spectrum-global-color-gray-600);
+    white-space: nowrap;
+}

@@ -1,0 +1,72 @@
+.levelBadgeCount {
+    font-size: 12px;
+    color: var(--spectrum-global-color-gray-600);
+    margin-left: 2px;
+}
+
+.levelPopoverContent {
+    padding: 12px;
+    display: inline-flex;
+    flex-direction: column;
+    min-width: 0;
+    width: max-content;
+}
+
+.levelMenuItem {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 6px 8px;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.levelMenuCheckbox {
+    width: 16px;
+    height: 16px;
+    cursor: pointer;
+    accent-color: var(--spectrum-global-color-blue-500);
+    margin: 0;
+}
+
+.levelMenuDot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    flex-shrink: 0;
+}
+
+.levelMenuLabel {
+    font-size: 13px;
+    color: var(--spectrum-global-color-gray-800);
+    text-transform: uppercase;
+    letter-spacing: 0.3px;
+}
+
+.levelPopoverActions {
+    display: flex;
+    gap: 8px;
+    border-top: 1px solid var(--spectrum-global-color-gray-300);
+    padding-top: 10px;
+    margin-top: 8px;
+}
+
+.levelQuickButton {
+    font-size: 12px;
+    padding: 5px 12px;
+    cursor: pointer;
+    background: var(--spectrum-global-color-gray-200);
+    border: 1px solid var(--spectrum-global-color-gray-300);
+    border-radius: 4px;
+    color: var(--spectrum-global-color-gray-700);
+    transition: background-color 0.1s ease;
+}
+
+.levelQuickButton:hover:not(:disabled) {
+    background: var(--spectrum-global-color-gray-300);
+}
+
+.levelQuickButton:disabled {
+    opacity: 0.5;
+    cursor: default;
+}
