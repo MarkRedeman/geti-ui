@@ -1,0 +1,135 @@
+---
+title: Heading
+---
+
+# Heading
+
+`Heading` renders section and page titles with Spectrum heading semantics.
+
+```tsx
+import { Heading } from '@geti-ai/ui';
+```
+
+- [React Spectrum Heading ↗](https://react-spectrum.adobe.com/react-spectrum/Heading.html)
+- [Geti UI Theming](/components/theming)
+
+## Examples
+
+### Basic heading
+
+```tsx preview
+import { Heading } from '@geti-ai/ui';
+
+export default function App() {
+  return <Heading>Dataset overview</Heading>;
+}
+```
+
+### Heading levels
+
+#### Level 1
+
+```tsx preview
+import { Heading } from '@geti-ai/ui';
+
+export default function App() {
+  return <Heading level={1}>Level 1 heading</Heading>;
+}
+```
+
+#### Level 2
+
+```tsx preview
+import { Heading } from '@geti-ai/ui';
+
+export default function App() {
+  return <Heading level={2}>Level 2 heading</Heading>;
+}
+```
+
+#### Level 3
+
+```tsx preview
+import { Heading } from '@geti-ai/ui';
+
+export default function App() {
+  return <Heading level={3}>Level 3 heading</Heading>;
+}
+```
+
+#### Level 4
+
+```tsx preview
+import { Heading } from '@geti-ai/ui';
+
+export default function App() {
+  return <Heading level={4}>Level 4 heading</Heading>;
+}
+```
+
+#### Level 5
+
+```tsx preview
+import { Heading } from '@geti-ai/ui';
+
+export default function App() {
+  return <Heading level={5}>Level 5 heading</Heading>;
+}
+```
+
+#### Level 6
+
+```tsx preview
+import { Heading } from '@geti-ai/ui';
+
+export default function App() {
+  return <Heading level={6}>Level 6 heading</Heading>;
+}
+```
+
+### Heading with supporting text
+
+```tsx preview
+import { Flex, Heading, Text, View } from '@geti-ai/ui';
+
+export default function App() {
+  return (
+    <View padding="size-200" backgroundColor="gray-300" borderRadius="medium">
+      <Flex direction="column" gap="size-50">
+        <Heading>Training datasets</Heading>
+        <Text>Manage subsets, import data, and export snapshots.</Text>
+      </Flex>
+    </View>
+  );
+}
+```
+
+## Responsibility
+
+`Heading` is a thin wrapper around React Spectrum `Heading`. It keeps heading primitives available from the `@geti-ai/ui` entry point for consistent imports across components and docs.
+
+## Variants and states
+
+`Heading` has no wrapper-specific variants. Visual scale and weight come from Spectrum and parent context.
+
+## Props (deep dive)
+
+### Content
+
+- `children`: heading text or inline markup.
+
+### Semantics
+
+- `level`: heading level (`1`-`6`) used for semantic hierarchy and accessibility.
+- Pick levels based on document structure, not visual style preference.
+
+### Accessibility
+
+- Use headings in logical order to preserve document structure.
+- Keep heading copy short and descriptive.
+
+## Related components
+
+- `Text` for body and helper copy below headings.
+- `View` for section containers.
+- `Flex` for heading + action row layouts.

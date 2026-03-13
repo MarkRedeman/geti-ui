@@ -41,6 +41,9 @@ export type { ViewProps } from './components/ui/View/View';
 export { Text } from './components/ui/Text/Text';
 export type { TextProps } from './components/ui/Text/Text';
 
+export { Heading } from './components/ui/Heading/Heading';
+export type { HeadingProps } from './components/ui/Heading/Heading';
+
 // Group 2 — Form Controls (form/)
 export { FileTrigger } from './components/form/FileTrigger/FileTrigger';
 export type { FileTriggerProps } from './components/form/FileTrigger/FileTrigger';
