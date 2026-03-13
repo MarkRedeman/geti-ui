@@ -1,3 +1,11 @@
 export type { HighlightConfig, HighlightInteractionModel, HighlightMode, HighlightTrigger } from './types';
 export { useSeriesHighlight } from './useSeriesHighlight';
+export type { UseSeriesHighlightOptions } from './useSeriesHighlight';
 export { extractLegendSeriesKey } from './legend';
+export { useLegendHighlight } from './useLegendHighlight';
+export type { UseLegendHighlightOptions, LegendHighlightHandlers } from './useLegendHighlight';
+export { HighlightContext, useHighlightContext } from './HighlightContext';
+export type { HighlightContextValue } from './HighlightContext';
+export { HighlightProvider } from './HighlightProvider';
+export type { HighlightProviderProps } from './HighlightProvider';
+export { useChartHighlight } from './useChartHighlight';

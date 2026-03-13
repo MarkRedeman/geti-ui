@@ -27,7 +27,7 @@ Hovering over a legend item highlights the corresponding series without requirin
 
 ### Legend click — pinning
 
-Clicking a legend item _pins_ the highlight on that series. Subsequent clicks on the same item release the pin; clicking a different item transfers the pin. Pinning is opt-in via `highlight.legendClick`.
+Clicking a legend item _pins_ the highlight on that series. Subsequent clicks on the same item release the pin; clicking a different item transfers the pin. Pinning is opt-in via `highlight.interaction.legendClick`.
 
 ### Voronoi-driven highlighting (scatter charts)
 
@@ -39,11 +39,12 @@ Clicking a legend item _pins_ the highlight on that series. Subsequent clicks on
 |---|---|---|---|
 | `enabled` | `boolean` | `false` | Enable series highlighting |
 | `mode` | `'single' \| 'multiple'` | `'single'` | `'single'` dims all non-hovered series; `'multiple'` accumulates pinned series |
-| `dimOpacity` | `number` | `0.25` | Opacity applied to non-highlighted series (0–1) |
-| `legendClick` | `boolean` | `false` | Allow clicking legend items to pin a highlight |
-| `legendHover` | `boolean` | `true` | Highlight on legend item hover |
+| `dimmedOpacity` | `number` | `0.2` | Opacity applied to non-highlighted series (0–1) |
+| `interaction.legendClick` | `boolean` | `false` | Allow clicking legend items to pin a highlight |
+| `interaction.legendHover` | `boolean` | `true` | Highlight on legend item hover |
 | `interaction.voronoi` | `boolean` | `false` | Use Voronoi cells for highlight hit-testing (scatter charts) |
-| `interaction.voronoiMaxDistance` | `number` | `80` | Max cursor distance in pixels for Voronoi activation |
+
+> `voronoiMaxDistance` is configured on `ScatterChart` directly (`voronoiMaxDistance` prop), not in `HighlightConfig`.
 
 ## Examples
 
@@ -66,7 +67,7 @@ export default function App() {
       data={data}
       xAxisKey="epoch"
       showLegend
-      highlight={{ enabled: true, legendClick: true }}
+      highlight={{ enabled: true, interaction: { legendClick: true } }}
       series={[
         { dataKey: 'train', name: 'Train loss' },
         { dataKey: 'val', name: 'Val loss' },
@@ -131,7 +132,7 @@ export default function App() {
     <PieChart
       data={data}
       showLegend
-      highlight={{ enabled: true, mode: 'multiple', legendClick: true, dimOpacity: 0.2 }}
+      highlight={{ enabled: true, mode: 'multiple', dimmedOpacity: 0.2, interaction: { legendClick: true } }}
       aria-label="Class distribution with multi-select highlight"
       height={340}
     />
@@ -140,6 +141,37 @@ export default function App() {
 ```
 
 In `multiple` mode each legend click _adds_ a series to the highlighted set rather than replacing the previous selection. Click a highlighted item again to deselect it.
+
+## Optional shared provider
+
+For dashboards where multiple charts should share one highlight state, wrap them in `HighlightProvider`.
+
+```tsx
+import { HighlightProvider, LineChart, BarChart } from '@geti-ai/charts';
+
+export default function App() {
+  return (
+    <HighlightProvider enabled mode="single">
+      <LineChart
+        data={[{ x: 'A', train: 0.8, val: 0.9 }]}
+        xAxisKey="x"
+        series={[{ dataKey: 'train' }, { dataKey: 'val' }]}
+        showLegend
+        highlight={{ enabled: true, interaction: { legendHover: true, legendClick: true } }}
+      />
+      <BarChart
+        data={[{ x: 'A', train: 0.8, val: 0.9 }]}
+        xAxisKey="x"
+        series={[{ dataKey: 'train' }, { dataKey: 'val' }]}
+        showLegend
+        highlight={{ enabled: true, interaction: { legendHover: true, legendClick: true } }}
+      />
+    </HighlightProvider>
+  );
+}
+```
+
+Without a provider, charts keep independent local highlight state (default behavior).
 
 ## Using highlighting with primitives
 

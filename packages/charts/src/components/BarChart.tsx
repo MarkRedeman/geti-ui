@@ -10,7 +10,7 @@ import {
 } from 'recharts';
 import { useChartsTheme } from '../hooks/useChartsTheme';
 import type { HighlightConfig } from '../highlight';
-import { extractLegendSeriesKey, useSeriesHighlight } from '../highlight';
+import { useLegendHighlight, useChartHighlight } from '../highlight';
 import { ChartGrid, type ChartGridProps } from '../primitives/ChartGrid';
 import { ChartTooltip, type ChartTooltipProps } from '../primitives/ChartTooltip';
 import { ChartLegend, type ChartLegendProps } from '../primitives/ChartLegend';
@@ -151,10 +151,8 @@ export function BarChart({
     const highlightEnabled = highlight !== undefined && highlight.enabled !== false;
     const interaction = highlight?.interaction;
     const barHoverEnabled = interaction?.lineHover ?? true;
-    const legendHoverEnabled = interaction?.legendHover ?? true;
-    const legendClickEnabled = interaction?.legendClick ?? false;
 
-    const highlightState = useSeriesHighlight({
+    const highlightState = useChartHighlight({
         ...highlight,
         enabled: highlightEnabled,
     });
@@ -196,35 +194,16 @@ export function BarChart({
                   ...yAxisProps,
               };
 
-    const handleLegendMouseEnter: ChartLegendProps['onMouseEnter'] = (entry, index, event) => {
-        legendProps?.onMouseEnter?.(entry, index, event);
-        if (!highlightEnabled || !legendHoverEnabled) {
-            return;
-        }
-        const key = extractLegendSeriesKey(entry);
-        if (key) {
-            highlightState.setHovered([key]);
-        }
-    };
-
-    const handleLegendMouseLeave: ChartLegendProps['onMouseLeave'] = (entry, index, event) => {
-        legendProps?.onMouseLeave?.(entry, index, event);
-        if (!highlightEnabled || !legendHoverEnabled) {
-            return;
-        }
-        highlightState.clearHover();
-    };
-
-    const handleLegendClick: ChartLegendProps['onClick'] = (entry, index, event) => {
-        legendProps?.onClick?.(entry, index, event);
-        if (!highlightEnabled || !legendClickEnabled) {
-            return;
-        }
-        const key = extractLegendSeriesKey(entry);
-        if (key) {
-            highlightState.togglePinnedKey(key, 'legend-click');
-        }
-    };
+    const { onMouseEnter: handleLegendMouseEnter, onMouseLeave: handleLegendMouseLeave, onClick: handleLegendClick } =
+        useLegendHighlight(
+            highlightState,
+            {
+                enabled: highlightEnabled,
+                legendHover: interaction?.legendHover ?? true,
+                legendClick: interaction?.legendClick ?? false,
+            },
+            legendProps
+        );
 
     return (
         <div role="img" aria-label={ariaLabel} style={{ width, height }}>
