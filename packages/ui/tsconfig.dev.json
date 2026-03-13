@@ -3,5 +3,5 @@
     "compilerOptions": {
         "types": ["@rstest/core/globals", "@testing-library/jest-dom"]
     },
-    "include": ["src", "**/*.test.tsx", "**/*.test.ts", "**/*.stories.tsx"]
+    "include": ["src", "**/*.test.tsx", "**/*.test.ts"]
 }

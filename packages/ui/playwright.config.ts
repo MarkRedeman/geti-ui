@@ -8,7 +8,7 @@ export default defineConfig({
     workers: process.env.CI ? 1 : undefined,
     reporter: process.env.CI ? 'github' : 'html',
     use: {
-        baseURL: 'http://localhost:6006',
+        baseURL: 'http://localhost:5173',
         trace: 'on-first-retry',
     },
     projects: [
@@ -18,8 +18,8 @@ export default defineConfig({
         },
     ],
     webServer: {
-        command: 'npm run storybook',
-        url: 'http://localhost:6006',
+        command: 'npm run docs:dev',
+        url: 'http://localhost:5173',
         reuseExistingServer: !process.env.CI,
         timeout: 120 * 1000,
     },

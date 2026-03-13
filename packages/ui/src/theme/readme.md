@@ -109,7 +109,7 @@ Callers can override any `Provider` prop (e.g. `locale`, `colorScheme`) by sprea
 ## Integration
 
 - **Consumed by**: every component in the library — they all implicitly depend on `ThemeProvider` being in the tree.
-- **Storybook**: `ThemeProvider` is configured as a global decorator in `.storybook/preview.tsx`, so every story automatically renders inside the Geti theme.
+- **Documentation examples**: rendered through the docs app, which wraps examples with `ThemeProvider` so components use Geti tokens consistently.
 - **Application entry**: consuming applications must render `<ThemeProvider>` as their outermost component (or at least above any Geti UI components).
 - **Token consumption pattern**:
     - Spectrum components: consume `--spectrum-*` tokens transparently via Spectrum's internal styling.
