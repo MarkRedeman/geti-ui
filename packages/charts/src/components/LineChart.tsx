@@ -8,6 +8,8 @@ import {
     type YAxisProps,
 } from 'recharts';
 import { useChartsTheme } from '../hooks/useChartsTheme';
+import type { HighlightConfig } from '../highlight';
+import { useLegendHighlight, useChartHighlight } from '../highlight';
 import { ChartGrid, type ChartGridProps } from '../primitives/ChartGrid';
 import { ChartTooltip, type ChartTooltipProps } from '../primitives/ChartTooltip';
 import { ChartLegend, type ChartLegendProps } from '../primitives/ChartLegend';
@@ -95,6 +97,8 @@ export interface LineChartProps {
     margin?: { top?: number; right?: number; bottom?: number; left?: number };
     /** Accessible label for screen readers. */
     'aria-label'?: string;
+    /** Optional series highlighting interactions (hover, legend hover/click). */
+    highlight?: HighlightConfig;
 }
 
 /**
@@ -140,10 +144,31 @@ export function LineChart({
     legendProps,
     margin = { top: 8, right: 16, bottom: 8, left: 0 },
     'aria-label': ariaLabel,
+    highlight,
 }: LineChartProps) {
     const theme = useChartsTheme();
 
+    const highlightEnabled = highlight !== undefined && highlight.enabled !== false;
+    const interaction = highlight?.interaction;
+    const lineHoverEnabled = interaction?.lineHover ?? true;
+
+    const highlightState = useChartHighlight({
+        ...highlight,
+        enabled: highlightEnabled,
+    });
+
     const axisStyle = getAxisTickStyle(theme);
+
+    const { onMouseEnter: handleLegendMouseEnter, onMouseLeave: handleLegendMouseLeave, onClick: handleLegendClick } =
+        useLegendHighlight(
+            highlightState,
+            {
+                enabled: highlightEnabled,
+                legendHover: interaction?.legendHover ?? true,
+                legendClick: interaction?.legendClick ?? false,
+            },
+            legendProps
+        );
 
     return (
         <div role="img" aria-label={ariaLabel} style={{ width, height }}>
@@ -172,7 +197,14 @@ export function LineChart({
                     />
 
                     {showTooltip && <ChartTooltip {...tooltipProps} />}
-                    {showLegend && <ChartLegend {...legendProps} />}
+                    {showLegend && (
+                        <ChartLegend
+                            {...legendProps}
+                            onMouseEnter={handleLegendMouseEnter}
+                            onMouseLeave={handleLegendMouseLeave}
+                            onClick={handleLegendClick}
+                        />
+                    )}
 
                     {series.map((s, index) => {
                         const color = s.color ?? theme.dataColors[index % theme.dataColors.length];
@@ -183,10 +215,21 @@ export function LineChart({
                                 dataKey={s.dataKey}
                                 name={s.name ?? s.dataKey}
                                 stroke={color}
+                                strokeOpacity={highlightState.getOpacity(s.dataKey)}
                                 strokeWidth={s.strokeWidth ?? 2}
                                 strokeDasharray={s.dashed ? '5 3' : undefined}
                                 dot={{ r: s.dotRadius ?? theme.dotRadius, fill: color }}
                                 activeDot={{ r: theme.activeDotRadius, fill: color }}
+                                onMouseEnter={
+                                    highlightEnabled && lineHoverEnabled
+                                        ? () => highlightState.setHovered([s.dataKey])
+                                        : undefined
+                                }
+                                onMouseLeave={
+                                    highlightEnabled && lineHoverEnabled
+                                        ? () => highlightState.clearHover()
+                                        : undefined
+                                }
                                 isAnimationActive={animate}
                             />
                         );

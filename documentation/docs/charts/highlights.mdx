@@ -1,0 +1,447 @@
+---
+title: Highlights
+---
+
+# Highlights
+
+Interactive highlighting lets users focus on one or more data series by dimming the rest. The chart library supports two highlight modes — **transient** and **pinned** — and several interaction triggers.
+
+## Transient vs pinned highlighting
+
+| Mode | Trigger | Behaviour |
+|---|---|---|
+| **Transient** | Hover over a geometry (line, bar, dot) or a legend item | Highlight is active only while the pointer is over the target; leaving resets all series to full opacity. |
+| **Pinned** | Click a legend item | Highlight is locked until the user clicks the same legend item again (toggle off) or clicks another item. Transient hover still works on top of a pinned state. |
+
+Use transient highlighting for quick exploratory scanning. Use pinned highlighting when the user wants to compare a specific series against the rest while scrolling or interacting with other page content.
+
+## Interaction models
+
+### Geometry hover
+
+Moving the cursor over a line segment, bar, dot, or pie slice highlights the owning series and dims all others. This is the default hover behaviour when `highlight` is enabled.
+
+### Legend hover
+
+Hovering over a legend item highlights the corresponding series without requiring the cursor to land on the chart geometry. Useful for charts where geometry is dense or small (e.g. scatter plots with many points).
+
+### Legend click — pinning
+
+Clicking a legend item _pins_ the highlight on that series. Subsequent clicks on the same item release the pin; clicking a different item transfers the pin. Pinning is opt-in via `highlight.interaction.legendClick`.
+
+### Voronoi-driven highlighting (scatter charts)
+
+`ScatterChart` uses a Voronoi partition of the plot area (powered by [d3-delaunay](https://github.com/d3/d3-delaunay)). Each data point owns a cell; moving the cursor into a cell highlights that point regardless of how far the cursor is from the dot. Set `interaction.voronoi = true` (or use the `useVoronoi` prop on `ScatterChart`) to enable this mode.
+
+## `HighlightConfig` props
+
+| Prop | Type | Default | Description |
+|---|---|---|---|
+| `enabled` | `boolean` | `false` | Enable series highlighting |
+| `mode` | `'single' \| 'multiple'` | `'single'` | `'single'` dims all non-hovered series; `'multiple'` accumulates pinned series |
+| `dimmedOpacity` | `number` | `0.2` | Opacity applied to non-highlighted series (0–1) |
+| `interaction.legendClick` | `boolean` | `false` | Allow clicking legend items to pin a highlight |
+| `interaction.legendHover` | `boolean` | `true` | Highlight on legend item hover |
+| `interaction.voronoi` | `boolean` | `false` | Use Voronoi cells for highlight hit-testing (scatter charts) |
+
+> `voronoiMaxDistance` is configured on `ScatterChart` directly (`voronoiMaxDistance` prop), not in `HighlightConfig`.
+
+## Examples
+
+### 1) LineChart
+
+```tsx preview
+import { LineChart } from '@geti-ai/charts';
+
+const data = [
+  { epoch: 1, train: 1.42, val: 1.50, test: 1.55 },
+  { epoch: 2, train: 1.10, val: 1.20, test: 1.28 },
+  { epoch: 3, train: 0.87, val: 0.98, test: 1.06 },
+  { epoch: 4, train: 0.71, val: 0.82, test: 0.90 },
+  { epoch: 5, train: 0.60, val: 0.69, test: 0.78 },
+];
+
+export default function App() {
+  return (
+    <LineChart
+      data={data}
+      xAxisKey="epoch"
+      showLegend
+      highlight={{ enabled: true, interaction: { legendClick: true } }}
+      series={[
+        { dataKey: 'train', name: 'Train loss' },
+        { dataKey: 'val', name: 'Val loss' },
+        { dataKey: 'test', name: 'Test loss' },
+      ]}
+      aria-label="Loss curves with pinnable highlight"
+      height={280}
+    />
+  );
+}
+```
+
+### 2) AreaChart
+
+```tsx preview
+import { AreaChart } from '@geti-ai/charts';
+
+const data = [
+  { epoch: 1, train: 0.82, val: 0.76 },
+  { epoch: 2, train: 0.86, val: 0.79 },
+  { epoch: 3, train: 0.89, val: 0.82 },
+  { epoch: 4, train: 0.91, val: 0.84 },
+];
+
+export default function App() {
+  return (
+    <AreaChart
+      data={data}
+      xAxisKey="epoch"
+      showLegend
+      highlight={{ enabled: true, interaction: { legendHover: true, legendClick: true } }}
+      series={[
+        { dataKey: 'train', name: 'Train', fade: true },
+        { dataKey: 'val', name: 'Validation', fade: true },
+      ]}
+      aria-label="Area highlight example"
+      height={280}
+    />
+  );
+}
+```
+
+### 3) BarChart
+
+```tsx preview
+import { BarChart } from '@geti-ai/charts';
+
+const data = [
+  { cls: 'Car', train: 0.77, val: 0.73 },
+  { cls: 'Person', train: 0.66, val: 0.62 },
+  { cls: 'Bike', train: 0.58, val: 0.53 },
+  { cls: 'Bus', train: 0.71, val: 0.68 },
+];
+
+export default function App() {
+  return (
+    <BarChart
+      data={data}
+      xAxisKey="cls"
+      showLegend
+      highlight={{ enabled: true, interaction: { legendHover: true, legendClick: true } }}
+      series={[
+        { dataKey: 'train', name: 'Train mAP' },
+        { dataKey: 'val', name: 'Val mAP' },
+      ]}
+      aria-label="Bar highlight example"
+      height={300}
+    />
+  );
+}
+```
+
+### 4) ScatterChart (model families + Voronoi)
+
+```tsx preview
+import { ScatterChart } from '@geti-ai/charts';
+
+const yolo = [
+  { x: 3.2e6, y: 0.41, z: 8.1, model: 'YOLO-N' },
+  { x: 1.1e7, y: 0.49, z: 28.7, model: 'YOLO-S' },
+  { x: 2.6e7, y: 0.54, z: 78.9, model: 'YOLO-M' },
+];
+
+const unet = [
+  { x: 7.8e6, y: 0.44, z: 21.5, model: 'UNet-Tiny' },
+  { x: 2.0e7, y: 0.51, z: 64.1, model: 'UNet-Base' },
+  { x: 3.9e7, y: 0.56, z: 118.3, model: 'UNet-Large' },
+];
+
+const detr = [
+  { x: 4.1e7, y: 0.52, z: 97.2, model: 'DETR-R50' },
+  { x: 6.8e7, y: 0.57, z: 162.4, model: 'DETR-R101' },
+];
+
+export default function App() {
+  return (
+    <ScatterChart
+      series={[
+        { name: 'YOLO', data: yolo, xKey: 'x', yKey: 'y', zKey: 'z', shape: 'circle' },
+        { name: 'UNet', data: unet, xKey: 'x', yKey: 'y', zKey: 'z', shape: 'diamond' },
+        { name: 'DETR', data: detr, xKey: 'x', yKey: 'y', zKey: 'z', shape: 'triangle' },
+      ]}
+      zAxisProps={{ dataKey: 'z', range: [50, 460], name: 'GFLOPs' }}
+      showLegend
+      useVoronoi
+      xScale={{ scale: 'log', domain: [1e6, 'auto'] }}
+      xAxisLabel="Number of parameters"
+      yAxisLabel="M5 COCO mAP @ 50:95"
+      highlight={{ enabled: true, interaction: { voronoi: true, legendClick: true } }}
+      aria-label="Model families with Voronoi highlight"
+      height={340}
+    />
+  );
+}
+```
+
+### 5) PieChart
+
+```tsx preview
+import { PieChart } from '@geti-ai/charts';
+
+const data = [
+  { name: 'Car', value: 4200 },
+  { name: 'Person', value: 5600 },
+  { name: 'Bicycle', value: 2100 },
+  { name: 'Bus', value: 1400 },
+  { name: 'Truck', value: 980 },
+];
+
+export default function App() {
+  return (
+    <PieChart
+      data={data}
+      showLegend
+      highlight={{ enabled: true, mode: 'multiple', dimmedOpacity: 0.2, interaction: { legendClick: true } }}
+      aria-label="Pie highlight example"
+      height={340}
+    />
+  );
+}
+```
+
+### 6) DonutChart
+
+```tsx preview
+import { DonutChart } from '@geti-ai/charts';
+
+const data = [
+  { name: 'Train', value: 68 },
+  { name: 'Validation', value: 20 },
+  { name: 'Test', value: 12 },
+];
+
+export default function App() {
+  return (
+    <DonutChart
+      data={data}
+      showLegend
+      highlight={{ enabled: true, interaction: { legendClick: true } }}
+      aria-label="Donut highlight example"
+      height={300}
+    />
+  );
+}
+```
+
+### 7) RadarChart
+
+```tsx preview
+import { RadarChart } from '@geti-ai/charts';
+
+const data = [
+  { metric: 'Precision', train: 0.92, val: 0.88 },
+  { metric: 'Recall', train: 0.89, val: 0.84 },
+  { metric: 'F1', train: 0.90, val: 0.86 },
+  { metric: 'mAP', train: 0.82, val: 0.77 },
+];
+
+export default function App() {
+  return (
+    <RadarChart
+      data={data}
+      categoryKey="metric"
+      showLegend
+      highlight={{ enabled: true, interaction: { legendHover: true, legendClick: true } }}
+      series={[
+        { dataKey: 'train', name: 'Train', filled: true },
+        { dataKey: 'val', name: 'Validation', filled: true },
+      ]}
+      aria-label="Radar highlight example"
+      height={320}
+    />
+  );
+}
+```
+
+### 8) RadialBarChart
+
+```tsx preview
+import { RadialBarChart } from '@geti-ai/charts';
+
+const data = [
+  { name: 'Car', value: 82 },
+  { name: 'Person', value: 78 },
+  { name: 'Bike', value: 65 },
+  { name: 'Bus', value: 71 },
+];
+
+export default function App() {
+  return (
+    <RadialBarChart
+      data={data}
+      showLegend
+      highlight={{ enabled: true, interaction: { legendHover: true, legendClick: true } }}
+      aria-label="Radial bar highlight example"
+      height={340}
+    />
+  );
+}
+```
+
+### 9) TreemapChart
+
+```tsx preview
+import { TreemapChart } from '@geti-ai/charts';
+
+const data = [
+  { name: 'Car', value: 4200 },
+  { name: 'Person', value: 5600 },
+  { name: 'Bicycle', value: 2100 },
+  { name: 'Bus', value: 1400 },
+  { name: 'Truck', value: 980 },
+];
+
+export default function App() {
+  return (
+    <TreemapChart
+      data={data}
+      highlight={{ enabled: true }}
+      aria-label="Treemap highlight example"
+      height={320}
+    />
+  );
+}
+```
+
+### 10) MeterChart
+
+```tsx preview
+import { MeterChart } from '@geti-ai/charts';
+
+export default function App() {
+  return (
+    <MeterChart
+      value={74}
+      max={100}
+      valueName="Validation score"
+      highlight={{ enabled: true }}
+      aria-label="Meter highlight example"
+      height={240}
+    />
+  );
+}
+```
+
+These examples show every currently supported non-ML chart with highlights enabled.
+
+## Optional shared provider
+
+For dashboards where multiple charts should share one highlight state, wrap them in `HighlightProvider`.
+
+```tsx
+import { HighlightProvider, LineChart, BarChart } from '@geti-ai/charts';
+
+export default function App() {
+  return (
+    <HighlightProvider enabled mode="single">
+      <LineChart
+        data={[{ x: 'A', train: 0.8, val: 0.9 }]}
+        xAxisKey="x"
+        series={[{ dataKey: 'train' }, { dataKey: 'val' }]}
+        showLegend
+        highlight={{ enabled: true, interaction: { legendHover: true, legendClick: true } }}
+      />
+      <BarChart
+        data={[{ x: 'A', train: 0.8, val: 0.9 }]}
+        xAxisKey="x"
+        series={[{ dataKey: 'train' }, { dataKey: 'val' }]}
+        showLegend
+        highlight={{ enabled: true, interaction: { legendHover: true, legendClick: true } }}
+      />
+    </HighlightProvider>
+  );
+}
+```
+
+Without a provider, charts keep independent local highlight state (default behavior).
+
+## Using highlighting with primitives
+
+When building charts from primitives you manage highlight state yourself. The recommended pattern is:
+
+1. Track the active series key in component state (`useState`).
+2. Apply a reduced opacity to non-active `<Line>`, `<Bar>`, `<Cell>`, or `<Scatter>` elements.
+3. Wire `onMouseEnter` / `onMouseLeave` on each geometry element or on the `<Legend>` payload items for hover behaviour.
+4. Wire `onClick` on legend payload items for pinning.
+
+```tsx
+import { useState } from 'react';
+import { Line, LineChart } from 'recharts';
+import {
+  GetiCartesianGrid,
+  GetiLegend,
+  GetiResponsiveContainer,
+  GetiTooltip,
+  GetiXAxis,
+  GetiYAxis,
+} from '@geti-ai/charts/primitives';
+
+const data = [
+  { epoch: 1, train: 1.42, val: 1.50 },
+  { epoch: 2, train: 1.10, val: 1.20 },
+  { epoch: 3, train: 0.87, val: 0.98 },
+  { epoch: 4, train: 0.71, val: 0.82 },
+];
+
+const SERIES = [
+  { dataKey: 'train', color: 'var(--spectrum-global-color-blue-500)' },
+  { dataKey: 'val',   color: 'var(--spectrum-global-color-green-500)' },
+];
+
+export default function App() {
+  const [pinned, setPinned] = useState<string | null>(null);
+  const [hovered, setHovered] = useState<string | null>(null);
+
+  const active = pinned ?? hovered;
+
+  const opacity = (key: string) =>
+    active === null || active === key ? 1 : 0.25;
+
+  return (
+    <GetiResponsiveContainer height={260}>
+      <LineChart data={data}>
+        <GetiCartesianGrid />
+        <GetiXAxis dataKey="epoch" />
+        <GetiYAxis />
+        <GetiTooltip />
+        <GetiLegend
+          onClick={(payload) => {
+            const key = payload.dataKey as string;
+            setPinned((prev) => (prev === key ? null : key));
+          }}
+          onMouseEnter={(payload) => setHovered(payload.dataKey as string)}
+          onMouseLeave={() => setHovered(null)}
+        />
+        {SERIES.map(({ dataKey, color }) => (
+          <Line
+            key={dataKey}
+            type="monotone"
+            dataKey={dataKey}
+            stroke={color}
+            strokeOpacity={opacity(dataKey)}
+            dot={false}
+            isAnimationActive={false}
+          />
+        ))}
+      </LineChart>
+    </GetiResponsiveContainer>
+  );
+}
+```
+
+Key points:
+
+- Prefer `strokeOpacity` / `fillOpacity` over toggling `hide` — dimming preserves chart layout and avoids axis rescaling.
+- For `<Cell>`-based charts (Pie, RadialBar) apply `opacity` directly on each `<Cell>` element.
+- Keep pinned and hovered states separate so releasing a hover does not clear a pin.

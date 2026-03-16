@@ -9,6 +9,17 @@ export type { DeepPartial } from './theming/chartTheme';
 // Axis scale types
 export type { AxisScaleType, AxisScaleConfig } from './types/axisScale';
 
+// Highlight interactions
+export type { HighlightConfig, HighlightInteractionModel, HighlightMode, HighlightTrigger } from './highlight';
+export type { UseSeriesHighlightOptions } from './highlight';
+export { useSeriesHighlight, extractLegendSeriesKey } from './highlight';
+export { useLegendHighlight } from './highlight';
+export type { UseLegendHighlightOptions, LegendHighlightHandlers } from './highlight';
+export { HighlightContext, useHighlightContext, useChartHighlight } from './highlight';
+export type { HighlightContextValue } from './highlight';
+export { HighlightProvider } from './highlight';
+export type { HighlightProviderProps } from './highlight';
+
 // Hooks
 export { useChartsTheme } from './hooks/useChartsTheme';
 export { useGetiUIChartsTheme } from './hooks/useGetiUIChartsTheme';

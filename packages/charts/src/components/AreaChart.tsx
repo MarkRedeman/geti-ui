@@ -9,6 +9,8 @@ import {
     type YAxisProps,
 } from 'recharts';
 import { useChartsTheme } from '../hooks/useChartsTheme';
+import type { HighlightConfig } from '../highlight';
+import { useLegendHighlight, useChartHighlight } from '../highlight';
 import { ChartGrid, type ChartGridProps } from '../primitives/ChartGrid';
 import { ChartTooltip, type ChartTooltipProps } from '../primitives/ChartTooltip';
 import { ChartLegend, type ChartLegendProps } from '../primitives/ChartLegend';
@@ -86,6 +88,8 @@ export interface AreaChartProps {
     margin?: { top?: number; right?: number; bottom?: number; left?: number };
     /** Accessible label for screen readers. */
     'aria-label'?: string;
+    /** Optional series highlighting interactions (hover, legend hover/click). */
+    highlight?: HighlightConfig;
 }
 
 /**
@@ -132,11 +136,32 @@ export function AreaChart({
     legendProps,
     margin = { top: 8, right: 16, bottom: 8, left: 0 },
     'aria-label': ariaLabel,
+    highlight,
 }: AreaChartProps) {
     const theme = useChartsTheme();
     const chartId = useId().replace(/:/g, '');
 
+    const highlightEnabled = highlight !== undefined && highlight.enabled !== false;
+    const interaction = highlight?.interaction;
+    const areaHoverEnabled = interaction?.lineHover ?? true;
+
+    const highlightState = useChartHighlight({
+        ...highlight,
+        enabled: highlightEnabled,
+    });
+
     const axisStyle = getAxisTickStyle(theme);
+
+    const { onMouseEnter: handleLegendMouseEnter, onMouseLeave: handleLegendMouseLeave, onClick: handleLegendClick } =
+        useLegendHighlight(
+            highlightState,
+            {
+                enabled: highlightEnabled,
+                legendHover: interaction?.legendHover ?? true,
+                legendClick: interaction?.legendClick ?? false,
+            },
+            legendProps
+        );
 
     // Determine if any series opts into stacking
     const hasStacked = series.some((s) => s.stacked);
@@ -186,7 +211,14 @@ export function AreaChart({
                     />
 
                     {showTooltip && <ChartTooltip {...tooltipProps} />}
-                    {showLegend && <ChartLegend {...legendProps} />}
+                    {showLegend && (
+                        <ChartLegend
+                            {...legendProps}
+                            onMouseEnter={handleLegendMouseEnter}
+                            onMouseLeave={handleLegendMouseLeave}
+                            onClick={handleLegendClick}
+                        />
+                    )}
 
                     {series.map((s, index) => {
                         const color = s.color ?? theme.dataColors[index % theme.dataColors.length];
@@ -198,10 +230,21 @@ export function AreaChart({
                                 dataKey={s.dataKey}
                                 name={s.name ?? s.dataKey}
                                 stroke={color}
+                                strokeOpacity={highlightState.getOpacity(s.dataKey)}
                                 strokeWidth={s.strokeWidth ?? 2}
                                 fill={s.fade ? `url(#${gradientId})` : color}
-                                fillOpacity={s.fade ? 1 : (s.fillOpacity ?? 0.15)}
+                                fillOpacity={(s.fade ? 1 : (s.fillOpacity ?? 0.15)) * highlightState.getOpacity(s.dataKey)}
                                 stackId={hasStacked && s.stacked ? 'stack' : undefined}
+                                onMouseEnter={
+                                    highlightEnabled && areaHoverEnabled
+                                        ? () => highlightState.setHovered([s.dataKey])
+                                        : undefined
+                                }
+                                onMouseLeave={
+                                    highlightEnabled && areaHoverEnabled
+                                        ? () => highlightState.clearHover()
+                                        : undefined
+                                }
                                 isAnimationActive={animate}
                             />
                         );

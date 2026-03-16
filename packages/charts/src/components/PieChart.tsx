@@ -5,6 +5,8 @@ import {
     ResponsiveContainer,
 } from 'recharts';
 import { useChartsTheme } from '../hooks/useChartsTheme';
+import type { HighlightConfig } from '../highlight';
+import { useLegendHighlight, useChartHighlight } from '../highlight';
 import { ChartTooltip, type ChartTooltipProps } from '../primitives/ChartTooltip';
 import { ChartLegend, type ChartLegendProps } from '../primitives/ChartLegend';
 
@@ -43,6 +45,8 @@ export interface PieChartProps {
     legendProps?: ChartLegendProps;
     /** Accessible label for screen readers. */
     'aria-label'?: string;
+    /** Optional slice highlighting interactions (hover, legend hover/click). */
+    highlight?: HighlightConfig;
 }
 
 export function PieChart({
@@ -63,8 +67,34 @@ export function PieChart({
     tooltipProps,
     legendProps,
     'aria-label': ariaLabel,
+    highlight,
 }: PieChartProps) {
     const theme = useChartsTheme();
+
+    const highlightEnabled = highlight !== undefined && highlight.enabled !== false;
+    const interaction = highlight?.interaction;
+    const sliceHoverEnabled = interaction?.lineHover ?? true;
+
+    const highlightState = useChartHighlight({
+        ...highlight,
+        enabled: highlightEnabled,
+    });
+
+    const getSliceKey = (entry: Record<string, unknown>): string => {
+        const raw = entry[nameKey];
+        return typeof raw === 'string' ? raw : String(raw);
+    };
+
+    const { onMouseEnter: handleLegendMouseEnter, onMouseLeave: handleLegendMouseLeave, onClick: handleLegendClick } =
+        useLegendHighlight(
+            highlightState,
+            {
+                enabled: highlightEnabled,
+                legendHover: interaction?.legendHover ?? true,
+                legendClick: interaction?.legendClick ?? false,
+            },
+            legendProps
+        );
 
     return (
         <div role="img" aria-label={ariaLabel} style={{ width, height }}>
@@ -79,17 +109,38 @@ export function PieChart({
                         outerRadius={outerRadius}
                         paddingAngle={paddingAngle}
                         label={showLabels}
+                        onMouseEnter={
+                            highlightEnabled && sliceHoverEnabled
+                                ? (entry) =>
+                                      highlightState.setHovered([
+                                          getSliceKey((entry as unknown as { payload?: Record<string, unknown> }).payload ?? {}),
+                                      ])
+                                : undefined
+                        }
+                        onMouseLeave={
+                            highlightEnabled && sliceHoverEnabled
+                                ? () => highlightState.clearHover()
+                                : undefined
+                        }
                         isAnimationActive={animate}
                     >
-                        {data.map((_entry, index) => (
+                        {data.map((entry, index) => (
                             <Cell
                                 key={`cell-${index}`}
                                 fill={colors?.[index] ?? theme.dataColors[index % theme.dataColors.length]}
+                                fillOpacity={highlightState.getOpacity(getSliceKey(entry))}
                             />
                         ))}
                     </Pie>
                     {showTooltip && <ChartTooltip {...tooltipProps} />}
-                    {showLegend && <ChartLegend {...legendProps} />}
+                    {showLegend && (
+                        <ChartLegend
+                            {...legendProps}
+                            onMouseEnter={handleLegendMouseEnter}
+                            onMouseLeave={handleLegendMouseLeave}
+                            onClick={handleLegendClick}
+                        />
+                    )}
                 </RechartsPieChart>
             </ResponsiveContainer>
         </div>

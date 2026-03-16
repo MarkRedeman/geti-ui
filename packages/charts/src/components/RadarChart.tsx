@@ -9,6 +9,8 @@ import {
     type PolarRadiusAxisProps,
 } from 'recharts';
 import { useChartsTheme } from '../hooks/useChartsTheme';
+import type { HighlightConfig } from '../highlight';
+import { useLegendHighlight, useChartHighlight } from '../highlight';
 import { ChartTooltip, type ChartTooltipProps } from '../primitives/ChartTooltip';
 import { ChartLegend, type ChartLegendProps } from '../primitives/ChartLegend';
 
@@ -54,6 +56,8 @@ export interface RadarChartProps {
     legendProps?: ChartLegendProps;
     /** Accessible label for screen readers. */
     'aria-label'?: string;
+    /** Optional series highlighting interactions (hover, legend hover/click). */
+    highlight?: HighlightConfig;
 }
 
 export function RadarChart({
@@ -72,8 +76,18 @@ export function RadarChart({
     tooltipProps,
     legendProps,
     'aria-label': ariaLabel,
+    highlight,
 }: RadarChartProps) {
     const theme = useChartsTheme();
+
+    const highlightEnabled = highlight !== undefined && highlight.enabled !== false;
+    const interaction = highlight?.interaction;
+    const radarHoverEnabled = interaction?.lineHover ?? true;
+
+    const highlightState = useChartHighlight({
+        ...highlight,
+        enabled: highlightEnabled,
+    });
 
     const axisText = {
         fontSize: theme.typography.fontSize,
@@ -82,6 +96,17 @@ export function RadarChart({
     };
 
     const polarGridStroke = theme.typography.color;
+
+    const { onMouseEnter: handleLegendMouseEnter, onMouseLeave: handleLegendMouseLeave, onClick: handleLegendClick } =
+        useLegendHighlight(
+            highlightState,
+            {
+                enabled: highlightEnabled,
+                legendHover: interaction?.legendHover ?? true,
+                legendClick: interaction?.legendClick ?? false,
+            },
+            legendProps
+        );
 
     return (
         <div role="img" aria-label={ariaLabel} style={{ width, height }}>
@@ -95,7 +120,14 @@ export function RadarChart({
                         {...radiusAxisProps}
                     />
                     {showTooltip && <ChartTooltip {...tooltipProps} />}
-                    {showLegend && <ChartLegend {...legendProps} />}
+                    {showLegend && (
+                        <ChartLegend
+                            {...legendProps}
+                            onMouseEnter={handleLegendMouseEnter}
+                            onMouseLeave={handleLegendMouseLeave}
+                            onClick={handleLegendClick}
+                        />
+                    )}
 
                     {series.map((s, index) => {
                         const color = s.color ?? theme.dataColors[index % theme.dataColors.length];
@@ -105,9 +137,20 @@ export function RadarChart({
                                 dataKey={s.dataKey}
                                 name={s.name ?? s.dataKey}
                                 stroke={color}
+                                strokeOpacity={highlightState.getOpacity(s.dataKey)}
                                 strokeWidth={2}
                                 fill={filled ? color : 'none'}
-                                fillOpacity={filled ? (s.fillOpacity ?? 0.25) : 0}
+                                fillOpacity={filled ? (s.fillOpacity ?? 0.25) * highlightState.getOpacity(s.dataKey) : 0}
+                                onMouseEnter={
+                                    highlightEnabled && radarHoverEnabled
+                                        ? () => highlightState.setHovered([s.dataKey])
+                                        : undefined
+                                }
+                                onMouseLeave={
+                                    highlightEnabled && radarHoverEnabled
+                                        ? () => highlightState.clearHover()
+                                        : undefined
+                                }
                                 isAnimationActive={animate}
                             />
                         );

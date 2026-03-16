@@ -5,6 +5,8 @@ import {
     ResponsiveContainer,
 } from 'recharts';
 import { useChartsTheme } from '../hooks/useChartsTheme';
+import type { HighlightConfig } from '../highlight';
+import { useSeriesHighlight } from '../highlight';
 import { ChartTooltip, type ChartTooltipProps } from '../primitives/ChartTooltip';
 
 export interface MeterChartProps {
@@ -40,6 +42,8 @@ export interface MeterChartProps {
     tooltipProps?: ChartTooltipProps;
     /** Accessible label for screen readers. */
     'aria-label'?: string;
+    /** Optional segment highlighting interactions (hover only). */
+    highlight?: HighlightConfig;
 }
 
 export function MeterChart({
@@ -59,8 +63,17 @@ export function MeterChart({
     animate = false,
     tooltipProps,
     'aria-label': ariaLabel,
+    highlight,
 }: MeterChartProps) {
     const theme = useChartsTheme();
+
+    const highlightEnabled = highlight !== undefined && highlight.enabled !== false;
+    const segmentHoverEnabled = highlight?.interaction?.lineHover ?? true;
+
+    const highlightState = useSeriesHighlight({
+        ...highlight,
+        enabled: highlightEnabled,
+    });
 
     const safeMax = Number.isFinite(max) && max > 0 ? max : 100;
     const normalized = Math.max(0, Math.min(value, safeMax));
@@ -90,10 +103,25 @@ export function MeterChart({
                         innerRadius={innerRadius}
                         outerRadius={outerRadius}
                         stroke="none"
+                        onMouseEnter={
+                            highlightEnabled && segmentHoverEnabled
+                                ? (entry) => {
+                                      const name = (entry as unknown as { payload?: { name?: unknown } }).payload?.name;
+                                      if (typeof name === 'string') {
+                                          highlightState.setHovered([name]);
+                                      }
+                                  }
+                                : undefined
+                        }
+                        onMouseLeave={
+                            highlightEnabled && segmentHoverEnabled
+                                ? () => highlightState.clearHover()
+                                : undefined
+                        }
                         isAnimationActive={animate}
                     >
-                        <Cell fill={fillColor} />
-                        <Cell fill={bgColor} />
+                        <Cell fill={fillColor} fillOpacity={highlightState.getOpacity('value')} />
+                        <Cell fill={bgColor} fillOpacity={highlightState.getOpacity('remaining')} />
                     </Pie>
                     {showTooltip && <ChartTooltip {...tooltipProps} />}
                 </RechartsPieChart>
