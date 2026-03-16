@@ -293,6 +293,7 @@
       "items": [
         { "text": "Job management panel", "link": "/examples/job-management-panel" },
         { "text": "Dataset tabs", "link": "/examples/dataset-tabs" },
+        { "text": "Application Log", "link": "/examples/application-logs" },
         { "text": "Model list", "link": "/examples/model-list" },
         { "text": "Annotation components", "link": "/examples/annotation-components" },
         { "text": "Media filter", "link": "/examples/media-filter" },
