@@ -9,6 +9,7 @@ import type { HighlightConfig } from '../highlight';
 import { useLegendHighlight, useChartHighlight } from '../highlight';
 import { ChartTooltip, type ChartTooltipProps } from '../primitives/ChartTooltip';
 import { ChartLegend, type ChartLegendProps } from '../primitives/ChartLegend';
+import { resolveChartColorScaleStops, type ChartColorScaleInput } from '../utils/colorScales';
 
 export interface PieChartProps {
     /** Pie slices data. */
@@ -21,6 +22,8 @@ export interface PieChartProps {
     seriesName?: string;
     /** Optional explicit slice colors. Falls back to theme palette. */
     colors?: string[];
+    /** Named color scale preset or custom color stops for slices. */
+    colorScale?: ChartColorScaleInput;
     /** Chart width. Defaults to '100%'. */
     width?: number | string;
     /** Chart height in pixels. @default 300 */
@@ -55,6 +58,7 @@ export function PieChart({
     nameKey = 'name',
     seriesName,
     colors,
+    colorScale,
     width = '100%',
     height = 300,
     innerRadius = 0,
@@ -84,6 +88,8 @@ export function PieChart({
         const raw = entry[nameKey];
         return typeof raw === 'string' ? raw : String(raw);
     };
+
+    const scaleStops = resolveChartColorScaleStops(colorScale, theme.dataColors);
 
     const { onMouseEnter: handleLegendMouseEnter, onMouseLeave: handleLegendMouseLeave, onClick: handleLegendClick } =
         useLegendHighlight(
@@ -127,7 +133,7 @@ export function PieChart({
                         {data.map((entry, index) => (
                             <Cell
                                 key={`cell-${index}`}
-                                fill={colors?.[index] ?? theme.dataColors[index % theme.dataColors.length]}
+                                fill={colors?.[index] ?? scaleStops[index % scaleStops.length]}
                                 fillOpacity={highlightState.getOpacity(getSliceKey(entry))}
                             />
                         ))}

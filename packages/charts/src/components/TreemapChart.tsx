@@ -6,6 +6,7 @@ import { useChartsTheme } from '../hooks/useChartsTheme';
 import type { HighlightConfig } from '../highlight';
 import { useSeriesHighlight } from '../highlight';
 import { ChartTooltip, type ChartTooltipProps } from '../primitives/ChartTooltip';
+import { resolveChartColorScaleStops, type ChartColorScaleInput } from '../utils/colorScales';
 
 function withAlpha(color: string, alpha: number): string {
     const a = Math.max(0, Math.min(1, alpha));
@@ -47,6 +48,8 @@ export interface TreemapChartProps {
      * @example colors={['#4C9BE8', '#5CE6A2', '#F9C846']}
      */
     colors?: string[];
+    /** Named color scale preset or custom color stops for tiles. */
+    colorScale?: ChartColorScaleInput;
     /** Optional fixed color for all treemap tiles. Takes precedence over `colors`. */
     fill?: string;
     /** Show tooltip. @default true */
@@ -68,6 +71,7 @@ export function TreemapChart({
     width = '100%',
     height = 320,
     colors,
+    colorScale,
     fill,
     showTooltip = true,
     animate = false,
@@ -90,7 +94,8 @@ export function TreemapChart({
         return typeof raw === 'string' ? raw : String(raw);
     };
 
-    const palette = fill ? [fill] : (colors ?? theme.dataColors);
+    const colorScaleStops = resolveChartColorScaleStops(colorScale, theme.dataColors);
+    const palette = fill ? [fill] : (colors ?? colorScaleStops);
     const hasActiveHighlight = highlightEnabled && highlightState.activeKeys.length > 0;
     const dimmedOpacity = highlight?.dimmedOpacity ?? 0.2;
 

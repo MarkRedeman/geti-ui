@@ -20,6 +20,16 @@ export type { HighlightContextValue } from './highlight';
 export { HighlightProvider } from './highlight';
 export type { HighlightProviderProps } from './highlight';
 
+// Selection interactions
+export type {
+    SelectionMode,
+    SelectionRect,
+    SelectionBounds,
+    SelectionOverlayStyle,
+    SelectionConfig,
+} from './selection';
+export { useDragSelection } from './selection';
+
 // Hooks
 export { useChartsTheme } from './hooks/useChartsTheme';
 export { useGetiUIChartsTheme } from './hooks/useGetiUIChartsTheme';
@@ -44,6 +54,10 @@ export {
     getDatasetSubsetColor,
     withDatasetSubsetPalette,
 } from './utils/datasetSubsetPalette';
+
+// Color scale utilities
+export type { ChartColorScalePreset, ChartColorScaleInput } from './utils/colorScales';
+export { chartColorScalePresets, distinctColorScale, resolveChartColorScaleStops, interpolateColorStops } from './utils/colorScales';
 
 // Primitives
 export { ChartsThemeProvider, ChartsThemeContext } from './primitives/ChartsThemeProvider';
@@ -169,6 +183,12 @@ export type {
     BBoxSizeSeries,
     BBoxSizePoint,
 } from './components/ml/BBoxSizeDistributionChart';
+
+export { ParallelCoordinates } from './components/ml/ParallelCoordinates';
+export type {
+    ParallelCoordinatesProps,
+    ParallelCoordinatesAxis,
+} from './components/ml/ParallelCoordinates';
 
 export { TreemapChart } from './components/TreemapChart';
 export type { TreemapChartProps } from './components/TreemapChart';
