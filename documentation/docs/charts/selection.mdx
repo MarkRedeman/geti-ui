@@ -1,0 +1,74 @@
+---
+title: Selection
+---
+
+# Selection
+
+Chart selection is a reusable interaction layer for click-drag gestures. It is designed so charts can use the same primitives for:
+
+- filtering subsets
+- region inspection
+- future zoom/pan window selection
+
+## Modes
+
+- `bounding-box` — free rectangular region
+- `column` — full-height vertical band (drag controls width)
+- `row` — full-width horizontal band (drag controls height)
+
+In `ParallelCoordinates`, all three modes use the same axis-aware filtering rule: rows are kept when their points fall inside the selected y-range for the selected axes.
+
+## Exported API
+
+From `@geti-ai/charts`:
+
+- `SelectionMode`
+- `SelectionRect`
+- `SelectionConfig`
+- `useDragSelection`
+
+`SelectionConfig`:
+
+```ts
+type SelectionConfig = {
+  enabled?: boolean;
+  mode?: 'bounding-box' | 'column' | 'row';
+  overlayStyle?: {
+    fill?: string;
+    fillOpacity?: number;
+    stroke?: string;
+    strokeWidth?: number;
+  };
+};
+```
+
+`SelectionRect`:
+
+```ts
+type SelectionRect = {
+  x0: number;
+  y0: number;
+  x1: number;
+  y1: number;
+};
+```
+
+## ParallelCoordinates integration
+
+`ParallelCoordinates` supports:
+
+- `selection`
+- `onSelectionChange`
+- `filterBySelection`
+
+See: [Parallel coordinates](/charts/compositions/parallel-coordinates#selection-modes-drag-to-filter)
+
+## Design notes for future zoom/pan
+
+Recommended layering for future work:
+
+1. Keep selection state in normalized chart coordinates.
+2. Convert to data-domain ranges in chart-specific adapters.
+3. Use a mode switch so drag interaction is either **selection** or **zoom**.
+
+This keeps the interaction model reusable across Recharts compositions and custom SVG charts.

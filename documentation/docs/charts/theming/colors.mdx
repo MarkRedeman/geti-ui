@@ -1,0 +1,120 @@
+---
+title: Colors
+---
+
+# Chart colors
+
+Charts expose reusable color-scale presets and interpolation utilities so component-level color controls are consistent across the package.
+
+## Available presets
+
+`@geti-ai/charts` exports:
+
+- `chartColorScalePresets`
+- `distinctColorScale`
+- `resolveChartColorScaleStops`
+- `interpolateColorStops`
+
+Named presets include:
+
+- `theme`
+- `hue-spectrum`
+- `viridis`
+- `cividis`
+- `plasma`
+- `magma`
+- `inferno`
+- `turbo`
+- `distinct`
+
+## Example — use named presets in ParallelCoordinates
+
+```tsx preview
+import { ParallelCoordinates } from '@geti-ai/charts';
+
+const rows = Array.from({ length: 20 }, (_, i) => ({
+  id: `img-${i + 1}`,
+  pc1: -2 + i * 0.2,
+  pc2: -1 + Math.sin(i * 0.3),
+  pc3: 0.4 + Math.cos(i * 0.24),
+  pc4: 1.2 + Math.sin(i * 0.12) * 1.1,
+}));
+
+const axes = [
+  { dataKey: 'pc1', label: 'PC1' },
+  { dataKey: 'pc2', label: 'PC2' },
+  { dataKey: 'pc3', label: 'PC3' },
+  { dataKey: 'pc4', label: 'PC4' },
+] as const;
+
+export default function App() {
+  return (
+    <ParallelCoordinates
+      data={rows}
+      axes={[...axes]}
+      colorBy="pc3"
+      colorGradient="viridis"
+      lineOpacity={0.22}
+      aria-label="Parallel coordinates with viridis"
+      height={420}
+    />
+  );
+}
+```
+
+## Example — full hue spectrum
+
+```tsx preview
+import { ParallelCoordinates } from '@geti-ai/charts';
+
+const rows = Array.from({ length: 16 }, (_, i) => ({
+  id: `img-${i + 1}`,
+  pc1: -1.8 + i * 0.25,
+  pc2: -0.5 + Math.sin(i * 0.5),
+  pc3: 0.3 + Math.cos(i * 0.33),
+  pc4: 1.1 + i * 0.16,
+}));
+
+const axes = [
+  { dataKey: 'pc1', label: 'PC1' },
+  { dataKey: 'pc2', label: 'PC2' },
+  { dataKey: 'pc3', label: 'PC3' },
+  { dataKey: 'pc4', label: 'PC4' },
+] as const;
+
+export default function App() {
+  return (
+    <ParallelCoordinates
+      data={rows}
+      axes={[...axes]}
+      colorBy="pc4"
+      colorGradient="hue-spectrum"
+      lineOpacity={0.24}
+      aria-label="Parallel coordinates with hue spectrum"
+      height={420}
+    />
+  );
+}
+```
+
+## Interop with `@geti-ai/ui` distinct colors
+
+`@geti-ai/ui` defines `DISTINCT_COLORS` in `packages/ui/src/utils/distinct-colors.ts`. The charts package ships a matching `distinct` preset (`distinctColorScale`) so categorical color choices can stay consistent.
+
+If you need direct usage from the UI package in app code, use the source utility in UI and pass it as custom stops:
+
+```ts
+const customStops = ['#708541', '#E96115', '#EDB200', '#FF5662'];
+```
+
+Then:
+
+```tsx
+<ParallelCoordinates colorGradient={customStops} ... />
+```
+
+## Guidance
+
+- Prefer `viridis` / `cividis` for continuous numeric encoding.
+- Use `hue-spectrum` for exploratory analysis when full hue spread is desired.
+- Use `distinct` for categorical buckets, not continuous scalar meaning.

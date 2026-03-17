@@ -14,6 +14,7 @@ title: Pie chart
 | `valueKey` | `string` | `'value'` | Key in each data object for the numeric value |
 | `nameKey` | `string` | `'name'` | Key in each data object for the slice label |
 | `colors` | `string[]` | theme colors | Array of fill colors for slices |
+| `colorScale` | `ChartColorScaleInput` | `'theme'` | Named color scale preset or custom stops |
 | `innerRadius` | `string \| number` | `0` | Inner radius (set > 0 for a donut effect) |
 | `outerRadius` | `string \| number` | `'80%'` | Outer radius of the pie |
 | `paddingAngle` | `number` | `2` | Gap in degrees between slices |
@@ -94,6 +95,32 @@ export default function App() {
 }
 ```
 
+## Variant — named color scale preset
+
+```tsx preview
+import { PieChart } from '@geti-ai/charts';
+
+const data = [
+  { name: 'A', value: 30 },
+  { name: 'B', value: 22 },
+  { name: 'C', value: 18 },
+  { name: 'D', value: 15 },
+  { name: 'E', value: 9 },
+  { name: 'F', value: 6 },
+];
+
+export default function App() {
+  return (
+    <PieChart
+      data={data}
+      colorScale="distinct"
+      aria-label="Pie chart using distinct color scale"
+      height={320}
+    />
+  );
+}
+```
+
 ## Variant — train / validation / test palette
 
 ```tsx preview
@@ -127,3 +154,4 @@ export default function App() {
 This chart supports interactive highlighting. See [Highlights](/charts/highlights).
 
 Related: [Pie chart (primitive)](/charts/primitives/pie-chart)
+Related: [Chart colors](/charts/theming/colors)

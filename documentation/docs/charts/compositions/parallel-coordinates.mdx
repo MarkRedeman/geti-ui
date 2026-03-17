@@ -1,0 +1,633 @@
+---
+title: Parallel coordinates
+---
+
+# Parallel coordinates (composition)
+
+`ParallelCoordinates` renders one polyline per row across multiple numeric axes (e.g. PCA components). It is useful for visually scanning clusters, outliers, and trends in high-dimensional embeddings.
+
+## Props
+
+| Prop | Type | Default | Description |
+|---|---|---|---|
+| `data` | `object[]` | required | Rows to render (one line per row) |
+| `axes` | `[{ dataKey, label?, domain? }, ...]` | required | Ordered axis definitions (at least 2) |
+| `colorBy` | `'left' \| 'right' \| string` | `'left'` | Color source axis: left, right, or an explicit axis dataKey (e.g. `'pc4'`) |
+| `colorGradient` | `'theme' \| 'hue-spectrum' \| 'viridis' \| 'cividis' \| 'plasma' \| 'magma' \| 'inferno' \| 'turbo' \| 'distinct' \| string[]` | `'theme'` | Gradient preset or custom color stops |
+| `legendLocation` | `'left' \| 'right' \| 'top' \| 'bottom'` | `'bottom'` | Color legend placement |
+| `colorDomain` | `[number, number]` | auto | Optional fixed min/max for the color-driving axis |
+| `lineOpacity` | `number` | `0.22` | Base line opacity |
+| `activeLineOpacity` | `number` | `0.95` | Opacity for active highlighted lines |
+| `strokeWidth` | `number` | `1.2` | Polyline stroke width |
+| `wideHitArea` | `boolean` | auto | Adds an invisible wider interaction path to improve hover/click |
+| `hitAreaStrokeWidth` | `number` | auto | Width of the invisible interaction path when `wideHitArea` is enabled |
+| `tickCount` | `number` | `4` | Tick labels per axis |
+| `rowIdKey` | `string` | `'id'` | Field used as unique row id |
+| `getRowId` | `(row, index) => string` | — | Custom id resolver |
+| `onHoverRowChange` | `(row \| null, id \| null) => void` | — | Hover callback for linked UI (e.g. image preview) |
+| `onSelectRowChange` | `(row, id) => void` | — | Click callback for pinned/selected line |
+| `highlight` | `HighlightConfig` | — | Integrates with shared highlight system |
+| `selection` | `SelectionConfig` | — | Drag-selection mode (`bounding-box`, `column`, `row`) and overlay style |
+| `onSelectionChange` | `(selection \| null) => void` | — | Callback when drag selection completes/clears |
+| `filterBySelection` | `boolean` | `false` | If true, render only lines fully inside selected region |
+
+## Example datasets
+
+```tsx preview
+import { ParallelCoordinates } from '@geti-ai/charts';
+
+function makePcaRows(rowCount: number, componentCount: number) {
+  return Array.from({ length: rowCount }, (_, rowIndex) => {
+    const row: Record<string, number | string> = {
+      id: `img-${String(rowIndex + 1).padStart(4, '0')}`,
+    };
+
+    for (let component = 1; component <= componentCount; component += 1) {
+      const base = -2.5 + (rowIndex / Math.max(1, rowCount - 1)) * 5;
+      const wave = Math.sin((rowIndex + 1) * (component + 1) * 0.13) * 0.65;
+      const trend = (component - 1) * 0.35;
+      row[`pc${component}`] = Number((base + wave + trend).toFixed(3));
+    }
+
+    return row;
+  });
+}
+
+const rows = makePcaRows(10, 8);
+const axes = Array.from({ length: 8 }, (_, i) => ({
+  dataKey: `pc${i + 1}`,
+  label: `PC${i + 1}`,
+})) as [
+  { dataKey: string; label: string },
+  { dataKey: string; label: string },
+  ...{ dataKey: string; label: string }[]
+];
+
+export default function App() {
+  return (
+    <ParallelCoordinates
+      data={rows}
+      axes={axes}
+      colorBy="pc4"
+      colorGradient="hue-spectrum"
+      lineOpacity={0.24}
+      activeLineOpacity={0.95}
+      highlight={{ enabled: true, interaction: { lineHover: true } }}
+      aria-label="PCA parallel coordinates chart (8 components, 10 rows, hue spectrum)"
+      height={460}
+    />
+  );
+}
+```
+
+## Requested variants
+
+### 1) 4 PCA components, 10 rows
+
+```tsx preview
+import { ParallelCoordinates } from '@geti-ai/charts';
+
+function makeRows(rowCount: number, componentCount: number) {
+  return Array.from({ length: rowCount }, (_, rowIndex) => {
+    const row: Record<string, number | string> = { id: `img-${rowIndex + 1}` };
+    for (let c = 1; c <= componentCount; c += 1) {
+      row[`pc${c}`] = Number((-1.8 + rowIndex * 0.32 + c * 0.4 + Math.sin((rowIndex + 1) * c * 0.17) * 0.45).toFixed(3));
+    }
+    return row;
+  });
+}
+
+const data = makeRows(10, 4);
+const axes = [
+  { dataKey: 'pc1', label: 'PC1' },
+  { dataKey: 'pc2', label: 'PC2' },
+  { dataKey: 'pc3', label: 'PC3' },
+  { dataKey: 'pc4', label: 'PC4' },
+] as const;
+
+export default function App() {
+  return (
+    <ParallelCoordinates
+      data={data}
+      axes={[...axes]}
+      colorBy="left"
+      lineOpacity={0.35}
+      strokeWidth={1.6}
+      aria-label="Parallel coordinates 4 PCA 10 rows"
+      height={420}
+    />
+  );
+}
+```
+
+### 2) 4 PCA components, 100 rows
+
+```tsx preview
+import { ParallelCoordinates } from '@geti-ai/charts';
+
+function makeRows(rowCount: number, componentCount: number) {
+  return Array.from({ length: rowCount }, (_, rowIndex) => {
+    const row: Record<string, number | string> = { id: `img-${rowIndex + 1}` };
+    for (let c = 1; c <= componentCount; c += 1) {
+      row[`pc${c}`] = Number((-2 + rowIndex * 0.03 + c * 0.45 + Math.sin((rowIndex + 1) * c * 0.14) * 0.55).toFixed(3));
+    }
+    return row;
+  });
+}
+
+const data = makeRows(100, 4);
+const axes = [
+  { dataKey: 'pc1', label: 'PC1' },
+  { dataKey: 'pc2', label: 'PC2' },
+  { dataKey: 'pc3', label: 'PC3' },
+  { dataKey: 'pc4', label: 'PC4' },
+] as const;
+
+export default function App() {
+  return (
+    <ParallelCoordinates
+      data={data}
+      axes={[...axes]}
+      colorBy="left"
+      lineOpacity={0.15}
+      activeLineOpacity={0.95}
+      highlight={{ enabled: true, interaction: { lineHover: true } }}
+      aria-label="Parallel coordinates 4 PCA 100 rows"
+      height={420}
+    />
+  );
+}
+```
+
+### 3) 4 PCA components, 1000 rows
+
+```tsx preview
+import { ParallelCoordinates } from '@geti-ai/charts';
+
+function makeRows(rowCount: number, componentCount: number) {
+  return Array.from({ length: rowCount }, (_, rowIndex) => {
+    const row: Record<string, number | string> = { id: `img-${rowIndex + 1}` };
+    for (let c = 1; c <= componentCount; c += 1) {
+      row[`pc${c}`] = Number((-2.2 + rowIndex * 0.004 + c * 0.48 + Math.sin((rowIndex + 3) * c * 0.07) * 0.7).toFixed(3));
+    }
+    return row;
+  });
+}
+
+const data = makeRows(1000, 4);
+const axes = [
+  { dataKey: 'pc1', label: 'PC1' },
+  { dataKey: 'pc2', label: 'PC2' },
+  { dataKey: 'pc3', label: 'PC3' },
+  { dataKey: 'pc4', label: 'PC4' },
+] as const;
+
+export default function App() {
+  return (
+    <ParallelCoordinates
+      data={data}
+      axes={[...axes]}
+      colorBy="right"
+      colorGradient="viridis"
+      lineOpacity={0.05}
+      strokeWidth={1}
+      aria-label="Parallel coordinates 4 PCA 1000 rows"
+      height={420}
+    />
+  );
+}
+```
+
+### 3a) 4 PCA components, 1000 rows — turbo preset
+
+```tsx preview
+import { ParallelCoordinates } from '@geti-ai/charts';
+
+function makeRows(rowCount: number, componentCount: number) {
+  return Array.from({ length: rowCount }, (_, rowIndex) => {
+    const row: Record<string, number | string> = { id: `img-${rowIndex + 1}` };
+    for (let c = 1; c <= componentCount; c += 1) {
+      row[`pc${c}`] = Number((-2.2 + rowIndex * 0.004 + c * 0.48 + Math.sin((rowIndex + 3) * c * 0.07) * 0.7).toFixed(3));
+    }
+    return row;
+  });
+}
+
+const data = makeRows(1000, 4);
+const axes = [
+  { dataKey: 'pc1', label: 'PC1' },
+  { dataKey: 'pc2', label: 'PC2' },
+  { dataKey: 'pc3', label: 'PC3' },
+  { dataKey: 'pc4', label: 'PC4' },
+] as const;
+
+export default function App() {
+  return (
+    <ParallelCoordinates
+      data={data}
+      axes={[...axes]}
+      colorBy="pc3"
+      colorGradient="turbo"
+      lineOpacity={0.05}
+      strokeWidth={1}
+      aria-label="Parallel coordinates 4 PCA 1000 rows turbo"
+      height={420}
+    />
+  );
+}
+```
+
+### 3b) 4 PCA components, 1000 rows — Tailwind-inspired cyan/blue/indigo
+
+```tsx preview
+import { ParallelCoordinates } from '@geti-ai/charts';
+
+function makeRows(rowCount: number, componentCount: number) {
+  return Array.from({ length: rowCount }, (_, rowIndex) => {
+    const row: Record<string, number | string> = { id: `img-${rowIndex + 1}` };
+    for (let c = 1; c <= componentCount; c += 1) {
+      row[`pc${c}`] = Number((-2.2 + rowIndex * 0.004 + c * 0.48 + Math.sin((rowIndex + 3) * c * 0.07) * 0.7).toFixed(3));
+    }
+    return row;
+  });
+}
+
+const data = makeRows(1000, 4);
+const axes = [
+  { dataKey: 'pc1', label: 'PC1' },
+  { dataKey: 'pc2', label: 'PC2' },
+  { dataKey: 'pc3', label: 'PC3' },
+  { dataKey: 'pc4', label: 'PC4' },
+] as const;
+
+// Tailwind-style stops: cyan-400 -> blue-500 -> indigo-600 -> violet-600
+const tailwindCool = ['#22d3ee', '#3b82f6', '#4f46e5', '#7c3aed'] as const;
+
+export default function App() {
+  return (
+    <ParallelCoordinates
+      data={data}
+      axes={[...axes]}
+      colorBy="pc2"
+      colorGradient={tailwindCool}
+      lineOpacity={0.05}
+      strokeWidth={1}
+      aria-label="Parallel coordinates 4 PCA 1000 rows tailwind cool"
+      height={420}
+    />
+  );
+}
+```
+
+### 4) 10 PCA components, 10 rows
+
+```tsx preview
+import { ParallelCoordinates } from '@geti-ai/charts';
+
+function makeRows(rowCount: number, componentCount: number) {
+  return Array.from({ length: rowCount }, (_, rowIndex) => {
+    const row: Record<string, number | string> = { id: `img-${rowIndex + 1}` };
+    for (let c = 1; c <= componentCount; c += 1) {
+      row[`pc${c}`] = Number((-2 + rowIndex * 0.35 + c * 0.24 + Math.cos((rowIndex + 1) * c * 0.15) * 0.45).toFixed(3));
+    }
+    return row;
+  });
+}
+
+const data = makeRows(10, 10);
+const axes = Array.from({ length: 10 }, (_, i) => ({ dataKey: `pc${i + 1}`, label: `PC${i + 1}` })) as [
+  { dataKey: string; label: string },
+  { dataKey: string; label: string },
+  ...{ dataKey: string; label: string }[]
+];
+
+export default function App() {
+  return (
+    <ParallelCoordinates
+      data={data}
+      axes={axes}
+      colorBy="left"
+      lineOpacity={0.28}
+      strokeWidth={1.4}
+      aria-label="Parallel coordinates 10 PCA 10 rows"
+      height={460}
+    />
+  );
+}
+```
+
+### 5) 10 PCA components, 1000 rows
+
+```tsx preview
+import { ParallelCoordinates } from '@geti-ai/charts';
+
+function makeRows(rowCount: number, componentCount: number) {
+  return Array.from({ length: rowCount }, (_, rowIndex) => {
+    const row: Record<string, number | string> = { id: `img-${rowIndex + 1}` };
+    for (let c = 1; c <= componentCount; c += 1) {
+      row[`pc${c}`] = Number((-2.6 + rowIndex * 0.003 + c * 0.22 + Math.sin((rowIndex + 1) * c * 0.05) * 0.8).toFixed(3));
+    }
+    return row;
+  });
+}
+
+const data = makeRows(1000, 10);
+const axes = Array.from({ length: 10 }, (_, i) => ({ dataKey: `pc${i + 1}`, label: `PC${i + 1}` })) as [
+  { dataKey: string; label: string },
+  { dataKey: string; label: string },
+  ...{ dataKey: string; label: string }[]
+];
+
+export default function App() {
+  return (
+    <ParallelCoordinates
+      data={data}
+      axes={axes}
+      colorBy="right"
+      colorGradient="cividis"
+      lineOpacity={0.04}
+      strokeWidth={0.9}
+      aria-label="Parallel coordinates 10 PCA 1000 rows"
+      height={460}
+    />
+  );
+}
+```
+
+### 5a) 10 PCA components, 1000 rows — magma preset
+
+```tsx preview
+import { ParallelCoordinates } from '@geti-ai/charts';
+
+function makeRows(rowCount: number, componentCount: number) {
+  return Array.from({ length: rowCount }, (_, rowIndex) => {
+    const row: Record<string, number | string> = { id: `img-${rowIndex + 1}` };
+    for (let c = 1; c <= componentCount; c += 1) {
+      row[`pc${c}`] = Number((-2.6 + rowIndex * 0.003 + c * 0.22 + Math.sin((rowIndex + 1) * c * 0.05) * 0.8).toFixed(3));
+    }
+    return row;
+  });
+}
+
+const data = makeRows(1000, 10);
+const axes = Array.from({ length: 10 }, (_, i) => ({ dataKey: `pc${i + 1}`, label: `PC${i + 1}` })) as [
+  { dataKey: string; label: string },
+  { dataKey: string; label: string },
+  ...{ dataKey: string; label: string }[]
+];
+
+export default function App() {
+  return (
+    <ParallelCoordinates
+      data={data}
+      axes={axes}
+      colorBy="pc7"
+      colorGradient="magma"
+      lineOpacity={0.04}
+      strokeWidth={0.9}
+      aria-label="Parallel coordinates 10 PCA 1000 rows magma"
+      height={460}
+    />
+  );
+}
+```
+
+### 5b) 10 PCA components, 1000 rows — Tailwind-inspired emerald/teal + rose/fuchsia
+
+```tsx preview
+import { ParallelCoordinates } from '@geti-ai/charts';
+
+function makeRows(rowCount: number, componentCount: number) {
+  return Array.from({ length: rowCount }, (_, rowIndex) => {
+    const row: Record<string, number | string> = { id: `img-${rowIndex + 1}` };
+    for (let c = 1; c <= componentCount; c += 1) {
+      row[`pc${c}`] = Number((-2.6 + rowIndex * 0.003 + c * 0.22 + Math.sin((rowIndex + 1) * c * 0.05) * 0.8).toFixed(3));
+    }
+    return row;
+  });
+}
+
+const data = makeRows(1000, 10);
+const axes = Array.from({ length: 10 }, (_, i) => ({ dataKey: `pc${i + 1}`, label: `PC${i + 1}` })) as [
+  { dataKey: string; label: string },
+  { dataKey: string; label: string },
+  ...{ dataKey: string; label: string }[]
+];
+
+// Tailwind-style stops: emerald-400 -> teal-500 -> cyan-500 -> rose-500 -> fuchsia-600
+const tailwindVibrant = ['#34d399', '#14b8a6', '#06b6d4', '#f43f5e', '#c026d3'] as const;
+
+export default function App() {
+  return (
+    <ParallelCoordinates
+      data={data}
+      axes={axes}
+      colorBy="pc10"
+      colorGradient={tailwindVibrant}
+      lineOpacity={0.04}
+      strokeWidth={0.9}
+      aria-label="Parallel coordinates 10 PCA 1000 rows tailwind vibrant"
+      height={460}
+    />
+  );
+}
+```
+
+## Variant — color by right-most axis + image hover callback
+
+```tsx preview
+import { ParallelCoordinates } from '@geti-ai/charts';
+
+const pcaRows = [
+  { id: 'img-001', pc1: -2.4, pc2: -1.1, pc3: 0.2, pc4: 0.7, pc5: 1.0, pc6: 0.5, pc7: 1.8, pc8: 2.2 },
+  { id: 'img-002', pc1: -1.8, pc2: -0.3, pc3: 0.6, pc4: 1.1, pc5: 0.9, pc6: 0.1, pc7: 1.3, pc8: 1.7 },
+  { id: 'img-003', pc1: -1.2, pc2: 0.2,  pc3: 1.1, pc4: 1.6, pc5: 1.4, pc6: 0.8, pc7: 2.0, pc8: 2.8 },
+  { id: 'img-004', pc1: -0.6, pc2: 0.9,  pc3: 1.5, pc4: 2.0, pc5: 1.8, pc6: 1.2, pc7: 2.5, pc8: 3.1 },
+  { id: 'img-005', pc1: 0.1,  pc2: 1.4,  pc3: 1.8, pc4: 2.3, pc5: 2.2, pc6: 1.9, pc7: 2.9, pc8: 3.4 },
+  { id: 'img-006', pc1: 0.7,  pc2: 1.8,  pc3: 2.2, pc4: 2.7, pc5: 2.6, pc6: 2.1, pc7: 3.3, pc8: 3.9 },
+  { id: 'img-007', pc1: 1.3,  pc2: 2.1,  pc3: 2.6, pc4: 3.0, pc5: 2.9, pc6: 2.5, pc7: 3.7, pc8: 4.2 },
+  { id: 'img-008', pc1: 1.8,  pc2: 2.5,  pc3: 3.0, pc4: 3.4, pc5: 3.2, pc6: 2.8, pc7: 4.0, pc8: 4.6 },
+  { id: 'img-009', pc1: 2.2,  pc2: 2.9,  pc3: 3.4, pc4: 3.7, pc5: 3.5, pc6: 3.2, pc7: 4.4, pc8: 4.9 },
+  { id: 'img-010', pc1: 2.7,  pc2: 3.2,  pc3: 3.7, pc4: 4.1, pc5: 3.9, pc6: 3.6, pc7: 4.8, pc8: 5.2 },
+];
+
+const axes = [
+  { dataKey: 'pc1', label: 'PC1' },
+  { dataKey: 'pc2', label: 'PC2' },
+  { dataKey: 'pc3', label: 'PC3' },
+  { dataKey: 'pc4', label: 'PC4' },
+  { dataKey: 'pc5', label: 'PC5' },
+  { dataKey: 'pc6', label: 'PC6' },
+  { dataKey: 'pc7', label: 'PC7' },
+  { dataKey: 'pc8', label: 'PC8' },
+] as const;
+
+export default function App() {
+  return (
+    <ParallelCoordinates
+      data={pcaRows}
+      axes={[...axes]}
+      colorBy="left"
+      lineOpacity={0.2}
+      activeLineOpacity={0.95}
+      highlight={{ enabled: true, interaction: { lineHover: true } }}
+      aria-label="PCA parallel coordinates chart"
+      height={380}
+    />
+  );
+}
+```
+
+## Variant — color by right-most axis + image hover callback
+
+```tsx preview
+import { useState } from 'react';
+import { ParallelCoordinates } from '@geti-ai/charts';
+
+const pcaRows = [
+  { id: 'img-001', pc1: -2.4, pc2: -1.1, pc3: 0.2, pc4: 0.7, pc5: 1.0, pc6: 0.5, pc7: 1.8, pc8: 2.2 },
+  { id: 'img-002', pc1: -1.8, pc2: -0.3, pc3: 0.6, pc4: 1.1, pc5: 0.9, pc6: 0.1, pc7: 1.3, pc8: 1.7 },
+  { id: 'img-003', pc1: -1.2, pc2: 0.2,  pc3: 1.1, pc4: 1.6, pc5: 1.4, pc6: 0.8, pc7: 2.0, pc8: 2.8 },
+  { id: 'img-004', pc1: -0.6, pc2: 0.9,  pc3: 1.5, pc4: 2.0, pc5: 1.8, pc6: 1.2, pc7: 2.5, pc8: 3.1 },
+  { id: 'img-005', pc1: 0.1,  pc2: 1.4,  pc3: 1.8, pc4: 2.3, pc5: 2.2, pc6: 1.9, pc7: 2.9, pc8: 3.4 },
+  { id: 'img-006', pc1: 0.7,  pc2: 1.8,  pc3: 2.2, pc4: 2.7, pc5: 2.6, pc6: 2.1, pc7: 3.3, pc8: 3.9 },
+  { id: 'img-007', pc1: 1.3,  pc2: 2.1,  pc3: 2.6, pc4: 3.0, pc5: 2.9, pc6: 2.5, pc7: 3.7, pc8: 4.2 },
+  { id: 'img-008', pc1: 1.8,  pc2: 2.5,  pc3: 3.0, pc4: 3.4, pc5: 3.2, pc6: 2.8, pc7: 4.0, pc8: 4.6 },
+  { id: 'img-009', pc1: 2.2,  pc2: 2.9,  pc3: 3.4, pc4: 3.7, pc5: 3.5, pc6: 3.2, pc7: 4.4, pc8: 4.9 },
+  { id: 'img-010', pc1: 2.7,  pc2: 3.2,  pc3: 3.7, pc4: 4.1, pc5: 3.9, pc6: 3.6, pc7: 4.8, pc8: 5.2 },
+];
+
+const axes = [
+  { dataKey: 'pc1', label: 'PC1' },
+  { dataKey: 'pc2', label: 'PC2' },
+  { dataKey: 'pc3', label: 'PC3' },
+  { dataKey: 'pc4', label: 'PC4' },
+  { dataKey: 'pc5', label: 'PC5' },
+  { dataKey: 'pc6', label: 'PC6' },
+  { dataKey: 'pc7', label: 'PC7' },
+  { dataKey: 'pc8', label: 'PC8' },
+] as const;
+
+export default function App() {
+  const [hoveredId, setHoveredId] = useState<string | null>(null);
+
+  return (
+    <div style={{ display: 'grid', gap: 12 }}>
+      <ParallelCoordinates
+        data={pcaRows}
+        axes={[...axes]}
+        colorBy="right"
+        lineOpacity={0.14}
+        highlight={{ enabled: true, interaction: { lineHover: true } }}
+        onHoverRowChange={(_row, id) => setHoveredId(id)}
+        aria-label="PCA parallel coordinates chart colored by PC8"
+        height={460}
+      />
+      <div style={{ fontSize: 13, opacity: 0.9 }}>
+        Hovered image id: <strong>{hoveredId ?? 'none'}</strong>
+      </div>
+    </div>
+  );
+}
+```
+
+## Notes
+
+- Use `onHoverRowChange` to drive linked panels (e.g. image preview, metadata table).
+- Use `highlight` + `HighlightProvider` to share active row state across multiple charts.
+- For dense datasets, start with lower `lineOpacity` (`0.08`–`0.2`) to reduce overplotting.
+- Large row counts are primarily for overview density patterns; hover picking is best-effort and may become difficult at 1000+ lines.
+- If hover targeting feels too difficult, set `wideHitArea` and tune `hitAreaStrokeWidth` for easier interaction while keeping visual strokes thin.
+- `colorGradient="hue-spectrum"` provides a full rainbow-like mapping; for custom ramps pass color stops like `['#2b83ba', '#abdda4', '#fdae61', '#d7191c']`.
+
+Related: [Chart colors](/charts/theming/colors)
+
+Related: [Highlights](/charts/highlights)
+
+## Selection modes (drag to filter)
+
+`ParallelCoordinates` supports drag-based selection overlays in three modes:
+
+- `bounding-box`: free rectangle
+- `column`: full-height vertical band (drag controls width)
+- `row`: full-width horizontal band (drag controls height)
+
+Double-click inside the plot area to clear selection.
+
+### Selection example — user-controlled mode and filtering
+
+```tsx preview
+import { useMemo, useState } from 'react';
+import type { SelectionMode, SelectionRect } from '@geti-ai/charts';
+import { ParallelCoordinates } from '@geti-ai/charts';
+import { ToggleButtons } from '@geti-ai/ui';
+
+function makeRows(rowCount: number, componentCount: number) {
+  return Array.from({ length: rowCount }, (_, rowIndex) => {
+    const row: Record<string, number | string> = { id: `img-${rowIndex + 1}` };
+    for (let c = 1; c <= componentCount; c += 1) {
+      row[`pc${c}`] = Number((-2.6 + rowIndex * 0.003 + c * 0.22 + Math.sin((rowIndex + 1) * c * 0.05) * 0.8).toFixed(3));
+    }
+    return row;
+  });
+}
+
+const allRows = makeRows(1000, 6);
+const axes = Array.from({ length: 6 }, (_, i) => ({ dataKey: `pc${i + 1}`, label: `PC${i + 1}` })) as [
+  { dataKey: string; label: string },
+  { dataKey: string; label: string },
+  ...{ dataKey: string; label: string }[]
+];
+
+export default function App() {
+  const [mode, setMode] = useState<SelectionMode>('bounding-box');
+  const [selection, setSelection] = useState<SelectionRect | null>(null);
+
+  const selectionConfig = useMemo(
+    () => ({
+      enabled: true,
+      mode,
+      overlayStyle: {
+        fill: '#3b82f6',
+        fillOpacity: 0.16,
+        stroke: '#60a5fa',
+        strokeWidth: 1.6,
+      },
+    }),
+    [mode]
+  );
+
+  return (
+    <div style={{ display: 'grid', gap: 12 }}>
+      <ToggleButtons
+        options={['bounding-box', 'row', 'column'] as SelectionMode[]}
+        selectedOption={mode}
+        onOptionChange={(next) => setMode(next as SelectionMode)}
+      />
+
+      <ParallelCoordinates
+        data={allRows}
+        axes={axes}
+        colorBy="pc6"
+        colorGradient="turbo"
+        legendLocation="right"
+        lineOpacity={0.14}
+        strokeWidth={0.9}
+        selection={selectionConfig}
+        onSelectionChange={setSelection}
+        filterBySelection
+        aria-label="Parallel coordinates with drag selection filtering"
+        height={460}
+      />
+
+      <div style={{ fontSize: 13, opacity: 0.9 }}>
+        Current mode: <strong>{mode}</strong>
+        {' · '}
+        Selection: <strong>{selection ? `${Math.round(selection.x0)},${Math.round(selection.y0)} → ${Math.round(selection.x1)},${Math.round(selection.y1)}` : 'none'}</strong>
+        {' · '}
+        Tip: drag to select, double-click chart to clear.
+      </div>
+    </div>
+  );
+}
+```

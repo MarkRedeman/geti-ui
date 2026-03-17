@@ -157,13 +157,15 @@
   "chartsSidebar": [
     { "text": "Installation", "link": "/charts/installation" },
     { "text": "Overview", "link": "/charts/overview" },
+    { "text": "Selection", "link": "/charts/selection" },
     { "text": "Highlights", "link": "/charts/highlights" },
     {
       "text": "Theming",
       "collapsed": false,
       "items": [
         { "text": "Overview", "link": "/charts/theming" },
-        { "text": "Dataset subsets", "link": "/charts/theming/dataset-subsets" }
+        { "text": "Dataset subsets", "link": "/charts/theming/dataset-subsets" },
+        { "text": "Colors", "link": "/charts/theming/colors" }
       ]
     },
     {
@@ -225,7 +227,8 @@
         { "text": "Embedding distance distribution", "link": "/charts/compositions/embedding-distance-distribution" },
         { "text": "Latency percentile chart", "link": "/charts/compositions/latency-percentile-chart" },
         { "text": "Throughput vs latency chart", "link": "/charts/compositions/throughput-vs-latency-chart" },
-        { "text": "BBox size distribution chart", "link": "/charts/compositions/bbox-size-distribution-chart" }
+        { "text": "BBox size distribution chart", "link": "/charts/compositions/bbox-size-distribution-chart" },
+        { "text": "Parallel coordinates", "link": "/charts/compositions/parallel-coordinates" }
       ]
     },
     { "text": "Custom Charts", "link": "/charts/custom-charts" }
