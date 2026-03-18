@@ -82,6 +82,12 @@ html {
 
     --rp-code-block-bg: var(--geti-gray-75);
     --rp-code-title-bg: var(--geti-gray-75);
+
+    /* Fixes spectrum's overlay */
+    --rp-z-index-sidebar: 1 !important;
+    --rp-z-index-nav: 1 !important;
+    --rp-z-index-aside: 1 !important;
+    --rp-z-index-sidebar-menu: 1 !important;
 }
 
 .rp-preview--internal__card {
