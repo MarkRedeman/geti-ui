@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import classNames from './MediaGridItem.module.css';
 import type { MediaGridItemProps } from './types';
 
@@ -13,9 +12,6 @@ export function MediaGridItem({
     bottomRight,
     children,
 }: MediaGridItemProps) {
-    const [isHovered, setIsHovered] = useState(false);
-    const showTopCorners = isSelected || isHovered;
-
     const className = [
         classNames.itemButton,
         isSelected ? classNames.itemSelected : '',
@@ -25,25 +21,65 @@ export function MediaGridItem({
         .join(' ');
 
     return (
-        <div className={classNames.itemRoot} onMouseEnter={() => setIsHovered(true)} onMouseLeave={() => setIsHovered(false)}>
-            {showTopCorners && topLeft ? (
-                <div className={`${classNames.overlay} ${classNames.topLeft} ${classNames.topLeftContainer}`}>{topLeft}</div>
+        <div className={classNames.itemRoot}>
+            {topLeft ? (
+                <div
+                    className={`${classNames.overlay} ${classNames.topLeft} ${classNames.topLeftContainer}`}
+                >
+                    {topLeft}
+                </div>
             ) : null}
-            {showTopCorners && topRight ? (
-                <div className={`${classNames.overlay} ${classNames.topRight} ${classNames.topRightContainer}`}>{topRight}</div>
+            {topRight ? (
+                <div
+                    className={`${classNames.overlay} ${classNames.topRight} ${classNames.topRightContainer}`}
+                    onClick={(event) => event.stopPropagation()}
+                    onDoubleClick={(event) => event.stopPropagation()}
+                    onPointerDown={(event) => event.stopPropagation()}
+                    onPointerUp={(event) => event.stopPropagation()}
+                >
+                    {topRight}
+                </div>
             ) : null}
-            {bottomLeft ? <div className={`${classNames.overlay} ${classNames.bottomLeft} ${classNames.bottomLeftContainer}`}>{bottomLeft}</div> : null}
-            {bottomRight ? <div className={`${classNames.overlay} ${classNames.bottomRight} ${classNames.bottomRightContainer}`}>{bottomRight}</div> : null}
+            {bottomLeft ? (
+                <div
+                    className={`${classNames.overlay} ${classNames.bottomLeft} ${classNames.bottomLeftContainer}`}
+                    onClick={(event) => event.stopPropagation()}
+                    onDoubleClick={(event) => event.stopPropagation()}
+                    onPointerDown={(event) => event.stopPropagation()}
+                    onPointerUp={(event) => event.stopPropagation()}
+                >
+                    {bottomLeft}
+                </div>
+            ) : null}
+            {bottomRight ? (
+                <div
+                    className={`${classNames.overlay} ${classNames.bottomRight} ${classNames.bottomRightContainer}`}
+                    onClick={(event) => event.stopPropagation()}
+                    onDoubleClick={(event) => event.stopPropagation()}
+                    onPointerDown={(event) => event.stopPropagation()}
+                    onPointerUp={(event) => event.stopPropagation()}
+                >
+                    {bottomRight}
+                </div>
+            ) : null}
             <div
                 className={className}
                 onClick={(event) => {
                     if (isPlaceholder) {
                         return;
                     }
+                    const target = event.target as HTMLElement | null;
+                    if (target?.closest('[data-media-grid-interactive="true"]')) {
+                        return;
+                    }
                     onPress?.({ shiftKey: event.shiftKey });
                 }}
-                onDoubleClick={() => {
+                onDoubleClick={(event) => {
                     if (isPlaceholder) {
+                        return;
+                    }
+                    const target = event.target as HTMLElement | null;
+                    if (target?.closest('[data-media-grid-interactive="true"]')) {
                         return;
                     }
                     onDoublePress?.();

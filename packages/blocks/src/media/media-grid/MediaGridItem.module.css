@@ -63,6 +63,9 @@
     border-radius: var(--spectrum-global-dimension-size-50);
     padding: var(--spectrum-global-dimension-size-150);
     line-height: 0;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 120ms ease;
 }
 
 .topRightContainer {
@@ -70,6 +73,20 @@
     border-radius: var(--spectrum-global-dimension-size-50);
     padding: var(--spectrum-global-dimension-size-50);
     line-height: 0;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 120ms ease;
+}
+
+.itemRoot:hover .topLeftContainer,
+.itemRoot:hover .topRightContainer,
+.itemRoot:focus-within .topLeftContainer,
+.itemRoot:focus-within .topRightContainer,
+.itemRoot:has(.itemSelected) .topLeftContainer,
+.itemRoot:has(.itemSelected) .topRightContainer,
+.itemRoot:has([aria-expanded='true']) .topRightContainer {
+    opacity: 1;
+    pointer-events: auto;
 }
 
 .bottomLeft {

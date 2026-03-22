@@ -1,5 +1,6 @@
-import { ActionMenu, Checkbox, StatusLight, Text, View } from '@geti-ai/ui';
+import { ActionMenu, Checkbox, StatusLight, Text } from '@geti-ai/ui';
 import { Item } from '@adobe/react-spectrum';
+import type { MouseEvent, PointerEvent } from 'react';
 import styles from './MediaGridItem.module.css';
 import type {
     MediaGridItemCheckboxProps,
@@ -9,22 +10,46 @@ import type {
 } from './types';
 
 export function MediaGridItemCheckbox({ ariaLabel, isSelected, onChange }: MediaGridItemCheckboxProps) {
+    const stop = (event: MouseEvent | PointerEvent) => {
+        event.stopPropagation();
+    };
+
     return (
-        <View UNSAFE_className={styles.checkboxContainer}>
+        <div
+            className={styles.checkboxContainer}
+            data-media-grid-interactive="true"
+            onMouseDown={stop}
+            onClick={stop}
+            onDoubleClick={stop}
+            onPointerDown={stop}
+            onPointerUp={stop}
+        >
             <Checkbox aria-label={ariaLabel} isSelected={isSelected} onChange={(next: boolean) => onChange(next)} />
-        </View>
+        </div>
     );
 }
 
 export function MediaGridItemMenu({ ariaLabel = 'Media actions', actions, onAction }: MediaGridItemMenuProps) {
+    const stop = (event: MouseEvent | PointerEvent) => {
+        event.stopPropagation();
+    };
+
     return (
-        <View UNSAFE_className={styles.menuContainer}>
+        <div
+            className={styles.menuContainer}
+            data-media-grid-interactive="true"
+            onMouseDown={stop}
+            onClick={stop}
+            onDoubleClick={stop}
+            onPointerDown={stop}
+            onPointerUp={stop}
+        >
             <ActionMenu isQuiet aria-label={ariaLabel} onAction={(key: React.Key) => onAction(String(key))}>
                 {actions.map((action) => (
                     <Item key={action.key}>{action.label}</Item>
                 ))}
             </ActionMenu>
-        </View>
+        </div>
     );
 }
 
