@@ -44,6 +44,15 @@ export type { TextProps } from './components/ui/Text/Text';
 export { Heading } from './components/ui/Heading/Heading';
 export type { HeadingProps } from './components/ui/Heading/Heading';
 
+export { ButtonGroup } from './components/ui/ButtonGroup/ButtonGroup';
+export type { ButtonGroupProps } from './components/ui/ButtonGroup/ButtonGroup';
+
+export { Content } from './components/ui/Content/Content';
+export type { ContentProps } from './components/ui/Content/Content';
+
+export { Footer } from './components/ui/Footer/Footer';
+export type { FooterProps } from './components/ui/Footer/Footer';
+
 // Group 2 — Form Controls (form/)
 export { FileTrigger } from './components/form/FileTrigger/FileTrigger';
 export type { FileTriggerProps } from './components/form/FileTrigger/FileTrigger';
