@@ -1,0 +1,107 @@
+---
+title: Media grid item parts
+---
+
+# Media grid item parts
+
+`@geti-ai/blocks` provides small, styled building blocks for `MediaGridItem` overlays:
+
+- `MediaGridItemCheckbox`
+- `MediaGridItemMenu`
+- `MediaGridItemInfo`
+- `MediaGridItemStatus`
+
+Use these to keep corner UI consistent without repeating local styling.
+
+```tsx
+import {
+  MediaGridItemCheckbox,
+  MediaGridItemMenu,
+  MediaGridItemInfo,
+  MediaGridItemStatus,
+} from '@geti-ai/blocks';
+```
+
+## `MediaGridItemCheckbox`
+
+```tsx preview
+import { useState } from 'react';
+import { ThemeProvider } from '@geti-ai/ui';
+import { MediaGridItemCheckbox } from '@geti-ai/blocks';
+
+export default function App() {
+  const [selected, setSelected] = useState(true);
+
+  return (
+    <ThemeProvider>
+      <MediaGridItemCheckbox
+        ariaLabel="Select media item sample-1"
+        isSelected={selected}
+        onChange={() => setSelected((v) => !v)}
+      />
+    </ThemeProvider>
+  );
+}
+```
+
+## `MediaGridItemMenu`
+
+```tsx preview
+import { ThemeProvider } from '@geti-ai/ui';
+import { MediaGridItemMenu } from '@geti-ai/blocks';
+
+export default function App() {
+  return (
+    <ThemeProvider>
+      <MediaGridItemMenu
+        ariaLabel="Media actions"
+        actions={[
+          { key: 'annotate', label: 'Annotate' },
+          { key: 'download', label: 'Download' },
+          { key: 'delete', label: 'Delete' },
+        ]}
+        onAction={(key) => console.log('action', key)}
+      />
+    </ThemeProvider>
+  );
+}
+```
+
+## `MediaGridItemInfo`
+
+```tsx preview
+import { ThemeProvider } from '@geti-ai/ui';
+import { MediaGridItemInfo } from '@geti-ai/blocks';
+
+export default function App() {
+  return (
+    <ThemeProvider>
+      <MediaGridItemInfo>frame #128</MediaGridItemInfo>
+    </ThemeProvider>
+  );
+}
+```
+
+## `MediaGridItemStatus`
+
+```tsx preview
+import { ThemeProvider, Flex } from '@geti-ai/ui';
+import { MediaGridItemStatus } from '@geti-ai/blocks';
+
+export default function App() {
+  return (
+    <ThemeProvider>
+      <Flex gap="size-200" wrap>
+        <MediaGridItemStatus variant="notice">To review</MediaGridItemStatus>
+        <MediaGridItemStatus variant="positive">Accepted</MediaGridItemStatus>
+        <MediaGridItemStatus variant="negative">Rejected</MediaGridItemStatus>
+      </Flex>
+    </ThemeProvider>
+  );
+}
+```
+
+## Related
+
+- [Media grid item](/blocks/media/media-grid-item)
+- [Media grid](/blocks/media/media-grid)

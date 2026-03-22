@@ -183,7 +183,15 @@
       "collapsed": false,
       "items": [
         { "text": "Media filter", "link": "/blocks/media/media-filter", "tag": "WIP" },
-        { "text": "Media grid", "link": "/blocks/media/media-grid", "tag": "WIP" }
+        {
+          "text": "Media grid",
+          "items": [
+            { "text": "Overview", "link": "/blocks/media/media-grid" },
+            { "text": "Media grid item", "link": "/blocks/media/media-grid-item" },
+            { "text": "Media grid item parts", "link": "/blocks/media/media-grid-item-parts" },
+            { "text": "Media grid thumbnail item", "link": "/blocks/media/media-grid-thumbnail-item" }
+          ]
+        }
       ]
     },
     {

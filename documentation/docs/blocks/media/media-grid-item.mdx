@@ -1,0 +1,235 @@
+---
+title: Media grid item
+---
+
+# Media grid item
+
+`MediaGridItem` is the composable item shell used inside `MediaGrid`.
+
+It provides:
+
+- selectable pressable container
+- four overlay slots (`topLeft`, `topRight`, `bottomLeft`, `bottomRight`)
+- hover/selected behavior for top corners
+- persistent top-right actions while menu is open
+
+```tsx
+import {
+  MediaGridItem,
+  MediaGridThumbnailItem,
+  MediaGridItemCheckbox,
+  MediaGridItemMenu,
+  MediaGridItemInfo,
+  MediaGridItemStatus,
+  type MediaGridRenderContext,
+} from '@geti-ai/blocks';
+```
+
+## Reference-style custom item
+
+```tsx preview
+import { useState } from 'react';
+import { ThemeProvider } from '@geti-ai/ui';
+import {
+  MediaGridItem,
+  MediaGridItemCheckbox,
+  MediaGridItemInfo,
+  MediaGridItemMenu,
+} from '@geti-ai/blocks';
+
+const media = {
+  id: 'media-1',
+  name: 'Asset 1',
+  thumbnailUrl: 'https://picsum.photos/seed/grid-item-single/400/400',
+  score: 0.92,
+};
+
+export default function App() {
+  const [isSelected, setIsSelected] = useState(true);
+
+  return (
+    <ThemeProvider>
+      <div style={{ width: 260, height: 260 }}>
+        <MediaGridItem
+          isSelected={isSelected}
+          onPress={() => setIsSelected((current) => !current)}
+          onDoublePress={() => console.log('open preview', media.id)}
+          topLeft={
+            <MediaGridItemCheckbox
+              ariaLabel={`Select ${media.name}`}
+              isSelected={isSelected}
+              onChange={() => setIsSelected((current) => !current)}
+            />
+          }
+          topRight={
+            <MediaGridItemMenu
+              ariaLabel="Media actions"
+              actions={[
+                { key: 'annotate', label: 'Annotate' },
+                { key: 'download', label: 'Download' },
+                { key: 'delete', label: 'Delete' },
+              ]}
+              onAction={(key) => console.log(key, media.id)}
+            />
+          }
+          bottomLeft={<MediaGridItemInfo>{media.score}</MediaGridItemInfo>}
+          bottomRight={<MediaGridItemInfo>{media.id}</MediaGridItemInfo>}
+        >
+          <img
+            src={media.thumbnailUrl}
+            alt={media.name}
+            style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}
+          />
+        </MediaGridItem>
+      </div>
+    </ThemeProvider>
+  );
+}
+```
+
+## Variant: minimal labels
+
+```tsx preview
+import { useState } from 'react';
+import { ThemeProvider } from '@geti-ai/ui';
+import {
+  MediaGridItem,
+  MediaGridItemInfo,
+} from '@geti-ai/blocks';
+
+const media = {
+  id: 'media-minimal-1',
+  name: 'Minimal item',
+  thumbnailUrl: 'https://picsum.photos/seed/minimal-item-single/400/400',
+};
+
+export default function App() {
+  const [isSelected, setIsSelected] = useState(false);
+
+  return (
+    <ThemeProvider>
+      <div style={{ width: 220, height: 220 }}>
+        <MediaGridItem
+          isSelected={isSelected}
+          onPress={() => setIsSelected((current) => !current)}
+          bottomLeft={<MediaGridItemInfo>{media.name}</MediaGridItemInfo>}
+        >
+          <img
+            src={media.thumbnailUrl}
+            alt={media.name}
+            style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}
+          />
+        </MediaGridItem>
+      </div>
+    </ThemeProvider>
+  );
+}
+```
+
+## Variant: status-focused corners
+
+### To review
+
+```tsx preview
+import { ThemeProvider } from '@geti-ai/ui';
+import { MediaGridItem } from '@geti-ai/blocks';
+import { MediaGridItemInfo, MediaGridItemStatus } from '@geti-ai/blocks';
+
+const media = {
+  id: 'media-status-review',
+  name: 'Status item (review)',
+  thumbnailUrl: 'https://picsum.photos/seed/status-item-review/400/400',
+};
+
+export default function App() {
+  return (
+    <ThemeProvider>
+      <div style={{ width: 240, height: 240 }}>
+        <MediaGridItem
+          isSelected={false}
+          bottomLeft={<MediaGridItemStatus variant="notice">To review</MediaGridItemStatus>}
+          bottomRight={<MediaGridItemInfo>#1</MediaGridItemInfo>}
+        >
+          <img
+            src={media.thumbnailUrl}
+            alt={media.name}
+            style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}
+          />
+        </MediaGridItem>
+      </div>
+    </ThemeProvider>
+  );
+}
+```
+
+### Accepted
+
+```tsx preview
+import { ThemeProvider } from '@geti-ai/ui';
+import { MediaGridItem } from '@geti-ai/blocks';
+import { MediaGridItemInfo, MediaGridItemStatus } from '@geti-ai/blocks';
+
+const media = {
+  id: 'media-status-accepted',
+  name: 'Status item (accepted)',
+  thumbnailUrl: 'https://picsum.photos/seed/status-item-accepted/400/400',
+};
+
+export default function App() {
+  return (
+    <ThemeProvider>
+      <div style={{ width: 240, height: 240 }}>
+        <MediaGridItem
+          isSelected={false}
+          bottomLeft={<MediaGridItemStatus variant="positive">Accepted</MediaGridItemStatus>}
+          bottomRight={<MediaGridItemInfo>#1</MediaGridItemInfo>}
+        >
+          <img
+            src={media.thumbnailUrl}
+            alt={media.name}
+            style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}
+          />
+        </MediaGridItem>
+      </div>
+    </ThemeProvider>
+  );
+}
+```
+
+### Rejected
+
+```tsx preview
+import { ThemeProvider } from '@geti-ai/ui';
+import { MediaGridItem } from '@geti-ai/blocks';
+import { MediaGridItemInfo, MediaGridItemStatus } from '@geti-ai/blocks';
+
+const media = {
+  id: 'media-status-rejected',
+  name: 'Status item (rejected)',
+  thumbnailUrl: 'https://picsum.photos/seed/status-item-rejected/400/400',
+};
+
+export default function App() {
+  return (
+    <ThemeProvider>
+      <div style={{ width: 240, height: 240 }}>
+        <MediaGridItem
+          isSelected={false}
+          bottomLeft={<MediaGridItemStatus variant="negative">Rejected</MediaGridItemStatus>}
+          bottomRight={<MediaGridItemInfo>#1</MediaGridItemInfo>}
+        >
+          <img
+            src={media.thumbnailUrl}
+            alt={media.name}
+            style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}
+          />
+        </MediaGridItem>
+      </div>
+    </ThemeProvider>
+  );
+}
+```
+
+## Related
+
+- [Media grid](/blocks/media/media-grid)

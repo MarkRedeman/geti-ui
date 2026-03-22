@@ -1,0 +1,105 @@
+---
+title: Media grid thumbnail item
+---
+
+# Media grid thumbnail item
+
+`MediaGridThumbnailItem` is the default thumbnail-focused item implementation for `MediaGrid`.
+
+It wraps `MediaGridItem` and renders image content with `object-fit: cover`.
+
+```tsx
+import { MediaGridThumbnailItem } from '@geti-ai/blocks';
+```
+
+## Basic
+
+```tsx preview
+import { ThemeProvider } from '@geti-ai/ui';
+import { MediaGridThumbnailItem } from '@geti-ai/blocks';
+
+export default function App() {
+  return (
+    <ThemeProvider>
+      <div style={{ width: 220, height: 220 }}>
+        <MediaGridThumbnailItem
+          src="https://picsum.photos/seed/thumbnail-item-basic/400/400"
+          alt="Thumbnail item"
+        />
+      </div>
+    </ThemeProvider>
+  );
+}
+```
+
+## With overlays and selection
+
+```tsx preview
+import { useState } from 'react';
+import { ThemeProvider } from '@geti-ai/ui';
+import {
+  MediaGridItemCheckbox,
+  MediaGridItemInfo,
+  MediaGridItemMenu,
+  MediaGridThumbnailItem,
+} from '@geti-ai/blocks';
+
+export default function App() {
+  const [selected, setSelected] = useState(true);
+
+  return (
+    <ThemeProvider>
+      <div style={{ width: 240, height: 240 }}>
+        <MediaGridThumbnailItem
+          src="https://picsum.photos/seed/thumbnail-item-overlays/400/400"
+          alt="Thumbnail with overlays"
+          isSelected={selected}
+          onPress={() => setSelected((v) => !v)}
+          topLeft={
+            <MediaGridItemCheckbox
+              ariaLabel="Select thumbnail"
+              isSelected={selected}
+              onChange={() => setSelected((v) => !v)}
+            />
+          }
+          topRight={
+            <MediaGridItemMenu
+              actions={[
+                { key: 'open', label: 'Open' },
+                { key: 'download', label: 'Download' },
+                { key: 'delete', label: 'Delete' },
+              ]}
+              onAction={(key) => console.log(key)}
+            />
+          }
+          bottomLeft={<MediaGridItemInfo>0.92</MediaGridItemInfo>}
+          bottomRight={<MediaGridItemInfo>#1</MediaGridItemInfo>}
+        />
+      </div>
+    </ThemeProvider>
+  );
+}
+```
+
+## Placeholder state
+
+```tsx preview
+import { ThemeProvider } from '@geti-ai/ui';
+import { MediaGridThumbnailItem } from '@geti-ai/blocks';
+
+export default function App() {
+  return (
+    <ThemeProvider>
+      <div style={{ width: 220, height: 220 }}>
+        <MediaGridThumbnailItem isPlaceholder />
+      </div>
+    </ThemeProvider>
+  );
+}
+```
+
+## Related
+
+- [Media grid item](/blocks/media/media-grid-item)
+- [Media grid item parts](/blocks/media/media-grid-item-parts)
+- [Media grid](/blocks/media/media-grid)

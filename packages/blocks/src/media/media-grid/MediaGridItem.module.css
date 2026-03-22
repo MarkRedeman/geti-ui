@@ -108,3 +108,37 @@
         var(--spectrum-global-color-gray-200) 100%
     );
 }
+
+.checkboxContainer {
+    width: var(--spectrum-global-dimension-size-200);
+    height: var(--spectrum-global-dimension-size-200);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.menuContainer {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.infoText {
+    font-size: 11px;
+    color: var(--spectrum-global-color-gray-700);
+    line-height: 1.1;
+}
+
+.statusCompact {
+    min-block-size: auto;
+    padding: 0;
+    font-size: 11px;
+    line-height: 1.1;
+    align-items: center;
+}
+
+.statusCompact::before {
+    inline-size: var(--spectrum-global-dimension-size-75);
+    block-size: var(--spectrum-global-dimension-size-75);
+    margin: 0 var(--spectrum-global-dimension-size-75) 0 0;
+}

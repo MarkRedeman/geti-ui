@@ -81,3 +81,29 @@ export interface MediaGridThumbnailItemProps extends Omit<MediaGridItemProps, 'c
     src?: string;
     alt?: string;
 }
+
+export interface MediaGridItemCheckboxProps {
+    ariaLabel: string;
+    isSelected: boolean;
+    onChange: () => void;
+}
+
+export interface MediaGridItemMenuAction {
+    key: string;
+    label: string;
+}
+
+export interface MediaGridItemMenuProps {
+    ariaLabel?: string;
+    actions: MediaGridItemMenuAction[];
+    onAction: (key: string) => void;
+}
+
+export interface MediaGridItemInfoProps {
+    children: ReactNode;
+}
+
+export interface MediaGridItemStatusProps {
+    variant: 'notice' | 'positive' | 'negative' | 'neutral' | 'info';
+    children: ReactNode;
+}
