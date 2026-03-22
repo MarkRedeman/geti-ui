@@ -48,12 +48,13 @@ export default function App() {
 anchored floating dialog with placement variants
 
 ```tsx preview
-import { Content, Heading } from '@adobe/react-spectrum';
 import {
   ActionButton,
   Button,
+  Content,
   Dialog,
   Flex,
+  Heading,
   Popover,
 } from '@geti-ai/ui';
 
@@ -140,13 +141,17 @@ export default function App() {
 modal, dismissable, and popover-type variants
 
 ```tsx preview
-import { ButtonGroup, Content, Divider as SpectrumDivider, Footer, Heading } from '@adobe/react-spectrum';
 import {
   ActionButton,
   Button,
+  ButtonGroup,
+  Content,
+  Divider,
   Dialog,
   DialogTrigger,
   Flex,
+  Footer,
+  Heading,
 } from '@geti-ai/ui';
 
 export default function App() {
@@ -157,7 +162,7 @@ export default function App() {
         {(close) => (
           <Dialog>
             <Heading>Modal dialog</Heading>
-            <SpectrumDivider />
+            <Divider />
             <Content>
               This is a full modal dialog. It blocks interaction with the rest of the page
               until dismissed.
@@ -179,7 +184,7 @@ export default function App() {
         <Button variant="secondary">Dismissable dialog</Button>
         <Dialog>
           <Heading>Dismissable</Heading>
-          <SpectrumDivider />
+          <Divider />
           <Content>Click outside or press Escape to dismiss this dialog.</Content>
         </Dialog>
       </DialogTrigger>
@@ -258,8 +263,7 @@ export default function App() {
 help and info variants for form labels
 
 ```tsx preview
-import { Content, Heading, Text } from '@adobe/react-spectrum';
-import { ContextualHelp, Flex } from '@geti-ai/ui';
+import { Content, ContextualHelp, Flex, Heading, Text } from '@geti-ai/ui';
 
 export default function App() {
   return (
