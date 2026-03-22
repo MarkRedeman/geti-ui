@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
+import type { RefObject } from 'react';
 import { Flex, Text, VirtualizedListLayout, View } from '@geti-ai/ui';
 import type { ListLayoutOptions } from 'react-aria-components';
 import styles from './media-grid.module.css';
@@ -28,6 +29,12 @@ type MediaGridRowProps<T extends { id: string | number }> = {
     gap: number;
 };
 
+type UseFocusOnSelectOptions = {
+    focusOnSelect: boolean;
+    containerRef: RefObject<HTMLDivElement | null>;
+    selection: MediaGridSelection;
+};
+
 const clampSelection = (value: MediaGridSelection | undefined): MediaGridSelection => value ?? new Set<string>();
 
 function getColumns(width: number, itemSize: number, gap: number): number {
@@ -52,6 +59,37 @@ function normalizeSelectionKeys(selection: MediaGridSelection): Set<string> {
         return new Set<string>();
     }
     return new Set(selection);
+}
+
+function getFirstSelectedKey(selection: MediaGridSelection): string | undefined {
+    if (selection === 'all') {
+        return undefined;
+    }
+
+    return Array.from(selection)[0];
+}
+
+function useFocusOnSelect({ focusOnSelect, containerRef, selection }: UseFocusOnSelectOptions) {
+    useEffect(() => {
+        if (!focusOnSelect) {
+            return;
+        }
+
+        const selectedKey = getFirstSelectedKey(selection);
+        if (!selectedKey) {
+            return;
+        }
+
+        const options = containerRef.current?.querySelectorAll<HTMLElement>('[data-media-item-id]');
+        const selectedOption = Array.from(options ?? []).find((node) => node.dataset.mediaItemId === selectedKey);
+
+        selectedOption?.focus({ preventScroll: true });
+        selectedOption?.scrollIntoView({
+            behavior: 'smooth',
+            block: 'nearest',
+            inline: 'nearest',
+        });
+    }, [focusOnSelect, selection, containerRef]);
 }
 
 function MediaGridRow<T extends { id: string | number }>({
@@ -140,7 +178,16 @@ function MediaGridRow<T extends { id: string | number }>({
                         onDoublePress: handleDoublePress,
                     };
 
-                    return <div className={styles.rowItem} key={key}>{renderItem(context)}</div>;
+                    return (
+                        <div
+                            className={styles.rowItem}
+                            key={key}
+                            data-media-item-id={item ? String(item.id) : undefined}
+                            tabIndex={item ? -1 : undefined}
+                        >
+                            {renderItem(context)}
+                        </div>
+                    );
                 })}
             </div>
         </div>
@@ -151,6 +198,8 @@ export function MediaGrid<T extends { id: string | number }>({
     totalItems,
     getItemAt,
     itemSize = 200,
+    columns,
+    focusOnSelect = false,
     selectionMode = 'multiple',
     selectedKeys,
     defaultSelectedKeys,
@@ -198,11 +247,18 @@ export function MediaGrid<T extends { id: string | number }>({
         return () => observer.disconnect();
     }, []);
 
-    const columnCount = getColumns(containerWidth, itemSize, gap);
+    const explicitColumns = columns ? Math.max(1, Math.floor(columns)) : undefined;
+    const columnCount = explicitColumns ?? getColumns(containerWidth, itemSize, gap);
     const computedItemWidth = getComputedItemWidth(containerWidth, columnCount, gap);
     const rowHeight = computedItemWidth;
     const verticalGap = Math.max(0, Math.round(gap / 2));
     const rowCount = Math.ceil(Math.max(0, totalItems) / columnCount);
+
+    useFocusOnSelect({
+        focusOnSelect,
+        containerRef,
+        selection: effectiveSelection,
+    });
 
     const rows = useMemo<VirtualizedMediaRow[]>(() => {
         return Array.from({ length: rowCount }, (_, rowIndex) => {

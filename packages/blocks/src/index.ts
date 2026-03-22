@@ -32,6 +32,8 @@ export type {
 
 export {
     MediaGrid,
+    MediaColumn,
+    MediaRow,
     MediaGridItem,
     MediaGridItemCheckbox,
     MediaGridItemMenu,
@@ -45,6 +47,8 @@ export {
 
 export type {
     MediaGridProps,
+    MediaColumnProps,
+    MediaRowProps,
     MediaGridRenderContext,
     MediaGridItemProps,
     MediaGridItemCheckboxProps,

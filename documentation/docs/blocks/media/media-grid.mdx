@@ -101,7 +101,9 @@ export default function App() {
 | `getItemAt` | `(index: number) => T \| undefined` | Yes | Returns loaded item data for an absolute index, or `undefined` for unloaded slots. |
 | `renderItem` | `(context: MediaGridRenderContext<T>) => ReactNode` | Yes | Renders each cell. Called for both loaded and placeholder entries. |
 | `itemSize` | `number` | No | Square item size in px. Default: `200`. |
+| `columns` | `number` | No | Forces a fixed number of columns. By default, columns are responsive based on container width. |
 | `gap` | `number` | No | Grid gap in px (horizontal + vertical). Default: `8`. |
+| `focusOnSelect` | `boolean` | No | When `true`, auto-scrolls to keep the selected item in view after selection changes. Default: `false`. |
 | `selectionMode` | `'none' \| 'single' \| 'multiple'` | No | Selection behavior. Default: `'multiple'`. |
 | `selectedKeys` | `Set<string> \| 'all'` | No | Controlled selection state. |
 | `defaultSelectedKeys` | `Iterable<string>` | No | Initial uncontrolled selection state. |

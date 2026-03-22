@@ -1,6 +1,12 @@
 export { MediaGrid } from './MediaGrid';
 export type { MediaGridProps, MediaGridRenderContext } from './types';
 
+export { MediaColumn } from './MediaColumn';
+export type { MediaColumnProps } from './types';
+
+export { MediaRow } from './MediaRow';
+export type { MediaRowProps } from './types';
+
 export { MediaGridItem } from './MediaGridItem';
 export type { MediaGridItemProps } from './types';
 

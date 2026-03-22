@@ -34,6 +34,8 @@ export type MediaGridProps<T extends MediaGridIdentifiable> = {
     totalItems: number;
     getItemAt: (index: number) => T | undefined;
     itemSize?: number;
+    columns?: number;
+    focusOnSelect?: boolean;
 
     selectionMode?: MediaGridSelectionMode;
     selectedKeys?: MediaGridSelection;
@@ -48,6 +50,32 @@ export type MediaGridProps<T extends MediaGridIdentifiable> = {
     isLoading?: boolean;
     emptyState?: ReactNode;
     loadingState?: ReactNode;
+    ariaLabel?: string;
+    renderItem: (context: MediaGridRenderContext<T>) => ReactNode;
+
+    onItemPress?: (context: MediaGridRenderContext<T>) => void;
+    onItemDoublePress?: (context: MediaGridRenderContext<T>) => void;
+
+    gap?: number;
+    className?: string;
+    style?: CSSProperties;
+};
+
+export type MediaColumnProps<T extends MediaGridIdentifiable> = Omit<MediaGridProps<T>, 'columns'>;
+
+export type MediaRowProps<T extends MediaGridIdentifiable> = {
+    totalItems: number;
+    getItemAt: (index: number) => T | undefined;
+    itemSize?: number;
+    focusOnSelect?: boolean;
+
+    selectionMode?: MediaGridSelectionMode;
+    selectedKeys?: MediaGridSelection;
+    defaultSelectedKeys?: Iterable<string>;
+    onSelectionChange?: (keys: MediaGridSelection) => void;
+
+    isLoading?: boolean;
+    emptyState?: ReactNode;
     ariaLabel?: string;
     renderItem: (context: MediaGridRenderContext<T>) => ReactNode;
 

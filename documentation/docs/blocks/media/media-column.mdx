@@ -1,0 +1,154 @@
+---
+title: Media column
+---
+
+# Media column
+
+`MediaColumn` is a composition of `MediaGrid` with `columns` fixed to `1`.
+
+Use it when you want grid behavior (selection, placeholders, incremental loading, virtualization) but only one item per row.
+
+```tsx
+import {
+  MediaColumn,
+  MediaGridThumbnailItem,
+  type MediaGridRenderContext,
+  type MediaGridSelection,
+} from '@geti-ai/blocks';
+```
+
+## Example with previous/next buttons
+
+```tsx preview
+import { useState } from 'react';
+import { Button, Flex, ThemeProvider } from '@geti-ai/ui';
+import {
+  MediaColumn,
+  MediaGridThumbnailItem,
+  type MediaGridRenderContext,
+  type MediaGridSelection,
+} from '@geti-ai/blocks';
+
+type Media = {
+  id: string;
+  name: string;
+  thumbnailUrl: string;
+};
+
+const itemSize = 180;
+const gap = 8;
+
+const media: Media[] = Array.from({ length: 120 }, (_, index) => ({
+  id: `media-${index + 1}`,
+  name: `Image ${index + 1}`,
+  thumbnailUrl: `https://picsum.photos/seed/media-column-${index + 1}/400/400`,
+}));
+
+export default function App() {
+  const [selectedIndex, setSelectedIndex] = useState(0);
+
+  const selectedItem = media[selectedIndex];
+  const selectedKeys: MediaGridSelection = selectedItem
+    ? new Set([selectedItem.id])
+    : new Set();
+
+  const selectRelative = (direction: 'prev' | 'next') => {
+    const lastIndex = media.length - 1;
+    setSelectedIndex((current) => {
+      if (direction === 'next') {
+        return (current + 1) % media.length;
+      }
+      return (current - 1 + media.length) % media.length;
+    });
+  };
+
+  const handleSelectionChange = (keys: MediaGridSelection) => {
+    if (keys === 'all') return;
+
+    const [first] = Array.from(keys);
+    if (!first) return;
+
+    const index = media.findIndex((item) => item.id === first);
+    if (index >= 0) {
+      setSelectedIndex(index);
+    }
+  };
+
+  const renderItem = (ctx: MediaGridRenderContext<Media>) => (
+    <MediaGridThumbnailItem
+      src={ctx.item?.thumbnailUrl}
+      alt={ctx.item?.name ?? 'Loading media'}
+      isPlaceholder={ctx.isPlaceholder}
+      isSelected={ctx.isSelected}
+      onPress={ctx.onPress}
+      onDoublePress={ctx.onDoublePress}
+    />
+  );
+
+  return (
+    <ThemeProvider>
+      <div style={{ height: 560, maxWidth: 'var(--spectrum-global-dimension-size-4000)' }}>
+        <Flex direction="column" height="100%" gap="size-100">
+          <div style={{ fontSize: 12 }}>Current selected: {selectedItem?.name ?? 'None'}</div>
+
+          <Button variant="secondary" onPress={() => selectRelative('prev')}>
+            Previous
+          </Button>
+
+          <div style={{ flex: 1, minHeight: 0 }}>
+            <MediaColumn
+              totalItems={media.length}
+              getItemAt={(index) => media[index]}
+              itemSize={itemSize}
+              gap={gap}
+              selectionMode="single"
+              selectedKeys={selectedKeys}
+              onSelectionChange={handleSelectionChange}
+              focusOnSelect
+              renderItem={renderItem}
+            />
+          </div>
+
+          <Button variant="primary" onPress={() => selectRelative('next')}>
+            Next
+          </Button>
+        </Flex>
+      </div>
+    </ThemeProvider>
+  );
+}
+```
+
+## `MediaColumn` props
+
+`MediaColumn` accepts the same props as `MediaGrid`, except `columns` is not exposed.
+
+| Prop | Type | Required | Description |
+| --- | --- | --- | --- |
+| `totalItems` | `number` | Yes | Total number of represented items. |
+| `getItemAt` | `(index: number) => T \| undefined` | Yes | Returns item data for index or `undefined` for placeholders. |
+| `renderItem` | `(context: MediaGridRenderContext<T>) => ReactNode` | Yes | Renders each cell. |
+| `itemSize` | `number` | No | Square item size in px. Default: `200`. |
+| `gap` | `number` | No | Spacing between items. Default: `8`. |
+| `focusOnSelect` | `boolean` | No | When `true`, scrolls the selected item into view after selection changes. Default: `false`. |
+| `selectionMode` | `'none' \| 'single' \| 'multiple'` | No | Selection behavior. Default: `'multiple'`. |
+| `selectedKeys` | `Set<string> \| 'all'` | No | Controlled selection state. |
+| `defaultSelectedKeys` | `Iterable<string>` | No | Initial uncontrolled selection. |
+| `onSelectionChange` | `(keys: Set<string> \| 'all') => void` | No | Called when selection changes. |
+| `hasNextPage` | `boolean` | No | Whether more items can be loaded. |
+| `isLoadingMore` | `boolean` | No | Incremental loading state. |
+| `onLoadMore` | `() => void` | No | Called near the end of the list. |
+| `loadMoreThresholdRows` | `number` | No | Prefetch threshold in rows. |
+| `isLoading` | `boolean` | No | Whole-column loading state. |
+| `emptyState` | `ReactNode` | No | Empty-state UI. |
+| `loadingState` | `ReactNode` | No | Custom loading-more row. |
+| `ariaLabel` | `string` | No | Accessible label for the virtualized list. |
+| `onItemPress` | `(context: MediaGridRenderContext<T>) => void` | No | Called when an item is pressed. |
+| `onItemDoublePress` | `(context: MediaGridRenderContext<T>) => void` | No | Called when an item is double-pressed. |
+| `className` | `string` | No | Optional root class. |
+| `style` | `CSSProperties` | No | Inline styles for root. |
+
+## Related
+
+- [Media grid](/blocks/media/media-grid)
+- [Media row](/blocks/media/media-row)
