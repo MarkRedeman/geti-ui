@@ -88,6 +88,8 @@ html {
     --rp-z-index-nav: 1 !important;
     --rp-z-index-aside: 1 !important;
     --rp-z-index-sidebar-menu: 1 !important;
+
+    --rp-container-danger-text: var(--geti-coral) !important;
 }
 
 .rp-preview--internal__card {

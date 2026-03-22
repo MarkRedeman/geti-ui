@@ -164,42 +164,42 @@
       "text": "Annotation",
       "collapsed": false,
       "items": [
-        { "text": "Toolbar", "link": "/blocks/annotation/toolbar" },
-        { "text": "Zoom", "link": "/blocks/annotation/zoom" },
-        { "text": "Annotation", "link": "/blocks/annotation/annotation" },
-        { "text": "Prediction", "link": "/blocks/annotation/prediction" }
+        { "text": "Toolbar", "link": "/blocks/annotation/toolbar", "tag": "WIP" },
+        { "text": "Zoom", "link": "/blocks/annotation/zoom", "tag": "WIP" },
+        { "text": "Annotation", "link": "/blocks/annotation/annotation", "tag": "WIP" },
+        { "text": "Prediction", "link": "/blocks/annotation/prediction", "tag": "WIP" }
       ]
     },
     {
       "text": "Tabs",
       "collapsed": false,
       "items": [
-        { "text": "Managed tabs", "link": "/blocks/tabs/managed-tabs" },
-        { "text": "Overflowable tabs", "link": "/blocks/tabs/overflowable-tabs" }
+        { "text": "Managed tabs", "link": "/blocks/tabs/managed-tabs", "tag": "WIP" },
+        { "text": "Overflowable tabs", "link": "/blocks/tabs/overflowable-tabs", "tag": "WIP" }
       ]
     },
     {
       "text": "Media",
       "collapsed": false,
       "items": [
-        { "text": "Media filter", "link": "/blocks/media/media-filter" },
-        { "text": "Media grid", "link": "/blocks/media/media-grid" }
+        { "text": "Media filter", "link": "/blocks/media/media-filter", "tag": "WIP" },
+        { "text": "Media grid", "link": "/blocks/media/media-grid", "tag": "WIP" }
       ]
     },
     {
       "text": "Models",
       "collapsed": false,
       "items": [
-        { "text": "Model list", "link": "/blocks/models/model-list" },
-        { "text": "Advanced Training Parameters", "link": "/blocks/models/advanced-training-parameters" }
+        { "text": "Model list", "link": "/blocks/models/model-list", "tag": "WIP" },
+        { "text": "Advanced Training Parameters", "link": "/blocks/models/advanced-training-parameters", "tag": "WIP" }
       ]
     },
     {
       "text": "Projects",
       "collapsed": false,
       "items": [
-        { "text": "Project list", "link": "/blocks/projects/project-list" },
-        { "text": "Project menu", "link": "/blocks/projects/project-menu" }
+        { "text": "Project list", "link": "/blocks/projects/project-list", "tag": "WIP" },
+        { "text": "Project menu", "link": "/blocks/projects/project-menu", "tag": "WIP" }
       ]
     }
   ],

@@ -3,6 +3,7 @@ import { ThemeProvider } from '@geti-ai/ui';
 import '@geti-ai/blocks/styles.css';
 import '@geti-ai/ui/styles.css';
 import './index.css';
+import { Tag } from './components/Tag';
 
 export const Layout = () => {
     return (
@@ -14,3 +15,4 @@ export const Layout = () => {
 
 export * from '@rspress/core/theme-original';
 export { HomeLayout } from './HomeLayout';
+export { Tag };
