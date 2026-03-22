@@ -32,13 +32,19 @@ export default defineConfig({
     plugins: [pluginReact()],
     tools: {
         rspack: {
-            externals: [/^react$/, /^react-dom$/, /^react\/jsx-runtime$/, /^@geti-ai\/ui(?:\/.*)?$/],
+            externals: [
+                /^react$/,
+                /^react-dom$/,
+                /^react\/jsx-runtime$/,
+                /^@geti-ai\/ui(?:\/.*)?$/,
+                /^react-aria-components(?:\/.*)?$/,
+            ],
         },
     },
     source: {
         entry: {
             index: ['./src/index.ts'],
         },
-        exclude: [/\.stories\.(ts|tsx)$/, /\.test\.(ts|tsx)$/, /\.md$/],
+        exclude: [/\.stories\.(ts|tsx)$/, /\.test\.(ts|tsx)$/, /\.md$/, /\/example\.tsx$/, '.*reference*'],
     },
 });

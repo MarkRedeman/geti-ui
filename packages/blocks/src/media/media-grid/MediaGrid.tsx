@@ -1,32 +1,22 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
 import type { RefObject } from 'react';
-import { Flex, Text, VirtualizedListLayout, View } from '@geti-ai/ui';
-import type { ListLayoutOptions } from 'react-aria-components';
+import { Flex, Text, View } from '@geti-ai/ui';
+import {
+    GridLayout,
+    GridList,
+    GridListItem,
+    type Key,
+    type Selection,
+    Size,
+    Virtualizer,
+} from 'react-aria-components';
 import styles from './media-grid.module.css';
-import type { MediaGridProps, MediaGridRenderContext, MediaGridSelection } from './types';
+import type { MediaGridIdentifiable, MediaGridProps, MediaGridRenderContext, MediaGridSelection } from './types';
 
-type VirtualizedMediaRow = {
-    id: string;
-    rowIndex: number;
-    startIndex: number;
-    endIndex: number;
-    itemSize: number;
-    gap: number;
-    columnCount: number;
-};
-
-type MediaGridRowProps<T extends { id: string | number }> = {
-    row: VirtualizedMediaRow;
-    totalItems: number;
-    getItemAt: (index: number) => T | undefined;
-    selectionMode: 'none' | 'single' | 'multiple';
-    effectiveSelection: MediaGridSelection;
-    effectiveSelectionSet: Set<string>;
-    toggleKey: (key: string, index: number, shiftKey?: boolean) => void;
-    onItemPress?: (context: MediaGridRenderContext<T>) => void;
-    onItemDoublePress?: (context: MediaGridRenderContext<T>) => void;
-    renderItem: (context: MediaGridRenderContext<T>) => React.ReactNode;
-    gap: number;
+type GridVirtualItem<T extends MediaGridIdentifiable> = {
+    key: string;
+    index: number;
+    item: T | undefined;
 };
 
 type UseFocusOnSelectOptions = {
@@ -36,23 +26,6 @@ type UseFocusOnSelectOptions = {
 };
 
 const clampSelection = (value: MediaGridSelection | undefined): MediaGridSelection => value ?? new Set<string>();
-
-function getColumns(width: number, itemSize: number, gap: number): number {
-    if (width <= 0) {
-        return 1;
-    }
-
-    return Math.max(1, Math.floor((width + gap) / (itemSize + gap)));
-}
-
-function getComputedItemWidth(width: number, columnCount: number, gap: number): number {
-    if (columnCount <= 0) {
-        return width;
-    }
-
-    const totalGap = Math.max(0, columnCount - 1) * gap;
-    return Math.max(1, (width - totalGap) / columnCount);
-}
 
 function normalizeSelectionKeys(selection: MediaGridSelection): Set<string> {
     if (selection === 'all') {
@@ -80,8 +53,8 @@ function useFocusOnSelect({ focusOnSelect, containerRef, selection }: UseFocusOn
             return;
         }
 
-        const options = containerRef.current?.querySelectorAll<HTMLElement>('[data-media-item-id]');
-        const selectedOption = Array.from(options ?? []).find((node) => node.dataset.mediaItemId === selectedKey);
+        const options = containerRef.current?.querySelectorAll<HTMLElement>('[role="row"] [role="gridcell"]');
+        const selectedOption = Array.from(options ?? []).find((node) => node.getAttribute('data-key') === selectedKey);
 
         selectedOption?.focus({ preventScroll: true });
         selectedOption?.scrollIntoView({
@@ -92,109 +65,15 @@ function useFocusOnSelect({ focusOnSelect, containerRef, selection }: UseFocusOn
     }, [focusOnSelect, selection, containerRef]);
 }
 
-function MediaGridRow<T extends { id: string | number }>({
-    row,
-    totalItems,
-    getItemAt,
-    selectionMode,
-    effectiveSelection,
-    effectiveSelectionSet,
-    toggleKey,
-    onItemPress,
-    onItemDoublePress,
-    renderItem,
-    gap,
-}: MediaGridRowProps<T>) {
-    const cells = Array.from({ length: row.columnCount }, (_, offset) => row.startIndex + offset);
+function getColumns(width: number, itemSize: number, gap: number): number {
+    if (width <= 0) {
+        return 1;
+    }
 
-    return (
-        <div
-            className={styles.row}
-            style={{
-                height: row.itemSize,
-                paddingBottom: row.gap,
-            }}
-        >
-            <div
-                className={styles.rowItems}
-                style={{
-                    gridTemplateColumns: `repeat(${row.columnCount}, minmax(0, 1fr))`,
-                    columnGap: gap,
-                }}
-            >
-                {cells.map((index) => {
-                    if (index >= totalItems) {
-                        return <div key={`empty-${index}`} />;
-                    }
-
-                    const item = getItemAt(index);
-                    const isPlaceholder = item === undefined;
-                    const key = String(item?.id ?? `placeholder-${index}`);
-                    const isSelected = !isPlaceholder && (effectiveSelection === 'all' || effectiveSelectionSet.has(String(item.id)));
-
-                    const handlePress = (event?: { shiftKey?: boolean }) => {
-                        if (isPlaceholder || !item) {
-                            return;
-                        }
-
-                        const itemId = String(item.id);
-                        toggleKey(itemId, index, event?.shiftKey);
-
-                        onItemPress?.({
-                            item,
-                            index,
-                            isPlaceholder: false,
-                            isSelected: effectiveSelection === 'all' || effectiveSelectionSet.has(itemId),
-                            selectionMode,
-                            onPress: handlePress,
-                            onDoublePress: handleDoublePress,
-                        });
-                    };
-
-                    const handleDoublePress = () => {
-                        if (isPlaceholder || !item) {
-                            return;
-                        }
-
-                        const itemId = String(item.id);
-                        onItemDoublePress?.({
-                            item,
-                            index,
-                            isPlaceholder: false,
-                            isSelected: effectiveSelection === 'all' || effectiveSelectionSet.has(itemId),
-                            selectionMode,
-                            onPress: handlePress,
-                            onDoublePress: handleDoublePress,
-                        });
-                    };
-
-                    const context: MediaGridRenderContext<T> = {
-                        item,
-                        index,
-                        isPlaceholder,
-                        isSelected,
-                        selectionMode,
-                        onPress: handlePress,
-                        onDoublePress: handleDoublePress,
-                    };
-
-                    return (
-                        <div
-                            className={styles.rowItem}
-                            key={key}
-                            data-media-item-id={item ? String(item.id) : undefined}
-                            tabIndex={item ? -1 : undefined}
-                        >
-                            {renderItem(context)}
-                        </div>
-                    );
-                })}
-            </div>
-        </div>
-    );
+    return Math.max(1, Math.floor((width + gap) / (itemSize + gap)));
 }
 
-export function MediaGrid<T extends { id: string | number }>({
+export function MediaGrid<T extends MediaGridIdentifiable>({
     totalItems,
     getItemAt,
     itemSize = 200,
@@ -219,17 +98,20 @@ export function MediaGrid<T extends { id: string | number }>({
     className,
     style,
 }: MediaGridProps<T>) {
+    const effectiveGap = Math.min(Math.max(0, gap), 4);
+
     const [containerWidth, setContainerWidth] = useState(0);
     const [internalSelection, setInternalSelection] = useState<MediaGridSelection>(
         defaultSelectedKeys ? new Set(Array.from(defaultSelectedKeys)) : new Set()
     );
-    const [selectionAnchorIndex, setSelectionAnchorIndex] = useState<number | null>(null);
 
     const isControlledSelection = selectedKeys !== undefined;
     const effectiveSelection = isControlledSelection ? clampSelection(selectedKeys) : internalSelection;
     const effectiveSelectionSet = normalizeSelectionKeys(effectiveSelection);
 
     const containerRef = useRef<HTMLDivElement | null>(null);
+    const loadMoreRef = useRef<HTMLDivElement | null>(null);
+    const loadMorePendingRef = useRef(false);
 
     useEffect(() => {
         const node = containerRef.current;
@@ -248,12 +130,27 @@ export function MediaGrid<T extends { id: string | number }>({
         return () => observer.disconnect();
     }, []);
 
-    const explicitColumns = columns ? Math.max(1, Math.floor(columns)) : undefined;
-    const columnCount = explicitColumns ?? getColumns(containerWidth, itemSize, gap);
-    const computedItemWidth = getComputedItemWidth(containerWidth, columnCount, gap);
-    const rowHeight = computedItemWidth;
-    const verticalGap = Math.max(0, Math.round(gap / 2));
-    const rowCount = Math.ceil(Math.max(0, totalItems) / columnCount);
+    useEffect(() => {
+        if (!isLoadingMore) {
+            loadMorePendingRef.current = false;
+        }
+    }, [isLoadingMore]);
+
+    const columnCount = useMemo(() => {
+        const explicitColumns = columns ? Math.max(1, Math.floor(columns)) : undefined;
+        return explicitColumns ?? getColumns(containerWidth, itemSize, effectiveGap);
+    }, [columns, containerWidth, itemSize, effectiveGap]);
+
+    const items = useMemo<GridVirtualItem<T>[]>(() => {
+        return Array.from({ length: Math.max(0, totalItems) }, (_, index) => {
+            const item = getItemAt(index);
+            return {
+                key: String(item?.id ?? `placeholder-${index}`),
+                index,
+                item,
+            };
+        });
+    }, [totalItems, getItemAt]);
 
     useFocusOnSelect({
         focusOnSelect,
@@ -261,81 +158,50 @@ export function MediaGrid<T extends { id: string | number }>({
         selection: effectiveSelection,
     });
 
-    const rows = useMemo<VirtualizedMediaRow[]>(() => {
-        return Array.from({ length: rowCount }, (_, rowIndex) => {
-            const startIndex = rowIndex * columnCount;
-            const endIndex = Math.min(totalItems, startIndex + columnCount);
-
-            return {
-                id: `row-${rowIndex}`,
-                rowIndex,
-                startIndex,
-                endIndex,
-                itemSize: rowHeight,
-                gap: verticalGap,
-                columnCount,
-            };
-        });
-    }, [rowCount, columnCount, totalItems, rowHeight, verticalGap]);
-
-    const handleSelectionChange = (keys: MediaGridSelection) => {
+    const handleSelectionChange = (keys: Selection) => {
+        const typed = keys as MediaGridSelection;
         if (!isControlledSelection) {
-            setInternalSelection(keys);
+            setInternalSelection(typed);
         }
-        onSelectionChange?.(keys);
+        onSelectionChange?.(typed);
     };
-
-    const toggleKey = (key: string, index: number, shiftKey?: boolean) => {
-        if (selectionMode === 'none') {
-            return;
-        }
-
-        if (selectionMode === 'single') {
-            const next = new Set<string>([key]);
-            setSelectionAnchorIndex(index);
-            handleSelectionChange(next);
-            return;
-        }
-
-        if (shiftKey && selectionAnchorIndex !== null) {
-            const start = Math.min(selectionAnchorIndex, index);
-            const end = Math.max(selectionAnchorIndex, index);
-            const next = new Set(effectiveSelectionSet);
-
-            for (let currentIndex = start; currentIndex <= end; currentIndex += 1) {
-                const currentItem = getItemAt(currentIndex);
-                if (currentItem) {
-                    next.add(String(currentItem.id));
-                }
-            }
-
-            handleSelectionChange(next);
-            return;
-        }
-
-        const next = new Set(effectiveSelectionSet);
-
-        if (next.has(key)) {
-            next.delete(key);
-        } else {
-            next.add(key);
-        }
-
-        setSelectionAnchorIndex(index);
-        handleSelectionChange(next);
-    };
-
-    const listLayout: ListLayoutOptions = useMemo(
-        () => ({
-            estimatedRowHeight: rowHeight + verticalGap,
-            rowHeight: rowHeight + verticalGap,
-        }),
-        [rowHeight, verticalGap]
-    );
 
     const rootClassName = [styles.root, className].filter(Boolean).join(' ');
-    const loadMoreItemsCount = Math.max(1, columnCount * Math.max(1, loadMoreThresholdRows));
-    const shouldLoadMore = hasNextPage && loadMoreItemsCount > 0;
+    const shouldLoadMore = hasNextPage && loadMoreThresholdRows > 0;
+
+    useEffect(() => {
+        if (!shouldLoadMore || !onLoadMore) {
+            return;
+        }
+
+        const scrollRoot = containerRef.current?.querySelector<HTMLElement>('[role="grid"]');
+        const target = loadMoreRef.current;
+
+        if (!scrollRoot || !target) {
+            return;
+        }
+
+        const preloadDistance = Math.max(0, loadMoreThresholdRows) * (itemSize + effectiveGap);
+        const observer = new IntersectionObserver(
+            (entries) => {
+                const isVisible = entries.some((entry) => entry.isIntersecting);
+                if (!isVisible || isLoadingMore || loadMorePendingRef.current) {
+                    return;
+                }
+
+                loadMorePendingRef.current = true;
+                onLoadMore();
+            },
+            {
+                root: scrollRoot,
+                rootMargin: `0px 0px ${preloadDistance}px 0px`,
+                threshold: 0,
+            }
+        );
+
+        observer.observe(target);
+        return () => observer.disconnect();
+    }, [shouldLoadMore, onLoadMore, isLoadingMore, loadMoreThresholdRows, itemSize, effectiveGap]);
 
     if (!isLoading && totalItems === 0) {
         return (
@@ -351,32 +217,105 @@ export function MediaGrid<T extends { id: string | number }>({
         <View UNSAFE_className={rootClassName} UNSAFE_style={style}>
             <div className={styles.gridContainer} ref={containerRef}>
                 <div className={styles.gridInner}>
-                    <VirtualizedListLayout
-                        items={rows}
-                        isLoading={isLoadingMore}
-                        layoutOptions={listLayout}
-                        containerHeight="100%"
-                        ariaLabel={ariaLabel}
-                        idFormatter={(row: VirtualizedMediaRow) => row.id}
-                        textValueFormatter={(row: VirtualizedMediaRow) => `Media row ${row.rowIndex + 1}`}
-                        renderItem={(row: VirtualizedMediaRow) => (
-                            <MediaGridRow
-                                row={row}
-                                totalItems={totalItems}
-                                getItemAt={getItemAt}
-                                selectionMode={selectionMode}
-                                effectiveSelection={effectiveSelection}
-                                effectiveSelectionSet={effectiveSelectionSet}
-                                toggleKey={toggleKey}
-                                onItemPress={onItemPress}
-                                onItemDoublePress={onItemDoublePress}
-                                renderItem={renderItem}
-                                gap={gap}
-                            />
-                        )}
-                        renderLoading={() => loadingState ?? <Text>Loading more…</Text>}
-                        onLoadMore={shouldLoadMore ? onLoadMore : undefined}
-                    />
+                    <Virtualizer
+                        layout={GridLayout}
+                        layoutOptions={{
+                            minItemSize: new Size(itemSize, itemSize),
+                            minSpace: new Size(effectiveGap, effectiveGap),
+                            maxColumns: columnCount,
+                        }}
+                    >
+                        <GridList
+                            aria-label={ariaLabel}
+                            className={styles.gridListBox}
+                            style={{ display: 'block', padding: 0, height: '100%', width: '100%' }}
+                            layout="grid"
+                            selectionMode={selectionMode}
+                            selectionBehavior="replace"
+                            selectedKeys={effectiveSelection}
+                            onSelectionChange={handleSelectionChange}
+                            onAction={(key: Key) => {
+                                const entry = items.find((itemEntry) => itemEntry.key === String(key));
+                                if (!entry?.item) {
+                                    return;
+                                }
+
+                                onItemPress?.({
+                                    item: entry.item,
+                                    index: entry.index,
+                                    isPlaceholder: false,
+                                    isSelected: effectiveSelection === 'all' || effectiveSelectionSet.has(String(entry.item.id)),
+                                    selectionMode,
+                                    onPress: () => undefined,
+                                    onDoublePress: () => undefined,
+                                });
+                            }}
+                        >
+                            {items.map((entry) => {
+                                const isPlaceholder = entry.item === undefined;
+                                const isSelected =
+                                    !isPlaceholder &&
+                                    (effectiveSelection === 'all' || effectiveSelectionSet.has(String(entry.item?.id ?? '')));
+
+                                const handlePress = () => {
+                                    if (!entry.item || isPlaceholder) {
+                                        return;
+                                    }
+
+                                    onItemPress?.({
+                                        item: entry.item,
+                                        index: entry.index,
+                                        isPlaceholder: false,
+                                        isSelected: effectiveSelection === 'all' || effectiveSelectionSet.has(String(entry.item.id)),
+                                        selectionMode,
+                                        onPress: handlePress,
+                                        onDoublePress: handleDoublePress,
+                                    });
+                                };
+
+                                const handleDoublePress = () => {
+                                    if (!entry.item || isPlaceholder) {
+                                        return;
+                                    }
+
+                                    onItemDoublePress?.({
+                                        item: entry.item,
+                                        index: entry.index,
+                                        isPlaceholder: false,
+                                        isSelected: effectiveSelection === 'all' || effectiveSelectionSet.has(String(entry.item.id)),
+                                        selectionMode,
+                                        onPress: handlePress,
+                                        onDoublePress: handleDoublePress,
+                                    });
+                                };
+
+                                const context: MediaGridRenderContext<T> = {
+                                    item: entry.item,
+                                    index: entry.index,
+                                    isPlaceholder,
+                                    isSelected,
+                                    selectionMode,
+                                    onPress: handlePress,
+                                    onDoublePress: handleDoublePress,
+                                };
+
+                                return (
+                                    <GridListItem
+                                        id={entry.key}
+                                        key={entry.key}
+                                        textValue={`Media item ${entry.index + 1}`}
+                                        style={{ height: '100%' }}
+                                    >
+                                        <div className={styles.mediaGridCell}>{renderItem(context)}</div>
+                                    </GridListItem>
+                                );
+                            })}
+                        </GridList>
+                    </Virtualizer>
+                    {shouldLoadMore ? <div ref={loadMoreRef} style={{ height: 1 }} /> : null}
+                    {isLoadingMore && shouldLoadMore ? (
+                        <div style={{ paddingTop: 8 }}>{loadingState ?? <Text>Loading more…</Text>}</div>
+                    ) : null}
                 </div>
             </div>
         </View>

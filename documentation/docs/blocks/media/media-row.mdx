@@ -87,30 +87,31 @@ export default function App() {
   return (
     <ThemeProvider>
       <div style={{ height: 240 }}>
-        <Flex alignItems="center" gap="size-100" height="100%">
-          <div style={{ fontSize: 12, minWidth: 140 }}>Current selected: {selectedItem?.name ?? 'None'}</div>
+        <Flex alignItems="center" gap="size-100" height="100%" direction="column" width="100%">
+          <div style={{ fontSize: 12 }}>Current selected: {selectedItem?.name ?? 'None'}</div>
+          <Flex alignItems="center" gap="size-100" height="100%">
+            <Button variant="secondary" onPress={() => selectRelative('prev')}>
+              Previous
+            </Button>
 
-          <Button variant="secondary" onPress={() => selectRelative('prev')}>
-            Previous
-          </Button>
-
-          <div style={{ flex: 1, minWidth: 0, height: itemSize }}>
-            <MediaRow
-              totalItems={media.length}
-              getItemAt={(index) => media[index]}
-              itemSize={itemSize}
-              gap={gap}
-              selectionMode="single"
-              selectedKeys={selectedKeys}
-              onSelectionChange={handleSelectionChange}
-              focusOnSelect
-              renderItem={renderItem}
-            />
-          </div>
-
-          <Button variant="primary" onPress={() => selectRelative('next')}>
-            Next
-          </Button>
+            <div style={{ flex: 1, minWidth: 0, height: itemSize }}>
+              <MediaRow
+                totalItems={media.length}
+                getItemAt={(index) => media[index]}
+                itemSize={itemSize}
+                gap={gap}
+                selectionMode="single"
+                selectedKeys={selectedKeys}
+                onSelectionChange={handleSelectionChange}
+                focusOnSelect
+                renderItem={renderItem}
+              />
+            </div>
+     
+            <Button variant="primary" onPress={() => selectRelative('next')}>
+              Next
+            </Button>
+          </Flex>
         </Flex>
       </div>
     </ThemeProvider>

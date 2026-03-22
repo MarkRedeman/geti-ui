@@ -34,15 +34,23 @@ export function MediaGridItem({
             ) : null}
             {bottomLeft ? <div className={`${classNames.overlay} ${classNames.bottomLeft} ${classNames.bottomLeftContainer}`}>{bottomLeft}</div> : null}
             {bottomRight ? <div className={`${classNames.overlay} ${classNames.bottomRight} ${classNames.bottomRightContainer}`}>{bottomRight}</div> : null}
-            <button
-                type="button"
+            <div
                 className={className}
-                onClick={(event) => onPress?.({ shiftKey: event.shiftKey })}
-                onDoubleClick={onDoublePress}
-                disabled={isPlaceholder}
+                onClick={(event) => {
+                    if (isPlaceholder) {
+                        return;
+                    }
+                    onPress?.({ shiftKey: event.shiftKey });
+                }}
+                onDoubleClick={() => {
+                    if (isPlaceholder) {
+                        return;
+                    }
+                    onDoublePress?.();
+                }}
             >
                 <div className={classNames.content}>{children}</div>
-            </button>
+            </div>
         </div>
     );
 }
