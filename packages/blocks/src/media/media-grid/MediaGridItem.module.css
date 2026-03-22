@@ -1,3 +1,9 @@
+.itemRoot {
+    position: relative;
+    width: 100%;
+    height: 100%;
+}
+
 .itemButton {
     position: relative;
     width: 100%;
@@ -48,6 +54,20 @@
     right: 8px;
 }
 
+.topLeftContainer {
+    background: var(--spectrum-global-color-gray-50);
+    border-radius: var(--spectrum-global-dimension-size-50);
+    padding: var(--spectrum-global-dimension-size-150);
+    line-height: 0;
+}
+
+.topRightContainer {
+    background: var(--spectrum-global-color-gray-50);
+    border-radius: var(--spectrum-global-dimension-size-50);
+    padding: var(--spectrum-global-dimension-size-50);
+    line-height: 0;
+}
+
 .bottomLeft {
     bottom: 8px;
     left: 8px;
@@ -56,6 +76,15 @@
 .bottomRight {
     bottom: 8px;
     right: 8px;
+}
+
+.bottomLeftContainer,
+.bottomRightContainer {
+    background: var(--spectrum-global-color-gray-50);
+    border-radius: var(--spectrum-global-dimension-size-50);
+    padding: var(--spectrum-global-dimension-size-100);
+    display: inline-flex;
+    align-items: center;
 }
 
 .placeholder {

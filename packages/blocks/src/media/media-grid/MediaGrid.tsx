@@ -93,6 +93,7 @@ export function MediaGrid<T extends { id: string | number }>({
     const columnCount = getColumns(containerWidth, itemSize, gap);
     const computedItemWidth = getComputedItemWidth(containerWidth, columnCount, gap);
     const rowHeight = computedItemWidth;
+    const verticalGap = Math.max(0, Math.round(gap / 2));
     const rowCount = Math.ceil(Math.max(0, totalItems) / columnCount);
 
     const rows = useMemo<VirtualizedMediaRow[]>(() => {
@@ -106,11 +107,11 @@ export function MediaGrid<T extends { id: string | number }>({
                 startIndex,
                 endIndex,
                 itemSize: rowHeight,
-                gap,
+                gap: verticalGap,
                 columnCount,
             };
         });
-    }, [rowCount, columnCount, totalItems, rowHeight, gap]);
+    }, [rowCount, columnCount, totalItems, rowHeight, verticalGap]);
 
     const loadedItemsCount = useMemo(() => {
         let loaded = 0;
@@ -184,7 +185,7 @@ export function MediaGrid<T extends { id: string | number }>({
                     className={styles.rowItems}
                     style={{
                         gridTemplateColumns: `repeat(${row.columnCount}, minmax(0, 1fr))`,
-                        gap: row.gap,
+                        columnGap: gap,
                     }}
                 >
                     {cells.map((index) => {
@@ -225,10 +226,10 @@ export function MediaGrid<T extends { id: string | number }>({
 
     const listLayout: ListLayoutOptions = useMemo(
         () => ({
-            estimatedRowHeight: rowHeight + gap,
-            rowHeight: rowHeight + gap,
+            estimatedRowHeight: rowHeight + verticalGap,
+            rowHeight: rowHeight + verticalGap,
         }),
-        [rowHeight, gap]
+        [rowHeight, verticalGap]
     );
 
     const rootClassName = [styles.root, className].filter(Boolean).join(' ');
