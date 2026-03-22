@@ -24,6 +24,15 @@ function getColumns(width: number, itemSize: number, gap: number): number {
     return Math.max(1, Math.floor((width + gap) / (itemSize + gap)));
 }
 
+function getComputedItemWidth(width: number, columnCount: number, gap: number): number {
+    if (columnCount <= 0) {
+        return width;
+    }
+
+    const totalGap = Math.max(0, columnCount - 1) * gap;
+    return Math.max(1, (width - totalGap) / columnCount);
+}
+
 function normalizeSelectionKeys(selection: MediaGridSelection): Set<string> {
     if (selection === 'all') {
         return new Set<string>();
@@ -35,7 +44,7 @@ export function MediaGrid<T extends { id: string | number }>({
     totalItems,
     getItemAt,
     itemSize = 200,
-    selectionMode = 'none',
+    selectionMode = 'multiple',
     selectedKeys,
     defaultSelectedKeys,
     onSelectionChange,
@@ -82,6 +91,8 @@ export function MediaGrid<T extends { id: string | number }>({
     }, []);
 
     const columnCount = getColumns(containerWidth, itemSize, gap);
+    const computedItemWidth = getComputedItemWidth(containerWidth, columnCount, gap);
+    const rowHeight = computedItemWidth;
     const rowCount = Math.ceil(Math.max(0, totalItems) / columnCount);
 
     const rows = useMemo<VirtualizedMediaRow[]>(() => {
@@ -94,12 +105,12 @@ export function MediaGrid<T extends { id: string | number }>({
                 rowIndex,
                 startIndex,
                 endIndex,
-                itemSize,
+                itemSize: rowHeight,
                 gap,
                 columnCount,
             };
         });
-    }, [rowCount, columnCount, totalItems, itemSize, gap]);
+    }, [rowCount, columnCount, totalItems, rowHeight, gap]);
 
     const loadedItemsCount = useMemo(() => {
         let loaded = 0;
@@ -205,11 +216,7 @@ export function MediaGrid<T extends { id: string | number }>({
                             },
                         };
 
-                        return (
-                            <div className={styles.rowItem} key={key}>
-                                {renderItem(context)}
-                            </div>
-                        );
+                        return <div className={styles.rowItem} key={key}>{renderItem(context)}</div>;
                     })}
                 </div>
             </div>
@@ -218,10 +225,10 @@ export function MediaGrid<T extends { id: string | number }>({
 
     const listLayout: ListLayoutOptions = useMemo(
         () => ({
-            estimatedRowHeight: itemSize + gap,
-            rowHeight: itemSize + gap,
+            estimatedRowHeight: rowHeight + gap,
+            rowHeight: rowHeight + gap,
         }),
-        [itemSize, gap]
+        [rowHeight, gap]
     );
 
     const rootClassName = [styles.root, className].filter(Boolean).join(' ');
@@ -246,8 +253,8 @@ export function MediaGrid<T extends { id: string | number }>({
                         layoutOptions={listLayout}
                         containerHeight="100%"
                         ariaLabel="Media grid"
-                        idFormatter={(row) => row.id}
-                        textValueFormatter={(row) => `Media row ${row.rowIndex + 1}`}
+                        idFormatter={(row: VirtualizedMediaRow) => row.id}
+                        textValueFormatter={(row: VirtualizedMediaRow) => `Media row ${row.rowIndex + 1}`}
                         renderItem={renderRow}
                         renderLoading={() => loadingState ?? <Text>Loading more…</Text>}
                         onLoadMore={onLoadMore}

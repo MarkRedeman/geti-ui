@@ -93,6 +93,31 @@ export default function App() {
 }
 ```
 
+## `MediaGrid` props
+
+| Prop | Type | Required | Description |
+| --- | --- | --- | --- |
+| `totalItems` | `number` | Yes | Total number of items represented by the grid (loaded + not yet loaded). Used to keep virtualization and scrollbar size stable. |
+| `getItemAt` | `(index: number) => T \| undefined` | Yes | Returns loaded item data for an absolute index, or `undefined` for unloaded slots. |
+| `renderItem` | `(context: MediaGridRenderContext<T>) => ReactNode` | Yes | Renders each cell. Called for both loaded and placeholder entries. |
+| `itemSize` | `number` | No | Square item size in px. Default: `200`. |
+| `gap` | `number` | No | Grid gap in px (horizontal + vertical). Default: `8`. |
+| `selectionMode` | `'none' \| 'single' \| 'multiple'` | No | Selection behavior. Default: `'multiple'`. |
+| `selectedKeys` | `Set<string> \| 'all'` | No | Controlled selection state. |
+| `defaultSelectedKeys` | `Iterable<string>` | No | Initial uncontrolled selection state. |
+| `onSelectionChange` | `(keys: Set<string> \| 'all') => void` | No | Called whenever selection changes. |
+| `onItemPress` | `(context: MediaGridRenderContext<T>) => void` | No | Called when a loaded item is pressed. |
+| `onItemDoublePress` | `(context: MediaGridRenderContext<T>) => void` | No | Called when a loaded item is double-pressed. |
+| `hasNextPage` | `boolean` | No | Whether more data can be loaded. |
+| `isLoadingMore` | `boolean` | No | Loading state for incremental fetches. |
+| `onLoadMore` | `() => void` | No | Called when viewport approaches the end threshold. |
+| `loadMoreThresholdRows` | `number` | No | Prefetch threshold expressed in rows from the end. Default: `2`. |
+| `isLoading` | `boolean` | No | Initial/loading state for the whole grid. |
+| `emptyState` | `ReactNode` | No | Custom empty-state UI when there are no items. |
+| `loadingState` | `ReactNode` | No | Custom "loading more" row UI. |
+| `className` | `string` | No | Optional class for the root container. |
+| `style` | `CSSProperties` | No | Inline styles for the root container. |
+
 ## Why `totalItems` + `getItemAt`?
 
 `MediaGrid` computes scroll height from `totalItems`, so scrollbar size stays stable while pages are still loading.
@@ -101,9 +126,11 @@ export default function App() {
 
 ## Selection model
 
-`MediaGrid` mirrors Spectrum-style controlled selection props:
+`MediaGrid` mirrors Spectrum-style controlled selection props.
 
-- `selectionMode`: `none | single | multiple`
+By default, `MediaGrid` uses `selectionMode="multiple"`.
+
+- `selectionMode`: `none | single | multiple` (default: `multiple`)
 - `selectedKeys`
 - `defaultSelectedKeys`
 - `onSelectionChange`
@@ -269,6 +296,103 @@ export default function App() {
             selectedKeys={selectedKeys}
             onSelectionChange={setSelectedKeys}
             renderItem={renderCustomItem}
+          />
+        </div>
+      </Flex>
+    </ThemeProvider>
+  );
+}
+```
+
+## Varying thumbnail aspect ratios
+
+This example uses source images with different intrinsic aspect ratios while keeping a stable square grid layout.
+
+It also includes mode toggles to quickly validate behavior across item sizes.
+
+```tsx preview
+import { useMemo, useState } from 'react';
+import { ThemeProvider, Flex } from '@geti-ai/ui';
+import {
+  MediaGrid,
+  MediaGridModeToggleButtons,
+  MediaGridThumbnailItem,
+  DEFAULT_MEDIA_GRID_VIEW_MODES,
+  type MediaGridRenderContext,
+  type MediaGridSelection,
+} from '@geti-ai/blocks';
+
+type Media = {
+  id: string;
+  name: string;
+  thumbnailUrl: string;
+};
+
+const sizePairs = [
+  [640, 360],
+  [360, 640],
+  [1024, 768],
+  [768, 1024],
+  [1200, 400],
+  [400, 1200],
+  [500, 500],
+];
+
+const allMedia: Media[] = Array.from({ length: 180 }, (_, index) => {
+  const [w, h] = sizePairs[index % sizePairs.length];
+
+  return {
+    id: `media-${index + 1}`,
+    name: `Aspect ${w}x${h}`,
+    thumbnailUrl: `https://picsum.photos/seed/aspect-${index + 1}/${w}/${h}`,
+  };
+});
+
+const modes = {
+  ...DEFAULT_MEDIA_GRID_VIEW_MODES,
+  compact: { label: 'Compact', itemSize: 96 },
+};
+
+export default function App() {
+  const [loadedCount, setLoadedCount] = useState(80);
+  const [mode, setMode] = useState<'small' | 'medium' | 'large' | 'compact'>('medium');
+  const [selectedKeys, setSelectedKeys] = useState<MediaGridSelection>(new Set());
+
+  const byIndex = useMemo(() => {
+    const map = new Map<number, Media>();
+    for (let i = 0; i < loadedCount; i += 1) {
+      map.set(i, allMedia[i]);
+    }
+    return map;
+  }, [loadedCount]);
+
+  const renderItem = (ctx: MediaGridRenderContext<Media>) => (
+    <MediaGridThumbnailItem
+      src={ctx.item?.thumbnailUrl}
+      alt={ctx.item?.name ?? 'Loading media'}
+      isSelected={ctx.isSelected}
+      isPlaceholder={ctx.isPlaceholder}
+      onPress={ctx.onPress}
+      onDoublePress={ctx.onDoublePress}
+    />
+  );
+
+  return (
+    <ThemeProvider>
+      <Flex direction="column" gap="size-150">
+        <MediaGridModeToggleButtons options={modes} value={mode} onChange={(next) => setMode(next as typeof mode)} />
+
+        <div style={{ height: 520 }}>
+          <MediaGrid
+            totalItems={allMedia.length}
+            getItemAt={(index) => byIndex.get(index)}
+            itemSize={modes[mode].itemSize}
+            hasNextPage={loadedCount < allMedia.length}
+            onLoadMore={() => setLoadedCount((prev) => Math.min(prev + 30, allMedia.length))}
+            selectionMode="multiple"
+            selectedKeys={selectedKeys}
+            onSelectionChange={setSelectedKeys}
+            renderItem={renderItem}
           />
         </div>
       </Flex>
