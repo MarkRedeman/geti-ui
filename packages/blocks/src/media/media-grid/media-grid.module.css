@@ -1,0 +1,37 @@
+.root {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spectrum-global-dimension-size-100);
+    height: 100%;
+    min-height: 0;
+}
+
+.gridContainer {
+    flex: 1;
+    min-height: 0;
+    position: relative;
+}
+
+.gridInner {
+    height: 100%;
+    min-height: 0;
+}
+
+.row {
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.rowItems {
+    display: grid;
+    width: 100%;
+}
+
+.rowItem {
+    position: relative;
+}
+
+.emptyState {
+    height: 100%;
+    min-height: 220px;
+}

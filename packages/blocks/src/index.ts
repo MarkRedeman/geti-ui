@@ -29,3 +29,24 @@ export type {
     LogsFiltersState,
     LogLevelName,
 } from './blocks/Logs';
+
+export {
+    MediaGrid,
+    MediaGridItem,
+    MediaGridThumbnailItem,
+    MediaGridModeToggleButtons,
+    DEFAULT_MEDIA_GRID_VIEW_MODE,
+    DEFAULT_MEDIA_GRID_VIEW_MODES,
+} from './media/media-grid';
+
+export type {
+    MediaGridProps,
+    MediaGridRenderContext,
+    MediaGridItemProps,
+    MediaGridThumbnailItemProps,
+    MediaGridModeToggleButtonsProps,
+    MediaGridSelection,
+    MediaGridSelectionMode,
+    MediaGridIdentifiable,
+    MediaGridViewModeConfig,
+} from './media/media-grid';
