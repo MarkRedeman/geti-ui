@@ -1,0 +1,41 @@
+---
+title: Content
+---
+
+# Content
+
+`Content` defines the main body region inside overlays such as dialogs.
+
+```tsx
+import { Content } from '@geti-ai/ui';
+```
+
+- [React Spectrum Content ↗](https://react-spectrum.adobe.com/react-spectrum/Dialog.html)
+- [Geti UI Theming](/components/theming)
+
+## Examples
+
+### Dialog content body
+
+```tsx preview
+import { Button, Content, Dialog, DialogTrigger, Divider, Heading } from '@geti-ai/ui';
+
+export default function App() {
+  return (
+    <DialogTrigger>
+      <Button variant="accent">Open</Button>
+      <Dialog>
+        <Heading>Delete project</Heading>
+        <Divider />
+        <Content>
+          This action permanently removes the project and cannot be undone.
+        </Content>
+      </Dialog>
+    </DialogTrigger>
+  );
+}
+```
+
+## Responsibility
+
+`Content` is a thin wrapper around React Spectrum `Content`. Use it to structure semantic body content in dialogs and similar overlay containers.

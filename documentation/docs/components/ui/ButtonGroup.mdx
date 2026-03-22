@@ -1,0 +1,51 @@
+---
+title: ButtonGroup
+---
+
+# ButtonGroup
+
+`ButtonGroup` groups related actions and applies consistent spacing/alignment between buttons.
+
+```tsx
+import { Button, ButtonGroup } from '@geti-ai/ui';
+```
+
+- [React Spectrum ButtonGroup ↗](https://react-spectrum.adobe.com/react-spectrum/ButtonGroup.html)
+- [Geti UI Theming](/components/theming)
+
+## Examples
+
+### Horizontal actions (default)
+
+```tsx preview
+import { Button, ButtonGroup } from '@geti-ai/ui';
+
+export default function App() {
+  return (
+    <ButtonGroup>
+      <Button variant="secondary">Cancel</Button>
+      <Button variant="accent">Save</Button>
+    </ButtonGroup>
+  );
+}
+```
+
+### Vertical action stack
+
+```tsx preview
+import { Button, ButtonGroup } from '@geti-ai/ui';
+
+export default function App() {
+  return (
+    <ButtonGroup orientation="vertical">
+      <Button variant="secondary">Back</Button>
+      <Button variant="secondary">Reset</Button>
+      <Button variant="accent">Apply</Button>
+    </ButtonGroup>
+  );
+}
+```
+
+## Responsibility
+
+`ButtonGroup` is a thin wrapper around React Spectrum `ButtonGroup`. It keeps dialog/footer action layouts available from the `@geti-ai/ui` entry point.

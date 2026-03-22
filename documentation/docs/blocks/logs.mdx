@@ -70,11 +70,15 @@ This dialog example intentionally renders **10000 log lines** to demonstrate per
 ```tsx preview
 import {
   Button,
+  ButtonGroup,
+  Content,
+  Divider,
   Dialog,
   DialogTrigger,
+  Footer,
+  Heading,
   ThemeProvider,
 } from '@geti-ai/ui';
-import { ButtonGroup, Content, Divider, Footer, Heading } from '@adobe/react-spectrum';
 import { LogsContent, type LogEntryData } from '@geti-ai/blocks';
 
 const levelCycle = [
@@ -209,11 +213,15 @@ Use this for investigation workflows where logs should take the full available d
 ```tsx
 import {
   Button,
+  ButtonGroup,
+  Content,
+  Divider,
   Dialog,
   DialogTrigger,
+  Footer,
+  Heading,
   ThemeProvider,
 } from '@geti-ai/ui';
-import { ButtonGroup, Content, Divider, Footer, Heading } from '@adobe/react-spectrum';
 import { LogsContent, type LogEntryData } from '@geti-ai/blocks';
 
 const logs: LogEntryData[] = Array.from({ length: 1200 }, (_, index) => ({
