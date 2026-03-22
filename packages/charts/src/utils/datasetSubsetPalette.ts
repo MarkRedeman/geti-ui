@@ -37,14 +37,11 @@ export interface DatasetSubsetColorizeOptions {
 
 /**
  * Default, opinionated dataset subset palette:
- * - train      → green
- * - validation → red
- * - test       → yellow
  */
 export const defaultDatasetSubsetPalette: DatasetSubsetPalette = {
-    train: 'var(--spectrum-global-color-green-500)',
-    validation: 'var(--spectrum-global-color-red-500)',
-    test: 'var(--spectrum-global-color-yellow-500)',
+    train: 'var(--moss-tint-1)',
+    validation: 'var(--brand-daisy-tint)',
+    test: 'var(--geode-tint)',
 };
 
 export const defaultDatasetSubsetAliases: DatasetSubsetAliases = {
@@ -53,9 +50,7 @@ export const defaultDatasetSubsetAliases: DatasetSubsetAliases = {
     test: ['test', 'testing', 'tst'],
 };
 
-export function createDatasetSubsetPalette(
-    palette?: Partial<DatasetSubsetPalette>
-): DatasetSubsetPalette {
+export function createDatasetSubsetPalette(palette?: Partial<DatasetSubsetPalette>): DatasetSubsetPalette {
     return {
         ...defaultDatasetSubsetPalette,
         ...palette,
@@ -66,10 +61,7 @@ function normalize(value: string): string {
     return value.trim().toLowerCase();
 }
 
-function resolveSubset(
-    value: string,
-    aliases?: Partial<DatasetSubsetAliases>
-): DatasetSubset | undefined {
+function resolveSubset(value: string, aliases?: Partial<DatasetSubsetAliases>): DatasetSubset | undefined {
     const mergedAliases: DatasetSubsetAliases = {
         train: aliases?.train ?? defaultDatasetSubsetAliases.train,
         validation: aliases?.validation ?? defaultDatasetSubsetAliases.validation,
@@ -108,10 +100,7 @@ export function withDatasetSubsetPalette<
         dataKey?: string;
         name?: string;
     },
->(
-    series: T[],
-    options?: DatasetSubsetColorizeOptions
-): T[] {
+>(series: T[], options?: DatasetSubsetColorizeOptions): T[] {
     const matchBy = options?.matchBy ?? 'dataKey';
 
     return series.map((item) => {
