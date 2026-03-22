@@ -51,7 +51,7 @@ export default defineConfig({
         llmsUI: true,
         nav: [
             { text: 'Components', link: '/components/installation', activeMatch: '/components/' },
-            { text: 'Blocks', link: '/blocks/overview', activeMatch: '/blocks/' },
+            { text: 'Blocks', link: '/blocks/installation', activeMatch: '/blocks/' },
             { text: 'Assets', link: '/assets/', activeMatch: '/assets/' },
             { text: 'Charts', link: '/charts/installation', activeMatch: '/charts/' },
             { text: 'Smart tools', link: '/smart-tools/installation', activeMatch: '/smart-tools/' },

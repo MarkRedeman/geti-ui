@@ -158,22 +158,48 @@
     }
   ],
   "blocksSidebar": [
-    { "text": "Overview", "link": "/blocks/overview" },
+    { "text": "Installation", "link": "/blocks/installation" },
+    { "text": "Logs", "link": "/blocks/logs" },
     {
-      "text": "Blocks",
+      "text": "Annotation",
       "collapsed": false,
       "items": [
-        { "text": "Dataset tabs", "link": "/blocks/dataset-tabs" },
-        { "text": "Logs", "link": "/blocks/logs" },
-        { "text": "Job management panel", "link": "/blocks/job-management-panel" },
-        { "text": "Model list", "link": "/blocks/model-list" },
-        { "text": "Annotation components", "link": "/blocks/annotation-components" },
-        { "text": "Media filter", "link": "/blocks/media-filter" },
-        { "text": "Media grid", "link": "/blocks/media-grid" },
-        { "text": "Toolbar", "link": "/blocks/toolbar" },
-        { "text": "Project list", "link": "/blocks/project-list" },
-        { "text": "Project menu", "link": "/blocks/project-menu" },
-        { "text": "Advanced parameters", "link": "/blocks/advanced-parameters" }
+        { "text": "Toolbar", "link": "/blocks/annotation/toolbar" },
+        { "text": "Zoom", "link": "/blocks/annotation/zoom" },
+        { "text": "Annotation", "link": "/blocks/annotation/annotation" },
+        { "text": "Prediction", "link": "/blocks/annotation/prediction" }
+      ]
+    },
+    {
+      "text": "Tabs",
+      "collapsed": false,
+      "items": [
+        { "text": "Managed tabs", "link": "/blocks/tabs/managed-tabs" },
+        { "text": "Overflowable tabs", "link": "/blocks/tabs/overflowable-tabs" }
+      ]
+    },
+    {
+      "text": "Media",
+      "collapsed": false,
+      "items": [
+        { "text": "Media filter", "link": "/blocks/media/media-filter" },
+        { "text": "Media grid", "link": "/blocks/media/media-grid" }
+      ]
+    },
+    {
+      "text": "Models",
+      "collapsed": false,
+      "items": [
+        { "text": "Model list", "link": "/blocks/models/model-list" },
+        { "text": "Advanced Training Parameters", "link": "/blocks/models/advanced-training-parameters" }
+      ]
+    },
+    {
+      "text": "Projects",
+      "collapsed": false,
+      "items": [
+        { "text": "Project list", "link": "/blocks/projects/project-list" },
+        { "text": "Project menu", "link": "/blocks/projects/project-menu" }
       ]
     }
   ],
