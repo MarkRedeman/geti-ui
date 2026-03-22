@@ -1,5 +1,4 @@
 import { useState } from 'react';
-import { PressableElement } from '@geti-ai/ui';
 import classNames from './MediaGridItem.module.css';
 import type { MediaGridItemProps } from './types';
 
@@ -35,9 +34,15 @@ export function MediaGridItem({
             ) : null}
             {bottomLeft ? <div className={`${classNames.overlay} ${classNames.bottomLeft} ${classNames.bottomLeftContainer}`}>{bottomLeft}</div> : null}
             {bottomRight ? <div className={`${classNames.overlay} ${classNames.bottomRight} ${classNames.bottomRightContainer}`}>{bottomRight}</div> : null}
-            <PressableElement onPress={onPress} onDoubleClick={onDoublePress} UNSAFE_className={className}>
+            <button
+                type="button"
+                className={className}
+                onClick={(event) => onPress?.({ shiftKey: event.shiftKey })}
+                onDoubleClick={onDoublePress}
+                disabled={isPlaceholder}
+            >
                 <div className={classNames.content}>{children}</div>
-            </PressableElement>
+            </button>
         </div>
     );
 }

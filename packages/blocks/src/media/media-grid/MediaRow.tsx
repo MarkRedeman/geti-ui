@@ -84,6 +84,7 @@ export function MediaRow<T extends MediaGridIdentifiable>({
     const [internalSelection, setInternalSelection] = useState<MediaGridSelection>(
         defaultSelectedKeys ? new Set(Array.from(defaultSelectedKeys)) : new Set()
     );
+    const [selectionAnchorIndex, setSelectionAnchorIndex] = useState<number | null>(null);
 
     const isControlledSelection = selectedKeys !== undefined;
     const effectiveSelection = isControlledSelection ? clampSelection(selectedKeys) : internalSelection;
@@ -105,26 +106,43 @@ export function MediaRow<T extends MediaGridIdentifiable>({
         onSelectionChange?.(keys);
     };
 
-    const toggleKey = (key: string) => {
+    const toggleKey = (key: string, index: number, shiftKey?: boolean) => {
         if (selectionMode === 'none') {
+            return;
+        }
+
+        if (selectionMode === 'single') {
+            const next = new Set<string>([key]);
+            setSelectionAnchorIndex(index);
+            handleSelectionChange(next);
+            return;
+        }
+
+        if (shiftKey && selectionAnchorIndex !== null) {
+            const start = Math.min(selectionAnchorIndex, index);
+            const end = Math.max(selectionAnchorIndex, index);
+            const next = new Set(effectiveSelectionSet);
+
+            for (let currentIndex = start; currentIndex <= end; currentIndex += 1) {
+                const currentItem = getItemAt(currentIndex);
+                if (currentItem) {
+                    next.add(String(currentItem.id));
+                }
+            }
+
+            handleSelectionChange(next);
             return;
         }
 
         const next = new Set(effectiveSelectionSet);
 
-        if (selectionMode === 'single') {
-            if (next.has(key)) {
-                next.clear();
-            } else {
-                next.clear();
-                next.add(key);
-            }
-        } else if (next.has(key)) {
+        if (next.has(key)) {
             next.delete(key);
         } else {
             next.add(key);
         }
 
+        setSelectionAnchorIndex(index);
         handleSelectionChange(next);
     };
 
@@ -171,12 +189,12 @@ export function MediaRow<T extends MediaGridIdentifiable>({
                             const isSelected =
                                 !isPlaceholder && (effectiveSelection === 'all' || effectiveSelectionSet.has(String(itemId)));
 
-                            const handlePress = () => {
+                            const handlePress = (event?: { shiftKey?: boolean }) => {
                                 if (!entry.item || isPlaceholder) {
                                     return;
                                 }
 
-                                toggleKey(String(entry.item.id));
+                                toggleKey(String(entry.item.id), entry.index, event?.shiftKey);
 
                                 onItemPress?.({
                                     item: entry.item,

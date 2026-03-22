@@ -1,5 +1,9 @@
 import { CSSProperties, ReactNode } from 'react';
 
+export type MediaGridPressEvent = {
+    shiftKey?: boolean;
+};
+
 export type MediaGridSelectionMode = 'none' | 'single' | 'multiple';
 export type MediaGridSelection = Set<string> | 'all';
 
@@ -26,7 +30,7 @@ export type MediaGridRenderContext<T extends MediaGridIdentifiable> = {
     isPlaceholder: boolean;
     isSelected: boolean;
     selectionMode: MediaGridSelectionMode;
-    onPress: () => void;
+    onPress: (event?: MediaGridPressEvent) => void;
     onDoublePress: () => void;
 };
 
@@ -97,7 +101,7 @@ export type MediaGridModeToggleButtonsProps = {
 export type MediaGridItemProps = {
     isSelected?: boolean;
     isPlaceholder?: boolean;
-    onPress?: () => void;
+    onPress?: (event?: MediaGridPressEvent) => void;
     onDoublePress?: () => void;
     topLeft?: ReactNode;
     topRight?: ReactNode;

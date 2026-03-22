@@ -22,7 +22,7 @@ type MediaGridRowProps<T extends { id: string | number }> = {
     selectionMode: 'none' | 'single' | 'multiple';
     effectiveSelection: MediaGridSelection;
     effectiveSelectionSet: Set<string>;
-    toggleKey: (key: string) => void;
+    toggleKey: (key: string, index: number, shiftKey?: boolean) => void;
     onItemPress?: (context: MediaGridRenderContext<T>) => void;
     onItemDoublePress?: (context: MediaGridRenderContext<T>) => void;
     renderItem: (context: MediaGridRenderContext<T>) => React.ReactNode;
@@ -132,13 +132,13 @@ function MediaGridRow<T extends { id: string | number }>({
                     const key = String(item?.id ?? `placeholder-${index}`);
                     const isSelected = !isPlaceholder && (effectiveSelection === 'all' || effectiveSelectionSet.has(String(item.id)));
 
-                    const handlePress = () => {
+                    const handlePress = (event?: { shiftKey?: boolean }) => {
                         if (isPlaceholder || !item) {
                             return;
                         }
 
                         const itemId = String(item.id);
-                        toggleKey(itemId);
+                        toggleKey(itemId, index, event?.shiftKey);
 
                         onItemPress?.({
                             item,
@@ -223,6 +223,7 @@ export function MediaGrid<T extends { id: string | number }>({
     const [internalSelection, setInternalSelection] = useState<MediaGridSelection>(
         defaultSelectedKeys ? new Set(Array.from(defaultSelectedKeys)) : new Set()
     );
+    const [selectionAnchorIndex, setSelectionAnchorIndex] = useState<number | null>(null);
 
     const isControlledSelection = selectedKeys !== undefined;
     const effectiveSelection = isControlledSelection ? clampSelection(selectedKeys) : internalSelection;
@@ -284,28 +285,43 @@ export function MediaGrid<T extends { id: string | number }>({
         onSelectionChange?.(keys);
     };
 
-    const toggleKey = (key: string) => {
+    const toggleKey = (key: string, index: number, shiftKey?: boolean) => {
         if (selectionMode === 'none') {
+            return;
+        }
+
+        if (selectionMode === 'single') {
+            const next = new Set<string>([key]);
+            setSelectionAnchorIndex(index);
+            handleSelectionChange(next);
+            return;
+        }
+
+        if (shiftKey && selectionAnchorIndex !== null) {
+            const start = Math.min(selectionAnchorIndex, index);
+            const end = Math.max(selectionAnchorIndex, index);
+            const next = new Set(effectiveSelectionSet);
+
+            for (let currentIndex = start; currentIndex <= end; currentIndex += 1) {
+                const currentItem = getItemAt(currentIndex);
+                if (currentItem) {
+                    next.add(String(currentItem.id));
+                }
+            }
+
+            handleSelectionChange(next);
             return;
         }
 
         const next = new Set(effectiveSelectionSet);
 
-        if (selectionMode === 'single') {
-            if (next.has(key)) {
-                next.clear();
-            } else {
-                next.clear();
-                next.add(key);
-            }
+        if (next.has(key)) {
+            next.delete(key);
         } else {
-            if (next.has(key)) {
-                next.delete(key);
-            } else {
-                next.add(key);
-            }
+            next.add(key);
         }
 
+        setSelectionAnchorIndex(index);
         handleSelectionChange(next);
     };
 
