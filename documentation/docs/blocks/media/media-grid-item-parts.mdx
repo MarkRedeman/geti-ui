@@ -24,6 +24,12 @@ import {
 
 ## `MediaGridItemCheckbox`
 
+| Prop | Type | Required | Description |
+| --- | --- | --- | --- |
+| `ariaLabel` | `string` | Yes | Accessible label for the checkbox. |
+| `isSelected` | `boolean` | Yes | Checkbox selected state. |
+| `onChange` | `(isSelected: boolean) => void` | Yes | Called with next selected state. |
+
 ```tsx preview
 import { useState } from 'react';
 import { ThemeProvider } from '@geti-ai/ui';
@@ -45,6 +51,19 @@ export default function App() {
 ```
 
 ## `MediaGridItemMenu`
+
+| Prop | Type | Required | Description |
+| --- | --- | --- | --- |
+| `ariaLabel` | `string` | No | Accessible label for the menu trigger. Default: `"Media actions"`. |
+| `actions` | `MediaGridItemMenuAction[]` | Yes | Menu action list. |
+| `onAction` | `(key: string) => void` | Yes | Called when an action is selected. |
+
+`MediaGridItemMenuAction` shape:
+
+| Field | Type | Description |
+| --- | --- | --- |
+| `key` | `string` | Stable action key passed to `onAction`. |
+| `label` | `string` | Visible action label in the menu. |
 
 ```tsx preview
 import { ThemeProvider } from '@geti-ai/ui';
@@ -69,6 +88,10 @@ export default function App() {
 
 ## `MediaGridItemInfo`
 
+| Prop | Type | Required | Description |
+| --- | --- | --- | --- |
+| `children` | `ReactNode` | Yes | Compact informational content (id, score, frame, etc.). |
+
 ```tsx preview
 import { ThemeProvider } from '@geti-ai/ui';
 import { MediaGridItemInfo } from '@geti-ai/blocks';
@@ -84,6 +107,11 @@ export default function App() {
 
 ## `MediaGridItemStatus`
 
+| Prop | Type | Required | Description |
+| --- | --- | --- | --- |
+| `variant` | `'notice' \| 'positive' \| 'negative' \| 'neutral' \| 'info'` | Yes | Semantic status color. |
+| `children` | `ReactNode` | Yes | Status label text. |
+
 ```tsx preview
 import { ThemeProvider, Flex } from '@geti-ai/ui';
 import { MediaGridItemStatus } from '@geti-ai/blocks';
@@ -95,6 +123,8 @@ export default function App() {
         <MediaGridItemStatus variant="notice">To review</MediaGridItemStatus>
         <MediaGridItemStatus variant="positive">Accepted</MediaGridItemStatus>
         <MediaGridItemStatus variant="negative">Rejected</MediaGridItemStatus>
+        <MediaGridItemStatus variant="neutral">Neutral</MediaGridItemStatus>
+        <MediaGridItemStatus variant="info">Info</MediaGridItemStatus>
       </Flex>
     </ThemeProvider>
   );

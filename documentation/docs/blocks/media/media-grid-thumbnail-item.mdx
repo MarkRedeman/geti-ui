@@ -32,6 +32,23 @@ export default function App() {
 }
 ```
 
+## `MediaGridThumbnailItem` props
+
+`MediaGridThumbnailItem` extends `MediaGridItem` props (except `children`) and adds thumbnail-specific source props.
+
+| Prop | Type | Required | Description |
+| --- | --- | --- | --- |
+| `src` | `string` | No | Thumbnail image URL. |
+| `alt` | `string` | No | Image alt text. Default: `"Media item thumbnail"`. |
+| `isSelected` | `boolean` | No | Selected visual state. |
+| `isPlaceholder` | `boolean` | No | Placeholder visual state. |
+| `onPress` | `() => void` | No | Press interaction handler. |
+| `onDoublePress` | `() => void` | No | Double-press interaction handler. |
+| `topLeft` | `ReactNode` | No | Top-left overlay slot. |
+| `topRight` | `ReactNode` | No | Top-right overlay slot. |
+| `bottomLeft` | `ReactNode` | No | Bottom-left overlay slot. |
+| `bottomRight` | `ReactNode` | No | Bottom-right overlay slot. |
+
 ## With overlays and selection
 
 ```tsx preview

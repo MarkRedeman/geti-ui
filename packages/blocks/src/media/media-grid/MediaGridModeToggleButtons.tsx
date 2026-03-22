@@ -1,4 +1,5 @@
 import { ToggleButtons } from '@geti-ai/ui';
+import { useEffect } from 'react';
 import { DEFAULT_MEDIA_GRID_VIEW_MODES } from './types';
 import type { MediaGridModeToggleButtonsProps } from './types';
 
@@ -15,6 +16,13 @@ export function MediaGridModeToggleButtons({
     const keys = Object.keys(options);
     const selected = keys.includes(value) ? value : keys[0];
 
+    useEffect(() => {
+        if (!selected || selected === value) {
+            return;
+        }
+        onChange(selected);
+    }, [onChange, selected, value]);
+
     if (!selected) {
         return null;
     }
@@ -25,7 +33,7 @@ export function MediaGridModeToggleButtons({
             selectedOption={selected}
             onOptionChange={onChange}
             isDisabled={isDisabled}
-            getLabel={(option) => options[option]?.label ?? option}
+            getLabel={(option: string) => options[option]?.label ?? option}
         />
     );
 }

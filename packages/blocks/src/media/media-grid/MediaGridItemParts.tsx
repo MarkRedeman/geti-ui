@@ -11,7 +11,7 @@ import type {
 export function MediaGridItemCheckbox({ ariaLabel, isSelected, onChange }: MediaGridItemCheckboxProps) {
     return (
         <View UNSAFE_className={styles.checkboxContainer}>
-            <Checkbox aria-label={ariaLabel} isSelected={isSelected} onChange={onChange} />
+            <Checkbox aria-label={ariaLabel} isSelected={isSelected} onChange={(next: boolean) => onChange(next)} />
         </View>
     );
 }
@@ -19,7 +19,7 @@ export function MediaGridItemCheckbox({ ariaLabel, isSelected, onChange }: Media
 export function MediaGridItemMenu({ ariaLabel = 'Media actions', actions, onAction }: MediaGridItemMenuProps) {
     return (
         <View UNSAFE_className={styles.menuContainer}>
-            <ActionMenu isQuiet aria-label={ariaLabel} onAction={(key) => onAction(String(key))}>
+            <ActionMenu isQuiet aria-label={ariaLabel} onAction={(key: React.Key) => onAction(String(key))}>
                 {actions.map((action) => (
                     <Item key={action.key}>{action.label}</Item>
                 ))}

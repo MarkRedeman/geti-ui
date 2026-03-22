@@ -4,7 +4,7 @@ import type { ListLayoutOptions } from 'react-aria-components';
 import styles from './media-grid.module.css';
 import type { MediaGridProps, MediaGridRenderContext, MediaGridSelection } from './types';
 
-interface VirtualizedMediaRow {
+type VirtualizedMediaRow = {
     id: string;
     rowIndex: number;
     startIndex: number;
@@ -12,7 +12,21 @@ interface VirtualizedMediaRow {
     itemSize: number;
     gap: number;
     columnCount: number;
-}
+};
+
+type MediaGridRowProps<T extends { id: string | number }> = {
+    row: VirtualizedMediaRow;
+    totalItems: number;
+    getItemAt: (index: number) => T | undefined;
+    selectionMode: 'none' | 'single' | 'multiple';
+    effectiveSelection: MediaGridSelection;
+    effectiveSelectionSet: Set<string>;
+    toggleKey: (key: string) => void;
+    onItemPress?: (context: MediaGridRenderContext<T>) => void;
+    onItemDoublePress?: (context: MediaGridRenderContext<T>) => void;
+    renderItem: (context: MediaGridRenderContext<T>) => React.ReactNode;
+    gap: number;
+};
 
 const clampSelection = (value: MediaGridSelection | undefined): MediaGridSelection => value ?? new Set<string>();
 
@@ -40,6 +54,99 @@ function normalizeSelectionKeys(selection: MediaGridSelection): Set<string> {
     return new Set(selection);
 }
 
+function MediaGridRow<T extends { id: string | number }>({
+    row,
+    totalItems,
+    getItemAt,
+    selectionMode,
+    effectiveSelection,
+    effectiveSelectionSet,
+    toggleKey,
+    onItemPress,
+    onItemDoublePress,
+    renderItem,
+    gap,
+}: MediaGridRowProps<T>) {
+    const cells = Array.from({ length: row.columnCount }, (_, offset) => row.startIndex + offset);
+
+    return (
+        <div
+            className={styles.row}
+            style={{
+                height: row.itemSize,
+                paddingBottom: row.gap,
+            }}
+        >
+            <div
+                className={styles.rowItems}
+                style={{
+                    gridTemplateColumns: `repeat(${row.columnCount}, minmax(0, 1fr))`,
+                    columnGap: gap,
+                }}
+            >
+                {cells.map((index) => {
+                    if (index >= totalItems) {
+                        return <div key={`empty-${index}`} />;
+                    }
+
+                    const item = getItemAt(index);
+                    const isPlaceholder = item === undefined;
+                    const key = String(item?.id ?? `placeholder-${index}`);
+                    const isSelected = !isPlaceholder && (effectiveSelection === 'all' || effectiveSelectionSet.has(String(item.id)));
+
+                    const handlePress = () => {
+                        if (isPlaceholder || !item) {
+                            return;
+                        }
+
+                        const itemId = String(item.id);
+                        toggleKey(itemId);
+
+                        onItemPress?.({
+                            item,
+                            index,
+                            isPlaceholder: false,
+                            isSelected: effectiveSelection === 'all' || effectiveSelectionSet.has(itemId),
+                            selectionMode,
+                            onPress: handlePress,
+                            onDoublePress: handleDoublePress,
+                        });
+                    };
+
+                    const handleDoublePress = () => {
+                        if (isPlaceholder || !item) {
+                            return;
+                        }
+
+                        const itemId = String(item.id);
+                        onItemDoublePress?.({
+                            item,
+                            index,
+                            isPlaceholder: false,
+                            isSelected: effectiveSelection === 'all' || effectiveSelectionSet.has(itemId),
+                            selectionMode,
+                            onPress: handlePress,
+                            onDoublePress: handleDoublePress,
+                        });
+                    };
+
+                    const context: MediaGridRenderContext<T> = {
+                        item,
+                        index,
+                        isPlaceholder,
+                        isSelected,
+                        selectionMode,
+                        onPress: handlePress,
+                        onDoublePress: handleDoublePress,
+                    };
+
+                    return <div className={styles.rowItem} key={key}>{renderItem(context)}</div>;
+                })}
+            </div>
+        </div>
+    );
+}
+
 export function MediaGrid<T extends { id: string | number }>({
     totalItems,
     getItemAt,
@@ -55,6 +162,7 @@ export function MediaGrid<T extends { id: string | number }>({
     isLoading = false,
     emptyState,
     loadingState,
+    ariaLabel = 'Media grid',
     renderItem,
     onItemPress,
     onItemDoublePress,
@@ -113,16 +221,6 @@ export function MediaGrid<T extends { id: string | number }>({
         });
     }, [rowCount, columnCount, totalItems, rowHeight, verticalGap]);
 
-    const loadedItemsCount = useMemo(() => {
-        let loaded = 0;
-        for (let index = 0; index < totalItems; index += 1) {
-            if (getItemAt(index) !== undefined) {
-                loaded += 1;
-            }
-        }
-        return loaded;
-    }, [getItemAt, totalItems]);
-
     const handleSelectionChange = (keys: MediaGridSelection) => {
         if (!isControlledSelection) {
             setInternalSelection(keys);
@@ -155,75 +253,6 @@ export function MediaGrid<T extends { id: string | number }>({
         handleSelectionChange(next);
     };
 
-    const maybeLoadMore = (lastVisibleIndex: number) => {
-        if (!onLoadMore || !hasNextPage || isLoadingMore) {
-            return;
-        }
-
-        const thresholdItems = columnCount * loadMoreThresholdRows;
-        const shouldLoad = lastVisibleIndex >= Math.max(0, totalItems - thresholdItems);
-
-        if (shouldLoad) {
-            onLoadMore();
-        }
-    };
-
-    const renderRow = (row: VirtualizedMediaRow) => {
-        maybeLoadMore(row.endIndex - 1);
-
-        const cells = Array.from({ length: row.columnCount }, (_, offset) => row.startIndex + offset);
-
-        return (
-            <div
-                className={styles.row}
-                style={{
-                    height: row.itemSize,
-                    paddingBottom: row.gap,
-                }}
-            >
-                <div
-                    className={styles.rowItems}
-                    style={{
-                        gridTemplateColumns: `repeat(${row.columnCount}, minmax(0, 1fr))`,
-                        columnGap: gap,
-                    }}
-                >
-                    {cells.map((index) => {
-                        if (index >= totalItems) {
-                            return <div key={`empty-${index}`} />;
-                        }
-
-                        const item = getItemAt(index);
-                        const isPlaceholder = item === undefined;
-                        const key = String(item?.id ?? `placeholder-${index}`);
-                        const isSelected = !isPlaceholder && effectiveSelectionSet.has(String(item.id));
-
-                        const context: MediaGridRenderContext<T> = {
-                            item,
-                            index,
-                            isPlaceholder,
-                            isSelected,
-                            selectionMode,
-                            onPress: () => {
-                                if (!isPlaceholder) {
-                                    toggleKey(String(item.id));
-                                    onItemPress?.(context);
-                                }
-                            },
-                            onDoublePress: () => {
-                                if (!isPlaceholder) {
-                                    onItemDoublePress?.(context);
-                                }
-                            },
-                        };
-
-                        return <div className={styles.rowItem} key={key}>{renderItem(context)}</div>;
-                    })}
-                </div>
-            </div>
-        );
-    };
-
     const listLayout: ListLayoutOptions = useMemo(
         () => ({
             estimatedRowHeight: rowHeight + verticalGap,
@@ -233,6 +262,8 @@ export function MediaGrid<T extends { id: string | number }>({
     );
 
     const rootClassName = [styles.root, className].filter(Boolean).join(' ');
+    const loadMoreItemsCount = Math.max(1, columnCount * Math.max(1, loadMoreThresholdRows));
+    const shouldLoadMore = hasNextPage && loadMoreItemsCount > 0;
 
     if (!isLoading && totalItems === 0) {
         return (
@@ -253,23 +284,29 @@ export function MediaGrid<T extends { id: string | number }>({
                         isLoading={isLoadingMore}
                         layoutOptions={listLayout}
                         containerHeight="100%"
-                        ariaLabel="Media grid"
+                        ariaLabel={ariaLabel}
                         idFormatter={(row: VirtualizedMediaRow) => row.id}
                         textValueFormatter={(row: VirtualizedMediaRow) => `Media row ${row.rowIndex + 1}`}
-                        renderItem={renderRow}
+                        renderItem={(row: VirtualizedMediaRow) => (
+                            <MediaGridRow
+                                row={row}
+                                totalItems={totalItems}
+                                getItemAt={getItemAt}
+                                selectionMode={selectionMode}
+                                effectiveSelection={effectiveSelection}
+                                effectiveSelectionSet={effectiveSelectionSet}
+                                toggleKey={toggleKey}
+                                onItemPress={onItemPress}
+                                onItemDoublePress={onItemDoublePress}
+                                renderItem={renderItem}
+                                gap={gap}
+                            />
+                        )}
                         renderLoading={() => loadingState ?? <Text>Loading more…</Text>}
-                        onLoadMore={onLoadMore}
+                        onLoadMore={shouldLoadMore ? onLoadMore : undefined}
                     />
                 </div>
             </div>
-
-            {selectionMode !== 'none' ? (
-                <Text>
-                    {effectiveSelection === 'all'
-                        ? `Selected all ${totalItems} items`
-                        : `Selected ${effectiveSelectionSet.size} of ${loadedItemsCount} loaded items`}
-                </Text>
-            ) : null}
         </View>
     );
 }

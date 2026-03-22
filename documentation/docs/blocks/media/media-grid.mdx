@@ -118,6 +118,37 @@ export default function App() {
 | `className` | `string` | No | Optional class for the root container. |
 | `style` | `CSSProperties` | No | Inline styles for the root container. |
 
+## `MediaGridRenderContext` (for `renderItem`)
+
+| Field | Type | Description |
+| --- | --- | --- |
+| `item` | `T \| undefined` | Loaded item data. `undefined` means this index has not been loaded yet. |
+| `index` | `number` | Absolute item index in the virtualized collection. |
+| `isPlaceholder` | `boolean` | `true` when the item at this index is not loaded yet. |
+| `isSelected` | `boolean` | Current selection state for this item. |
+| `selectionMode` | `'none' \| 'single' \| 'multiple'` | Active selection mode used by the grid. |
+| `onPress` | `() => void` | Press handler wired by the grid (selection + optional callback). |
+| `onDoublePress` | `() => void` | Double-press handler wired by the grid. |
+
+## `MediaGridModeToggleButtons` props
+
+| Prop | Type | Required | Description |
+| --- | --- | --- | --- |
+| `options` | `Record<string, { label: string; itemSize: number }>` | No | Mode map. Defaults to `DEFAULT_MEDIA_GRID_VIEW_MODES`. |
+| `value` | `string` | Yes | Selected mode key. |
+| `onChange` | `(nextMode: string) => void` | Yes | Called when selected mode changes. |
+| `isDisabled` | `boolean` | No | Disables the toggle buttons. |
+
+## `DEFAULT_MEDIA_GRID_VIEW_MODES`
+
+Default exported modes:
+
+| Key | Label | itemSize |
+| --- | --- | --- |
+| `small` | `Small thumbnails` | `120` |
+| `medium` | `Medium thumbnails` | `200` |
+| `large` | `Large thumbnails` | `300` |
+
 ## Why `totalItems` + `getItemAt`?
 
 `MediaGrid` computes scroll height from `totalItems`, so scrollbar size stays stable while pages are still loading.

@@ -3,14 +3,14 @@ import { CSSProperties, ReactNode } from 'react';
 export type MediaGridSelectionMode = 'none' | 'single' | 'multiple';
 export type MediaGridSelection = Set<string> | 'all';
 
-export interface MediaGridIdentifiable {
+export type MediaGridIdentifiable = {
     id: string | number;
-}
+};
 
-export interface MediaGridViewModeConfig {
+export type MediaGridViewModeConfig = {
     label: string;
     itemSize: number;
-}
+};
 
 export const DEFAULT_MEDIA_GRID_VIEW_MODE = 'medium';
 
@@ -20,7 +20,7 @@ export const DEFAULT_MEDIA_GRID_VIEW_MODES: Record<string, MediaGridViewModeConf
     large: { label: 'Large thumbnails', itemSize: 300 },
 };
 
-export interface MediaGridRenderContext<T extends MediaGridIdentifiable> {
+export type MediaGridRenderContext<T extends MediaGridIdentifiable> = {
     item: T | undefined;
     index: number;
     isPlaceholder: boolean;
@@ -28,9 +28,9 @@ export interface MediaGridRenderContext<T extends MediaGridIdentifiable> {
     selectionMode: MediaGridSelectionMode;
     onPress: () => void;
     onDoublePress: () => void;
-}
+};
 
-export interface MediaGridProps<T extends MediaGridIdentifiable> {
+export type MediaGridProps<T extends MediaGridIdentifiable> = {
     totalItems: number;
     getItemAt: (index: number) => T | undefined;
     itemSize?: number;
@@ -48,6 +48,7 @@ export interface MediaGridProps<T extends MediaGridIdentifiable> {
     isLoading?: boolean;
     emptyState?: ReactNode;
     loadingState?: ReactNode;
+    ariaLabel?: string;
     renderItem: (context: MediaGridRenderContext<T>) => ReactNode;
 
     onItemPress?: (context: MediaGridRenderContext<T>) => void;
@@ -56,16 +57,16 @@ export interface MediaGridProps<T extends MediaGridIdentifiable> {
     gap?: number;
     className?: string;
     style?: CSSProperties;
-}
+};
 
-export interface MediaGridModeToggleButtonsProps {
+export type MediaGridModeToggleButtonsProps = {
     options?: Record<string, MediaGridViewModeConfig>;
     value: string;
     onChange: (nextMode: string) => void;
     isDisabled?: boolean;
-}
+};
 
-export interface MediaGridItemProps {
+export type MediaGridItemProps = {
     isSelected?: boolean;
     isPlaceholder?: boolean;
     onPress?: () => void;
@@ -75,35 +76,35 @@ export interface MediaGridItemProps {
     bottomLeft?: ReactNode;
     bottomRight?: ReactNode;
     children: ReactNode;
-}
+};
 
-export interface MediaGridThumbnailItemProps extends Omit<MediaGridItemProps, 'children'> {
+export type MediaGridThumbnailItemProps = Omit<MediaGridItemProps, 'children'> & {
     src?: string;
     alt?: string;
-}
+};
 
-export interface MediaGridItemCheckboxProps {
+export type MediaGridItemCheckboxProps = {
     ariaLabel: string;
     isSelected: boolean;
-    onChange: () => void;
-}
+    onChange: (isSelected: boolean) => void;
+};
 
-export interface MediaGridItemMenuAction {
+export type MediaGridItemMenuAction = {
     key: string;
     label: string;
-}
+};
 
-export interface MediaGridItemMenuProps {
+export type MediaGridItemMenuProps = {
     ariaLabel?: string;
     actions: MediaGridItemMenuAction[];
     onAction: (key: string) => void;
-}
+};
 
-export interface MediaGridItemInfoProps {
+export type MediaGridItemInfoProps = {
     children: ReactNode;
-}
+};
 
-export interface MediaGridItemStatusProps {
+export type MediaGridItemStatusProps = {
     variant: 'notice' | 'positive' | 'negative' | 'neutral' | 'info';
     children: ReactNode;
-}
+};

@@ -87,6 +87,20 @@ export default function App() {
 }
 ```
 
+## `MediaGridItem` props
+
+| Prop | Type | Required | Description |
+| --- | --- | --- | --- |
+| `children` | `ReactNode` | Yes | Main item content (typically image/video thumbnail). |
+| `isSelected` | `boolean` | No | Controls selected visuals. Default: `false`. |
+| `isPlaceholder` | `boolean` | No | Applies placeholder visual treatment. Default: `false`. |
+| `onPress` | `() => void` | No | Press interaction handler. |
+| `onDoublePress` | `() => void` | No | Double-press interaction handler. |
+| `topLeft` | `ReactNode` | No | Optional top-left overlay slot. |
+| `topRight` | `ReactNode` | No | Optional top-right overlay slot. |
+| `bottomLeft` | `ReactNode` | No | Optional bottom-left overlay slot. |
+| `bottomRight` | `ReactNode` | No | Optional bottom-right overlay slot. |
+
 ## Variant: minimal labels
 
 ```tsx preview
