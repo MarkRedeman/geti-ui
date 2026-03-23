@@ -4,12 +4,12 @@ title: Overview
 
 # Tabs overview
 
-This page shows how to compose `ManagedTab` and `OverflowableTabs` together for a dataset workflow:
+Use this composition when your app needs both:
 
-- each selected tab can open a contextual management menu,
-- tabs collapse into a `N more` picker when space is limited,
-- add-dataset action stays in the same row,
-- tab panels remain application-owned.
+- **managed tab actions** (rename/delete/export on active tab), and
+- **responsive overflow handling** (collapse hidden tabs into a picker).
+
+In practice, many dataset/project pages need both patterns at the same time.
 
 ```tsx preview
 import { useState } from 'react';
@@ -143,8 +143,8 @@ export default function App() {
 }
 ```
 
-## When to use this composition
+## Recommended architecture
 
-- Use `ManagedTab` when active tabs expose actions.
-- Use `OverflowableTabs` when tab count can exceed available width.
-- Combine both when you need dataset management + responsive tab overflow behavior.
+- Keep tab data + selection state in your feature container/page.
+- Keep action handlers (`onAction`) in your app layer.
+- Keep `TabPanels` app-owned so you can control data fetching and loading states per tab.

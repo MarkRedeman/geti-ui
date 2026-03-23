@@ -4,22 +4,20 @@ title: Managed tabs
 
 # Managed tabs
 
-`ManagedTab` is a composable tab label building block for datasets/projects where the active tab exposes a management menu (for example: edit, delete, export).
+Use `ManagedTab` when a selected tab should expose contextual actions (rename, export, delete, etc.) directly in the tab header.
 
-Use it when your app owns the data and behavior, and you want the block to provide the tab UX pattern only.
+Typical application flow:
+
+1. Your app owns tab data and selected key.
+2. `ManagedTab` renders each tab label.
+3. The selected tab opens a menu with actions for that dataset/project.
+4. Your app handles action side effects (state updates, API calls, confirmation dialogs).
 
 ```tsx
 import { ManagedTab, type ManagedTabAction } from '@geti-ai/blocks';
 ```
 
-## Dataset workflow example
-
-This example shows a common dataset workflow:
-
-- active tab displays a contextual action menu,
-- when a tab is active, clicking either the tab label or the menu icon opens the menu,
-- actions update local app state,
-- content panels remain app-owned through `Tabs` + `TabPanels`.
+## In-app dataset management example
 
 ```tsx preview
 import { useState } from 'react';
@@ -38,7 +36,6 @@ const ACTIONS: ManagedTabAction[] = [
   { key: 'edit', label: 'Edit dataset name' },
   { key: 'delete', label: 'Delete dataset' },
   { key: 'export', label: 'Export dataset' },
-  { key: 'import', label: 'Import dataset' },
 ];
 
 const initialDatasets: Dataset[] = [
@@ -162,11 +159,27 @@ export default function App() {
 }
 ```
 
-## Notes
+## Props
 
-- `ManagedTab` owns its own `MenuTrigger` and menu behavior.
-- Compose `ManagedTab` inside your existing `Tabs`/`TabList` implementation.
-- Use `MoreMenu` icon in the selected tab to keep tab affordance consistent with the rest of Geti UI.
-- Keep non-selected tabs width-stable by reserving `size-200` icon spacing.
-- Panels are intentionally owned by the consumer app via `TabPanels`.
-- Keep data fetching and mutations in your application layer; treat this block as UI composition.
+### `ManagedTabProps`
+
+| Prop | Type | Required | Description |
+| --- | --- | --- | --- |
+| `label` | `string` | Yes | Visible tab label text. |
+| `isSelected` | `boolean` | Yes | Whether this tab is currently active; controls menu affordance visibility and behavior. |
+| `actions` | `ManagedTabAction[]` | Yes | Menu items shown when the tab is selected. |
+| `onAction` | `(actionKey: string) => void` | Yes | Called when a menu action is selected. |
+| `trailingContent` | `ReactNode` | No | Optional extra content rendered inside the tab label area. |
+
+### `ManagedTabAction`
+
+| Field | Type | Required | Description |
+| --- | --- | --- | --- |
+| `key` | `string` | Yes | Stable action identifier returned to `onAction`. |
+| `label` | `string` | Yes | User-facing menu label. |
+
+## Integration guidance
+
+- Keep action handling in your application layer (state + API calls).
+- Use `ManagedTab` inside `TabList` and keep `TabPanels` app-owned.
+- Use stable keys for actions and tabs to avoid mismatched behavior after list updates.

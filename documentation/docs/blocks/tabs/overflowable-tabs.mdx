@@ -4,15 +4,15 @@ title: Overflowable tabs
 
 # Overflowable tabs
 
-`OverflowableTabs` is a tabs header primitive that keeps the selected tab visible and collapses excess tabs into a compact picker when horizontal space is limited.
+Use `OverflowableTabs` when tab count can exceed the available width. It keeps the selected tab visible and moves hidden tabs into a compact `N more` picker.
 
-Use it when tab count can grow or when tabs share space with actions (for example: "Add dataset", filters, counters).
+This is useful for dataset/project lists that grow at runtime while keeping a stable header layout.
 
 ```tsx
 import { OverflowableTabs } from '@geti-ai/blocks';
 ```
 
-## Responsive dataset tabs example
+## Responsive tabs in an app header
 
 ```tsx preview
 import { useState } from 'react';
@@ -102,8 +102,25 @@ export default function App() {
 }
 ```
 
-## Behavior
+## Props
 
-- The selected tab is kept visible in the tab strip when tabs overflow.
-- Overflowed tabs are rendered in a quiet `Picker` (`N more`).
-- `OverflowableTabs` only handles header behavior; panel rendering remains your app's responsibility.
+### `OverflowableTabsProps<T>`
+
+| Prop | Type | Required | Description |
+| --- | --- | --- | --- |
+| `items` | `T[]` | Yes | Full tab data collection. |
+| `selectedKey` | `string` | Yes | Currently selected tab id. |
+| `onSelectionChange` | `(id: string) => void` | Yes | Called when user selects a tab from visible tabs or overflow picker. |
+| `getItemId` | `(item: T) => string` | Yes | Returns stable id for each tab item. |
+| `getItemLabel` | `(item: T) => string` | Yes | Returns text label for each tab item. |
+| `renderTab` | `(item: T, isActive: boolean) => ReactNode` | No | Custom tab content renderer. If omitted, label text is used. |
+| `overflowAriaLabel` | `string` | No | Accessible label for overflow picker. Default: `'Collapsed items'`. |
+| `minVisibleTabs` | `number` | No | Minimum number of tabs to keep visible before overflow. Default: `2`. |
+| `trailingContent` | `ReactNode` | No | Optional right-side header content (for example Add button). |
+| `trailingContentContainerStyle` | `CSSProperties` | No | Style overrides for trailing content container. |
+
+## Integration guidance
+
+- Keep `selectedKey` controlled from the same state that drives your parent `Tabs`.
+- Use `renderTab` to combine with custom tab labels (for example `ManagedTab`).
+- Prefer stable ids from `getItemId` (do not use array index).
