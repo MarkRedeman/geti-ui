@@ -1,19 +1,14 @@
 import { ActionButton, Flex, Text } from '@geti-ai/ui';
 import { FilterChip } from './FilterChip';
-import { getFieldByKey } from './utils';
+import { getDefaultRuleDescription, getDefaultRuleValueLabel, getFieldByKey } from './utils';
 import type { FilterChipsProps } from './types';
-
-const defaultRuleLabel: NonNullable<FilterChipsProps['getRuleLabel']> = (rule, field) => {
-    const fieldLabel = field?.label ?? rule.field;
-    const valueLabel = Array.isArray(rule.value) ? rule.value.join(', ') : String(rule.value ?? '');
-
-    return `${fieldLabel} ${rule.operator} ${valueLabel}`.trim();
-};
 
 export function FilterChips({
     rules,
     fields = [],
-    getRuleLabel = defaultRuleLabel,
+    getRuleDescription,
+    getRuleValueLabel,
+    getRuleLabel,
     onRemoveRule,
     onClearAll,
     emptyState,
@@ -27,12 +22,16 @@ export function FilterChips({
         <Flex gap="size-100" wrap>
             {rules.map((rule) => {
                 const field = getFieldByKey(fields, rule.field);
+                const description = getRuleDescription?.(rule, field) ?? getDefaultRuleDescription(rule, field);
+                const valueLabel = getRuleValueLabel?.(rule, field) ?? getDefaultRuleValueLabel(rule);
+                const resolvedLabel = getRuleLabel ? getRuleLabel(rule, field) : `${description} ${valueLabel}`.trim();
+
                 return (
                     <FilterChip
                         key={rule.id}
                         rule={rule}
                         id={id}
-                        label={getRuleLabel(rule, field)}
+                        label={resolvedLabel}
                         onRemove={onRemoveRule ? () => onRemoveRule(rule.id) : undefined}
                     />
                 );

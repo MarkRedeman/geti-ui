@@ -17,9 +17,38 @@ describe('FilterChips', () => {
             </ThemeProvider>
         );
 
-        expect(screen.getByText(/MEDIA_NAME CONTAINS road/i)).toBeTruthy();
+        expect(screen.getByText(/Media name contains road/i)).toBeTruthy();
         await userEvent.click(screen.getByRole('button', { name: /remove-rule-r1/i }));
         expect(onRemoveRule).toHaveBeenCalledWith('r1');
+    });
+
+    it('supports custom description and value formatters', () => {
+        render(
+            <ThemeProvider>
+                <FilterChips
+                    rules={[{ id: 'r1', field: 'MEDIA_WIDTH', operator: 'GREATER_THAN', value: 1920 }]}
+                    getRuleDescription={() => 'Width constraint'}
+                    getRuleValueLabel={(rule) => `${rule.value}px`}
+                />
+            </ThemeProvider>
+        );
+
+        expect(screen.getByText('Width constraint 1920px')).toBeTruthy();
+    });
+
+    it('lets getRuleLabel override description/value composition', () => {
+        render(
+            <ThemeProvider>
+                <FilterChips
+                    rules={[{ id: 'r1', field: 'MEDIA_WIDTH', operator: 'GREATER_THAN', value: 1920 }]}
+                    getRuleDescription={() => 'Width constraint'}
+                    getRuleValueLabel={(rule) => `${rule.value}px`}
+                    getRuleLabel={() => 'Custom full chip label'}
+                />
+            </ThemeProvider>
+        );
+
+        expect(screen.getByText('Custom full chip label')).toBeTruthy();
     });
 
     it('renders clear all action and calls callback', async () => {

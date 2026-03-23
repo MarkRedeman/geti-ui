@@ -15,7 +15,7 @@ import { FilterChips } from '@geti-ai/blocks';
 ```tsx preview
 import { useState } from 'react';
 import { FilterChips, type FilterRule } from '@geti-ai/blocks';
-import { ThemeProvider } from '@geti-ai/ui';
+import { Button, ThemeProvider } from '@geti-ai/ui';
 
 const initialRules: FilterRule[] = [
   { id: 'r1', field: 'MEDIA_NAME', operator: 'CONTAINS', value: 'road' },
@@ -50,7 +50,9 @@ export default function App() {
     <ThemeProvider>
       <div style={{ display: 'grid', gap: 12 }}>
         <div>
-          <button onClick={() => setRules((current) => [...current, randomRule()])}>Add random filter</button>
+          <Button variant="secondary" onPress={() => setRules((current) => [...current, randomRule()])}>
+            Add random filter
+          </Button>
         </div>
 
         <FilterChips
@@ -105,12 +107,119 @@ export default function App() {
 }
 ```
 
+## Full rule coverage (field + operator matrix)
+
+This example intentionally includes all baseline rule field/operator patterns used by the built-in smart label formatter.
+
+```tsx preview
+import { FilterChips, type FilterRule } from '@geti-ai/blocks';
+import { ThemeProvider } from '@geti-ai/ui';
+
+const rules: FilterRule[] = [
+  // Labels
+  { id: 'r1', field: 'LABELS', operator: 'IN', value: ['car', 'person'] },
+  { id: 'r2', field: 'LABELS', operator: 'NOT_IN', value: ['background'] },
+
+  // Annotation status/date/user
+  { id: 'r3', field: 'ANNOTATION_SCENE_STATE', operator: 'EQUAL', value: 'ANNOTATED' },
+  { id: 'r4', field: 'ANNOTATION_CREATION_DATE', operator: 'LESS', value: '2026-01-01' },
+  { id: 'r5', field: 'ANNOTATION_CREATION_DATE', operator: 'GREATER_THAN', value: '2026-01-01' },
+  { id: 'r6', field: 'USER_NAME', operator: 'EQUAL', value: 'Alex Doe' },
+  { id: 'r7', field: 'USER_NAME', operator: 'NOT_EQUAL', value: 'Jane Roe' },
+
+  // Media numeric/text/date/type
+  { id: 'r8', field: 'MEDIA_HEIGHT', operator: 'EQUAL', value: 1080 },
+  { id: 'r9', field: 'MEDIA_HEIGHT', operator: 'GREATER_THAN', value: 1080 },
+  { id: 'r10', field: 'MEDIA_WIDTH', operator: 'NOT_EQUAL', value: 1920 },
+  { id: 'r11', field: 'MEDIA_WIDTH', operator: 'LESS_THAN', value: 1920 },
+  { id: 'r12', field: 'MEDIA_UPLOAD_DATE', operator: 'LESS', value: '2026-02-01' },
+  { id: 'r13', field: 'MEDIA_UPLOAD_DATE', operator: 'AFTER', value: '2026-02-01' },
+  { id: 'r14', field: 'MEDIA_NAME', operator: 'CONTAINS', value: 'street' },
+  { id: 'r15', field: 'MEDIA_NAME', operator: 'EQUAL', value: 'frame_001.png' },
+  { id: 'r16', field: 'MEDIA_TYPE', operator: 'IN', value: ['IMAGE'] },
+
+  // Shape
+  { id: 'r17', field: 'SHAPE_TYPE', operator: 'IN', value: ['RECTANGLE', 'POLYGON'] },
+  { id: 'r18', field: 'SHAPE_TYPE', operator: 'NOT_IN', value: ['ELLIPSE'] },
+  { id: 'r19', field: 'SHAPE_TYPE', operator: 'EQUAL', value: 'POLYGON' },
+  { id: 'r20', field: 'SHAPE_AREA_PERCENTAGE', operator: 'GREATER_THAN', value: 0.42 },
+  { id: 'r21', field: 'SHAPE_AREA_PIXEL', operator: 'LESS_THAN', value: 5120 },
+];
+
+export default function App() {
+  return (
+    <ThemeProvider>
+      <FilterChips
+        rules={rules}
+        getRuleValueLabel={(rule) => {
+          if (rule.field === 'SHAPE_AREA_PERCENTAGE' && typeof rule.value === 'number') {
+            return `${Math.round(rule.value * 100)}%`;
+          }
+
+          if (Array.isArray(rule.value)) {
+            return rule.value.join(', ');
+          }
+
+          return String(rule.value ?? '');
+        }}
+      />
+    </ThemeProvider>
+  );
+}
+```
+
+## Custom description and value formatters
+
+Use `getRuleDescription` and `getRuleValueLabel` when you want custom chip grammar but still keep default composition.
+
+```tsx preview
+import { FilterChips, type FilterRule } from '@geti-ai/blocks';
+import { ThemeProvider } from '@geti-ai/ui';
+
+const rules: FilterRule[] = [
+  { id: 'r1', field: 'MEDIA_WIDTH', operator: 'GREATER_THAN', value: 1920 },
+  { id: 'r2', field: 'UPLOADED_AT', operator: 'AFTER', value: '2026-02-16' },
+];
+
+export default function App() {
+  return (
+    <ThemeProvider>
+      <FilterChips
+        rules={rules}
+        getRuleDescription={(rule) => {
+          if (rule.field === 'MEDIA_WIDTH') {
+            return 'Width threshold';
+          }
+
+          if (rule.field === 'UPLOADED_AT') {
+            return 'Uploaded after';
+          }
+
+          return `${rule.field} ${rule.operator}`;
+        }}
+        getRuleValueLabel={(rule) => {
+          if (rule.field === 'MEDIA_WIDTH' && typeof rule.value === 'number') {
+            return `${rule.value}px`;
+          }
+
+          if (rule.field === 'UPLOADED_AT' && typeof rule.value === 'string') {
+            return new Date(rule.value).toLocaleDateString();
+          }
+
+          return String(rule.value ?? '');
+        }}
+      />
+    </ThemeProvider>
+  );
+}
+```
+
 ## Empty and read-only states
 
 ```tsx preview
 import { useState } from 'react';
 import { FilterChips, type FilterRule } from '@geti-ai/blocks';
-import { ThemeProvider } from '@geti-ai/ui';
+import { Switch, ThemeProvider } from '@geti-ai/ui';
 
 const seed: FilterRule[] = [{ id: 'r1', field: 'MEDIA_NAME', operator: 'CONTAINS', value: 'night' }];
 
@@ -120,9 +229,9 @@ export default function App() {
   return (
     <ThemeProvider>
       <div style={{ display: 'grid', gap: 12 }}>
-        <label>
-          <input type="checkbox" checked={readOnly} onChange={(event) => setReadOnly(event.target.checked)} /> Read only
-        </label>
+        <Switch isSelected={readOnly} onChange={setReadOnly}>
+          Read only
+        </Switch>
 
         <FilterChips
           rules={seed}

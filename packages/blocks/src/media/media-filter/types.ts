@@ -36,6 +36,8 @@ export type FilterFieldOption<TEditorConfig = unknown> = {
 };
 
 export type RenderRuleLabel = (rule: FilterRule, field?: FilterFieldOption) => string;
+export type RenderRuleDescription = (rule: FilterRule, field?: FilterFieldOption) => string;
+export type RenderRuleValueLabel = (rule: FilterRule, field?: FilterFieldOption) => string;
 
 export type RenderValueEditorArgs = {
     rule: FilterRule;
@@ -67,6 +69,8 @@ export type FilterChipProps = {
 export type FilterChipsProps = {
     rules: FilterRule[];
     fields?: FilterFieldOption[];
+    getRuleDescription?: RenderRuleDescription;
+    getRuleValueLabel?: RenderRuleValueLabel;
     getRuleLabel?: RenderRuleLabel;
     onRemoveRule?: (ruleId: string) => void;
     onClearAll?: () => void;
