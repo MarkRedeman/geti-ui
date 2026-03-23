@@ -83,6 +83,13 @@ html {
     --rp-code-block-bg: var(--geti-gray-75);
     --rp-code-title-bg: var(--geti-gray-75);
 
+    --moss-tint-2: #d7f3a2;
+    --moss-tint-1: #b1d272;
+    --moss: #8bae46;
+    --electric-moss: #9fd541;
+    --moss-shade-1: #708541;
+    --moss-shade-2: #515a3d;
+
     /* Fixes spectrum's overlay */
     --rp-z-index-sidebar: 1 !important;
     --rp-z-index-nav: 1 !important;
@@ -90,6 +97,9 @@ html {
     --rp-z-index-sidebar-menu: 1 !important;
 
     --rp-container-danger-text: var(--geti-coral) !important;
+
+    --rp-container-tip-text: var(--geti-gray-50) !important;
+    --rp-container-tip-bg: var(--moss-tint-1) !important;
 }
 
 .rp-preview--internal__card {

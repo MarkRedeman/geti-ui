@@ -5,6 +5,10 @@ export const Tag = ({ tag }: { tag?: string }) => {
         return null;
     }
 
+    if (tag === 'TODO') {
+        return <BasicBadge text="TODO" type="tip" outline />;
+    }
+
     if (tag === 'WIP') {
         return <BasicBadge text="WIP" type="danger" outline />;
     }
