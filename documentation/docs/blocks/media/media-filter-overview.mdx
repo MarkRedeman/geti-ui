@@ -16,6 +16,145 @@ Use media filter blocks when you need both:
 - Valid rules are emitted immediately via `onApply`.
 - Your app owns canonical filter state and data fetching.
 
+## Full example
+
+This example wires together `FilterTriggerButton`, `FilterDialog`, and `FilterChips` with
+all supported value types: **text**, **number**, **date**, **enum**, and **multi-enum**.
+Open the dialog to edit rules — applied rules appear as chips below the trigger.
+
+```tsx preview
+import { useState, useCallback } from 'react';
+import {
+  FilterDialog,
+  FilterTriggerButton,
+  FilterChips,
+  type FilterModel,
+  type FilterRule,
+  type FilterFieldOption,
+  type FilterOperatorOption,
+} from '@geti-ai/blocks';
+import { ThemeProvider, DialogTrigger, Flex } from '@geti-ai/ui';
+
+const fields: FilterFieldOption[] = [
+  { key: 'MEDIA_NAME', label: 'Media name', valueType: 'text' },
+  { key: 'MEDIA_WIDTH', label: 'Width', valueType: 'number' },
+  { key: 'MEDIA_HEIGHT', label: 'Height', valueType: 'number' },
+  { key: 'UPLOAD_DATE', label: 'Upload date', valueType: 'date' },
+  {
+    key: 'ANNOTATION_STATE',
+    label: 'Annotation state',
+    valueType: 'enum',
+    operators: [
+      { key: 'EQUAL', label: 'is' },
+      { key: 'NOT_EQUAL', label: 'is not' },
+    ],
+    editorConfig: {
+      options: [
+        { key: 'ANNOTATED', label: 'Annotated' },
+        { key: 'PARTIALLY_ANNOTATED', label: 'Partially annotated' },
+        { key: 'NOT_ANNOTATED', label: 'Not annotated' },
+      ],
+    },
+  },
+  {
+    key: 'LABELS',
+    label: 'Labels',
+    valueType: 'multi-enum',
+    operators: [
+      { key: 'IN', label: 'in' },
+      { key: 'NOT_IN', label: 'not in' },
+    ],
+    editorConfig: {
+      options: [
+        { key: 'car', label: 'Car' },
+        { key: 'person', label: 'Person' },
+        { key: 'bicycle', label: 'Bicycle' },
+        { key: 'truck', label: 'Truck' },
+      ],
+    },
+  },
+  {
+    key: 'MEDIA_TYPE',
+    label: 'Media type',
+    valueType: 'multi-enum',
+    operators: [
+      { key: 'IN', label: 'in' },
+      { key: 'NOT_IN', label: 'not in' },
+    ],
+    editorConfig: {
+      options: [
+        { key: 'IMAGE', label: 'Image' },
+        { key: 'VIDEO', label: 'Video' },
+      ],
+    },
+  },
+];
+
+const globalOperators: FilterOperatorOption[] = [
+  { key: 'CONTAINS', label: 'contains' },
+  { key: 'EQUAL', label: 'equal' },
+  { key: 'NOT_EQUAL', label: 'not equal' },
+  { key: 'GREATER', label: 'greater than' },
+  { key: 'LESS', label: 'less than' },
+];
+
+const seedRules: FilterRule[] = [
+  { id: '1', field: 'MEDIA_NAME', operator: 'CONTAINS', value: 'road' },
+  { id: '2', field: 'MEDIA_WIDTH', operator: 'GREATER', value: 1280 },
+  { id: '3', field: 'UPLOAD_DATE', operator: 'GREATER', value: '2026-01-15' },
+  { id: '4', field: 'ANNOTATION_STATE', operator: 'EQUAL', value: 'ANNOTATED' },
+  { id: '5', field: 'LABELS', operator: 'IN', value: ['car', 'person'] },
+  { id: '6', field: 'MEDIA_TYPE', operator: 'IN', value: ['IMAGE'] },
+];
+
+export default function App() {
+  const [applied, setApplied] = useState<FilterModel>({
+    condition: 'and',
+    rules: seedRules,
+  });
+
+  const handleRemoveRule = useCallback((ruleId: string) => {
+    setApplied((prev) => ({
+      ...prev,
+      rules: prev.rules.filter((r) => r.id !== ruleId),
+    }));
+  }, []);
+
+  const handleClearAll = useCallback(() => {
+    setApplied((prev) => ({ ...prev, rules: [] }));
+  }, []);
+
+  return (
+    <ThemeProvider>
+      <Flex direction="column" gap="size-200">
+        <Flex alignItems="center" gap="size-100" wrap>
+          <DialogTrigger type="popover" hideArrow>
+            <FilterTriggerButton
+              isSelected={applied.rules.length > 0}
+              ariaLabel="Filter media"
+            />
+            <FilterDialog
+              fields={fields}
+              globalOperators={globalOperators}
+              defaultDraft={applied}
+              onApply={setApplied}
+              totalMatches={247}
+            />
+          </DialogTrigger>
+
+          <FilterChips
+            rules={applied.rules}
+            fields={fields}
+            onRemoveRule={handleRemoveRule}
+            onClearAll={handleClearAll}
+          />
+        </Flex>
+      </Flex>
+    </ThemeProvider>
+  );
+}
+```
+
 ## Next pages
 
 - [Filter chips](/blocks/media/media-filter-chips)

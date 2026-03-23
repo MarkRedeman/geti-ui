@@ -20,9 +20,10 @@ function renderEditor(
 }
 
 describe('FilterValueEditor', () => {
-    it('renders hint when no field is provided', () => {
-        renderEditor(baseRule, undefined);
-        expect(screen.getByText(/choose a field first/i)).toBeTruthy();
+    it('renders nothing when no field is provided', () => {
+        const { container } = renderEditor(baseRule, undefined);
+        // renders an empty placeholder div to preserve grid layout
+        expect(container.textContent).toBe('');
     });
 
     it('renders text input for valueType=text', () => {

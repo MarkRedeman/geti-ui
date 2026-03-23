@@ -12,6 +12,7 @@ export function FilterValueNumber({
             aria-label={ariaLabel}
             isDisabled={isDisabled}
             value={typeof value === 'number' ? value : undefined}
+            width="100%"
             onChange={(next) => onChange(next ?? null)}
         />
     );

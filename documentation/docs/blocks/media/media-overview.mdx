@@ -1,0 +1,455 @@
+---
+title: Media overview
+---
+
+# Media overview
+
+This page shows a realistic media browser that combines filtering, sorting, search, chips, a thumbnail grid with drag-and-drop uploads, and view mode controls — all wired together in a single surface.
+
+## Full media browser
+
+Open the filter dialog to add rules across all supported value types (text, number, date, enum, multi-enum).
+Applied rules appear as removable chips between the toolbar and the grid.
+Use the sort button to order media by name, upload date, or file size.
+Toggle the search button to reveal an inline search field for filtering by file name.
+Drag files onto the grid to see the upload overlay.
+Use the view mode menu to switch between thumbnail sizes.
+
+```tsx preview
+import { useMemo, useState, useCallback, Key } from 'react';
+import {
+  ActionButton,
+  ActionMenu,
+  Checkbox,
+  DropZone,
+  Flex,
+  MediaViewModes,
+  Menu,
+  MenuItem,
+  MenuSection,
+  MenuTrigger,
+  SearchField,
+  Text,
+  ThemeProvider,
+  ToggleButton,
+  Tooltip,
+  TooltipTrigger,
+  View,
+  ViewModes,
+  DialogTrigger,
+  Divider,
+} from '@geti-ai/ui';
+import { Icon } from '@adobe/react-spectrum';
+import { Search, SortDown, SortUp, SortUpDown } from '@geti-ai/ui/icons';
+import {
+  FilterDialog,
+  FilterTriggerButton,
+  FilterChips,
+  MediaGrid,
+  MediaGridItem,
+  MediaGridThumbnailItem,
+  type FilterModel,
+  type FilterRule,
+  type FilterFieldOption,
+  type FilterOperatorOption,
+  type MediaGridRenderContext,
+  type MediaGridSelection,
+} from '@geti-ai/blocks';
+
+const VIEW_MODE_ITEM_SIZE: Record<string, number> = {
+  [ViewModes.LARGE]: 300,
+  [ViewModes.MEDIUM]: 200,
+  [ViewModes.SMALL]: 120,
+};
+
+// --- Sort helpers ---
+
+type SortDir = 'asc' | 'dsc';
+type SortField = 'name' | 'date' | 'size';
+
+const sortKey = (field: SortField, dir: SortDir) => `${field}_${dir}`;
+
+// --- Filter configuration ---
+
+const fields: FilterFieldOption[] = [
+  { key: 'MEDIA_NAME', label: 'Media name', valueType: 'text' },
+  { key: 'MEDIA_WIDTH', label: 'Width', valueType: 'number' },
+  { key: 'MEDIA_HEIGHT', label: 'Height', valueType: 'number' },
+  { key: 'UPLOAD_DATE', label: 'Upload date', valueType: 'date' },
+  {
+    key: 'ANNOTATION_STATE',
+    label: 'Annotation state',
+    valueType: 'enum',
+    operators: [
+      { key: 'EQUAL', label: 'is' },
+      { key: 'NOT_EQUAL', label: 'is not' },
+    ],
+    editorConfig: {
+      options: [
+        { key: 'ANNOTATED', label: 'Annotated' },
+        { key: 'PARTIALLY_ANNOTATED', label: 'Partially annotated' },
+        { key: 'NOT_ANNOTATED', label: 'Not annotated' },
+      ],
+    },
+  },
+  {
+    key: 'LABELS',
+    label: 'Labels',
+    valueType: 'multi-enum',
+    operators: [
+      { key: 'IN', label: 'in' },
+      { key: 'NOT_IN', label: 'not in' },
+    ],
+    editorConfig: {
+      options: [
+        { key: 'car', label: 'Car' },
+        { key: 'person', label: 'Person' },
+        { key: 'bicycle', label: 'Bicycle' },
+        { key: 'truck', label: 'Truck' },
+      ],
+    },
+  },
+  {
+    key: 'MEDIA_TYPE',
+    label: 'Media type',
+    valueType: 'multi-enum',
+    operators: [
+      { key: 'IN', label: 'in' },
+      { key: 'NOT_IN', label: 'not in' },
+    ],
+    editorConfig: {
+      options: [
+        { key: 'IMAGE', label: 'Image' },
+        { key: 'VIDEO', label: 'Video' },
+      ],
+    },
+  },
+];
+
+const globalOperators: FilterOperatorOption[] = [
+  { key: 'CONTAINS', label: 'contains' },
+  { key: 'EQUAL', label: 'equal' },
+  { key: 'NOT_EQUAL', label: 'not equal' },
+  { key: 'GREATER', label: 'greater than' },
+  { key: 'LESS', label: 'less than' },
+];
+
+const seedRules: FilterRule[] = [
+  { id: '1', field: 'MEDIA_NAME', operator: 'CONTAINS', value: 'road' },
+  { id: '2', field: 'MEDIA_WIDTH', operator: 'GREATER', value: 1280 },
+  { id: '3', field: 'UPLOAD_DATE', operator: 'GREATER', value: '2026-01-15' },
+  { id: '4', field: 'ANNOTATION_STATE', operator: 'EQUAL', value: 'ANNOTATED' },
+  { id: '5', field: 'LABELS', operator: 'IN', value: ['car', 'person'] },
+  { id: '6', field: 'MEDIA_TYPE', operator: 'IN', value: ['IMAGE'] },
+];
+
+// --- Grid data ---
+
+type Media = {
+  id: string;
+  name: string;
+  thumbnailUrl: string;
+  score: number;
+};
+
+const allMedia: Media[] = Array.from({ length: 200 }, (_, index) => ({
+  id: `media-${index + 1}`,
+  name: `Asset ${index + 1}`,
+  thumbnailUrl: `https://picsum.photos/seed/overview-${index + 1}/400/400`,
+  score: Math.round((0.6 + (index % 40) / 100) * 100) / 100,
+}));
+
+export default function App() {
+  // Filter state
+  const [applied, setApplied] = useState<FilterModel>({
+    condition: 'and',
+    rules: seedRules,
+  });
+
+  const handleRemoveRule = useCallback((ruleId: string) => {
+    setApplied((prev) => ({
+      ...prev,
+      rules: prev.rules.filter((r) => r.id !== ruleId),
+    }));
+  }, []);
+
+  const handleClearAll = useCallback(() => {
+    setApplied((prev) => ({ ...prev, rules: [] }));
+  }, []);
+
+  // Sort state
+  const [selectedSortKey, setSelectedSortKey] = useState<string>('');
+
+  const handleSort = (key: Key) => {
+    setSelectedSortKey(String(key));
+    const [field, dir] = String(key).split('_');
+    console.log('Sort by', field, dir);
+  };
+
+  // Search state
+  const [searchOpen, setSearchOpen] = useState(false);
+  const [searchText, setSearchText] = useState('');
+
+  // Grid state
+  const [loadedCount, setLoadedCount] = useState(80);
+  const [selectedKeys, setSelectedKeys] = useState<MediaGridSelection>(new Set());
+  const [viewMode, setViewMode] = useState<ViewModes>(ViewModes.SMALL);
+  const [isDragOver, setIsDragOver] = useState(false);
+
+  const byIndex = useMemo(() => {
+    const map = new Map<number, Media>();
+    for (let i = 0; i < loadedCount; i += 1) {
+      map.set(i, allMedia[i]);
+    }
+    return map;
+  }, [loadedCount]);
+
+  const overlayTextStyle = {
+    fontSize: '11px',
+    color: 'var(--spectrum-global-color-gray-700)',
+  } as const;
+
+  const renderItem = (ctx: MediaGridRenderContext<Media>) => {
+    if (ctx.isPlaceholder || !ctx.item) {
+      return <MediaGridThumbnailItem isPlaceholder onPress={ctx.onPress} onDoublePress={ctx.onDoublePress} />;
+    }
+
+    const onCheckbox = (isPressed: boolean) => {
+      const newSet = new Set(selectedKeys);
+      if (!isPressed) {
+        newSet.delete(ctx.item.id);
+      } else {
+        newSet.add(ctx.item.id);
+      }
+      setSelectedKeys(newSet);
+    };
+
+    return (
+      <MediaGridItem
+        isSelected={ctx.isSelected}
+        onPress={ctx.onPress}
+        onDoublePress={ctx.onDoublePress}
+        topLeft={
+          <Flex width="size-200" height="size-200" alignItems="center" justifyContent="center">
+            <Checkbox
+              aria-label={`Select ${ctx.item.name}`}
+              isSelected={ctx.isSelected}
+              onChange={onCheckbox}
+            />
+          </Flex>
+        }
+        topRight={
+          <ActionMenu
+            isQuiet
+            aria-label="Media actions"
+            onAction={(key) => console.log('action', key, 'for', ctx.item.id)}
+          >
+            <MenuItem key="annotate">Annotate</MenuItem>
+            <MenuItem key="download">Download</MenuItem>
+            <MenuItem key="delete">Delete</MenuItem>
+          </ActionMenu>
+        }
+        bottomLeft={<Text UNSAFE_style={overlayTextStyle}>{ctx.item.score}</Text>}
+        bottomRight={<Text UNSAFE_style={overlayTextStyle}>{ctx.item.id}</Text>}
+      >
+        <img
+          src={ctx.item.thumbnailUrl}
+          alt={ctx.item.name}
+          style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}
+        />
+      </MediaGridItem>
+    );
+  };
+
+  return (
+    <ThemeProvider>
+      <Flex direction="column" gap="size-200">
+        {/* Toolbar: filter + sort + search + view mode */}
+        <Flex alignItems="center" gap="size-100">
+          <View marginEnd="auto">
+            <Checkbox aria-label={`Select all`} />
+          </View>
+          <DialogTrigger type="popover" hideArrow>
+            <FilterTriggerButton
+              isSelected={applied.rules.length > 0}
+              ariaLabel="Filter media"
+            />
+            <FilterDialog
+              fields={fields}
+              globalOperators={globalOperators}
+              defaultDraft={applied}
+              onApply={setApplied}
+              totalMatches={allMedia.length}
+            />
+          </DialogTrigger>
+
+          {/* Sort menu */}
+          <MenuTrigger>
+            <TooltipTrigger placement="bottom">
+              <ActionButton isQuiet aria-label="Sort media">
+                <Icon><SortUpDown /></Icon>
+              </ActionButton>
+              <Tooltip>Sort media</Tooltip>
+            </TooltipTrigger>
+            <Menu
+              selectionMode="single"
+              selectedKeys={selectedSortKey ? [selectedSortKey] : []}
+              onAction={handleSort}
+            >
+              <MenuSection title="Name">
+                <MenuItem key={sortKey('name', 'asc')} textValue="Name ascending">
+                  <Text>Name</Text>
+                  <Icon><SortUp /></Icon>
+                </MenuItem>
+                <MenuItem key={sortKey('name', 'dsc')} textValue="Name descending">
+                  <Text>Name</Text>
+                  <Icon><SortDown /></Icon>
+                </MenuItem>
+              </MenuSection>
+              <MenuSection title="Upload date">
+                <MenuItem key={sortKey('date', 'asc')} textValue="Upload date ascending">
+                  <Text>Upload date</Text>
+                  <Icon><SortUp /></Icon>
+                </MenuItem>
+                <MenuItem key={sortKey('date', 'dsc')} textValue="Upload date descending">
+                  <Text>Upload date</Text>
+                  <Icon><SortDown /></Icon>
+                </MenuItem>
+              </MenuSection>
+              <MenuSection title="File size">
+                <MenuItem key={sortKey('size', 'asc')} textValue="File size ascending">
+                  <Text>File size</Text>
+                  <Icon><SortUp /></Icon>
+                </MenuItem>
+                <MenuItem key={sortKey('size', 'dsc')} textValue="File size descending">
+                  <Text>File size</Text>
+                  <Icon><SortDown /></Icon>
+                </MenuItem>
+              </MenuSection>
+            </Menu>
+          </MenuTrigger>
+
+          {/* Search toggle */}
+          <TooltipTrigger placement="bottom">
+            <ToggleButton
+              isQuiet
+              isSelected={searchOpen}
+              onChange={setSearchOpen}
+              aria-label="Search media"
+            >
+              <Icon><Search /></Icon>
+            </ToggleButton>
+            <Tooltip>Search media</Tooltip>
+          </TooltipTrigger>
+
+          {searchOpen ? (
+            <SearchField
+              aria-label="Search by file name"
+              placeholder="Search by file name"
+              value={searchText}
+              onChange={setSearchText}
+              onClear={() => setSearchText('')}
+              width="size-3400"
+            />
+          ) : null}
+
+            <MediaViewModes
+              items={[ViewModes.LARGE, ViewModes.MEDIUM, ViewModes.SMALL]}
+              viewMode={viewMode}
+              setViewMode={setViewMode}
+            />
+        </Flex>
+        <Divider size="S" />
+
+        {/* Filter chips */}
+        {applied.rules.length > 0 ? (
+          <FilterChips
+            rules={applied.rules}
+            fields={fields}
+            onRemoveRule={handleRemoveRule}
+            onClearAll={handleClearAll}
+          />
+        ) : null}
+
+        {/* Grid with dropzone overlay */}
+        <View height="size-6000">
+          <DropZone
+            onDropEnter={() => setIsDragOver(true)}
+            onDropExit={() => setIsDragOver(false)}
+            onDrop={() => setIsDragOver(false)}
+            UNSAFE_style={{
+              width: '100%',
+              height: '100%',
+              border: 'none',
+              background: 'transparent',
+              padding: 0,
+              position: 'relative',
+            }}
+          >
+            <MediaGrid
+              totalItems={allMedia.length}
+              getItemAt={(index) => byIndex.get(index)}
+              itemSize={VIEW_MODE_ITEM_SIZE[viewMode] ?? 200}
+              hasNextPage={loadedCount < allMedia.length}
+              isLoadingMore={false}
+              onLoadMore={() => setLoadedCount((prev) => Math.min(prev + 40, allMedia.length))}
+              selectionMode="multiple"
+              selectedKeys={selectedKeys}
+              onSelectionChange={setSelectedKeys}
+              renderItem={renderItem}
+            />
+
+            {isDragOver ? (
+              <View
+                position="absolute"
+                top={0}
+                right={0}
+                bottom={0}
+                left={0}
+                backgroundColor="gray-700"
+                UNSAFE_style={{ opacity: 0.72, zIndex: 20 }}
+              >
+                <Flex alignItems="center" justifyContent="center" height="100%">
+                  <Text UNSAFE_style={{ fontSize: '20px', fontWeight: 600 }}>
+                    Drop videos or images here
+                  </Text>
+                </Flex>
+              </View>
+            ) : null}
+          </DropZone>
+        </View>
+      </Flex>
+    </ThemeProvider>
+  );
+}
+```
+
+## What this example demonstrates
+
+| Feature | Block | Description |
+| --- | --- | --- |
+| Filter dialog | `FilterDialog` | Editable rules with all 5 value types (text, number, date, enum, multi-enum) |
+| Filter chips | `FilterChips` | Removable chips with smart labels, clear-all support |
+| Trigger button | `FilterTriggerButton` | Highlights when filters are active |
+| Sorting | `MenuTrigger` + `Menu` | Sort by name, upload date, or file size (ascending/descending) |
+| Search | `ToggleButton` + `SearchField` | Toggle an inline search field to filter by file name |
+| Thumbnail grid | `MediaGrid` + `MediaGridItem` | Virtualized grid with pagination, checkbox selection, action menus, and score/id overlays |
+| View mode menu | `MediaViewModes` | Menu-based switcher for small / medium / large thumbnail sizes |
+| Drag-and-drop | `DropZone` | Upload overlay appears when dragging files over the grid |
+| Selection | `selectedKeys` / `onSelectionChange` | Multi-select via grid clicks or per-item checkboxes |
+
+## Related pages
+
+### Media filter
+- [Filter overview](/blocks/media/media-filter-overview)
+- [Filter chips](/blocks/media/media-filter-chips)
+- [Filter dialog](/blocks/media/media-filter-dialog)
+- [Filter row](/blocks/media/media-filter-row)
+- [Filter value editors](/blocks/media/media-filter-value-editors)
+
+### Media grid
+- [Grid overview](/blocks/media/media-grid)
+- [Dropzone overlay](/blocks/media/media-grid-dropzone)
+- [Grid item](/blocks/media/media-grid-item)
+- [Grid item parts](/blocks/media/media-grid-item-parts)
+- [Grid thumbnail item](/blocks/media/media-grid-thumbnail-item)

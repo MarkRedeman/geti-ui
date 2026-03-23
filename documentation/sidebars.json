@@ -173,6 +173,7 @@
       "text": "Media",
       "collapsed": false,
       "items": [
+        { "text": "Overview", "link": "/blocks/media/media-overview" },
         {
           "text": "Media grid",
           "items": [

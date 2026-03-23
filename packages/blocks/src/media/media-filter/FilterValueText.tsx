@@ -7,6 +7,7 @@ export function FilterValueText({ value, onChange, isDisabled, ariaLabel = 'Filt
             aria-label={ariaLabel}
             isDisabled={isDisabled}
             value={typeof value === 'string' ? value : ''}
+            width="100%"
             onChange={(next) => onChange(next)}
         />
     );

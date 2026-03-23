@@ -70,3 +70,76 @@ export default function App() {
   );
 }
 ```
+
+## With match count
+
+Pass `totalMatches` to display a match count badge in the dialog header. Add `isFetchingMatches` to show a loading state.
+
+```tsx preview
+import { useState } from 'react';
+import { FilterDialog, FilterTriggerButton, type FilterModel } from '@geti-ai/blocks';
+import { ThemeProvider, Text, DialogTrigger } from '@geti-ai/ui';
+
+const fields = [
+  { key: 'MEDIA_NAME', label: 'Media name', valueType: 'text' },
+  { key: 'MEDIA_WIDTH', label: 'Width', valueType: 'number' },
+];
+
+const globalOperators = [
+  { key: 'CONTAINS', label: 'contains' },
+  { key: 'EQUAL', label: 'equal' },
+  { key: 'GREATER', label: 'greater than' },
+  { key: 'LESS', label: 'less than' },
+];
+
+export default function App() {
+  const [appliedModel, setAppliedModel] = useState<FilterModel>({ condition: 'and', rules: [] });
+
+  return (
+    <ThemeProvider>
+      <DialogTrigger type="popover" hideArrow>
+        <FilterTriggerButton ariaLabel="Filter media" />
+        <FilterDialog
+          fields={fields}
+          globalOperators={globalOperators}
+          defaultDraft={{ condition: 'and', rules: [] }}
+          onApply={(model) => setAppliedModel(model)}
+          totalMatches={42}
+        />
+      </DialogTrigger>
+
+      <Text>Applied rules: {appliedModel.rules.length}</Text>
+    </ThemeProvider>
+  );
+}
+```
+
+## Props
+
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `fields` | `FilterFieldOption[]` | **required** | Available filter field definitions. |
+| `globalOperators` | `FilterOperatorOption[]` | `[]` | Operators available for all fields (fields may also define their own). |
+| `onApply` | `(model: FilterModel) => void` | **required** | Called immediately when valid rules change. |
+| `draft` | `FilterModel` | — | Controlled draft state. |
+| `onDraftChange` | `(next: FilterModel) => void` | — | Required when `draft` is controlled. |
+| `defaultDraft` | `FilterModel` | — | Initial draft for uncontrolled usage. |
+| `renderRow` | `(args: RenderRowArgs) => ReactNode` | — | Custom row renderer. |
+| `renderValueEditor` | `(args: RenderValueEditorArgs) => ReactNode` | — | Custom value editor per field. |
+| `totalMatches` | `number` | — | Show a match count badge in the header. |
+| `isFetchingMatches` | `boolean` | — | Show loading text in the match badge. |
+| `isDisabled` | `boolean` | — | Disable all interactive elements. |
+| `dialogTitle` | `string` | `"Show results matching all of the following criteria"` | Title shown in the dialog header. |
+| `minRuleCount` | `number` | `1` | Minimum number of filter rows to display. |
+
+## Styling
+
+`FilterDialog` ships with built-in styles that match the Geti design system:
+
+- **Responsive padding** — the dialog uses `size-150` padding on smaller screens and `size-300` on viewports wider than 1025px.
+- **Header** — title and match count / clear-all controls are laid out in a flex row with `space-between`.
+- **Match badge** — smaller font size with muted `gray-75` text color.
+- **Row spacing** — each filter row after the first has a `size-200` top margin.
+- **Footer** — zero padding with a `size-100` top padding for the "New filter" button area.
+
+These styles are applied via a CSS module (`FilterDialog.module.css`) and cannot be overridden via props. If you need a different layout, use `renderRow` for custom row rendering.

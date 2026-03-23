@@ -15,6 +15,7 @@ export function FilterFieldSelect({
             selectedKey={value || undefined}
             isDisabled={isDisabled}
             placeholder="Select field"
+            width="100%"
             onSelectionChange={(key: Key | null) => {
                 if (key === null) {
                     return;

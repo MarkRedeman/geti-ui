@@ -1,11 +1,13 @@
 import { useEffect, useMemo, useRef } from 'react';
 import { ActionButton, Content, Dialog, Flex, Heading, Text, View, ButtonGroup } from '@geti-ai/ui';
-import { Icon } from '@adobe/react-spectrum';
 import { Add } from '@geti-ai/ui/icons';
 import { FilterRow } from './FilterRow';
 import { useFilterRulesDraft } from './useFilterRulesDraft';
 import { DEFAULT_FILTER_CONDITION, createEmptyRule, getValidRules } from './utils';
 import type { FilterDialogProps, FilterModel } from './types';
+import { Icon } from '@adobe/react-spectrum';
+
+import classes from './FilterDialog.module.css';
 
 const DEFAULT_DIALOG_TITLE = 'Show results matching all of the following criteria';
 
@@ -42,7 +44,6 @@ export function FilterDialog({
     isDisabled,
     dialogTitle = DEFAULT_DIALOG_TITLE,
     minRuleCount = 1,
-    trailingContentContainerStyle,
 }: FilterDialogProps) {
     const internalInitial = defaultDraft ?? createDefaultModel();
     const isDraftControlled = draft !== undefined && onDraftChange !== undefined;
@@ -104,88 +105,93 @@ export function FilterDialog({
     };
 
     return (
-        <Dialog width={{ base: '60rem', L: '66rem' }} aria-label={dialogTitle}>
-            <Heading marginBottom={effectiveDraft.rules.length > 0 ? 'size-250' : 0}>
-                <Text id="filter-dialog-title">{dialogTitle}</Text>
-            </Heading>
+        <Dialog width="780px" aria-label={dialogTitle} UNSAFE_className={classes.dialog}>
+            <Heading
+                UNSAFE_className={classes.filterPanelHeader}
+                marginBottom={effectiveDraft.rules.length > 0 ? 'size-350' : 0}
+            >
+                <Text>{dialogTitle}</Text>
 
-            {effectiveDraft.rules.length > 0 ? (
-                <Flex alignItems="center" justifyContent="space-between" marginBottom="size-200" gap="size-200">
-                    {totalMatches !== undefined ? (
-                        <View
-                            paddingX="size-200"
-                            paddingY="size-25"
-                            backgroundColor="gray-700"
-                            borderRadius="large"
-                            borderWidth="thin"
-                            borderColor="gray-700"
-                            minWidth="size-1200"
+                {effectiveDraft.rules.length > 0 ? (
+                    <Flex alignItems="center">
+                        {totalMatches !== undefined ? (
+                            <View
+                                paddingX="size-200"
+                                paddingY="size-25"
+                                backgroundColor="gray-700"
+                                borderRadius="large"
+                                borderWidth="thin"
+                                borderColor="gray-700"
+                                minWidth="size-1200"
+                            >
+                                <Flex
+                                    alignItems="center"
+                                    gap={isFetchingMatches ? 'size-100' : undefined}
+                                    justifyContent="center"
+                                >
+                                    <Text UNSAFE_className={classes.filterPanelMatches}>
+                                        {isFetchingMatches
+                                            ? 'Calculating matches...'
+                                            : `${totalMatches} match${totalMatches === 1 ? '' : 'es'}`}
+                                    </Text>
+                                </Flex>
+                            </View>
+                        ) : null}
+
+                        <ActionButton
+                            isQuiet
+                            id="filter-dialog-clear-all"
+                            onPress={() => {
+                                setDraft({
+                                    ...effectiveDraft,
+                                    rules: createEmptyRules(minRuleCount),
+                                });
+                            }}
                         >
-                            <Text>
-                                {isFetchingMatches
-                                    ? 'Calculating matches...'
-                                    : `${totalMatches} match${totalMatches === 1 ? '' : 'es'}`}
-                            </Text>
-                        </View>
-                    ) : (
-                        <View />
-                    )}
-
-                    <ActionButton
-                        isQuiet
-                        id="filter-dialog-clear-all"
-                        onPress={() => {
-                            setDraft({
-                                ...effectiveDraft,
-                                rules: createEmptyRules(minRuleCount),
-                            });
-                        }}
-                    >
-                        Clear all
-                    </ActionButton>
-                </Flex>
-            ) : null}
+                            Clear all
+                        </ActionButton>
+                    </Flex>
+                ) : null}
+            </Heading>
 
             {effectiveDraft.rules.length > 0 && (
                 <Content>
                     <div role="list" aria-label="Filter rules">
-                        <Flex direction="column" gap="size-150">
-                            {effectiveDraft.rules.map((rule) => {
-                                if (renderRow) {
-                                    return (
-                                        <div key={rule.id} role="listitem">
-                                            {renderRow({
-                                                rule,
-                                                fields,
-                                                operators: globalOperators,
-                                                onChange: (nextRule) => handleRowChange(rule.id, nextRule),
-                                                onRemove: () => handleRowRemove(rule.id),
-                                                renderValueEditor,
-                                            })}
-                                        </div>
-                                    );
-                                }
-
+                        {effectiveDraft.rules.map((rule) => {
+                            if (renderRow) {
                                 return (
-                                    <div key={rule.id} role="listitem">
-                                        <FilterRow
-                                            rule={rule}
-                                            fields={fields}
-                                            globalOperators={globalOperators}
-                                            onChange={(nextRule) => handleRowChange(rule.id, nextRule)}
-                                            onRemove={() => handleRowRemove(rule.id)}
-                                            renderValueEditor={renderValueEditor}
-                                            isDisabled={isDisabled}
-                                        />
+                                    <div key={rule.id} role="listitem" className={classes.rowBody}>
+                                        {renderRow({
+                                            rule,
+                                            fields,
+                                            operators: globalOperators,
+                                            onChange: (nextRule) => handleRowChange(rule.id, nextRule),
+                                            onRemove: () => handleRowRemove(rule.id),
+                                            renderValueEditor,
+                                        })}
                                     </div>
                                 );
-                            })}
-                        </Flex>
+                            }
+
+                            return (
+                                <div key={rule.id} role="listitem" className={classes.rowBody}>
+                                    <FilterRow
+                                        rule={rule}
+                                        fields={fields}
+                                        globalOperators={globalOperators}
+                                        onChange={(nextRule) => handleRowChange(rule.id, nextRule)}
+                                        onRemove={() => handleRowRemove(rule.id)}
+                                        renderValueEditor={renderValueEditor}
+                                        isDisabled={isDisabled}
+                                    />
+                                </div>
+                            );
+                        })}
                     </div>
                 </Content>
             )}
 
-            <ButtonGroup UNSAFE_style={trailingContentContainerStyle}>
+            <ButtonGroup UNSAFE_className={classes.dialogFooter}>
                 <ActionButton
                     isQuiet
                     marginEnd="auto"
@@ -197,7 +203,7 @@ export function FilterDialog({
                         });
                     }}
                 >
-                    <Icon>
+                    <Icon size="S" UNSAFE_className={classes.addIcon}>
                         <Add />
                     </Icon>
                     <Text>New filter</Text>

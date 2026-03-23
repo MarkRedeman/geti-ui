@@ -15,6 +15,7 @@ export function FilterValueSingleSelect({
             selectedKey={typeof value === 'string' ? value : undefined}
             isDisabled={isDisabled}
             placeholder="Select value"
+            width="100%"
             onSelectionChange={(key: Key | null) => {
                 if (key === null) {
                     return;

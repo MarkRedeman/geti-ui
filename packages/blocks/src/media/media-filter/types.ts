@@ -1,4 +1,4 @@
-import type { CSSProperties, ReactNode } from 'react';
+import type { ReactNode } from 'react';
 
 export type FilterCondition = 'and' | 'or' | 'nor';
 
@@ -174,5 +174,4 @@ export type FilterDialogProps = {
     isDisabled?: boolean;
     dialogTitle?: string;
     minRuleCount?: number;
-    trailingContentContainerStyle?: CSSProperties;
 };

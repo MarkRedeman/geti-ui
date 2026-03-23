@@ -1,4 +1,3 @@
-import { Text } from '@geti-ai/ui';
 import { FilterValueDate } from './FilterValueDate';
 import { FilterValueMultiSelect } from './FilterValueMultiSelect';
 import { FilterValueNumber } from './FilterValueNumber';
@@ -16,7 +15,7 @@ export function FilterValueEditor({ rule, field, onChange, isDisabled, renderVal
     }
 
     if (!field) {
-        return <Text>Choose a field first</Text>;
+        return <div />;
     }
 
     const editorConfig = (field.editorConfig ?? {}) as EnumEditorConfig;

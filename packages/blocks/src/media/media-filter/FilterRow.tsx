@@ -1,4 +1,4 @@
-import { ActionButton, Grid } from '@geti-ai/ui';
+import { ActionButton } from '@geti-ai/ui';
 import { Icon } from '@adobe/react-spectrum';
 import { Delete } from '@geti-ai/ui/icons';
 import { FilterFieldSelect } from './FilterFieldSelect';
@@ -6,6 +6,8 @@ import { FilterOperatorSelect } from './FilterOperatorSelect';
 import { FilterValueEditor } from './FilterValueEditor';
 import { getFieldByKey, resolveOperators } from './utils';
 import type { FilterRowProps } from './types';
+
+import classes from './FilterRow.module.css';
 
 export function FilterRow({
     rule,
@@ -20,7 +22,7 @@ export function FilterRow({
     const resolvedOperators = resolveOperators(selectedField, globalOperators);
 
     return (
-        <Grid columns={['28%', '28%', '28%', '1fr']} columnGap="size-200">
+        <div className={classes.row}>
             <FilterFieldSelect
                 value={rule.field}
                 fields={fields}
@@ -59,10 +61,16 @@ export function FilterRow({
             />
 
             {onRemove ? (
-                <ActionButton isQuiet isDisabled={isDisabled} onPress={onRemove} aria-label={`Remove filter ${rule.id}`}>
-                    <Icon><Delete /></Icon>
+                <ActionButton
+                    isQuiet
+                    isDisabled={isDisabled}
+                    onPress={onRemove}
+                    aria-label={`Remove filter ${rule.id}`}
+                    UNSAFE_className={classes.deleteButton}
+                >
+                    <Icon><Delete width={20} /></Icon>
                 </ActionButton>
             ) : null}
-        </Grid>
+        </div>
     );
 }

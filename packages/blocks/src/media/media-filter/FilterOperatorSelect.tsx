@@ -19,6 +19,7 @@ export function FilterOperatorSelect({
             selectedKey={value || undefined}
             isDisabled={isDisabled || !field}
             placeholder="Select operator"
+            width="100%"
             onSelectionChange={(key: Key | null) => {
                 if (key === null) {
                     return;

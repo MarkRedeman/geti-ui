@@ -1,0 +1,14 @@
+.row {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr auto;
+    column-gap: var(--spectrum-global-dimension-size-200);
+    align-items: end;
+}
+
+.row > * {
+    min-width: 0;
+}
+
+.deleteButton {
+    width: var(--spectrum-global-dimension-size-400);
+}

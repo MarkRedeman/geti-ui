@@ -1,0 +1,37 @@
+.dialog {
+    --spectrum-dialog-padding-x: var(--spectrum-global-dimension-size-150);
+    --spectrum-dialog-padding-y: var(--spectrum-global-dimension-size-150);
+}
+
+@media (min-width: 1025px) {
+    .dialog {
+        --spectrum-dialog-padding-x: var(--spectrum-global-dimension-size-300);
+        --spectrum-dialog-padding-y: var(--spectrum-global-dimension-size-300);
+    }
+}
+
+.filterPanelHeader {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-size: var(--spectrum-alias-font-size-default);
+}
+
+.filterPanelMatches {
+    color: var(--spectrum-global-color-gray-75);
+    font-size: var(--spectrum-global-dimension-font-size-50);
+}
+
+.rowBody:not(:first-child) {
+    margin-top: var(--spectrum-global-dimension-size-200);
+}
+
+.dialogFooter {
+    padding: 0 !important;
+    padding-top: var(--spectrum-global-dimension-size-100) !important;
+}
+
+.addIcon {
+    padding-left: var(--spectrum-global-dimension-size-50);
+    padding-right: var(--spectrum-global-dimension-size-50);
+}
