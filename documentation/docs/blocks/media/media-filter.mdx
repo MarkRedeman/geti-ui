@@ -3,3 +3,20 @@ title: Media filter
 ---
 
 # Media filter
+
+`MediaFilter` documentation is currently being migrated.
+
+Use the media primitives in this section together for now:
+
+- [Media grid](/blocks/media/media-grid)
+- [Media column](/blocks/media/media-column)
+- [Media row](/blocks/media/media-row)
+
+## Recommended interim application pattern
+
+1. Keep filter state in your page container (query params / local state).
+2. Apply filter state to your media query.
+3. Feed filtered result size into `MediaGrid` via `totalItems`.
+4. Provide indexed access through `getItemAt(index)`.
+
+Once `MediaFilter` docs are finalized, this page will include full composition examples.

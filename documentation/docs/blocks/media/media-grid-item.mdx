@@ -13,6 +13,8 @@ It provides:
 - hover/selected behavior for top corners
 - persistent top-right actions while menu is open
 
+Use it when you need domain-specific overlays and interactions (checkboxes, action menus, quality/status badges, IDs) but still want consistent grid item behavior.
+
 ```tsx
 import {
   MediaGridItem,
@@ -100,6 +102,13 @@ export default function App() {
 | `topRight` | `ReactNode` | No | Optional top-right overlay slot. |
 | `bottomLeft` | `ReactNode` | No | Optional bottom-left overlay slot. |
 | `bottomRight` | `ReactNode` | No | Optional bottom-right overlay slot. |
+
+## Integration notes
+
+- Keep `MediaGridItem` inside a fixed-size grid/row/column cell (it is designed to fill parent width/height).
+- Use overlay parts (`MediaGridItemCheckbox`, `MediaGridItemMenu`, etc.) for consistent interaction layering.
+- Keep selection state in your container (`selectedKeys`) and derive `isSelected` from grid context.
+- Use `onDoublePress` for “open/preview” actions, and `topRight` menu for secondary actions.
 
 ## Variant: minimal labels
 
@@ -247,3 +256,4 @@ export default function App() {
 ## Related
 
 - [Media grid](/blocks/media/media-grid)
+- [Media grid item parts](/blocks/media/media-grid-item-parts)

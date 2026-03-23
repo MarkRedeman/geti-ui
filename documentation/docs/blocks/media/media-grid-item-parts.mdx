@@ -13,6 +13,8 @@ title: Media grid item parts
 
 Use these to keep corner UI consistent without repeating local styling.
 
+In application code, prefer these parts over ad-hoc corner markup so behavior remains consistent across media surfaces.
+
 ```tsx
 import {
   MediaGridItemCheckbox,
@@ -135,3 +137,12 @@ export default function App() {
 
 - [Media grid item](/blocks/media/media-grid-item)
 - [Media grid](/blocks/media/media-grid)
+
+## Practical composition guidance
+
+- `topLeft`: selection affordance (`MediaGridItemCheckbox`)
+- `topRight`: contextual actions (`MediaGridItemMenu`)
+- `bottomLeft`: mutable metadata (`MediaGridItemStatus`, score)
+- `bottomRight`: stable identifiers (`MediaGridItemInfo`)
+
+This slot mapping keeps behavior predictable for users across different media pages.

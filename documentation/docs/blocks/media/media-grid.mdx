@@ -4,7 +4,9 @@ title: Media grid
 
 # Media grid
 
-Use `MediaGrid` to render large media collections with virtualized scrolling, selection, and incremental loading.
+Use `MediaGrid` to build production media browsers: dataset pages, selection surfaces, annotation queues, and review workflows.
+
+`MediaGrid` is UI-only. You bring data fetching, pagination, and domain actions.
 
 `MediaGrid` follows a tell-don't-ask API:
 
@@ -13,6 +15,17 @@ Use `MediaGrid` to render large media collections with virtualized scrolling, se
 - provide `renderItem(context)`
 
 The grid does not assume how thumbnails should be rendered.
+
+## Typical application flow
+
+In most apps, you will:
+
+1. keep a paged/indexed media cache in state/query data,
+2. pass `totalItems` for full dataset size,
+3. implement `getItemAt(index)` from your cache,
+4. render either `MediaGridThumbnailItem` (quick start) or `MediaGridItem` (custom overlays/actions),
+5. wire `onLoadMore` to fetch next page,
+6. control selection via `selectedKeys` + `onSelectionChange`.
 
 ```tsx
 import {
@@ -157,6 +170,12 @@ Default exported modes:
 
 `getItemAt(index)` lets you back the grid with an efficient indexed cache (for example, paginated query data mapped by absolute index) without allocating a full array of placeholders.
 
+## Choosing item rendering strategy
+
+- **Use `MediaGridThumbnailItem`** when you want a fast thumbnail grid with minimal custom UI.
+- **Use `MediaGridItem` + parts** when you need per-item overlays (checkbox, menu, score, status, tags).
+- **Use custom `renderItem`** for domain-specific visuals, while preserving grid virtualization and selection behavior.
+
 ## Selection model
 
 `MediaGrid` mirrors Spectrum-style controlled selection props.
@@ -251,6 +270,8 @@ Use `renderItem` when you need custom content and overlays.
 - index
 - selection state
 - `onPress` and `onDoublePress`
+
+For controlled selection with custom controls (like checkboxes), update `selectedKeys` explicitly in your app state.
 
 ```tsx preview
 import { useMemo, useState } from 'react';
@@ -482,3 +503,9 @@ export default function App() {
 - `MediaGridModeToggleButtons`: optional mode control helper (`mode` → `itemSize`)
 
 In a follow-up we can add a non-cropping thumbnail variant that uses `contain` scaling.
+
+## Related
+
+- [Media column](/blocks/media/media-column)
+- [Media row](/blocks/media/media-row)
+- [Dropzone overlay](/blocks/media/media-grid-dropzone)

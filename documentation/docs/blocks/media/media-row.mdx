@@ -6,7 +6,7 @@ title: Media row
 
 `MediaRow` is a single-row, horizontally virtualized media layout.
 
-Use it for carousel-like UIs where users scroll left/right through media while reusing the same item composition API as `MediaGrid`.
+Use it for carousel-like timelines and strips (frame pickers, filmstrips, horizontal result browsers) while reusing the same item composition API as `MediaGrid`.
 
 ```tsx
 import {
@@ -140,6 +140,13 @@ export default function App() {
 | `onItemDoublePress` | `(context: MediaGridRenderContext<T>) => void` | No | Called when an item is double-pressed. |
 | `className` | `string` | No | Optional root class. |
 | `style` | `CSSProperties` | No | Inline styles for root. |
+
+## Integration notes
+
+- Ensure the row container has a fixed/known height so horizontal virtualization can compute item geometry.
+- Keep `itemSize` aligned with your thumbnail design token scale (e.g. 120/180/240).
+- Use `focusOnSelect` when row selection changes from external buttons/hotkeys.
+- Keep domain actions in `renderItem` overlays; keep row virtualization and selection logic in the row itself.
 
 ## Related
 

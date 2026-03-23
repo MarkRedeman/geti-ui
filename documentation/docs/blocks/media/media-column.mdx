@@ -6,7 +6,7 @@ title: Media column
 
 `MediaColumn` is a composition of `MediaGrid` with `columns` fixed to `1`.
 
-Use it when you want grid behavior (selection, placeholders, incremental loading, virtualization) but only one item per row.
+Use it for vertical, one-item-per-row workflows (review queues, moderation inboxes, shot-by-shot inspection) while keeping the same data/selection model as `MediaGrid`.
 
 ```tsx
 import {
@@ -122,6 +122,12 @@ export default function App() {
 ## `MediaColumn` props
 
 `MediaColumn` accepts the same props as `MediaGrid`, except `columns` is not exposed.
+
+## Integration notes
+
+- Keep the parent height constrained (`height` or flex + `minHeight: 0`) so virtualization has a stable viewport.
+- Use `focusOnSelect` when selection can change from external controls (prev/next buttons, keyboard shortcuts, sidebar actions).
+- Reuse the same `getItemAt` cache strategy as `MediaGrid` (do not build giant placeholder arrays).
 
 | Prop | Type | Required | Description |
 | --- | --- | --- | --- |

@@ -8,6 +8,8 @@ title: Media grid thumbnail item
 
 It wraps `MediaGridItem` and renders image content with `object-fit: cover`.
 
+Use it when your application needs a fast default item renderer and you only want to customize overlays/actions.
+
 ```tsx
 import { MediaGridThumbnailItem } from '@geti-ai/blocks';
 ```
@@ -120,3 +122,9 @@ export default function App() {
 - [Media grid item](/blocks/media/media-grid-item)
 - [Media grid item parts](/blocks/media/media-grid-item-parts)
 - [Media grid](/blocks/media/media-grid)
+
+## Integration notes
+
+- Treat this as the default rendering baseline for dataset/media-browser pages.
+- Keep `src` optional in virtualized grids to support placeholder rows while pages are still loading.
+- Switch to `MediaGridItem` only when you need full custom media rendering behavior.

@@ -10,6 +10,8 @@ When the user drags files over the virtualized grid, show an overlay message:
 
 `Drop videos or images here`
 
+This pattern is useful for dataset ingestion pages where users can browse existing media and drop new files into the same surface.
+
 ```tsx preview
 import { useMemo, useState } from 'react';
 import { DropZone, Flex, Text, ThemeProvider, View } from '@geti-ai/ui';
@@ -127,6 +129,12 @@ export default function App() {
 - Keep the drop overlay outside `renderItem` and above the full grid container.
 - Reset drag state in both `onDropExit` and `onDrop`.
 - Continue using `totalItems + getItemAt` so scrollbar/virtualization remain stable while data streams in.
+
+## Integration notes
+
+- Keep upload validation/parsing in your app layer (MIME checks, duplicate handling, backend upload pipeline).
+- The overlay should only indicate drop intent; avoid doing heavy work in `onDropEnter`.
+- Keep the grid fully interactive when no drag operation is active.
 
 ## Related
 
