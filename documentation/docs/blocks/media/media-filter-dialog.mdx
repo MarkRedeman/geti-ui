@@ -1,0 +1,68 @@
+---
+title: Filter dialog
+---
+
+# Filter dialog
+
+`FilterDialog` provides full filter-dialog behavior and emits valid rules immediately.
+
+```tsx
+import { FilterDialog } from '@geti-ai/blocks';
+```
+
+## Immediate apply example
+
+```tsx preview
+import { useState } from 'react';
+import { FilterDialog, FilterTriggerButton, type FilterModel } from '@geti-ai/blocks';
+import { ThemeProvider, Text } from '@geti-ai/ui';
+
+const fields = [
+  { key: 'MEDIA_NAME', label: 'Media name', valueType: 'text' },
+  {
+    key: 'MEDIA_TYPE',
+    label: 'Media type',
+    valueType: 'multi-enum',
+    operators: [
+      { key: 'IN', label: 'in' },
+      { key: 'NOT_IN', label: 'not in' },
+    ],
+    editorConfig: {
+      options: [
+        { key: 'IMAGE', label: 'Image' },
+        { key: 'VIDEO', label: 'Video' },
+      ],
+    },
+  },
+  { key: 'MEDIA_WIDTH', label: 'Width', valueType: 'number' },
+  { key: 'UPLOAD_DATE', label: 'Upload date', valueType: 'date' },
+];
+
+const globalOperators = [
+  { key: 'CONTAINS', label: 'contains' },
+  { key: 'EQUAL', label: 'equal' },
+  { key: 'NOT_EQUAL', label: 'not equal' },
+  { key: 'GREATER', label: 'greater than' },
+  { key: 'LESS', label: 'less than' },
+  { key: 'IN', label: 'in' },
+  { key: 'NOT_IN', label: 'not in' },
+];
+
+export default function App() {
+  const [appliedModel, setAppliedModel] = useState<FilterModel>({ condition: 'and', rules: [] });
+
+  return (
+    <ThemeProvider>
+      <FilterDialog
+        fields={fields}
+        globalOperators={globalOperators}
+        defaultDraft={{ condition: 'and', rules: [] }}
+        onApply={(model) => setAppliedModel(model)}
+        trigger={<FilterTriggerButton ariaLabel="Filter media" />}
+      />
+
+      <Text>Applied rules: {appliedModel.rules.length}</Text>
+    </ThemeProvider>
+  );
+}
+```

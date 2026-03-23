@@ -185,7 +185,16 @@
             { "text": "Media grid thumbnail item", "link": "/blocks/media/media-grid-thumbnail-item" }
           ]
         },
-        { "text": "Media filter", "link": "/blocks/media/media-filter", "tag": "TODO" }
+        {
+          "text": "Media filter",
+          "items": [
+            { "text": "Overview", "link": "/blocks/media/media-filter-overview" },
+            { "text": "Filter chips", "link": "/blocks/media/media-filter-chips" },
+            { "text": "Filter dialog", "link": "/blocks/media/media-filter-dialog" },
+            { "text": "Filter row", "link": "/blocks/media/media-filter-row" },
+            { "text": "Filter value editors", "link": "/blocks/media/media-filter-value-editors" }
+          ]
+        }
       ]
     },
     {

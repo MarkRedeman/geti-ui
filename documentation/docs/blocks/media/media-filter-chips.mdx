@@ -1,0 +1,49 @@
+---
+title: Filter chips
+---
+
+# Filter chips
+
+`FilterChips` renders active filter rules as removable chips.
+
+```tsx
+import { FilterChips } from '@geti-ai/blocks';
+```
+
+## Usage
+
+```tsx preview
+import { useState } from 'react';
+import { FilterChips, type FilterRule } from '@geti-ai/blocks';
+import { ThemeProvider } from '@geti-ai/ui';
+
+const initialRules: FilterRule[] = [
+  { id: 'r1', field: 'MEDIA_NAME', operator: 'CONTAINS', value: 'road' },
+  { id: 'r2', field: 'MEDIA_TYPE', operator: 'IN', value: ['IMAGE'] },
+];
+
+const fields = [
+  { key: 'MEDIA_NAME', label: 'Media name', valueType: 'text' },
+  {
+    key: 'MEDIA_TYPE',
+    label: 'Media type',
+    valueType: 'multi-enum',
+    editorConfig: { options: [{ key: 'IMAGE', label: 'Image' }, { key: 'VIDEO', label: 'Video' }] },
+  },
+];
+
+export default function App() {
+  const [rules, setRules] = useState(initialRules);
+
+  return (
+    <ThemeProvider>
+      <FilterChips
+        rules={rules}
+        fields={fields}
+        onRemoveRule={(ruleId) => setRules((current) => current.filter((rule) => rule.id !== ruleId))}
+        onClearAll={() => setRules([])}
+      />
+    </ThemeProvider>
+  );
+}
+```

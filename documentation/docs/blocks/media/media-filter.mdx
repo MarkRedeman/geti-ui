@@ -4,19 +4,22 @@ title: Media filter
 
 # Media filter
 
-`MediaFilter` documentation is currently being migrated.
+`MediaFilter` blocks are now available as composable primitives.
 
-Use the media primitives in this section together for now:
+Current pages:
 
-- [Media grid](/blocks/media/media-grid)
-- [Media column](/blocks/media/media-column)
-- [Media row](/blocks/media/media-row)
+- [Media filter overview](/blocks/media/media-filter-overview)
+- [Filter chips](/blocks/media/media-filter-chips)
+- [Filter dialog](/blocks/media/media-filter-dialog)
+- [Filter row](/blocks/media/media-filter-row)
+- [Filter value editors](/blocks/media/media-filter-value-editors)
 
-## Recommended interim application pattern
+## Immediate apply model
 
-1. Keep filter state in your page container (query params / local state).
-2. Apply filter state to your media query.
-3. Feed filtered result size into `MediaGrid` via `totalItems`.
-4. Provide indexed access through `getItemAt(index)`.
+The filter dialog supports immediate apply behavior:
 
-Once `MediaFilter` docs are finalized, this page will include full composition examples.
+1. users edit draft rules in the dialog,
+2. valid rules are emitted immediately via `onApply`,
+3. your app keeps canonical filter state and performs querying.
+
+The blocks do not fetch or persist filters.

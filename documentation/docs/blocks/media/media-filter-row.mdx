@@ -1,0 +1,22 @@
+---
+title: Filter row
+---
+
+# Filter row
+
+`FilterRow` combines field, operator, and value editors into one reusable row.
+
+Use it directly or inside `FilterDialog`.
+
+## Common use cases
+
+This row supports common patterns:
+
+- text contains (`Media name`)
+- enum in/not in (`Media type`)
+- number comparisons (`Width`, `Height`)
+- date before/after (`Upload date`)
+
+```tsx
+import { FilterRow } from '@geti-ai/blocks';
+```
