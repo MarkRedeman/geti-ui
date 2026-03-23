@@ -21,7 +21,7 @@ describe('OverflowableTabs', () => {
                 <Tabs aria-label="Datasets" selectedKey="a" onSelectionChange={() => {}}>
                     <OverflowableTabs
                         items={items}
-                        selectedId="a"
+                        selectedKey="a"
                         onSelectionChange={() => {}}
                         getItemId={(item) => item.id}
                         getItemLabel={(item) => item.label}
@@ -47,7 +47,7 @@ describe('OverflowableTabs', () => {
                 <Tabs aria-label="Datasets" selectedKey="a" onSelectionChange={() => {}}>
                     <OverflowableTabs
                         items={items}
-                        selectedId="a"
+                        selectedKey="a"
                         onSelectionChange={() => {}}
                         getItemId={(item) => item.id}
                         getItemLabel={(item) => item.label}

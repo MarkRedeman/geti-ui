@@ -3,7 +3,11 @@ import { Picker, PickerItem, TabItem, TabList } from '@geti-ai/ui';
 
 export type OverflowableTabsProps<T> = {
     items: T[];
-    selectedId: string;
+    /**
+     * @deprecated Use selectedKey. Kept for backward compatibility.
+     */
+    selectedId?: string;
+    selectedKey?: string;
     onSelectionChange: (id: string) => void;
     getItemId: (item: T) => string;
     getItemLabel: (item: T) => string;
@@ -17,6 +21,7 @@ export type OverflowableTabsProps<T> = {
 export function OverflowableTabs<T>({
     items,
     selectedId,
+    selectedKey,
     onSelectionChange,
     getItemId,
     getItemLabel,
@@ -31,21 +36,23 @@ export function OverflowableTabs<T>({
     const collapseSectionRef = useRef<HTMLDivElement | null>(null);
     const trailingSectionRef = useRef<HTMLDivElement | null>(null);
     const [maxVisibleTabs, setMaxVisibleTabs] = useState(8);
+    const activeKey = selectedKey ?? selectedId ?? '';
 
     useEffect(() => {
-        const element = containerRef.current;
-        if (!element) {
+        const container = containerRef.current;
+        if (!container || typeof ResizeObserver === 'undefined') {
             return;
         }
 
         const recomputeVisibleTabs = () => {
-            const containerWidth = element.getBoundingClientRect().width;
-            if (containerWidth <= 0) {
+            const tabsSection = tabsSectionRef.current;
+
+            if (!tabsSection) {
                 return;
             }
 
-            const tabsSection = tabsSectionRef.current;
-            if (!tabsSection) {
+            const containerWidth = container.getBoundingClientRect().width;
+            if (containerWidth <= 0) {
                 return;
             }
 
@@ -81,42 +88,43 @@ export function OverflowableTabs<T>({
             }
 
             const boundedVisible = Math.max(minVisibleTabs, Math.min(items.length, nextVisible));
-
-            setMaxVisibleTabs(boundedVisible);
+            setMaxVisibleTabs((previous) => (previous === boundedVisible ? previous : boundedVisible));
         };
 
         recomputeVisibleTabs();
 
-        if (typeof ResizeObserver !== 'undefined') {
-            const observer = new ResizeObserver(() => recomputeVisibleTabs());
-            observer.observe(element);
-
-            return () => observer.disconnect();
+        const observer = new ResizeObserver(() => recomputeVisibleTabs());
+        observer.observe(container);
+        if (tabsSectionRef.current) {
+            observer.observe(tabsSectionRef.current);
+        }
+        if (collapseSectionRef.current) {
+            observer.observe(collapseSectionRef.current);
+        }
+        if (trailingSectionRef.current) {
+            observer.observe(trailingSectionRef.current);
         }
 
-        if (typeof window !== 'undefined') {
-            window.addEventListener('resize', recomputeVisibleTabs);
-            return () => window.removeEventListener('resize', recomputeVisibleTabs);
-        }
-
-        return;
-    }, [items.length, minVisibleTabs]);
+        return () => observer.disconnect();
+    }, [items.length, minVisibleTabs, selectedKey, selectedId, trailingContent]);
 
     const visibleItems = useMemo(() => {
         if (items.length <= maxVisibleTabs) {
             return items;
         }
 
-        const selectedIndex = items.findIndex((item) => getItemId(item) === selectedId);
+        const selectedIndex = items.findIndex((item) => getItemId(item) === activeKey);
         if (selectedIndex < 0 || selectedIndex < maxVisibleTabs) {
             return items.slice(0, maxVisibleTabs);
         }
 
         return [...items.slice(0, maxVisibleTabs - 1), items[selectedIndex]];
-    }, [items, maxVisibleTabs, selectedId, getItemId]);
+    }, [items, maxVisibleTabs, activeKey, getItemId]);
 
-    const visibleIds = new Set(visibleItems.map((item) => getItemId(item)));
-    const collapsedItems = items.filter((item) => !visibleIds.has(getItemId(item)));
+    const collapsedItems = useMemo(() => {
+        const visibleIds = new Set(visibleItems.map((item) => getItemId(item)));
+        return items.filter((item) => !visibleIds.has(getItemId(item)));
+    }, [items, visibleItems, getItemId]);
     const trailingBorderStyle: CSSProperties = {
         borderBottom: 'var(--spectrum-alias-border-size-thick) solid var(--spectrum-global-color-gray-300)',
     };
@@ -136,7 +144,7 @@ export function OverflowableTabs<T>({
                     {visibleItems.map((item) => {
                         const id = getItemId(item);
                         const label = getItemLabel(item);
-                        const content = renderTab ? renderTab(item, selectedId === id) : label;
+                        const content = renderTab ? renderTab(item, activeKey === id) : label;
 
                         return (
                             <TabItem key={id} textValue={label}>
