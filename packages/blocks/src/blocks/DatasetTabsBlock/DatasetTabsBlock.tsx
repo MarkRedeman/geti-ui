@@ -96,6 +96,7 @@ export function DatasetTabsBlock({ initialDatasets = MOCK_DATASETS }: DatasetTab
                 '--spectrum-tabs-selection-indicator-color': 'var(--energy-blue)',
                 '--spectrum-tabs-emphasized-selection-indicator-color': 'var(--energy-blue)',
                 '--spectrum-tabs-quiet-emphasized-selection-indicator-color': 'var(--energy-blue)',
+                '--spectrum-tabs-item-gap': '0px',
             } as CSSProperties}
         >
             <div style={{ display: 'flex', alignItems: 'stretch', width: '100%' }}>

@@ -38,6 +38,7 @@ const ACTIONS: ManagedTabAction[] = [
   { key: 'edit', label: 'Edit dataset name' },
   { key: 'delete', label: 'Delete dataset' },
   { key: 'export', label: 'Export dataset' },
+  { key: 'import', label: 'Import dataset' },
 ];
 
 const initialDatasets: Dataset[] = [
@@ -105,6 +106,7 @@ export default function App() {
           '--spectrum-tabs-selection-indicator-color': 'var(--energy-blue)',
           '--spectrum-tabs-emphasized-selection-indicator-color': 'var(--energy-blue)',
           '--spectrum-tabs-quiet-emphasized-selection-indicator-color': 'var(--energy-blue)',
+          '--spectrum-tabs-item-gap': 'var(--spectrum-global-dimension-size-100)',
         }}
       >
         <div style={{ display: 'flex', alignItems: 'stretch', width: '100%' }}>
