@@ -1,16 +1,143 @@
-import { useMemo, useRef, type CSSProperties, type Key, type ReactNode } from 'react';
+import {
+    type ComponentProps,
+    type CSSProperties,
+    useLayoutEffect,
+    useMemo,
+    useRef,
+    useState,
+    useCallback,
+    type Key,
+    type ReactNode,
+    type Ref,
+    type RefObject,
+} from 'react';
+
 import { Picker, PickerItem, TabItem, TabList } from '@geti-ai/ui';
-import { useOverflowVisibleTabs } from './useOverflowVisibleTabs';
+
+function useResizeObserver<T extends Element>(ref: RefObject<T | null>) {
+    const [width, setWidth] = useState(0);
+    const target = ref.current;
+
+    useLayoutEffect(() => {
+        if (!target || typeof ResizeObserver === 'undefined') {
+            setWidth(0);
+            return;
+        }
+
+        const observer = new ResizeObserver(([entry]) => {
+            setWidth(entry.contentRect.width);
+        });
+
+        observer.observe(target);
+        return () => observer.disconnect();
+    }, [target]);
+
+    return width;
+}
+
+type UseOverflowTabsArgs = {
+    containerRef: RefObject<HTMLDivElement | null>;
+    collapseRef: RefObject<HTMLDivElement | null>;
+    trailingRef: RefObject<HTMLDivElement | null>;
+    tabRefs: RefObject<(HTMLElement | null)[]>;
+    itemCount: number;
+    minVisibleTabs: number;
+    recomputeDeps?: unknown[];
+};
+
+function useOverflowTabs({
+    containerRef,
+    collapseRef,
+    trailingRef,
+    tabRefs,
+    itemCount,
+    minVisibleTabs,
+    recomputeDeps = [],
+}: UseOverflowTabsArgs) {
+    const containerWidth = useResizeObserver(containerRef);
+    const collapseWidth = useResizeObserver(collapseRef);
+    const trailingWidth = useResizeObserver(trailingRef);
+
+    const [maxVisibleTabs, setMaxVisibleTabs] = useState(itemCount);
+
+    useLayoutEffect(() => {
+        const tabs = (tabRefs.current ?? []).filter((tab): tab is HTMLElement => tab !== null);
+        if (tabs.length === 0 || containerWidth === 0) return;
+
+        const tabWidths = tabs.map((t) => t.getBoundingClientRect().width);
+
+        const availableWithoutCollapse = Math.max(0, containerWidth - trailingWidth);
+        const availableWithCollapse = Math.max(0, containerWidth - trailingWidth - collapseWidth);
+
+        let accumulated = 0;
+        let visible = 0;
+
+        for (let i = 0; i < tabWidths.length; i++) {
+            const tabWidth = tabWidths[i];
+
+            const hasHiddenAfter = i < tabWidths.length - 1;
+            const maxWidth = hasHiddenAfter ? availableWithCollapse : availableWithoutCollapse;
+
+            if (accumulated + tabWidth > maxWidth && visible >= minVisibleTabs) {
+                break;
+            }
+
+            accumulated += tabWidth;
+            visible += 1;
+        }
+
+        if (itemCount === 0) {
+            setMaxVisibleTabs(0);
+            return;
+        }
+
+        const bounded = Math.min(itemCount, Math.max(minVisibleTabs, visible));
+        setMaxVisibleTabs(bounded);
+    }, [containerWidth, collapseWidth, trailingWidth, itemCount, minVisibleTabs, tabRefs, ...recomputeDeps]);
+
+    return maxVisibleTabs;
+}
+
+type OverflowPickerProps<T> = {
+    items: T[];
+    getItemId: (item: T) => string;
+    getItemLabel: (item: T) => string;
+    onSelectionChange: (id: string) => void;
+    ariaLabel: string;
+};
+
+function OverflowPicker<T>({ items, getItemId, getItemLabel, onSelectionChange, ariaLabel }: OverflowPickerProps<T>) {
+    const handleSelection = useCallback(
+        (key: Key | null) => {
+            if (key !== null) {
+                onSelectionChange(String(key));
+            }
+        },
+        [onSelectionChange]
+    );
+
+    return (
+        <Picker aria-label={ariaLabel} isQuiet placeholder={`${items.length} more`} onSelectionChange={handleSelection}>
+            {items.map((item) => (
+                <PickerItem key={getItemId(item)}>{getItemLabel(item)}</PickerItem>
+            ))}
+        </Picker>
+    );
+}
 
 export type OverflowableTabsProps<T> = {
     items: T[];
     selectedKey: string;
     onSelectionChange: (id: string) => void;
+
     getItemId: (item: T) => string;
     getItemLabel: (item: T) => string;
+
     renderTab?: (item: T, isActive: boolean) => ReactNode;
+
     overflowAriaLabel?: string;
     minVisibleTabs?: number;
+
     trailingContent?: ReactNode;
     trailingContentContainerStyle?: CSSProperties;
 };
@@ -28,112 +155,111 @@ export function OverflowableTabs<T>({
     trailingContentContainerStyle,
 }: OverflowableTabsProps<T>) {
     const containerRef = useRef<HTMLDivElement | null>(null);
-    const tabsSectionRef = useRef<HTMLDivElement | null>(null);
-    const collapseSectionRef = useRef<HTMLDivElement | null>(null);
-    const trailingSectionRef = useRef<HTMLDivElement | null>(null);
-    const activeKey = selectedKey;
-    const maxVisibleTabs = useOverflowVisibleTabs({
+    const collapseRef = useRef<HTMLDivElement | null>(null);
+    const trailingRef = useRef<HTMLDivElement | null>(null);
+
+    const tabRefs = useRef<(HTMLElement | null)[]>([]);
+
+    const TabItemWithRef = TabItem as unknown as (props: ComponentProps<typeof TabItem> & { ref?: Ref<HTMLElement> }) => ReactNode;
+
+    const registerTab = useCallback((index: number) => {
+        return (el: HTMLElement | null) => {
+            tabRefs.current[index] = el;
+        };
+    }, []);
+
+    const tabIdentity = useMemo(() => items.map((item) => getItemId(item)).join('|'), [items, getItemId]);
+
+    const maxVisibleTabs = useOverflowTabs({
         containerRef,
-        tabsSectionRef,
-        collapseSectionRef,
-        trailingSectionRef,
+        collapseRef,
+        trailingRef,
+        tabRefs,
         itemCount: items.length,
         minVisibleTabs,
-        recalcDeps: [selectedKey, trailingContent],
+        recomputeDeps: [selectedKey, tabIdentity, trailingContent],
     });
 
-    const visibleItems = useMemo(() => {
-        if (items.length <= maxVisibleTabs) {
-            return items;
+    const { visibleItems, collapsedItems } = useMemo(() => {
+        const selectedIndex = items.findIndex((i) => getItemId(i) === selectedKey);
+
+        let visible = items.slice(0, maxVisibleTabs);
+
+        if (selectedIndex >= maxVisibleTabs) {
+            visible = [...items.slice(0, maxVisibleTabs - 1), items[selectedIndex]];
         }
 
-        const selectedIndex = items.findIndex((item) => getItemId(item) === activeKey);
-        if (selectedIndex < 0 || selectedIndex < maxVisibleTabs) {
-            return items.slice(0, maxVisibleTabs);
-        }
+        const visibleIds = new Set(visible.map(getItemId));
 
-        return [...items.slice(0, maxVisibleTabs - 1), items[selectedIndex]];
-    }, [items, maxVisibleTabs, activeKey, getItemId]);
+        return {
+            visibleItems: visible,
+            collapsedItems: items.filter((i) => !visibleIds.has(getItemId(i))),
+        };
+    }, [items, maxVisibleTabs, selectedKey, getItemId]);
 
-    const collapsedItems = useMemo(() => {
-        const visibleIds = new Set(visibleItems.map((item) => getItemId(item)));
-        return items.filter((item) => !visibleIds.has(getItemId(item)));
-    }, [items, visibleItems, getItemId]);
-    const trailingBorderStyle: CSSProperties = {
+    const borderStyle: CSSProperties = {
         borderBottom: 'var(--spectrum-alias-border-size-thick) solid var(--spectrum-global-color-gray-300)',
     };
+
+    tabRefs.current.length = visibleItems.length;
 
     return (
         <div
             ref={containerRef}
             style={{
                 display: 'flex',
-                alignItems: 'stretch',
-                gap: '0px',
                 width: '100%',
+                alignItems: 'stretch',
             }}
         >
-            <div ref={tabsSectionRef} style={{ flex: '0 0 auto', minWidth: 0 }}>
-                <TabList>
-                    {visibleItems.map((item) => {
-                        const id = getItemId(item);
-                        const label = getItemLabel(item);
-                        const content = renderTab ? renderTab(item, activeKey === id) : label;
+            <TabList>
+                {visibleItems.map((item, index) => {
+                    const id = getItemId(item);
+                    const label = getItemLabel(item);
+                    const content = renderTab ? renderTab(item, selectedKey === id) : label;
 
-                        return (
-                            <TabItem key={id} textValue={label}>
-                                {content}
-                            </TabItem>
-                        );
-                    })}
-                </TabList>
-            </div>
+                    return (
+                        <TabItemWithRef key={id} textValue={label} ref={registerTab(index)}>
+                            {content}
+                        </TabItemWithRef>
+                    );
+                })}
+            </TabList>
 
-            {collapsedItems.length > 0 ? (
+            {collapsedItems.length > 0 && (
                 <div
-                    ref={collapseSectionRef}
+                    ref={collapseRef}
                     style={{
                         display: 'flex',
                         alignItems: 'center',
-                        flex: '0 0 auto',
-                        ...trailingBorderStyle,
                         padding: '0 var(--spectrum-global-dimension-size-200)',
+                        ...borderStyle,
                     }}
                 >
-                    <Picker
-                        aria-label={overflowAriaLabel}
-                        isQuiet
-                        placeholder={`${collapsedItems.length} more`}
-                        onSelectionChange={(key: Key | null) => {
-                            if (key === null) {
-                                return;
-                            }
-
-                            onSelectionChange(String(key));
-                        }}
-                    >
-                        {collapsedItems.map((item) => (
-                            <PickerItem key={getItemId(item)}>{getItemLabel(item)}</PickerItem>
-                        ))}
-                    </Picker>
+                    <OverflowPicker
+                        items={collapsedItems}
+                        getItemId={getItemId}
+                        getItemLabel={getItemLabel}
+                        onSelectionChange={onSelectionChange}
+                        ariaLabel={overflowAriaLabel}
+                    />
                 </div>
-            ) : null}
+            )}
 
-            {trailingContent ? (
+            {trailingContent && (
                 <div
-                    ref={trailingSectionRef}
+                    ref={trailingRef}
                     style={{
                         display: 'flex',
                         flex: '1 1 auto',
                         alignItems: 'center',
-                        justifyContent: 'flex-start',
-                        ...trailingBorderStyle,
+                        ...borderStyle,
                         ...trailingContentContainerStyle,
                     }}
                 >
                     {trailingContent}
                 </div>
-            ) : null}
+            )}
         </div>
     );
 }
