@@ -1,0 +1,150 @@
+---
+title: Overview
+---
+
+# Tabs overview
+
+This page shows how to compose `ManagedTab` and `OverflowableTabs` together for a dataset workflow:
+
+- each selected tab can open a contextual management menu,
+- tabs collapse into a `N more` picker when space is limited,
+- add-dataset action stays in the same row,
+- tab panels remain application-owned.
+
+```tsx preview
+import { useState } from 'react';
+import { ManagedTab, OverflowableTabs, type ManagedTabAction } from '@geti-ai/blocks';
+import { ActionButton, TabItem, TabPanels, Tabs, Text, ThemeProvider, View } from '@geti-ai/ui';
+import { Add } from '@geti-ai/ui/icons';
+import { Icon } from '@adobe/react-spectrum';
+
+type Dataset = {
+  id: string;
+  name: string;
+  images: number;
+};
+
+const ACTIONS: ManagedTabAction[] = [
+  { key: 'edit', label: 'Edit dataset name' },
+  { key: 'delete', label: 'Delete dataset' },
+  { key: 'export', label: 'Export dataset' },
+];
+
+const initialDatasets: Dataset[] = [
+  { id: 'train', name: 'Training set', images: 1240 },
+  { id: 'val', name: 'Validation set', images: 340 },
+  { id: 'test', name: 'Testing set', images: 510 },
+  { id: 'night', name: 'Night shift', images: 188 },
+  { id: 'drift', name: 'Drift watch', images: 72 },
+  { id: 'archive', name: 'Archive', images: 3210 },
+  { id: 'edge', name: 'Edge cases', images: 94 },
+];
+
+const createDataset = (index: number): Dataset => ({
+  id: `dataset-${index + 1}`,
+  name: `Dataset ${index + 1}`,
+  images: 100 + (index + 1) * 25,
+});
+
+export default function App() {
+  const [datasets, setDatasets] = useState(initialDatasets);
+  const [selectedId, setSelectedId] = useState(initialDatasets[0].id);
+  const [lastAction, setLastAction] = useState('No action yet.');
+
+  const onItemAction = (action: string, dataset: Dataset) => {
+    if (action === 'delete') {
+      if (datasets.length <= 1) {
+        setLastAction('Cannot delete the only remaining dataset.');
+        return;
+      }
+
+      const next = datasets.filter((item) => item.id !== dataset.id);
+      setDatasets(next);
+      setSelectedId(next[0].id);
+      setLastAction(`Deleted dataset "${dataset.name}".`);
+      return;
+    }
+
+    if (action === 'edit') {
+      setDatasets((current) =>
+        current.map((item) =>
+          item.id === dataset.id && !item.name.endsWith(' (edited)')
+            ? { ...item, name: `${item.name} (edited)` }
+            : item
+        )
+      );
+      setLastAction(`Edited dataset "${dataset.name}".`);
+      return;
+    }
+
+    setLastAction(`${action} triggered for "${dataset.name}".`);
+  };
+
+  const onAddDataset = () => {
+    const nextDataset = createDataset(datasets.length);
+    setDatasets((current) => [...current, nextDataset]);
+    setSelectedId(nextDataset.id);
+    setLastAction(`Added dataset "${nextDataset.name}".`);
+  };
+
+  return (
+    <ThemeProvider>
+      <Tabs
+        aria-label="Datasets"
+        selectedKey={selectedId}
+        onSelectionChange={(key) => setSelectedId(String(key))}
+        UNSAFE_style={{
+          '--spectrum-tabs-selection-indicator-color': 'var(--energy-blue)',
+          '--spectrum-tabs-emphasized-selection-indicator-color': 'var(--energy-blue)',
+          '--spectrum-tabs-quiet-emphasized-selection-indicator-color': 'var(--energy-blue)',
+          '--spectrum-tabs-item-gap': 'var(--spectrum-global-dimension-size-50)',
+        }}
+      >
+        <OverflowableTabs
+          items={datasets}
+          selectedKey={selectedId}
+          onSelectionChange={setSelectedId}
+          getItemId={(dataset) => dataset.id}
+          getItemLabel={(dataset) => dataset.name}
+          overflowAriaLabel="Collapsed datasets"
+          renderTab={(dataset, isActive) => (
+            <ManagedTab
+              label={dataset.name}
+              isSelected={isActive}
+              actions={ACTIONS}
+              onAction={(action) => onItemAction(action, dataset)}
+            />
+          )}
+          trailingContent={
+            <ActionButton isQuiet aria-label="Add dataset" onPress={onAddDataset}>
+              <Icon>
+                <Add />
+              </Icon>
+            </ActionButton>
+          }
+        />
+
+        <TabPanels>
+          {datasets.map((dataset) => (
+            <TabItem key={dataset.id}>
+              <View paddingTop="size-150">
+                <Text>
+                  <strong>{dataset.name}</strong>
+                </Text>
+                <Text>{dataset.images} images</Text>
+                <Text>Last action: {lastAction}</Text>
+              </View>
+            </TabItem>
+          ))}
+        </TabPanels>
+      </Tabs>
+    </ThemeProvider>
+  );
+}
+```
+
+## When to use this composition
+
+- Use `ManagedTab` when active tabs expose actions.
+- Use `OverflowableTabs` when tab count can exceed available width.
+- Combine both when you need dataset management + responsive tab overflow behavior.

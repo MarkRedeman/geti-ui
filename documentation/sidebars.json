@@ -174,6 +174,7 @@
       "text": "Tabs",
       "collapsed": false,
       "items": [
+        { "text": "Overview", "link": "/blocks/tabs/overview", "tag": "WIP" },
         { "text": "Managed tabs", "link": "/blocks/tabs/managed-tabs", "tag": "WIP" },
         { "text": "Overflowable tabs", "link": "/blocks/tabs/overflowable-tabs", "tag": "WIP" }
       ]
