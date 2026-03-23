@@ -267,9 +267,11 @@ export type { CardViewProps } from './components/data/CardView/CardView';
 export { TreeView } from './components/data/TreeView/TreeView';
 export type { TreeViewProps } from './components/data/TreeView/TreeView';
 
+/** @deprecated Use @geti-ai/blocks media components instead. */
 export { VirtualizedListLayout } from './components/data/VirtualizedListLayout/VirtualizedListLayout';
 export type { VirtualizedListLayoutProps } from './components/data/VirtualizedListLayout/VirtualizedListLayout';
 
+/** @deprecated Use @geti-ai/blocks media components instead. */
 export { VirtualizedHorizontalGrid } from './components/data/VirtualizedHorizontalGrid/VirtualizedHorizontalGrid';
 export type { VirtualizedHorizontalGridProps } from './components/data/VirtualizedHorizontalGrid/VirtualizedHorizontalGrid';
 export { HorizontalLayout } from './components/data/VirtualizedHorizontalGrid/HorizontalLayout';

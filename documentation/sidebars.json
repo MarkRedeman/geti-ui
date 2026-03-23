@@ -97,8 +97,8 @@
         { "text": "Tag", "link": "/components/data/Tag" },
         { "text": "TagGroup", "link": "/components/data/TagGroup" },
         { "text": "TreeView", "link": "/components/data/TreeView" },
-        { "text": "VirtualizedHorizontalGrid", "link": "/components/data/VirtualizedHorizontalGrid" },
-        { "text": "VirtualizedListLayout", "link": "/components/data/VirtualizedListLayout" }
+        { "text": "VirtualizedHorizontalGrid", "link": "/components/data/VirtualizedHorizontalGrid", "tag": "Deprecated" },
+        { "text": "VirtualizedListLayout", "link": "/components/data/VirtualizedListLayout", "tag": "Deprecated" }
       ]
     },
     {
