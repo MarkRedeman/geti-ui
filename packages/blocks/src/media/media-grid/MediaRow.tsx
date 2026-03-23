@@ -1,5 +1,4 @@
-import { useEffect, useMemo, useRef, useState } from 'react';
-import type { RefObject } from 'react';
+import { useRef, useState } from 'react';
 import { Text, View } from '@geti-ai/ui';
 import { InvalidationContext } from '@react-stately/virtualizer';
 import {
@@ -15,6 +14,7 @@ import {
 } from 'react-aria-components';
 import styles from './media-grid.module.css';
 import type { MediaGridIdentifiable, MediaGridRenderContext, MediaGridSelection, MediaRowProps } from './types';
+import { createMediaRenderContext, useFocusOnSelect, useVirtualMediaItems } from './hooks';
 
 type HorizontalLayoutOptions = {
     gap?: number;
@@ -105,64 +105,6 @@ class MediaRowHorizontalLayout extends Layout {
 
 const clampSelection = (value: MediaGridSelection | undefined): MediaGridSelection => value ?? new Set<string>();
 
-function getFirstSelectedKey(selection: MediaGridSelection): string | undefined {
-    if (selection === 'all') {
-        return undefined;
-    }
-
-    return Array.from(selection)[0];
-}
-
-type MediaRowVirtualItem<T extends MediaGridIdentifiable> = {
-    key: string;
-    index: number;
-    item: T | undefined;
-};
-
-function useMediaRowItems<T extends MediaGridIdentifiable>(
-    totalItems: number,
-    getItemAt: (index: number) => T | undefined
-): MediaRowVirtualItem<T>[] {
-    return useMemo(() => {
-        return Array.from({ length: Math.max(0, totalItems) }, (_, index) => {
-            const item = getItemAt(index);
-            return {
-                key: String(item?.id ?? `placeholder-${index}`),
-                index,
-                item,
-            };
-        });
-    }, [totalItems, getItemAt]);
-}
-
-type UseFocusOnSelectOptions = {
-    focusOnSelect: boolean;
-    selection: MediaGridSelection;
-    listRef: RefObject<HTMLDivElement | null>;
-};
-
-function useFocusOnSelect({ focusOnSelect, selection, listRef }: UseFocusOnSelectOptions) {
-    useEffect(() => {
-        if (!focusOnSelect) {
-            return;
-        }
-
-        const selectedKey = getFirstSelectedKey(selection);
-        if (!selectedKey) {
-            return;
-        }
-
-        const options = listRef.current?.querySelectorAll<HTMLElement>('[role="option"]');
-        const selectedOption = Array.from(options ?? []).find((node) => node.getAttribute('data-key') === selectedKey);
-
-        selectedOption?.focus({ preventScroll: true });
-        selectedOption?.scrollIntoView({
-            behavior: 'smooth',
-            block: 'nearest',
-            inline: 'nearest',
-        });
-    }, [focusOnSelect, selection, listRef]);
-}
 
 export function MediaRow<T extends MediaGridIdentifiable>({
     totalItems,
@@ -192,7 +134,7 @@ export function MediaRow<T extends MediaGridIdentifiable>({
     const effectiveSelectionSet = effectiveSelection === 'all' ? new Set<string>() : new Set(effectiveSelection);
     const listRef = useRef<HTMLDivElement | null>(null);
 
-    const items = useMediaRowItems(totalItems, getItemAt);
+    const items = useVirtualMediaItems(totalItems, getItemAt);
 
     const handleSelectionChange = (keys: Selection) => {
         const typed = keys as MediaGridSelection;
@@ -205,7 +147,7 @@ export function MediaRow<T extends MediaGridIdentifiable>({
     useFocusOnSelect({
         focusOnSelect,
         selection: effectiveSelection,
-        listRef,
+        containerRef: listRef,
     });
 
     const rootClassName = [styles.root, className].filter(Boolean).join(' ');
@@ -259,57 +201,14 @@ export function MediaRow<T extends MediaGridIdentifiable>({
                             }}
                         >
                             {items.map((entry) => {
-                                const isPlaceholder = entry.item === undefined;
-                                const isSelected =
-                                    !isPlaceholder &&
-                                    (effectiveSelection === 'all' ||
-                                        effectiveSelectionSet.has(String(entry.item?.id ?? '')));
-
-                                const handlePress = () => {
-                                    if (!entry.item || isPlaceholder) {
-                                        return;
-                                    }
-
-                                    onItemPress?.({
-                                        item: entry.item,
-                                        index: entry.index,
-                                        isPlaceholder: false,
-                                        isSelected:
-                                            effectiveSelection === 'all' ||
-                                            effectiveSelectionSet.has(String(entry.item.id)),
-                                        selectionMode,
-                                        onPress: handlePress,
-                                        onDoublePress: handleDoublePress,
-                                    });
-                                };
-
-                                const handleDoublePress = () => {
-                                    if (!entry.item || isPlaceholder) {
-                                        return;
-                                    }
-
-                                    onItemDoublePress?.({
-                                        item: entry.item,
-                                        index: entry.index,
-                                        isPlaceholder: false,
-                                        isSelected:
-                                            effectiveSelection === 'all' ||
-                                            effectiveSelectionSet.has(String(entry.item.id)),
-                                        selectionMode,
-                                        onPress: handlePress,
-                                        onDoublePress: handleDoublePress,
-                                    });
-                                };
-
-                                const context: MediaGridRenderContext<T> = {
-                                    item: entry.item,
-                                    index: entry.index,
-                                    isPlaceholder,
-                                    isSelected,
+                                const context: MediaGridRenderContext<T> = createMediaRenderContext({
+                                    entry,
+                                    effectiveSelection,
+                                    effectiveSelectionSet,
                                     selectionMode,
-                                    onPress: handlePress,
-                                    onDoublePress: handleDoublePress,
-                                };
+                                    onItemPress,
+                                    onItemDoublePress,
+                                });
 
                                 return (
                                     <ListBoxItem
