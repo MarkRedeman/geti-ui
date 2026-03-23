@@ -294,6 +294,16 @@ export default function App() {
     if (ctx.isPlaceholder || !ctx.item) {
       return <MediaGridThumbnailItem isPlaceholder onPress={ctx.onPress} onDoublePress={ctx.onDoublePress} />;
     }
+    
+    const onCheckbox = (isPressed: boolean) => {
+      const newSet = new Set(selectedKeys)
+      if (!isPressed) {
+        newSet.delete(ctx.item.id)
+      } else{
+        newSet.add(ctx.item.id)
+      }
+        setSelectedKeys(newSet)
+    }
 
     return (
       <MediaGridItem
@@ -310,7 +320,7 @@ export default function App() {
             <Checkbox
               aria-label={`Select ${ctx.item.name}`}
               isSelected={ctx.isSelected}
-              onChange={ctx.onPress}
+              onChange={onCheckbox}
             />
           </Flex>
         }

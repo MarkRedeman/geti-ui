@@ -25,6 +25,10 @@ export function MediaGridItem({
             {topLeft ? (
                 <div
                     className={`${classNames.overlay} ${classNames.topLeft} ${classNames.topLeftContainer}`}
+                    onClick={(event) => event.stopPropagation()}
+                    onDoubleClick={(event) => event.stopPropagation()}
+                    onPointerDown={(event) => event.stopPropagation()}
+                    onPointerUp={(event) => event.stopPropagation()}
                 >
                     {topLeft}
                 </div>
