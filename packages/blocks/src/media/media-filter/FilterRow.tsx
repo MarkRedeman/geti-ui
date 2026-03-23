@@ -1,4 +1,5 @@
 import { ActionButton, Grid } from '@geti-ai/ui';
+import { Icon } from '@adobe/react-spectrum';
 import { Delete } from '@geti-ai/ui/icons';
 import { FilterFieldSelect } from './FilterFieldSelect';
 import { FilterOperatorSelect } from './FilterOperatorSelect';
@@ -59,7 +60,7 @@ export function FilterRow({
 
             {onRemove ? (
                 <ActionButton isQuiet isDisabled={isDisabled} onPress={onRemove} aria-label={`Remove filter ${rule.id}`}>
-                    <Delete />
+                    <Icon><Delete /></Icon>
                 </ActionButton>
             ) : null}
         </Grid>

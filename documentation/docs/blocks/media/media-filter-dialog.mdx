@@ -4,7 +4,9 @@ title: Filter dialog
 
 # Filter dialog
 
-`FilterDialog` provides full filter-dialog behavior and emits valid rules immediately.
+`FilterDialog` renders only the dialog content and emits valid rules immediately.
+
+You provide the trigger/popover wrapper (for example, with `DialogTrigger`).
 
 ```tsx
 import { FilterDialog } from '@geti-ai/blocks';
@@ -15,7 +17,7 @@ import { FilterDialog } from '@geti-ai/blocks';
 ```tsx preview
 import { useState } from 'react';
 import { FilterDialog, FilterTriggerButton, type FilterModel } from '@geti-ai/blocks';
-import { ThemeProvider, Text } from '@geti-ai/ui';
+import { ThemeProvider, Text, DialogTrigger } from '@geti-ai/ui';
 
 const fields = [
   { key: 'MEDIA_NAME', label: 'Media name', valueType: 'text' },
@@ -53,13 +55,15 @@ export default function App() {
 
   return (
     <ThemeProvider>
-      <FilterDialog
-        fields={fields}
-        globalOperators={globalOperators}
-        defaultDraft={{ condition: 'and', rules: [] }}
-        onApply={(model) => setAppliedModel(model)}
-        trigger={<FilterTriggerButton ariaLabel="Filter media" />}
-      />
+      <DialogTrigger type="popover" hideArrow>
+        <FilterTriggerButton ariaLabel="Filter media" />
+        <FilterDialog
+          fields={fields}
+          globalOperators={globalOperators}
+          defaultDraft={{ condition: 'and', rules: [] }}
+          onApply={(model) => setAppliedModel(model)}
+        />
+      </DialogTrigger>
 
       <Text>Applied rules: {appliedModel.rules.length}</Text>
     </ThemeProvider>

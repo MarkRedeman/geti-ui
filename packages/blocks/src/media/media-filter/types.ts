@@ -63,7 +63,6 @@ export type FilterChipProps = {
     rule: FilterRule;
     label: string;
     onRemove?: () => void;
-    id?: string;
 };
 
 export type FilterChipsProps = {
@@ -75,7 +74,6 @@ export type FilterChipsProps = {
     onRemoveRule?: (ruleId: string) => void;
     onClearAll?: () => void;
     emptyState?: ReactNode;
-    id?: string;
 };
 
 export type FilterFieldSelectProps = {
@@ -166,12 +164,7 @@ export type FilterDialogProps = {
     onDraftChange?: (next: FilterModel) => void;
     defaultDraft?: FilterModel;
 
-    isOpen?: boolean;
-    defaultOpen?: boolean;
-    onOpenChange?: (isOpen: boolean) => void;
-
     onApply: (model: FilterModel) => void;
-    onCancel?: () => void;
 
     renderRow?: RenderRow;
     renderValueEditor?: RenderValueEditor;
@@ -179,8 +172,6 @@ export type FilterDialogProps = {
     totalMatches?: number;
     isFetchingMatches?: boolean;
     isDisabled?: boolean;
-    trigger?: ReactNode;
-    id?: string;
     dialogTitle?: string;
     minRuleCount?: number;
     trailingContentContainerStyle?: CSSProperties;

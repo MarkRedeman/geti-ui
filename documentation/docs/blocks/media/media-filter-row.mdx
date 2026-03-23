@@ -16,9 +16,130 @@ This row supports common patterns:
 - enum in/not in (`Media type`)
 - number comparisons (`Width`, `Height`)
 - date before/after (`Upload date`)
+- custom value type via `renderValueEditor`
 
 ```tsx
 import { FilterRow } from '@geti-ai/blocks';
+```
+
+## All supported filter value types
+
+```tsx preview
+import { useState } from 'react';
+import { FilterRow, type FilterRule } from '@geti-ai/blocks';
+import { ThemeProvider, Text, TextField, View } from '@geti-ai/ui';
+
+const fields = [
+  {
+    key: 'MEDIA_NAME',
+    label: 'Media name',
+    valueType: 'text' as const,
+    operators: [{ key: 'CONTAINS', label: 'contains' }],
+  },
+  {
+    key: 'MEDIA_WIDTH',
+    label: 'Width',
+    valueType: 'number' as const,
+    operators: [
+      { key: 'GREATER_THAN', label: 'greater than' },
+      { key: 'LESS_THAN', label: 'less than' },
+    ],
+  },
+  {
+    key: 'UPLOADED_AT',
+    label: 'Uploaded date',
+    valueType: 'date' as const,
+    operators: [
+      { key: 'AFTER', label: 'after' },
+      { key: 'BEFORE', label: 'before' },
+    ],
+  },
+  {
+    key: 'MEDIA_TYPE',
+    label: 'Media type',
+    valueType: 'enum' as const,
+    operators: [{ key: 'EQUALS', label: 'is' }],
+    editorConfig: {
+      options: [
+        { key: 'IMAGE', label: 'Image' },
+        { key: 'VIDEO', label: 'Video' },
+      ],
+    },
+  },
+  {
+    key: 'LABELS',
+    label: 'Labels',
+    valueType: 'multi-enum' as const,
+    operators: [{ key: 'IN', label: 'includes any of' }],
+    editorConfig: {
+      options: [
+        { key: 'car', label: 'Car' },
+        { key: 'person', label: 'Person' },
+        { key: 'road-sign', label: 'Road sign' },
+      ],
+    },
+  },
+  {
+    key: 'PRIORITY_SCORE',
+    label: 'Priority score',
+    valueType: 'custom-priority' as const,
+    operators: [{ key: 'IS', label: 'is' }],
+  },
+];
+
+export default function App() {
+  const [textRule, setTextRule] = useState<FilterRule>({ id: 'text', field: 'MEDIA_NAME', operator: 'CONTAINS', value: 'road' });
+  const [numberRule, setNumberRule] = useState<FilterRule>({
+    id: 'number',
+    field: 'MEDIA_WIDTH',
+    operator: 'GREATER_THAN',
+    value: 1920,
+  });
+  const [dateRule, setDateRule] = useState<FilterRule>({ id: 'date', field: 'UPLOADED_AT', operator: 'AFTER', value: '2026-01-01' });
+  const [enumRule, setEnumRule] = useState<FilterRule>({ id: 'enum', field: 'MEDIA_TYPE', operator: 'EQUALS', value: 'IMAGE' });
+  const [multiEnumRule, setMultiEnumRule] = useState<FilterRule>({
+    id: 'multi-enum',
+    field: 'LABELS',
+    operator: 'IN',
+    value: ['car', 'person'],
+  });
+  const [customRule, setCustomRule] = useState<FilterRule>({
+    id: 'custom',
+    field: 'PRIORITY_SCORE',
+    operator: 'IS',
+    value: 'critical',
+  });
+
+  return (
+    <ThemeProvider>
+      <View>
+        <div style={{ display: 'grid', gap: 12 }}>
+          <FilterRow rule={textRule} fields={fields} onChange={setTextRule} />
+          <FilterRow rule={numberRule} fields={fields} onChange={setNumberRule} />
+          <FilterRow rule={dateRule} fields={fields} onChange={setDateRule} />
+          <FilterRow rule={enumRule} fields={fields} onChange={setEnumRule} />
+          <FilterRow rule={multiEnumRule} fields={fields} onChange={setMultiEnumRule} />
+          <FilterRow
+            rule={customRule}
+            fields={fields}
+            onChange={setCustomRule}
+            renderValueEditor={({ rule, onChange }) => (
+              <TextField
+                aria-label='Priority score'
+                value={typeof rule.value === 'string' ? rule.value : ''}
+                onChange={(nextValue) => onChange(nextValue)}
+              />
+            )}
+          />
+
+          <Text>
+            Active types: text, number, date, enum, multi-enum, custom
+          </Text>
+        </div>
+      </View>
+    </ThemeProvider>
+  );
+}
 ```
 
 ## Text filter row (contains)

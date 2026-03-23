@@ -1,5 +1,6 @@
 import { ActionButton } from '@geti-ai/ui';
 import { Filter } from '@geti-ai/ui/icons';
+import { Icon } from '@adobe/react-spectrum';
 import type { FilterTriggerButtonProps } from './types';
 
 export function FilterTriggerButton({
@@ -11,7 +12,9 @@ export function FilterTriggerButton({
 }: FilterTriggerButtonProps) {
     return (
         <ActionButton id={id} isQuiet isDisabled={isDisabled} aria-label={ariaLabel} onPress={onPress}>
-            <Filter data-selected={isSelected ? 'true' : 'false'} />
+            <Icon>
+                <Filter data-selected={isSelected ? 'true' : 'false'} />
+            </Icon>
         </ActionButton>
     );
 }

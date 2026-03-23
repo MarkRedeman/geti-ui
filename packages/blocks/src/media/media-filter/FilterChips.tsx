@@ -12,7 +12,6 @@ export function FilterChips({
     onRemoveRule,
     onClearAll,
     emptyState,
-    id,
 }: FilterChipsProps) {
     if (rules.length === 0) {
         return emptyState ? <>{emptyState}</> : null;
@@ -30,7 +29,6 @@ export function FilterChips({
                     <FilterChip
                         key={rule.id}
                         rule={rule}
-                        id={id}
                         label={resolvedLabel}
                         onRemove={onRemoveRule ? () => onRemoveRule(rule.id) : undefined}
                     />
