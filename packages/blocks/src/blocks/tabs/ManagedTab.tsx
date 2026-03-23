@@ -1,4 +1,4 @@
-import { useEffect, useState, type Key, type ReactNode } from 'react';
+import { useState, type Key, type ReactNode } from 'react';
 import { Menu, MenuItem, MenuTrigger, PressableElement, Text } from '@geti-ai/ui';
 import { Icon } from '@adobe/react-spectrum';
 import { MoreMenu } from '@geti-ai/ui/icons';
@@ -19,26 +19,22 @@ export type ManagedTabProps = {
 
 export function ManagedTab({ label, isSelected, actions, onAction, trailingContent }: ManagedTabProps) {
     const [isOpen, setIsOpen] = useState(false);
+    const hasActions = actions.length > 0;
+    const isActionable = isSelected && hasActions;
 
-    useEffect(() => {
-        if (!isSelected) {
-            setIsOpen(false);
-        }
-    }, [isSelected]);
-
-    const openMenuIfSelected = () => {
-        if (!isSelected || actions.length === 0) {
+    const openMenuIfActionable = () => {
+        if (!isActionable) {
             return;
         }
 
         setIsOpen(true);
     };
 
-    const content = (
+    const tabContent = (
         <span className={styles.managedTab}>
             <Text>{label}</Text>
 
-            {isSelected && actions.length > 0 ? (
+            {isActionable ? (
                 <Icon size="S">
                     <MoreMenu className={styles.moreMenuIcon} />
                 </Icon>
@@ -50,14 +46,14 @@ export function ManagedTab({ label, isSelected, actions, onAction, trailingConte
         </span>
     );
 
-    if (!isSelected || actions.length === 0) {
-        return content;
+    if (!isActionable) {
+        return tabContent;
     }
 
     return (
         <MenuTrigger isOpen={isOpen} onOpenChange={setIsOpen}>
-            <PressableElement UNSAFE_className={styles.trigger} onPress={openMenuIfSelected}>
-                {content}
+            <PressableElement UNSAFE_className={styles.trigger} onPress={openMenuIfActionable}>
+                {tabContent}
             </PressableElement>
             <Menu
                 onAction={(key: Key) => {

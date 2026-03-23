@@ -1,13 +1,10 @@
-import { useEffect, useMemo, useRef, useState, type CSSProperties, type Key, type ReactNode } from 'react';
+import { useMemo, useRef, type CSSProperties, type Key, type ReactNode } from 'react';
 import { Picker, PickerItem, TabItem, TabList } from '@geti-ai/ui';
+import { useOverflowVisibleTabs } from './useOverflowVisibleTabs';
 
 export type OverflowableTabsProps<T> = {
     items: T[];
-    /**
-     * @deprecated Use selectedKey. Kept for backward compatibility.
-     */
-    selectedId?: string;
-    selectedKey?: string;
+    selectedKey: string;
     onSelectionChange: (id: string) => void;
     getItemId: (item: T) => string;
     getItemLabel: (item: T) => string;
@@ -20,7 +17,6 @@ export type OverflowableTabsProps<T> = {
 
 export function OverflowableTabs<T>({
     items,
-    selectedId,
     selectedKey,
     onSelectionChange,
     getItemId,
@@ -35,78 +31,16 @@ export function OverflowableTabs<T>({
     const tabsSectionRef = useRef<HTMLDivElement | null>(null);
     const collapseSectionRef = useRef<HTMLDivElement | null>(null);
     const trailingSectionRef = useRef<HTMLDivElement | null>(null);
-    const [maxVisibleTabs, setMaxVisibleTabs] = useState(8);
-    const activeKey = selectedKey ?? selectedId ?? '';
-
-    useEffect(() => {
-        const container = containerRef.current;
-        if (!container || typeof ResizeObserver === 'undefined') {
-            return;
-        }
-
-        const recomputeVisibleTabs = () => {
-            const tabsSection = tabsSectionRef.current;
-
-            if (!tabsSection) {
-                return;
-            }
-
-            const containerWidth = container.getBoundingClientRect().width;
-            if (containerWidth <= 0) {
-                return;
-            }
-
-            const tabElements = Array.from(tabsSection.querySelectorAll('[role="tab"]')) as HTMLElement[];
-            if (tabElements.length === 0) {
-                return;
-            }
-
-            const trailingWidth = trailingSectionRef.current?.getBoundingClientRect().width ?? 0;
-            const collapseWidth = collapseSectionRef.current?.getBoundingClientRect().width ?? 0;
-
-            const availableWithoutCollapse = Math.max(0, containerWidth - trailingWidth);
-            const availableWithCollapse = Math.max(0, containerWidth - trailingWidth - collapseWidth);
-
-            let accumulatedWidth = 0;
-            let nextVisible = 0;
-
-            for (const tabElement of tabElements) {
-                const tabWidth = tabElement.getBoundingClientRect().width;
-                if (tabWidth <= 0) {
-                    continue;
-                }
-
-                const hasHiddenTabsAfterThis = nextVisible < tabElements.length - 1;
-                const maxWidthForThisStep = hasHiddenTabsAfterThis ? availableWithCollapse : availableWithoutCollapse;
-
-                if (accumulatedWidth + tabWidth > maxWidthForThisStep && nextVisible >= minVisibleTabs) {
-                    break;
-                }
-
-                accumulatedWidth += tabWidth;
-                nextVisible += 1;
-            }
-
-            const boundedVisible = Math.max(minVisibleTabs, Math.min(items.length, nextVisible));
-            setMaxVisibleTabs((previous) => (previous === boundedVisible ? previous : boundedVisible));
-        };
-
-        recomputeVisibleTabs();
-
-        const observer = new ResizeObserver(() => recomputeVisibleTabs());
-        observer.observe(container);
-        if (tabsSectionRef.current) {
-            observer.observe(tabsSectionRef.current);
-        }
-        if (collapseSectionRef.current) {
-            observer.observe(collapseSectionRef.current);
-        }
-        if (trailingSectionRef.current) {
-            observer.observe(trailingSectionRef.current);
-        }
-
-        return () => observer.disconnect();
-    }, [items.length, minVisibleTabs, selectedKey, selectedId, trailingContent]);
+    const activeKey = selectedKey;
+    const maxVisibleTabs = useOverflowVisibleTabs({
+        containerRef,
+        tabsSectionRef,
+        collapseSectionRef,
+        trailingSectionRef,
+        itemCount: items.length,
+        minVisibleTabs,
+        recalcDeps: [selectedKey, trailingContent],
+    });
 
     const visibleItems = useMemo(() => {
         if (items.length <= maxVisibleTabs) {

@@ -6,7 +6,15 @@ import path from 'node:path';
 import { pluginSkills } from './plugins/skills-endpoint';
 import sidebars from './sidebars.json';
 
-const { componentsSidebar, chartsSidebar, blocksSidebar, assetsSidebar, smartToolsSidebar, aiSidebar, examplesSidebar } = sidebars;
+const {
+    componentsSidebar,
+    chartsSidebar,
+    blocksSidebar,
+    assetsSidebar,
+    smartToolsSidebar,
+    aiSidebar,
+    examplesSidebar,
+} = sidebars;
 
 export default defineConfig({
     root: path.join(__dirname, 'docs'),
@@ -15,6 +23,7 @@ export default defineConfig({
     },
     title: 'Geti UI',
     description: 'Component design system for Intel Geti products',
+    mediumZoom: false,
     // icon: '/favicon.png',
     logo: '/geti-logo.svg',
     // Disable SSG because Adobe React Spectrum uses browser APIs (e.g. `document`)
