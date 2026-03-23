@@ -170,7 +170,7 @@ export function OverflowableTabs<T>({
 
     const tabIdentity = useMemo(() => items.map((item) => getItemId(item)).join('|'), [items, getItemId]);
 
-    const maxVisibleTabs = useOverflowTabs({
+    const computedMaxVisibleTabs = useOverflowTabs({
         containerRef,
         collapseRef,
         trailingRef,
@@ -179,6 +179,8 @@ export function OverflowableTabs<T>({
         minVisibleTabs,
         recomputeDeps: [selectedKey, tabIdentity, trailingContent],
     });
+
+    const maxVisibleTabs = computedMaxVisibleTabs;
 
     const { visibleItems, collapsedItems } = useMemo(() => {
         const selectedIndex = items.findIndex((i) => getItemId(i) === selectedKey);
