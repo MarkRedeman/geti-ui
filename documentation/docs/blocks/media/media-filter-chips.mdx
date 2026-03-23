@@ -35,14 +35,104 @@ const fields = [
 export default function App() {
   const [rules, setRules] = useState(initialRules);
 
+  const randomRule = () => {
+    const presets: FilterRule[] = [
+      { id: crypto.randomUUID(), field: 'MEDIA_NAME', operator: 'CONTAINS', value: 'bridge' },
+      { id: crypto.randomUUID(), field: 'MEDIA_TYPE', operator: 'IN', value: ['VIDEO'] },
+      { id: crypto.randomUUID(), field: 'MEDIA_WIDTH', operator: 'GREATER_THAN', value: 1920 },
+      { id: crypto.randomUUID(), field: 'LABELS', operator: 'IN', value: ['car', 'road'] },
+    ];
+
+    return presets[Math.floor(Math.random() * presets.length)]!;
+  };
+
+  return (
+    <ThemeProvider>
+      <div style={{ display: 'grid', gap: 12 }}>
+        <div>
+          <button onClick={() => setRules((current) => [...current, randomRule()])}>Add random filter</button>
+        </div>
+
+        <FilterChips
+          rules={rules}
+          fields={fields}
+          onRemoveRule={(ruleId) => setRules((current) => current.filter((rule) => rule.id !== ruleId))}
+          onClearAll={() => setRules([])}
+        />
+      </div>
+    </ThemeProvider>
+  );
+}
+```
+
+## Date and numeric label formatting
+
+```tsx preview
+import { FilterChips, type FilterRule } from '@geti-ai/blocks';
+import { ThemeProvider } from '@geti-ai/ui';
+
+const rules: FilterRule[] = [
+  { id: 'r1', field: 'UPLOADED_AT', operator: 'AFTER', value: '2026-02-16' },
+  { id: 'r2', field: 'MEDIA_WIDTH', operator: 'GREATER_THAN', value: 1920 },
+];
+
+const fields = [
+  { key: 'UPLOADED_AT', label: 'Uploaded date', valueType: 'date' },
+  { key: 'MEDIA_WIDTH', label: 'Width', valueType: 'number' },
+];
+
+export default function App() {
   return (
     <ThemeProvider>
       <FilterChips
         rules={rules}
         fields={fields}
-        onRemoveRule={(ruleId) => setRules((current) => current.filter((rule) => rule.id !== ruleId))}
-        onClearAll={() => setRules([])}
+        getRuleLabel={(rule, field) => {
+          if (rule.field === 'UPLOADED_AT' && typeof rule.value === 'string') {
+            const date = new Date(rule.value);
+            return `${field?.label ?? rule.field} ${rule.operator.toLowerCase()} ${date.toLocaleDateString()}`;
+          }
+
+          if (rule.field === 'MEDIA_WIDTH' && typeof rule.value === 'number') {
+            return `${field?.label ?? rule.field} > ${rule.value}px`;
+          }
+
+          return `${field?.label ?? rule.field} ${rule.operator} ${String(rule.value ?? '')}`;
+        }}
       />
+    </ThemeProvider>
+  );
+}
+```
+
+## Empty and read-only states
+
+```tsx preview
+import { useState } from 'react';
+import { FilterChips, type FilterRule } from '@geti-ai/blocks';
+import { ThemeProvider } from '@geti-ai/ui';
+
+const seed: FilterRule[] = [{ id: 'r1', field: 'MEDIA_NAME', operator: 'CONTAINS', value: 'night' }];
+
+export default function App() {
+  const [readOnly, setReadOnly] = useState(false);
+
+  return (
+    <ThemeProvider>
+      <div style={{ display: 'grid', gap: 12 }}>
+        <label>
+          <input type="checkbox" checked={readOnly} onChange={(event) => setReadOnly(event.target.checked)} /> Read only
+        </label>
+
+        <FilterChips
+          rules={seed}
+          emptyState={<span>No active filters</span>}
+          onRemoveRule={readOnly ? undefined : () => {}}
+          onClearAll={readOnly ? undefined : () => {}}
+        />
+
+        <FilterChips rules={[]} emptyState={<span>No active filters</span>} />
+      </div>
     </ThemeProvider>
   );
 }

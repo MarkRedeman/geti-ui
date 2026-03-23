@@ -20,3 +20,180 @@ This row supports common patterns:
 ```tsx
 import { FilterRow } from '@geti-ai/blocks';
 ```
+
+## Text filter row (contains)
+
+```tsx preview
+import { useState } from 'react';
+import { FilterRow, type FilterRule } from '@geti-ai/blocks';
+import { ThemeProvider, Text } from '@geti-ai/ui';
+
+const fields = [{ key: 'MEDIA_NAME', label: 'Media name', valueType: 'text' as const }];
+const globalOperators = [{ key: 'CONTAINS', label: 'contains' }];
+
+export default function App() {
+  const [rule, setRule] = useState<FilterRule>({ id: 'name', field: 'MEDIA_NAME', operator: 'CONTAINS', value: 'road' });
+
+  return (
+    <ThemeProvider>
+      <div style={{ display: 'grid', gap: 8 }}>
+        <FilterRow rule={rule} fields={fields} globalOperators={globalOperators} onChange={setRule} />
+        <Text>{JSON.stringify(rule)}</Text>
+      </div>
+    </ThemeProvider>
+  );
+}
+```
+
+## Number filter row (greater than)
+
+```tsx preview
+import { useState } from 'react';
+import { FilterRow, type FilterRule } from '@geti-ai/blocks';
+import { ThemeProvider, Text } from '@geti-ai/ui';
+
+const fields = [{ key: 'MEDIA_WIDTH', label: 'Width', valueType: 'number' as const }];
+const globalOperators = [
+  { key: 'GREATER_THAN', label: 'greater than' },
+  { key: 'LESS_THAN', label: 'less than' },
+];
+
+export default function App() {
+  const [rule, setRule] = useState<FilterRule>({ id: 'width', field: 'MEDIA_WIDTH', operator: 'GREATER_THAN', value: 1920 });
+
+  return (
+    <ThemeProvider>
+      <div style={{ display: 'grid', gap: 8 }}>
+        <FilterRow rule={rule} fields={fields} globalOperators={globalOperators} onChange={setRule} />
+        <Text>{JSON.stringify(rule)}</Text>
+      </div>
+    </ThemeProvider>
+  );
+}
+```
+
+## Date filter row (before/after)
+
+```tsx preview
+import { useState } from 'react';
+import { FilterRow, type FilterRule } from '@geti-ai/blocks';
+import { ThemeProvider, Text } from '@geti-ai/ui';
+
+const fields = [{ key: 'UPLOADED_AT', label: 'Uploaded date', valueType: 'date' as const }];
+const globalOperators = [
+  { key: 'AFTER', label: 'after' },
+  { key: 'BEFORE', label: 'before' },
+];
+
+export default function App() {
+  const [rule, setRule] = useState<FilterRule>({ id: 'uploaded', field: 'UPLOADED_AT', operator: 'AFTER', value: '2026-01-01' });
+
+  return (
+    <ThemeProvider>
+      <div style={{ display: 'grid', gap: 8 }}>
+        <FilterRow rule={rule} fields={fields} globalOperators={globalOperators} onChange={setRule} />
+        <Text>{JSON.stringify(rule)}</Text>
+      </div>
+    </ThemeProvider>
+  );
+}
+```
+
+## Enum and multi-enum rows
+
+```tsx preview
+import { useState } from 'react';
+import { FilterRow, type FilterRule } from '@geti-ai/blocks';
+import { ThemeProvider, Divider, Text } from '@geti-ai/ui';
+
+const fields = [
+  {
+    key: 'MEDIA_TYPE',
+    label: 'Media type',
+    valueType: 'enum' as const,
+    operators: [{ key: 'EQUALS', label: 'is' }],
+    editorConfig: {
+      options: [
+        { key: 'IMAGE', label: 'Image' },
+        { key: 'VIDEO', label: 'Video' },
+      ],
+    },
+  },
+  {
+    key: 'LABELS',
+    label: 'Labels',
+    valueType: 'multi-enum' as const,
+    operators: [{ key: 'IN', label: 'includes any of' }],
+    editorConfig: {
+      options: [
+        { key: 'car', label: 'Car' },
+        { key: 'person', label: 'Person' },
+        { key: 'road-sign', label: 'Road sign' },
+      ],
+    },
+  },
+];
+
+export default function App() {
+  const [enumRule, setEnumRule] = useState<FilterRule>({ id: 'type', field: 'MEDIA_TYPE', operator: 'EQUALS', value: 'IMAGE' });
+  const [multiEnumRule, setMultiEnumRule] = useState<FilterRule>({
+    id: 'labels',
+    field: 'LABELS',
+    operator: 'IN',
+    value: ['car', 'person'],
+  });
+
+  return (
+    <ThemeProvider>
+      <div style={{ display: 'grid', gap: 12 }}>
+        <FilterRow rule={enumRule} fields={fields} onChange={setEnumRule} />
+        <Text>{JSON.stringify(enumRule)}</Text>
+
+        <Divider size="S" />
+
+        <FilterRow rule={multiEnumRule} fields={fields} onChange={setMultiEnumRule} />
+        <Text>{JSON.stringify(multiEnumRule)}</Text>
+      </div>
+    </ThemeProvider>
+  );
+}
+```
+
+## Disabled and removable row
+
+```tsx preview
+import { useState } from 'react';
+import { FilterRow, type FilterRule } from '@geti-ai/blocks';
+import { ThemeProvider, ActionButton } from '@geti-ai/ui';
+
+const fields = [{ key: 'MEDIA_NAME', label: 'Media name', valueType: 'text' as const }];
+const globalOperators = [{ key: 'CONTAINS', label: 'contains' }];
+
+export default function App() {
+  const [disabled, setDisabled] = useState(false);
+  const [visible, setVisible] = useState(true);
+  const [rule, setRule] = useState<FilterRule>({ id: 'row', field: 'MEDIA_NAME', operator: 'CONTAINS', value: 'city' });
+
+  return (
+    <ThemeProvider>
+      <div style={{ display: 'grid', gap: 12 }}>
+        <div style={{ display: 'flex', gap: 8 }}>
+          <ActionButton onPress={() => setDisabled((v) => !v)}>{disabled ? 'Enable row' : 'Disable row'}</ActionButton>
+          <ActionButton onPress={() => setVisible((v) => !v)}>{visible ? 'Hide row' : 'Show row'}</ActionButton>
+        </div>
+
+        {visible ? (
+          <FilterRow
+            rule={rule}
+            fields={fields}
+            globalOperators={globalOperators}
+            onChange={setRule}
+            onRemove={() => setVisible(false)}
+            isDisabled={disabled}
+          />
+        ) : null}
+      </div>
+    </ThemeProvider>
+  );
+}
+```

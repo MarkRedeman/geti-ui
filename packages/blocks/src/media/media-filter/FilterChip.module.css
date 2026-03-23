@@ -1,0 +1,10 @@
+.chips {
+    padding-top: var(--spectrum-global-dimension-size-50);
+    padding-bottom: var(--spectrum-global-dimension-size-50);
+}
+
+.chips button {
+    width: var(--spectrum-global-dimension-size-200) !important;
+    height: var(--spectrum-global-dimension-size-200) !important;
+    min-width: var(--spectrum-global-dimension-size-200) !important;
+}

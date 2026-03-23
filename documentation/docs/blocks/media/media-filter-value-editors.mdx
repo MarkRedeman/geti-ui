@@ -15,3 +15,237 @@ Built-in editors:
 - `FilterValueMultiSelect`
 
 For custom fields, provide `renderValueEditor` and return your own editor component.
+
+## FilterValueEditor (all built-ins + custom + no field)
+
+```tsx preview
+import { useMemo, useState } from 'react';
+import { FilterValueEditor, type FilterFieldOption, type FilterRule } from '@geti-ai/blocks';
+import { Picker, PickerItem, Text, TextField, ThemeProvider } from '@geti-ai/ui';
+
+type ExampleKey =
+  | 'no-field'
+  | 'text'
+  | 'number'
+  | 'date'
+  | 'single-select'
+  | 'multi-select'
+  | 'custom';
+
+const fields: Record<Exclude<ExampleKey, 'no-field' | 'custom'>, FilterFieldOption> = {
+  text: { key: 'MEDIA_NAME', label: 'Media name', valueType: 'text' },
+  number: { key: 'MEDIA_WIDTH', label: 'Width', valueType: 'number' },
+  date: { key: 'UPLOADED_AT', label: 'Uploaded date', valueType: 'date' },
+  'single-select': {
+    key: 'MEDIA_TYPE',
+    label: 'Media type',
+    valueType: 'enum',
+    editorConfig: {
+      options: [
+        { key: 'IMAGE', label: 'Image' },
+        { key: 'VIDEO', label: 'Video' },
+        { key: 'PDF', label: 'PDF' },
+      ],
+    },
+  },
+  'multi-select': {
+    key: 'LABELS',
+    label: 'Labels',
+    valueType: 'multi-enum',
+    editorConfig: {
+      options: [
+        { key: 'car', label: 'Car' },
+        { key: 'person', label: 'Person' },
+        { key: 'road-sign', label: 'Road sign' },
+      ],
+    },
+  },
+};
+
+const initialRules: Record<ExampleKey, FilterRule> = {
+  'no-field': { id: 'r0', field: '', operator: 'CONTAINS', value: null },
+  text: { id: 'r1', field: 'MEDIA_NAME', operator: 'CONTAINS', value: 'road' },
+  number: { id: 'r2', field: 'MEDIA_WIDTH', operator: 'GREATER_THAN', value: 1920 },
+  date: { id: 'r3', field: 'UPLOADED_AT', operator: 'AFTER', value: '2026-03-01' },
+  'single-select': { id: 'r4', field: 'MEDIA_TYPE', operator: 'EQUALS', value: 'IMAGE' },
+  'multi-select': { id: 'r5', field: 'LABELS', operator: 'IN', value: ['car', 'person'] },
+  custom: { id: 'r6', field: 'CUSTOM_SCORE', operator: 'IS', value: 'critical' },
+};
+
+export default function App() {
+  const [example, setExample] = useState<ExampleKey>('text');
+  const [rule, setRule] = useState<FilterRule>(initialRules.text);
+
+  const field = useMemo(() => {
+    if (example === 'no-field') {
+      return undefined;
+    }
+
+    if (example === 'custom') {
+      return { key: 'CUSTOM_SCORE', label: 'Custom score', valueType: 'custom-score' } satisfies FilterFieldOption;
+    }
+
+    return fields[example];
+  }, [example]);
+
+  return (
+    <ThemeProvider>
+      <div style={{ display: 'grid', gap: 12, maxWidth: 420 }}>
+        <Picker
+          aria-label='Choose value editor example'
+          selectedKey={example}
+          onSelectionChange={(key) => {
+            const next = String(key) as ExampleKey;
+            setExample(next);
+            setRule(initialRules[next]);
+          }}
+        >
+          <PickerItem key='no-field'>No field selected</PickerItem>
+          <PickerItem key='text'>Text</PickerItem>
+          <PickerItem key='number'>Number</PickerItem>
+          <PickerItem key='date'>Date</PickerItem>
+          <PickerItem key='single-select'>Single select</PickerItem>
+          <PickerItem key='multi-select'>Multi select</PickerItem>
+          <PickerItem key='custom'>Custom editor</PickerItem>
+        </Picker>
+
+        <FilterValueEditor
+          rule={rule}
+          field={field}
+          onChange={(value) => setRule((current) => ({ ...current, value }))}
+          renderValueEditor={
+            example === 'custom'
+              ? ({ rule: currentRule, onChange }) => (
+                  <TextField
+                    aria-label='Custom score value'
+                    value={typeof currentRule.value === 'string' ? currentRule.value : ''}
+                    onChange={(nextValue) => onChange(nextValue)}
+                  />
+                )
+              : undefined
+          }
+        />
+
+        <Text>Rule value: {Array.isArray(rule.value) ? rule.value.join(', ') : String(rule.value ?? '(none)')}</Text>
+      </div>
+    </ThemeProvider>
+  );
+}
+```
+
+## FilterValueText
+
+```tsx preview
+import { useState } from 'react';
+import { FilterValueText } from '@geti-ai/blocks';
+import { ThemeProvider, Text } from '@geti-ai/ui';
+
+export default function App() {
+  const [value, setValue] = useState('road');
+
+  return (
+    <ThemeProvider>
+      <div style={{ display: 'grid', gap: 8, maxWidth: 360 }}>
+        <FilterValueText value={value} onChange={setValue} ariaLabel="Media name contains" />
+        <Text>Current value: {value || '(empty)'}</Text>
+      </div>
+    </ThemeProvider>
+  );
+}
+```
+
+## FilterValueNumber
+
+```tsx preview
+import { useState } from 'react';
+import { FilterValueNumber } from '@geti-ai/blocks';
+import { ThemeProvider, Text } from '@geti-ai/ui';
+
+export default function App() {
+  const [value, setValue] = useState<number | null>(1920);
+
+  return (
+    <ThemeProvider>
+      <div style={{ display: 'grid', gap: 8, maxWidth: 360 }}>
+        <FilterValueNumber value={value} onChange={setValue} ariaLabel="Width greater than" />
+        <Text>Current value: {value === null ? 'none' : `${value}px`}</Text>
+      </div>
+    </ThemeProvider>
+  );
+}
+```
+
+## FilterValueDate
+
+```tsx preview
+import { useState } from 'react';
+import { FilterValueDate } from '@geti-ai/blocks';
+import { ThemeProvider, Text } from '@geti-ai/ui';
+
+export default function App() {
+  const [value, setValue] = useState<string | null>('2026-03-01');
+
+  return (
+    <ThemeProvider>
+      <div style={{ display: 'grid', gap: 8, maxWidth: 360 }}>
+        <FilterValueDate value={value} onChange={setValue} ariaLabel="Uploaded after" />
+        <Text>Current value: {value ?? 'none'}</Text>
+      </div>
+    </ThemeProvider>
+  );
+}
+```
+
+## FilterValueSingleSelect
+
+```tsx preview
+import { useState } from 'react';
+import { FilterValueSingleSelect } from '@geti-ai/blocks';
+import { ThemeProvider, Text } from '@geti-ai/ui';
+
+const options = [
+  { key: 'IMAGE', label: 'Image' },
+  { key: 'VIDEO', label: 'Video' },
+  { key: 'PDF', label: 'PDF' },
+];
+
+export default function App() {
+  const [value, setValue] = useState<string | null>('IMAGE');
+
+  return (
+    <ThemeProvider>
+      <div style={{ display: 'grid', gap: 8, maxWidth: 360 }}>
+        <FilterValueSingleSelect value={value} options={options} onChange={setValue} ariaLabel="Media type equals" />
+        <Text>Current value: {value ?? 'none'}</Text>
+      </div>
+    </ThemeProvider>
+  );
+}
+```
+
+## FilterValueMultiSelect
+
+```tsx preview
+import { useState } from 'react';
+import { FilterValueMultiSelect } from '@geti-ai/blocks';
+import { ThemeProvider, Text } from '@geti-ai/ui';
+
+const options = [
+  { key: 'car', label: 'Car' },
+  { key: 'person', label: 'Person' },
+  { key: 'road-sign', label: 'Road sign' },
+];
+
+export default function App() {
+  const [value, setValue] = useState<string[]>(['car', 'person']);
+
+  return (
+    <ThemeProvider>
+      <div style={{ display: 'grid', gap: 8, maxWidth: 360 }}>
+        <FilterValueMultiSelect value={value} options={options} onChange={setValue} ariaLabel="Labels include" />
+        <Text>Current value: {value.length ? value.join(', ') : 'none'}</Text>
+      </div>
+    </ThemeProvider>
+  );
+}
+```
