@@ -1,0 +1,135 @@
+---
+title: Media grid dropzone overlay
+---
+
+# Media grid dropzone overlay
+
+Use this pattern to combine `MediaGrid` custom item composition with drag-and-drop uploads.
+
+When the user drags files over the virtualized grid, show an overlay message:
+
+`Drop videos or images here`
+
+```tsx preview
+import { useMemo, useState } from 'react';
+import { DropZone, Flex, Text, ThemeProvider, View } from '@geti-ai/ui';
+import {
+  MediaGrid,
+  MediaGridItem,
+  MediaGridThumbnailItem,
+  type MediaGridRenderContext,
+  type MediaGridSelection,
+} from '@geti-ai/blocks';
+
+type Media = {
+  id: string;
+  name: string;
+  thumbnailUrl: string;
+  score: number;
+};
+
+const allMedia: Media[] = Array.from({ length: 160 }, (_, index) => ({
+  id: `media-${index + 1}`,
+  name: `Asset ${index + 1}`,
+  thumbnailUrl: `https://picsum.photos/seed/dropzone-composed-${index + 1}/400/400`,
+  score: Math.round((0.6 + (index % 40) / 100) * 100) / 100,
+}));
+
+export default function App() {
+  const [loadedCount, setLoadedCount] = useState(70);
+  const [selectedKeys, setSelectedKeys] = useState<MediaGridSelection>(new Set());
+  const [isDragOver, setIsDragOver] = useState(false);
+
+  const byIndex = useMemo(() => {
+    const map = new Map<number, Media>();
+    for (let i = 0; i < loadedCount; i += 1) {
+      map.set(i, allMedia[i]);
+    }
+    return map;
+  }, [loadedCount]);
+
+  const renderCustomItem = (ctx: MediaGridRenderContext<Media>) => {
+    if (ctx.isPlaceholder || !ctx.item) {
+      return <MediaGridThumbnailItem isPlaceholder onPress={ctx.onPress} onDoublePress={ctx.onDoublePress} />;
+    }
+
+    return (
+      <MediaGridItem
+        isSelected={ctx.isSelected}
+        onPress={ctx.onPress}
+        onDoublePress={ctx.onDoublePress}
+        bottomLeft={<Text UNSAFE_style={{ fontSize: '11px' }}>{ctx.item.score}</Text>}
+        bottomRight={<Text UNSAFE_style={{ fontSize: '11px' }}>{ctx.item.id}</Text>}
+      >
+        <img
+          src={ctx.item.thumbnailUrl}
+          alt={ctx.item.name}
+          style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}
+        />
+      </MediaGridItem>
+    );
+  };
+
+  return (
+    <ThemeProvider>
+      <View height="size-6000">
+        <DropZone
+          onDropEnter={() => setIsDragOver(true)}
+          onDropExit={() => setIsDragOver(false)}
+          onDrop={() => setIsDragOver(false)}
+          UNSAFE_style={{
+            width: '100%',
+            height: '100%',
+            border: 'none',
+            background: 'transparent',
+            padding: 0,
+            position: 'relative',
+          }}
+        >
+          <MediaGrid
+            totalItems={allMedia.length}
+            getItemAt={(index) => byIndex.get(index)}
+            itemSize={180}
+            hasNextPage={loadedCount < allMedia.length}
+            onLoadMore={() => setLoadedCount((prev) => Math.min(prev + 30, allMedia.length))}
+            selectionMode="multiple"
+            selectedKeys={selectedKeys}
+            onSelectionChange={setSelectedKeys}
+            renderItem={renderCustomItem}
+          />
+
+          {isDragOver ? (
+            <View
+              position="absolute"
+              top={0}
+              right={0}
+              bottom={0}
+              left={0}
+              backgroundColor="gray-700"
+              UNSAFE_style={{ opacity: 0.72, zIndex: 20 }}
+            >
+              <Flex alignItems="center" justifyContent="center" height="100%">
+                <Text UNSAFE_style={{ fontSize: '20px', fontWeight: 600 }}>
+                  Drop videos or images here
+                </Text>
+              </Flex>
+            </View>
+          ) : null}
+        </DropZone>
+      </View>
+    </ThemeProvider>
+  );
+}
+```
+
+## Notes
+
+- Keep the drop overlay outside `renderItem` and above the full grid container.
+- Reset drag state in both `onDropExit` and `onDrop`.
+- Continue using `totalItems + getItemAt` so scrollbar/virtualization remain stable while data streams in.
+
+## Related
+
+- [Media grid](/blocks/media/media-grid)
+- [Media grid item](/blocks/media/media-grid-item)
+- [DropZone](/components/form/DropZone)
