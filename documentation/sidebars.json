@@ -161,16 +161,6 @@
     { "text": "Installation", "link": "/blocks/installation" },
     { "text": "Logs", "link": "/blocks/logs" },
     {
-      "text": "Annotation",
-      "collapsed": false,
-      "items": [
-        { "text": "Toolbar", "link": "/blocks/annotation/toolbar", "tag": "WIP" },
-        { "text": "Zoom", "link": "/blocks/annotation/zoom", "tag": "WIP" },
-        { "text": "Annotation", "link": "/blocks/annotation/annotation", "tag": "WIP" },
-        { "text": "Prediction", "link": "/blocks/annotation/prediction", "tag": "WIP" }
-      ]
-    },
-    {
       "text": "Tabs",
       "collapsed": false,
       "items": [
@@ -183,7 +173,6 @@
       "text": "Media",
       "collapsed": false,
       "items": [
-        { "text": "Media filter", "link": "/blocks/media/media-filter", "tag": "WIP" },
         {
           "text": "Media grid",
           "items": [
@@ -195,7 +184,18 @@
             { "text": "Media grid item parts", "link": "/blocks/media/media-grid-item-parts" },
             { "text": "Media grid thumbnail item", "link": "/blocks/media/media-grid-thumbnail-item" }
           ]
-        }
+        },
+        { "text": "Media filter", "link": "/blocks/media/media-filter", "tag": "WIP" }
+      ]
+    },
+    {
+      "text": "Annotation",
+      "collapsed": false,
+      "items": [
+        { "text": "Toolbar", "link": "/blocks/annotation/toolbar", "tag": "WIP" },
+        { "text": "Zoom", "link": "/blocks/annotation/zoom", "tag": "WIP" },
+        { "text": "Annotation", "link": "/blocks/annotation/annotation", "tag": "WIP" },
+        { "text": "Prediction", "link": "/blocks/annotation/prediction", "tag": "WIP" }
       ]
     },
     {
