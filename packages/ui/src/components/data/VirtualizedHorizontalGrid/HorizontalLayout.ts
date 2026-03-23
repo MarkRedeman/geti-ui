@@ -65,7 +65,7 @@ export class HorizontalLayout extends Layout {
         }
 
         const sizeWithGap = this.size + this.gap;
-        const rect = new Rect(node.index * sizeWithGap, 0, sizeWithGap, this.size);
+        const rect = new Rect(node.index * sizeWithGap, 0, this.size, this.size);
 
         return new LayoutInfo(node.type, node.key, rect);
     }
@@ -78,8 +78,9 @@ export class HorizontalLayout extends Layout {
 
         const numItems = this.virtualizer.collection.size;
         const sizeWithGap = this.size + this.gap;
+        const contentWidth = Math.max(0, numItems * sizeWithGap - this.gap);
 
-        return new Size(numItems * sizeWithGap, this.size);
+        return new Size(contentWidth, this.size);
     }
 
     update(invalidationContext: InvalidationContext<HorizontalLayoutOptions>): void {

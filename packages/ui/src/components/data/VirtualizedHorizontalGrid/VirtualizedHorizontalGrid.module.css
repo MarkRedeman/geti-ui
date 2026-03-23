@@ -3,7 +3,7 @@
     height: 100%;
     overflow-x: auto;
     overflow-y: hidden;
-    display: flex;
+    display: block;
 }
 
 .container:focus-visible {
