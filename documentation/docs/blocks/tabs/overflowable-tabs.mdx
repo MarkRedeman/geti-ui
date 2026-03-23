@@ -3,3 +3,107 @@ title: Overflowable tabs
 ---
 
 # Overflowable tabs
+
+`OverflowableTabs` is a tabs header primitive that keeps the selected tab visible and collapses excess tabs into a compact picker when horizontal space is limited.
+
+Use it when tab count can grow or when tabs share space with actions (for example: "Add dataset", filters, counters).
+
+```tsx
+import { OverflowableTabs } from '@geti-ai/blocks';
+```
+
+## Responsive dataset tabs example
+
+```tsx preview
+import { useState } from 'react';
+import { OverflowableTabs } from '@geti-ai/blocks';
+import { ActionButton, TabItem, TabPanels, Tabs, Text, ThemeProvider, View } from '@geti-ai/ui';
+import { Add } from '@geti-ai/ui/icons';
+import { Icon } from '@adobe/react-spectrum';
+
+type Dataset = {
+  id: string;
+  label: string;
+  images: number;
+};
+
+const initialItems: Dataset[] = [
+  { id: 'train', label: 'Training set', images: 1240 },
+  { id: 'val', label: 'Validation set', images: 340 },
+  { id: 'test', label: 'Testing set', images: 510 },
+  { id: 'edge', label: 'Edge cases', images: 94 },
+  { id: 'night', label: 'Night shift', images: 188 },
+  { id: 'drift', label: 'Drift watch', images: 72 },
+  { id: 'archive', label: 'Archive', images: 3210 },
+];
+
+const createItem = (index: number): Dataset => ({
+  id: `dataset-${index + 1}`,
+  label: `Dataset ${index + 1}`,
+  images: 120 + index * 20,
+});
+
+export default function App() {
+  const [items, setItems] = useState(initialItems);
+  const [selectedId, setSelectedId] = useState(initialItems[0].id);
+
+  return (
+    <ThemeProvider>
+      <Tabs
+        aria-label="Datasets"
+        selectedKey={selectedId}
+        onSelectionChange={(key) => setSelectedId(String(key))}
+        UNSAFE_style={{
+          '--spectrum-tabs-selection-indicator-color': 'var(--energy-blue)',
+          '--spectrum-tabs-emphasized-selection-indicator-color': 'var(--energy-blue)',
+          '--spectrum-tabs-quiet-emphasized-selection-indicator-color': 'var(--energy-blue)',
+          '--spectrum-tabs-item-gap': 'var(--spectrum-global-dimension-size-200)',
+        }}
+      >
+        <OverflowableTabs
+          items={items}
+          selectedId={selectedId}
+          onSelectionChange={setSelectedId}
+          getItemId={(item) => item.id}
+          getItemLabel={(item) => item.label}
+          overflowAriaLabel="Collapsed datasets"
+          trailingContent={
+            <ActionButton
+              isQuiet
+              aria-label="Add dataset"
+              onPress={() => {
+                const next = createItem(items.length);
+                setItems((current) => [...current, next]);
+                setSelectedId(next.id);
+              }}
+            >
+              <Icon>
+                <Add />
+              </Icon>
+            </ActionButton>
+          }
+        />
+
+        <TabPanels>
+          {items.map((item) => (
+            <TabItem key={item.id}>
+              <View paddingTop="size-150">
+                <Text>
+                  <strong>{item.label}</strong>
+                </Text>
+                <Text>{item.images} images</Text>
+              </View>
+            </TabItem>
+          ))}
+        </TabPanels>
+      </Tabs>
+    </ThemeProvider>
+  );
+}
+```
+
+## Behavior
+
+- The selected tab is kept visible in the tab strip when tabs overflow.
+- Overflowed tabs are rendered in a quiet `Picker` (`N more`).
+- `OverflowableTabs` only handles header behavior; panel rendering remains your app's responsibility.

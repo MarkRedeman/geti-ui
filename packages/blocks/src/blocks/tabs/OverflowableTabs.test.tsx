@@ -1,6 +1,6 @@
 import { render, screen } from '@testing-library/react';
 import { describe, expect, it } from '@rstest/core';
-import { TabItem, TabPanels, Tabs, ThemeProvider } from '@geti-ai/ui';
+import { ActionButton, TabItem, TabPanels, Tabs, ThemeProvider } from '@geti-ai/ui';
 import { OverflowableTabs } from './OverflowableTabs';
 
 type TabData = { id: string; label: string };
@@ -15,7 +15,7 @@ const items: TabData[] = [
 ];
 
 describe('OverflowableTabs', () => {
-    it('renders collapsed picker when there are more tabs than visible slots', () => {
+    it('renders tabs and trailing content without requiring sizing props', () => {
         render(
             <ThemeProvider>
                 <Tabs aria-label="Datasets" selectedKey="a" onSelectionChange={() => {}}>
@@ -25,7 +25,7 @@ describe('OverflowableTabs', () => {
                         onSelectionChange={() => {}}
                         getItemId={(item) => item.id}
                         getItemLabel={(item) => item.label}
-                        overflowAriaLabel="Collapsed datasets"
+                        trailingContent={<span>Trailing content</span>}
                     />
 
                     <TabPanels>
@@ -37,6 +37,32 @@ describe('OverflowableTabs', () => {
             </ThemeProvider>
         );
 
-        expect(screen.getByRole('button', { name: /Collapsed datasets/i })).toBeTruthy();
+        expect(screen.getByRole('tab', { name: 'Training' })).toBeTruthy();
+        expect(screen.getByText('Trailing content')).toBeTruthy();
+    });
+
+    it('renders trailing content inside built-in trailing container', () => {
+        render(
+            <ThemeProvider>
+                <Tabs aria-label="Datasets" selectedKey="a" onSelectionChange={() => {}}>
+                    <OverflowableTabs
+                        items={items}
+                        selectedId="a"
+                        onSelectionChange={() => {}}
+                        getItemId={(item) => item.id}
+                        getItemLabel={(item) => item.label}
+                        trailingContent={<ActionButton aria-label="Add dataset">Add</ActionButton>}
+                    />
+
+                    <TabPanels>
+                        {items.map((item) => (
+                            <TabItem key={item.id}>{item.label}</TabItem>
+                        ))}
+                    </TabPanels>
+                </Tabs>
+            </ThemeProvider>
+        );
+
+        expect(screen.getByRole('button', { name: 'Add dataset' })).toBeTruthy();
     });
 });
