@@ -53,8 +53,22 @@ function useFocusOnSelect({ focusOnSelect, containerRef, selection }: UseFocusOn
             return;
         }
 
-        const options = containerRef.current?.querySelectorAll<HTMLElement>('[role="row"] [role="gridcell"]');
-        const selectedOption = Array.from(options ?? []).find((node) => node.getAttribute('data-key') === selectedKey);
+        const root = containerRef.current;
+        if (!root) {
+            return;
+        }
+
+        const keyedNodes = root.querySelectorAll<HTMLElement>('[data-key]');
+        const selectedNode = Array.from(keyedNodes).find((node) => node.getAttribute('data-key') === selectedKey);
+
+        const selectedOption =
+            selectedNode?.closest<HTMLElement>('[role="gridcell"]') ??
+            selectedNode?.closest<HTMLElement>('[role="row"]') ??
+            selectedNode;
+
+        if (!selectedOption) {
+            return;
+        }
 
         selectedOption?.focus({ preventScroll: true });
         selectedOption?.scrollIntoView({

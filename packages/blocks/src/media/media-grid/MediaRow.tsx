@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
+import type { RefObject } from 'react';
 import { Text, View } from '@geti-ai/ui';
 import { InvalidationContext } from '@react-stately/virtualizer';
 import {
@@ -118,6 +119,51 @@ type MediaRowVirtualItem<T extends MediaGridIdentifiable> = {
     item: T | undefined;
 };
 
+function useMediaRowItems<T extends MediaGridIdentifiable>(
+    totalItems: number,
+    getItemAt: (index: number) => T | undefined
+): MediaRowVirtualItem<T>[] {
+    return useMemo(() => {
+        return Array.from({ length: Math.max(0, totalItems) }, (_, index) => {
+            const item = getItemAt(index);
+            return {
+                key: String(item?.id ?? `placeholder-${index}`),
+                index,
+                item,
+            };
+        });
+    }, [totalItems, getItemAt]);
+}
+
+type UseFocusOnSelectOptions = {
+    focusOnSelect: boolean;
+    selection: MediaGridSelection;
+    listRef: RefObject<HTMLDivElement | null>;
+};
+
+function useFocusOnSelect({ focusOnSelect, selection, listRef }: UseFocusOnSelectOptions) {
+    useEffect(() => {
+        if (!focusOnSelect) {
+            return;
+        }
+
+        const selectedKey = getFirstSelectedKey(selection);
+        if (!selectedKey) {
+            return;
+        }
+
+        const options = listRef.current?.querySelectorAll<HTMLElement>('[role="option"]');
+        const selectedOption = Array.from(options ?? []).find((node) => node.getAttribute('data-key') === selectedKey);
+
+        selectedOption?.focus({ preventScroll: true });
+        selectedOption?.scrollIntoView({
+            behavior: 'smooth',
+            block: 'nearest',
+            inline: 'nearest',
+        });
+    }, [focusOnSelect, selection, listRef]);
+}
+
 export function MediaRow<T extends MediaGridIdentifiable>({
     totalItems,
     getItemAt,
@@ -146,16 +192,7 @@ export function MediaRow<T extends MediaGridIdentifiable>({
     const effectiveSelectionSet = effectiveSelection === 'all' ? new Set<string>() : new Set(effectiveSelection);
     const listRef = useRef<HTMLDivElement | null>(null);
 
-    const items = useMemo<MediaRowVirtualItem<T>[]>(() => {
-        return Array.from({ length: Math.max(0, totalItems) }, (_, index) => {
-            const item = getItemAt(index);
-            return {
-                key: String(item?.id ?? `placeholder-${index}`),
-                index,
-                item,
-            };
-        });
-    }, [totalItems, getItemAt]);
+    const items = useMediaRowItems(totalItems, getItemAt);
 
     const handleSelectionChange = (keys: Selection) => {
         const typed = keys as MediaGridSelection;
@@ -165,26 +202,11 @@ export function MediaRow<T extends MediaGridIdentifiable>({
         onSelectionChange?.(typed);
     };
 
-    useEffect(() => {
-        if (!focusOnSelect) {
-            return;
-        }
-
-        const selectedKey = getFirstSelectedKey(effectiveSelection);
-        if (!selectedKey) {
-            return;
-        }
-
-        const options = listRef.current?.querySelectorAll<HTMLElement>('[role="option"]');
-        const selectedOption = Array.from(options ?? []).find((node) => node.getAttribute('data-key') === selectedKey);
-
-        selectedOption?.focus({ preventScroll: true });
-        selectedOption?.scrollIntoView({
-            behavior: 'smooth',
-            block: 'nearest',
-            inline: 'nearest',
-        });
-    }, [focusOnSelect, effectiveSelection]);
+    useFocusOnSelect({
+        focusOnSelect,
+        selection: effectiveSelection,
+        listRef,
+    });
 
     const rootClassName = [styles.root, className].filter(Boolean).join(' ');
 
