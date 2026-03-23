@@ -1,0 +1,19 @@
+.managedTab {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--spectrum-global-dimension-size-25);
+}
+
+.trigger {
+    cursor: pointer;
+}
+
+.actionSpacer {
+    display: inline-block;
+    width: var(--spectrum-global-dimension-size-200);
+}
+
+.moreMenuIcon {
+    width: var(--spectrum-global-dimension-size-200);
+    height: var(--spectrum-global-dimension-size-200);
+}

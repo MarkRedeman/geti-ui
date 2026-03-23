@@ -3,3 +3,168 @@ title: Managed tabs
 ---
 
 # Managed tabs
+
+`ManagedTab` is a composable tab label building block for datasets/projects where the active tab exposes a management menu (for example: edit, delete, export).
+
+Use it when your app owns the data and behavior, and you want the block to provide the tab UX pattern only.
+
+```tsx
+import { ManagedTab, type ManagedTabAction } from '@geti-ai/blocks';
+```
+
+## Dataset workflow example
+
+This example shows a common dataset workflow:
+
+- active tab displays a contextual action menu,
+- when a tab is active, clicking either the tab label or the menu icon opens the menu,
+- actions update local app state,
+- content panels remain app-owned through `Tabs` + `TabPanels`.
+
+```tsx preview
+import { useState } from 'react';
+import { ManagedTab, type ManagedTabAction } from '@geti-ai/blocks';
+import { ActionButton, TabItem, TabList, TabPanels, Tabs, Text, ThemeProvider, View } from '@geti-ai/ui';
+import { Add } from '@geti-ai/ui/icons';
+import { Icon } from '@adobe/react-spectrum';
+
+type Dataset = {
+  id: string;
+  name: string;
+  images: number;
+};
+
+const ACTIONS: ManagedTabAction[] = [
+  { key: 'edit', label: 'Edit dataset name' },
+  { key: 'delete', label: 'Delete dataset' },
+  { key: 'export', label: 'Export dataset' },
+];
+
+const initialDatasets: Dataset[] = [
+  { id: 'train', name: 'Training set', images: 1240 },
+  { id: 'val', name: 'Validation set', images: 340 },
+  { id: 'test', name: 'Testing set', images: 510 },
+  { id: 'night', name: 'Night shift', images: 188 },
+  { id: 'drift', name: 'Drift watch', images: 72 },
+];
+
+const createDataset = (index: number): Dataset => ({
+  id: `dataset-${index + 1}`,
+  name: `Dataset ${index + 1}`,
+  images: 100 + (index + 1) * 25,
+});
+
+export default function App() {
+  const [datasets, setDatasets] = useState(initialDatasets);
+  const [selectedId, setSelectedId] = useState(initialDatasets[0].id);
+  const [lastAction, setLastAction] = useState('No action yet.');
+
+  const onItemAction = (action: string, dataset: Dataset) => {
+    if (action === 'delete') {
+      if (datasets.length <= 1) {
+        setLastAction('Cannot delete the only remaining dataset.');
+        return;
+      }
+
+      const next = datasets.filter((item) => item.id !== dataset.id);
+      setDatasets(next);
+      setSelectedId(next[0].id);
+      setLastAction(`Deleted dataset "${dataset.name}".`);
+      return;
+    }
+
+    if (action === 'edit') {
+      setDatasets((current) =>
+        current.map((item) =>
+          item.id === dataset.id && !item.name.endsWith(' (edited)')
+            ? { ...item, name: `${item.name} (edited)` }
+            : item
+        )
+      );
+      setLastAction(`Edited dataset "${dataset.name}".`);
+      return;
+    }
+
+    setLastAction(`${action} triggered for "${dataset.name}".`);
+  };
+
+  const onAddDataset = () => {
+    const nextDataset = createDataset(datasets.length);
+    setDatasets((current) => [...current, nextDataset]);
+    setSelectedId(nextDataset.id);
+    setLastAction(`Added dataset "${nextDataset.name}".`);
+  };
+
+  return (
+    <ThemeProvider>
+      <Tabs
+        aria-label="Datasets"
+        selectedKey={selectedId}
+        onSelectionChange={(key) => setSelectedId(String(key))}
+        UNSAFE_style={{
+          '--spectrum-tabs-selection-indicator-color': 'var(--energy-blue)',
+          '--spectrum-tabs-emphasized-selection-indicator-color': 'var(--energy-blue)',
+          '--spectrum-tabs-quiet-emphasized-selection-indicator-color': 'var(--energy-blue)',
+        }}
+      >
+        <div style={{ display: 'flex', alignItems: 'stretch', width: '100%' }}>
+          <div style={{ flex: '0 0 auto', minWidth: 0 }}>
+            <TabList>
+              {datasets.map((dataset) => (
+                <TabItem key={dataset.id} textValue={dataset.name}>
+                  <ManagedTab
+                    label={dataset.name}
+                    isSelected={selectedId === dataset.id}
+                    actions={ACTIONS}
+                    onAction={(action) => onItemAction(action, dataset)}
+                  />
+                </TabItem>
+              ))}
+            </TabList>
+          </div>
+
+          <div
+            style={{
+              display: 'flex',
+              flex: '1 1 auto',
+              alignItems: 'center',
+              justifyContent: 'flex-start',
+              borderBottom:
+                'var(--spectrum-alias-border-size-thick) solid var(--spectrum-global-color-gray-300)',
+            }}
+          >
+            <ActionButton isQuiet aria-label="Add dataset" onPress={onAddDataset}>
+              <Icon>
+                <Add />
+              </Icon>
+            </ActionButton>
+          </div>
+        </div>
+
+        <TabPanels>
+          {datasets.map((dataset) => (
+            <TabItem key={dataset.id}>
+              <View paddingTop="size-150">
+                <Text>
+                  <strong>{dataset.name}</strong>
+                </Text>
+                <Text>{dataset.images} images</Text>
+                <Text>Last action: {lastAction}</Text>
+              </View>
+            </TabItem>
+          ))}
+        </TabPanels>
+      </Tabs>
+    </ThemeProvider>
+  );
+}
+```
+
+## Notes
+
+- `ManagedTab` owns its own `MenuTrigger` and menu behavior.
+- Compose `ManagedTab` inside your existing `Tabs`/`TabList` implementation.
+- Use `MoreMenu` icon in the selected tab to keep tab affordance consistent with the rest of Geti UI.
+- Keep non-selected tabs width-stable by reserving `size-200` icon spacing.
+- Panels are intentionally owned by the consumer app via `TabPanels`.
+- Keep data fetching and mutations in your application layer; treat this block as UI composition.

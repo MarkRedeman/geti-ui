@@ -1,52 +1,7 @@
-import { useEffect, useMemo, useRef, useState } from 'react';
-import {
-    ActionButton,
-    Button,
-    Flex,
-    Menu,
-    MenuItem,
-    MenuTrigger,
-    Picker,
-    PickerItem,
-    TabItem,
-    TabList,
-    TabPanels,
-    Tabs,
-    Text,
-    View,
-} from '@geti-ai/ui';
-
-type MenuAction = {
-    key: string;
-    label: string;
-};
-
-type MenuTabProps = {
-    label: string;
-    isActive: boolean;
-    actions: MenuAction[];
-    onAction: (actionKey: string) => void;
-};
-
-function MenuTab({ label, isActive, actions, onAction }: MenuTabProps) {
-    return (
-        <Flex direction="row" alignItems="center" gap="size-50">
-            <Text>{label}</Text>
-            {isActive ? (
-                <MenuTrigger>
-                    <ActionButton isQuiet aria-label={`Actions for ${label}`}>
-                        ...
-                    </ActionButton>
-                    <Menu onAction={(key) => onAction(String(key))}>
-                        {actions.map((action) => (
-                            <MenuItem key={action.key}>{action.label}</MenuItem>
-                        ))}
-                    </Menu>
-                </MenuTrigger>
-            ) : null}
-        </Flex>
-    );
-}
+import { type CSSProperties, type Key, useState } from 'react';
+import { ActionButton, TabItem, TabList, TabPanels, Tabs, Text, View } from '@geti-ai/ui';
+import { Add } from '@geti-ai/ui/icons';
+import { ManagedTab, type ManagedTabAction } from '../tabs/ManagedTab';
 
 type DatasetTab = {
     id: string;
@@ -59,141 +14,7 @@ export interface DatasetTabsBlockProps {
     initialDatasets?: DatasetTab[];
 }
 
-type TabsWithOverflowProps<T> = {
-    ariaLabel: string;
-    items: T[];
-    selectedId: string;
-    onSelectionChange: (id: string) => void;
-    getItemId: (item: T) => string;
-    getItemLabel: (item: T) => string;
-    renderTab: (item: T, isActive: boolean) => React.ReactNode;
-    renderPanel: (item: T) => React.ReactNode;
-    overflowAriaLabel?: string;
-    addAction?: {
-        label: string;
-        onPress: () => void;
-    };
-    estimatedTabWidth?: number;
-    reservedWidth?: number;
-    minVisibleTabs?: number;
-};
-
-function TabsWithOverflow<T>({
-    ariaLabel,
-    items,
-    selectedId,
-    onSelectionChange,
-    getItemId,
-    getItemLabel,
-    renderTab,
-    renderPanel,
-    overflowAriaLabel = 'Collapsed items',
-    addAction,
-    estimatedTabWidth = 176,
-    reservedWidth = 220,
-    minVisibleTabs = 2,
-}: TabsWithOverflowProps<T>) {
-    const containerRef = useRef<HTMLDivElement | null>(null);
-    const [maxVisibleTabs, setMaxVisibleTabs] = useState(4);
-
-    useEffect(() => {
-        const element = containerRef.current;
-        if (!element) {
-            return;
-        }
-
-        const recomputeVisibleTabs = () => {
-            const width = element.getBoundingClientRect().width;
-            if (width <= 0) {
-                return;
-            }
-
-            const availableForTabs = Math.max(width - reservedWidth, estimatedTabWidth);
-            const nextVisible = Math.max(minVisibleTabs, Math.floor(availableForTabs / estimatedTabWidth));
-
-            setMaxVisibleTabs(Math.min(items.length, nextVisible));
-        };
-
-        recomputeVisibleTabs();
-
-        if (typeof ResizeObserver === 'undefined') {
-            window.addEventListener('resize', recomputeVisibleTabs);
-            return () => window.removeEventListener('resize', recomputeVisibleTabs);
-        }
-
-        const observer = new ResizeObserver(() => recomputeVisibleTabs());
-        observer.observe(element);
-
-        return () => observer.disconnect();
-    }, [items.length, estimatedTabWidth, reservedWidth, minVisibleTabs]);
-
-    const visibleItems = useMemo(() => {
-        if (items.length <= maxVisibleTabs) {
-            return items;
-        }
-
-        const selectedIndex = items.findIndex((item) => getItemId(item) === selectedId);
-        if (selectedIndex < 0 || selectedIndex < maxVisibleTabs) {
-            return items.slice(0, maxVisibleTabs);
-        }
-
-        return [...items.slice(0, maxVisibleTabs - 1), items[selectedIndex]];
-    }, [items, maxVisibleTabs, selectedId, getItemId]);
-
-    const visibleIds = new Set(visibleItems.map((item) => getItemId(item)));
-    const collapsedItems = items.filter((item) => !visibleIds.has(getItemId(item)));
-
-    return (
-        <Tabs aria-label={ariaLabel} selectedKey={selectedId} onSelectionChange={(key) => onSelectionChange(String(key))}>
-            <div
-                ref={containerRef}
-                style={{
-                    display: 'flex',
-                    alignItems: 'center',
-                    gap: '8px',
-                    width: '100%',
-                }}
-            >
-                <TabList>
-                    {visibleItems.map((item) => {
-                        const id = getItemId(item);
-
-                        return <TabItem key={id}>{renderTab(item, selectedId === id)}</TabItem>;
-                    })}
-                </TabList>
-
-                {collapsedItems.length > 0 ? (
-                    <Picker
-                        aria-label={overflowAriaLabel}
-                        isQuiet
-                        placeholder={`${collapsedItems.length} more`}
-                        onSelectionChange={(key) => onSelectionChange(String(key))}
-                    >
-                        {collapsedItems.map((item) => (
-                            <PickerItem key={getItemId(item)}>{getItemLabel(item)}</PickerItem>
-                        ))}
-                    </Picker>
-                ) : null}
-
-                {addAction ? (
-                    <Button variant="accent" onPress={addAction.onPress}>
-                        {addAction.label}
-                    </Button>
-                ) : null}
-            </div>
-
-            <TabPanels>
-                {visibleItems.map((item) => (
-                    <TabItem key={getItemId(item)}>
-                        <View paddingTop="size-150">{renderPanel(item)}</View>
-                    </TabItem>
-                ))}
-            </TabPanels>
-        </Tabs>
-    );
-}
-
-const DATASET_ACTIONS: MenuAction[] = [
+const DATASET_ACTIONS: ManagedTabAction[] = [
     { key: 'edit', label: 'Edit' },
     { key: 'delete', label: 'Delete' },
     { key: 'export', label: 'Export' },
@@ -267,35 +88,62 @@ export function DatasetTabsBlock({ initialDatasets = MOCK_DATASETS }: DatasetTab
     };
 
     return (
-        <TabsWithOverflow
-            ariaLabel="Datasets"
-            items={datasets}
-            selectedId={selectedId}
-            onSelectionChange={setSelectedId}
-            getItemId={(dataset) => dataset.id}
-            getItemLabel={(dataset) => dataset.name}
-            overflowAriaLabel="Collapsed datasets"
-            renderTab={(dataset, isActive) => (
-                <MenuTab
-                    label={dataset.name}
-                    isActive={isActive}
-                    actions={DATASET_ACTIONS}
-                    onAction={(action) => handleAction(action, dataset)}
-                />
-            )}
-            addAction={{ label: 'Add dataset', onPress: handleAddDataset }}
-            estimatedTabWidth={180}
-            reservedWidth={230}
-            renderPanel={(dataset) => (
-                <>
-                    <Text>
-                        <strong>{dataset.name}</strong>
-                    </Text>
-                    <Text>{dataset.images} images</Text>
-                    <Text>Updated {dataset.updatedAt}</Text>
-                    <Text>Last action: {lastAction}</Text>
-                </>
-            )}
-        />
+        <Tabs
+            aria-label="Datasets"
+            selectedKey={selectedId}
+            onSelectionChange={(key: Key) => setSelectedId(String(key))}
+            UNSAFE_style={{
+                '--spectrum-tabs-selection-indicator-color': 'var(--energy-blue)',
+                '--spectrum-tabs-emphasized-selection-indicator-color': 'var(--energy-blue)',
+                '--spectrum-tabs-quiet-emphasized-selection-indicator-color': 'var(--energy-blue)',
+            } as CSSProperties}
+        >
+            <div style={{ display: 'flex', alignItems: 'stretch', width: '100%' }}>
+                <div style={{ flex: '0 0 auto', minWidth: 0 }}>
+                    <TabList>
+                        {datasets.map((dataset) => (
+                            <TabItem key={dataset.id} textValue={dataset.name}>
+                                <ManagedTab
+                                    label={dataset.name}
+                                    isSelected={selectedId === dataset.id}
+                                    actions={DATASET_ACTIONS}
+                                    onAction={(action) => handleAction(action, dataset)}
+                                />
+                            </TabItem>
+                        ))}
+                    </TabList>
+                </div>
+
+                <div
+                    style={{
+                        display: 'flex',
+                        flex: '1 1 auto',
+                        alignItems: 'center',
+                        justifyContent: 'flex-start',
+                        borderBottom:
+                            'var(--spectrum-alias-border-size-thick) solid var(--spectrum-global-color-gray-300)',
+                    }}
+                >
+                    <ActionButton isQuiet aria-label="Add dataset" onPress={handleAddDataset}>
+                        <Add />
+                    </ActionButton>
+                </div>
+            </div>
+
+            <TabPanels>
+                {datasets.map((dataset) => (
+                    <TabItem key={dataset.id}>
+                        <View paddingTop="size-150">
+                            <Text>
+                                <strong>{dataset.name}</strong>
+                            </Text>
+                            <Text>{dataset.images} images</Text>
+                            <Text>Updated {dataset.updatedAt}</Text>
+                            <Text>Last action: {lastAction}</Text>
+                        </View>
+                    </TabItem>
+                ))}
+            </TabPanels>
+        </Tabs>
     );
 }

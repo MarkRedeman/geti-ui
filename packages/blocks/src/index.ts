@@ -3,6 +3,9 @@
 export { DatasetTabsBlock } from './blocks/DatasetTabsBlock/DatasetTabsBlock';
 export type { DatasetTabsBlockProps } from './blocks/DatasetTabsBlock/DatasetTabsBlock';
 
+export { ManagedTab, OverflowableTabs } from './blocks/tabs';
+export type { ManagedTabProps, ManagedTabAction, OverflowableTabsProps } from './blocks/tabs';
+
 export {
     LogEntry,
     LogLevelDropdown,
