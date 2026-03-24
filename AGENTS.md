@@ -6,7 +6,13 @@ This file is for AI coding agents (Copilot, Claude, Cursor, etc.) working on thi
 
 ## Repository purpose
 
-`geti-ui` is the component design system for Intel Geti products. It exports a React + TypeScript component library built on top of Adobe React Spectrum and react-aria-components. Components are published as `@geti-ai/ui`.
+`geti-ui` is a frontend monorepo for Intel Geti products. It contains multiple React + TypeScript packages built on top of Adobe React Spectrum and react-aria-components:
+
+-   `@geti-ai/ui` — core design-system components
+-   `@geti-ai/blocks` — composable application-level building blocks
+-   `@geti-ai/charts` — chart primitives and composed charts
+-   `@geti-ai/smart-tools` — browser-based CV annotation tooling
+-   `@geti-ai/mcp` — MCP server exposing docs/tools for AI agents
 
 ---
 
@@ -15,15 +21,19 @@ This file is for AI coding agents (Copilot, Claude, Cursor, etc.) working on thi
 ```
 geti-ui/
 ├── packages/
-│   └── ui/                    # Main library package (rslib)
-│       ├── src/
-│       │   ├── components/    # One folder per component
-│       │   └── index.ts       # Public exports
-│       ├── .storybook/        # Storybook config
-│       ├── e2e/               # Playwright end-to-end tests
-│       ├── rslib.config.ts
-│       ├── rstest.config.ts
-│       └── package.json
+│   ├── ui/                    # Core design-system package (@geti-ai/ui)
+│   │   ├── src/
+│   │   │   ├── components/    # One folder per component
+│   │   │   └── index.ts       # Public exports
+│   │   ├── .storybook/        # Storybook config
+│   │   ├── e2e/               # Playwright end-to-end tests
+│   │   ├── rslib.config.ts
+│   │   ├── rstest.config.ts
+│   │   └── package.json
+│   ├── blocks/                # App-level building blocks (@geti-ai/blocks)
+│   ├── charts/                # Charts package (@geti-ai/charts)
+│   ├── smart-tools/           # CV tools package (@geti-ai/smart-tools)
+│   └── mcp/                   # MCP server package (@geti-ai/mcp)
 ├── reference-packages/        # READ ONLY — cloned from open-edge-platform/geti
 │   ├── ui/                    # Reference component implementations
 │   └── config/                # Reference ESLint/TypeScript config
@@ -67,11 +77,11 @@ src/components/button/
 
 ### TypeScript patterns
 
-- Extend from upstream Spectrum/aria prop types rather than redefining them
-- Export the component's Props type explicitly
-- No `any` types — use generics or `unknown` when necessary
-- Prefer `type` for component props (consistency across codebase)
-- Use **relative imports** — no path aliases (e.g. `../button/Button`, not `@geti-ai/ui/button`)
+-   Extend from upstream Spectrum/aria prop types rather than redefining them
+-   Export the component's Props type explicitly
+-   No `any` types — use generics or `unknown` when necessary
+-   Prefer `type` for component props (consistency across codebase)
+-   Use **relative imports** — no path aliases (e.g. `../button/Button`, not `@geti-ai/ui/button`)
 
 ```tsx
 // Good
@@ -86,57 +96,55 @@ export const Button = (props: ButtonProps) => { ... };
 
 ### Wrapping React Spectrum components
 
-- Pass all upstream props through with spread (`...rest`)
-- Only intercept props you are changing or adding
-- Use `UNSAFE_className` for CSS overrides (not `UNSAFE_style`)
-- Never use `UNSAFE_className` in tests — rely on ARIA/semantic selectors
+-   Pass all upstream props through with spread (`...rest`)
+-   Only intercept props you are changing or adding
+-   Use `UNSAFE_className` for CSS overrides (not `UNSAFE_style`)
+-   Never use `UNSAFE_className` in tests — rely on ARIA/semantic selectors
 
 ```tsx
 // Good
-export const Button = ({ variant = "accent", ...rest }: ButtonProps) => (
-  <SpectrumButton {...rest} variant={variant} />
-);
+export const Button = ({ variant = 'accent', ...rest }: ButtonProps) => <SpectrumButton {...rest} variant={variant} />;
 ```
 
 ### Storybook stories
 
-- Use CSF3 format (`export default { component: Button }`)
-- Always provide a `Default` story
-- Cover all meaningful variants and states
-- Use `argTypes` for interactive controls
-- Add `parameters.a11y` for accessibility annotations
+-   Use CSF3 format (`export default { component: Button }`)
+-   Always provide a `Default` story
+-   Cover all meaningful variants and states
+-   Use `argTypes` for interactive controls
+-   Add `parameters.a11y` for accessibility annotations
 
 ```tsx
-import type { Meta, StoryObj } from "@storybook/react";
-import { Button } from "./Button";
+import type { Meta, StoryObj } from '@storybook/react';
+import { Button } from './Button';
 
 const meta: Meta<typeof Button> = {
-  component: Button,
+    component: Button,
 };
 export default meta;
 type Story = StoryObj<typeof Button>;
 
 export const Default: Story = {
-  args: { children: "Click me" },
+    args: { children: 'Click me' },
 };
 ```
 
 ### Tests
 
-- Use `@testing-library/react` + `@testing-library/user-event`
-- Query by role, label, or text — never by class or test ID
-- Test: renders without crash, keyboard interactions, ARIA attributes, edge cases
-- Accessibility: use `@axe-core/react` in integration tests where appropriate
+-   Use `@testing-library/react` + `@testing-library/user-event`
+-   Query by role, label, or text — never by class or test ID
+-   Test: renders without crash, keyboard interactions, ARIA attributes, edge cases
+-   Accessibility: use `@axe-core/react` in integration tests where appropriate
 
 ```tsx
-import { render, screen } from "@testing-library/react";
-import userEvent from "@testing-library/user-event";
+import { render, screen } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
 
-test("calls onPress when clicked", async () => {
-  const onPress = vi.fn();
-  render(<Button onPress={onPress}>Save</Button>);
-  await userEvent.click(screen.getByRole("button", { name: "Save" }));
-  expect(onPress).toHaveBeenCalledOnce();
+test('calls onPress when clicked', async () => {
+    const onPress = vi.fn();
+    render(<Button onPress={onPress}>Save</Button>);
+    await userEvent.click(screen.getByRole('button', { name: 'Save' }));
+    expect(onPress).toHaveBeenCalledOnce();
 });
 ```
 
@@ -146,10 +154,10 @@ test("calls onPress when clicked", async () => {
 
 `reference-packages/` contains a snapshot of the existing `@geti-ai/ui` implementation from the main Geti repository. These files are **read-only reference material**:
 
-- Do not modify files in `reference-packages/`
-- Do not import from `reference-packages/` in the new library
-- Use them to understand existing component APIs and copy patterns as a starting point
-- They will not have their own `node_modules` installed — LSP errors there are expected
+-   Do not modify files in `reference-packages/`
+-   Do not import from `reference-packages/` in the new library
+-   Use them to understand existing component APIs and copy patterns as a starting point
+-   They will not have their own `node_modules` installed — LSP errors there are expected
 
 ---
 
@@ -157,9 +165,9 @@ test("calls onPress when clicked", async () => {
 
 The library is dark-mode-first. The theme is a custom CSS variable set that overrides Adobe Spectrum's design tokens.
 
-- `ThemeProvider` wraps `@adobe/react-spectrum` `Provider` with `colorScheme="dark"` and the Geti theme
-- Always render stories inside `ThemeProvider` (configured globally in `.storybook/preview.tsx`)
-- Theme tokens are implemented in `src/theme/geti-*.module.css` (with shared token values in theme CSS files)
+-   `ThemeProvider` wraps `@adobe/react-spectrum` `Provider` with `colorScheme="dark"` and the Geti theme
+-   Always render stories inside `ThemeProvider` (configured globally in `.storybook/preview.tsx`)
+-   Theme tokens are implemented in `src/theme/geti-*.module.css` (with shared token values in theme CSS files)
 
 ---
 
@@ -179,39 +187,22 @@ Types: `feat`, `fix`, `docs`, `chore`, `test`, `refactor`, `ci`, `perf`, `style`
 
 ---
 
-## AI-specific tooling (planned — see TODO below)
+## AI-specific tooling
 
 This library is designed to be used by both humans and AI agents.
 
 ### Available now
 
-- `AGENTS.md` (this file) — repository context for AI agents
+-   `AGENTS.md` (this file) — repository context for AI agents
+-   Docs-generated `llms.txt` and `llms-full.txt` in `documentation/doc_build/`
+-   Skills endpoint at `.well-known/skills/` generated by `documentation/plugins/skills-endpoint.ts`
+    -   Current skills include UI, Charts, Smart Tools, Blocks, and Examples
+-   MCP server package (`packages/mcp`) exposing docs and discovery tools for agents
 
-### Planned
+### Current focus / remaining TODOs
 
-- **AgentSkills** — `.agents/skills/geti-ui/` — skill definition for building with Geti UI components
-- **llms.txt** — `/llms.txt` — machine-readable index per https://llmstxt.org/
-- **MCP Server** — exposes component metadata, prop types, and story URLs via Model Context Protocol
-
-### AI TODO list
-
-- [ ] Write initial `llms.txt` at repository root
-  - Component list with brief descriptions
-  - Usage pattern summary
-  - Link to Storybook
-  - Reference Adobe Spectrum's `llms.txt` at https://react-spectrum.adobe.com/llms.txt
-- [ ] Implement `@geti-ai/ui` AgentSkill in `.agents/skills/geti-ui/SKILL.md`
-  - Component discovery workflow
-  - Theming conventions
-  - Import patterns
-  - Story-writing workflow
-- [ ] MCP Server implementation
-  - Read-only: lists components, returns prop types and stories
-  - Based on https://modelcontextprotocol.io/docs/getting-started/intro
-  - Reference: https://react-spectrum.adobe.com/ai (Adobe's MCP approach)
-  - Playwright MCP integration for visual testing: https://github.com/microsoft/playwright-mcp
-- [ ] Add `parameters.docs` metadata to all stories (component category, tags)
-- [ ] Generate `llms.txt` automatically from Storybook metadata at build time
+-   [ ] Add `parameters.docs` metadata to all stories (component category, tags)
+-   [ ] Improve package-specific agent guidance under `.agents/skills/` as packages evolve
 
 ---
 

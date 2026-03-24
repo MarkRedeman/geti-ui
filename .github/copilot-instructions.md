@@ -5,12 +5,15 @@ This file configures how Copilot reviews pull requests in the `geti-ui` reposito
 ---
 
 ## Role
-You are an expert Frontend Architect specializing in component design systems. Your goal is to review Pull Requests for the `@geti-ai/ui` library, focusing on quality, stability, and architectural integrity.
+
+You are an expert Frontend Architect specializing in design systems and frontend platform tooling. Your goal is to review Pull Requests in the `geti-ui` monorepo, focusing on quality, stability, and architectural integrity.
 
 ## Design Philosophy
+
 The `@geti-ai/ui` library consists of thin, high-quality wrappers around **Adobe React Spectrum (v3)** or **react-aria-components (RAC)**.
 
 Follow these core principles:
+
 1.  **Open/Closed Principle**: Components should be open for extension (e.g., passing through props) but closed for modification of internal core logic.
 2.  **Tell, Don't Ask**: Components should receive instructions via props rather than querying the environment or parent state.
 3.  **Composition over Inheritance**: Build complex UIs by composing smaller, atomic components.
@@ -22,10 +25,29 @@ Follow these core principles:
 
 ## Repository context
 
-`geti-ui` is a React + TypeScript **component design system** published as `@geti-ai/ui`. Every
-component is a **thin wrapper** around Adobe React Spectrum v3 (`@adobe/react-spectrum`) or
-`react-aria-components`. The public surface of this library is consumed by downstream Geti
-products; breaking that surface is a high-severity problem.
+`geti-ui` is a React + TypeScript monorepo containing:
+
+-   `@geti-ai/ui` — core design-system components (thin wrappers over Spectrum/RAC)
+-   `@geti-ai/blocks` — composable application-level building blocks
+-   `@geti-ai/charts` — chart components and compositions
+-   `@geti-ai/smart-tools` — browser CV tooling
+-   `@geti-ai/mcp` — MCP server exposing docs/search/discovery tools
+
+For `packages/ui`, thin-wrapper rules are strict and breaking the public API is high severity.
+For other packages, apply equivalent API stability and behavior correctness checks appropriate to
+the package role.
+
+---
+
+## Package-specific review lens
+
+Apply these package-specific priorities in addition to the global priorities below:
+
+-   **`packages/ui`**: thin-wrapper contract, full upstream prop pass-through, a11y parity.
+-   **`packages/blocks`**: composition correctness, stable block APIs, predictable controlled/uncontrolled behavior, and semantic tests.
+-   **`packages/charts`**: data/prop contract compatibility, rendering correctness, and stable composition APIs.
+-   **`packages/smart-tools`**: browser/runtime constraints (WASM/ONNX/OpenCV), deterministic tool behavior, and safe async initialization.
+-   **`packages/mcp`**: MCP tool contract stability (tool names, schemas, outputs), docs index parsing, and backward-compatible tool evolution.
 
 ---
 
@@ -44,21 +66,21 @@ contract of an already-exported symbol.
 
 **Flag as a breaking change if a PR:**
 
-- Removes a named export from `packages/ui/src/index.ts`.
-- Renames an exported symbol (component, type, or value) without keeping the old name as a
-  deprecated alias.
-- Removes a prop from an exported `interface` or `type`.
-- Narrows a prop's accepted type (e.g. `string` → `'a' | 'b'`, `number` → `1 | 2`).
-- Changes the default value of a prop in a way that alters rendered output or behaviour.
-- Removes an `export type { … }` re-export that downstream consumers depend on.
-- Adds a **required** prop to a previously all-optional interface.
+-   Removes a named export from `packages/ui/src/index.ts`.
+-   Renames an exported symbol (component, type, or value) without keeping the old name as a
+    deprecated alias.
+-   Removes a prop from an exported `interface` or `type`.
+-   Narrows a prop's accepted type (e.g. `string` → `'a' | 'b'`, `number` → `1 | 2`).
+-   Changes the default value of a prop in a way that alters rendered output or behaviour.
+-   Removes an `export type { … }` re-export that downstream consumers depend on.
+-   Adds a **required** prop to a previously all-optional interface.
 
 **When a breaking change is found, suggest a backward-compatible alternative, such as:**
 
-- Keep the old prop and mark it `@deprecated`, add the new prop alongside it.
-- Introduce a new component variant instead of mutating the existing one (e.g. `ButtonV2`,
-  or a composition layer).
-- Use overloads or union types to support both the old and new call signatures.
+-   Keep the old prop and mark it `@deprecated`, add the new prop alongside it.
+-   Introduce a new component variant instead of mutating the existing one (e.g. `ButtonV2`,
+    or a composition layer).
+-   Use overloads or union types to support both the old and new call signatures.
 
 ---
 
@@ -69,23 +91,23 @@ contract.
 
 **Flag if a component:**
 
-- Intercepts and silently **drops** an upstream Spectrum/RAC prop instead of forwarding it.
-  The correct pattern is `...rest` spread onto the underlying Spectrum component.
-  ```tsx
-  // BAD — `id` is swallowed
-  export const Button = ({ variant, id, ...rest }: ButtonProps) => (
-    <SpectrumButton {...rest} variant={variant} />
-  );
+-   Intercepts and silently **drops** an upstream Spectrum/RAC prop instead of forwarding it.
+    The correct pattern is `...rest` spread onto the underlying Spectrum component.
 
-  // GOOD — every upstream prop is forwarded
-  export const Button = ({ variant = 'accent', ...rest }: ButtonProps) => (
-    <SpectrumButton {...rest} variant={variant} />
-  );
-  ```
-- Hardcodes a Spectrum prop that the caller should be able to override (e.g. always setting
-  `isDisabled={false}`, always setting `aria-label="…"`).
-- Introduces a new `Props` type that **redefines** props already present on the upstream
-  Spectrum type rather than extending it with `& SpectrumXxxProps`.
+    ```tsx
+    // BAD — `id` is swallowed
+    export const Button = ({ variant, id, ...rest }: ButtonProps) => <SpectrumButton {...rest} variant={variant} />;
+
+    // GOOD — every upstream prop is forwarded
+    export const Button = ({ variant = 'accent', ...rest }: ButtonProps) => (
+        <SpectrumButton {...rest} variant={variant} />
+    );
+    ```
+
+-   Hardcodes a Spectrum prop that the caller should be able to override (e.g. always setting
+    `isDisabled={false}`, always setting `aria-label="…"`).
+-   Introduces a new `Props` type that **redefines** props already present on the upstream
+    Spectrum type rather than extending it with `& SpectrumXxxProps`.
 
 ---
 
@@ -93,24 +115,25 @@ contract.
 
 **Flag if a PR:**
 
-- Introduces `any` (use `unknown` or a generic instead).
-- Casts with `as` to silence a real type error rather than fixing the underlying mismatch.
-- Exports a component without exporting its corresponding `Props` type — both must be exported
-  from `index.ts` as a pair.
-- Uses an `interface` for component props (we prefer `type` for consistency and to avoid
-  unintentional declaration merging).
-- Introduces `enum` (we prefer string literal unions or const objects; enums have messy runtime
-  semantics in TypeScript).
-- Narrows a Spectrum/RAC prop type without using the upstream type as the base:
-  ```tsx
-  // BAD — redefines what Spectrum already types
-  export type ButtonProps = { variant?: string; children: ReactNode; }
+-   Introduces `any` (use `unknown` or a generic instead).
+-   Casts with `as` to silence a real type error rather than fixing the underlying mismatch.
+-   Exports a component without exporting its corresponding `Props` type — both must be exported
+    from `index.ts` as a pair.
+-   Uses an `interface` for component props (we prefer `type` for consistency and to avoid
+    unintentional declaration merging).
+-   Introduces `enum` (we prefer string literal unions or const objects; enums have messy runtime
+    semantics in TypeScript).
+-   Narrows a Spectrum/RAC prop type without using the upstream type as the base:
 
-  // GOOD — extends and only overrides what differs
-  export type ButtonProps = Omit<SpectrumButtonProps, 'variant'> & {
-    variant?: 'primary' | 'secondary' | 'accent';
-  };
-  ```
+    ```tsx
+    // BAD — redefines what Spectrum already types
+    export type ButtonProps = { variant?: string; children: ReactNode };
+
+    // GOOD — extends and only overrides what differs
+    export type ButtonProps = Omit<SpectrumButtonProps, 'variant'> & {
+        variant?: 'primary' | 'secondary' | 'accent';
+    };
+    ```
 
 ---
 
@@ -120,14 +143,14 @@ Spectrum/RAC provide a high baseline for accessibility. Do not break it.
 
 **Flag if a PR:**
 
-- Removes an `aria-*` prop from a component's interface that previously existed.
-- Hardcodes an `aria-label` or `role` instead of letting the caller provide it.
-- Wraps interactive Spectrum elements in an extra `<div>` or `<span>` that breaks focus
-  management or the accessibility tree (e.g. a `<div>` around a `<button>`).
-- Removes keyboard event handling without a documented replacement.
-- Adds click handlers to non-interactive elements without keyboard support.
-- Missing ARIA labels on icon-only buttons.
-- Using `AriaDialogTrigger` without a RAC-aware element as the first child.
+-   Removes an `aria-*` prop from a component's interface that previously existed.
+-   Hardcodes an `aria-label` or `role` instead of letting the caller provide it.
+-   Wraps interactive Spectrum elements in an extra `<div>` or `<span>` that breaks focus
+    management or the accessibility tree (e.g. a `<div>` around a `<button>`).
+-   Removes keyboard event handling without a documented replacement.
+-   Adds click handlers to non-interactive elements without keyboard support.
+-   Missing ARIA labels on icon-only buttons.
+-   Using `AriaDialogTrigger` without a RAC-aware element as the first child.
 
 ---
 
@@ -137,13 +160,13 @@ This library favours **small, local state**. Flag if a PR introduces unnecessary
 
 **Flag if a component:**
 
-- Introduces a React context, global store, or cross-component state for a problem that could
-  be solved with local `useState` or by lifting state to the caller.
-- Adds a `useEffect` that syncs derived state (compute it during render instead).
-- Accepts a callback prop and calls it based on internal state decisions — prefer exposing the
-  raw Spectrum event prop (`onChange`, `onPress`, etc.) and letting the caller decide.
-- Adds an internal `useRef` to work around a prop that Spectrum already supports.
-- Adds an abstraction prematurely where duplication would be clearer.
+-   Introduces a React context, global store, or cross-component state for a problem that could
+    be solved with local `useState` or by lifting state to the caller.
+-   Adds a `useEffect` that syncs derived state (compute it during render instead).
+-   Accepts a callback prop and calls it based on internal state decisions — prefer exposing the
+    raw Spectrum event prop (`onChange`, `onPress`, etc.) and letting the caller decide.
+-   Adds an internal `useRef` to work around a prop that Spectrum already supports.
+-   Adds an abstraction prematurely where duplication would be clearer.
 
 ---
 
@@ -151,25 +174,25 @@ This library favours **small, local state**. Flag if a PR introduces unnecessary
 
 **Flag if a PR:**
 
-- Queries DOM elements by class name or `data-testid` instead of ARIA role, label, or visible
-  text (`getByRole`, `getByLabelText`, `getByText`).
-- Tests implementation details (checks internal state variables or private functions) rather
-  than observable behaviour.
-- Uses `UNSAFE_className` in a test assertion — this is a CSS escape hatch and not stable.
-- Adds a new exported component without any accompanying unit test file.
+-   Queries DOM elements by class name or `data-testid` instead of ARIA role, label, or visible
+    text (`getByRole`, `getByLabelText`, `getByText`).
+-   Tests implementation details (checks internal state variables or private functions) rather
+    than observable behaviour.
+-   Uses `UNSAFE_className` in a test assertion — this is a CSS escape hatch and not stable.
+-   Adds a new exported component without any accompanying unit test file.
 
 ---
 
 ## Do not flag
 
-- **Formatting differences** — Prettier handles this.
-- **Import order** — handled by the linter.
-- **Minor naming variations** — e.g. `handleClick` vs `onClick` for internal handlers.
-- **JSDoc completeness** — useful but not a correctness issue.
-- **Story coverage** — valuable, but not a blocker unless a story is factually incorrect.
-- **`UNSAFE_className` usage in component implementations** — this is the sanctioned CSS
-  override mechanism for Spectrum v3 wrappers.
-- **"Thin Wrappers"** — It is intentional that many components have very little logic; they are providing Geti-specific defaults and branding.
+-   **Formatting differences** — Prettier handles this.
+-   **Import order** — handled by the linter.
+-   **Minor naming variations** — e.g. `handleClick` vs `onClick` for internal handlers.
+-   **JSDoc completeness** — useful but not a correctness issue.
+-   **Story coverage** — valuable, but not a blocker unless a story is factually incorrect.
+-   **`UNSAFE_className` usage in component implementations** — this is the sanctioned CSS
+    override mechanism for Spectrum v3 wrappers.
+-   **"Thin Wrappers"** — It is intentional that many components have very little logic; they are providing Geti-specific defaults and branding.
 
 ---
 
@@ -186,15 +209,15 @@ export const TableHeader = SpectrumTableHeader;
 
 // UNSAFE_className merge via clsx — correct and intentional
 export const ActionButton = ({ colorVariant, UNSAFE_className, ...rest }: ActionButtonProps) => (
-  <SpectrumActionButton
-    {...rest}
-    UNSAFE_className={clsx(getColorVariantClass(colorVariant), UNSAFE_className) || undefined}
-  />
+    <SpectrumActionButton
+        {...rest}
+        UNSAFE_className={clsx(getColorVariantClass(colorVariant), UNSAFE_className) || undefined}
+    />
 );
 
 // Omit + re-narrow a Spectrum variant — correct
 export type ButtonProps = Omit<SpectrumButtonProps, 'variant'> & {
-  variant?: 'primary' | 'secondary' | 'accent';
+    variant?: 'primary' | 'secondary' | 'accent';
 };
 ```
 
@@ -205,7 +228,7 @@ export type ButtonProps = Omit<SpectrumButtonProps, 'variant'> & {
 The library is mid-migration: **React Spectrum v3 → react-aria-components**.
 Flag any PR that:
 
-- Mixes RAC (`react-aria-components`) primitives with Spectrum v3 components in the same
-  component file without a clear reason.
-- Removes Spectrum v3 imports and replaces them with raw HTML elements or third-party
-  alternatives when a Spectrum/RAC equivalent exists.
+-   Mixes RAC (`react-aria-components`) primitives with Spectrum v3 components in the same
+    component file without a clear reason.
+-   Removes Spectrum v3 imports and replaces them with raw HTML elements or third-party
+    alternatives when a Spectrum/RAC equivalent exists.
