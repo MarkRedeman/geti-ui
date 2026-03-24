@@ -6,6 +6,8 @@ import {
     Sparkline,
     ChartsThemeProvider,
     getDatasetSubsetColor,
+    ConfusionMatrixChart,
+    ParallelCoordinates,
 } from '@geti-ai/charts';
 import {
     Button,
@@ -108,12 +110,12 @@ const heroStats = [
 ];
 
 const trainingTrend = [
-    { step: 'S1', train: 0.42, val: 0.38 },
-    { step: 'S2', train: 0.56, val: 0.49 },
-    { step: 'S3', train: 0.64, val: 0.57 },
-    { step: 'S4', train: 0.73, val: 0.65 },
-    { step: 'S5', train: 0.79, val: 0.71 },
-    { step: 'S6', train: 0.84, val: 0.76 },
+    { step: 'S1', train: 0.42, val: 0.38, test: 0.35 },
+    { step: 'S2', train: 0.56, val: 0.49, test: 0.46 },
+    { step: 'S3', train: 0.64, val: 0.57, test: 0.53 },
+    { step: 'S4', train: 0.73, val: 0.65, test: 0.61 },
+    { step: 'S5', train: 0.79, val: 0.71, test: 0.68 },
+    { step: 'S6', train: 0.84, val: 0.76, test: 0.73 },
 ];
 
 const classMetrics = [
@@ -147,12 +149,37 @@ const sparkLoss = [
 
 const sparkF1 = [{ v: 0.25 }, { v: 0.39 }, { v: 0.5 }, { v: 0.58 }, { v: 0.66 }, { v: 0.72 }, { v: 0.77 }, { v: 0.81 }];
 
+const sparkLR = [{ v: 0.01 }, { v: 0.01 }, { v: 0.008 }, { v: 0.006 }, { v: 0.004 }, { v: 0.003 }, { v: 0.002 }, { v: 0.001 }];
+
+const sparkPrecision = [{ v: 0.55 }, { v: 0.62 }, { v: 0.68 }, { v: 0.74 }, { v: 0.79 }, { v: 0.83 }, { v: 0.86 }, { v: 0.89 }];
+
+const sparkMAP = [{ v: 0.21 }, { v: 0.35 }, { v: 0.44 }, { v: 0.53 }, { v: 0.59 }, { v: 0.64 }, { v: 0.69 }, { v: 0.73 }];
+
 const classDistribution = [
     { name: 'Car', count: 1240 },
     { name: 'Person', count: 890 },
     { name: 'Bike', count: 430 },
     { name: 'Truck', count: 280 },
     { name: 'Bus', count: 160 },
+];
+
+const confusionLabels = ['Car', 'Person', 'Bike', 'Truck'];
+const confusionMatrix = [
+    [112, 3, 1, 4],
+    [2, 98, 5, 0],
+    [1, 4, 82, 3],
+    [5, 0, 2, 76],
+];
+
+const parallelData = [
+    { id: 'run-1', lr: 0.001, batchSize: 16, epochs: 50, dropout: 0.1, mAP: 0.72 },
+    { id: 'run-2', lr: 0.005, batchSize: 32, epochs: 30, dropout: 0.2, mAP: 0.68 },
+    { id: 'run-3', lr: 0.01, batchSize: 64, epochs: 40, dropout: 0.15, mAP: 0.74 },
+    { id: 'run-4', lr: 0.002, batchSize: 16, epochs: 60, dropout: 0.3, mAP: 0.71 },
+    { id: 'run-5', lr: 0.008, batchSize: 32, epochs: 50, dropout: 0.05, mAP: 0.76 },
+    { id: 'run-6', lr: 0.003, batchSize: 48, epochs: 35, dropout: 0.25, mAP: 0.69 },
+    { id: 'run-7', lr: 0.006, batchSize: 24, epochs: 45, dropout: 0.12, mAP: 0.73 },
+    { id: 'run-8', lr: 0.004, batchSize: 64, epochs: 55, dropout: 0.08, mAP: 0.75 },
 ];
 
 const MEDIA_STATUSES = ['Annotated', 'Not annotated', 'Skipped'] as const;
@@ -674,47 +701,9 @@ export const HomeLayout = (props: HomeLayoutProps) => {
                             </a>
                         </div>
                         <div className="geti-home-showcase__media">
-                            <div className="geti-home-demo-panel">
-                                <ChartsThemeProvider>
-                                    {/* Line chart — training quality trend */}
-                                    <LineChart
-                                        data={trainingTrend}
-                                        xAxisKey="step"
-                                        yScale={{ domain: [0, 1] }}
-                                        series={[
-                                            {
-                                                dataKey: 'train',
-                                                name: 'Train',
-                                                color: getDatasetSubsetColor('train'),
-                                            },
-                                            {
-                                                dataKey: 'val',
-                                                name: 'Validation',
-                                                color: getDatasetSubsetColor('validation'),
-                                                dashed: true,
-                                            },
-                                        ]}
-                                        showLegend
-                                        aria-label="Model quality trend"
-                                        height={180}
-                                    />
-
-                                    {/* Bar chart — per-class metrics */}
-                                    <BarChart
-                                        data={classMetrics}
-                                        xAxisKey="class"
-                                        series={[
-                                            { dataKey: 'precision', name: 'Precision', color: '#3fd0ff' },
-                                            { dataKey: 'recall', name: 'Recall', color: '#6ee7d8' },
-                                            { dataKey: 'f1', name: 'F1 Score', color: '#8bae46' },
-                                        ]}
-                                        yScale={{ domain: [0, 1] }}
-                                        height={200}
-                                        showLegend
-                                        aria-label="Per-class metrics"
-                                    />
-
-                                    {/* Sparklines */}
+                            <ChartsThemeProvider>
+                                {/* Sparklines — full-width row on top */}
+                                <div className="geti-home-demo-panel">
                                     <div className="geti-home-sparkline-row">
                                         <div className="geti-home-sparkline-item">
                                             <span className="geti-home-sparkline-label">Loss</span>
@@ -724,6 +713,8 @@ export const HomeLayout = (props: HomeLayoutProps) => {
                                                 height={32}
                                                 width={120}
                                                 color="#ff5662"
+                                                area
+                                                fillOpacity={0.18}
                                             />
                                         </div>
                                         <div className="geti-home-sparkline-item">
@@ -744,21 +735,139 @@ export const HomeLayout = (props: HomeLayoutProps) => {
                                                 height={32}
                                                 width={120}
                                                 color="#3fd0ff"
+                                                area
+                                                fillOpacity={0.15}
+                                            />
+                                        </div>
+                                        <div className="geti-home-sparkline-item">
+                                            <span className="geti-home-sparkline-label">LR</span>
+                                            <Sparkline
+                                                data={sparkLR}
+                                                dataKey="v"
+                                                height={32}
+                                                width={120}
+                                                color="#fec91b"
+                                            />
+                                        </div>
+                                        <div className="geti-home-sparkline-item">
+                                            <span className="geti-home-sparkline-label">Precision</span>
+                                            <Sparkline
+                                                data={sparkPrecision}
+                                                dataKey="v"
+                                                height={32}
+                                                width={120}
+                                                color="#8bae46"
+                                                area
+                                                fillOpacity={0.15}
+                                            />
+                                        </div>
+                                        <div className="geti-home-sparkline-item">
+                                            <span className="geti-home-sparkline-label">mAP</span>
+                                            <Sparkline
+                                                data={sparkMAP}
+                                                dataKey="v"
+                                                height={32}
+                                                width={120}
+                                                color="#8f5da2"
+                                                area
+                                                fillOpacity={0.2}
                                             />
                                         </div>
                                     </div>
+                                </div>
 
-                                    {/* Donut chart */}
-                                    <DonutChart
-                                        data={classDistribution}
-                                        valueKey="count"
-                                        nameKey="name"
-                                        height={180}
-                                        showLegend
-                                        aria-label="Class distribution"
-                                    />
-                                </ChartsThemeProvider>
-                            </div>
+                                {/* ── Chart compositions ── */}
+                                <a className="geti-home-demo-heading" href="/charts/compositions">
+                                    Chart compositions
+                                </a>
+                                <div className="geti-home-charts-demos">
+                                    <div className="geti-home-demo-panel">
+                                        <LineChart
+                                            data={trainingTrend}
+                                            xAxisKey="step"
+                                            yScale={{ domain: [0, 1] }}
+                                            series={[
+                                                {
+                                                    dataKey: 'train',
+                                                    name: 'Train',
+                                                    color: getDatasetSubsetColor('train'),
+                                                },
+                                                {
+                                                    dataKey: 'val',
+                                                    name: 'Validation',
+                                                    color: getDatasetSubsetColor('validation'),
+                                                    dashed: true,
+                                                },
+                                                {
+                                                    dataKey: 'test',
+                                                    name: 'Test',
+                                                    color: getDatasetSubsetColor('test'),
+                                                    dashed: true,
+                                                },
+                                            ]}
+                                            showLegend
+                                            aria-label="Model quality trend"
+                                            height={200}
+                                        />
+                                    </div>
+                                    <div className="geti-home-demo-panel">
+                                        <BarChart
+                                            data={classMetrics}
+                                            xAxisKey="class"
+                                            series={[
+                                                { dataKey: 'precision', name: 'Precision', color: '#3fd0ff' },
+                                                { dataKey: 'recall', name: 'Recall', color: '#6ee7d8' },
+                                                { dataKey: 'f1', name: 'F1 Score', color: '#8bae46' },
+                                            ]}
+                                            yScale={{ domain: [0, 1] }}
+                                            height={200}
+                                            showLegend
+                                            aria-label="Per-class metrics"
+                                        />
+                                    </div>
+                                    <div className="geti-home-demo-panel">
+                                        <DonutChart
+                                            data={classDistribution}
+                                            valueKey="count"
+                                            nameKey="name"
+                                            height={200}
+                                            showLegend
+                                            aria-label="Class distribution"
+                                        />
+                                    </div>
+                                </div>
+
+                                {/* ── Machine learning charts ── */}
+                                <a className="geti-home-demo-heading" href="/charts/compositions">
+                                    Machine learning charts
+                                </a>
+                                <div className="geti-home-charts-ml-demos">
+                                    <div className="geti-home-demo-panel">
+                                        <ConfusionMatrixChart
+                                            matrix={confusionMatrix}
+                                            labels={confusionLabels}
+                                            height={280}
+                                            normalize="row"
+                                            aria-label="Confusion matrix"
+                                        />
+                                    </div>
+                                    <div className="geti-home-demo-panel">
+                                        <ParallelCoordinates
+                                            data={parallelData}
+                                            axes={[
+                                                { dataKey: 'lr', label: 'Learning Rate' },
+                                                { dataKey: 'batchSize', label: 'Batch Size' },
+                                                { dataKey: 'epochs', label: 'Epochs' },
+                                                { dataKey: 'dropout', label: 'Dropout' },
+                                                { dataKey: 'mAP', label: 'mAP' },
+                                            ]}
+                                            colorBy="right"
+                                            height={280}
+                                            aria-label="Hyperparameter parallel coordinates"
+                                        />
+                                    </div>
+                                </div>
+                            </ChartsThemeProvider>
                         </div>
                     </div>
                 </section>

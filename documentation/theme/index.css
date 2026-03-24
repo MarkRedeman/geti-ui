@@ -610,6 +610,11 @@ html {
     transition: color 0.14s ease;
 }
 
+/* Add spacing above headings that follow other content */
+.geti-home-showcase__media .geti-home-demo-heading {
+    margin-top: 2rem;
+}
+
 .geti-home-demo-heading:hover {
     color: #6ee7d8;
 }
@@ -629,6 +634,22 @@ html {
 
 .geti-home-demo-row--stretch {
     display: block;
+}
+
+/* ── Charts section: sparkline row + 3-column grid + ML 2-column grid ── */
+
+.geti-home-charts-demos {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 1.25rem;
+    margin-top: 0.75rem;
+}
+
+.geti-home-charts-ml-demos {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.25rem;
+    margin-top: 0.75rem;
 }
 
 /* ── Sparkline row (charts section) ── */
@@ -915,6 +936,14 @@ html {
     }
 
     .geti-home-blocks-demos {
+        grid-template-columns: 1fr;
+    }
+
+    .geti-home-charts-demos {
+        grid-template-columns: 1fr;
+    }
+
+    .geti-home-charts-ml-demos {
         grid-template-columns: 1fr;
     }
 
