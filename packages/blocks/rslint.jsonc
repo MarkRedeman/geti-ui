@@ -4,12 +4,12 @@
         "language": "javascript",
         "source": {
             "include": ["src/**/*.{ts,tsx}"],
-            "exclude": ["src/test/**", "**/*.stories.tsx"]
+            "exclude": ["src/test/**", "**/*.stories.tsx"],
         },
         "languageOptions": {
             "parserOptions": {
-                "project": ["./tsconfig.json"]
-            }
+                "project": ["./tsconfig.json"],
+            },
         },
         "plugins": ["typescript-eslint"],
         "linter": {
@@ -17,8 +17,8 @@
             "rules": {
                 "@typescript-eslint/no-empty-object-type": "off",
                 "@typescript-eslint/no-explicit-any": "warn",
-                "@typescript-eslint/ban-ts-comment": "off"
-            }
-        }
-    }
+                "@typescript-eslint/ban-ts-comment": "off",
+            },
+        },
+    },
 ]

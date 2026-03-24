@@ -30,7 +30,7 @@ describe('FilterOperatorSelect', () => {
     it('is disabled when no field is provided', () => {
         render(
             <ThemeProvider>
-                <FilterOperatorSelect value='' globalOperators={globalOperators} onChange={() => {}} />
+                <FilterOperatorSelect value="" globalOperators={globalOperators} onChange={() => {}} />
             </ThemeProvider>
         );
 
@@ -41,7 +41,7 @@ describe('FilterOperatorSelect', () => {
         render(
             <ThemeProvider>
                 <FilterOperatorSelect
-                    value=''
+                    value=""
                     field={fieldWithOwnOperators}
                     globalOperators={globalOperators}
                     onChange={() => {}}
@@ -60,7 +60,7 @@ describe('FilterOperatorSelect', () => {
         render(
             <ThemeProvider>
                 <FilterOperatorSelect
-                    value=''
+                    value=""
                     field={fieldWithoutOwnOperators}
                     globalOperators={globalOperators}
                     onChange={() => {}}
@@ -80,7 +80,7 @@ describe('FilterOperatorSelect', () => {
         render(
             <ThemeProvider>
                 <FilterOperatorSelect
-                    value=''
+                    value=""
                     field={fieldWithoutOwnOperators}
                     globalOperators={globalOperators}
                     onChange={onChange}

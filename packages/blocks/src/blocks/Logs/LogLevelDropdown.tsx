@@ -80,7 +80,12 @@ export function LogLevelDropdown({
                     ))}
 
                     <div className={styles.levelPopoverActions}>
-                        <button type="button" onClick={onSelectAll} disabled={allSelected} className={styles.levelQuickButton}>
+                        <button
+                            type="button"
+                            onClick={onSelectAll}
+                            disabled={allSelected}
+                            className={styles.levelQuickButton}
+                        >
                             All
                         </button>
 

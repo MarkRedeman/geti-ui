@@ -14,7 +14,7 @@ describe('FilterFieldSelect', () => {
     it('renders only non-disabled fields', async () => {
         render(
             <ThemeProvider>
-                <FilterFieldSelect value='' fields={fields} onChange={() => {}} />
+                <FilterFieldSelect value="" fields={fields} onChange={() => {}} />
             </ThemeProvider>
         );
 
@@ -30,7 +30,7 @@ describe('FilterFieldSelect', () => {
 
         render(
             <ThemeProvider>
-                <FilterFieldSelect value='' fields={fields} onChange={onChange} />
+                <FilterFieldSelect value="" fields={fields} onChange={onChange} />
             </ThemeProvider>
         );
 

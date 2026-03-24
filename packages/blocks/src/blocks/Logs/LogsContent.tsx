@@ -109,7 +109,9 @@ export function LogsContent({
     const virtualizedLogs = useMemo<VirtualizedLogItem[]>(
         () =>
             filtered.map((entry, index) => ({
-                id: `${entry.record.time.timestamp}-${entry.record.module ?? 'm'}-${entry.record.function ?? 'f'}-${entry.record.line ?? 'l'}-${index}`,
+                id: `${entry.record.time.timestamp}-${entry.record.module ?? 'm'}-${entry.record.function ?? 'f'}-${
+                    entry.record.line ?? 'l'
+                }-${index}`,
                 entry,
             })),
         [filtered]

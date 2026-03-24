@@ -114,7 +114,6 @@ describe('OverflowableTabs', () => {
         expect(screen.getByRole('button', { name: 'Add dataset' })).toBeTruthy();
     });
 
-
     // -----------------------------------------------------------------------
     // renderTab: isActive reflects current selection
     // -----------------------------------------------------------------------

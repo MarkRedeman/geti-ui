@@ -374,9 +374,7 @@ describe('LogsContent', () => {
             // Close the popover so the copy button is no longer hidden behind aria-hidden
             await userEvent.keyboard('{Escape}');
 
-            await waitFor(() =>
-                expect(screen.getByRole('button', { name: /copy logs to clipboard/i })).toBeTruthy()
-            );
+            await waitFor(() => expect(screen.getByRole('button', { name: /copy logs to clipboard/i })).toBeTruthy());
 
             await userEvent.click(screen.getByRole('button', { name: /copy logs to clipboard/i }));
 

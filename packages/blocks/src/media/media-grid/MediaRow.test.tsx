@@ -64,12 +64,7 @@ function renderMediaRow(props: Partial<React.ComponentProps<typeof MediaRow<Test
 
     const result = render(
         <ThemeProvider>
-            <MediaRow<TestItem>
-                totalItems={0}
-                getItemAt={getItemAt}
-                renderItem={defaultRenderItem}
-                {...props}
-            />
+            <MediaRow<TestItem> totalItems={0} getItemAt={getItemAt} renderItem={defaultRenderItem} {...props} />
         </ThemeProvider>
     );
 

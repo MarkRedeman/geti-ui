@@ -105,7 +105,6 @@ class MediaRowHorizontalLayout extends Layout {
 
 const clampSelection = (value: MediaGridSelection | undefined): MediaGridSelection => value ?? new Set<string>();
 
-
 export function MediaRow<T extends MediaGridIdentifiable>({
     totalItems,
     getItemAt,

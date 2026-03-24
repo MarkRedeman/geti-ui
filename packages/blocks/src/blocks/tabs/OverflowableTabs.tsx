@@ -160,7 +160,9 @@ export function OverflowableTabs<T>({
 
     const tabRefs = useRef<(HTMLElement | null)[]>([]);
 
-    const TabItemWithRef = TabItem as unknown as (props: ComponentProps<typeof TabItem> & { ref?: Ref<HTMLElement> }) => ReactNode;
+    const TabItemWithRef = TabItem as unknown as (
+        props: ComponentProps<typeof TabItem> & { ref?: Ref<HTMLElement> }
+    ) => ReactNode;
 
     const registerTab = useCallback((index: number) => {
         return (el: HTMLElement | null) => {

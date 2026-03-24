@@ -19,7 +19,9 @@
     background: var(--spectrum-global-color-gray-100);
     cursor: pointer;
     overflow: hidden;
-    transition: border-color 120ms ease, box-shadow 120ms ease;
+    transition:
+        border-color 120ms ease,
+        box-shadow 120ms ease;
 }
 
 .itemButton:hover {

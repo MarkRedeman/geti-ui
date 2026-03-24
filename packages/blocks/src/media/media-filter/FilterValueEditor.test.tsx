@@ -56,7 +56,12 @@ describe('FilterValueEditor', () => {
             key: 'FIELD_A',
             label: 'Field A',
             valueType: 'multi-enum',
-            editorConfig: { options: [{ key: 'a', label: 'Alpha' }, { key: 'b', label: 'Beta' }] },
+            editorConfig: {
+                options: [
+                    { key: 'a', label: 'Alpha' },
+                    { key: 'b', label: 'Beta' },
+                ],
+            },
         };
         renderEditor({ ...baseRule, value: ['a'] }, field);
         expect(screen.getByRole('checkbox', { name: /alpha/i })).toBeTruthy();

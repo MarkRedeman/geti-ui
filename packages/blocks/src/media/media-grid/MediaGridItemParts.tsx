@@ -54,11 +54,7 @@ export function MediaGridItemMenu({ ariaLabel = 'Media actions', actions, onActi
 }
 
 export function MediaGridItemInfo({ children }: MediaGridItemInfoProps) {
-    return (
-        <Text UNSAFE_className={styles.infoText}>
-            {children}
-        </Text>
-    );
+    return <Text UNSAFE_className={styles.infoText}>{children}</Text>;
 }
 
 export function MediaGridItemStatus({ variant, children }: MediaGridItemStatusProps) {

@@ -92,12 +92,14 @@ export function DatasetTabsBlock({ initialDatasets = MOCK_DATASETS }: DatasetTab
             aria-label="Datasets"
             selectedKey={selectedId}
             onSelectionChange={(key: Key) => setSelectedId(String(key))}
-            UNSAFE_style={{
-                '--spectrum-tabs-selection-indicator-color': 'var(--energy-blue)',
-                '--spectrum-tabs-emphasized-selection-indicator-color': 'var(--energy-blue)',
-                '--spectrum-tabs-quiet-emphasized-selection-indicator-color': 'var(--energy-blue)',
-                '--spectrum-tabs-item-gap': '0px',
-            } as CSSProperties}
+            UNSAFE_style={
+                {
+                    '--spectrum-tabs-selection-indicator-color': 'var(--energy-blue)',
+                    '--spectrum-tabs-emphasized-selection-indicator-color': 'var(--energy-blue)',
+                    '--spectrum-tabs-quiet-emphasized-selection-indicator-color': 'var(--energy-blue)',
+                    '--spectrum-tabs-item-gap': '0px',
+                } as CSSProperties
+            }
         >
             <div style={{ display: 'flex', alignItems: 'stretch', width: '100%' }}>
                 <div style={{ flex: '0 0 auto', minWidth: 0 }}>

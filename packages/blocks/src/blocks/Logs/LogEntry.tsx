@@ -54,7 +54,17 @@ const LogTimestamp = ({ timestamp, repr }: { timestamp: number; repr?: string })
     );
 };
 
-const LogSource = ({ moduleName, func, line, fallback }: { moduleName?: string; func?: string; line?: number; fallback?: string }) => {
+const LogSource = ({
+    moduleName,
+    func,
+    line,
+    fallback,
+}: {
+    moduleName?: string;
+    func?: string;
+    line?: number;
+    fallback?: string;
+}) => {
     const sourceShort = [moduleName, func].filter(Boolean).join(':') || fallback || 'unknown';
     const sourceLong = [moduleName, func, line].filter((v) => v !== undefined && v !== '').join(':');
 

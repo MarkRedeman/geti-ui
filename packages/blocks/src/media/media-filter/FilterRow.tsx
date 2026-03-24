@@ -68,7 +68,9 @@ export function FilterRow({
                     aria-label={`Remove filter ${rule.id}`}
                     UNSAFE_className={classes.deleteButton}
                 >
-                    <Icon><Delete width={20} /></Icon>
+                    <Icon>
+                        <Delete width={20} />
+                    </Icon>
                 </ActionButton>
             ) : null}
         </div>

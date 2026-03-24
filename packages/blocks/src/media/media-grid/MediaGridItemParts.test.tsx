@@ -2,12 +2,7 @@ import { fireEvent, render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { describe, expect, it } from '@rstest/core';
 import { ThemeProvider } from '@geti-ai/ui';
-import {
-    MediaGridItemCheckbox,
-    MediaGridItemInfo,
-    MediaGridItemMenu,
-    MediaGridItemStatus,
-} from './MediaGridItemParts';
+import { MediaGridItemCheckbox, MediaGridItemInfo, MediaGridItemMenu, MediaGridItemStatus } from './MediaGridItemParts';
 
 // ---------------------------------------------------------------------------
 // Helpers
@@ -24,9 +19,7 @@ function renderWithTheme(ui: React.ReactNode) {
 describe('MediaGridItemCheckbox', () => {
     it('calls onChange with true when unchecked checkbox is clicked', async () => {
         const onChange = rstest.fn();
-        renderWithTheme(
-            <MediaGridItemCheckbox ariaLabel="Select item" isSelected={false} onChange={onChange} />
-        );
+        renderWithTheme(<MediaGridItemCheckbox ariaLabel="Select item" isSelected={false} onChange={onChange} />);
 
         await userEvent.click(screen.getByRole('checkbox', { name: 'Select item' }));
 
@@ -35,9 +28,7 @@ describe('MediaGridItemCheckbox', () => {
 
     it('calls onChange with false when checked checkbox is clicked', async () => {
         const onChange = rstest.fn();
-        renderWithTheme(
-            <MediaGridItemCheckbox ariaLabel="Select item" isSelected={true} onChange={onChange} />
-        );
+        renderWithTheme(<MediaGridItemCheckbox ariaLabel="Select item" isSelected={true} onChange={onChange} />);
 
         await userEvent.click(screen.getByRole('checkbox', { name: 'Select item' }));
 
@@ -81,9 +72,7 @@ describe('MediaGridItemCheckbox', () => {
     });
 
     it('reflects isSelected=true as checked attribute on the checkbox', () => {
-        renderWithTheme(
-            <MediaGridItemCheckbox ariaLabel="Select item" isSelected={true} onChange={rstest.fn()} />
-        );
+        renderWithTheme(<MediaGridItemCheckbox ariaLabel="Select item" isSelected={true} onChange={rstest.fn()} />);
 
         const checkbox = screen.getByRole('checkbox', { name: 'Select item' });
         // aria-checked or checked attribute set when selected
@@ -91,12 +80,11 @@ describe('MediaGridItemCheckbox', () => {
     });
 
     it('reflects isSelected=false as unchecked state', () => {
-        renderWithTheme(
-            <MediaGridItemCheckbox ariaLabel="Select item" isSelected={false} onChange={rstest.fn()} />
-        );
+        renderWithTheme(<MediaGridItemCheckbox ariaLabel="Select item" isSelected={false} onChange={rstest.fn()} />);
 
         const checkbox = screen.getByRole('checkbox', { name: 'Select item' });
-        const isChecked = checkbox.getAttribute('aria-checked') === 'true' || (checkbox as HTMLInputElement).checked === true;
+        const isChecked =
+            checkbox.getAttribute('aria-checked') === 'true' || (checkbox as HTMLInputElement).checked === true;
         expect(isChecked).toBe(false);
     });
 });
@@ -112,9 +100,7 @@ describe('MediaGridItemMenu', () => {
     ];
 
     it('renders the trigger button with the provided aria-label', () => {
-        renderWithTheme(
-            <MediaGridItemMenu ariaLabel="Item actions" actions={actions} onAction={rstest.fn()} />
-        );
+        renderWithTheme(<MediaGridItemMenu ariaLabel="Item actions" actions={actions} onAction={rstest.fn()} />);
 
         expect(screen.getByRole('button', { name: 'Item actions' })).toBeTruthy();
     });
@@ -126,9 +112,7 @@ describe('MediaGridItemMenu', () => {
     });
 
     it('opens the menu and renders all action items when trigger is clicked', async () => {
-        renderWithTheme(
-            <MediaGridItemMenu ariaLabel="Item actions" actions={actions} onAction={rstest.fn()} />
-        );
+        renderWithTheme(<MediaGridItemMenu ariaLabel="Item actions" actions={actions} onAction={rstest.fn()} />);
 
         await userEvent.click(screen.getByRole('button', { name: 'Item actions' }));
 
@@ -138,9 +122,7 @@ describe('MediaGridItemMenu', () => {
 
     it('calls onAction with the correct string key when a menu item is selected', async () => {
         const onAction = rstest.fn();
-        renderWithTheme(
-            <MediaGridItemMenu ariaLabel="Item actions" actions={actions} onAction={onAction} />
-        );
+        renderWithTheme(<MediaGridItemMenu ariaLabel="Item actions" actions={actions} onAction={onAction} />);
 
         await userEvent.click(screen.getByRole('button', { name: 'Item actions' }));
         await userEvent.click(screen.getByRole('menuitem', { name: 'Edit' }));
@@ -150,9 +132,7 @@ describe('MediaGridItemMenu', () => {
 
     it('calls onAction with "delete" key when Delete item is selected', async () => {
         const onAction = rstest.fn();
-        renderWithTheme(
-            <MediaGridItemMenu ariaLabel="Item actions" actions={actions} onAction={onAction} />
-        );
+        renderWithTheme(<MediaGridItemMenu ariaLabel="Item actions" actions={actions} onAction={onAction} />);
 
         await userEvent.click(screen.getByRole('button', { name: 'Item actions' }));
         await userEvent.click(screen.getByRole('menuitem', { name: 'Delete' }));
@@ -161,9 +141,7 @@ describe('MediaGridItemMenu', () => {
     });
 
     it('closes the menu after an item is selected', async () => {
-        renderWithTheme(
-            <MediaGridItemMenu ariaLabel="Item actions" actions={actions} onAction={rstest.fn()} />
-        );
+        renderWithTheme(<MediaGridItemMenu ariaLabel="Item actions" actions={actions} onAction={rstest.fn()} />);
 
         await userEvent.click(screen.getByRole('button', { name: 'Item actions' }));
         await userEvent.click(screen.getByRole('menuitem', { name: 'Edit' }));
@@ -270,9 +248,7 @@ describe('MediaGridItemStatus', () => {
     });
 
     it('applies the Spectrum BEM class matching the provided variant', () => {
-        const { container } = renderWithTheme(
-            <MediaGridItemStatus variant="positive">Annotated</MediaGridItemStatus>
-        );
+        const { container } = renderWithTheme(<MediaGridItemStatus variant="positive">Annotated</MediaGridItemStatus>);
 
         // Spectrum's StatusLight always adds a stable BEM modifier class
         // "spectrum-StatusLight--<variant>" regardless of CSS-module null-loading.

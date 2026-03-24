@@ -71,9 +71,7 @@ function triggerIntersection(isIntersecting: boolean) {
 }
 
 const defaultRenderItem = (ctx: MediaGridRenderContext<TestItem>) => (
-    <span data-testid={`item-${ctx.index}`}>
-        {ctx.isPlaceholder ? 'placeholder' : ctx.item!.label}
-    </span>
+    <span data-testid={`item-${ctx.index}`}>{ctx.isPlaceholder ? 'placeholder' : ctx.item!.label}</span>
 );
 
 function renderMediaGrid(props: Partial<React.ComponentProps<typeof MediaGrid<TestItem>>> = {}) {
@@ -160,12 +158,7 @@ describe('getItemAt calls', () => {
 
         render(
             <ThemeProvider>
-                <MediaGrid<TestItem>
-                    totalItems={3}
-                    getItemAt={getItemAt}
-                    renderItem={defaultRenderItem}
-                    columns={1}
-                />
+                <MediaGrid<TestItem> totalItems={3} getItemAt={getItemAt} renderItem={defaultRenderItem} columns={1} />
             </ThemeProvider>
         );
 
@@ -182,12 +175,7 @@ describe('getItemAt calls', () => {
 
         render(
             <ThemeProvider>
-                <MediaGrid<TestItem>
-                    totalItems={5}
-                    getItemAt={getItemAt}
-                    renderItem={defaultRenderItem}
-                    columns={1}
-                />
+                <MediaGrid<TestItem> totalItems={5} getItemAt={getItemAt} renderItem={defaultRenderItem} columns={1} />
             </ThemeProvider>
         );
 
@@ -325,4 +313,3 @@ describe('onLoadMore guard', () => {
         expect(onLoadMore).not.toHaveBeenCalled();
     });
 });
-

@@ -1,14 +1,6 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { Flex, Text, View } from '@geti-ai/ui';
-import {
-    GridLayout,
-    GridList,
-    GridListItem,
-    type Key,
-    type Selection,
-    Size,
-    Virtualizer,
-} from 'react-aria-components';
+import { GridLayout, GridList, GridListItem, type Key, type Selection, Size, Virtualizer } from 'react-aria-components';
 import styles from './media-grid.module.css';
 import type { MediaGridIdentifiable, MediaGridProps, MediaGridRenderContext, MediaGridSelection } from './types';
 
@@ -22,7 +14,6 @@ function normalizeSelectionKeys(selection: MediaGridSelection): Set<string> {
     }
     return new Set(selection);
 }
-
 
 function getColumns(width: number, itemSize: number, gap: number): number {
     if (width <= 0) {
@@ -194,7 +185,9 @@ export function MediaGrid<T extends MediaGridIdentifiable>({
                                     item: entry.item,
                                     index: entry.index,
                                     isPlaceholder: false,
-                                    isSelected: effectiveSelection === 'all' || effectiveSelectionSet.has(String(entry.item.id)),
+                                    isSelected:
+                                        effectiveSelection === 'all' ||
+                                        effectiveSelectionSet.has(String(entry.item.id)),
                                     selectionMode,
                                     onPress: () => undefined,
                                     onDoublePress: () => undefined,

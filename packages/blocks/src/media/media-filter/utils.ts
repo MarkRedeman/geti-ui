@@ -160,8 +160,10 @@ export function getDefaultRuleValueLabel(rule: FilterRule): string {
     }
 
     const fieldKey = normalizeFieldKey(rule.field);
-    if ((fieldKey === 'MEDIA_UPLOAD_DATE' || fieldKey === 'UPLOADED_AT' || fieldKey === 'ANNOTATION_CREATION_DATE') &&
-        typeof rule.value === 'string') {
+    if (
+        (fieldKey === 'MEDIA_UPLOAD_DATE' || fieldKey === 'UPLOADED_AT' || fieldKey === 'ANNOTATION_CREATION_DATE') &&
+        typeof rule.value === 'string'
+    ) {
         const parsedDate = new Date(rule.value);
         if (!Number.isNaN(parsedDate.getTime())) {
             return parsedDate.toLocaleDateString();
