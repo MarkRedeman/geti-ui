@@ -687,7 +687,7 @@ html {
 }
 
 .geti-home-blocks-logs {
-    height: 220px;
+    height: 280px;
     border: 1px solid #33363d;
     border-radius: var(--geti-radius-md);
     overflow: hidden;

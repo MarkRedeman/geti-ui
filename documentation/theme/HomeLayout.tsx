@@ -530,7 +530,7 @@ export const HomeLayout = (props: HomeLayoutProps) => {
                             <p className="geti-home-hero__eyebrow">Geti Packages</p>
                             <h1 className="geti-home-hero__title">Build Interactive AI Applications</h1>
                             <p className="geti-home-hero__subtitle">
-                                UI components, charts, building blocks, icons, and AI tooling — six packages designed to
+                                UI components, charts, building blocks, icons, and AI tooling. Six packages designed to
                                 work together for interactive AI workflows.
                             </p>
                             <div className="geti-home-hero__actions">
@@ -878,7 +878,6 @@ export const HomeLayout = (props: HomeLayoutProps) => {
                                             matrix={confusionMatrix}
                                             labels={confusionLabels}
                                             height={280}
-                                            normalize="row"
                                             aria-label="Confusion matrix"
                                         />
                                     </div>
