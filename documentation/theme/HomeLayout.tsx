@@ -26,6 +26,15 @@ import {
     TabItem,
     View,
     Text,
+    Divider,
+    Flex,
+    ButtonGroup,
+    TableView,
+    TableHeader,
+    TableBody,
+    Column,
+    Row,
+    Cell,
 } from '@geti-ai/ui';
 import {
     MediaGrid,
@@ -62,6 +71,8 @@ import {
     Image as ImageIcon,
     GraphChart,
     Deployments,
+    ChevronLeft,
+    ChevronRight,
 } from '@geti-ai/ui/icons';
 import {
     WorkInProgressIcon,
@@ -513,66 +524,129 @@ export const HomeLayout = (props: HomeLayoutProps) => {
                                 Explore 90+ components &rarr;
                             </a>
                         </div>
-                        <div className="geti-home-showcase__media">
-                            <div className="geti-home-demo-panel">
-                                {/* Buttons */}
-                                <div className="geti-home-demo-row">
-                                    <Button variant="accent">Train model</Button>
-                                    <Button variant="primary">Deploy</Button>
-                                    <Button variant="secondary">Export</Button>
-                                    <Button variant="negative">Delete</Button>
-                                </div>
+                        <div className="geti-home-showcase__media geti-home-ui-demos">
+                            {/* ── Toolbar (full width) ── */}
+                            <div className="geti-home-demo-panel geti-home-demo-panel--full geti-home-ui-toolbar">
+                                <Flex justifyContent="space-between" width="100%">
+                                    <Flex alignItems="center" gap="size-200">
+                                        <Picker
+                                            label="Active model"
+                                            labelPosition="side"
+                                            defaultSelectedKey="sam"
+                                            isQuiet
+                                            aria-label="Model"
+                                            width="size-2000"
+                                        >
+                                            <PickerItem key="sam">LVM: SAM</PickerItem>
+                                            <PickerItem key="yolo">YOLO v8</PickerItem>
+                                        </Picker>
+                                        <Divider orientation="vertical" size="S" />
+                                        <Switch>Explanation</Switch>
+                                        <Switch defaultSelected>Annotations</Switch>
+                                        <Picker defaultSelectedKey="hearts" isQuiet aria-label="Suit">
+                                            <PickerItem key="hearts">Hearts</PickerItem>
+                                            <PickerItem key="diamonds">Diamonds</PickerItem>
+                                            <PickerItem key="spades">Spades</PickerItem>
+                                            <PickerItem key="clubs">Clubs</PickerItem>
+                                        </Picker>
+                                    </Flex>
+                                    <Flex gap="size-200">
+                                        <Flex gap="size-50">
+                                            <ActionButton isQuiet aria-label="Previous">
+                                                <Icon>
+                                                    <ChevronLeft />
+                                                </Icon>
+                                            </ActionButton>
+                                            <ActionButton isQuiet aria-label="Next">
+                                                <Icon>
+                                                    <ChevronRight />
+                                                </Icon>
+                                            </ActionButton>
+                                        </Flex>
+                                        <Divider orientation="vertical" size="S" />
+                                        <Button variant="accent">Submit</Button>
+                                    </Flex>
+                                </Flex>
+                            </div>
 
-                                {/* Form controls */}
+                            {/* ── Run test dialog ── */}
+                            <div className="geti-home-demo-panel geti-home-ui-form">
+                                <span className="geti-home-demo-panel__heading">Run test</span>
+                                <TextField label="Test name" defaultValue="Nightly regression" width="100%" />
                                 <div className="geti-home-demo-row geti-home-demo-row--form">
-                                    <TextField label="Project name" defaultValue="My Detection Project" />
-                                    <Picker label="Task type" defaultSelectedKey="detection">
-                                        <PickerItem key="detection">Detection</PickerItem>
-                                        <PickerItem key="segmentation">Segmentation</PickerItem>
-                                        <PickerItem key="classification">Classification</PickerItem>
+                                    <Picker label="Model" defaultSelectedKey="yolo" width="100%">
+                                        <PickerItem key="yolo">YOLO v8</PickerItem>
+                                        <PickerItem key="ssd">SSD MobileNet</PickerItem>
+                                        <PickerItem key="atss">ATSS</PickerItem>
+                                    </Picker>
+                                    <Picker label="Version" defaultSelectedKey="v3" width="100%">
+                                        <PickerItem key="v1">v1.0</PickerItem>
+                                        <PickerItem key="v2">v2.0</PickerItem>
+                                        <PickerItem key="v3">v3.0</PickerItem>
                                     </Picker>
                                 </div>
+                                <Picker label="Optimization" defaultSelectedKey="fp16" width="100%">
+                                    <PickerItem key="fp16">OpenVINO FP16</PickerItem>
+                                    <PickerItem key="fp32">OpenVINO FP32</PickerItem>
+                                    <PickerItem key="int8">OpenVINO Int8</PickerItem>
+                                </Picker>
+                                <Picker label="Dataset" defaultSelectedKey="val" width="100%">
+                                    <PickerItem key="train">Training set</PickerItem>
+                                    <PickerItem key="val">Validation set</PickerItem>
+                                    <PickerItem key="test">Testing set</PickerItem>
+                                </Picker>
+                                <ButtonGroup align="end">
+                                    <Button variant="secondary">Cancel</Button>
+                                    <Button variant="accent">Run test</Button>
+                                </ButtonGroup>
+                            </div>
 
-                                {/* Toggles */}
+                            {/* ── Test results table ── */}
+                            <div className="geti-home-demo-panel">
+                                <span className="geti-home-demo-panel__heading">Test results</span>
                                 <div className="geti-home-demo-row">
-                                    <Switch defaultSelected>Auto-training</Switch>
-                                    <Checkbox defaultSelected>Include annotations</Checkbox>
-                                </div>
-
-                                {/* Slider */}
-                                <div className="geti-home-demo-row geti-home-demo-row--stretch">
-                                    <Slider
-                                        label="Confidence threshold"
-                                        defaultValue={75}
-                                        minValue={0}
-                                        maxValue={100}
-                                        isFilled
-                                    />
-                                </div>
-
-                                {/* Status indicators */}
-                                <div className="geti-home-demo-row">
-                                    <Badge variant="positive">Active</Badge>
-                                    <Badge variant="info">Training</Badge>
-                                    <Badge variant="negative">Failed</Badge>
+                                    <Badge variant="positive">3 passed</Badge>
+                                    <Badge variant="negative">1 failed</Badge>
                                     <StatusLight variant="positive">Deployed</StatusLight>
                                     <StatusLight variant="notice">Queued</StatusLight>
                                 </div>
-
-                                {/* Progress */}
-                                <div className="geti-home-demo-row geti-home-demo-row--stretch">
-                                    <ProgressBar label="Training progress" value={67} />
-                                </div>
-
-                                {/* Tags */}
-                                <div className="geti-home-demo-row">
-                                    <TagGroup aria-label="Labels">
-                                        <TagItem key="car">Car</TagItem>
-                                        <TagItem key="person">Person</TagItem>
-                                        <TagItem key="bike">Bike</TagItem>
-                                        <TagItem key="truck">Truck</TagItem>
-                                    </TagGroup>
-                                </div>
+                                <ProgressBar label="Test progress" value={75} />
+                                <TableView aria-label="Recent test runs" overflowMode="truncate">
+                                    <TableHeader>
+                                        <Column key="name" isRowHeader>
+                                            Test name
+                                        </Column>
+                                        <Column key="model">Model</Column>
+                                        <Column key="score">Score</Column>
+                                        <Column key="status">Status</Column>
+                                    </TableHeader>
+                                    <TableBody>
+                                        <Row key="1">
+                                            <Cell>Nightly regression</Cell>
+                                            <Cell>YOLO v8</Cell>
+                                            <Cell>0.92</Cell>
+                                            <Cell>Passed</Cell>
+                                        </Row>
+                                        <Row key="2">
+                                            <Cell>Edge cases</Cell>
+                                            <Cell>SSD MobileNet</Cell>
+                                            <Cell>0.78</Cell>
+                                            <Cell>Failed</Cell>
+                                        </Row>
+                                        <Row key="3">
+                                            <Cell>Drift detection</Cell>
+                                            <Cell>ATSS</Cell>
+                                            <Cell>0.88</Cell>
+                                            <Cell>Passed</Cell>
+                                        </Row>
+                                    </TableBody>
+                                </TableView>
+                                <TagGroup aria-label="Labels">
+                                    <TagItem key="car">Car</TagItem>
+                                    <TagItem key="person">Person</TagItem>
+                                    <TagItem key="bike">Bike</TagItem>
+                                    <TagItem key="truck">Truck</TagItem>
+                                </TagGroup>
                             </div>
                         </div>
                     </div>

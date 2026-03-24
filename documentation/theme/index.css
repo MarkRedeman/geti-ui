@@ -681,6 +681,38 @@ html {
     grid-column: 1 / -1;
 }
 
+/* ── UI section: toolbar + two-card grid ── */
+
+.geti-home-ui-demos {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.25rem;
+}
+
+.geti-home-ui-toolbar {
+    display: flex;
+    align-items: center;
+    padding: 0.75rem 1rem;
+}
+
+.geti-home-ui-toolbar__spacer {
+    flex: 1 1 auto;
+}
+
+.geti-home-demo-panel__heading {
+    margin: 0;
+    font-size: 0.82rem;
+    font-weight: 600;
+    color: var(--geti-gray-600);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+}
+
+.geti-home-ui-form {
+    /* Ensure Spectrum fields stretch to fill the panel */
+    --spectrum-alias-single-line-width: 100%;
+}
+
 .geti-home-blocks-tabs {
     border: 1px solid #33363d;
     border-radius: var(--geti-radius-md);
@@ -883,6 +915,10 @@ html {
     }
 
     .geti-home-blocks-demos {
+        grid-template-columns: 1fr;
+    }
+
+    .geti-home-ui-demos {
         grid-template-columns: 1fr;
     }
 }
