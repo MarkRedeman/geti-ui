@@ -498,13 +498,16 @@ function InstallCommand({
     return (
         <div className={`geti-home-install-wrapper${variant === 'subtle' ? ' geti-home-install-wrapper--subtle' : ''}`}>
             {label && <span className="geti-home-install__label">{label}</span>}
-            <div className={`geti-home-install${variant === 'subtle' ? ' geti-home-install--subtle' : ''}`}>
+            <button
+                type="button"
+                className={`geti-home-install${variant === 'subtle' ? ' geti-home-install--subtle' : ''}${copied ? ' geti-home-install--copied' : ''}`}
+                onClick={handleCopy}
+                aria-label={copied ? 'Copied' : `Copy: ${command}`}
+            >
                 <code className="geti-home-install__code">{command}</code>
-                <button
-                    className={`geti-home-install__copy${copied ? ' geti-home-install__copy--copied' : ''}`}
-                    onClick={handleCopy}
-                    aria-label={copied ? 'Copied' : `Copy: ${command}`}
-                    type="button"
+                <span
+                    className={`geti-home-install__icon${copied ? ' geti-home-install__icon--copied' : ''}`}
+                    aria-hidden="true"
                 >
                     {copied ? (
                         <Icon size="XS">
@@ -515,8 +518,8 @@ function InstallCommand({
                             <Copy />
                         </Icon>
                     )}
-                </button>
-            </div>
+                </span>
+            </button>
         </div>
     );
 }

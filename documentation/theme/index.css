@@ -520,6 +520,18 @@ html {
     border-radius: var(--geti-radius-md);
     padding: 0.55rem 0.75rem;
     max-width: max-content;
+    cursor: pointer;
+    font: inherit;
+    text-align: left;
+    transition: border-color 0.14s ease;
+}
+
+.geti-home-install:hover {
+    border-color: #6ee7d8;
+}
+
+.geti-home-install--copied {
+    border-color: #6ee7d8;
 }
 
 .geti-home-install__code {
@@ -527,34 +539,31 @@ html {
     font-size: 0.82rem;
     color: #6ee7d8;
     white-space: nowrap;
-    user-select: all;
+    pointer-events: none;
 }
 
-.geti-home-install__copy {
+.geti-home-install__icon {
     display: inline-flex;
     align-items: center;
     justify-content: center;
     width: 26px;
     height: 26px;
-    border: none;
     border-radius: var(--geti-radius-sm);
-    background: transparent;
     color: var(--geti-gray-600);
-    cursor: pointer;
     flex-shrink: 0;
-    transition: color 0.12s ease, background 0.12s ease;
+    transition: color 0.12s ease;
+    pointer-events: none;
 }
 
-.geti-home-install__copy:hover {
-    background: rgb(255 255 255 / 8%);
+.geti-home-install:hover .geti-home-install__icon {
     color: #fff;
 }
 
-.geti-home-install__copy--copied {
+.geti-home-install__icon--copied {
     color: #6ee7d8;
 }
 
-.geti-home-install__copy--copied:hover {
+.geti-home-install:hover .geti-home-install__icon--copied {
     color: #6ee7d8;
 }
 
@@ -565,6 +574,7 @@ html {
 
 .geti-home-install--subtle:hover {
     background: rgb(255 255 255 / 7%);
+    border-color: #9ca3af;
 }
 
 .geti-home-install--subtle .geti-home-install__code {
