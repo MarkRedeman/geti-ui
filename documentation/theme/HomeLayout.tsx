@@ -500,7 +500,9 @@ function InstallCommand({
             {label && <span className="geti-home-install__label">{label}</span>}
             <button
                 type="button"
-                className={`geti-home-install${variant === 'subtle' ? ' geti-home-install--subtle' : ''}${copied ? ' geti-home-install--copied' : ''}`}
+                className={`geti-home-install${variant === 'subtle' ? ' geti-home-install--subtle' : ''}${
+                    copied ? ' geti-home-install--copied' : ''
+                }`}
                 onClick={handleCopy}
                 aria-label={copied ? 'Copied' : `Copy: ${command}`}
             >
@@ -907,6 +909,9 @@ export const HomeLayout = (props: HomeLayoutProps) => {
                                             ]}
                                             colorBy="right"
                                             height={280}
+                                            highlight={{ enabled: true, interaction: { lineHover: true } }}
+                                            lineOpacity={0.6}
+                                            strokeWidth={2.0}
                                             aria-label="Hyperparameter parallel coordinates"
                                         />
                                     </div>
@@ -1005,8 +1010,8 @@ export const HomeLayout = (props: HomeLayoutProps) => {
                                     Browser-native computer vision tools for low-latency image annotation. Includes
                                     Watershed, GrabCut, Intelligent Scissors, SSIM template matching, and RITM
                                     interactive segmentation — powered by OpenCV WASM and ONNX Runtime. Our tools,
-                                    including Segment Anything, run entirely in the browser with zero server
-                                    interaction required.
+                                    including Segment Anything, run entirely in the browser with zero server interaction
+                                    required.
                                 </p>
                                 <InstallCommand command="npm install @geti-ai/smart-tools" />
                                 <div className="geti-home-showcase__meta">
@@ -1048,9 +1053,9 @@ export const HomeLayout = (props: HomeLayoutProps) => {
                             <p className="geti-home-showcase__kicker">AI Integration</p>
                             <h2 className="geti-home-showcase__title">@geti-ai/mcp</h2>
                             <p className="geti-home-showcase__desc">
-                                An MCP server that exposes Geti UI documentation to AI coding agents. Integrates
-                                with Claude Code, Cursor, VS Code Copilot, and Windsurf. Provides 8 tools for
-                                searching docs, listing components, extracting props, and more.
+                                An MCP server that exposes Geti UI documentation to AI coding agents. Integrates with
+                                Claude Code, Cursor, VS Code Copilot, and Windsurf. Provides 8 tools for searching docs,
+                                listing components, extracting props, and more.
                             </p>
                             <InstallCommand command="npx @geti-ai/mcp" />
                             <div className="geti-home-showcase__meta">
