@@ -317,19 +317,44 @@ html {
     font-size: 1.06rem;
 }
 
-.geti-home-hero__graph {
-    background: rgb(21 23 27 / 55%);
-    border: 1px solid #33363d;
-    border-radius: 10px;
-    padding: 1rem;
+.geti-home-hero__stats {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1rem;
     align-self: center;
 }
 
-.geti-home-hero__graph h2 {
-    margin: 0;
-    font-size: 0.95rem;
-    color: #fff;
-    margin-bottom: 0.75rem;
+.geti-home-stat {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.3rem;
+    padding: 1.25rem 0.75rem;
+    border: 1px solid #33363d;
+    border-radius: var(--geti-radius-md);
+    text-decoration: none;
+    transition: border-color 0.14s ease, background 0.14s ease;
+}
+
+.geti-home-stat:hover {
+    border-color: #3fd0ff;
+    background: rgb(63 208 255 / 4%);
+}
+
+.geti-home-stat__value {
+    font-size: clamp(1.6rem, 2.5vw, 2.2rem);
+    font-weight: 700;
+    color: #6ee7d8;
+    line-height: 1;
+    letter-spacing: -0.02em;
+}
+
+.geti-home-stat__label {
+    font-size: 0.78rem;
+    color: var(--geti-gray-600);
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
 }
 
 .geti-home-hero__actions {
@@ -337,6 +362,10 @@ html {
     display: flex;
     gap: 0.8rem;
     flex-wrap: wrap;
+}
+
+.geti-home-hero__panel > .geti-home-install-wrapper {
+    margin-top: 1rem;
 }
 
 .geti-home-btn {
@@ -512,6 +541,31 @@ html {
 
 .geti-home-install__copy--copied:hover {
     color: #6ee7d8;
+}
+
+.geti-home-install--subtle {
+    background: rgb(255 255 255 / 4%);
+    border-color: #2a2d33;
+}
+
+.geti-home-install--subtle:hover {
+    background: rgb(255 255 255 / 7%);
+}
+
+.geti-home-install--subtle .geti-home-install__code {
+    color: #9ca3af;
+}
+
+.geti-home-install-wrapper--subtle {
+    margin-top: 0.6rem;
+}
+
+.geti-home-install__label {
+    display: block;
+    font-size: 0.8rem;
+    color: #6b7280;
+    margin-bottom: 0.25rem;
+    letter-spacing: 0.02em;
 }
 
 /* ── Demo panel (shared wrapper for live examples) ── */

@@ -74,13 +74,13 @@ import type { HomeLayoutProps } from '@rspress/core/theme-original';
 // Sample data
 // ---------------------------------------------------------------------------
 
-const ecosystemData = [
-    { package: 'Icons', count: 170 },
-    { package: 'Components', count: 116 },
-    { package: 'Charts', count: 48 },
-    { package: 'Blocks', count: 34 },
-    { package: 'Images', count: 24 },
-    { package: 'MCP Tools', count: 8 },
+const heroStats = [
+    { value: '116', label: 'Components', href: '/components/ui/Button' },
+    { value: '48', label: 'Charts', href: '/charts/overview' },
+    { value: '34', label: 'Blocks', href: '/blocks/installation' },
+    { value: '170', label: 'Icons', href: '/assets/icons' },
+    { value: '24', label: 'Images', href: '/assets/images' },
+    { value: '8', label: 'MCP Tools', href: '/ai/overview' },
 ];
 
 const trainingTrend = [
@@ -234,7 +234,15 @@ const showcaseDomains = [
 // Install command with copy button
 // ---------------------------------------------------------------------------
 
-function InstallCommand({ command }: { command: string }) {
+function InstallCommand({
+    command,
+    variant = 'default',
+    label,
+}: {
+    command: string;
+    variant?: 'default' | 'subtle';
+    label?: string;
+}) {
     const [copied, setCopied] = useState(false);
 
     const handleCopy = async () => {
@@ -248,8 +256,10 @@ function InstallCommand({ command }: { command: string }) {
     };
 
     return (
-        <div className="geti-home-install">
-            <code className="geti-home-install__code">{command}</code>
+        <div className={`geti-home-install-wrapper${variant === 'subtle' ? ' geti-home-install-wrapper--subtle' : ''}`}>
+            {label && <span className="geti-home-install__label">{label}</span>}
+            <div className={`geti-home-install${variant === 'subtle' ? ' geti-home-install--subtle' : ''}`}>
+                <code className="geti-home-install__code">{command}</code>
             <button
                 className={`geti-home-install__copy${copied ? ' geti-home-install__copy--copied' : ''}`}
                 onClick={handleCopy}
@@ -266,6 +276,7 @@ function InstallCommand({ command }: { command: string }) {
                     </Icon>
                 )}
             </button>
+            </div>
         </div>
     );
 }
@@ -301,20 +312,16 @@ export const HomeLayout = (props: HomeLayoutProps) => {
                                     Explore Examples
                                 </a>
                             </div>
+                            <InstallCommand command="npx skills add https://docs.geti-ui.markredeman.nl" />
                         </div>
 
-                        <div className="geti-home-hero__graph">
-                            <h2>Package ecosystem</h2>
-                            <ChartsThemeProvider>
-                                <DonutChart
-                                    data={ecosystemData}
-                                    valueKey="count"
-                                    nameKey="package"
-                                    height={220}
-                                    showLegend
-                                    aria-label="Package ecosystem overview — exports per package"
-                                />
-                            </ChartsThemeProvider>
+                        <div className="geti-home-hero__stats">
+                            {heroStats.map(({ value, label, href }) => (
+                                <a key={label} className="geti-home-stat" href={href}>
+                                    <span className="geti-home-stat__value">{value}</span>
+                                    <span className="geti-home-stat__label">{label}</span>
+                                </a>
+                            ))}
                         </div>
                     </div>
                 </section>
@@ -333,6 +340,7 @@ export const HomeLayout = (props: HomeLayoutProps) => {
                                 built on Adobe React Spectrum and react-aria-components, with dark-mode-first styling.
                             </p>
                             <InstallCommand command="npm install @geti-ai/ui" />
+                            <InstallCommand command="npx skills add https://docs.geti-ui.markredeman.nl/.well-known/skills/geti-ui" variant="subtle" label="Integrate with your favorite AI tools" />
                             <a className="geti-home-showcase__link" href="/components/ui/Button">
                                 Explore 90+ components &rarr;
                             </a>
@@ -414,6 +422,7 @@ export const HomeLayout = (props: HomeLayoutProps) => {
                                 precision-recall curves, and more.
                             </p>
                             <InstallCommand command="npm install @geti-ai/charts" />
+                            <InstallCommand command="npx skills add https://docs.geti-ui.markredeman.nl/.well-known/skills/geti-ui-charts" variant="subtle" label="Integrate with your favorite AI tools" />
                             <a className="geti-home-showcase__link" href="/charts/compositions">
                                 See all chart compositions &rarr;
                             </a>
@@ -520,6 +529,7 @@ export const HomeLayout = (props: HomeLayoutProps) => {
                                 data management.
                             </p>
                             <InstallCommand command="npm install @geti-ai/blocks" />
+                            <InstallCommand command="npx skills add https://docs.geti-ui.markredeman.nl/.well-known/skills/geti-ui-blocks" variant="subtle" label="Integrate with your favorite AI tools" />
                             <a className="geti-home-showcase__link" href="/blocks/installation">
                                 Explore blocks &rarr;
                             </a>
