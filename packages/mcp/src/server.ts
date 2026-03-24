@@ -6,12 +6,13 @@ import { parseSectionsFromMarkdown } from './parser.js';
 import { searchDocs } from './search.js';
 import { listComponents, getComponentProps } from './component-tools.js';
 import { listCharts } from './chart-tools.js';
+import { listBlocks } from './blocks-tools.js';
 import { errorToString } from './utils.js';
 
 /**
  * Create and start the Geti UI MCP server.
  *
- * Registers 7 tools:
+ * Registers 8 tools:
  * - list_geti_ui_pages
  * - get_geti_ui_page_info
  * - get_geti_ui_page
@@ -19,6 +20,7 @@ import { errorToString } from './utils.js';
  * - list_geti_ui_components
  * - get_geti_ui_component_props
  * - list_geti_ui_charts
+ * - list_geti_ui_blocks
  */
 export async function startServer(version: string): Promise<void> {
     const server = new McpServer({
@@ -197,6 +199,29 @@ export async function startServer(version: string): Promise<void> {
             const charts = await listCharts(type);
             return {
                 content: [{ type: 'text' as const, text: JSON.stringify(charts, null, 2) }],
+            };
+        }
+    );
+
+    // --- Blocks-specific tool ---
+
+    server.registerTool(
+        'list_geti_ui_blocks',
+        {
+            title: 'List Geti UI blocks',
+            description:
+                'Lists all block documentation pages with name, category, and description. Optionally filter by category (e.g. "media", "tabs", "annotation", "models", "projects").',
+            inputSchema: {
+                category: z
+                    .string()
+                    .optional()
+                    .describe('Filter by category (e.g. "media", "tabs", "annotation")'),
+            },
+        },
+        async ({ category }) => {
+            const blocks = await listBlocks(category);
+            return {
+                content: [{ type: 'text' as const, text: JSON.stringify(blocks, null, 2) }],
             };
         }
     );
