@@ -69,6 +69,8 @@ import {
     Play,
     SegmentAnythingIcon,
     Watershed,
+    MagicWandIcon,
+    QuickSelection,
     Tag as TagIcon,
     Image as ImageIcon,
     GraphChart,
@@ -347,6 +349,15 @@ const showcaseDomains = [
     { Component: AnomalyDetectionImg, name: 'Anomaly' },
     { Component: KeypointDetectionImg, name: 'Keypoint' },
     { Component: DetectionRotatedImg, name: 'Rotated' },
+] as const;
+
+const smartTools = [
+    { Icon: SegmentAnythingIcon, name: 'Segment Anything', href: '/smart-tools/segment-anything' },
+    { Icon: MagicWandIcon, name: 'RITM', href: '/smart-tools/ritm' },
+    { Icon: QuickSelection, name: 'GrabCut', href: '/smart-tools/grabcut' },
+    { Icon: Watershed, name: 'Watershed', href: '/smart-tools/watershed' },
+    { Icon: DetectionTool, name: 'SSIM', href: '/smart-tools/ssim' },
+    { Icon: Polygon, name: 'Intelligent Scissors', href: '/smart-tools/intelligent-scissors' },
 ] as const;
 
 // ---------------------------------------------------------------------------
@@ -981,50 +992,69 @@ export const HomeLayout = (props: HomeLayoutProps) => {
                 </section>
 
                 {/* ───────────────── Section 4: @geti-ai/smart-tools ───────────────── */}
-                <section className="geti-home-showcase geti-home-showcase--wide" aria-label="@geti-ai/smart-tools">
-                    <div className="geti-home-showcase__inner geti-home-showcase__inner--wide">
-                        <div className="geti-home-smart-tools-card">
-                            <div className="geti-home-smart-tools-card__text">
+                <section className="geti-home-showcase geti-home-showcase--stacked" aria-label="@geti-ai/smart-tools">
+                    <div className="geti-home-showcase__inner">
+                        <div className="geti-home-smart-tools-header">
+                            <div className="geti-home-showcase__text">
                                 <p className="geti-home-showcase__kicker">Annotation tooling</p>
                                 <h2 className="geti-home-showcase__title">@geti-ai/smart-tools</h2>
                                 <p className="geti-home-showcase__desc">
                                     Browser-native computer vision tools for low-latency image annotation. Includes
                                     Watershed, GrabCut, Intelligent Scissors, SSIM template matching, and RITM
-                                    interactive segmentation — all powered by OpenCV WASM. Our Segment Anything
-                                    implementation runs entirely in the browser using ONNX Runtime, with zero server
+                                    interactive segmentation — powered by OpenCV WASM and ONNX Runtime. Our tools,
+                                    including Segment Anything, run entirely in the browser with zero server
                                     interaction required.
                                 </p>
                                 <InstallCommand command="npm install @geti-ai/smart-tools" />
-                                <div className="geti-home-smart-tools-card__meta">
+                                <div className="geti-home-showcase__meta">
                                     <Badge variant="info">7 annotation tools</Badge>
                                     <a className="geti-home-showcase__link" href="/smart-tools/installation">
                                         Explore smart tools &rarr;
                                     </a>
                                 </div>
                             </div>
+                            <div className="geti-home-smart-tools-logos">
+                                <img src="/logos/opencv.svg" alt="OpenCV" className="geti-home-smart-tools-logo" />
+                                <img src="/logos/onnx.svg" alt="ONNX Runtime" className="geti-home-smart-tools-logo" />
+                                <img
+                                    src="/logos/webassembly.svg"
+                                    alt="WebAssembly"
+                                    className="geti-home-smart-tools-logo"
+                                />
+                            </div>
+                        </div>
+                        <div className="geti-home-showcase__media">
+                            <div className="geti-home-smart-tools-grid">
+                                {smartTools.map(({ Icon: ToolIcon, name, href }) => (
+                                    <a key={name} className="geti-home-smart-tools-grid__item" href={href}>
+                                        <Icon aria-hidden="true">
+                                            <ToolIcon width={28} height={28} />
+                                        </Icon>
+                                        <span className="geti-home-smart-tools-grid__name">{name}</span>
+                                    </a>
+                                ))}
+                            </div>
                         </div>
                     </div>
                 </section>
 
                 {/* ───────────────── Section 5: @geti-ai/mcp ───────────────── */}
-                <section className="geti-home-showcase geti-home-showcase--wide" aria-label="@geti-ai/mcp">
-                    <div className="geti-home-showcase__inner geti-home-showcase__inner--wide">
-                        <div className="geti-home-mcp-card">
-                            <div className="geti-home-mcp-card__text">
-                                <p className="geti-home-showcase__kicker">AI Integration</p>
-                                <h2 className="geti-home-showcase__title">@geti-ai/mcp</h2>
-                                <p className="geti-home-showcase__desc">
-                                    An MCP server that exposes Geti UI documentation to AI coding agents. Integrates
-                                    with Claude Code, Cursor, VS Code Copilot, and Windsurf. Provides 8 tools for
-                                    searching docs, listing components, extracting props, and more.
-                                </p>
-                                <InstallCommand command="npx @geti-ai/mcp" />
-                                <div className="geti-home-mcp-card__meta">
-                                    <Badge variant="info">8 tools for AI agents</Badge>
-                                    <a className="geti-home-showcase__link" href="/ai/overview">
-                                        Read MCP docs &rarr;
-                                    </a>
-                                </div>
+                <section className="geti-home-showcase geti-home-showcase--stacked" aria-label="@geti-ai/mcp">
+                    <div className="geti-home-showcase__inner">
+                        <div className="geti-home-showcase__text">
+                            <p className="geti-home-showcase__kicker">AI Integration</p>
+                            <h2 className="geti-home-showcase__title">@geti-ai/mcp</h2>
+                            <p className="geti-home-showcase__desc">
+                                An MCP server that exposes Geti UI documentation to AI coding agents. Integrates
+                                with Claude Code, Cursor, VS Code Copilot, and Windsurf. Provides 8 tools for
+                                searching docs, listing components, extracting props, and more.
+                            </p>
+                            <InstallCommand command="npx @geti-ai/mcp" />
+                            <div className="geti-home-showcase__meta">
+                                <Badge variant="info">8 tools for AI agents</Badge>
+                                <a className="geti-home-showcase__link" href="/ai/overview">
+                                    Read MCP docs &rarr;
+                                </a>
                             </div>
                         </div>
                     </div>
