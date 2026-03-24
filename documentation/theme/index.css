@@ -261,17 +261,12 @@ html {
 }
 
 .geti-home-wrapper {
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 0 1.5rem 4rem;
     display: grid;
-    gap: 3rem;
+    gap: 0;
+    padding-bottom: 4rem;
 }
 
 .geti-home-hero {
-    width: 100vw;
-    margin-left: calc(50% - 50vw);
-    margin-right: calc(50% - 50vw);
     background: radial-gradient(circle at 5% 12%, rgb(110 231 216 / 12%), transparent 34%),
         radial-gradient(circle at 95% 85%, rgb(29 161 242 / 13%), transparent 32%),
         linear-gradient(135deg, #2a2d33 0%, #1f2126 100%);
@@ -413,9 +408,6 @@ html {
    ───────────────────────────────────────────────────────────── */
 
 .geti-home-showcase {
-    width: 100vw;
-    margin-left: calc(50% - 50vw);
-    margin-right: calc(50% - 50vw);
     padding: 3.5rem 1.5rem;
     border-top: 1px solid #33363d;
 }
@@ -879,12 +871,6 @@ html {
 }
 
 @media (max-width: 767px) {
-    .geti-home-wrapper {
-        padding-top: 0;
-        padding-left: 1rem;
-        padding-right: 1rem;
-    }
-
     .geti-home-hero {
         padding: 2.5rem 0 3.25rem;
     }
