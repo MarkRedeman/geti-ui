@@ -131,14 +131,13 @@ const classDistribution = [
     { name: 'Bus', count: 160 },
 ];
 
-const mediaItems = [
-    { id: '1', name: 'image_001.jpg', status: 'Annotated' as const },
-    { id: '2', name: 'image_002.jpg', status: 'Annotated' as const },
-    { id: '3', name: 'image_003.jpg', status: 'Not annotated' as const },
-    { id: '4', name: 'image_004.jpg', status: 'Annotated' as const },
-    { id: '5', name: 'image_005.jpg', status: 'Skipped' as const },
-    { id: '6', name: 'image_006.jpg', status: 'Annotated' as const },
-];
+const MEDIA_STATUSES = ['Annotated', 'Not annotated', 'Skipped'] as const;
+const mediaItems = Array.from({ length: 40 }, (_, i) => ({
+    id: String(i + 1),
+    name: `image_${String(i + 1).padStart(3, '0')}.jpg`,
+    status: MEDIA_STATUSES[i % 3],
+    src: `https://picsum.photos/seed/geti${i + 1}/150/150`,
+}));
 
 const sampleLogs: LogEntryData[] = [
     {
@@ -146,6 +145,13 @@ const sampleLogs: LogEntryData[] = [
             time: { timestamp: 1710000000 },
             level: { name: 'INFO' },
             message: 'Training job started — detection model v2.1',
+        },
+    },
+    {
+        record: {
+            time: { timestamp: 1710000015 },
+            level: { name: 'INFO' },
+            message: 'Using device: CUDA (NVIDIA A100-SXM4-40GB)',
         },
     },
     {
@@ -164,6 +170,13 @@ const sampleLogs: LogEntryData[] = [
     },
     {
         record: {
+            time: { timestamp: 1710000060 },
+            level: { name: 'INFO' },
+            message: 'Data augmentation enabled: flip, rotate, color jitter, mosaic',
+        },
+    },
+    {
+        record: {
             time: { timestamp: 1710000120 },
             level: { name: 'SUCCESS' },
             message: 'Epoch 1/50 complete — loss: 0.842, mAP: 0.312',
@@ -178,9 +191,37 @@ const sampleLogs: LogEntryData[] = [
     },
     {
         record: {
+            time: { timestamp: 1710000300 },
+            level: { name: 'SUCCESS' },
+            message: 'Epoch 3/50 complete — loss: 0.483, mAP: 0.591',
+        },
+    },
+    {
+        record: {
             time: { timestamp: 1710000360 },
             level: { name: 'ERROR' },
             message: 'CUDA out of memory — reducing batch size from 32 to 16',
+        },
+    },
+    {
+        record: {
+            time: { timestamp: 1710000375 },
+            level: { name: 'WARNING' },
+            message: 'Gradient overflow detected at layer backbone.stage4 — scaling adjusted',
+        },
+    },
+    {
+        record: {
+            time: { timestamp: 1710000420 },
+            level: { name: 'INFO' },
+            message: 'Resuming training with batch size 16',
+        },
+    },
+    {
+        record: {
+            time: { timestamp: 1710000480 },
+            level: { name: 'SUCCESS' },
+            message: 'Epoch 4/50 complete — loss: 0.391, mAP: 0.654',
         },
     },
 ];
@@ -260,22 +301,22 @@ function InstallCommand({
             {label && <span className="geti-home-install__label">{label}</span>}
             <div className={`geti-home-install${variant === 'subtle' ? ' geti-home-install--subtle' : ''}`}>
                 <code className="geti-home-install__code">{command}</code>
-            <button
-                className={`geti-home-install__copy${copied ? ' geti-home-install__copy--copied' : ''}`}
-                onClick={handleCopy}
-                aria-label={copied ? 'Copied' : `Copy: ${command}`}
-                type="button"
-            >
-                {copied ? (
-                    <Icon size="XS">
-                        <Checkmark />
-                    </Icon>
-                ) : (
-                    <Icon size="XS">
-                        <Copy />
-                    </Icon>
-                )}
-            </button>
+                <button
+                    className={`geti-home-install__copy${copied ? ' geti-home-install__copy--copied' : ''}`}
+                    onClick={handleCopy}
+                    aria-label={copied ? 'Copied' : `Copy: ${command}`}
+                    type="button"
+                >
+                    {copied ? (
+                        <Icon size="XS">
+                            <Checkmark />
+                        </Icon>
+                    ) : (
+                        <Icon size="XS">
+                            <Copy />
+                        </Icon>
+                    )}
+                </button>
             </div>
         </div>
     );
@@ -299,7 +340,7 @@ export const HomeLayout = (props: HomeLayoutProps) => {
                     <div className="geti-home-hero__inner">
                         <div className="geti-home-hero__panel">
                             <p className="geti-home-hero__eyebrow">Geti Packages</p>
-                            <h1 className="geti-home-hero__title">Build interactive AI applications</h1>
+                            <h1 className="geti-home-hero__title">Build Interactive AI Applications</h1>
                             <p className="geti-home-hero__subtitle">
                                 UI components, charts, building blocks, icons, and AI tooling — six packages designed to
                                 work together for interactive AI workflows.
@@ -330,7 +371,7 @@ export const HomeLayout = (props: HomeLayoutProps) => {
                 {beforeFeatures}
 
                 {/* ───────────────── Section 1: @geti-ai/ui ───────────────── */}
-                <section className="geti-home-showcase" aria-label="@geti-ai/ui">
+                <section className="geti-home-showcase geti-home-showcase--stacked" aria-label="@geti-ai/ui">
                     <div className="geti-home-showcase__inner">
                         <div className="geti-home-showcase__text">
                             <p className="geti-home-showcase__kicker">Core UI</p>
@@ -340,7 +381,11 @@ export const HomeLayout = (props: HomeLayoutProps) => {
                                 built on Adobe React Spectrum and react-aria-components, with dark-mode-first styling.
                             </p>
                             <InstallCommand command="npm install @geti-ai/ui" />
-                            <InstallCommand command="npx skills add https://docs.geti-ui.markredeman.nl/.well-known/skills/geti-ui" variant="subtle" label="Integrate with your favorite AI tools" />
+                            <InstallCommand
+                                command="npx skills add https://docs.geti-ui.markredeman.nl/.well-known/skills/geti-ui"
+                                variant="subtle"
+                                label="Integrate with your favorite AI tools"
+                            />
                             <a className="geti-home-showcase__link" href="/components/ui/Button">
                                 Explore 90+ components &rarr;
                             </a>
@@ -411,7 +456,7 @@ export const HomeLayout = (props: HomeLayoutProps) => {
                 </section>
 
                 {/* ───────────────── Section 2: @geti-ai/charts ───────────────── */}
-                <section className="geti-home-showcase geti-home-showcase--reverse" aria-label="@geti-ai/charts">
+                <section className="geti-home-showcase geti-home-showcase--stacked" aria-label="@geti-ai/charts">
                     <div className="geti-home-showcase__inner">
                         <div className="geti-home-showcase__text">
                             <p className="geti-home-showcase__kicker">Charts</p>
@@ -422,7 +467,11 @@ export const HomeLayout = (props: HomeLayoutProps) => {
                                 precision-recall curves, and more.
                             </p>
                             <InstallCommand command="npm install @geti-ai/charts" />
-                            <InstallCommand command="npx skills add https://docs.geti-ui.markredeman.nl/.well-known/skills/geti-ui-charts" variant="subtle" label="Integrate with your favorite AI tools" />
+                            <InstallCommand
+                                command="npx skills add https://docs.geti-ui.markredeman.nl/.well-known/skills/geti-ui-charts"
+                                variant="subtle"
+                                label="Integrate with your favorite AI tools"
+                            />
                             <a className="geti-home-showcase__link" href="/charts/compositions">
                                 See all chart compositions &rarr;
                             </a>
@@ -518,7 +567,7 @@ export const HomeLayout = (props: HomeLayoutProps) => {
                 </section>
 
                 {/* ───────────────── Section 3: @geti-ai/blocks ───────────────── */}
-                <section className="geti-home-showcase" aria-label="@geti-ai/blocks">
+                <section className="geti-home-showcase geti-home-showcase--stacked" aria-label="@geti-ai/blocks">
                     <div className="geti-home-showcase__inner">
                         <div className="geti-home-showcase__text">
                             <p className="geti-home-showcase__kicker">Building blocks</p>
@@ -529,23 +578,32 @@ export const HomeLayout = (props: HomeLayoutProps) => {
                                 data management.
                             </p>
                             <InstallCommand command="npm install @geti-ai/blocks" />
-                            <InstallCommand command="npx skills add https://docs.geti-ui.markredeman.nl/.well-known/skills/geti-ui-blocks" variant="subtle" label="Integrate with your favorite AI tools" />
+                            <InstallCommand
+                                command="npx skills add https://docs.geti-ui.markredeman.nl/.well-known/skills/geti-ui-blocks"
+                                variant="subtle"
+                                label="Integrate with your favorite AI tools"
+                            />
                             <a className="geti-home-showcase__link" href="/blocks/installation">
                                 Explore blocks &rarr;
                             </a>
                         </div>
-                        <div className="geti-home-showcase__media">
-                            <div className="geti-home-demo-panel geti-home-demo-panel--blocks">
+                        <div className="geti-home-showcase__media geti-home-blocks-demos">
+                            <div className="geti-home-demo-panel">
                                 {/* Media grid */}
+                                <a className="geti-home-demo-heading" href="/blocks/media/media-grid">
+                                    MediaGrid
+                                </a>
                                 <div className="geti-home-blocks-media-grid">
                                     <MediaGrid
                                         totalItems={mediaItems.length}
+                                        itemSize={125}
                                         getItemAt={(i) => mediaItems[i]}
                                         renderItem={(ctx) => (
                                             <MediaGridThumbnailItem
                                                 isPlaceholder={ctx.isPlaceholder}
                                                 isSelected={ctx.isSelected}
                                                 onPress={ctx.onPress}
+                                                src={ctx.item?.src}
                                                 alt={ctx.item?.name}
                                                 bottomRight={
                                                     ctx.item ? (
@@ -562,8 +620,13 @@ export const HomeLayout = (props: HomeLayoutProps) => {
                                         )}
                                     />
                                 </div>
+                            </div>
 
+                            <div className="geti-home-demo-panel">
                                 {/* Logs */}
+                                <a className="geti-home-demo-heading" href="/blocks/logs">
+                                    LogsContent
+                                </a>
                                 <div className="geti-home-blocks-logs">
                                     <LogsContent logs={sampleLogs} showFilters={false} />
                                 </div>

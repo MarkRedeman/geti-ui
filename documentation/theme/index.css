@@ -446,6 +446,16 @@ html {
     order: 1;
 }
 
+/* Stacked layout: text on top, demos full-width below */
+.geti-home-showcase--stacked .geti-home-showcase__inner {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+}
+
+.geti-home-showcase--stacked .geti-home-showcase__text {
+    max-width: 640px;
+}
+
 /* Full-width variant (MCP card) */
 .geti-home-showcase--wide .geti-home-showcase__inner--wide {
     display: block;
@@ -579,6 +589,21 @@ html {
     gap: 1rem;
 }
 
+.geti-home-demo-heading {
+    margin: 0;
+    font-size: 0.82rem;
+    font-weight: 600;
+    color: var(--geti-gray-600);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    text-decoration: none;
+    transition: color 0.14s ease;
+}
+
+.geti-home-demo-heading:hover {
+    color: #6ee7d8;
+}
+
 .geti-home-demo-row {
     display: flex;
     flex-wrap: wrap;
@@ -622,7 +647,9 @@ html {
 
 /* ── Blocks section: media grid + logs ── */
 
-.geti-home-demo-panel--blocks {
+.geti-home-blocks-demos {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
     gap: 1.25rem;
 }
 
@@ -804,6 +831,10 @@ html {
 
     .geti-home-blocks-logs {
         height: 180px;
+    }
+
+    .geti-home-blocks-demos {
+        grid-template-columns: 1fr;
     }
 }
 
