@@ -88,6 +88,14 @@ jobs:
               run: npm run format:check
               working-directory: packages/ui
 
+            - name: Format check (blocks)
+              run: npm run format:check
+              working-directory: packages/blocks
+
+            - name: Lint (blocks)
+              run: npm run lint
+              working-directory: packages/blocks
+
             - name: Lint (mcp)
               run: npm run lint
               working-directory: packages/mcp
