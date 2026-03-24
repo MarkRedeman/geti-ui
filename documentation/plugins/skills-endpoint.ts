@@ -205,6 +205,78 @@ The \`resources\` listed with this skill contain detailed documentation for each
         pathPrefixes: ['smart-tools/'],
     },
     {
+        id: 'geti-ui-blocks',
+        name: 'Geti UI Blocks',
+        description:
+            'Reusable application-level building blocks from @geti-ai/blocks — ' +
+            'opinionated, composable UI sections for logs, projects, models, media, annotations, and tabs.',
+        instructions: `# Geti UI Blocks — Application Building Blocks
+
+Use \`@geti-ai/blocks\` for reusable application-level UI sections in Geti products. Blocks are higher-level than primitives — they are pre-composed from \`@geti-ai/ui\` components and encode opinionated Geti application patterns.
+
+## Installation
+
+\`\`\`bash
+npm install @geti-ai/blocks @geti-ai/ui
+\`\`\`
+
+## Setup
+
+Blocks require both the UI and blocks stylesheets. Load them in your app entry:
+
+\`\`\`tsx
+import '@geti-ai/ui/styles.css';
+import '@geti-ai/blocks/styles.css';
+\`\`\`
+
+Blocks must also be rendered inside a \`ThemeProvider\` from \`@geti-ai/ui\`:
+
+\`\`\`tsx
+import { ThemeProvider } from '@geti-ai/ui';
+import '@geti-ai/ui/styles.css';
+import '@geti-ai/blocks/styles.css';
+
+function App() {
+  return (
+    <ThemeProvider>
+      {/* your app using blocks */}
+    </ThemeProvider>
+  );
+}
+\`\`\`
+
+## Import pattern
+
+\`\`\`tsx
+import { LogsBlock, DatasetTabsBlock } from '@geti-ai/blocks';
+\`\`\`
+
+All exports are named exports. Never use internal source paths.
+
+## Available blocks
+
+| Category | Blocks |
+|----------|--------|
+| Logs | LogsBlock — scrollable log output with severity filtering |
+| Projects | Project list, project menu, sorting, and pagination patterns |
+| Models | Model list, model cards, status badges |
+| Media | Media filter (faceted search), media grid (responsive selection grid) |
+| Annotation | Annotation toolbar, zoom controls, prediction panel |
+| Tabs | DatasetTabsBlock — tabbed dataset/split navigation |
+
+## Key conventions
+
+- Blocks are built on \`@geti-ai/ui\` primitives — do not mix raw Adobe Spectrum components inside blocks.
+- Each block accepts a strongly-typed props interface; extend it rather than re-implementing the pattern from scratch.
+- The library is dark-mode-first. Always render under \`ThemeProvider\`.
+- Use blocks when a pattern is too opinionated (application-specific data shapes, layout decisions) for a primitive component.
+
+## Documentation
+
+The \`resources\` listed with this skill contain detailed documentation for every block, including props, usage examples, and integration notes.`,
+        pathPrefixes: ['blocks/'],
+    },
+    {
         id: 'geti-ui-examples',
         name: 'Geti UI Examples',
         description:
