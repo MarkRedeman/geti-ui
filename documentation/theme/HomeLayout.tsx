@@ -149,11 +149,38 @@ const sparkLoss = [
 
 const sparkF1 = [{ v: 0.25 }, { v: 0.39 }, { v: 0.5 }, { v: 0.58 }, { v: 0.66 }, { v: 0.72 }, { v: 0.77 }, { v: 0.81 }];
 
-const sparkLR = [{ v: 0.01 }, { v: 0.01 }, { v: 0.008 }, { v: 0.006 }, { v: 0.004 }, { v: 0.003 }, { v: 0.002 }, { v: 0.001 }];
+const sparkLR = [
+    { v: 0.01 },
+    { v: 0.01 },
+    { v: 0.008 },
+    { v: 0.006 },
+    { v: 0.004 },
+    { v: 0.003 },
+    { v: 0.002 },
+    { v: 0.001 },
+];
 
-const sparkPrecision = [{ v: 0.55 }, { v: 0.62 }, { v: 0.68 }, { v: 0.74 }, { v: 0.79 }, { v: 0.83 }, { v: 0.86 }, { v: 0.89 }];
+const sparkPrecision = [
+    { v: 0.55 },
+    { v: 0.62 },
+    { v: 0.68 },
+    { v: 0.74 },
+    { v: 0.79 },
+    { v: 0.83 },
+    { v: 0.86 },
+    { v: 0.89 },
+];
 
-const sparkMAP = [{ v: 0.21 }, { v: 0.35 }, { v: 0.44 }, { v: 0.53 }, { v: 0.59 }, { v: 0.64 }, { v: 0.69 }, { v: 0.73 }];
+const sparkMAP = [
+    { v: 0.21 },
+    { v: 0.35 },
+    { v: 0.44 },
+    { v: 0.53 },
+    { v: 0.59 },
+    { v: 0.64 },
+    { v: 0.69 },
+    { v: 0.73 },
+];
 
 const classDistribution = [
     { name: 'Car', count: 1240 },
@@ -777,9 +804,11 @@ export const HomeLayout = (props: HomeLayoutProps) => {
                                 </div>
 
                                 {/* ── Chart compositions ── */}
-                                <a className="geti-home-demo-heading" href="/charts/compositions">
-                                    Chart compositions
-                                </a>
+                                <View marginTop="size-200">
+                                    <a className="geti-home-demo-heading" href="/charts/compositions">
+                                        Chart compositions
+                                    </a>
+                                </View>
                                 <div className="geti-home-charts-demos">
                                     <div className="geti-home-demo-panel">
                                         <LineChart
@@ -838,9 +867,11 @@ export const HomeLayout = (props: HomeLayoutProps) => {
                                 </div>
 
                                 {/* ── Machine learning charts ── */}
-                                <a className="geti-home-demo-heading" href="/charts/compositions">
-                                    Machine learning charts
-                                </a>
+                                <View marginTop="size-200">
+                                    <a className="geti-home-demo-heading" href="/charts/compositions">
+                                        Machine learning charts
+                                    </a>
+                                </View>
                                 <div className="geti-home-charts-ml-demos">
                                     <div className="geti-home-demo-panel">
                                         <ConfusionMatrixChart

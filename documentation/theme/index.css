@@ -610,11 +610,6 @@ html {
     transition: color 0.14s ease;
 }
 
-/* Add spacing above headings that follow other content */
-.geti-home-showcase__media .geti-home-demo-heading {
-    margin-top: 2rem;
-}
-
 .geti-home-demo-heading:hover {
     color: #6ee7d8;
 }
