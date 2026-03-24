@@ -248,7 +248,7 @@ function App() {
 ## Import pattern
 
 \`\`\`tsx
-import { LogsBlock, DatasetTabsBlock } from '@geti-ai/blocks';
+import { LogsContent, OverflowableTabs } from '@geti-ai/blocks';
 \`\`\`
 
 All exports are named exports. Never use internal source paths.
@@ -262,7 +262,7 @@ All exports are named exports. Never use internal source paths.
 | Models | Model list, model cards, status badges |
 | Media | Media filter (faceted search), media grid (responsive selection grid) |
 | Annotation | Annotation toolbar, zoom controls, prediction panel |
-| Tabs | DatasetTabsBlock — tabbed dataset/split navigation |
+| Tabs | OverflowableTabs — scrollable/overflow-aware tab navigation |
 
 ## Key conventions
 

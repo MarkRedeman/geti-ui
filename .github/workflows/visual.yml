@@ -1,114 +1,115 @@
 name: Visual Regression
 
 on:
-  pull_request:
-    branches: [main]
+    pull_request:
+        branches: [main]
 
 permissions: {}
 
 jobs:
-  detect-changes:
-    name: Detect changed component categories
-    runs-on: ubuntu-latest
-    permissions:
-      contents: read
-      pull-requests: read # required for changed-files API access on pull_request
-    outputs:
-      components: ${{ steps.filter.outputs.changes }}
-    steps:
-      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6
-        with:
-          persist-credentials: false
+    detect-changes:
+        name: Detect changed component categories
+        runs-on: ubuntu-latest
+        permissions:
+            contents: read
+            pull-requests: read # required for changed-files API access on pull_request
+        outputs:
+            components: ${{ steps.filter.outputs.changes }}
+        steps:
+            - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6
+              with:
+                  persist-credentials: false
 
-      - uses: dorny/paths-filter@de90cc6fb38fc0963ad72b210f1f284cd68cea36 # v3
-        id: filter
-        with:
-          list-files: json
-          filters: |
-            ui: 'packages/ui/src/components/ui/**'
-            form: 'packages/ui/src/components/form/**'
-            pickers: 'packages/ui/src/components/form/pickers/**'
-            navigation: 'packages/ui/src/components/navigation/**'
-            feedback: 'packages/ui/src/components/feedback/**'
-            overlays: 'packages/ui/src/components/overlays/**'
-            data: 'packages/ui/src/components/data/**'
-            layouts: 'packages/ui/src/components/layouts/**'
+            - uses: dorny/paths-filter@de90cc6fb38fc0963ad72b210f1f284cd68cea36 # v3
+              id: filter
+              with:
+                  list-files: json
+                  filters: |
+                      ui: 'packages/ui/src/components/ui/**'
+                      form: 'packages/ui/src/components/form/**'
+                      pickers: 'packages/ui/src/components/form/pickers/**'
+                      navigation: 'packages/ui/src/components/navigation/**'
+                      feedback: 'packages/ui/src/components/feedback/**'
+                      overlays: 'packages/ui/src/components/overlays/**'
+                      data: 'packages/ui/src/components/data/**'
+                      layouts: 'packages/ui/src/components/layouts/**'
+                      blocks: 'packages/blocks/src/**'
 
-  visual-test:
-    name: Run visual regression checks
-    needs: detect-changes
-    if: ${{ needs.detect-changes.outputs.components != '[]' }}
-    runs-on: ubuntu-latest
-    permissions:
-      contents: read
-      pull-requests: write # post/update PR result comment
-    steps:
-      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6
-        with:
-          persist-credentials: false
+    visual-test:
+        name: Run visual regression checks
+        needs: detect-changes
+        if: ${{ needs.detect-changes.outputs.components != '[]' }}
+        runs-on: ubuntu-latest
+        permissions:
+            contents: read
+            pull-requests: write # post/update PR result comment
+        steps:
+            - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6
+              with:
+                  persist-credentials: false
 
-      - uses: actions/setup-node@53b83947a5a98c8d113130e565377fae1a50d02f # v6
-        with:
-          node-version: 24
-          cache: npm
+            - uses: actions/setup-node@53b83947a5a98c8d113130e565377fae1a50d02f # v6
+              with:
+                  node-version: 24
+                  cache: npm
 
-      - run: npm ci
+            - run: npm ci
 
-      - run: npm run docs:build
+            - run: npm run docs:build
 
-      - name: Install Playwright
-        run: npm exec --workspace=@geti-ai/documentation -- playwright install --with-deps chromium
+            - name: Install Playwright
+              run: npm exec --workspace=@geti-ai/documentation -- playwright install --with-deps chromium
 
-      - name: Run targeted visual tests
-        id: visual_tests
-        working-directory: documentation
-        env:
-          CHANGED: ${{ needs.detect-changes.outputs.components }}
-        run: |
-          PATTERN=$(echo "$CHANGED" | jq -r 'map(gsub("([][(){}.^$+*?|\\\\-])"; "\\\\\\\\\\1")) | unique | join("|")')
-          if [ -z "$PATTERN" ]; then
-            echo "No matching component categories detected; skipping targeted visual run."
-            exit 0
-          fi
-          npm exec -- playwright test --grep "$PATTERN"
+            - name: Run targeted visual tests
+              id: visual_tests
+              working-directory: documentation
+              env:
+                  CHANGED: ${{ needs.detect-changes.outputs.components }}
+              run: |
+                  PATTERN=$(echo "$CHANGED" | jq -r 'map(gsub("([][(){}.^$+*?|\\\\-])"; "\\\\\\\\\\1")) | unique | join("|")')
+                  if [ -z "$PATTERN" ]; then
+                    echo "No matching component categories detected; skipping targeted visual run."
+                    exit 0
+                  fi
+                  npm exec -- playwright test --grep "$PATTERN"
 
-      - uses: actions/upload-artifact@bbbca2ddaa5d8feaa63e36b76fdaad77386f024f # v7
-        if: always()
-        with:
-          name: visual-regression-report
-          path: documentation/playwright-report/
+            - uses: actions/upload-artifact@bbbca2ddaa5d8feaa63e36b76fdaad77386f024f # v7
+              if: always()
+              with:
+                  name: visual-regression-report
+                  path: documentation/playwright-report/
 
-      - name: Post or update PR comment
-        if: always()
-        uses: actions/github-script@ed597411d8f924073f98dfc5c65a23a2325f34cd # v8
-        env:
-          CHANGED: ${{ needs.detect-changes.outputs.components }}
-          JOB_STATUS: ${{ job.status }}
-          RUN_ID: ${{ github.run_id }}
-        with:
-          script: |
-            const marker = '<!-- visual-regression-comment -->';
-            const changed = JSON.parse(process.env.CHANGED || '[]');
-            const status = process.env.JOB_STATUS;
-            const runId = process.env.RUN_ID;
-            const statusEmoji = status === 'success' ? '✅' : status === 'failure' ? '❌' : '⚠️';
-            const body = `${marker}\n### 🎨 Visual Regression Results\n\n**Status:** ${statusEmoji} ${status}\n\n**Changed categories:** ${changed.map(c => `\`${c}\``).join(', ')}\n\n[View Report](https://github.com/${context.repo.owner}/${context.repo.repo}/actions/runs/${runId})`;
+            - name: Post or update PR comment
+              if: always()
+              uses: actions/github-script@ed597411d8f924073f98dfc5c65a23a2325f34cd # v8
+              env:
+                  CHANGED: ${{ needs.detect-changes.outputs.components }}
+                  JOB_STATUS: ${{ job.status }}
+                  RUN_ID: ${{ github.run_id }}
+              with:
+                  script: |
+                      const marker = '<!-- visual-regression-comment -->';
+                      const changed = JSON.parse(process.env.CHANGED || '[]');
+                      const status = process.env.JOB_STATUS;
+                      const runId = process.env.RUN_ID;
+                      const statusEmoji = status === 'success' ? '✅' : status === 'failure' ? '❌' : '⚠️';
+                      const body = `${marker}\n### 🎨 Visual Regression Results\n\n**Status:** ${statusEmoji} ${status}\n\n**Changed categories:** ${changed.map(c => `\`${c}\``).join(', ')}\n\n[View Report](https://github.com/${context.repo.owner}/${context.repo.repo}/actions/runs/${runId})`;
 
-            const { data: comments } = await github.rest.issues.listComments({
-              ...context.repo,
-              issue_number: context.issue.number,
-            });
-            const existing = comments.find(c => c.body.includes(marker));
-            if (existing) {
-              await github.rest.issues.updateComment({
-                ...context.repo,
-                comment_id: existing.id,
-                body,
-              });
-            } else {
-              await github.rest.issues.createComment({
-                ...context.repo,
-                issue_number: context.issue.number,
-                body,
-              });
-            }
+                      const { data: comments } = await github.rest.issues.listComments({
+                        ...context.repo,
+                        issue_number: context.issue.number,
+                      });
+                      const existing = comments.find(c => c.body.includes(marker));
+                      if (existing) {
+                        await github.rest.issues.updateComment({
+                          ...context.repo,
+                          comment_id: existing.id,
+                          body,
+                        });
+                      } else {
+                        await github.rest.issues.createComment({
+                          ...context.repo,
+                          issue_number: context.issue.number,
+                          body,
+                        });
+                      }
