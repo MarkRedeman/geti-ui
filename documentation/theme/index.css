@@ -486,6 +486,16 @@ html {
     letter-spacing: -0.01em;
 }
 
+.geti-home-showcase__desc code {
+    background: rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    border-radius: 6px;
+    padding: 0.1em 0.4em;
+    font-family: 'JetBrains Mono', ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace;
+    font-size: 0.88em;
+    letter-spacing: 0;
+}
+
 .geti-home-showcase__desc {
     margin: 0;
     color: rgb(183, 185, 190);
@@ -667,6 +677,18 @@ html {
     overflow: hidden;
 }
 
+.geti-home-demo-panel--full {
+    grid-column: 1 / -1;
+}
+
+.geti-home-blocks-tabs {
+    border: 1px solid #33363d;
+    border-radius: var(--geti-radius-md);
+    overflow: hidden;
+    padding: 0.75rem 1rem 1rem;
+    background: rgb(21 23 27 / 40%);
+}
+
 /* ── MCP card ── */
 
 .geti-home-mcp-card {
@@ -683,6 +705,29 @@ html {
 }
 
 .geti-home-mcp-card__meta {
+    display: flex;
+    align-items: center;
+    gap: 1.25rem;
+    margin-top: 0.25rem;
+    flex-wrap: wrap;
+}
+
+/* ── Smart tools card ── */
+
+.geti-home-smart-tools-card {
+    background: rgb(21 23 27 / 55%);
+    border: 1px solid #33363d;
+    border-radius: 10px;
+    padding: 2.5rem;
+}
+
+.geti-home-smart-tools-card__text {
+    display: grid;
+    gap: 0.8rem;
+    max-width: 640px;
+}
+
+.geti-home-smart-tools-card__meta {
     display: flex;
     align-items: center;
     gap: 1.25rem;
@@ -822,6 +867,10 @@ html {
     }
 
     .geti-home-mcp-card {
+        padding: 1.5rem;
+    }
+
+    .geti-home-smart-tools-card {
         padding: 1.5rem;
     }
 

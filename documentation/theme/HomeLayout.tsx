@@ -20,9 +20,22 @@ import {
     ProgressBar,
     TagGroup,
     TagItem,
+    ActionButton,
+    Tabs,
+    TabPanels,
+    TabItem,
+    View,
+    Text,
 } from '@geti-ai/ui';
-import { MediaGrid, MediaGridThumbnailItem, MediaGridItemStatus, LogsContent } from '@geti-ai/blocks';
-import type { LogEntryData } from '@geti-ai/blocks';
+import {
+    MediaGrid,
+    MediaGridThumbnailItem,
+    MediaGridItemStatus,
+    LogsContent,
+    ManagedTab,
+    OverflowableTabs,
+} from '@geti-ai/blocks';
+import type { LogEntryData, ManagedTabAction } from '@geti-ai/blocks';
 import {
     Copy,
     Checkmark,
@@ -78,8 +91,8 @@ const heroStats = [
     { value: '116', label: 'Components', href: '/components/ui/Button' },
     { value: '48', label: 'Charts', href: '/charts/overview' },
     { value: '34', label: 'Blocks', href: '/blocks/installation' },
-    { value: '170', label: 'Icons', href: '/assets/icons' },
-    { value: '24', label: 'Images', href: '/assets/images' },
+    { value: '7', label: 'Smart Tools', href: '/smart-tools/installation' },
+    { value: '194', label: 'Assets', href: '/assets/icons' },
     { value: '8', label: 'MCP Tools', href: '/ai/overview' },
 ];
 
@@ -270,6 +283,116 @@ const showcaseDomains = [
     { Component: KeypointDetectionImg, name: 'Keypoint' },
     { Component: DetectionRotatedImg, name: 'Rotated' },
 ] as const;
+
+// ---------------------------------------------------------------------------
+// Tabs demo data + component
+// ---------------------------------------------------------------------------
+
+type TabsDataset = { id: string; name: string; images: number };
+
+const TAB_ACTIONS: ManagedTabAction[] = [
+    { key: 'edit', label: 'Edit dataset name' },
+    { key: 'delete', label: 'Delete dataset' },
+    { key: 'export', label: 'Export dataset' },
+];
+
+const initialTabDatasets: TabsDataset[] = [
+    { id: 'train', name: 'Training set', images: 1240 },
+    { id: 'val', name: 'Validation set', images: 340 },
+    { id: 'test', name: 'Testing set', images: 510 },
+    { id: 'night', name: 'Night shift', images: 188 },
+    { id: 'drift', name: 'Drift watch', images: 72 },
+    { id: 'archive', name: 'Archive', images: 3210 },
+    { id: 'edge', name: 'Edge cases', images: 94 },
+];
+
+const createDataset = (index: number): TabsDataset => ({
+    id: `dataset-${index + 1}`,
+    name: `Dataset ${index + 1}`,
+    images: 100 + (index + 1) * 25,
+});
+
+function TabsDemo() {
+    const [datasets, setDatasets] = useState(initialTabDatasets);
+    const [selectedId, setSelectedId] = useState(initialTabDatasets[0].id);
+    const [lastAction, setLastAction] = useState('No action yet.');
+
+    const onItemAction = (action: string, dataset: TabsDataset) => {
+        if (action === 'delete') {
+            if (datasets.length <= 1) {
+                setLastAction('Cannot delete the only remaining dataset.');
+                return;
+            }
+            const next = datasets.filter((d) => d.id !== dataset.id);
+            setDatasets(next);
+            setSelectedId(next[0].id);
+            setLastAction(`Deleted dataset "${dataset.name}".`);
+            return;
+        }
+        if (action === 'edit') {
+            setDatasets((current) =>
+                current.map((d) =>
+                    d.id === dataset.id && !d.name.endsWith(' (edited)') ? { ...d, name: `${d.name} (edited)` } : d
+                )
+            );
+            setLastAction(`Edited dataset "${dataset.name}".`);
+            return;
+        }
+        setLastAction(`${action} triggered for "${dataset.name}".`);
+    };
+
+    const onAddDataset = () => {
+        const next = createDataset(datasets.length);
+        setDatasets((current) => [...current, next]);
+        setSelectedId(next.id);
+        setLastAction(`Added dataset "${next.name}".`);
+    };
+
+    return (
+        <Tabs
+            aria-label="Datasets"
+            selectedKey={selectedId}
+            onSelectionChange={(key: string) => setSelectedId(String(key))}
+        >
+            <OverflowableTabs
+                items={datasets}
+                selectedKey={selectedId}
+                onSelectionChange={setSelectedId}
+                getItemId={(d: TabsDataset) => d.id}
+                getItemLabel={(d: TabsDataset) => d.name}
+                overflowAriaLabel="Collapsed datasets"
+                renderTab={(dataset: TabsDataset, isActive: boolean) => (
+                    <ManagedTab
+                        label={dataset.name}
+                        isSelected={isActive}
+                        actions={TAB_ACTIONS}
+                        onAction={(action: string) => onItemAction(action, dataset)}
+                    />
+                )}
+                trailingContent={
+                    <ActionButton isQuiet aria-label="Add dataset" onPress={onAddDataset}>
+                        <Icon>
+                            <Add />
+                        </Icon>
+                    </ActionButton>
+                }
+            />
+            <TabPanels>
+                {datasets.map((dataset) => (
+                    <TabItem key={dataset.id}>
+                        <View paddingTop="size-150">
+                            <Text>
+                                <strong>{dataset.name}</strong>
+                            </Text>
+                            <Text>{dataset.images} images</Text>
+                            <Text>Last action: {lastAction}</Text>
+                        </View>
+                    </TabItem>
+                ))}
+            </TabPanels>
+        </Tabs>
+    );
+}
 
 // ---------------------------------------------------------------------------
 // Install command with copy button
@@ -573,9 +696,9 @@ export const HomeLayout = (props: HomeLayoutProps) => {
                             <p className="geti-home-showcase__kicker">Building blocks</p>
                             <h2 className="geti-home-showcase__title">@geti-ai/blocks</h2>
                             <p className="geti-home-showcase__desc">
-                                Reusable application-level building blocks composed from @geti-ai/ui primitives. Media
-                                grids for dataset browsing, log viewers for training monitoring, and filter systems for
-                                data management.
+                                Reusable application-level building blocks composed from <code>@geti-ai/ui</code>{' '}
+                                primitives. Media grids for dataset browsing, log viewers for training monitoring, and
+                                filter systems for data management.
                             </p>
                             <InstallCommand command="npm install @geti-ai/blocks" />
                             <InstallCommand
@@ -632,10 +755,45 @@ export const HomeLayout = (props: HomeLayoutProps) => {
                                 </div>
                             </div>
                         </div>
+
+                        <div className="geti-home-demo-panel geti-home-demo-panel--full">
+                            <a className="geti-home-demo-heading" href="/blocks/tabs/overview">
+                                OverflowableTabs + ManagedTab
+                            </a>
+                            <div className="geti-home-blocks-tabs">
+                                <TabsDemo />
+                            </div>
+                        </div>
                     </div>
                 </section>
 
-                {/* ───────────────── Section 4: @geti-ai/mcp ───────────────── */}
+                {/* ───────────────── Section 4: @geti-ai/smart-tools ───────────────── */}
+                <section className="geti-home-showcase geti-home-showcase--wide" aria-label="@geti-ai/smart-tools">
+                    <div className="geti-home-showcase__inner geti-home-showcase__inner--wide">
+                        <div className="geti-home-smart-tools-card">
+                            <div className="geti-home-smart-tools-card__text">
+                                <p className="geti-home-showcase__kicker">Annotation tooling</p>
+                                <h2 className="geti-home-showcase__title">@geti-ai/smart-tools</h2>
+                                <p className="geti-home-showcase__desc">
+                                    Browser-native computer vision tools for low-latency image annotation. Includes
+                                    Watershed, GrabCut, Intelligent Scissors, SSIM template matching, and RITM
+                                    interactive segmentation — all powered by OpenCV WASM. Our Segment Anything
+                                    implementation runs entirely in the browser using ONNX Runtime, with zero server
+                                    interaction required.
+                                </p>
+                                <InstallCommand command="npm install @geti-ai/smart-tools" />
+                                <div className="geti-home-smart-tools-card__meta">
+                                    <Badge variant="info">7 annotation tools</Badge>
+                                    <a className="geti-home-showcase__link" href="/smart-tools/installation">
+                                        Explore smart tools &rarr;
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                {/* ───────────────── Section 5: @geti-ai/mcp ───────────────── */}
                 <section className="geti-home-showcase geti-home-showcase--wide" aria-label="@geti-ai/mcp">
                     <div className="geti-home-showcase__inner geti-home-showcase__inner--wide">
                         <div className="geti-home-mcp-card">
@@ -659,7 +817,7 @@ export const HomeLayout = (props: HomeLayoutProps) => {
                     </div>
                 </section>
 
-                {/* ───────────────── Section 5: Icons ───────────────── */}
+                {/* ───────────────── Section 6: Icons ───────────────── */}
                 <section className="geti-home-showcase" aria-label="Icons">
                     <div className="geti-home-showcase__inner">
                         <div className="geti-home-showcase__text">
@@ -689,7 +847,7 @@ export const HomeLayout = (props: HomeLayoutProps) => {
                     </div>
                 </section>
 
-                {/* ───────────────── Section 6: Images & Domains ───────────────── */}
+                {/* ───────────────── Section 7: Images & Domains ───────────────── */}
                 <section className="geti-home-showcase geti-home-showcase--reverse" aria-label="Images and domains">
                     <div className="geti-home-showcase__inner">
                         <div className="geti-home-showcase__text">
