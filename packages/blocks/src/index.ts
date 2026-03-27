@@ -119,3 +119,13 @@ export type {
     UseFilterRulesDraftOptions,
     UseFilterRulesDraftResult,
 } from './media/media-filter';
+
+export { ZoomProvider, ZoomTransform, useZoom, useZoomActions } from './blocks/annotations/zoom';
+export type {
+    ZoomProviderProps,
+    ZoomTransformProps,
+    Point,
+    Size,
+    ZoomConfig,
+    ZoomTransformState,
+} from './blocks/annotations/zoom';

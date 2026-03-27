@@ -3,3 +3,220 @@ title: Zoom
 ---
 
 # Zoom
+
+An interactive pan-and-zoom viewport for 2D content such as images, videos, and annotation canvases. Supports scroll-wheel zoom, pinch-to-zoom, middle-mouse-button panning, `Ctrl`+drag panning, and programmatic zoom control.
+
+```tsx
+import { ZoomProvider, ZoomTransform, useZoom, useZoomActions } from '@geti-ai/blocks';
+```
+
+## Basic usage — image with SVG overlays
+
+Wrap your content in `ZoomProvider` and `ZoomTransform`. The `target` prop tells the viewport the natural dimensions of the content so it can compute fit-to-screen and pan boundaries.
+
+Use the `--zoom-scale` CSS custom property exposed on the container to render scale-invariant SVG strokes that remain the same visual thickness regardless of zoom level.
+
+```tsx preview
+import { ZoomProvider, ZoomTransform, useZoom, useZoomActions } from '@geti-ai/blocks';
+import { ThemeProvider, View, ActionButton, Text, Flex } from '@geti-ai/ui';
+
+const IMAGE_WIDTH = 800;
+const IMAGE_HEIGHT = 600;
+
+function ZoomControls() {
+  const { scale, initialCoordinates, maxZoomIn } = useZoom();
+  const { zoomBy, fitToScreen } = useZoomActions();
+
+  return (
+    <Flex direction="row" gap="size-100" alignItems="center">
+      <ActionButton
+        onPress={() => zoomBy(-1)}
+        isDisabled={scale <= initialCoordinates.scale}
+        aria-label="Zoom out"
+      >
+        -
+      </ActionButton>
+      <Text UNSAFE_style={{ minWidth: 48, textAlign: 'center', fontSize: 12, color: 'white' }}>
+        {(scale * 100).toFixed(0)}%
+      </Text>
+      <ActionButton
+        onPress={() => zoomBy(1)}
+        isDisabled={scale >= maxZoomIn}
+        aria-label="Zoom in"
+      >
+        +
+      </ActionButton>
+      <ActionButton onPress={fitToScreen} aria-label="Fit to screen">
+        Fit
+      </ActionButton>
+    </Flex>
+  );
+}
+
+function AnnotatedImage() {
+  return (
+    <div style={{ position: 'relative', width: IMAGE_WIDTH, height: IMAGE_HEIGHT }}>
+      <img
+        src="https://picsum.photos/800/600"
+        width={IMAGE_WIDTH}
+        height={IMAGE_HEIGHT}
+        style={{ display: 'block' }}
+        alt="Sample"
+      />
+      <svg
+        viewBox={`0 0 ${IMAGE_WIDTH} ${IMAGE_HEIGHT}`}
+        width={IMAGE_WIDTH}
+        height={IMAGE_HEIGHT}
+        style={{ position: 'absolute', top: 0, left: 0, pointerEvents: 'none' }}
+      >
+        {/* Scale-invariant bounding box — stroke stays 2px on screen */}
+        <rect
+          x={100} y={80} width={250} height={180}
+          fill="none"
+          stroke="#00ff88"
+          strokeWidth="calc(2px / var(--zoom-scale, 1))"
+        />
+        {/* Scale-invariant circle */}
+        <circle
+          cx={500} cy={350} r={80}
+          fill="none"
+          stroke="#ff4444"
+          strokeWidth="calc(2px / var(--zoom-scale, 1))"
+          strokeDasharray="calc(8 / var(--zoom-scale, 1)) calc(4 / var(--zoom-scale, 1))"
+        />
+        {/* Scale-invariant polygon */}
+        <polygon
+          points="350,200 420,320 280,320"
+          fill="none"
+          stroke="#4488ff"
+          strokeWidth="calc(2px / var(--zoom-scale, 1))"
+        />
+      </svg>
+    </div>
+  );
+}
+
+export default function App() {
+  return (
+    <ThemeProvider>
+      <ZoomProvider target={{ width: IMAGE_WIDTH, height: IMAGE_HEIGHT }}>
+        <View UNSAFE_style={{ display: 'flex', flexDirection: 'column', height: 450, background: '#1a1a2e' }}>
+          <View UNSAFE_style={{ padding: 8 }}>
+            <ZoomControls />
+          </View>
+          <View UNSAFE_style={{ flex: 1, minHeight: 0 }}>
+            <ZoomTransform target={{ width: IMAGE_WIDTH, height: IMAGE_HEIGHT }}>
+              <AnnotatedImage />
+            </ZoomTransform>
+          </View>
+        </View>
+      </ZoomProvider>
+    </ThemeProvider>
+  );
+}
+```
+
+## Interactions
+
+| Input | Action |
+| --- | --- |
+| Scroll wheel | Zoom in/out, anchored at cursor position |
+| Pinch gesture | Zoom in/out on touch devices, anchored at pinch midpoint |
+| `Ctrl` + drag | Pan the viewport (cursor changes to grab/grabbing) |
+| Middle mouse button + drag | Pan the viewport |
+| `+` / `-` buttons | Step zoom in/out (center-anchored) |
+| Fit button | Reset to fit-to-screen with transition animation |
+
+## Scale-invariant SVG rendering
+
+`ZoomTransform` exposes a `--zoom-scale` CSS custom property on the outer container. Use it in `calc()` expressions to keep stroke widths, dash arrays, and other visual details constant on screen regardless of zoom level:
+
+```css
+/* Always appears as 2px on screen */
+stroke-width: calc(2px / var(--zoom-scale, 1));
+
+/* Consistent dash pattern */
+stroke-dasharray: calc(8 / var(--zoom-scale, 1)) calc(4 / var(--zoom-scale, 1));
+```
+
+You can also read the scale in JavaScript via the `useZoom` hook:
+
+```tsx
+const { scale } = useZoom();
+const anchorSize = ANCHOR_SIZE / scale;
+```
+
+## Programmatic zoom
+
+The `useZoomActions` hook exposes imperative methods:
+
+```tsx
+const { fitToScreen, zoomBy, zoomTo } = useZoomActions();
+
+// Zoom in by one step
+zoomBy(1);
+
+// Zoom out by two steps
+zoomBy(-2);
+
+// Zoom to an absolute scale, optionally anchored at a point
+zoomTo(2.5, { x: 400, y: 300 });
+
+// Reset to fit-to-screen
+fitToScreen();
+```
+
+## Props
+
+### ZoomProvider
+
+| Prop | Type | Required | Description |
+| --- | --- | --- | --- |
+| `children` | `ReactNode` | Yes | Content tree that needs zoom access. |
+| `target` | `Size` | No | Content dimensions for pan boundary clamping. |
+
+### ZoomTransform
+
+| Prop | Type | Default | Required | Description |
+| --- | --- | --- | --- | --- |
+| `target` | `Size` | — | Yes | Natural dimensions of the zoomable content. |
+| `children` | `ReactNode` | — | Yes | Content to render inside the viewport. |
+| `zoomInMultiplier` | `number` | `10` | No | Max zoom = initial fit-to-screen scale multiplied by this value. |
+
+### useZoom
+
+Returns the combined zoom state:
+
+| Field | Type | Description |
+| --- | --- | --- |
+| `scale` | `number` | Current zoom scale. |
+| `translate` | `Point` | Current pan offset `{ x, y }` in pixels. |
+| `initialCoordinates` | `{ scale, x, y }` | Fit-to-screen baseline values. |
+| `maxZoomIn` | `number` | Upper zoom scale bound. |
+
+### useZoomActions
+
+Returns imperative zoom control methods:
+
+| Method | Signature | Description |
+| --- | --- | --- |
+| `fitToScreen` | `() => void` | Reset to initial fit-to-screen position. |
+| `zoomBy` | `(step: number) => void` | Increment/decrement zoom by discrete steps. `1` = zoom in, `-1` = zoom out. |
+| `zoomTo` | `(scale: number, anchor?: Point) => void` | Set zoom to an absolute scale, optionally anchored at a content point. |
+
+## Types
+
+```ts
+type Point = { x: number; y: number };
+type Size = { width: number; height: number };
+
+type ZoomConfig = {
+  initialCoordinates: Point & { scale: number };
+  maxZoomIn: number;
+};
+
+type ZoomTransformState = {
+  scale: number;
+  translate: Point;
+};
+```

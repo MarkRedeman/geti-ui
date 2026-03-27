@@ -1,0 +1,164 @@
+import { createContext, useContext, useRef, useState, type Dispatch, type ReactNode, type SetStateAction } from 'react';
+
+import type { Point, Size, ZoomConfig, ZoomTransformState } from './types';
+import { clampBetween, clampTranslate, getZoomTransform, ZOOM_STEP_COUNT } from './utils';
+
+// --- Contexts ---
+
+const ZoomConfigContext = createContext<ZoomConfig | null>(null);
+const ZoomTransformContext = createContext<ZoomTransformState | null>(null);
+
+type ZoomActions = {
+    setTransform: Dispatch<SetStateAction<ZoomTransformState>>;
+    setConfig: Dispatch<SetStateAction<ZoomConfig>>;
+    fitToScreen: () => void;
+    zoomBy: (step: number) => void;
+    zoomTo: (scale: number, anchor?: Point) => void;
+};
+
+const ZoomActionsContext = createContext<ZoomActions | null>(null);
+
+// --- Hooks ---
+
+export function useZoom(): ZoomTransformState & ZoomConfig {
+    const config = useContext(ZoomConfigContext);
+    const transform = useContext(ZoomTransformContext);
+
+    if (!config || !transform) {
+        throw new Error('useZoom must be used within a <ZoomProvider>');
+    }
+
+    return { ...config, ...transform };
+}
+
+export function useZoomActions(): Omit<ZoomActions, 'setTransform' | 'setConfig'> {
+    const context = useContext(ZoomActionsContext);
+
+    if (!context) {
+        throw new Error('useZoomActions must be used within a <ZoomProvider>');
+    }
+
+    const { fitToScreen, zoomBy, zoomTo } = context;
+    return { fitToScreen, zoomBy, zoomTo };
+}
+
+/**
+ * Internal hook — used only by ZoomTransform and useSyncZoom.
+ * Not part of the public API.
+ */
+export function useZoomInternal() {
+    const config = useContext(ZoomConfigContext);
+    const transform = useContext(ZoomTransformContext);
+    const actions = useContext(ZoomActionsContext);
+
+    if (!config || !transform || !actions) {
+        throw new Error('useZoomInternal must be used within a <ZoomProvider>');
+    }
+
+    return { config, transform, ...actions };
+}
+
+// --- Provider ---
+
+export type ZoomProviderProps = {
+    children: ReactNode;
+    /** Target content dimensions — used for pan boundary clamping */
+    target?: Size;
+};
+
+const INITIAL_CONFIG: ZoomConfig = {
+    initialCoordinates: { scale: 1.0, x: 0, y: 0 },
+    maxZoomIn: 1,
+};
+
+const INITIAL_TRANSFORM: ZoomTransformState = {
+    scale: 1.0,
+    translate: { x: 0, y: 0 },
+};
+
+export function ZoomProvider({ children, target }: ZoomProviderProps) {
+    const [config, setConfig] = useState<ZoomConfig>(INITIAL_CONFIG);
+    const [transform, setTransform] = useState<ZoomTransformState>(INITIAL_TRANSFORM);
+    const containerSizeRef = useRef<Size>({ width: 0, height: 0 });
+
+    const fitToScreen = () => {
+        setTransform({
+            scale: config.initialCoordinates.scale,
+            translate: { x: config.initialCoordinates.x, y: config.initialCoordinates.y },
+        });
+    };
+
+    const zoomBy = (step: number) => {
+        setTransform((prev) => {
+            const stepSize = (config.maxZoomIn - config.initialCoordinates.scale) / ZOOM_STEP_COUNT;
+            const newScale = clampBetween(
+                config.initialCoordinates.scale,
+                prev.scale + stepSize * step,
+                config.maxZoomIn
+            );
+
+            const newState = getZoomTransform({
+                newScale,
+                cursorX: config.initialCoordinates.x,
+                cursorY: config.initialCoordinates.y,
+                initialCoordinates: config.initialCoordinates,
+            })(prev);
+
+            if (target) {
+                newState.translate = clampTranslate(
+                    newState.translate,
+                    newState.scale,
+                    target,
+                    containerSizeRef.current
+                );
+            }
+
+            return newState;
+        });
+    };
+
+    const zoomTo = (scale: number, anchor?: Point) => {
+        setTransform((prev) => {
+            const clampedScale = clampBetween(config.initialCoordinates.scale, scale, config.maxZoomIn);
+            const anchorX = anchor?.x ?? config.initialCoordinates.x;
+            const anchorY = anchor?.y ?? config.initialCoordinates.y;
+
+            const newState = getZoomTransform({
+                newScale: clampedScale,
+                cursorX: anchorX,
+                cursorY: anchorY,
+                initialCoordinates: config.initialCoordinates,
+            })(prev);
+
+            if (target) {
+                newState.translate = clampTranslate(
+                    newState.translate,
+                    newState.scale,
+                    target,
+                    containerSizeRef.current
+                );
+            }
+
+            return newState;
+        });
+    };
+
+    const actions: ZoomActions = {
+        setTransform,
+        setConfig,
+        fitToScreen,
+        zoomBy,
+        zoomTo,
+    };
+
+    return (
+        <ZoomConfigContext.Provider value={config}>
+            <ZoomTransformContext.Provider value={transform}>
+                <ZoomActionsContext.Provider value={actions}>{children}</ZoomActionsContext.Provider>
+            </ZoomTransformContext.Provider>
+        </ZoomConfigContext.Provider>
+    );
+}
+
+// Export the container size ref setter for internal use by ZoomTransform
+export { type ZoomActions };

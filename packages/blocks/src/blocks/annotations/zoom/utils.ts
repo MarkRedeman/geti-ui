@@ -1,0 +1,84 @@
+import type { Point, Size, ZoomConfig, ZoomTransformState } from './types';
+
+/** Number of discrete steps between min and max zoom for button-based zoom */
+export const ZOOM_STEP_COUNT = 10;
+
+/** Default scale factor relative to container (90% = visual padding around content) */
+export const DEFAULT_SCREEN_ZOOM = 0.9;
+
+/** Minimum visible fraction of content when panning (0.1 = 10%) */
+const MIN_VISIBLE_FRACTION = 0.1;
+
+export function clampBetween(min: number, value: number, max: number): number {
+    return Math.max(min, Math.min(max, value));
+}
+
+/**
+ * Compute fit-to-screen scale and centering translation for a target inside a container.
+ */
+export function getCenterCoordinates(container: Size, target: Size): ZoomConfig['initialCoordinates'] {
+    const scale = DEFAULT_SCREEN_ZOOM * Math.min(container.width / target.width, container.height / target.height);
+
+    return {
+        scale,
+        x: (container.width - target.width * scale) / 2,
+        y: (container.height - target.height * scale) / 2,
+    };
+}
+
+/**
+ * Returns a state-updater function that computes a new zoom transform
+ * anchored at the given cursor position.
+ */
+export function getZoomTransform({
+    initialCoordinates,
+    newScale,
+    cursorX,
+    cursorY,
+}: {
+    newScale: number;
+    cursorX: number;
+    cursorY: number;
+    initialCoordinates: ZoomConfig['initialCoordinates'];
+}): (prev: ZoomTransformState) => ZoomTransformState {
+    return (prev) => {
+        if (newScale <= initialCoordinates.scale) {
+            return {
+                scale: initialCoordinates.scale,
+                translate: { x: initialCoordinates.x, y: initialCoordinates.y },
+            };
+        }
+
+        const scaleRatio = newScale / prev.scale;
+        const newTranslateX = cursorX - scaleRatio * (cursorX - prev.translate.x);
+        const newTranslateY = cursorY - scaleRatio * (cursorY - prev.translate.y);
+
+        return {
+            scale: newScale,
+            translate: { x: newTranslateX, y: newTranslateY },
+        };
+    };
+}
+
+/**
+ * Clamp translate values so that at least `MIN_VISIBLE_FRACTION` of the
+ * content remains visible inside the container.
+ */
+export function clampTranslate(translate: Point, scale: number, target: Size, container: Size): Point {
+    const contentWidth = target.width * scale;
+    const contentHeight = target.height * scale;
+    const minVisibleWidth = contentWidth * MIN_VISIBLE_FRACTION;
+    const minVisibleHeight = contentHeight * MIN_VISIBLE_FRACTION;
+
+    return {
+        x: clampBetween(-(contentWidth - minVisibleWidth), translate.x, container.width - minVisibleWidth),
+        y: clampBetween(-(contentHeight - minVisibleHeight), translate.y, container.height - minVisibleHeight),
+    };
+}
+
+/**
+ * Detect if a pointer event is a middle mouse button press.
+ */
+export function isWheelButton(event: { button: number }): boolean {
+    return event.button === 1;
+}
