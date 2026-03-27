@@ -1,4 +1,4 @@
-import { type ReactNode, useCallback, useRef } from 'react';
+import { type ReactNode, useCallback, useEffect, useRef } from 'react';
 
 import { createUseGesture, dragAction, pinchAction, wheelAction } from '@use-gesture/react';
 
@@ -19,26 +19,56 @@ export type ZoomTransformProps = {
     children: ReactNode;
     /** Maximum zoom = initialScale * this value. Default: 10 */
     zoomInMultiplier?: number;
+    /**
+     * Minimum zoom = initialScale * this value. Default: 0.5.
+     * Allows zooming out beyond fit-to-screen. Set to 1 to prevent
+     * zooming out past fit-to-screen.
+     */
+    zoomOutMultiplier?: number;
+    /**
+     * Whether zoom and pan interactions are enabled. Default: true.
+     * When false, the viewport displays content at fit-to-screen with
+     * no gesture handlers (no wheel zoom, pinch, drag, or middle-click pan).
+     */
+    interactive?: boolean;
+    /**
+     * Action to perform on double-click. Default: 'none'.
+     * - `'fitToScreen'` — reset to fit-to-screen on double-click
+     * - `'none'` — no double-click behavior
+     */
+    doubleClickMode?: 'fitToScreen' | 'none';
 };
 
 const useGesture = createUseGesture([wheelAction, pinchAction, dragAction]);
 
 const ANIMATION_DURATION_MS = 200;
 
-export function ZoomTransform({ children, target, zoomInMultiplier = 10 }: ZoomTransformProps) {
-    const { config, transform, setTransform } = useZoomInternal();
+export function ZoomTransform({
+    children,
+    target,
+    zoomInMultiplier = 10,
+    zoomOutMultiplier = 0.5,
+    interactive = true,
+    doubleClickMode = 'none',
+}: ZoomTransformProps) {
+    const { config, transform, setTransform, setContainerSize, fitToScreen } = useZoomInternal();
     const { isPanning, setIsPanning } = usePanning();
     const containerRef = useRef<HTMLDivElement>(null);
     const containerSize = useContainerSize(containerRef);
     const { onPointerDown, onPointerUp, onPointerMove, onMouseLeave, isGrabbing } = useWheelPanning(setIsPanning);
 
+    // Keep provider's container size ref in sync so zoomTo/zoomBy can use it
+    useEffect(() => {
+        setContainerSize(containerSize);
+    }, [containerSize, setContainerSize]);
+
     // Track whether the current render should animate (transient, not in state)
     const animatingRef = useRef(false);
     const animationTimerRef = useRef<ReturnType<typeof setTimeout>>();
 
-    useSyncZoom({ container: containerSize, zoomInMultiplier, target });
+    useSyncZoom({ container: containerSize, zoomInMultiplier, zoomOutMultiplier, target });
 
-    const cursorIcon = isPanning && isGrabbing ? 'grabbing' : isPanning ? 'grab' : 'default';
+    const cursorIcon = !interactive ? 'default' : isPanning && isGrabbing ? 'grabbing' : isPanning ? 'grab' : 'default';
 
     const handleTranslateUpdate = useCallback(
         ({ x, y }: Point) => {
@@ -65,7 +95,7 @@ export function ZoomTransform({ children, target, zoomInMultiplier = 10 }: ZoomT
 
                 const factor = 1 + deltaDistance / 200;
                 const newScale = clampBetween(
-                    config.initialCoordinates.scale,
+                    config.minScale,
                     config.initialCoordinates.scale * factor,
                     config.maxZoomIn
                 );
@@ -74,6 +104,7 @@ export function ZoomTransform({ children, target, zoomInMultiplier = 10 }: ZoomT
                 setTransform(
                     getZoomTransform({
                         newScale,
+                        minScale: config.minScale,
                         cursorX: relativeCursor.x,
                         cursorY: relativeCursor.y,
                         initialCoordinates: config.initialCoordinates,
@@ -86,7 +117,7 @@ export function ZoomTransform({ children, target, zoomInMultiplier = 10 }: ZoomT
 
                 const factor = 1 - verticalScrollDelta / 500;
                 const newScale = clampBetween(
-                    config.initialCoordinates.scale,
+                    config.minScale,
                     transform.scale * factor,
                     config.maxZoomIn
                 );
@@ -95,6 +126,7 @@ export function ZoomTransform({ children, target, zoomInMultiplier = 10 }: ZoomT
                 setTransform((prev) => {
                     const newState = getZoomTransform({
                         newScale,
+                        minScale: config.minScale,
                         cursorX: relativeCursor.x,
                         cursorY: relativeCursor.y,
                         initialCoordinates: config.initialCoordinates,
@@ -109,9 +141,9 @@ export function ZoomTransform({ children, target, zoomInMultiplier = 10 }: ZoomT
         {
             target: containerRef,
             eventOptions: { passive: false },
-            wheel: { preventDefault: true },
-            pinch: { preventDefault: true },
-            drag: { enabled: isPanning },
+            wheel: { preventDefault: true, enabled: interactive },
+            pinch: { preventDefault: true, enabled: interactive },
+            drag: { enabled: interactive && isPanning },
         }
     );
 
@@ -132,19 +164,20 @@ export function ZoomTransform({ children, target, zoomInMultiplier = 10 }: ZoomT
             style={
                 {
                     cursor: cursorIcon,
-                    touchAction: 'none',
+                    touchAction: interactive ? 'none' : undefined,
                     transform: 'translate3d(0, 0, 0)',
                     '--zoom-scale': transform.scale,
                 } as React.CSSProperties
             }
-            onPointerMove={onPointerMove(handleTranslateUpdate)}
-            onPointerDown={onPointerDown}
-            onPointerUp={onPointerUp}
-            onMouseLeave={onMouseLeave}
+            onPointerMove={interactive ? onPointerMove(handleTranslateUpdate) : undefined}
+            onPointerDown={interactive ? onPointerDown : undefined}
+            onPointerUp={interactive ? onPointerUp : undefined}
+            onMouseLeave={interactive ? onMouseLeave : undefined}
         >
             <div
                 data-testid="zoom-transform"
                 className={styles.content}
+                onDragStart={(e) => e.preventDefault()}
                 style={{
                     transformOrigin: '0 0',
                     transition: shouldAnimate ? `transform ${ANIMATION_DURATION_MS}ms ease` : 'none',

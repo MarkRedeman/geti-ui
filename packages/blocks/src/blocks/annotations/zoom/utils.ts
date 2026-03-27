@@ -29,22 +29,29 @@ export function getCenterCoordinates(container: Size, target: Size): ZoomConfig[
 /**
  * Returns a state-updater function that computes a new zoom transform
  * anchored at the given cursor position.
+ *
+ * When `newScale` falls at or below `minScale`, the transform snaps back to
+ * the min-scale position (centered via initialCoordinates).
  */
 export function getZoomTransform({
     initialCoordinates,
+    minScale,
     newScale,
     cursorX,
     cursorY,
 }: {
     newScale: number;
+    minScale?: number;
     cursorX: number;
     cursorY: number;
     initialCoordinates: ZoomConfig['initialCoordinates'];
 }): (prev: ZoomTransformState) => ZoomTransformState {
+    const floor = minScale ?? initialCoordinates.scale;
+
     return (prev) => {
-        if (newScale <= initialCoordinates.scale) {
+        if (newScale <= floor) {
             return {
-                scale: initialCoordinates.scale,
+                scale: floor,
                 translate: { x: initialCoordinates.x, y: initialCoordinates.y },
             };
         }

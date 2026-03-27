@@ -53,12 +53,24 @@ describe('ZoomTransform', () => {
             </ZoomProvider>,
         );
 
-        // The default container size from useContainerSize is 100x100
-        // With content 500x500, scale = 0.9 * min(100/500, 100/500) = 0.18
+        // useContainerSize defaults to 100x100 in JSDOM (no ResizeObserver).
+        // With content 500x500, scale = 0.9 * min(100/500, 100/500) = 0.18 → "18%"
         const display = screen.getByTestId('zoom-display');
-        expect(display.textContent).toBeDefined();
-        // Just verify it renders a percentage — exact value depends on container default
-        expect(display.textContent).toMatch(/\d+%/);
+        expect(display.textContent).toBe('18%');
+    });
+
+    it('sets --zoom-scale CSS variable on the container', () => {
+        const contentSize = { width: 500, height: 500 };
+
+        render(
+            <ZoomProvider target={contentSize}>
+                <ZoomTransform target={contentSize}>Content</ZoomTransform>
+            </ZoomProvider>,
+        );
+
+        const wrapper = screen.getByTestId('zoom-transform').parentElement;
+        const style = wrapper?.getAttribute('style') ?? '';
+        expect(style).toContain('--zoom-scale');
     });
 });
 
@@ -70,5 +82,75 @@ describe('ZoomProvider', () => {
         }
 
         expect(() => render(<BadComponent />)).toThrow('useZoom must be used within a <ZoomProvider>');
+    });
+});
+
+describe('ZoomTransform interactive prop', () => {
+    it('renders content when interactive is false', () => {
+        const contentSize = { width: 500, height: 500 };
+
+        render(
+            <ZoomProvider target={contentSize}>
+                <ZoomTransform target={contentSize} interactive={false}>
+                    <span>Static content</span>
+                </ZoomTransform>
+            </ZoomProvider>,
+        );
+
+        expect(screen.getByText('Static content')).toBeDefined();
+        expect(screen.getByTestId('zoom-transform')).toBeDefined();
+    });
+
+    it('sets cursor to default when interactive is false', () => {
+        const contentSize = { width: 500, height: 500 };
+
+        render(
+            <ZoomProvider target={contentSize}>
+                <ZoomTransform target={contentSize} interactive={false}>
+                    Content
+                </ZoomTransform>
+            </ZoomProvider>,
+        );
+
+        const wrapper = screen.getByTestId('zoom-transform').parentElement;
+        const style = wrapper?.getAttribute('style') ?? '';
+        expect(style).toContain('cursor: default');
+    });
+
+    it('does not set touch-action: none when interactive is false', () => {
+        const contentSize = { width: 500, height: 500 };
+
+        render(
+            <ZoomProvider target={contentSize}>
+                <ZoomTransform target={contentSize} interactive={false}>
+                    Content
+                </ZoomTransform>
+            </ZoomProvider>,
+        );
+
+        const wrapper = screen.getByTestId('zoom-transform').parentElement;
+        const style = wrapper?.getAttribute('style') ?? '';
+        expect(style).not.toContain('touch-action');
+    });
+
+    it('still applies CSS transform and --zoom-scale when interactive is false', () => {
+        const contentSize = { width: 500, height: 500 };
+
+        render(
+            <ZoomProvider target={contentSize}>
+                <ZoomTransform target={contentSize} interactive={false}>
+                    Content
+                </ZoomTransform>
+            </ZoomProvider>,
+        );
+
+        const transform = screen.getByTestId('zoom-transform');
+        const style = transform.getAttribute('style') ?? '';
+        expect(style).toContain('translate(');
+        expect(style).toContain('scale(');
+
+        const wrapper = transform.parentElement;
+        const wrapperStyle = wrapper?.getAttribute('style') ?? '';
+        expect(wrapperStyle).toContain('--zoom-scale');
     });
 });

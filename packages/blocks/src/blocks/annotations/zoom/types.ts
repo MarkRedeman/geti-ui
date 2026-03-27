@@ -15,6 +15,8 @@ export type Size = {
 export type ZoomConfig = {
     /** Fit-to-screen baseline scale and translation */
     initialCoordinates: Point & { scale: number };
+    /** Lower bound for zoom scale (can be below fit-to-screen) */
+    minScale: number;
     /** Upper bound for zoom scale */
     maxZoomIn: number;
 };

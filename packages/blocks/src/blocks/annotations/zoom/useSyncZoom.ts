@@ -8,6 +8,7 @@ type UseSyncZoomOptions = {
     container: Size;
     target: Size;
     zoomInMultiplier: number;
+    zoomOutMultiplier: number;
 };
 
 /**
@@ -18,7 +19,7 @@ type UseSyncZoomOptions = {
  * (initialCoordinates, maxZoomIn) without resetting the user's current
  * transform. If the user is at the default fit-to-screen state, we re-center.
  */
-export function useSyncZoom({ container, target, zoomInMultiplier }: UseSyncZoomOptions) {
+export function useSyncZoom({ container, target, zoomInMultiplier, zoomOutMultiplier }: UseSyncZoomOptions) {
     const { config, transform, setConfig, setTransform } = useZoomInternal();
 
     const targetZoom = useMemo(() => {
@@ -36,6 +37,7 @@ export function useSyncZoom({ container, target, zoomInMultiplier }: UseSyncZoom
 
         const newConfig = {
             initialCoordinates: { ...targetZoom },
+            minScale: scale * zoomOutMultiplier,
             maxZoomIn: scale * zoomInMultiplier,
         };
 
@@ -55,5 +57,5 @@ export function useSyncZoom({ container, target, zoomInMultiplier }: UseSyncZoom
             });
         }
         // Otherwise: keep user's current transform (they zoomed/panned intentionally)
-    }, [targetZoom, zoomInMultiplier, setConfig, setTransform]);
+    }, [targetZoom, zoomInMultiplier, zoomOutMultiplier, setConfig, setTransform]);
 }

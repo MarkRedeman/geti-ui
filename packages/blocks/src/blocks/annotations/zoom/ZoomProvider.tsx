@@ -1,4 +1,4 @@
-import { createContext, useContext, useRef, useState, type Dispatch, type ReactNode, type SetStateAction } from 'react';
+import { createContext, useCallback, useContext, useRef, useState, type Dispatch, type ReactNode, type SetStateAction } from 'react';
 
 import type { Point, Size, ZoomConfig, ZoomTransformState } from './types';
 import { clampBetween, clampTranslate, getZoomTransform, ZOOM_STEP_COUNT } from './utils';
@@ -11,6 +11,7 @@ const ZoomTransformContext = createContext<ZoomTransformState | null>(null);
 type ZoomActions = {
     setTransform: Dispatch<SetStateAction<ZoomTransformState>>;
     setConfig: Dispatch<SetStateAction<ZoomConfig>>;
+    setContainerSize: (size: Size) => void;
     fitToScreen: () => void;
     zoomBy: (step: number) => void;
     zoomTo: (scale: number, anchor?: Point) => void;
@@ -31,7 +32,7 @@ export function useZoom(): ZoomTransformState & ZoomConfig {
     return { ...config, ...transform };
 }
 
-export function useZoomActions(): Omit<ZoomActions, 'setTransform' | 'setConfig'> {
+export function useZoomActions(): Omit<ZoomActions, 'setTransform' | 'setConfig' | 'setContainerSize'> {
     const context = useContext(ZoomActionsContext);
 
     if (!context) {
@@ -68,6 +69,7 @@ export type ZoomProviderProps = {
 
 const INITIAL_CONFIG: ZoomConfig = {
     initialCoordinates: { scale: 1.0, x: 0, y: 0 },
+    minScale: 1.0,
     maxZoomIn: 1,
 };
 
@@ -81,6 +83,10 @@ export function ZoomProvider({ children, target }: ZoomProviderProps) {
     const [transform, setTransform] = useState<ZoomTransformState>(INITIAL_TRANSFORM);
     const containerSizeRef = useRef<Size>({ width: 0, height: 0 });
 
+    const setContainerSize = useCallback((size: Size) => {
+        containerSizeRef.current = size;
+    }, []);
+
     const fitToScreen = () => {
         setTransform({
             scale: config.initialCoordinates.scale,
@@ -90,15 +96,16 @@ export function ZoomProvider({ children, target }: ZoomProviderProps) {
 
     const zoomBy = (step: number) => {
         setTransform((prev) => {
-            const stepSize = (config.maxZoomIn - config.initialCoordinates.scale) / ZOOM_STEP_COUNT;
+            const stepSize = (config.maxZoomIn - config.minScale) / ZOOM_STEP_COUNT;
             const newScale = clampBetween(
-                config.initialCoordinates.scale,
+                config.minScale,
                 prev.scale + stepSize * step,
                 config.maxZoomIn
             );
 
             const newState = getZoomTransform({
                 newScale,
+                minScale: config.minScale,
                 cursorX: config.initialCoordinates.x,
                 cursorY: config.initialCoordinates.y,
                 initialCoordinates: config.initialCoordinates,
@@ -119,33 +126,47 @@ export function ZoomProvider({ children, target }: ZoomProviderProps) {
 
     const zoomTo = (scale: number, anchor?: Point) => {
         setTransform((prev) => {
-            const clampedScale = clampBetween(config.initialCoordinates.scale, scale, config.maxZoomIn);
-            const anchorX = anchor?.x ?? config.initialCoordinates.x;
-            const anchorY = anchor?.y ?? config.initialCoordinates.y;
+            const clampedScale = clampBetween(config.minScale, scale, config.maxZoomIn);
+            const container = containerSizeRef.current;
 
-            const newState = getZoomTransform({
-                newScale: clampedScale,
-                cursorX: anchorX,
-                cursorY: anchorY,
-                initialCoordinates: config.initialCoordinates,
-            })(prev);
+            let newTranslate: Point;
+
+            if (anchor) {
+                // anchor is in content-space coordinates — compute translation to
+                // center that point in the viewport at the given scale
+                newTranslate = {
+                    x: container.width / 2 - anchor.x * clampedScale,
+                    y: container.height / 2 - anchor.y * clampedScale,
+                };
+            } else {
+                // No anchor — zoom toward center using the standard focal-point math
+                const result = getZoomTransform({
+                    newScale: clampedScale,
+                    minScale: config.minScale,
+                    cursorX: config.initialCoordinates.x,
+                    cursorY: config.initialCoordinates.y,
+                    initialCoordinates: config.initialCoordinates,
+                })(prev);
+                newTranslate = result.translate;
+            }
 
             if (target) {
-                newState.translate = clampTranslate(
-                    newState.translate,
-                    newState.scale,
+                newTranslate = clampTranslate(
+                    newTranslate,
+                    clampedScale,
                     target,
-                    containerSizeRef.current
+                    container
                 );
             }
 
-            return newState;
+            return { scale: clampedScale, translate: newTranslate };
         });
     };
 
     const actions: ZoomActions = {
         setTransform,
         setConfig,
+        setContainerSize,
         fitToScreen,
         zoomBy,
         zoomTo,

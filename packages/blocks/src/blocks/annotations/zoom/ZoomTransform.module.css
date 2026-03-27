@@ -13,6 +13,14 @@
     flex-wrap: wrap;
     width: fit-content;
     height: fit-content;
+    -webkit-user-drag: none;
+    user-select: none;
+}
+
+.content img {
+    -webkit-user-drag: none;
+    pointer-events: none;
+    image-rendering: pixelated;
 }
 
 @media (prefers-reduced-motion: reduce) {

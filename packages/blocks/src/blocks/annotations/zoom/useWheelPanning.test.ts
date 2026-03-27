@@ -1,7 +1,7 @@
 import { type PointerEvent } from 'react';
 
 import { renderHook, act } from '@testing-library/react';
-import { describe, expect, it } from '@rstest/core';
+import { describe, expect, it, rstest } from '@rstest/core';
 
 import { useWheelPanning } from './useWheelPanning';
 
@@ -15,51 +15,53 @@ function createLeftPointerEvent(data: Partial<PointerEvent<HTMLDivElement>> = {}
 
 describe('useWheelPanning', () => {
     it('initializes with default values', () => {
-        const calls: boolean[] = [];
-        const { result } = renderHook(() => useWheelPanning((v) => calls.push(v)));
+        const setIsPanning = rstest.fn();
+        const { result } = renderHook(() => useWheelPanning(setIsPanning));
         expect(result.current.isGrabbing).toBe(false);
     });
 
     it('sets isGrabbing to true on middle mouse pointer down', () => {
-        const calls: boolean[] = [];
-        const { result } = renderHook(() => useWheelPanning((v) => calls.push(v)));
+        const setIsPanning = rstest.fn();
+        const { result } = renderHook(() => useWheelPanning(setIsPanning));
 
         act(() => {
             result.current.onPointerDown(createWheelPointerEvent({ clientX: 10, clientY: 20 }));
         });
 
         expect(result.current.isGrabbing).toBe(true);
+        expect(setIsPanning).toHaveBeenCalledWith(true);
     });
 
     it('does NOT set isGrabbing for left mouse pointer down', () => {
-        const calls: boolean[] = [];
-        const { result } = renderHook(() => useWheelPanning((v) => calls.push(v)));
+        const setIsPanning = rstest.fn();
+        const { result } = renderHook(() => useWheelPanning(setIsPanning));
 
         act(() => {
             result.current.onPointerDown(createLeftPointerEvent({ clientX: 10, clientY: 20 }));
         });
 
         expect(result.current.isGrabbing).toBe(false);
+        expect(setIsPanning).not.toHaveBeenCalled();
     });
 
     it('reports delta on pointer move while panning', () => {
-        const panCalls: boolean[] = [];
-        const deltaCalls: { x: number; y: number }[] = [];
-        const { result } = renderHook(() => useWheelPanning((v) => panCalls.push(v)));
+        const setIsPanning = rstest.fn();
+        const onDelta = rstest.fn();
+        const { result } = renderHook(() => useWheelPanning(setIsPanning));
 
         act(() => {
             result.current.onPointerDown(createWheelPointerEvent({ clientX: 10, clientY: 10 }));
-            result.current.onPointerMove((delta) => deltaCalls.push(delta))(
+            result.current.onPointerMove(onDelta)(
                 createWheelPointerEvent({ clientX: 20, clientY: 15 }),
             );
         });
 
-        expect(deltaCalls).toEqual([{ x: 10, y: 5 }]);
+        expect(onDelta).toHaveBeenCalledWith({ x: 10, y: 5 });
     });
 
     it('resets on pointer up', () => {
-        const panCalls: boolean[] = [];
-        const { result } = renderHook(() => useWheelPanning((v) => panCalls.push(v)));
+        const setIsPanning = rstest.fn();
+        const { result } = renderHook(() => useWheelPanning(setIsPanning));
 
         act(() => {
             result.current.onPointerDown(createWheelPointerEvent());
@@ -70,12 +72,12 @@ describe('useWheelPanning', () => {
             result.current.onPointerUp();
         });
         expect(result.current.isGrabbing).toBe(false);
-        expect(panCalls).toContain(false);
+        expect(setIsPanning).toHaveBeenCalledWith(false);
     });
 
     it('resets on mouse leave', () => {
-        const panCalls: boolean[] = [];
-        const { result } = renderHook(() => useWheelPanning((v) => panCalls.push(v)));
+        const setIsPanning = rstest.fn();
+        const { result } = renderHook(() => useWheelPanning(setIsPanning));
 
         act(() => {
             result.current.onPointerDown(createWheelPointerEvent());
@@ -86,6 +88,6 @@ describe('useWheelPanning', () => {
         });
 
         expect(result.current.isGrabbing).toBe(false);
-        expect(panCalls).toContain(false);
+        expect(setIsPanning).toHaveBeenCalledWith(false);
     });
 });

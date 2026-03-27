@@ -23,15 +23,22 @@ import { ThemeProvider, View, ActionButton, Text, Flex } from '@geti-ai/ui';
 const IMAGE_WIDTH = 800;
 const IMAGE_HEIGHT = 600;
 
+// Define shapes with their center points for "focus on element" buttons
+const SHAPES = [
+  { name: 'Rectangle', cx: 225, cy: 170, color: '#00ff88' },
+  { name: 'Circle', cx: 500, cy: 350, color: '#ff4444' },
+  { name: 'Triangle', cx: 350, cy: 280, color: '#4488ff' },
+];
+
 function ZoomControls() {
-  const { scale, initialCoordinates, maxZoomIn } = useZoom();
-  const { zoomBy, fitToScreen } = useZoomActions();
+  const { scale, minScale, maxZoomIn } = useZoom();
+  const { zoomBy, fitToScreen, zoomTo } = useZoomActions();
 
   return (
-    <Flex direction="row" gap="size-100" alignItems="center">
+    <Flex direction="row" gap="size-100" alignItems="center" wrap>
       <ActionButton
         onPress={() => zoomBy(-1)}
-        isDisabled={scale <= initialCoordinates.scale}
+        isDisabled={scale <= minScale}
         aria-label="Zoom out"
       >
         -
@@ -49,6 +56,17 @@ function ZoomControls() {
       <ActionButton onPress={fitToScreen} aria-label="Fit to screen">
         Fit
       </ActionButton>
+      <View UNSAFE_style={{ width: 1, height: 20, background: '#444', margin: '0 4px' }} />
+      {SHAPES.map((shape) => (
+        <ActionButton
+          key={shape.name}
+          onPress={() => zoomTo(4, { x: shape.cx, y: shape.cy })}
+          aria-label={`Focus on ${shape.name}`}
+        >
+          <span style={{ color: shape.color, marginRight: 4 }}>●</span>
+          {shape.name}
+        </ActionButton>
+      ))}
     </Flex>
   );
 }
@@ -60,7 +78,7 @@ function AnnotatedImage() {
         src="https://picsum.photos/800/600"
         width={IMAGE_WIDTH}
         height={IMAGE_HEIGHT}
-        style={{ display: 'block' }}
+        style={{ display: 'block', imageRendering: 'pixelated' }}
         alt="Sample"
       />
       <svg
@@ -111,6 +129,76 @@ export default function App() {
           </View>
         </View>
       </ZoomProvider>
+    </ThemeProvider>
+  );
+}
+```
+
+## Non-interactive display grid
+
+Set `interactive={false}` to disable all zoom and pan gestures. This is useful for thumbnail grids, read-only previews, or any context where you want fit-to-screen rendering without user interaction.
+
+Each cell below uses a different image resolution and aspect ratio. The viewport automatically scales the content to fit.
+
+```tsx preview
+import { ZoomProvider, ZoomTransform } from '@geti-ai/blocks';
+import { ThemeProvider } from '@geti-ai/ui';
+
+const IMAGES = [
+  { src: 'https://picsum.photos/800/600', width: 800, height: 600, label: '800 × 600 (4:3)' },
+  { src: 'https://picsum.photos/1200/400', width: 1200, height: 400, label: '1200 × 400 (3:1)' },
+  { src: 'https://picsum.photos/400/900', width: 400, height: 900, label: '400 × 900 (tall)' },
+  { src: 'https://picsum.photos/600/600', width: 600, height: 600, label: '600 × 600 (1:1)' },
+];
+
+function ImageCell({ src, width, height, label }) {
+  return (
+    <ZoomProvider target={{ width, height }}>
+      <div style={{
+        display: 'flex',
+        flexDirection: 'column',
+        height: '100%',
+        background: '#1a1a2e',
+        borderRadius: 6,
+        overflow: 'hidden',
+      }}>
+        <div style={{
+          padding: '6px 10px',
+          fontSize: 11,
+          color: '#888',
+          borderBottom: '1px solid #333',
+        }}>
+          {label}
+        </div>
+        <div style={{ flex: 1, minHeight: 0 }}>
+          <ZoomTransform target={{ width, height }} interactive={false}>
+            <img
+              src={src}
+              width={width}
+              height={height}
+              style={{ display: 'block', imageRendering: 'pixelated' }}
+              alt={label}
+            />
+          </ZoomTransform>
+        </div>
+      </div>
+    </ZoomProvider>
+  );
+}
+
+export default function App() {
+  return (
+    <ThemeProvider>
+      <div style={{
+        display: 'grid',
+        gridTemplateColumns: '1fr 1fr',
+        gridTemplateRows: '200px 200px',
+        gap: 8,
+      }}>
+        {IMAGES.map((img) => (
+          <ImageCell key={img.label} {...img} />
+        ))}
+      </div>
     </ThemeProvider>
   );
 }
@@ -181,7 +269,9 @@ fitToScreen();
 | --- | --- | --- | --- | --- |
 | `target` | `Size` | — | Yes | Natural dimensions of the zoomable content. |
 | `children` | `ReactNode` | — | Yes | Content to render inside the viewport. |
+| `interactive` | `boolean` | `true` | No | Whether zoom and pan interactions are enabled. Set to `false` for read-only display. |
 | `zoomInMultiplier` | `number` | `10` | No | Max zoom = initial fit-to-screen scale multiplied by this value. |
+| `zoomOutMultiplier` | `number` | `0.5` | No | Min zoom = initial fit-to-screen scale multiplied by this value. Set to `1` to prevent zooming out past fit-to-screen. |
 
 ### useZoom
 
@@ -192,6 +282,7 @@ Returns the combined zoom state:
 | `scale` | `number` | Current zoom scale. |
 | `translate` | `Point` | Current pan offset `{ x, y }` in pixels. |
 | `initialCoordinates` | `{ scale, x, y }` | Fit-to-screen baseline values. |
+| `minScale` | `number` | Lower zoom scale bound. |
 | `maxZoomIn` | `number` | Upper zoom scale bound. |
 
 ### useZoomActions
@@ -212,6 +303,7 @@ type Size = { width: number; height: number };
 
 type ZoomConfig = {
   initialCoordinates: Point & { scale: number };
+  minScale: number;
   maxZoomIn: number;
 };
 
