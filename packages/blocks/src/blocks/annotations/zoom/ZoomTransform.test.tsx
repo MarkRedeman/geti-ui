@@ -1,8 +1,9 @@
-import { render, screen } from '@testing-library/react';
+import { render, screen, fireEvent, act } from '@testing-library/react';
 import { describe, expect, it } from '@rstest/core';
 
 import { ZoomTransform } from './ZoomTransform';
-import { ZoomProvider, useZoom } from './ZoomProvider';
+import { ZoomProvider, useZoom, useZoomActions } from './ZoomProvider';
+import type { Rect, ZoomToOptions } from './types';
 
 function ZoomDisplay() {
     const { scale } = useZoom();
@@ -152,5 +153,240 @@ describe('ZoomTransform interactive prop', () => {
         const wrapper = transform.parentElement;
         const wrapperStyle = wrapper?.getAttribute('style') ?? '';
         expect(wrapperStyle).toContain('--zoom-scale');
+    });
+});
+
+describe('ZoomTransform doubleClickMode', () => {
+    it('does not attach onDoubleClick behavior by default', () => {
+        const contentSize = { width: 500, height: 500 };
+
+        render(
+            <ZoomProvider target={contentSize}>
+                <ZoomTransform target={contentSize}>
+                    Content
+                </ZoomTransform>
+            </ZoomProvider>,
+        );
+
+        const wrapper = screen.getByTestId('zoom-transform').parentElement!;
+        // Double-click should not throw when mode is 'none'
+        fireEvent.doubleClick(wrapper);
+
+        // Transform should still be present (no crash)
+        const style = screen.getByTestId('zoom-transform').getAttribute('style') ?? '';
+        expect(style).toContain('scale(');
+    });
+
+    it('renders with doubleClickMode="fitToScreen" without errors', () => {
+        const contentSize = { width: 500, height: 500 };
+
+        render(
+            <ZoomProvider target={contentSize}>
+                <ZoomTransform target={contentSize} doubleClickMode="fitToScreen">
+                    Content
+                </ZoomTransform>
+            </ZoomProvider>,
+        );
+
+        expect(screen.getByTestId('zoom-transform')).toBeDefined();
+    });
+
+    it('does not trigger fitToScreen on double-click when interactive is false', () => {
+        const contentSize = { width: 500, height: 500 };
+
+        render(
+            <ZoomProvider target={contentSize}>
+                <ZoomTransform target={contentSize} interactive={false} doubleClickMode="fitToScreen">
+                    Content
+                </ZoomTransform>
+            </ZoomProvider>,
+        );
+
+        const wrapper = screen.getByTestId('zoom-transform').parentElement!;
+        fireEvent.doubleClick(wrapper);
+
+        // Should not crash, transform still applied
+        const style = screen.getByTestId('zoom-transform').getAttribute('style') ?? '';
+        expect(style).toContain('scale(');
+    });
+});
+
+describe('zoomTo (viewport rectangle)', () => {
+    /**
+     * Helper component that calls zoomTo on mount and exposes the resulting
+     * scale + translate via data attributes for assertions.
+     *
+     * In JSDOM, useContainerSize defaults to { width: 100, height: 100 },
+     * so the container is 100×100 px.
+     */
+    function ZoomToTrigger({
+        viewport,
+        options,
+    }: {
+        viewport: Rect;
+        options?: ZoomToOptions;
+    }) {
+        const { scale, translate } = useZoom();
+        const { zoomTo } = useZoomActions();
+
+        return (
+            <div>
+                <div
+                    data-testid="zoom-state"
+                    data-scale={scale.toFixed(4)}
+                    data-tx={translate.x.toFixed(4)}
+                    data-ty={translate.y.toFixed(4)}
+                />
+                <button data-testid="trigger" onClick={() => zoomTo(viewport, options)}>
+                    Zoom
+                </button>
+            </div>
+        );
+    }
+
+    it('zooms to center a rectangle in the viewport', () => {
+        // Content is 500×500, container is 100×100 (JSDOM default).
+        // Initial fit-to-screen: scale = 0.9 * min(100/500, 100/500) = 0.18
+        // Target rect: x=200,y=200,w=100,h=100 (center at 250,250 in content space)
+        // Scale to fit: min(100/100, 100/100) = 1.0, clamped to maxZoomIn = 0.18 * 10 = 1.8
+        // translate.x = 100/2 - 250 * 1.0 = 50 - 250 = -200
+        // translate.y = 100/2 - 250 * 1.0 = 50 - 250 = -200
+        const contentSize = { width: 500, height: 500 };
+
+        render(
+            <ZoomProvider target={contentSize}>
+                <ZoomTransform target={contentSize}>
+                    <ZoomToTrigger viewport={{ x: 200, y: 200, width: 100, height: 100 }} />
+                </ZoomTransform>
+            </ZoomProvider>,
+        );
+
+        act(() => {
+            fireEvent.click(screen.getByTestId('trigger'));
+        });
+
+        const state = screen.getByTestId('zoom-state');
+        const scale = parseFloat(state.getAttribute('data-scale')!);
+        const tx = parseFloat(state.getAttribute('data-tx')!);
+        const ty = parseFloat(state.getAttribute('data-ty')!);
+
+        // Scale should be 1.0 (rect 100x100 fits perfectly in 100x100 container)
+        expect(scale).toBe(1);
+        // Translation should center the rect
+        expect(tx).toBe(-200);
+        expect(ty).toBe(-200);
+    });
+
+    it('respects aspect ratio when rect is wider than container', () => {
+        // Content 800×600, container 100×100.
+        // Target rect: x=0,y=0,w=400,h=100 (wide rect, 4:1 ratio)
+        // Scale to fit: min(100/400, 100/100) = min(0.25, 1.0) = 0.25
+        // Rect center: (200, 50)
+        // translate.x = 50 - 200 * 0.25 = 50 - 50 = 0
+        // translate.y = 50 - 50 * 0.25 = 50 - 12.5 = 37.5
+        const contentSize = { width: 800, height: 600 };
+
+        render(
+            <ZoomProvider target={contentSize}>
+                <ZoomTransform target={contentSize}>
+                    <ZoomToTrigger viewport={{ x: 0, y: 0, width: 400, height: 100 }} />
+                </ZoomTransform>
+            </ZoomProvider>,
+        );
+
+        act(() => {
+            fireEvent.click(screen.getByTestId('trigger'));
+        });
+
+        const state = screen.getByTestId('zoom-state');
+        const scale = parseFloat(state.getAttribute('data-scale')!);
+        const tx = parseFloat(state.getAttribute('data-tx')!);
+        const ty = parseFloat(state.getAttribute('data-ty')!);
+
+        expect(scale).toBe(0.25);
+        expect(tx).toBe(0);
+        expect(ty).toBe(37.5);
+    });
+
+    it('applies padding around the target rectangle', () => {
+        // Content 500×500, container 100×100.
+        // Padding = 10 → available = 80×80
+        // Target rect: x=200,y=200,w=100,h=100 (center at 250,250)
+        // Scale to fit: min(80/100, 80/100) = 0.8
+        // translate.x = 50 - 250 * 0.8 = 50 - 200 = -150
+        // translate.y = 50 - 250 * 0.8 = 50 - 200 = -150
+        const contentSize = { width: 500, height: 500 };
+
+        render(
+            <ZoomProvider target={contentSize}>
+                <ZoomTransform target={contentSize}>
+                    <ZoomToTrigger
+                        viewport={{ x: 200, y: 200, width: 100, height: 100 }}
+                        options={{ padding: 10 }}
+                    />
+                </ZoomTransform>
+            </ZoomProvider>,
+        );
+
+        act(() => {
+            fireEvent.click(screen.getByTestId('trigger'));
+        });
+
+        const state = screen.getByTestId('zoom-state');
+        const scale = parseFloat(state.getAttribute('data-scale')!);
+        const tx = parseFloat(state.getAttribute('data-tx')!);
+        const ty = parseFloat(state.getAttribute('data-ty')!);
+
+        expect(scale).toBe(0.8);
+        expect(tx).toBe(-150);
+        expect(ty).toBe(-150);
+    });
+
+    it('clamps scale to maxZoomIn when rect is very small', () => {
+        // Content 500×500, container 100×100.
+        // minScale = 0.18 * 0.5 = 0.09, maxZoomIn = 0.18 * 10 = 1.8
+        // Target rect: 1×1 pixel → scaleToFit = min(100/1, 100/1) = 100, clamped to 1.8
+        const contentSize = { width: 500, height: 500 };
+
+        render(
+            <ZoomProvider target={contentSize}>
+                <ZoomTransform target={contentSize}>
+                    <ZoomToTrigger viewport={{ x: 250, y: 250, width: 1, height: 1 }} />
+                </ZoomTransform>
+            </ZoomProvider>,
+        );
+
+        act(() => {
+            fireEvent.click(screen.getByTestId('trigger'));
+        });
+
+        const state = screen.getByTestId('zoom-state');
+        const scale = parseFloat(state.getAttribute('data-scale')!);
+
+        expect(scale).toBe(1.8);
+    });
+
+    it('clamps scale to minScale when rect is very large', () => {
+        // Content 500×500, container 100×100.
+        // minScale = 0.18 * 0.5 = 0.09
+        // Target rect: 5000×5000 → scaleToFit = min(100/5000, 100/5000) = 0.02, clamped to 0.09
+        const contentSize = { width: 500, height: 500 };
+
+        render(
+            <ZoomProvider target={contentSize}>
+                <ZoomTransform target={contentSize}>
+                    <ZoomToTrigger viewport={{ x: 0, y: 0, width: 5000, height: 5000 }} />
+                </ZoomTransform>
+            </ZoomProvider>,
+        );
+
+        act(() => {
+            fireEvent.click(screen.getByTestId('trigger'));
+        });
+
+        const state = screen.getByTestId('zoom-state');
+        const scale = parseFloat(state.getAttribute('data-scale')!);
+
+        expect(scale).toBe(0.09);
     });
 });

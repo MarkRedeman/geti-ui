@@ -1,6 +1,6 @@
 import { createContext, useCallback, useContext, useRef, useState, type Dispatch, type ReactNode, type SetStateAction } from 'react';
 
-import type { Point, Size, ZoomConfig, ZoomTransformState } from './types';
+import type { Point, Rect, Size, ZoomConfig, ZoomToOptions, ZoomTransformState } from './types';
 import { clampBetween, clampTranslate, getZoomTransform, ZOOM_STEP_COUNT } from './utils';
 
 // --- Contexts ---
@@ -14,7 +14,7 @@ type ZoomActions = {
     setContainerSize: (size: Size) => void;
     fitToScreen: () => void;
     zoomBy: (step: number) => void;
-    zoomTo: (scale: number, anchor?: Point) => void;
+    zoomTo: (viewport: Rect, options?: ZoomToOptions) => void;
 };
 
 const ZoomActionsContext = createContext<ZoomActions | null>(null);
@@ -124,31 +124,32 @@ export function ZoomProvider({ children, target }: ZoomProviderProps) {
         });
     };
 
-    const zoomTo = (scale: number, anchor?: Point) => {
-        setTransform((prev) => {
-            const clampedScale = clampBetween(config.minScale, scale, config.maxZoomIn);
+    const zoomTo = (viewport: Rect, options?: ZoomToOptions) => {
+        const padding = options?.padding ?? 0;
+
+        setTransform(() => {
             const container = containerSizeRef.current;
 
-            let newTranslate: Point;
+            // Available viewport space after subtracting padding on both sides
+            const availableWidth = Math.max(container.width - 2 * padding, 1);
+            const availableHeight = Math.max(container.height - 2 * padding, 1);
 
-            if (anchor) {
-                // anchor is in content-space coordinates — compute translation to
-                // center that point in the viewport at the given scale
-                newTranslate = {
-                    x: container.width / 2 - anchor.x * clampedScale,
-                    y: container.height / 2 - anchor.y * clampedScale,
-                };
-            } else {
-                // No anchor — zoom toward center using the standard focal-point math
-                const result = getZoomTransform({
-                    newScale: clampedScale,
-                    minScale: config.minScale,
-                    cursorX: config.initialCoordinates.x,
-                    cursorY: config.initialCoordinates.y,
-                    initialCoordinates: config.initialCoordinates,
-                })(prev);
-                newTranslate = result.translate;
-            }
+            // Scale to fit the content-space rectangle into the available viewport space
+            const scaleToFit = Math.min(
+                availableWidth / viewport.width,
+                availableHeight / viewport.height
+            );
+            const clampedScale = clampBetween(config.minScale, scaleToFit, config.maxZoomIn);
+
+            // Center of the target rectangle in content-space
+            const rectCenterX = viewport.x + viewport.width / 2;
+            const rectCenterY = viewport.y + viewport.height / 2;
+
+            // Translate so the rect center maps to the viewport center
+            let newTranslate: Point = {
+                x: container.width / 2 - rectCenterX * clampedScale,
+                y: container.height / 2 - rectCenterY * clampedScale,
+            };
 
             if (target) {
                 newTranslate = clampTranslate(

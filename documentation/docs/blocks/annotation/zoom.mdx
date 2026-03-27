@@ -23,11 +23,11 @@ import { ThemeProvider, View, ActionButton, Text, Flex } from '@geti-ai/ui';
 const IMAGE_WIDTH = 800;
 const IMAGE_HEIGHT = 600;
 
-// Define shapes with their center points for "focus on element" buttons
+// Define shapes with their bounding boxes for "focus on element" buttons
 const SHAPES = [
-  { name: 'Rectangle', cx: 225, cy: 170, color: '#00ff88' },
-  { name: 'Circle', cx: 500, cy: 350, color: '#ff4444' },
-  { name: 'Triangle', cx: 350, cy: 280, color: '#4488ff' },
+  { name: 'Rectangle', rect: { x: 100, y: 80, width: 250, height: 180 }, color: '#00ff88' },
+  { name: 'Circle', rect: { x: 420, y: 270, width: 160, height: 160 }, color: '#ff4444' },
+  { name: 'Triangle', rect: { x: 280, y: 200, width: 140, height: 120 }, color: '#4488ff' },
 ];
 
 function ZoomControls() {
@@ -60,7 +60,7 @@ function ZoomControls() {
       {SHAPES.map((shape) => (
         <ActionButton
           key={shape.name}
-          onPress={() => zoomTo(4, { x: shape.cx, y: shape.cy })}
+          onPress={() => zoomTo(shape.rect, { padding: 20 })}
           aria-label={`Focus on ${shape.name}`}
         >
           <span style={{ color: shape.color, marginRight: 4 }}>●</span>
@@ -123,7 +123,7 @@ export default function App() {
             <ZoomControls />
           </View>
           <View UNSAFE_style={{ flex: 1, minHeight: 0 }}>
-            <ZoomTransform target={{ width: IMAGE_WIDTH, height: IMAGE_HEIGHT }}>
+            <ZoomTransform target={{ width: IMAGE_WIDTH, height: IMAGE_HEIGHT }} doubleClickMode="fitToScreen">
               <AnnotatedImage />
             </ZoomTransform>
           </View>
@@ -212,6 +212,7 @@ export default function App() {
 | Pinch gesture | Zoom in/out on touch devices, anchored at pinch midpoint |
 | `Ctrl` + drag | Pan the viewport (cursor changes to grab/grabbing) |
 | Middle mouse button + drag | Pan the viewport |
+| Double-click | Reset to fit-to-screen (when `doubleClickMode="fitToScreen"`) |
 | `+` / `-` buttons | Step zoom in/out (center-anchored) |
 | Fit button | Reset to fit-to-screen with transition animation |
 
@@ -247,8 +248,11 @@ zoomBy(1);
 // Zoom out by two steps
 zoomBy(-2);
 
-// Zoom to an absolute scale, optionally anchored at a point
-zoomTo(2.5, { x: 400, y: 300 });
+// Zoom to fit a content-space rectangle in the viewport with 10px padding
+zoomTo({ x: 100, y: 80, width: 250, height: 180 }, { padding: 10 });
+
+// Zoom to fit a region without extra padding
+zoomTo({ x: 0, y: 0, width: 400, height: 300 });
 
 // Reset to fit-to-screen
 fitToScreen();
@@ -270,6 +274,7 @@ fitToScreen();
 | `target` | `Size` | — | Yes | Natural dimensions of the zoomable content. |
 | `children` | `ReactNode` | — | Yes | Content to render inside the viewport. |
 | `interactive` | `boolean` | `true` | No | Whether zoom and pan interactions are enabled. Set to `false` for read-only display. |
+| `doubleClickMode` | `'fitToScreen' \| 'none'` | `'none'` | No | Action on double-click. `'fitToScreen'` resets to fit-to-screen with animation. |
 | `zoomInMultiplier` | `number` | `10` | No | Max zoom = initial fit-to-screen scale multiplied by this value. |
 | `zoomOutMultiplier` | `number` | `0.5` | No | Min zoom = initial fit-to-screen scale multiplied by this value. Set to `1` to prevent zooming out past fit-to-screen. |
 
@@ -293,13 +298,19 @@ Returns imperative zoom control methods:
 | --- | --- | --- |
 | `fitToScreen` | `() => void` | Reset to initial fit-to-screen position. |
 | `zoomBy` | `(step: number) => void` | Increment/decrement zoom by discrete steps. `1` = zoom in, `-1` = zoom out. |
-| `zoomTo` | `(scale: number, anchor?: Point) => void` | Set zoom to an absolute scale, optionally anchored at a content point. |
+| `zoomTo` | `(viewport: Rect, options?: ZoomToOptions) => void` | Zoom and pan so that the given content-space rectangle is visible in the viewport, centered and scaled to fit with optional padding. |
 
 ## Types
 
 ```ts
 type Point = { x: number; y: number };
 type Size = { width: number; height: number };
+type Rect = { x: number; y: number; width: number; height: number };
+
+type ZoomToOptions = {
+  /** Extra padding (in viewport pixels) around the target rectangle. Default: 0 */
+  padding?: number;
+};
 
 type ZoomConfig = {
   initialCoordinates: Point & { scale: number };

@@ -70,6 +70,13 @@ export function ZoomTransform({
 
     const cursorIcon = !interactive ? 'default' : isPanning && isGrabbing ? 'grabbing' : isPanning ? 'grab' : 'default';
 
+    const handleDoubleClick = useCallback(() => {
+        if (interactive && doubleClickMode === 'fitToScreen') {
+            animatingRef.current = true;
+            fitToScreen();
+        }
+    }, [interactive, doubleClickMode, fitToScreen]);
+
     const handleTranslateUpdate = useCallback(
         ({ x, y }: Point) => {
             setTransform((prev) => {
@@ -173,6 +180,7 @@ export function ZoomTransform({
             onPointerDown={interactive ? onPointerDown : undefined}
             onPointerUp={interactive ? onPointerUp : undefined}
             onMouseLeave={interactive ? onMouseLeave : undefined}
+            onDoubleClick={handleDoubleClick}
         >
             <div
                 data-testid="zoom-transform"

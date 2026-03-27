@@ -59,6 +59,26 @@ describe('useWheelPanning', () => {
         expect(onDelta).toHaveBeenCalledWith({ x: 10, y: 5 });
     });
 
+    it('reports delta on pointer move with button: 0 (browser behavior during move)', () => {
+        const setIsPanning = rstest.fn();
+        const onDelta = rstest.fn();
+        const { result } = renderHook(() => useWheelPanning(setIsPanning));
+
+        // Start with middle-button pointerdown
+        act(() => {
+            result.current.onPointerDown(createWheelPointerEvent({ clientX: 10, clientY: 10 }));
+        });
+
+        // Move with button: 0 (this is what browsers actually report during pointermove)
+        act(() => {
+            result.current.onPointerMove(onDelta)(
+                createLeftPointerEvent({ clientX: 25, clientY: 18 }),
+            );
+        });
+
+        expect(onDelta).toHaveBeenCalledWith({ x: 15, y: 8 });
+    });
+
     it('resets on pointer up', () => {
         const setIsPanning = rstest.fn();
         const { result } = renderHook(() => useWheelPanning(setIsPanning));
