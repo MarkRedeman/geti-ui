@@ -31,7 +31,7 @@ export function ManagedTab({ label, isSelected, actions, onAction, trailingConte
     };
 
     const tabContent = (
-        <span className={styles.managedTab}>
+        <Text UNSAFE_className={styles.managedTab}>
             <Text>{label}</Text>
 
             {isActionable ? (
@@ -43,7 +43,7 @@ export function ManagedTab({ label, isSelected, actions, onAction, trailingConte
             )}
 
             {trailingContent}
-        </span>
+        </Text>
     );
 
     if (!isActionable) {
