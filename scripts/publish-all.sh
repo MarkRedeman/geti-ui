@@ -4,14 +4,18 @@
 # Called by semantic-release via @semantic-release/exec publishCmd.
 # Packages are published sequentially in dependency order:
 #   1. @geti-ai/ui          (no internal deps)
-#   2. @geti-ai/smart-tools (no internal deps)
-#   3. @geti-ai/charts      (depends on @geti-ai/ui)
-#   4. @geti-ai/mcp         (no internal deps)
+#   2. @geti-ai/blocks      (depends on @geti-ai/ui)
+#   3. @geti-ai/smart-tools (no internal deps)
+#   4. @geti-ai/charts      (depends on @geti-ai/ui)
+#   5. @geti-ai/mcp         (no internal deps)
 
 set -euo pipefail
 
 echo "Publishing @geti-ai/ui ..."
 npm publish --workspace=@geti-ai/ui
+
+echo "Publishing @geti-ai/blocks ..."
+npm publish --workspace=@geti-ai/blocks
 
 echo "Publishing @geti-ai/smart-tools ..."
 npm publish --workspace=@geti-ai/smart-tools

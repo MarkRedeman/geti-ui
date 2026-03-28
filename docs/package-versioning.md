@@ -15,9 +15,10 @@ Our release pipeline uses **semantic-release** as the single source of truth for
 
 ### Shared version
 
-All four packages share a single version number:
+All five packages share a single version number:
 
 - `@geti-ai/ui`
+- `@geti-ai/blocks`
 - `@geti-ai/smart-tools`
 - `@geti-ai/charts`
 - `@geti-ai/mcp`
@@ -74,8 +75,8 @@ When a PR is merged into `main`, the unified `release.yml` workflow runs automat
     *   Analyses commits since the last tag to determine the bump level (patch/minor/major)
     *   Generates release notes
     *   Writes `CHANGELOG.md`
-    *   Updates all four `package.json` versions
-    *   Publishes all four packages to npm (sequentially, in dependency order)
+    *   Updates all five `package.json` versions
+    *   Publishes all five packages to npm (sequentially, in dependency order)
     *   Commits the updated files back to `main` (with `[skip ci]`)
     *   Creates a git tag (`v{version}`)
     *   Creates a GitHub Release with the generated notes
@@ -103,5 +104,5 @@ All packages share a single tag: `v{version}` (e.g., `v0.1.0`, `v1.0.0`).
 ## Configuration
 
 - **`release.config.mjs`** — semantic-release plugin chain and configuration (repo root)
-- **`scripts/publish-all.sh`** — sequential npm publish script for all 4 workspaces
+- **`scripts/publish-all.sh`** — sequential npm publish script for all 5 workspaces
 - **`.github/workflows/release.yml`** — unified 3-job release workflow

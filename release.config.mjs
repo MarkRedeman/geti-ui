@@ -1,15 +1,16 @@
 /**
  * Semantic-release configuration for the geti-ui monorepo.
  *
- * All four packages (@geti-ai/ui, @geti-ai/smart-tools, @geti-ai/charts,
- * @geti-ai/mcp) share a single version number. On every push to `main`,
+ * All five packages (@geti-ai/ui, @geti-ai/blocks, @geti-ai/smart-tools,
+ * @geti-ai/charts, @geti-ai/mcp) share a single version number. On every
+ * push to `main`,
  * semantic-release analyses conventional commits since the last tag and:
  *
  *   1. Determines the next version bump (patch / minor / major)
  *   2. Generates release notes
  *   3. Writes CHANGELOG.md
  *   4. Updates every workspace package.json to the new version
- *   5. Publishes all four packages to npm (via scripts/publish-all.sh)
+ *   5. Publishes all five packages to npm (via scripts/publish-all.sh)
  *   6. Commits the changed files back to main
  *   7. Creates a GitHub Release with the generated notes
  *
@@ -18,6 +19,7 @@
 
 const WORKSPACES = [
     'packages/ui',
+    'packages/blocks',
     'packages/smart-tools',
     'packages/charts',
     'packages/mcp',
@@ -63,6 +65,7 @@ export default {
                 assets: [
                     'CHANGELOG.md',
                     'packages/ui/package.json',
+                    'packages/blocks/package.json',
                     'packages/smart-tools/package.json',
                     'packages/charts/package.json',
                     'packages/mcp/package.json',
