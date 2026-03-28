@@ -1,6 +1,16 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
-import { Flex, Text, View } from '@geti-ai/ui';
-import { GridLayout, GridList, GridListItem, type Key, type Selection, Size, Virtualizer } from 'react-aria-components';
+import {
+    AriaGridLayout,
+    AriaGridList,
+    AriaGridListItem,
+    type AriaKey,
+    type AriaSelection,
+    AriaSize,
+    AriaVirtualizer,
+    Flex,
+    Text,
+    View,
+} from '@geti-ai/ui';
 import styles from './media-grid.module.css';
 import type { MediaGridIdentifiable, MediaGridProps, MediaGridRenderContext, MediaGridSelection } from './types';
 
@@ -99,7 +109,7 @@ export function MediaGrid<T extends MediaGridIdentifiable>({
         selection: effectiveSelection,
     });
 
-    const handleSelectionChange = (keys: Selection) => {
+    const handleSelectionChange = (keys: AriaSelection) => {
         const typed = keys as MediaGridSelection;
         if (!isControlledSelection) {
             setInternalSelection(typed);
@@ -158,15 +168,15 @@ export function MediaGrid<T extends MediaGridIdentifiable>({
         <View UNSAFE_className={rootClassName} UNSAFE_style={style}>
             <div className={styles.gridContainer} ref={containerRef}>
                 <div className={styles.gridInner}>
-                    <Virtualizer
-                        layout={GridLayout}
+                    <AriaVirtualizer
+                        layout={AriaGridLayout}
                         layoutOptions={{
-                            minItemSize: new Size(itemSize, itemSize),
-                            minSpace: new Size(effectiveGap, effectiveGap),
+                            minItemSize: new AriaSize(itemSize, itemSize),
+                            minSpace: new AriaSize(effectiveGap, effectiveGap),
                             maxColumns: columnCount,
                         }}
                     >
-                        <GridList
+                        <AriaGridList
                             aria-label={ariaLabel}
                             className={styles.gridListBox}
                             style={{ display: 'block', padding: 0, height: '100%', width: '100%' }}
@@ -175,7 +185,7 @@ export function MediaGrid<T extends MediaGridIdentifiable>({
                             selectionBehavior="replace"
                             selectedKeys={effectiveSelection}
                             onSelectionChange={handleSelectionChange}
-                            onAction={(key: Key) => {
+                            onAction={(key: AriaKey) => {
                                 const entry = items.find((itemEntry) => itemEntry.key === String(key));
                                 if (!entry?.item) {
                                     return;
@@ -205,18 +215,18 @@ export function MediaGrid<T extends MediaGridIdentifiable>({
                                 });
 
                                 return (
-                                    <GridListItem
+                                    <AriaGridListItem
                                         id={entry.key}
                                         key={entry.key}
                                         textValue={`Media item ${entry.index + 1}`}
                                         style={{ height: '100%' }}
                                     >
                                         <div className={styles.mediaGridCell}>{renderItem(context)}</div>
-                                    </GridListItem>
+                                    </AriaGridListItem>
                                 );
                             })}
-                        </GridList>
-                    </Virtualizer>
+                        </AriaGridList>
+                    </AriaVirtualizer>
                     {shouldLoadMore ? <div ref={loadMoreRef} style={{ height: 1 }} /> : null}
                     {isLoadingMore && shouldLoadMore ? (
                         <div style={{ paddingTop: 8 }}>{loadingState ?? <Text>Loading more…</Text>}</div>

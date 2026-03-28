@@ -1,5 +1,4 @@
-import { ActionMenu, Checkbox, StatusLight, Text } from '@geti-ai/ui';
-import { Item } from '@adobe/react-spectrum';
+import { ActionMenu, ActionMenuItem, Checkbox, StatusLight, Text } from '@geti-ai/ui';
 import type { MouseEvent, PointerEvent } from 'react';
 import styles from './MediaGridItem.module.css';
 import type {
@@ -46,7 +45,7 @@ export function MediaGridItemMenu({ ariaLabel = 'Media actions', actions, onActi
         >
             <ActionMenu isQuiet aria-label={ariaLabel} onAction={(key: React.Key) => onAction(String(key))}>
                 {actions.map((action) => (
-                    <Item key={action.key}>{action.label}</Item>
+                    <ActionMenuItem key={action.key}>{action.label}</ActionMenuItem>
                 ))}
             </ActionMenu>
         </div>

@@ -1,11 +1,10 @@
 import { useEffect, useMemo, useRef } from 'react';
-import { ActionButton, Content, Dialog, Flex, Heading, Text, View, ButtonGroup } from '@geti-ai/ui';
+import { ActionButton, ButtonGroup, Content, Dialog, Flex, Heading, Icon, Text, View } from '@geti-ai/ui';
 import { Add } from '@geti-ai/ui/icons';
 import { FilterRow } from './FilterRow';
 import { useFilterRulesDraft } from './useFilterRulesDraft';
 import { DEFAULT_FILTER_CONDITION, createEmptyRule, getValidRules } from './utils';
 import type { FilterDialogProps, FilterModel } from './types';
-import { Icon } from '@adobe/react-spectrum';
 
 import classes from './FilterDialog.module.css';
 

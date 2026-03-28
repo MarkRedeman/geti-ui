@@ -32,6 +32,9 @@ export type { AvatarGroupProps } from './components/ui/Avatar/AvatarGroup';
 export { Image } from './components/ui/Image/Image';
 export type { ImageProps } from './components/ui/Image/Image';
 
+export { Icon } from './components/ui/Icon/Icon';
+export type { IconProps } from './components/ui/Icon/Icon';
+
 export { Divider } from './components/ui/Divider/Divider';
 export type { DividerProps } from './components/ui/Divider/Divider';
 
@@ -201,6 +204,7 @@ export { Section as MenuSection } from './components/navigation/Menu/Section';
 
 export { ActionMenu } from './components/navigation/ActionMenu/ActionMenu';
 export type { ActionMenuProps } from './components/navigation/ActionMenu/ActionMenu';
+export { Item as ActionMenuItem } from './components/navigation/Menu/Item';
 
 export { MediaViewModes } from './components/navigation/MediaViewModes/MediaViewModes';
 export type { MediaViewModesProps } from './components/navigation/MediaViewModes/MediaViewModes';
@@ -260,12 +264,14 @@ export type { TagProps } from './components/data/Tag/Tag';
 
 export { ActionBar, ActionBarContainer } from './components/data/ActionBar/ActionBar';
 export type { ActionBarProps, ActionBarContainerProps } from './components/data/ActionBar/ActionBar';
+export { Item as ActionBarItem } from './components/navigation/Menu/Item';
 
 export { CardView } from './components/data/CardView/CardView';
 export type { CardViewProps } from './components/data/CardView/CardView';
 
 export { TreeView } from './components/data/TreeView/TreeView';
 export type { TreeViewProps } from './components/data/TreeView/TreeView';
+export { Item as TreeViewItem } from './components/navigation/Menu/Item';
 
 /** @deprecated Use @geti-ai/blocks media components instead. */
 export { VirtualizedListLayout } from './components/data/VirtualizedListLayout/VirtualizedListLayout';
@@ -295,3 +301,23 @@ export type { WellProps } from './components/layouts/Well/Well';
 
 export { Card } from './components/layouts/Card/Card';
 export type { CardProps } from './components/layouts/Card/Card';
+
+// Advanced primitives (for internal package composition)
+export {
+    GridLayout as AriaGridLayout,
+    GridList as AriaGridList,
+    GridListItem as AriaGridListItem,
+    ListBox as AriaListBox,
+    ListBoxItem as AriaListBoxItem,
+    Virtualizer as AriaVirtualizer,
+    type Key as AriaKey,
+    type Selection as AriaSelection,
+} from 'react-aria-components';
+
+export {
+    Layout as AriaLayout,
+    LayoutInfo as AriaLayoutInfo,
+    Rect as AriaRect,
+    Size as AriaSize,
+    type InvalidationContext as AriaInvalidationContext,
+} from '@react-stately/virtualizer';

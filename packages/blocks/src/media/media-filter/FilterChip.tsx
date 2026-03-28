@@ -1,5 +1,4 @@
-import { Icon } from '@adobe/react-spectrum';
-import { ActionButton, Tag } from '@geti-ai/ui';
+import { ActionButton, Icon, Tag } from '@geti-ai/ui';
 import { BorderClose } from '@geti-ai/ui/icons';
 import type { FilterChipProps } from './types';
 import styles from './FilterChip.module.css';

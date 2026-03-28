@@ -1,9 +1,8 @@
 import { useMemo, useState } from 'react';
-import { ActionButton, Checkbox, Flex, SearchField, Text, Tooltip, TooltipTrigger, View } from '@geti-ai/ui';
+import { ActionButton, Checkbox, Flex, Icon, SearchField, Text, Tooltip, TooltipTrigger, View } from '@geti-ai/ui';
 import { Copy } from '@geti-ai/ui/icons';
 import { LogLevelDropdown } from './LogLevelDropdown';
 import styles from './LogsFilters.module.css';
-import { Icon } from '@adobe/react-spectrum';
 import type { LogFilters } from './types';
 
 export interface LogsFiltersProps {

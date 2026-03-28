@@ -94,7 +94,7 @@ import {
     KeypointDetectionImg,
     DetectionRotatedImg,
 } from '@geti-ai/ui/assets/domains';
-import { Icon } from '@adobe/react-spectrum';
+import { Icon } from '@geti-ai/ui';
 import { HomeFooter } from '@rspress/core/theme-original';
 import type { HomeLayoutProps } from '@rspress/core/theme-original';
 

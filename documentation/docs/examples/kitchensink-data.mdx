@@ -5,12 +5,13 @@ Source of truth for data kitchensink examples (no `.stories` runtime dependency)
 ## ActionBar
 
 ```tsx preview
-import { Item, Text } from '@adobe/react-spectrum';
 import {
   ActionBar,
+  ActionBarItem as Item,
   ActionBarContainer,
   ListItem,
   ListView,
+  Text,
 } from '@geti-ai/ui';
 
 export default function App() {
@@ -462,8 +463,7 @@ export default function App() {
 ## TreeView
 
 ```tsx preview
-import { Item, Text } from '@adobe/react-spectrum';
-import { TreeView } from '@geti-ai/ui';
+import { Text, TreeView, TreeViewItem as Item } from '@geti-ai/ui';
 
 export default function App() {
   return (
@@ -493,9 +493,9 @@ export default function App() {
 > Deprecated: use `@geti-ai/blocks` media components (`MediaRow`/`MediaGrid`) for new implementations.
 
 ```tsx preview
-import { Text } from '@adobe/react-spectrum';
 import {
   Flex,
+  Text,
   View,
   VirtualizedHorizontalGrid,
 } from '@geti-ai/ui';
@@ -537,9 +537,9 @@ export default function App() {
 > Deprecated: use `@geti-ai/blocks` media components (`MediaGrid`/`MediaColumn`/`MediaRow`) for new implementations.
 
 ```tsx preview
-import { Text } from '@adobe/react-spectrum';
 import {
   Flex,
+  Text,
   View,
   VirtualizedListLayout,
 } from '@geti-ai/ui';

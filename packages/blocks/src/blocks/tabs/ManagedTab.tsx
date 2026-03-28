@@ -1,6 +1,5 @@
 import { useState, type Key, type ReactNode } from 'react';
-import { Menu, MenuItem, MenuTrigger, PressableElement, Text } from '@geti-ai/ui';
-import { Icon } from '@adobe/react-spectrum';
+import { Icon, Menu, MenuItem, MenuTrigger, PressableElement, Text } from '@geti-ai/ui';
 import { MoreMenu } from '@geti-ai/ui/icons';
 import styles from './ManagedTab.module.css';
 

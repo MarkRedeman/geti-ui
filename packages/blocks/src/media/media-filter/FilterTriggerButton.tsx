@@ -1,6 +1,5 @@
-import { ActionButton } from '@geti-ai/ui';
+import { ActionButton, Icon } from '@geti-ai/ui';
 import { Filter } from '@geti-ai/ui/icons';
-import { Icon } from '@adobe/react-spectrum';
 import type { FilterTriggerButtonProps } from './types';
 
 export function FilterTriggerButton({

@@ -1,5 +1,4 @@
-import { ActionButton } from '@geti-ai/ui';
-import { Icon } from '@adobe/react-spectrum';
+import { ActionButton, Icon } from '@geti-ai/ui';
 import { Delete } from '@geti-ai/ui/icons';
 import { FilterFieldSelect } from './FilterFieldSelect';
 import { FilterOperatorSelect } from './FilterOperatorSelect';

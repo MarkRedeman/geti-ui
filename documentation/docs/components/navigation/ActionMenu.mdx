@@ -7,8 +7,7 @@ title: ActionMenu
 ActionMenu combines an icon-button trigger (⋯) with a dropdown menu in a single component. Use it for compact contextual action sets on cards, table rows, and list items where showing individual buttons would be too wide.
 
 ```tsx
-import { ActionMenu } from '@geti-ai/ui';
-import { Item } from '@adobe/react-spectrum';
+import { ActionMenu, ActionMenuItem as Item } from '@geti-ai/ui';
 ```
 
 - [React Spectrum ActionMenu ↗](https://react-spectrum.adobe.com/react-spectrum/ActionMenu.html)
@@ -19,8 +18,7 @@ import { Item } from '@adobe/react-spectrum';
 ### Default
 
 ```tsx preview
-import { ActionMenu } from '@geti-ai/ui';
-import { Item } from '@adobe/react-spectrum';
+import { ActionMenu, ActionMenuItem as Item } from '@geti-ai/ui';
 
 export default function App() {
   return (
@@ -36,8 +34,7 @@ export default function App() {
 ### Quiet
 
 ```tsx preview
-import { ActionMenu } from '@geti-ai/ui';
-import { Item } from '@adobe/react-spectrum';
+import { ActionMenu, ActionMenuItem as Item } from '@geti-ai/ui';
 
 export default function App() {
   return (
@@ -53,8 +50,7 @@ export default function App() {
 ### Disabled
 
 ```tsx preview
-import { ActionMenu } from '@geti-ai/ui';
-import { Item } from '@adobe/react-spectrum';
+import { ActionMenu, ActionMenuItem as Item } from '@geti-ai/ui';
 
 export default function App() {
   return (
@@ -69,8 +65,7 @@ export default function App() {
 ### With explicit aria-label
 
 ```tsx preview
-import { ActionMenu } from '@geti-ai/ui';
-import { Item } from '@adobe/react-spectrum';
+import { ActionMenu, ActionMenuItem as Item } from '@geti-ai/ui';
 
 export default function App() {
   return (
@@ -100,7 +95,7 @@ export default function App() {
 
 ### Content
 
-- `children`: `Item` elements. Each `Item` requires a unique `key`.
+- `children`: `ActionMenuItem` elements (aliased as `Item` in examples). Each item requires a unique `key`.
 
 ### Visual
 

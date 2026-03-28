@@ -2,7 +2,7 @@
 title: TreeView
 ---
 
-import { TreeView } from '@geti-ai/ui';
+import { TreeView, TreeViewItem as Item, Text } from '@geti-ai/ui';
 
 # TreeView
 
@@ -20,8 +20,7 @@ import { TreeView } from '@geti-ai/ui';
 ### Basic file tree
 
 ```tsx preview
-import { TreeView } from '@geti-ai/ui';
-import { Item, Text } from '@adobe/react-spectrum';
+import { TreeView, TreeViewItem as Item, Text } from '@geti-ai/ui';
 
 export default function App() {
   return (
@@ -42,7 +41,7 @@ export default function App() {
 
 ## Responsibility
 
-`TreeView` is a thin wrapper around React Spectrum's `TreeView`. Expansion state, keyboard navigation, and ARIA tree semantics are all handled by Spectrum. Children use Spectrum's `Item` directly — import it from `@adobe/react-spectrum` for nested tree items.
+`TreeView` is a thin wrapper around React Spectrum's `TreeView`. Expansion state, keyboard navigation, and ARIA tree semantics are all handled by Spectrum. Use `TreeViewItem` from `@geti-ai/ui` for nested tree items.
 
 ## Variants and states
 
@@ -55,7 +54,7 @@ export default function App() {
 
 ### Content
 
-- `children`: `Item` elements from `@adobe/react-spectrum`. Nested items create tree branches.
+- `children`: `TreeViewItem` elements from `@geti-ai/ui`. Nested items create tree branches.
 - `items` + render function: for dynamic data, pass `items` and a render child.
 - `textValue` on `Item`: required for accessibility and keyboard type-to-select.
 

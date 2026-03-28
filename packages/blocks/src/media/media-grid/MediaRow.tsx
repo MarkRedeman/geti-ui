@@ -1,17 +1,18 @@
 import { useRef, useState } from 'react';
-import { Text, View } from '@geti-ai/ui';
-import { InvalidationContext } from '@react-stately/virtualizer';
 import {
-    type Key,
-    Layout,
-    LayoutInfo,
-    ListBox,
-    ListBoxItem,
-    Rect,
-    type Selection,
-    Size,
-    Virtualizer,
-} from 'react-aria-components';
+    type AriaInvalidationContext,
+    type AriaKey,
+    AriaLayout,
+    AriaLayoutInfo,
+    AriaListBox,
+    AriaListBoxItem,
+    AriaRect,
+    type AriaSelection,
+    AriaSize,
+    AriaVirtualizer,
+    Text,
+    View,
+} from '@geti-ai/ui';
 import styles from './media-grid.module.css';
 import type { MediaGridIdentifiable, MediaGridRenderContext, MediaGridSelection, MediaRowProps } from './types';
 import { createMediaRenderContext, useFocusOnSelect, useVirtualMediaItems } from './hooks';
@@ -26,7 +27,7 @@ const DEFAULT_GAP = 8;
 const DEFAULT_SIZE = 100;
 const DEFAULT_OVERSCAN = 2;
 
-class MediaRowHorizontalLayout extends Layout {
+class MediaRowHorizontalLayout extends AriaLayout {
     protected gap: number;
     protected size: number;
     protected overscan: number;
@@ -38,7 +39,7 @@ class MediaRowHorizontalLayout extends Layout {
         this.overscan = options.overscan ?? DEFAULT_OVERSCAN;
     }
 
-    getVisibleLayoutInfos(rect: Rect): LayoutInfo[] {
+    getVisibleLayoutInfos(rect: AriaRect): AriaLayoutInfo[] {
         if (!this.virtualizer) {
             return [];
         }
@@ -47,7 +48,7 @@ class MediaRowHorizontalLayout extends Layout {
         const keys = Array.from(this.virtualizer.collection.getKeys());
         const startIndex = Math.max(0, Math.floor(rect.x / sizeWithGap) - this.overscan);
         const endIndex = Math.min(keys.length - 1, Math.ceil(rect.maxX / sizeWithGap) + this.overscan);
-        const layoutInfos: LayoutInfo[] = [];
+        const layoutInfos: AriaLayoutInfo[] = [];
 
         for (let i = startIndex; i <= endIndex; i += 1) {
             const layoutInfo = this.getLayoutInfo(keys[i]);
@@ -72,31 +73,31 @@ class MediaRowHorizontalLayout extends Layout {
         return layoutInfos;
     }
 
-    getLayoutInfo(key: Key): LayoutInfo | null {
+    getLayoutInfo(key: AriaKey): AriaLayoutInfo | null {
         const node = this.virtualizer?.collection.getItem(key);
         if (!node) {
             return null;
         }
 
         const sizeWithGap = this.size + this.gap;
-        const rect = new Rect(node.index * sizeWithGap, 0, this.size, this.size);
+        const rect = new AriaRect(node.index * sizeWithGap, 0, this.size, this.size);
 
-        return new LayoutInfo(node.type, node.key, rect);
+        return new AriaLayoutInfo(node.type, node.key, rect);
     }
 
-    getContentSize(): Size {
+    getContentSize(): AriaSize {
         if (!this.virtualizer) {
-            return new Size();
+            return new AriaSize();
         }
 
         const numItems = this.virtualizer.collection.size;
         const sizeWithGap = this.size + this.gap;
         const contentWidth = Math.max(0, numItems * sizeWithGap - this.gap);
 
-        return new Size(contentWidth, this.size);
+        return new AriaSize(contentWidth, this.size);
     }
 
-    update(invalidationContext: InvalidationContext<HorizontalLayoutOptions>): void {
+    update(invalidationContext: AriaInvalidationContext<HorizontalLayoutOptions>): void {
         this.gap = invalidationContext?.layoutOptions?.gap ?? this.gap;
         this.size = invalidationContext?.layoutOptions?.size ?? this.size;
         this.overscan = invalidationContext?.layoutOptions?.overscan ?? this.overscan;
@@ -135,7 +136,7 @@ export function MediaRow<T extends MediaGridIdentifiable>({
 
     const items = useVirtualMediaItems(totalItems, getItemAt);
 
-    const handleSelectionChange = (keys: Selection) => {
+    const handleSelectionChange = (keys: AriaSelection) => {
         const typed = keys as MediaGridSelection;
         if (!isControlledSelection) {
             setInternalSelection(typed);
@@ -167,8 +168,8 @@ export function MediaRow<T extends MediaGridIdentifiable>({
         <View UNSAFE_className={rootClassName} UNSAFE_style={style}>
             <div className={styles.gridContainer} role="region" aria-label={ariaLabel} style={{ overflow: 'visible' }}>
                 <div className={styles.gridInner} style={{ height: itemSize + 24, overflow: 'visible' }}>
-                    <Virtualizer layout={MediaRowHorizontalLayout} layoutOptions={{ size: itemSize, gap, overscan: 2 }}>
-                        <ListBox
+                    <AriaVirtualizer layout={MediaRowHorizontalLayout} layoutOptions={{ size: itemSize, gap, overscan: 2 }}>
+                        <AriaListBox
                             ref={listRef}
                             aria-label={ariaLabel}
                             className={styles.mediaRowListBox}
@@ -180,7 +181,7 @@ export function MediaRow<T extends MediaGridIdentifiable>({
                             selectionBehavior="replace"
                             selectedKeys={effectiveSelection}
                             onSelectionChange={handleSelectionChange}
-                            onAction={(key: Key) => {
+                            onAction={(key: AriaKey) => {
                                 const entry = items.find((itemEntry) => itemEntry.key === String(key));
                                 if (!entry?.item) {
                                     return;
@@ -210,7 +211,7 @@ export function MediaRow<T extends MediaGridIdentifiable>({
                                 });
 
                                 return (
-                                    <ListBoxItem
+                                    <AriaListBoxItem
                                         id={entry.key}
                                         key={entry.key}
                                         textValue={`Media item ${entry.index + 1}`}
@@ -222,11 +223,11 @@ export function MediaRow<T extends MediaGridIdentifiable>({
                                         }}
                                     >
                                         <div className={styles.mediaRowItem}>{renderItem(context)}</div>
-                                    </ListBoxItem>
+                                    </AriaListBoxItem>
                                 );
                             })}
-                        </ListBox>
-                    </Virtualizer>
+                        </AriaListBox>
+                    </AriaVirtualizer>
                 </div>
             </div>
         </View>

@@ -22,6 +22,7 @@
         { "text": "Divider", "link": "/components/ui/Divider" },
         { "text": "Footer", "link": "/components/ui/Footer" },
         { "text": "Heading", "link": "/components/ui/Heading" },
+        { "text": "Icon", "link": "/components/ui/Icon" },
         { "text": "Image", "link": "/components/ui/Image" },
         { "text": "PhotoPlaceholder", "link": "/components/ui/PhotoPlaceholder" },
         { "text": "PressableElement", "link": "/components/ui/PressableElement" },
