@@ -36,12 +36,12 @@
         "format:check": "prettier --check ."
     },
     "peerDependencies": {
+        "@react-aria/utils": "^3.33.1",
         "react": ">=18.0.0",
         "react-dom": ">=18.0.0"
     },
     "dependencies": {
         "@geti-ai/ui": "*",
-        "@react-aria/utils": "^3.33.1",
         "@use-gesture/react": "^10.3.1"
     },
     "devDependencies": {
@@ -53,6 +53,7 @@
         "@testing-library/jest-dom": "^6.9.1",
         "@testing-library/react": "^16.3.2",
         "@testing-library/user-event": "^14.6.1",
+        "@react-aria/utils": "^3.33.1",
         "@types/react": "^18.3.28",
         "@types/react-dom": "^18.3.7",
         "jsdom": "^28.1.0",

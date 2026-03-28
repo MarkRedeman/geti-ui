@@ -34,12 +34,12 @@
         "format:check": "prettier --check ."
     },
     "peerDependencies": {
+        "recharts": "^3.8.0",
         "react": ">=18.0.0",
         "react-dom": ">=18.0.0"
     },
     "dependencies": {
-        "d3-delaunay": "^6.0.4",
-        "recharts": "^3.8.0"
+        "d3-delaunay": "^6.0.4"
     },
     "devDependencies": {
         "@rsbuild/core": "^1.7.3",
@@ -57,6 +57,7 @@
         "prettier": "^3.8.1",
         "react": "^18.3.1",
         "react-dom": "^18.3.1",
+        "recharts": "^3.8.0",
         "typescript": "^5.9.3"
     }
 }
