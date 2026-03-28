@@ -181,6 +181,7 @@
             { "text": "Overview", "link": "/blocks/media/media-grid" },
             { "text": "Media column", "link": "/blocks/media/media-column" },
             { "text": "Media row", "link": "/blocks/media/media-row" },
+            { "text": "Media table", "link": "/blocks/media/media-table" },
             { "text": "Dropzone overlay", "link": "/blocks/media/media-grid-dropzone" },
             { "text": "Media grid item", "link": "/blocks/media/media-grid-item" },
             { "text": "Media grid item parts", "link": "/blocks/media/media-grid-item-parts" },

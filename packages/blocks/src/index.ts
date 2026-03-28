@@ -64,6 +64,15 @@ export type {
     MediaGridViewModeConfig,
 } from './media/media-grid';
 
+export { MediaTable } from './media/media-table';
+export type {
+    MediaTableProps,
+    MediaTableColumn,
+    MediaTableRenderContext,
+    MediaTableSortDirection,
+    MediaTableSortDescriptor,
+} from './media/media-table';
+
 export {
     FilterChip,
     FilterChips,
