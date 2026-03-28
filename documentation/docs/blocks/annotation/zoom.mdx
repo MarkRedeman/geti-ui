@@ -18,7 +18,7 @@ Use the `--zoom-scale` CSS custom property exposed on the container to render sc
 
 ```tsx preview
 import { ZoomProvider, ZoomTransform, useZoom, useZoomActions } from '@geti-ai/blocks';
-import { ThemeProvider, View, ActionButton, Text, Flex } from '@geti-ai/ui';
+import { ThemeProvider, View, ActionButton, Text, Flex, Grid } from '@geti-ai/ui';
 
 const IMAGE_WIDTH = 800;
 const IMAGE_HEIGHT = 600;
@@ -73,19 +73,24 @@ function ZoomControls() {
 
 function AnnotatedImage() {
   return (
-    <div style={{ position: 'relative', width: IMAGE_WIDTH, height: IMAGE_HEIGHT }}>
+    <Grid
+      columns={`${IMAGE_WIDTH}px`}
+      rows={`${IMAGE_HEIGHT}px`}
+      width={`${IMAGE_WIDTH}px`}
+      height={`${IMAGE_HEIGHT}px`}
+    >
       <img
         src="https://picsum.photos/800/600"
         width={IMAGE_WIDTH}
         height={IMAGE_HEIGHT}
-        style={{ display: 'block', imageRendering: 'pixelated' }}
+        style={{ gridRow: '1 / 2', gridColumn: '1 / 2', display: 'block', imageRendering: 'pixelated' }}
         alt="Sample"
       />
       <svg
         viewBox={`0 0 ${IMAGE_WIDTH} ${IMAGE_HEIGHT}`}
         width={IMAGE_WIDTH}
         height={IMAGE_HEIGHT}
-        style={{ position: 'absolute', top: 0, left: 0, pointerEvents: 'none' }}
+        style={{ gridRow: '1 / 2', gridColumn: '1 / 2', pointerEvents: 'none' }}
       >
         {/* Scale-invariant bounding box — stroke stays 2px on screen */}
         <rect
@@ -110,7 +115,7 @@ function AnnotatedImage() {
           strokeWidth="calc(2px / var(--zoom-scale, 1))"
         />
       </svg>
-    </div>
+    </Grid>
   );
 }
 
@@ -142,7 +147,7 @@ Each cell below uses a different image resolution and aspect ratio. The viewport
 
 ```tsx preview
 import { ZoomProvider, ZoomTransform } from '@geti-ai/blocks';
-import { ThemeProvider } from '@geti-ai/ui';
+import { ThemeProvider, Grid } from '@geti-ai/ui';
 
 const IMAGES = [
   { src: 'https://picsum.photos/800/600', width: 800, height: 600, label: '800 × 600 (4:3)' },
@@ -191,13 +196,45 @@ function ImageCell({ src, width, height, label }) {
         <CellHeader label={label} />
         <div style={{ flex: 1, minHeight: 0 }}>
           <ZoomTransform target={{ width, height }} interactive={false} >
-            <img
-              src={src}
-              width={width}
-              height={height}
-              style={{ display: 'block', imageRendering: 'pixelated' }}
-              alt={label}
-            />
+            <Grid
+              columns={`${width}px`}
+              rows={`${height}px`}
+              width={`${width}px`}
+              height={`${height}px`}
+            >
+              <img
+                src={src}
+                width={width}
+                height={height}
+                style={{ gridRow: '1 / 2', gridColumn: '1 / 2', display: 'block', imageRendering: 'pixelated' }}
+                alt={label}
+              />
+              <svg
+                viewBox={`0 0 ${width} ${height}`}
+                width={width}
+                height={height}
+                style={{ gridRow: '1 / 2', gridColumn: '1 / 2', pointerEvents: 'none' }}
+              >
+                <rect
+                  x={width * 0.12}
+                  y={height * 0.16}
+                  width={width * 0.34}
+                  height={height * 0.28}
+                  fill="none"
+                  stroke="#00ff88"
+                  strokeWidth="calc(2px / var(--zoom-scale, 1))"
+                />
+                <circle
+                  cx={width * 0.7}
+                  cy={height * 0.62}
+                  r={Math.min(width, height) * 0.14}
+                  fill="none"
+                  stroke="#ff4444"
+                  strokeWidth="calc(2px / var(--zoom-scale, 1))"
+                  strokeDasharray="calc(8 / var(--zoom-scale, 1)) calc(4 / var(--zoom-scale, 1))"
+                />
+              </svg>
+            </Grid>
           </ZoomTransform>
         </div>
       </div>
