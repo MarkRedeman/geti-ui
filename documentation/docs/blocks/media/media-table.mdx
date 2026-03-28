@@ -8,10 +8,14 @@ title: Media table
 
 Use it when users need media metadata scanning, sorting, and bulk actions in a denser layout than a thumbnail grid.
 
+If you need custom row composition, provide `EntryComponent`. The default implementation is exported as `MediaEntry`.
+
 ```tsx
 import {
   MediaTable,
+  MediaEntry,
   type MediaTableColumn,
+  type MediaEntryProps,
   type MediaTableRenderContext,
   type MediaGridSelection,
 } from '@geti-ai/blocks';
@@ -107,8 +111,6 @@ export default function App() {
           selectionMode="multiple"
           selectedKeys={selectedKeys}
           onSelectionChange={setSelectedKeys}
-          getThumbnailSrc={(item) => item.thumbnailUrl}
-          getThumbnailAlt={(item) => item.name}
           thumbnailSize={50}
           onSortChange={(descriptor) => {
             console.log('sort change', descriptor.column, descriptor.direction);
@@ -331,8 +333,6 @@ export default function App() {
               selectionMode="multiple"
               selectedKeys={selectedKeys}
               onSelectionChange={setSelectedKeys}
-              getThumbnailSrc={(item) => item.thumbnailUrl}
-              getThumbnailAlt={(item) => item.name}
               thumbnailSize={50}
             />
 
@@ -372,9 +372,7 @@ export default function App() {
 | `thumbnailColumnKey` | `string` | No | Internal key for the auto thumbnail column. |
 | `thumbnailColumnHeader` | `string` | No | Header text for the thumbnail column. Default: `'Thumbnail'`. |
 | `hideThumbnailColumn` | `boolean` | No | When `true`, suppresses the auto thumbnail column. |
-| `getThumbnailSrc` | `(item: T) => string \| undefined` | No | Maps item to thumbnail source URL for the default thumbnail renderer. |
-| `getThumbnailAlt` | `(item: T) => string` | No | Maps item to thumbnail alt text. |
-| `renderThumbnail` | `(context: MediaTableRenderContext<T>) => ReactNode` | No | Custom thumbnail cell renderer. |
+| `EntryComponent` | `(props: MediaEntryProps<T>) => ReactElement` | No | Cell renderer override used inside each generated row. Defaults to exported `MediaEntry`. |
 | `sortDescriptor` | `{ column: string \| number; direction: 'ascending' \| 'descending' }` | No | Controlled sort descriptor passed to the table. |
 | `onSortChange` | `(descriptor) => void` | No | Called when a sortable column header changes sort state. |
 | `density` | `'compact' \| 'regular' \| 'spacious'` | No | Table density. Default: `'regular'`. |
@@ -399,7 +397,7 @@ export default function App() {
 
 - Keep domain filtering in your own state/query layer; `MediaTable` only renders given rows.
 - Combine `selectedKeys` + `ActionBar` for bulk actions.
-- Keep thumbnail data (`getThumbnailSrc`) lightweight and cache-friendly.
+- If your item does not expose `thumbnailUrl`/`thumbnailSrc`, use a custom `EntryComponent` to render rows.
 - Reuse the same filter state model (`FilterDialog` + `FilterChips`) from the grid flow when switching views.
 
 ## Related

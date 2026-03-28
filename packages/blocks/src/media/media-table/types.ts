@@ -1,4 +1,4 @@
-import type { CSSProperties, ReactNode } from 'react';
+import type { CSSProperties, ReactElement, ReactNode } from 'react';
 import type {
     MediaGridIdentifiable,
     MediaGridPressEvent,
@@ -18,6 +18,12 @@ export type MediaTableRenderContext<T extends MediaGridIdentifiable> = MediaGrid
     thumbnailSize: number;
 };
 
+export type MediaTableEntryData<T extends MediaGridIdentifiable> = {
+    key: string;
+    index: number;
+    item: T | undefined;
+};
+
 export type MediaTableColumn<T extends MediaGridIdentifiable> = {
     key: string;
     name: string;
@@ -25,6 +31,15 @@ export type MediaTableColumn<T extends MediaGridIdentifiable> = {
     isRowHeader?: boolean;
     textValue?: (context: MediaTableRenderContext<T>) => string;
     renderCell: (context: MediaTableRenderContext<T>) => ReactNode;
+};
+
+export type MediaEntryProps<T extends MediaGridIdentifiable> = {
+    entry: MediaTableEntryData<T>;
+    context: MediaTableRenderContext<T>;
+    getColumn: (key: string) => MediaTableColumn<T> | undefined;
+    thumbnailColumnKey: string;
+    shouldRenderAutoThumbnailColumn: boolean;
+    thumbnailSize: number;
 };
 
 export type MediaTableProps<T extends MediaGridIdentifiable> = {
@@ -48,9 +63,7 @@ export type MediaTableProps<T extends MediaGridIdentifiable> = {
     thumbnailColumnKey?: string;
     thumbnailColumnHeader?: string;
     hideThumbnailColumn?: boolean;
-    getThumbnailSrc?: (item: T) => string | undefined;
-    getThumbnailAlt?: (item: T) => string;
-    renderThumbnail?: (context: MediaTableRenderContext<T>) => ReactNode;
+    EntryComponent?: (props: MediaEntryProps<T>) => ReactElement;
 
     sortDescriptor?: MediaTableSortDescriptor;
     onSortChange?: (descriptor: MediaTableSortDescriptor) => void;

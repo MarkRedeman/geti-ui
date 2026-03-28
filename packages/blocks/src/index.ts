@@ -64,8 +64,10 @@ export type {
     MediaGridViewModeConfig,
 } from './media/media-grid';
 
-export { MediaTable } from './media/media-table';
+export { MediaTable, MediaEntry } from './media/media-table';
 export type {
+    MediaEntryProps,
+    MediaTableEntryData,
     MediaTableProps,
     MediaTableColumn,
     MediaTableRenderContext,

@@ -1,8 +1,6 @@
-import { useMemo, useRef, useState } from 'react';
+import { useCallback, useMemo, useRef, useState } from 'react';
 import {
-    Cell,
     Column,
-    Row,
     TableBody,
     TableHeader,
     TableView,
@@ -11,9 +9,15 @@ import {
     type AriaSelection,
 } from '@geti-ai/ui';
 import styles from './media-table.module.css';
-import { createMediaRenderContext, useFocusOnSelect, useVirtualMediaItems } from '../media-grid/hooks';
-import type { MediaGridIdentifiable, MediaGridSelection } from '../media-grid/types';
-import type { MediaTableColumn, MediaTableProps, MediaTableRenderContext, MediaTableSortDescriptor } from './types';
+import {
+    createMediaRenderContext,
+    useFocusOnSelect,
+    useVirtualMediaItems,
+    type VirtualMediaItem,
+} from '../media-grid/hooks';
+import type { MediaGridIdentifiable, MediaGridRenderContext, MediaGridSelection } from '../media-grid/types';
+import { MediaEntry } from './MediaEntry';
+import type { MediaTableProps, MediaTableRenderContext, MediaTableSortDescriptor } from './types';
 
 const DEFAULT_THUMBNAIL_SIZE = 50;
 const DEFAULT_THUMBNAIL_COLUMN_KEY = '__thumbnail__';
@@ -39,16 +43,6 @@ function isMediaTableSortDescriptor(value: unknown): value is MediaTableSortDesc
     );
 }
 
-function defaultThumbnailAlt<T extends MediaGridIdentifiable>(item: T) {
-    return `Thumbnail ${String(item.id)}`;
-}
-
-function createPlaceholderCell(size: number) {
-    return (
-        <div className={styles.thumbnailPlaceholder} style={{ width: size, height: size }} aria-hidden="true" />
-    );
-}
-
 export function MediaTable<T extends MediaGridIdentifiable>({
     totalItems,
     getItemAt,
@@ -65,9 +59,7 @@ export function MediaTable<T extends MediaGridIdentifiable>({
     thumbnailColumnKey = DEFAULT_THUMBNAIL_COLUMN_KEY,
     thumbnailColumnHeader = 'Thumbnail',
     hideThumbnailColumn = false,
-    getThumbnailSrc,
-    getThumbnailAlt = defaultThumbnailAlt,
-    renderThumbnail,
+    EntryComponent = MediaEntry,
     sortDescriptor,
     onSortChange,
     density = 'regular',
@@ -77,13 +69,20 @@ export function MediaTable<T extends MediaGridIdentifiable>({
     className,
     style,
 }: MediaTableProps<T>) {
+    type HeaderColumn = {
+        key: string;
+        name: string;
+        allowsSorting?: boolean;
+        isRowHeader?: boolean;
+    };
+
     const [internalSelection, setInternalSelection] = useState<MediaGridSelection>(
-        defaultSelectedKeys ? new Set(Array.from(defaultSelectedKeys)) : new Set()
+        defaultSelectedKeys ? new Set(defaultSelectedKeys) : new Set()
     );
 
     const isControlledSelection = selectedKeys !== undefined;
     const effectiveSelection = isControlledSelection ? clampSelection(selectedKeys) : internalSelection;
-    const effectiveSelectionSet = normalizeSelectionKeys(effectiveSelection);
+    const effectiveSelectionSet = useMemo(() => normalizeSelectionKeys(effectiveSelection), [effectiveSelection]);
     const tableRef = useRef<HTMLDivElement | null>(null);
 
     const items = useVirtualMediaItems(totalItems, getItemAt);
@@ -102,68 +101,67 @@ export function MediaTable<T extends MediaGridIdentifiable>({
         onSelectionChange?.(typed);
     };
 
+    const handleSortChange = useCallback(
+        (next: unknown) => {
+            if (!isMediaTableSortDescriptor(next)) {
+                return;
+            }
+
+            onSortChange?.(next);
+        },
+        [onSortChange]
+    );
+
     const rootClassName = [styles.root, className].filter(Boolean).join(' ');
 
-    const tableColumns = useMemo(() => {
-        if (hideThumbnailColumn) {
-            return columns;
+    const hasCustomThumbnailColumn = useMemo(
+        () => columns.some((column) => column.key === thumbnailColumnKey),
+        [columns, thumbnailColumnKey]
+    );
+
+    const shouldRenderAutoThumbnailColumn = !hideThumbnailColumn && !hasCustomThumbnailColumn;
+
+    const headerColumns = useMemo<HeaderColumn[]>(() => {
+        const baseColumns = columns.map(({ key, name, allowsSorting, isRowHeader }) => ({
+            key,
+            name,
+            allowsSorting,
+            isRowHeader,
+        }));
+
+        if (!shouldRenderAutoThumbnailColumn) {
+            return baseColumns;
         }
 
-        const hasCustomThumbnailColumn = columns.some((column) => column.key === thumbnailColumnKey);
-        if (hasCustomThumbnailColumn) {
-            return columns;
-        }
-
-        const thumbnailColumn: MediaTableColumn<T> = {
-            key: thumbnailColumnKey,
-            name: thumbnailColumnHeader,
-            renderCell: (context) => {
-                if (renderThumbnail) {
-                    return renderThumbnail(context);
-                }
-
-                if (context.isPlaceholder || !context.item) {
-                    return createPlaceholderCell(thumbnailSize);
-                }
-
-                const src = getThumbnailSrc?.(context.item);
-                const alt = getThumbnailAlt(context.item);
-                if (!src) {
-                    return createPlaceholderCell(thumbnailSize);
-                }
-
-                return (
-                    <img
-                        className={styles.thumbnail}
-                        src={src}
-                        alt={alt}
-                        width={thumbnailSize}
-                        height={thumbnailSize}
-                        draggable={false}
-                        style={{ minWidth: thumbnailSize, minHeight: thumbnailSize }}
-                    />
-                );
+        return [
+            {
+                key: thumbnailColumnKey,
+                name: thumbnailColumnHeader,
+                allowsSorting: false,
+                isRowHeader: false,
             },
-            textValue: (context) => {
-                if (!context.item || context.isPlaceholder) {
-                    return 'Loading thumbnail';
-                }
+            ...baseColumns,
+        ];
+    }, [columns, shouldRenderAutoThumbnailColumn, thumbnailColumnKey, thumbnailColumnHeader]);
 
-                return getThumbnailAlt(context.item);
-            },
-        };
+    const columnMap = useMemo(() => {
+        return new Map(columns.map((column) => [column.key, column]));
+    }, [columns]);
 
-        return [thumbnailColumn, ...columns];
-    }, [
-        columns,
-        hideThumbnailColumn,
-        thumbnailColumnKey,
-        thumbnailColumnHeader,
-        thumbnailSize,
-        getThumbnailSrc,
-        getThumbnailAlt,
-        renderThumbnail,
-    ]);
+    const createTableRenderContext = useCallback(
+        (gridContext: MediaGridRenderContext<T>): MediaTableRenderContext<T> => {
+            const baseContext: MediaTableRenderContext<T> = {
+                ...gridContext,
+                thumbnailSize,
+            };
+
+            return {
+                ...baseContext,
+                onPress: (event) => onItemPress?.(baseContext, event),
+            };
+        },
+        [onItemPress, thumbnailSize]
+    );
 
     if (!isLoading && totalItems === 0) {
         return (
@@ -184,18 +182,12 @@ export function MediaTable<T extends MediaGridIdentifiable>({
                     sortDescriptor={sortDescriptor}
                     density={density}
                     overflowMode={overflowMode}
-                    onSortChange={(next) => {
-                        if (!isMediaTableSortDescriptor(next)) {
-                            return;
-                        }
-
-                        onSortChange?.(next);
-                    }}
+                    onSortChange={handleSortChange}
                     height="100%"
                     UNSAFE_className={styles.tableView}
                 >
-                    <TableHeader columns={tableColumns}>
-                        {(column) => (
+                    <TableHeader columns={headerColumns}>
+                        {(column: HeaderColumn) => (
                             <Column
                                 key={column.key}
                                 allowsSorting={column.allowsSorting}
@@ -206,44 +198,28 @@ export function MediaTable<T extends MediaGridIdentifiable>({
                         )}
                     </TableHeader>
                     <TableBody items={items}>
-                        {(entry) => {
+                        {(entry: VirtualMediaItem<T>) => {
                             const gridContext = createMediaRenderContext({
                                 entry,
                                 effectiveSelection,
                                 effectiveSelectionSet,
                                 selectionMode,
-                                onItemPress: (context) => onItemPress?.({ ...context, thumbnailSize }),
-                                onItemDoublePress: (context) => onItemDoublePress?.({ ...context, thumbnailSize }),
+                                onItemPress: (context) => onItemPress?.(createTableRenderContext(context)),
+                                onItemDoublePress: (context) => onItemDoublePress?.(createTableRenderContext(context)),
                             });
 
-                            const context: MediaTableRenderContext<T> = {
-                                ...gridContext,
-                                onPress: (event) => onItemPress?.({ ...gridContext, thumbnailSize }, event),
+                            const context = createTableRenderContext(gridContext);
+
+                            const entryProps = {
+                                entry,
+                                context,
+                                getColumn: (key: string) => columnMap.get(key),
+                                thumbnailColumnKey,
+                                shouldRenderAutoThumbnailColumn,
                                 thumbnailSize,
                             };
 
-                            return (
-                                <Row key={entry.key} textValue={context.item ? String(context.item.id) : `placeholder-${entry.index}`}>
-                                    {(columnKey) => {
-                                        const column = tableColumns.find((candidate) => candidate.key === String(columnKey));
-                                        if (!column) {
-                                            return <Cell>{null}</Cell>;
-                                        }
-
-                                        const textValue = column.textValue?.(context);
-
-                                        return (
-                                            <Cell textValue={textValue}>
-                                                {column.key === thumbnailColumnKey ? (
-                                                    <div className={styles.thumbnailCell}>{column.renderCell(context)}</div>
-                                                ) : (
-                                                    column.renderCell(context)
-                                                )}
-                                            </Cell>
-                                        );
-                                    }}
-                                </Row>
-                            );
+                            return EntryComponent(entryProps);
                         }}
                     </TableBody>
                 </TableView>

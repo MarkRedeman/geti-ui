@@ -1,9 +1,9 @@
 import { render, screen } from '@testing-library/react';
 import { afterEach, beforeEach, describe, expect, it } from '@rstest/core';
-import { ThemeProvider } from '@geti-ai/ui';
+import { Cell, Row, ThemeProvider } from '@geti-ai/ui';
 import { MediaTable } from './MediaTable';
 import type { MediaGridIdentifiable } from '../media-grid/types';
-import type { MediaTableRenderContext } from './types';
+import type { MediaEntryProps, MediaTableRenderContext } from './types';
 
 declare const rstest: {
     fn: <TArgs extends unknown[] = unknown[], TResult = unknown>(
@@ -246,9 +246,15 @@ describe('onItemPress', () => {
             totalItems: 1,
             getItemAt: () => ({ id: 'alpha', label: 'Alpha', thumbnailUrl: 'https://picsum.photos/seed/a/200/200' }),
             onItemPress,
-            renderThumbnail: (ctx) => {
-                capturedOnPress = ctx.onPress;
-                return <span>thumb</span>;
+            EntryComponent: (props) => {
+                capturedOnPress = props.context.onPress;
+                return (
+                    <Row key={props.entry.key}>
+                        <Cell>{props.context.item?.label ?? 'none'}</Cell>
+                        <Cell>{props.context.item?.kind ?? 'none'}</Cell>
+                        <Cell>{props.context.item?.id ? String(props.context.item.id) : 'none'}</Cell>
+                    </Row>
+                );
             },
             isLoading: true,
         });
@@ -263,5 +269,28 @@ describe('onItemPress', () => {
         expect(contextArg.isPlaceholder).toBe(false);
         expect(contextArg.thumbnailSize).toBe(50);
         expect(eventArg.shiftKey).toBe(true);
+    });
+});
+
+describe('EntryComponent', () => {
+    it('uses custom EntryComponent when provided', () => {
+        const EntryComponent = rstest.fn((props: MediaEntryProps<TestItem>) => (
+            <Row key={props.entry.key}>
+                <Cell>custom entry {props.entry.index}</Cell>
+                <Cell>{props.context.item?.label ?? 'none'}</Cell>
+                <Cell>{props.context.item?.kind ?? 'none'}</Cell>
+            </Row>
+        ));
+
+        renderMediaTable({
+            totalItems: 2,
+            getItemAt: (index) => ({ id: String(index + 1), label: `Item ${index + 1}`, kind: 'image' }),
+            EntryComponent,
+            isLoading: true,
+        });
+
+        expect(EntryComponent.mock.calls.length).toBe(2);
+        expect(screen.getByText('custom entry 0')).toBeTruthy();
+        expect(screen.getByText('custom entry 1')).toBeTruthy();
     });
 });
