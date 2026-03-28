@@ -23,22 +23,35 @@ describe('clampBetween', () => {
 });
 
 describe('getCenterCoordinates', () => {
-    it('computes centered fit-to-screen coordinates', () => {
+    it('computes centered fit-to-screen coordinates with no padding', () => {
         const result = getCenterCoordinates({ width: 500, height: 500 }, { width: 500, height: 500 });
 
-        // DEFAULT_SCREEN_ZOOM is 0.9 so scale = 0.9 * min(500/500, 500/500) = 0.9
-        expect(result.scale).toBe(0.9);
+        // No padding: scale = min(500/500, 500/500) = 1.0
+        expect(result.scale).toBe(1.0);
 
-        // Center: (500 - 500 * 0.9) / 2 = 25
-        expect(result.x).toBe(25);
-        expect(result.y).toBe(25);
+        // Center: (500 - 500 * 1.0) / 2 = 0
+        expect(result.x).toBe(0);
+        expect(result.y).toBe(0);
     });
 
     it('respects aspect ratio for non-square content', () => {
         const result = getCenterCoordinates({ width: 800, height: 600 }, { width: 400, height: 200 });
 
-        // scale = 0.9 * min(800/400, 600/200) = 0.9 * min(2, 3) = 0.9 * 2 = 1.8
-        expect(result.scale).toBe(1.8);
+        // scale = min(800/400, 600/200) = min(2, 3) = 2
+        expect(result.scale).toBe(2);
+    });
+
+    it('applies pixel padding when provided', () => {
+        // Container 500×500, target 500×500, padding 25px
+        // available = 500 - 2*25 = 450 each axis
+        // scale = min(450/500, 450/500) = 0.9
+        const result = getCenterCoordinates({ width: 500, height: 500 }, { width: 500, height: 500 }, 25);
+
+        expect(result.scale).toBe(0.9);
+
+        // Center: (500 - 500 * 0.9) / 2 = 25
+        expect(result.x).toBe(25);
+        expect(result.y).toBe(25);
     });
 });
 

@@ -3,9 +3,6 @@ import type { Point, Size, ZoomConfig, ZoomTransformState } from './types';
 /** Number of discrete steps between min and max zoom for button-based zoom */
 export const ZOOM_STEP_COUNT = 10;
 
-/** Default scale factor relative to container (90% = visual padding around content) */
-export const DEFAULT_SCREEN_ZOOM = 0.9;
-
 /** Minimum visible fraction of content when panning (0.1 = 10%) */
 const MIN_VISIBLE_FRACTION = 0.1;
 
@@ -15,9 +12,15 @@ export function clampBetween(min: number, value: number, max: number): number {
 
 /**
  * Compute fit-to-screen scale and centering translation for a target inside a container.
+ *
+ * @param container — viewport dimensions
+ * @param target — content dimensions
+ * @param padding — visual padding in pixels subtracted from the container on each side (default: 0)
  */
-export function getCenterCoordinates(container: Size, target: Size): ZoomConfig['initialCoordinates'] {
-    const scale = DEFAULT_SCREEN_ZOOM * Math.min(container.width / target.width, container.height / target.height);
+export function getCenterCoordinates(container: Size, target: Size, padding = 0): ZoomConfig['initialCoordinates'] {
+    const availableWidth = Math.max(container.width - 2 * padding, 1);
+    const availableHeight = Math.max(container.height - 2 * padding, 1);
+    const scale = Math.min(availableWidth / target.width, availableHeight / target.height);
 
     return {
         scale,

@@ -55,9 +55,9 @@ describe('ZoomTransform', () => {
         );
 
         // useContainerSize defaults to 100x100 in JSDOM (no ResizeObserver).
-        // With content 500x500, scale = 0.9 * min(100/500, 100/500) = 0.18 → "18%"
+        // With content 500x500, scale = min(100/500, 100/500) = 0.2 → "20%"
         const display = screen.getByTestId('zoom-display');
-        expect(display.textContent).toBe('18%');
+        expect(display.textContent).toBe('20%');
     });
 
     it('sets --zoom-scale CSS variable on the container', () => {
@@ -246,9 +246,9 @@ describe('zoomTo (viewport rectangle)', () => {
 
     it('zooms to center a rectangle in the viewport', () => {
         // Content is 500×500, container is 100×100 (JSDOM default).
-        // Initial fit-to-screen: scale = 0.9 * min(100/500, 100/500) = 0.18
+        // Initial fit-to-screen: scale = min(100/500, 100/500) = 0.2
         // Target rect: x=200,y=200,w=100,h=100 (center at 250,250 in content space)
-        // Scale to fit: min(100/100, 100/100) = 1.0, clamped to maxZoomIn = 0.18 * 10 = 1.8
+        // Scale to fit: min(100/100, 100/100) = 1.0, clamped to maxZoomIn = 0.2 * 10 = 2.0
         // translate.x = 100/2 - 250 * 1.0 = 50 - 250 = -200
         // translate.y = 100/2 - 250 * 1.0 = 50 - 250 = -200
         const contentSize = { width: 500, height: 500 };
@@ -344,8 +344,9 @@ describe('zoomTo (viewport rectangle)', () => {
 
     it('clamps scale to maxZoomIn when rect is very small', () => {
         // Content 500×500, container 100×100.
-        // minScale = 0.18 * 0.5 = 0.09, maxZoomIn = 0.18 * 10 = 1.8
-        // Target rect: 1×1 pixel → scaleToFit = min(100/1, 100/1) = 100, clamped to 1.8
+        // initialScale = min(100/500, 100/500) = 0.2
+        // minScale = 0.2 * 0.5 = 0.1, maxZoomIn = 0.2 * 10 = 2.0
+        // Target rect: 1×1 pixel → scaleToFit = min(100/1, 100/1) = 100, clamped to 2.0
         const contentSize = { width: 500, height: 500 };
 
         render(
@@ -363,13 +364,14 @@ describe('zoomTo (viewport rectangle)', () => {
         const state = screen.getByTestId('zoom-state');
         const scale = parseFloat(state.getAttribute('data-scale')!);
 
-        expect(scale).toBe(1.8);
+        expect(scale).toBe(2);
     });
 
     it('clamps scale to minScale when rect is very large', () => {
         // Content 500×500, container 100×100.
-        // minScale = 0.18 * 0.5 = 0.09
-        // Target rect: 5000×5000 → scaleToFit = min(100/5000, 100/5000) = 0.02, clamped to 0.09
+        // initialScale = min(100/500, 100/500) = 0.2
+        // minScale = 0.2 * 0.5 = 0.1
+        // Target rect: 5000×5000 → scaleToFit = min(100/5000, 100/5000) = 0.02, clamped to 0.1
         const contentSize = { width: 500, height: 500 };
 
         render(
@@ -387,6 +389,6 @@ describe('zoomTo (viewport rectangle)', () => {
         const state = screen.getByTestId('zoom-state');
         const scale = parseFloat(state.getAttribute('data-scale')!);
 
-        expect(scale).toBe(0.09);
+        expect(scale).toBe(0.1);
     });
 });

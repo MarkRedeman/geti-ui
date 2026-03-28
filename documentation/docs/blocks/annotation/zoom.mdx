@@ -123,7 +123,7 @@ export default function App() {
             <ZoomControls />
           </View>
           <View UNSAFE_style={{ flex: 1, minHeight: 0 }}>
-            <ZoomTransform target={{ width: IMAGE_WIDTH, height: IMAGE_HEIGHT }} doubleClickMode="fitToScreen">
+            <ZoomTransform target={{ width: IMAGE_WIDTH, height: IMAGE_HEIGHT }} doubleClickMode="fitToScreen" fitPadding={16}>
               <AnnotatedImage />
             </ZoomTransform>
           </View>
@@ -151,6 +151,32 @@ const IMAGES = [
   { src: 'https://picsum.photos/600/600', width: 600, height: 600, label: '600 × 600 (1:1)' },
 ];
 
+function CellHeader({ label }) {
+  const buttonStyle = {
+    fontSize: 10,
+    padding: '2px 6px',
+    background: '#333',
+    color: '#ccc',
+    border: '1px solid #555',
+    borderRadius: 3,
+    cursor: 'pointer',
+  };
+
+  return (
+    <div style={{
+      display: 'flex',
+      justifyContent: 'space-between',
+      alignItems: 'center',
+      padding: '6px 10px',
+      fontSize: 11,
+      color: '#888',
+      borderBottom: '1px solid #333',
+    }}>
+      <span>{label}</span>
+    </div>
+  );
+}
+
 function ImageCell({ src, width, height, label }) {
   return (
     <ZoomProvider target={{ width, height }}>
@@ -162,16 +188,9 @@ function ImageCell({ src, width, height, label }) {
         borderRadius: 6,
         overflow: 'hidden',
       }}>
-        <div style={{
-          padding: '6px 10px',
-          fontSize: 11,
-          color: '#888',
-          borderBottom: '1px solid #333',
-        }}>
-          {label}
-        </div>
+        <CellHeader label={label} />
         <div style={{ flex: 1, minHeight: 0 }}>
-          <ZoomTransform target={{ width, height }} interactive={false}>
+          <ZoomTransform target={{ width, height }} interactive={false} >
             <img
               src={src}
               width={width}
@@ -277,6 +296,7 @@ fitToScreen();
 | `doubleClickMode` | `'fitToScreen' \| 'none'` | `'none'` | No | Action on double-click. `'fitToScreen'` resets to fit-to-screen with animation. |
 | `zoomInMultiplier` | `number` | `10` | No | Max zoom = initial fit-to-screen scale multiplied by this value. |
 | `zoomOutMultiplier` | `number` | `0.5` | No | Min zoom = initial fit-to-screen scale multiplied by this value. Set to `1` to prevent zooming out past fit-to-screen. |
+| `fitPadding` | `number` | `0` | No | Pixel padding around content when fitting to screen. `0` means content fills the container edge-to-edge. |
 
 ### useZoom
 
