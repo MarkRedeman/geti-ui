@@ -116,6 +116,7 @@ jobs:
           set -euo pipefail
           npm version "$VERSION" --no-git-tag-version \
             --workspace=@geti-ai/ui \
+            --workspace=@geti-ai/blocks \
             --workspace=@geti-ai/charts \
             --workspace=@geti-ai/smart-tools \
             --workspace=@geti-ai/mcp
@@ -142,6 +143,7 @@ jobs:
 
       # ── Build all packages ──────────────────────────────────────────
       - run: npm run build --workspace=@geti-ai/ui
+      - run: npm run build --workspace=@geti-ai/blocks
       - run: npm run build --workspace=@geti-ai/smart-tools
       - run: npm run build --workspace=@geti-ai/charts
       - run: npm run docs:build
@@ -154,6 +156,9 @@ jobs:
 
       # ── Publish to npm ──────────────────────────────────────────────
       - run: npm publish --workspace=@geti-ai/ui
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+      - run: npm publish --workspace=@geti-ai/blocks
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
       - run: npm publish --workspace=@geti-ai/charts

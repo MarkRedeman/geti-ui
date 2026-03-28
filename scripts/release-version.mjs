@@ -12,7 +12,7 @@
  *             Exits 0 and prints the next version, or prints "skip".
  *
  * Without --check:
- *   - Updates all 4 publishable package.json files with the new version
+ *   - Updates all 5 publishable package.json files with the new version
  *   - Generates CHANGELOG.md via git-cliff
  *   - Prints the new version to stdout
  *
@@ -31,6 +31,7 @@ const ROOT = resolve(__dirname, '..');
 
 const PUBLISHABLE_WORKSPACES = [
     '@geti-ai/ui',
+    '@geti-ai/blocks',
     '@geti-ai/charts',
     '@geti-ai/smart-tools',
     '@geti-ai/mcp',
