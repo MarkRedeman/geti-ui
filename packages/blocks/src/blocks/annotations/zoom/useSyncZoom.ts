@@ -1,4 +1,4 @@
-import { useEffect, useMemo } from 'react';
+import { useLayoutEffect, useMemo } from 'react';
 
 import type { Size } from './types';
 import { getCenterCoordinates } from './utils';
@@ -9,53 +9,75 @@ type UseSyncZoomOptions = {
     target: Size;
     zoomInMultiplier: number;
     zoomOutMultiplier: number;
+    fitPadding: number;
 };
 
 /**
  * Synchronizes zoom config when container or target size changes.
  *
- * Improvement from reference: if the user has actively zoomed/panned
- * (i.e., is NOT at the fit-to-screen state), we only update the config
- * (initialCoordinates, maxZoomIn) without resetting the user's current
- * transform. If the user is at the default fit-to-screen state, we re-center.
+ * Uses useLayoutEffect so the transform is applied before the browser
+ * paints, preventing a one-frame flash at scale=1 that would cause
+ * the ResizeObserver to measure a wrong container size (due to content
+ * overflow).
+ *
+ * Reads the `userHasInteractedRef` from ZoomProvider. If the user has
+ * actively zoomed/panned, only the config (initialCoordinates, limits) is
+ * updated without resetting the current transform. Otherwise, the viewport
+ * is re-centered to fit the content.
  */
-export function useSyncZoom({ container, target, zoomInMultiplier, zoomOutMultiplier }: UseSyncZoomOptions) {
-    const { config, transform, setConfig, setTransform } = useZoomInternal();
+export function useSyncZoom({ container, target, zoomInMultiplier, zoomOutMultiplier, fitPadding }: UseSyncZoomOptions) {
+    const { setConfig, setTransform, userHasInteractedRef } = useZoomInternal();
+    const containerWidth = container.width;
+    const containerHeight = container.height;
+    const targetWidth = target.width;
+    const targetHeight = target.height;
 
     const targetZoom = useMemo(() => {
-        if (!container.width || !container.height) {
+        if (!containerWidth || !containerHeight) {
             return { scale: 1.0, x: 0, y: 0 };
         }
 
-        return getCenterCoordinates(container, target);
-    }, [container, target]);
+        return getCenterCoordinates(
+            { width: containerWidth, height: containerHeight },
+            { width: targetWidth, height: targetHeight },
+            fitPadding
+        );
+    }, [containerHeight, containerWidth, fitPadding, targetHeight, targetWidth]);
 
-    useEffect(() => {
+    // Reset interaction flag when the target content changes (new image, etc.)
+    useLayoutEffect(() => {
+        userHasInteractedRef.current = false;
+    }, [targetHeight, targetWidth, userHasInteractedRef]);
+
+    useLayoutEffect(() => {
         const scale = Number(targetZoom.scale.toFixed(3));
         const x = Number(targetZoom.x.toFixed(3));
         const y = Number(targetZoom.y.toFixed(3));
 
-        const newConfig = {
+        setConfig({
             initialCoordinates: { ...targetZoom },
             minScale: scale * zoomOutMultiplier,
             maxZoomIn: scale * zoomInMultiplier,
-        };
+        });
 
-        setConfig(newConfig);
-
-        // Check if user is at (or near) the current fit-to-screen state
-        const isAtFitToScreen =
-            Math.abs(transform.scale - config.initialCoordinates.scale) < 0.001 &&
-            Math.abs(transform.translate.x - config.initialCoordinates.x) < 1 &&
-            Math.abs(transform.translate.y - config.initialCoordinates.y) < 1;
-
-        if (isAtFitToScreen || config.initialCoordinates.scale === 1.0) {
-            // User hasn't zoomed, or this is the initial sync — apply fit-to-screen
+        if (!userHasInteractedRef.current) {
+            // User hasn't zoomed/panned — apply fit-to-screen
             setTransform({
                 scale,
                 translate: { x, y },
             });
         }
         // Otherwise: keep user's current transform (they zoomed/panned intentionally)
-    }, [targetZoom, zoomInMultiplier, zoomOutMultiplier, setConfig, setTransform]);
+    }, [
+        container,
+        fitPadding,
+        setConfig,
+        setTransform,
+        targetHeight,
+        targetWidth,
+        targetZoom,
+        userHasInteractedRef,
+        zoomInMultiplier,
+        zoomOutMultiplier,
+    ]);
 }

@@ -1,4 +1,4 @@
-import { createContext, useCallback, useContext, useRef, useState, type Dispatch, type ReactNode, type SetStateAction } from 'react';
+import { createContext, useCallback, useContext, useRef, useState, type Dispatch, type MutableRefObject, type ReactNode, type SetStateAction } from 'react';
 
 import type { Point, Rect, Size, ZoomConfig, ZoomToOptions, ZoomTransformState } from './types';
 import { clampBetween, clampTranslate, getZoomTransform, ZOOM_STEP_COUNT } from './utils';
@@ -15,6 +15,10 @@ type ZoomActions = {
     fitToScreen: () => void;
     zoomBy: (step: number) => void;
     zoomTo: (viewport: Rect, options?: ZoomToOptions) => void;
+    /** Mark that the user has interacted (zoomed/panned). Used internally by ZoomTransform. */
+    markInteracted: () => void;
+    /** Ref tracking whether the user has interacted. Used internally by useSyncZoom. */
+    userHasInteractedRef: MutableRefObject<boolean>;
 };
 
 const ZoomActionsContext = createContext<ZoomActions | null>(null);
@@ -32,7 +36,7 @@ export function useZoom(): ZoomTransformState & ZoomConfig {
     return { ...config, ...transform };
 }
 
-export function useZoomActions(): Omit<ZoomActions, 'setTransform' | 'setConfig' | 'setContainerSize'> {
+export function useZoomActions(): Omit<ZoomActions, 'setTransform' | 'setConfig' | 'setContainerSize' | 'markInteracted' | 'userHasInteractedRef'> {
     const context = useContext(ZoomActionsContext);
 
     if (!context) {
@@ -82,12 +86,19 @@ export function ZoomProvider({ children, target }: ZoomProviderProps) {
     const [config, setConfig] = useState<ZoomConfig>(INITIAL_CONFIG);
     const [transform, setTransform] = useState<ZoomTransformState>(INITIAL_TRANSFORM);
     const containerSizeRef = useRef<Size>({ width: 0, height: 0 });
+    const userHasInteractedRef = useRef(false);
 
     const setContainerSize = useCallback((size: Size) => {
         containerSizeRef.current = size;
     }, []);
 
+    const markInteracted = useCallback(() => {
+        userHasInteractedRef.current = true;
+    }, []);
+
     const fitToScreen = () => {
+        userHasInteractedRef.current = false;
+
         setTransform({
             scale: config.initialCoordinates.scale,
             translate: { x: config.initialCoordinates.x, y: config.initialCoordinates.y },
@@ -95,19 +106,20 @@ export function ZoomProvider({ children, target }: ZoomProviderProps) {
     };
 
     const zoomBy = (step: number) => {
+        userHasInteractedRef.current = true;
+
         setTransform((prev) => {
-            const stepSize = (config.maxZoomIn - config.minScale) / ZOOM_STEP_COUNT;
-            const newScale = clampBetween(
-                config.minScale,
-                prev.scale + stepSize * step,
-                config.maxZoomIn
-            );
+            const ratioPerStep = Math.pow(config.maxZoomIn / config.minScale, 1 / ZOOM_STEP_COUNT);
+            const newScale = clampBetween(config.minScale, prev.scale * Math.pow(ratioPerStep, step), config.maxZoomIn);
+
+            const anchorX = containerSizeRef.current.width / 2;
+            const anchorY = containerSizeRef.current.height / 2;
 
             const newState = getZoomTransform({
                 newScale,
                 minScale: config.minScale,
-                cursorX: config.initialCoordinates.x,
-                cursorY: config.initialCoordinates.y,
+                cursorX: anchorX,
+                cursorY: anchorY,
                 initialCoordinates: config.initialCoordinates,
             })(prev);
 
@@ -171,6 +183,8 @@ export function ZoomProvider({ children, target }: ZoomProviderProps) {
         fitToScreen,
         zoomBy,
         zoomTo,
+        markInteracted,
+        userHasInteractedRef,
     };
 
     return (

@@ -26,6 +26,12 @@ export type ZoomTransformProps = {
      */
     zoomOutMultiplier?: number;
     /**
+     * Visual padding (in pixels) between the content edges and the container
+     * edges at fit-to-screen. Default: 0 (content fills the container
+     * edge-to-edge, respecting aspect ratio).
+     */
+    fitPadding?: number;
+    /**
      * Whether zoom and pan interactions are enabled. Default: true.
      * When false, the viewport displays content at fit-to-screen with
      * no gesture handlers (no wheel zoom, pinch, drag, or middle-click pan).
@@ -48,10 +54,11 @@ export function ZoomTransform({
     target,
     zoomInMultiplier = 10,
     zoomOutMultiplier = 0.5,
+    fitPadding = 0,
     interactive = true,
     doubleClickMode = 'none',
 }: ZoomTransformProps) {
-    const { config, transform, setTransform, setContainerSize, fitToScreen } = useZoomInternal();
+    const { config, transform, setTransform, setContainerSize, fitToScreen, markInteracted } = useZoomInternal();
     const { isPanning, setIsPanning } = usePanning();
     const containerRef = useRef<HTMLDivElement>(null);
     const containerSize = useContainerSize(containerRef);
@@ -66,7 +73,7 @@ export function ZoomTransform({
     const animatingRef = useRef(false);
     const animationTimerRef = useRef<ReturnType<typeof setTimeout>>();
 
-    useSyncZoom({ container: containerSize, zoomInMultiplier, zoomOutMultiplier, target });
+    useSyncZoom({ container: containerSize, zoomInMultiplier, zoomOutMultiplier, fitPadding, target });
 
     const cursorIcon = !interactive ? 'default' : isPanning && isGrabbing ? 'grabbing' : isPanning ? 'grab' : 'default';
 
@@ -75,23 +82,26 @@ export function ZoomTransform({
             animatingRef.current = true;
             fitToScreen();
         }
-    }, [interactive, doubleClickMode, fitToScreen]);
+    }, [doubleClickMode, fitToScreen, interactive]);
 
     const handleTranslateUpdate = useCallback(
         ({ x, y }: Point) => {
+            markInteracted();
             setTransform((prev) => {
                 const newTranslate = {
                     x: prev.translate.x + x,
                     y: prev.translate.y + y,
                 };
 
+                const clamped = clampTranslate(newTranslate, prev.scale, target, containerSize);
+
                 return {
                     ...prev,
-                    translate: clampTranslate(newTranslate, prev.scale, target, containerSize),
+                    translate: clamped,
                 };
             });
         },
-        [setTransform, target, containerSize]
+        [containerSize, markInteracted, setTransform, target]
     );
 
     useGesture(
@@ -100,6 +110,7 @@ export function ZoomTransform({
                 const rect = containerRef.current?.getBoundingClientRect();
                 if (!rect) return;
 
+                markInteracted();
                 const factor = 1 + deltaDistance / 200;
                 const newScale = clampBetween(
                     config.minScale,
@@ -122,6 +133,7 @@ export function ZoomTransform({
                 const rect = containerRef.current?.getBoundingClientRect();
                 if (!rect) return;
 
+                markInteracted();
                 const factor = 1 - verticalScrollDelta / 500;
                 const newScale = clampBetween(
                     config.minScale,
@@ -140,6 +152,7 @@ export function ZoomTransform({
                     })(prev);
 
                     newState.translate = clampTranslate(newState.translate, newState.scale, target, containerSize);
+
                     return newState;
                 });
             },
