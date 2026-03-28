@@ -1,5 +1,5 @@
 export { ZoomProvider } from './ZoomProvider';
-export type { ZoomProviderProps } from './ZoomProvider';
+export type { ZoomActions, ZoomProviderProps } from './ZoomProvider';
 
 export { useZoom, useZoomActions } from './ZoomProvider';
 

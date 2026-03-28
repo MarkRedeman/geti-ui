@@ -9,8 +9,7 @@
 }
 
 .content {
-    display: flex;
-    flex-wrap: wrap;
+    display: inline-block;
     width: fit-content;
     height: fit-content;
     -webkit-user-drag: none;

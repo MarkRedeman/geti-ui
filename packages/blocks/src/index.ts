@@ -122,10 +122,13 @@ export type {
 
 export { ZoomProvider, ZoomTransform, useZoom, useZoomActions } from './blocks/annotations/zoom';
 export type {
+    ZoomActions,
     ZoomProviderProps,
     ZoomTransformProps,
     Point,
+    Rect,
     Size,
     ZoomConfig,
+    ZoomToOptions,
     ZoomTransformState,
 } from './blocks/annotations/zoom';

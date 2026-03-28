@@ -32,12 +32,17 @@ export function useWheelPanning(setIsPanning: (value: boolean) => void) {
         },
         onPointerDown: (event: PointerEvent<HTMLDivElement>) => {
             if (isWheelButton(event)) {
+                event.currentTarget.setPointerCapture(event.pointerId);
                 setIsGrabbing(true);
                 setIsPanning(true);
                 lastPos.current = { x: event.clientX, y: event.clientY };
             }
         },
-        onPointerUp: () => {
+        onPointerUp: (event: PointerEvent<HTMLDivElement>) => {
+            if (event.currentTarget.hasPointerCapture(event.pointerId)) {
+                event.currentTarget.releasePointerCapture(event.pointerId);
+            }
+
             setIsPanning(false);
             setIsGrabbing(false);
             lastPos.current = null;

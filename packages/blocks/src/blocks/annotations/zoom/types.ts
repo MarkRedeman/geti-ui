@@ -39,7 +39,7 @@ export type ZoomConfig = {
     /** Lower bound for zoom scale (can be below fit-to-screen) */
     minScale: number;
     /** Upper bound for zoom scale */
-    maxZoomIn: number;
+    maxScale: number;
 };
 
 /**

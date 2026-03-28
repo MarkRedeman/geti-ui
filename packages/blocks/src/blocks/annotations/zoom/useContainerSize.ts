@@ -17,11 +17,13 @@ export function useContainerSize(ref: RefObject<HTMLElement | null>): Size {
 
             const { clientWidth, clientHeight } = ref.current;
 
-            if (size.width === clientWidth && size.height === clientHeight) {
-                return;
-            }
+            setSize((previousSize) => {
+                if (previousSize.width === clientWidth && previousSize.height === clientHeight) {
+                    return previousSize;
+                }
 
-            setSize({ width: clientWidth, height: clientHeight });
+                return { width: clientWidth, height: clientHeight };
+            });
         },
     });
 

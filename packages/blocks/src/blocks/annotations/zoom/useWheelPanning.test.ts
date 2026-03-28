@@ -6,11 +6,33 @@ import { describe, expect, it, rstest } from '@rstest/core';
 import { useWheelPanning } from './useWheelPanning';
 
 function createWheelPointerEvent(data: Partial<PointerEvent<HTMLDivElement>> = {}) {
-    return { clientX: 0, clientY: 0, ...data, button: 1 } as PointerEvent<HTMLDivElement>;
+    return {
+        clientX: 0,
+        clientY: 0,
+        pointerId: 1,
+        currentTarget: {
+            setPointerCapture: rstest.fn(),
+            hasPointerCapture: rstest.fn(() => true),
+            releasePointerCapture: rstest.fn(),
+        },
+        ...data,
+        button: 1,
+    } as PointerEvent<HTMLDivElement>;
 }
 
 function createLeftPointerEvent(data: Partial<PointerEvent<HTMLDivElement>> = {}) {
-    return { clientX: 0, clientY: 0, ...data, button: 0 } as PointerEvent<HTMLDivElement>;
+    return {
+        clientX: 0,
+        clientY: 0,
+        pointerId: 1,
+        currentTarget: {
+            setPointerCapture: rstest.fn(),
+            hasPointerCapture: rstest.fn(() => false),
+            releasePointerCapture: rstest.fn(),
+        },
+        ...data,
+        button: 0,
+    } as PointerEvent<HTMLDivElement>;
 }
 
 describe('useWheelPanning', () => {
@@ -23,13 +45,15 @@ describe('useWheelPanning', () => {
     it('sets isGrabbing to true on middle mouse pointer down', () => {
         const setIsPanning = rstest.fn();
         const { result } = renderHook(() => useWheelPanning(setIsPanning));
+        const event = createWheelPointerEvent({ clientX: 10, clientY: 20 });
 
         act(() => {
-            result.current.onPointerDown(createWheelPointerEvent({ clientX: 10, clientY: 20 }));
+            result.current.onPointerDown(event);
         });
 
         expect(result.current.isGrabbing).toBe(true);
         expect(setIsPanning).toHaveBeenCalledWith(true);
+        expect(event.currentTarget.setPointerCapture).toHaveBeenCalledWith(1);
     });
 
     it('does NOT set isGrabbing for left mouse pointer down', () => {
@@ -82,17 +106,20 @@ describe('useWheelPanning', () => {
     it('resets on pointer up', () => {
         const setIsPanning = rstest.fn();
         const { result } = renderHook(() => useWheelPanning(setIsPanning));
+        const downEvent = createWheelPointerEvent();
+        const upEvent = createWheelPointerEvent();
 
         act(() => {
-            result.current.onPointerDown(createWheelPointerEvent());
+            result.current.onPointerDown(downEvent);
         });
         expect(result.current.isGrabbing).toBe(true);
 
         act(() => {
-            result.current.onPointerUp();
+            result.current.onPointerUp(upEvent);
         });
         expect(result.current.isGrabbing).toBe(false);
         expect(setIsPanning).toHaveBeenCalledWith(false);
+        expect(upEvent.currentTarget.releasePointerCapture).toHaveBeenCalledWith(1);
     });
 
     it('resets on mouse leave', () => {

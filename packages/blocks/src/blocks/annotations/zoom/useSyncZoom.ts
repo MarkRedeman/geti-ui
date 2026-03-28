@@ -50,26 +50,27 @@ export function useSyncZoom({ container, target, zoomInMultiplier, zoomOutMultip
     }, [targetHeight, targetWidth, userHasInteractedRef]);
 
     useLayoutEffect(() => {
-        const scale = Number(targetZoom.scale.toFixed(3));
-        const x = Number(targetZoom.x.toFixed(3));
-        const y = Number(targetZoom.y.toFixed(3));
+        const roundedCoordinates = {
+            scale: Number(targetZoom.scale.toFixed(3)),
+            x: Number(targetZoom.x.toFixed(3)),
+            y: Number(targetZoom.y.toFixed(3)),
+        };
 
         setConfig({
-            initialCoordinates: { ...targetZoom },
-            minScale: scale * zoomOutMultiplier,
-            maxZoomIn: scale * zoomInMultiplier,
+            initialCoordinates: roundedCoordinates,
+            minScale: roundedCoordinates.scale * zoomOutMultiplier,
+            maxScale: roundedCoordinates.scale * zoomInMultiplier,
         });
 
         if (!userHasInteractedRef.current) {
             // User hasn't zoomed/panned — apply fit-to-screen
             setTransform({
-                scale,
-                translate: { x, y },
+                scale: roundedCoordinates.scale,
+                translate: { x: roundedCoordinates.x, y: roundedCoordinates.y },
             });
         }
         // Otherwise: keep user's current transform (they zoomed/panned intentionally)
     }, [
-        container,
         fitPadding,
         setConfig,
         setTransform,

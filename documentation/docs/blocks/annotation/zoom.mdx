@@ -31,7 +31,7 @@ const SHAPES = [
 ];
 
 function ZoomControls() {
-  const { scale, minScale, maxZoomIn } = useZoom();
+  const { scale, minScale, maxScale } = useZoom();
   const { zoomBy, fitToScreen, zoomTo } = useZoomActions();
 
   return (
@@ -48,7 +48,7 @@ function ZoomControls() {
       </Text>
       <ActionButton
         onPress={() => zoomBy(1)}
-        isDisabled={scale >= maxZoomIn}
+        isDisabled={scale >= maxScale}
         aria-label="Zoom in"
       >
         +
@@ -345,7 +345,7 @@ Returns the combined zoom state:
 | `translate` | `Point` | Current pan offset `{ x, y }` in pixels. |
 | `initialCoordinates` | `{ scale, x, y }` | Fit-to-screen baseline values. |
 | `minScale` | `number` | Lower zoom scale bound. |
-| `maxZoomIn` | `number` | Upper zoom scale bound. |
+| `maxScale` | `number` | Upper zoom scale bound. |
 
 ### useZoomActions
 
@@ -372,7 +372,7 @@ type ZoomToOptions = {
 type ZoomConfig = {
   initialCoordinates: Point & { scale: number };
   minScale: number;
-  maxZoomIn: number;
+  maxScale: number;
 };
 
 type ZoomTransformState = {

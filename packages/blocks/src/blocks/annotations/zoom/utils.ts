@@ -1,7 +1,7 @@
 import type { Point, Size, ZoomConfig, ZoomTransformState } from './types';
 
 /** Number of discrete steps between min and max zoom for button-based zoom */
-export const ZOOM_STEP_COUNT = 10;
+const ZOOM_STEP_COUNT = 10;
 
 /** Minimum visible fraction of content when panning (0.1 = 10%) */
 const MIN_VISIBLE_FRACTION = 0.1;
@@ -92,3 +92,5 @@ export function clampTranslate(translate: Point, scale: number, target: Size, co
 export function isWheelButton(event: { button: number }): boolean {
     return event.button === 1;
 }
+
+export { ZOOM_STEP_COUNT };

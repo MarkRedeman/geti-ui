@@ -1,4 +1,13 @@
-import { type ReactNode, useCallback, useEffect, useRef } from 'react';
+import {
+    type CSSProperties,
+    type PointerEvent,
+    type ReactNode,
+    type RefObject,
+    useCallback,
+    useEffect,
+    useRef,
+    useState,
+} from 'react';
 
 import { createUseGesture, dragAction, pinchAction, wheelAction } from '@use-gesture/react';
 
@@ -49,40 +58,70 @@ const useGesture = createUseGesture([wheelAction, pinchAction, dragAction]);
 
 const ANIMATION_DURATION_MS = 200;
 
-export function ZoomTransform({
-    children,
-    target,
-    zoomInMultiplier = 10,
-    zoomOutMultiplier = 0.5,
-    fitPadding = 0,
-    interactive = true,
-    doubleClickMode = 'none',
-}: ZoomTransformProps) {
-    const { config, transform, setTransform, setContainerSize, fitToScreen, markInteracted } = useZoomInternal();
-    const { isPanning, setIsPanning } = usePanning();
-    const containerRef = useRef<HTMLDivElement>(null);
-    const containerSize = useContainerSize(containerRef);
-    const { onPointerDown, onPointerUp, onPointerMove, onMouseLeave, isGrabbing } = useWheelPanning(setIsPanning);
+type ZoomInternalState = ReturnType<typeof useZoomInternal>;
 
-    // Keep provider's container size ref in sync so zoomTo/zoomBy can use it
-    useEffect(() => {
-        setContainerSize(containerSize);
-    }, [containerSize, setContainerSize]);
+type GestureSyncDeps = {
+    config: ZoomInternalState['config'];
+    containerRef: RefObject<HTMLDivElement | null>;
+    containerSize: Size;
+    interactive: boolean;
+    markInteracted: ZoomInternalState['markInteracted'];
+    setTransform: ZoomInternalState['setTransform'];
+    target: Size;
+};
 
-    // Track whether the current render should animate (transient, not in state)
-    const animatingRef = useRef(false);
+function useDiscreteAnimationState(triggerDiscreteAnimationRef: ZoomInternalState['triggerDiscreteAnimationRef']) {
+    // Local-only visual flag. Keeping this state here avoids provider/context
+    // updates for animation toggles and keeps gesture updates immediate.
+    const [isAnimating, setIsAnimating] = useState(false);
+    // Used to reset the animation window when multiple discrete actions happen
+    // close together (e.g. repeated +/- clicks).
     const animationTimerRef = useRef<ReturnType<typeof setTimeout>>();
 
-    useSyncZoom({ container: containerSize, zoomInMultiplier, zoomOutMultiplier, fitPadding, target });
-
-    const cursorIcon = !interactive ? 'default' : isPanning && isGrabbing ? 'grabbing' : isPanning ? 'grab' : 'default';
-
-    const handleDoubleClick = useCallback(() => {
-        if (interactive && doubleClickMode === 'fitToScreen') {
-            animatingRef.current = true;
-            fitToScreen();
+    useEffect(() => {
+        // No animation requested.
+        if (!isAnimating) {
+            return;
         }
-    }, [doubleClickMode, fitToScreen, interactive]);
+
+        // Restart the timer for each new discrete action.
+        clearTimeout(animationTimerRef.current);
+        animationTimerRef.current = setTimeout(() => {
+            setIsAnimating(false);
+        }, ANIMATION_DURATION_MS);
+
+        return () => {
+            clearTimeout(animationTimerRef.current);
+        };
+    }, [isAnimating]);
+
+    useEffect(() => {
+        // Provider actions (fitToScreen / zoomBy / zoomTo) call this callback
+        // right before applying the transform.
+        triggerDiscreteAnimationRef.current = () => {
+            setIsAnimating(true);
+        };
+
+        return () => {
+            // Avoid calling setState on an unmounted component.
+            triggerDiscreteAnimationRef.current = null;
+        };
+    }, [triggerDiscreteAnimationRef]);
+
+    return isAnimating;
+}
+
+function useZoomGestureSync({
+    config,
+    containerRef,
+    containerSize,
+    interactive,
+    markInteracted,
+    setTransform,
+    target,
+}: GestureSyncDeps) {
+    const { isPanning, setIsPanning } = usePanning();
+    const { onPointerDown, onPointerUp, onPointerMove, onMouseLeave, isGrabbing } = useWheelPanning(setIsPanning);
 
     const handleTranslateUpdate = useCallback(
         ({ x, y }: Point) => {
@@ -112,22 +151,22 @@ export function ZoomTransform({
 
                 markInteracted();
                 const factor = 1 + deltaDistance / 200;
-                const newScale = clampBetween(
-                    config.minScale,
-                    config.initialCoordinates.scale * factor,
-                    config.maxZoomIn
-                );
                 const relativeCursor = { x: origin[0] - rect.left, y: origin[1] - rect.top };
 
-                setTransform(
-                    getZoomTransform({
+                setTransform((prev) => {
+                    const newScale = clampBetween(config.minScale, prev.scale * factor, config.maxScale);
+                    const newState = getZoomTransform({
                         newScale,
                         minScale: config.minScale,
                         cursorX: relativeCursor.x,
                         cursorY: relativeCursor.y,
                         initialCoordinates: config.initialCoordinates,
-                    })
-                );
+                    })(prev);
+
+                    newState.translate = clampTranslate(newState.translate, newState.scale, target, containerSize);
+
+                    return newState;
+                });
             },
             onWheel: ({ event, delta: [, verticalScrollDelta] }) => {
                 const rect = containerRef.current?.getBoundingClientRect();
@@ -135,14 +174,10 @@ export function ZoomTransform({
 
                 markInteracted();
                 const factor = 1 - verticalScrollDelta / 500;
-                const newScale = clampBetween(
-                    config.minScale,
-                    transform.scale * factor,
-                    config.maxZoomIn
-                );
                 const relativeCursor = { x: event.clientX - rect.left, y: event.clientY - rect.top };
 
                 setTransform((prev) => {
+                    const newScale = clampBetween(config.minScale, prev.scale * factor, config.maxScale);
                     const newState = getZoomTransform({
                         newScale,
                         minScale: config.minScale,
@@ -157,6 +192,34 @@ export function ZoomTransform({
                 });
             },
             onDrag: ({ delta: [x, y] }) => handleTranslateUpdate({ x, y }),
+            onPointerDown: ({ event }) => {
+                if (!interactive) {
+                    return;
+                }
+
+                onPointerDown(event as unknown as PointerEvent<HTMLDivElement>);
+            },
+            onPointerMove: ({ event }) => {
+                if (!interactive) {
+                    return;
+                }
+
+                onPointerMove(handleTranslateUpdate)(event as unknown as PointerEvent<HTMLDivElement>);
+            },
+            onPointerUp: ({ event }) => {
+                if (!interactive) {
+                    return;
+                }
+
+                onPointerUp(event as unknown as PointerEvent<HTMLDivElement>);
+            },
+            onMouseLeave: () => {
+                if (!interactive) {
+                    return;
+                }
+
+                onMouseLeave();
+            },
         },
         {
             target: containerRef,
@@ -167,15 +230,71 @@ export function ZoomTransform({
         }
     );
 
-    // Check if we should animate (fit-to-screen or button zoom triggers this)
-    const shouldAnimate = animatingRef.current;
-    if (shouldAnimate) {
-        // Clear the animation flag after the transition completes
-        clearTimeout(animationTimerRef.current);
-        animationTimerRef.current = setTimeout(() => {
-            animatingRef.current = false;
-        }, ANIMATION_DURATION_MS);
+    return { isPanning, isGrabbing };
+}
+
+function getCursorIcon(interactive: boolean, isPanning: boolean, isGrabbing: boolean) {
+    if (!interactive) {
+        return 'default';
     }
+
+    if (isPanning && isGrabbing) {
+        return 'grabbing';
+    }
+
+    if (isPanning) {
+        return 'grab';
+    }
+
+    return 'default';
+}
+
+export function ZoomTransform({
+    children,
+    target,
+    zoomInMultiplier = 10,
+    zoomOutMultiplier = 0.5,
+    fitPadding = 0,
+    interactive = true,
+    doubleClickMode = 'none',
+}: ZoomTransformProps) {
+    const {
+        config,
+        transform,
+        setTransform,
+        setContainerSize,
+        fitToScreen,
+        markInteracted,
+        triggerDiscreteAnimationRef,
+    } = useZoomInternal();
+    const containerRef = useRef<HTMLDivElement>(null);
+    const containerSize = useContainerSize(containerRef);
+
+    useEffect(() => {
+        setContainerSize(containerSize);
+    }, [containerSize, setContainerSize]);
+
+    const isAnimating = useDiscreteAnimationState(triggerDiscreteAnimationRef);
+
+    useSyncZoom({ container: containerSize, zoomInMultiplier, zoomOutMultiplier, fitPadding, target });
+
+    const handleDoubleClick = useCallback(() => {
+        if (interactive && doubleClickMode === 'fitToScreen') {
+            fitToScreen();
+        }
+    }, [doubleClickMode, fitToScreen, interactive]);
+
+    const { isPanning, isGrabbing } = useZoomGestureSync({
+        config,
+        containerRef,
+        containerSize,
+        interactive,
+        markInteracted,
+        setTransform,
+        target,
+    });
+
+    const cursorIcon = getCursorIcon(interactive, isPanning, isGrabbing);
 
     return (
         <div
@@ -187,12 +306,8 @@ export function ZoomTransform({
                     touchAction: interactive ? 'none' : undefined,
                     transform: 'translate3d(0, 0, 0)',
                     '--zoom-scale': transform.scale,
-                } as React.CSSProperties
+                } as CSSProperties
             }
-            onPointerMove={interactive ? onPointerMove(handleTranslateUpdate) : undefined}
-            onPointerDown={interactive ? onPointerDown : undefined}
-            onPointerUp={interactive ? onPointerUp : undefined}
-            onMouseLeave={interactive ? onMouseLeave : undefined}
             onDoubleClick={handleDoubleClick}
         >
             <div
@@ -201,7 +316,7 @@ export function ZoomTransform({
                 onDragStart={(e) => e.preventDefault()}
                 style={{
                     transformOrigin: '0 0',
-                    transition: shouldAnimate ? `transform ${ANIMATION_DURATION_MS}ms ease` : 'none',
+                    transition: isAnimating ? `transform ${ANIMATION_DURATION_MS}ms ease` : 'none',
                     transform: `translate(${transform.translate.x}px, ${transform.translate.y}px) scale(${transform.scale})`,
                 }}
             >

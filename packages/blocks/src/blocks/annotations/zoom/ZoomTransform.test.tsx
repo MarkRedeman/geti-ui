@@ -10,6 +10,30 @@ function ZoomDisplay() {
     return <div data-testid='zoom-display'>{(scale * 100).toFixed(0)}%</div>;
 }
 
+function ZoomActionControls() {
+    const { fitToScreen, zoomBy, zoomTo } = useZoomActions();
+
+    return (
+        <div>
+            <button data-testid='zoom-in' onClick={() => zoomBy(1)}>
+                Zoom in
+            </button>
+            <button data-testid='zoom-out' onClick={() => zoomBy(-1)}>
+                Zoom out
+            </button>
+            <button data-testid='fit' onClick={() => fitToScreen()}>
+                Fit
+            </button>
+            <button
+                data-testid='zoom-to-small'
+                onClick={() => zoomTo({ x: 200, y: 200, width: 100, height: 100 })}
+            >
+                Zoom to
+            </button>
+        </div>
+    );
+}
+
 describe('ZoomTransform', () => {
     it('renders content inside a zoomable viewport', () => {
         const contentSize = { width: 500, height: 500 };
@@ -72,6 +96,133 @@ describe('ZoomTransform', () => {
         const wrapper = screen.getByTestId('zoom-transform').parentElement;
         const style = wrapper?.getAttribute('style') ?? '';
         expect(style).toContain('--zoom-scale');
+    });
+});
+
+describe('zoom interactions and actions', () => {
+    it('zoomBy uses geometric stepping', () => {
+        const contentSize = { width: 500, height: 500 };
+
+        render(
+            <ZoomProvider target={contentSize}>
+                <ZoomTransform target={contentSize}>
+                    <ZoomDisplay />
+                    <ZoomActionControls />
+                </ZoomTransform>
+            </ZoomProvider>
+        );
+
+        const display = screen.getByTestId('zoom-display');
+        expect(display.textContent).toBe('20%');
+
+        act(() => {
+            fireEvent.click(screen.getByTestId('zoom-in'));
+        });
+
+        // ratioPerStep = (maxScale / minScale)^(1/10) = (2.0 / 0.1)^(1/10)
+        // newScale = 0.2 * ratioPerStep ≈ 0.2699 => 27%
+        expect(display.textContent).toBe('27%');
+    });
+
+    it('wheel zoom computes from latest scale via functional updater', () => {
+        const contentSize = { width: 500, height: 500 };
+
+        render(
+            <ZoomProvider target={contentSize}>
+                <ZoomTransform target={contentSize}>
+                    <ZoomDisplay />
+                </ZoomTransform>
+            </ZoomProvider>
+        );
+
+        const display = screen.getByTestId('zoom-display');
+        const wrapper = screen.getByTestId('zoom-transform').parentElement!;
+
+        expect(display.textContent).toBe('20%');
+
+        act(() => {
+            fireEvent.wheel(wrapper, { deltaY: -100, clientX: 50, clientY: 50 });
+        });
+
+        expect(parseInt(display.textContent ?? '0', 10)).toBeGreaterThan(20);
+    });
+
+    it('applies transition animation for discrete actions', () => {
+        const contentSize = { width: 500, height: 500 };
+
+        render(
+            <ZoomProvider target={contentSize}>
+                <ZoomTransform target={contentSize}>
+                    <ZoomActionControls />
+                </ZoomTransform>
+            </ZoomProvider>
+        );
+
+        const transform = screen.getByTestId('zoom-transform');
+        const initialStyle = transform.getAttribute('style') ?? '';
+        expect(initialStyle).toContain('transition: none');
+
+        act(() => {
+            fireEvent.click(screen.getByTestId('zoom-to-small'));
+        });
+
+        const animatedStyle = transform.getAttribute('style') ?? '';
+        expect(animatedStyle).toContain('transform 200ms ease');
+    });
+
+    it('preserves user transform when config updates but target is unchanged', () => {
+        const contentSize = { width: 500, height: 500 };
+
+        function TestHarness({ zoomInMultiplier }: { zoomInMultiplier: number }) {
+            return (
+                <ZoomProvider target={contentSize}>
+                    <ZoomTransform target={contentSize} zoomInMultiplier={zoomInMultiplier}>
+                        <ZoomDisplay />
+                        <ZoomActionControls />
+                    </ZoomTransform>
+                </ZoomProvider>
+            );
+        }
+
+        const { rerender } = render(<TestHarness zoomInMultiplier={10} />);
+
+        act(() => {
+            fireEvent.click(screen.getByTestId('zoom-to-small'));
+        });
+
+        const zoomedText = screen.getByTestId('zoom-display').textContent;
+        expect(zoomedText).toBe('100%');
+
+        rerender(<TestHarness zoomInMultiplier={5} />);
+
+        expect(screen.getByTestId('zoom-display').textContent).toBe('100%');
+    });
+
+    it('resets to fit-to-screen when target dimensions change', () => {
+        function TestHarness({ target }: { target: { width: number; height: number } }) {
+            return (
+                <ZoomProvider target={target}>
+                    <ZoomTransform target={target}>
+                        <ZoomDisplay />
+                        <ZoomActionControls />
+                    </ZoomTransform>
+                </ZoomProvider>
+            );
+        }
+
+        const { rerender } = render(<TestHarness target={{ width: 500, height: 500 }} />);
+
+        act(() => {
+            fireEvent.click(screen.getByTestId('zoom-to-small'));
+        });
+
+        expect(screen.getByTestId('zoom-display').textContent).toBe('100%');
+
+        rerender(<TestHarness target={{ width: 250, height: 250 }} />);
+
+        // useContainerSize defaults to 100x100 in JSDOM.
+        // New fit scale = min(100/250, 100/250) = 0.4 => 40%
+        expect(screen.getByTestId('zoom-display').textContent).toBe('40%');
     });
 });
 
@@ -248,7 +399,7 @@ describe('zoomTo (viewport rectangle)', () => {
         // Content is 500×500, container is 100×100 (JSDOM default).
         // Initial fit-to-screen: scale = min(100/500, 100/500) = 0.2
         // Target rect: x=200,y=200,w=100,h=100 (center at 250,250 in content space)
-        // Scale to fit: min(100/100, 100/100) = 1.0, clamped to maxZoomIn = 0.2 * 10 = 2.0
+        // Scale to fit: min(100/100, 100/100) = 1.0, clamped to maxScale = 0.2 * 10 = 2.0
         // translate.x = 100/2 - 250 * 1.0 = 50 - 250 = -200
         // translate.y = 100/2 - 250 * 1.0 = 50 - 250 = -200
         const contentSize = { width: 500, height: 500 };
@@ -342,10 +493,10 @@ describe('zoomTo (viewport rectangle)', () => {
         expect(ty).toBe(-150);
     });
 
-    it('clamps scale to maxZoomIn when rect is very small', () => {
+    it('clamps scale to maxScale when rect is very small', () => {
         // Content 500×500, container 100×100.
         // initialScale = min(100/500, 100/500) = 0.2
-        // minScale = 0.2 * 0.5 = 0.1, maxZoomIn = 0.2 * 10 = 2.0
+        // minScale = 0.2 * 0.5 = 0.1, maxScale = 0.2 * 10 = 2.0
         // Target rect: 1×1 pixel → scaleToFit = min(100/1, 100/1) = 100, clamped to 2.0
         const contentSize = { width: 500, height: 500 };
 
