@@ -11,7 +11,7 @@ export {
     LOG_LEVELS,
     DEFAULT_LOG_FILTERS,
     DEFAULT_LOG_LEVEL_COLORS,
-} from './blocks/Logs';
+} from './blocks/logs';
 export type {
     LogEntryProps,
     LogLevelDropdownProps,
@@ -28,7 +28,7 @@ export type {
     LogEntryData,
     LogsFiltersState,
     LogLevelName,
-} from './blocks/Logs';
+} from './blocks/logs';
 
 export {
     MediaGrid,
