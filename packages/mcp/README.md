@@ -78,6 +78,13 @@ Add to `~/.codeium/windsurf/mcp_config.json`:
 
 By default, the server reads from bundled documentation shipped with the npm package. No configuration needed.
 
+The bundled dataset includes:
+
+- `llms.txt`
+- `llms-full.txt`
+- all documentation markdown pages (`**/*.md`)
+- generated skills endpoint artifacts (`.well-known/skills/*`)
+
 ## Local development
 
 ```bash

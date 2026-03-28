@@ -8,6 +8,7 @@
  * - llms.txt → dist/data/llms.txt
  * - llms-full.txt → dist/data/llms-full.txt
  * - **\/*.md → dist/data/**\/*.md (preserving directory structure)
+ * - .well-known/skills/* → dist/data/.well-known/skills/* (preserving structure)
  */
 
 import fs from 'node:fs';
@@ -31,23 +32,40 @@ function copyFile(src, dest) {
     fs.copyFileSync(src, dest);
 }
 
-/**
- * Recursively copy all .md files from src to dest, preserving directory structure.
- */
-function copyMarkdownFiles(srcDir, destDir, rootSrc) {
+function copyFilesByPredicate(srcDir, destDir, rootSrc, shouldCopy) {
     if (!fs.existsSync(srcDir)) return;
 
     const entries = fs.readdirSync(srcDir, { withFileTypes: true });
     for (const entry of entries) {
         const srcPath = path.join(srcDir, entry.name);
         if (entry.isDirectory()) {
-            copyMarkdownFiles(srcPath, destDir, rootSrc);
-        } else if (entry.isFile() && entry.name.endsWith('.md')) {
+            copyFilesByPredicate(srcPath, destDir, rootSrc, shouldCopy);
+        } else if (entry.isFile() && shouldCopy(srcPath)) {
             const relPath = path.relative(rootSrc, srcPath);
             const destPath = path.join(destDir, relPath);
             copyFile(srcPath, destPath);
         }
     }
+}
+
+function copyDirectory(srcDir, destDir) {
+    if (!fs.existsSync(srcDir)) return 0;
+
+    let copied = 0;
+    const entries = fs.readdirSync(srcDir, { withFileTypes: true });
+    for (const entry of entries) {
+        const srcPath = path.join(srcDir, entry.name);
+        const destPath = path.join(destDir, entry.name);
+
+        if (entry.isDirectory()) {
+            copied += copyDirectory(srcPath, destPath);
+        } else if (entry.isFile()) {
+            copyFile(srcPath, destPath);
+            copied += 1;
+        }
+    }
+
+    return copied;
 }
 
 // --- Main ---
@@ -84,21 +102,32 @@ if (fs.existsSync(llmsFullTxt)) {
 }
 
 // Copy all .md files preserving directory structure
-copyMarkdownFiles(docBuild, outDir, docBuild);
-const mdFiles = countMdFiles(outDir);
+copyFilesByPredicate(docBuild, outDir, docBuild, (srcPath) => srcPath.endsWith('.md'));
+const mdFiles = countFilesByPredicate(docBuild, (srcPath) => srcPath.endsWith('.md'));
 fileCount += mdFiles;
 console.log(`  copied ${mdFiles} markdown files`);
 
+// Copy generated skills endpoint artifacts when available
+const skillsSrcDir = path.join(docBuild, '.well-known', 'skills');
+const skillsOutDir = path.join(outDir, '.well-known', 'skills');
+const skillsFiles = copyDirectory(skillsSrcDir, skillsOutDir);
+if (skillsFiles > 0) {
+    fileCount += skillsFiles;
+    console.log(`  copied ${skillsFiles} skills endpoint files`);
+} else {
+    console.log('  no skills endpoint files found');
+}
+
 console.log(`bundle-docs: ${fileCount} files → dist/data/`);
 
-function countMdFiles(dir) {
+function countFilesByPredicate(dir, shouldCount) {
     let count = 0;
     if (!fs.existsSync(dir)) return 0;
     const entries = fs.readdirSync(dir, { withFileTypes: true });
     for (const entry of entries) {
         if (entry.isDirectory()) {
-            count += countMdFiles(path.join(dir, entry.name));
-        } else if (entry.isFile() && entry.name.endsWith('.md')) {
+            count += countFilesByPredicate(path.join(dir, entry.name), shouldCount);
+        } else if (entry.isFile() && shouldCount(path.join(dir, entry.name))) {
             count++;
         }
     }
