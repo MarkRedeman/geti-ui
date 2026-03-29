@@ -303,11 +303,34 @@ export { Card } from './components/layouts/Card/Card';
 export type { CardProps } from './components/layouts/Card/Card';
 
 // Legacy compatibility exports (previously available in @geti/ui)
-export { Item, Section, Header, Keyboard, minmax, repeat, ToastQueue } from '@adobe/react-spectrum';
+export {
+    ActionGroup,
+    Item,
+    Section,
+    Header,
+    Keyboard,
+    minmax,
+    repeat,
+    ToastQueue,
+    useFilter,
+    useCollator,
+    useDateFormatter,
+    useNumberFormatter,
+} from '@adobe/react-spectrum';
 export type { Key } from '@adobe/react-spectrum';
+export { Overlay } from '@react-spectrum/overlays';
+export {
+    dimensionValue,
+    dimensionValue as dimensionalValue,
+    useStyleProps,
+    useMediaQuery,
+    useUnwrapDOMRef,
+} from '@react-spectrum/utils';
 
 // Advanced primitives (for internal package composition)
 export {
+    Collection,
+    DropIndicator,
     GridLayout as AriaGridLayout,
     GridList as AriaGridList,
     GridListItem as AriaGridListItem,
@@ -316,6 +339,7 @@ export {
     Virtualizer as AriaVirtualizer,
     Virtualizer,
     ListLayout,
+    useDragAndDrop,
     type Key as AriaKey,
     type Selection as AriaSelection,
 } from 'react-aria-components';
