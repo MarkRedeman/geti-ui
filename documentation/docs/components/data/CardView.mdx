@@ -6,7 +6,7 @@ import { CardView } from '@geti-ui/ui';
 
 # CardView
 
-`CardView` renders a responsive grid of `Card` components from a data array. Use it when you need to display a collection of summary items — projects, models, datasets — in a fixed-column grid layout.
+`CardView` renders a responsive grid of `Card` components from a data array. Use it when you need to display a collection of summary items - projects, models, datasets - in a fixed-column grid layout.
 
 ```tsx
 import { CardView } from '@geti-ui/ui';
@@ -81,7 +81,7 @@ export default function App() {
 - `role="list"` / `role="listitem"` semantics for the collection,
 - stable keying via `getItemKey` (falls back to index).
 
-It does **not** manage selection state — pass `isSelected` through `renderCard` from your own state.
+It does **not** manage selection state - pass `isSelected` through `renderCard` from your own state.
 
 ## Variants and states
 
@@ -97,7 +97,7 @@ Individual `Card` states (`isSelected`, `isDisabled`, `onPress`) are configured 
 ### Content
 
 - `items`: the array of data items to render.
-- `renderCard(item, index)`: returns a `CardProps` object for each item — controls `children`, `aria-label`, `isSelected`, `isDisabled`, and `onPress`.
+- `renderCard(item, index)`: returns a `CardProps` object for each item - controls `children`, `aria-label`, `isSelected`, `isDisabled`, and `onPress`.
 - `getItemKey(item, index)`: optional stable key extractor; defaults to the item's array index.
 
 ### Layout
@@ -112,9 +112,9 @@ Individual `Card` states (`isSelected`, `isDisabled`, `onPress`) are configured 
 
 ## Related components
 
-- [`Card`](/components/layouts/Card) — the individual card unit; use directly when you are not rendering from a data array.
-- [`ListView`](/components/data/ListView) — use when items need keyboard selection with built-in focus management.
-- [`TableView`](/components/data/TableView) — use when items are tabular with sortable columns.
+- [`Card`](/components/layouts/Card): the individual card unit; use directly when you are not rendering from a data array.
+- [`ListView`](/components/data/ListView): use when items need keyboard selection with built-in focus management.
+- [`TableView`](/components/data/TableView): use when items are tabular with sortable columns.
 
 ## Example use cases
 

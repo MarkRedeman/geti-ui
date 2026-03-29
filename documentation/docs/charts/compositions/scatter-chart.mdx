@@ -10,23 +10,23 @@ title: Scatter chart
 
 | Prop | Type | Default | Description |
 |---|---|---|---|
-| `series` | `ScatterSeriesConfig[]` | — | Per-series config; each has `name`, `data`, and optional `xKey`, `yKey`, `zKey`, `color`, `shape` |
-| `xAxisLabel` | `string` | — | Label rendered below the X axis |
-| `yAxisLabel` | `string` | — | Label rendered left of the Y axis |
+| `series` | `ScatterSeriesConfig[]` | - | Per-series config; each has `name`, `data`, and optional `xKey`, `yKey`, `zKey`, `color`, `shape` |
+| `xAxisLabel` | `string` | - | Label rendered below the X axis |
+| `yAxisLabel` | `string` | - | Label rendered left of the Y axis |
 | `useVoronoi` | `boolean` | `true` | Use Voronoi regions for hit-testing instead of dot proximity |
 | `voronoiMaxDistance` | `number` | `80` | Max cursor distance (px) to activate a Voronoi cell |
-| `xScale` | `ScaleConfig` | — | X axis scale config (e.g. `{ scale: 'log', domain: [1e6, 'auto'] }`) |
-| `yScale` | `ScaleConfig` | — | Y axis scale config |
-| `xAxisProps` | `XAxisProps` | — | Extra props forwarded to the Recharts `XAxis` |
-| `yAxisProps` | `YAxisProps` | — | Extra props forwarded to the Recharts `YAxis` |
-| `zAxisProps` | `ZAxisProps` | — | Extra props for bubble size axis (e.g. `{ dataKey: 'z', range: [40, 400] }`) |
+| `xScale` | `ScaleConfig` | - | X axis scale config (e.g. `{ scale: 'log', domain: [1e6, 'auto'] }`) |
+| `yScale` | `ScaleConfig` | - | Y axis scale config |
+| `xAxisProps` | `XAxisProps` | - | Extra props forwarded to the Recharts `XAxis` |
+| `yAxisProps` | `YAxisProps` | - | Extra props forwarded to the Recharts `YAxis` |
+| `zAxisProps` | `ZAxisProps` | - | Extra props for bubble size axis (e.g. `{ dataKey: 'z', range: [40, 400] }`) |
 | `showGrid` | `boolean` | `true` | Show background grid lines |
 | `showTooltip` | `boolean` | `true` | Show hover tooltip |
 | `showLegend` | `boolean` | `false` | Show legend below chart |
 | `animate` | `boolean` | `false` | Enable entry animation |
 | `height` | `number` | `300` | Chart height in pixels |
 
-## Variant — `useVoronoi` off
+## Variant - `useVoronoi` off
 
 ```tsx preview
 import { ScatterChart } from '@geti-ui/charts';
@@ -52,7 +52,7 @@ export default function App() {
 }
 ```
 
-## Variant — `useVoronoi` on
+## Variant - `useVoronoi` on
 
 ```tsx preview
 import { ScatterChart } from '@geti-ui/charts';
@@ -78,7 +78,7 @@ export default function App() {
 }
 ```
 
-## Variant — chart booleans on (`showLegend`, `animate`)
+## Variant - chart booleans on (`showLegend`, `animate`)
 
 ```tsx preview
 import { ScatterChart } from '@geti-ui/charts';
@@ -114,7 +114,7 @@ export default function App() {
 }
 ```
 
-## Variant — log/log scale
+## Variant - log/log scale
 
 ```tsx preview
 import { ScatterChart } from '@geti-ui/charts';
@@ -142,7 +142,7 @@ export default function App() {
 }
 ```
 
-## Variant — bubble scatter with Z axis
+## Variant - bubble scatter with Z axis
 
 ```tsx preview
 import { ScatterChart } from '@geti-ui/charts';
@@ -169,7 +169,7 @@ export default function App() {
 }
 ```
 
-## Variant — train / validation / test palette
+## Variant - train / validation / test palette
 
 ```tsx preview
 import { ScatterChart, withDatasetSubsetPalette } from '@geti-ui/charts';
@@ -212,7 +212,7 @@ export default function App() {
 }
 ```
 
-## Variant — model families (category + bubble size)
+## Variant - model families (category + bubble size)
 
 ```tsx preview
 import { ScatterChart } from '@geti-ui/charts';

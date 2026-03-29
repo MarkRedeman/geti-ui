@@ -48,8 +48,8 @@ export type ZoomTransformProps = {
     interactive?: boolean;
     /**
      * Action to perform on double-click. Default: 'none'.
-     * - `'fitToScreen'` — reset to fit-to-screen on double-click
-     * - `'none'` — no double-click behavior
+     * - `'fitToScreen'` - reset to fit-to-screen on double-click
+     * - `'none'` - no double-click behavior
      */
     doubleClickMode?: 'fitToScreen' | 'none';
 };

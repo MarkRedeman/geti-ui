@@ -1,4 +1,4 @@
-// @geti-ui/charts — public API
+// @geti-ui/charts - public API
 
 // Theming
 export type { ChartTheme, DataColorPalette, ColorValue, ChartTypography, ChartGridTokens, ChartAxisTokens, ChartTooltipTokens, ChartLegendTokens } from './theming/types';

@@ -38,11 +38,11 @@ const SKILLS: SkillDefinition[] = [
         id: 'geti-ui',
         name: 'Geti UI',
         description:
-            'Build accessible UIs with @geti-ui/ui — the component design system for Intel Geti products. ' +
+            'Build accessible UIs with @geti-ui/ui - the component design system for Intel Geti products. ' +
             'Provides 80+ React components built on Adobe React Spectrum, organized into categories: ' +
             'UI, Form Controls, Date Controls, Color Controls, Pickers, Data Display, ' +
             'Status & Feedback, Navigation, Overlays, and Layout & Structure.',
-        instructions: `# Geti UI — Component Library
+        instructions: `# Geti UI - Component Library
 
 Use \`@geti-ui/ui\` when building React UIs for Intel Geti products or any project that adopts the Geti design system.
 
@@ -94,9 +94,9 @@ All exports are tree-shakeable named exports. Never use internal source paths.
 
 ## Key conventions
 
-- Components are thin wrappers around Adobe React Spectrum — they pass all upstream props through.
+- Components are thin wrappers around Adobe React Spectrum - they pass all upstream props through.
 - The library is dark-mode-first. Always render under \`ThemeProvider\`.
-- Prefer semantic ARIA queries in tests — never query by class name or test ID.
+- Prefer semantic ARIA queries in tests - never query by class name or test ID.
 - Extend upstream prop types rather than redefining them.
 
 ## Documentation
@@ -108,9 +108,9 @@ The \`resources\` listed with this skill contain detailed documentation for ever
         id: 'geti-ui-charts',
         name: 'Geti UI Charts',
         description:
-            'Data visualization components from @geti-ui/charts — chart primitives, compositions, ' +
+            'Data visualization components from @geti-ui/charts - chart primitives, compositions, ' +
             'and machine learning-specific charts built on Recharts.',
-        instructions: `# Geti UI Charts — Data Visualization
+        instructions: `# Geti UI Charts - Data Visualization
 
 Use \`@geti-ui/charts\` for data visualization in Geti products.
 
@@ -124,8 +124,8 @@ npm install @geti-ui/charts
 
 The library has two layers:
 
-- **Primitives** — low-level chart building blocks (Line, Area, Bar, Scatter, Pie, Donut, Radar, RadialBar, Meter, Treemap, Sparkline, Legend). Use these when you need full control over chart composition.
-- **Compositions** — pre-configured, ready-to-use chart components that combine primitives with sensible defaults. Available for all primitive types plus 18 machine learning-specific charts.
+- **Primitives** - low-level chart building blocks (Line, Area, Bar, Scatter, Pie, Donut, Radar, RadialBar, Meter, Treemap, Sparkline, Legend). Use these when you need full control over chart composition.
+- **Compositions** - pre-configured, ready-to-use chart components that combine primitives with sensible defaults. Available for all primitive types plus 18 machine learning-specific charts.
 
 ## Import pattern
 
@@ -161,9 +161,9 @@ The \`resources\` listed with this skill contain detailed documentation for ever
         id: 'geti-ui-smart-tools',
         name: 'Geti UI Smart Tools',
         description:
-            'Browser-based computer vision annotation tools from @geti-ui/smart-tools — ' +
+            'Browser-based computer vision annotation tools from @geti-ui/smart-tools - ' +
             'OpenCV.js and ONNX runtime powered interactive segmentation and annotation.',
-        instructions: `# Geti UI Smart Tools — Computer Vision Annotation
+        instructions: `# Geti UI Smart Tools - Computer Vision Annotation
 
 Use \`@geti-ui/smart-tools\` for browser-based computer vision annotation tools in Geti products.
 
@@ -177,21 +177,21 @@ npm install @geti-ui/smart-tools
 
 These tools require browser APIs and WebAssembly runtimes:
 
-- **OpenCV.js** — for image processing tools (GrabCut, Intelligent Scissors, Watershed, SSIM)
-- **ONNX Runtime Web** — for ML-based tools (RITM, Segment Anything)
+- **OpenCV.js** - for image processing tools (GrabCut, Intelligent Scissors, Watershed, SSIM)
+- **ONNX Runtime Web** - for ML-based tools (RITM, Segment Anything)
 
 ## Available tools
 
 ### OpenCV-based
-- **GrabCut** — interactive foreground extraction
-- **Intelligent Scissors** — magnetic lasso-style boundary tracing
-- **Watershed** — marker-based image segmentation
-- **SSIM** — structural similarity comparison
-- **Inference Image** — inference result overlay
+- **GrabCut** - interactive foreground extraction
+- **Intelligent Scissors** - magnetic lasso-style boundary tracing
+- **Watershed** - marker-based image segmentation
+- **SSIM** - structural similarity comparison
+- **Inference Image** - inference result overlay
 
 ### ONNX-based
-- **RITM** — interactive segmentation with click-based refinement
-- **Segment Anything** — SAM-based zero-shot segmentation
+- **RITM** - interactive segmentation with click-based refinement
+- **Segment Anything** - SAM-based zero-shot segmentation
 
 ## Key patterns
 
@@ -208,11 +208,11 @@ The \`resources\` listed with this skill contain detailed documentation for each
         id: 'geti-ui-blocks',
         name: 'Geti UI Blocks',
         description:
-            'Reusable application-level building blocks from @geti-ui/blocks — ' +
+            'Reusable application-level building blocks from @geti-ui/blocks - ' +
             'opinionated, composable UI sections for logs, projects, models, media, annotations, and tabs.',
-        instructions: `# Geti UI Blocks — Application Building Blocks
+        instructions: `# Geti UI Blocks - Application Building Blocks
 
-Use \`@geti-ui/blocks\` for reusable application-level UI sections in Geti products. Blocks are higher-level than primitives — they are pre-composed from \`@geti-ui/ui\` components and encode opinionated Geti application patterns.
+Use \`@geti-ui/blocks\` for reusable application-level UI sections in Geti products. Blocks are higher-level than primitives - they are pre-composed from \`@geti-ui/ui\` components and encode opinionated Geti application patterns.
 
 ## Installation
 
@@ -257,16 +257,16 @@ All exports are named exports. Never use internal source paths.
 
 | Category | Blocks |
 |----------|--------|
-| Logs | LogsBlock — scrollable log output with severity filtering |
+| Logs | LogsBlock - scrollable log output with severity filtering |
 | Projects | Project list, project menu, sorting, and pagination patterns |
 | Models | Model list, model cards, status badges |
 | Media | Media filter (faceted search), media grid (responsive selection grid) |
 | Annotation | Annotation toolbar, zoom controls, prediction panel |
-| Tabs | OverflowableTabs — scrollable/overflow-aware tab navigation |
+| Tabs | OverflowableTabs - scrollable/overflow-aware tab navigation |
 
 ## Key conventions
 
-- Blocks are built on \`@geti-ui/ui\` primitives — do not mix raw Adobe Spectrum components inside blocks.
+- Blocks are built on \`@geti-ui/ui\` primitives - do not mix raw Adobe Spectrum components inside blocks.
 - Each block accepts a strongly-typed props interface; extend it rather than re-implementing the pattern from scratch.
 - The library is dark-mode-first. Always render under \`ThemeProvider\`.
 - Use blocks when a pattern is too opinionated (application-specific data shapes, layout decisions) for a primitive component.
@@ -282,7 +282,7 @@ The \`resources\` listed with this skill contain detailed documentation for ever
         description:
             'Composition patterns and kitchensink examples showing how to combine ' +
             'Geti UI components into real application interfaces.',
-        instructions: `# Geti UI Examples — Composition Patterns
+        instructions: `# Geti UI Examples - Composition Patterns
 
 These examples demonstrate how to combine \`@geti-ui/ui\` and \`@geti-ui/charts\` components into real application interfaces. Use them as templates and reference patterns.
 
@@ -290,22 +290,22 @@ These examples demonstrate how to combine \`@geti-ui/ui\` and \`@geti-ui/charts\
 
 Full demonstrations of all components within a category, useful for visual testing and exploration:
 
-- **Full Kitchensink** — every component in one page
-- **Category kitchensinks** — UI, Form, Date Controls, Color Controls, Data Display, Overlays, Feedback, Navigation, Layouts
+- **Full Kitchensink** - every component in one page
+- **Category kitchensinks** - UI, Form, Date Controls, Color Controls, Data Display, Overlays, Feedback, Navigation, Layouts
 
 ## Composed examples
 
 Real-world UI patterns showing how components work together:
 
-- **Job Management Panel** — status tracking, actions, data tables
-- **Model List** — card layouts, filtering, bulk actions
-- **Annotation Components** — canvas tools, property panels
-- **Media Filter** — faceted search, tag-based filtering
-- **Media Grid** — responsive grid, selection, thumbnails
-- **Toolbar** — action groups, toggle modes, overflow
-- **Project List** — list/card views, sorting, pagination
-- **Project Menu** — navigation menus, context actions
-- **Advanced Parameters** — complex form layouts, nested controls
+- **Job Management Panel** - status tracking, actions, data tables
+- **Model List** - card layouts, filtering, bulk actions
+- **Annotation Components** - canvas tools, property panels
+- **Media Filter** - faceted search, tag-based filtering
+- **Media Grid** - responsive grid, selection, thumbnails
+- **Toolbar** - action groups, toggle modes, overflow
+- **Project List** - list/card views, sorting, pagination
+- **Project Menu** - navigation menus, context actions
+- **Advanced Parameters** - complex form layouts, nested controls
 
 ## How to use these examples
 
@@ -404,7 +404,7 @@ export function pluginSkills(): RspressPlugin {
                 llmsTxt = await readFile(llmsTxtPath, 'utf-8');
             } catch {
                 console.warn(
-                    '[skills-endpoint] llms.txt not found at %s — skipping skills endpoint generation. ' +
+                    '[skills-endpoint] llms.txt not found at %s - skipping skills endpoint generation. ' +
                         'Make sure @rspress/plugin-llms is configured and runs before this plugin.',
                     llmsTxtPath
                 );
@@ -413,7 +413,7 @@ export function pluginSkills(): RspressPlugin {
 
             const pages = parseLlmsTxt(llmsTxt);
             if (pages.length === 0) {
-                console.warn('[skills-endpoint] llms.txt contains no page entries — skipping.');
+                console.warn('[skills-endpoint] llms.txt contains no page entries - skipping.');
                 return;
             }
 

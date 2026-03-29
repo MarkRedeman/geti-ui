@@ -4,7 +4,7 @@ title: AlertDialog
 
 # AlertDialog
 
-AlertDialog is a modal overlay for short messages that require an explicit user decision before proceeding. Use it for destructive confirmations, warnings, and informational acknowledgements — not for complex forms.
+AlertDialog is a modal overlay for short messages that require an explicit user decision before proceeding. Use it for destructive confirmations, warnings, and informational acknowledgements, not for complex forms.
 
 ```tsx
 import { AlertDialog, DialogTrigger } from '@geti-ui/ui';
@@ -112,7 +112,7 @@ export default function App() {
 
 ## Responsibility
 
-`AlertDialog` is a thin wrapper around React Spectrum `AlertDialog`. It provides a structured dialog layout with a title, body text, and up to three buttons. Unlike `Dialog`, the structure is fixed — consumers supply text and callbacks, not arbitrary children for the footer.
+`AlertDialog` is a thin wrapper around React Spectrum `AlertDialog`. It provides a structured dialog layout with a title, body text, and up to three buttons. Unlike `Dialog`, the structure is fixed - consumers supply text and callbacks, not arbitrary children for the footer.
 
 ## Variants and states
 
@@ -129,7 +129,7 @@ export default function App() {
 ### Content
 
 - `title`: dialog heading text.
-- `children`: the body paragraph (short text only — not for forms).
+- `children`: the body paragraph (short text only, not for forms).
 - `primaryActionLabel`: text for the confirm button (required).
 - `secondaryActionLabel`: optional third action.
 - `cancelLabel`: text for the cancel button.
@@ -147,8 +147,8 @@ export default function App() {
 
 ## Related components
 
-- [`Dialog`](/components/overlays/Dialog) — use when you need arbitrary form content inside the dialog body.
-- [`DialogContainer`](/components/overlays/DialogContainer) — use when there is no persistent trigger element.
+- [`Dialog`](/components/overlays/Dialog): use when you need arbitrary form content inside the dialog body.
+- [`DialogContainer`](/components/overlays/DialogContainer): use when there is no persistent trigger element.
 
 ## Example use cases
 

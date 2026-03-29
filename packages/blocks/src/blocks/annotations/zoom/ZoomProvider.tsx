@@ -62,7 +62,7 @@ export function useZoomActions(): Omit<ZoomActions, 'setTransform' | 'setConfig'
 }
 
 /**
- * Internal hook — used only by ZoomTransform and useSyncZoom.
+ * Internal hook - used only by ZoomTransform and useSyncZoom.
  * Not part of the public API.
  */
 export function useZoomInternal() {
@@ -81,7 +81,7 @@ export function useZoomInternal() {
 
 export type ZoomProviderProps = {
     children: ReactNode;
-    /** Target content dimensions — used for pan boundary clamping */
+    /** Target content dimensions - used for pan boundary clamping */
     target?: Size;
 };
 

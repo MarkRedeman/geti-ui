@@ -4,9 +4,9 @@ Welcome to the Geti frontend package workspace.
 
 This repository currently contains:
 
-- `@geti-ui/ui` — React component design system for Intel Geti products.
-- `@geti-ui/smart-tools` — browser/worker smart-tooling utilities (OpenCV/ONNX based).
-- `@geti-ui/charts` — composable chart primitives and ML-oriented chart compositions.
+- `@geti-ui/ui`: React component design system for Intel Geti products.
+- `@geti-ui/smart-tools`: browser/worker smart-tooling utilities (OpenCV/ONNX based).
+- `@geti-ui/charts`: composable chart primitives and ML-oriented chart compositions.
 
 ---
 
@@ -129,9 +129,8 @@ Primary docs source of truth is the docs site (`documentation/`).
 To ensure automated releases and clean changelogs, we strictly follow [Conventional Commits](https://www.conventionalcommits.org/):
 - `feat(button): add loading state`
 - `fix(table): resolve overflow in narrow containers`
-
 ### Releases
-We use **semantic-release** for automated versioning. When your PR is merged to `main`, semantic-release analyses your conventional commit messages and automatically determines the version bump, publishes to npm, and creates a GitHub Release. No manual version management is needed — just write good commit messages.
+We use **semantic-release** for automated versioning. When your PR is merged to `main`, semantic-release analyses your conventional commit messages and automatically determines the version bump, publishes to npm, and creates a GitHub Release. No manual version management is needed - just write good commit messages.
 
 ---
 

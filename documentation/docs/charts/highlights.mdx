@@ -4,7 +4,7 @@ title: Highlights
 
 # Highlights
 
-Interactive highlighting lets users focus on one or more data series by dimming the rest. The chart library supports two highlight modes — **transient** and **pinned** — and several interaction triggers.
+Interactive highlighting lets users focus on one or more data series by dimming the rest. The chart library supports two highlight modes - **transient** and **pinned** - and several interaction triggers.
 
 ## Transient vs pinned highlighting
 
@@ -25,7 +25,7 @@ Moving the cursor over a line segment, bar, dot, or pie slice highlights the own
 
 Hovering over a legend item highlights the corresponding series without requiring the cursor to land on the chart geometry. Useful for charts where geometry is dense or small (e.g. scatter plots with many points).
 
-### Legend click — pinning
+### Legend click - pinning
 
 Clicking a legend item _pins_ the highlight on that series. Subsequent clicks on the same item release the pin; clicking a different item transfers the pin. Pinning is opt-in via `highlight.interaction.legendClick`.
 
@@ -442,6 +442,6 @@ export default function App() {
 
 Key points:
 
-- Prefer `strokeOpacity` / `fillOpacity` over toggling `hide` — dimming preserves chart layout and avoids axis rescaling.
+- Prefer `strokeOpacity` / `fillOpacity` over toggling `hide` - dimming preserves chart layout and avoids axis rescaling.
 - For `<Cell>`-based charts (Pie, RadialBar) apply `opacity` directly on each `<Cell>` element.
 - Keep pinned and hovered states separate so releasing a hover does not clear a pin.

@@ -13,13 +13,13 @@ Key Recharts props used on the `Bar` and `BarChart` primitives:
 | Prop | Type | Default | Description |
 |---|---|---|---|
 | `dataKey` | `string` | required | Key in each data object to plot |
-| `fill` | `string` | — | Bar fill color |
-| `stackId` | `string` | — | Bars sharing the same `stackId` are stacked |
+| `fill` | `string` | - | Bar fill color |
+| `stackId` | `string` | - | Bars sharing the same `stackId` are stacked |
 | `isAnimationActive` | `boolean` | `true` | Disable for static/SSR renders |
-| `name` | `string` | — | Series label shown in tooltip and legend |
+| `name` | `string` | - | Series label shown in tooltip and legend |
 | `layout` | `'horizontal' \| 'vertical'` | `'horizontal'` | Orientation of the bar chart |
 
-## Variant — grouped bars (`stackId` off)
+## Variant - grouped bars (`stackId` off)
 
 ```tsx preview
 import { Bar, BarChart } from 'recharts';
@@ -55,7 +55,7 @@ export default function App() {
 }
 ```
 
-## Variant — stacked bars (`stackId` on)
+## Variant - stacked bars (`stackId` on)
 
 ```tsx preview
 import { Bar, BarChart } from 'recharts';
@@ -91,7 +91,7 @@ export default function App() {
 }
 ```
 
-## Variant — vertical bars (`layout="horizontal"`)
+## Variant - vertical bars (`layout="horizontal"`)
 
 ```tsx preview
 import { Bar, BarChart } from 'recharts';
@@ -125,7 +125,7 @@ export default function App() {
 }
 ```
 
-## Variant — horizontal bars (`layout="vertical"`)
+## Variant - horizontal bars (`layout="vertical"`)
 
 ```tsx preview
 import { Bar, BarChart } from 'recharts';
@@ -159,7 +159,7 @@ export default function App() {
 }
 ```
 
-## Variant — log scale on value axis
+## Variant - log scale on value axis
 
 ```tsx preview
 import { Bar, BarChart } from 'recharts';

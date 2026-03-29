@@ -58,7 +58,7 @@ export default function App() {
 - a built-in loading row when `isLoading` is true,
 - selection state forwarded to the underlying `ListBox`.
 
-You control item rendering entirely via `renderItem` — there is no built-in row template.
+You control item rendering entirely via `renderItem` - there is no built-in row template.
 
 ## Variants and states
 
@@ -73,19 +73,19 @@ You control item rendering entirely via `renderItem` — there is no built-in ro
 ### Content
 
 - `items`: the array of typed items to render.
-- `renderItem(item)`: returns the React node for each row — you own the layout.
+- `renderItem(item)`: returns the React node for each row - you own the layout.
 - `idFormatter(item)`: extracts a unique string key for each item.
 - `textValueFormatter(item)`: extracts the accessible text value used by screen readers and type-to-select.
 
 ### Layout
 
-- `layoutOptions`: `ListLayoutOptions` — at minimum set `rowHeight` in pixels.
+- `layoutOptions`: `ListLayoutOptions` - at minimum set `rowHeight` in pixels.
 - `containerHeight`: Spectrum `DimensionValue` (e.g. `'size-5000'`) for the scroll container.
 
 ### Loading / pagination
 
 - `isLoading`: shows the loading row at the end of the list.
-- `onLoadMore`: called when the user scrolls near the bottom — fetch the next page here.
+- `onLoadMore`: called when the user scrolls near the bottom - fetch the next page here.
 - `renderLoading`: optional custom loading row renderer.
 
 ### Selection
@@ -98,9 +98,9 @@ You control item rendering entirely via `renderItem` — there is no built-in ro
 
 ## Related components
 
-- [`ListView`](/components/data/ListView) — prefer this for lists under ~500 items; it has built-in actions and drag-and-drop.
-- [`VirtualizedHorizontalGrid`](/components/data/VirtualizedHorizontalGrid) — use for horizontally scrolling virtualized grids (e.g. image carousels).
-- [`TableView`](/components/data/TableView) — use when rows are columnar and you need header sorting.
+- [`ListView`](/components/data/ListView): prefer this for lists under ~500 items; it has built-in actions and drag-and-drop.
+- [`VirtualizedHorizontalGrid`](/components/data/VirtualizedHorizontalGrid): use for horizontally scrolling virtualized grids (e.g. image carousels).
+- [`TableView`](/components/data/TableView): use when rows are columnar and you need header sorting.
 
 ## Example use cases
 

@@ -107,7 +107,7 @@ export interface ScatterChartProps {
 }
 
 // ---------------------------------------------------------------------------
-// Internal Voronoi tooltip overlay — rendered as a plain HTML element so it
+// Internal Voronoi tooltip overlay - rendered as a plain HTML element so it
 // can escape the SVG stacking context and receive normal CSS box-shadow etc.
 // ---------------------------------------------------------------------------
 
@@ -243,7 +243,7 @@ function VoronoiTooltip({
 }
 
 // ---------------------------------------------------------------------------
-// Active dot overlay — an SVG circle rendered on top of the hovered point
+// Active dot overlay - an SVG circle rendered on top of the hovered point
 // so the user gets visual confirmation of which point is active.
 // ---------------------------------------------------------------------------
 
@@ -379,7 +379,7 @@ export function ScatterChart({
         [series, theme.dataColors]
     );
 
-    // Voronoi hook — safe to call even when disabled (returns nulls).
+    // Voronoi hook - safe to call even when disabled (returns nulls).
     // seriesColors is threaded in so the hook can populate point.color correctly
     // without re-resolving the theme palette internally.
     const { containerRef, handleMouseMove, handleMouseLeave, activePoint } = useVoronoiHover({

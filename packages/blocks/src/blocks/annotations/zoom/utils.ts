@@ -13,9 +13,9 @@ export function clampBetween(min: number, value: number, max: number): number {
 /**
  * Compute fit-to-screen scale and centering translation for a target inside a container.
  *
- * @param container — viewport dimensions
- * @param target — content dimensions
- * @param padding — visual padding in pixels subtracted from the container on each side (default: 0)
+ * @param container - viewport dimensions
+ * @param target - content dimensions
+ * @param padding - visual padding in pixels subtracted from the container on each side (default: 0)
  */
 export function getCenterCoordinates(container: Size, target: Size, padding = 0): ZoomConfig['initialCoordinates'] {
     const availableWidth = Math.max(container.width - 2 * padding, 1);

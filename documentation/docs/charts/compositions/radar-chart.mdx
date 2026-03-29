@@ -12,19 +12,19 @@ Use `radiusAxisProps={{ domain: [0, 1] }}` for normalized scores, and `radiusAxi
 
 | Prop | Type | Default | Description |
 |---|---|---|---|
-| `data` | `Record<string, unknown>[]` | — | Array of objects, one per category axis |
-| `series` | `RadarSeriesConfig[]` | — | Series definitions; each entry has `dataKey`, `name`, `color?`, `fillOpacity?` |
+| `data` | `Record<string, unknown>[]` | - | Array of objects, one per category axis |
+| `series` | `RadarSeriesConfig[]` | - | Series definitions; each entry has `dataKey`, `name`, `color?`, `fillOpacity?` |
 | `categoryKey` | `string` | `'subject'` | Key in each data object for the axis label |
 | `filled` | `boolean` | `true` | Fill the area under each radar series |
 | `showGrid` | `boolean` | `true` | Show polar grid lines |
 | `showTooltip` | `boolean` | `true` | Show hover tooltip |
 | `showLegend` | `boolean` | `true` | Show legend below chart |
 | `animate` | `boolean` | `false` | Enable entry animation |
-| `angleAxisProps` | `PolarAngleAxisProps` | — | Extra props forwarded to the Recharts `PolarAngleAxis` |
-| `radiusAxisProps` | `PolarRadiusAxisProps` | — | Extra props forwarded to the Recharts `PolarRadiusAxis` (e.g. `domain`) |
+| `angleAxisProps` | `PolarAngleAxisProps` | - | Extra props forwarded to the Recharts `PolarAngleAxis` |
+| `radiusAxisProps` | `PolarRadiusAxisProps` | - | Extra props forwarded to the Recharts `PolarRadiusAxis` (e.g. `domain`) |
 | `height` | `number` | `300` | Chart height in pixels |
 
-## Variant — default (filled)
+## Variant - default (filled)
 
 ```tsx preview
 import { RadarChart } from '@geti-ui/charts';
@@ -54,7 +54,7 @@ export default function App() {
 }
 ```
 
-## Variant — outline only (`filled={false}`)
+## Variant - outline only (`filled={false}`)
 
 ```tsx preview
 import { RadarChart } from '@geti-ui/charts';
@@ -85,7 +85,7 @@ export default function App() {
 }
 ```
 
-## Variant — no legend + custom colors
+## Variant - no legend + custom colors
 
 ```tsx preview
 import { RadarChart } from '@geti-ui/charts';
@@ -117,7 +117,7 @@ export default function App() {
 }
 ```
 
-## Variant — train / validation / test palette
+## Variant - train / validation / test palette
 
 ```tsx preview
 import { RadarChart, withDatasetSubsetPalette } from '@geti-ui/charts';

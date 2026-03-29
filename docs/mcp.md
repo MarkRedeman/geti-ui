@@ -1,4 +1,4 @@
-# MCP Server — Developer Guide
+# MCP Server - Developer Guide
 
 This document covers how to develop, test, and debug the `@geti-ui/mcp` server. For
 end-user setup instructions (configuring Claude Code, VS Code, Cursor, etc.), see the
@@ -30,7 +30,7 @@ packages/mcp/
 │   └── bundle-docs.mjs       # Copies doc_build/ → dist/data/ at build time
 ├── src/
 │   ├── index.ts              # CLI entry point (#!/usr/bin/env node)
-│   ├── server.ts             # MCP server factory — registers all 7 tools
+│   ├── server.ts             # MCP server factory - registers all 7 tools
 │   ├── page-manager.ts       # llms.txt parsing, page index, fuzzy page resolution
 │   ├── content-reader.ts     # Reads content from bundled / local / remote sources
 │   ├── parser.ts             # Markdown parsing (sections, props, name extraction)
@@ -61,7 +61,7 @@ packages/mcp/
 ## Building
 
 ```bash
-# From the repository root — convenience script
+# From the repository root - convenience script
 npm run mcp:build
 
 # Or from packages/mcp/ directly
@@ -70,9 +70,9 @@ npm run build
 
 The build does two things in sequence:
 
-1. **`rslib build`** — compiles `src/` into a single ESM bundle at `dist/index.js`
+1. **`rslib build`** - compiles `src/` into a single ESM bundle at `dist/index.js`
    (18 KB, with shebang banner for CLI usage)
-2. **`node scripts/bundle-docs.mjs`** — copies `documentation/doc_build/{llms.txt,
+2. **`node scripts/bundle-docs.mjs`** - copies `documentation/doc_build/{llms.txt,
    llms-full.txt, **/*.md}` into `dist/data/`
 
 The order matters: rslib cleans `dist/` before building, so the doc bundling must
@@ -80,7 +80,7 @@ happen after.
 
 If `documentation/doc_build/` does not exist and `CI=true` is set, the bundle-docs
 script exits with code 1 (failing the build). In local development it prints a warning
-and exits cleanly — the build succeeds, but the server will have no bundled data and
+and exits cleanly - the build succeeds, but the server will have no bundled data and
 will only work with `DOCS_DIR` or `DOCS_BASE_URL`.
 
 ---
@@ -226,7 +226,7 @@ Once the package is published, you can test the released version the same way:
 ) | npx @geti-ui/mcp@latest
 ```
 
-This uses the bundled documentation shipped with the npm package — no local build
+This uses the bundled documentation shipped with the npm package - no local build
 or `DOCS_DIR` needed.
 
 ### Testing with an MCP client
@@ -295,12 +295,12 @@ by `src/utils.ts:resolveContentSource()`.
 When an AI agent calls a tool with a `page_name` like `"Button"`, the server resolves
 it through a multi-step fuzzy matching process (see `src/page-manager.ts:resolvePageRef()`):
 
-1. **Exact key match** — `"components/ui/Button"`
-2. **Normalized key match** — strips `.md` extension and backslashes
-3. **Path suffix match** — `"ui/Button"` matches `"components/ui/Button"`
-4. **Display name match** — `"Button"` matches the page whose display name is "Button"
-5. **Case-insensitive name match** — `"button"` matches "Button"
-6. **Case-insensitive key suffix match** — `"button"` matches `"components/ui/Button"`
+1. **Exact key match** - `"components/ui/Button"`
+2. **Normalized key match** - strips `.md` extension and backslashes
+3. **Path suffix match** - `"ui/Button"` matches `"components/ui/Button"`
+4. **Display name match** - `"Button"` matches the page whose display name is "Button"
+5. **Case-insensitive name match** - `"button"` matches "Button"
+6. **Case-insensitive key suffix match** - `"button"` matches `"components/ui/Button"`
 
 If no match is found, the server throws an error suggesting `list_geti_ui_pages`.
 
@@ -354,12 +354,12 @@ index.ts
 
 ### Caching strategy
 
-- **Page index** (`pageCache` in `page-manager.ts`) — built once from `llms.txt` on the
+- **Page index** (`pageCache` in `page-manager.ts`) - built once from `llms.txt` on the
   first call to `buildPageIndex()`. All subsequent calls return the cached map.
-- **Page sections** — lazily populated by `ensureParsedPage()`. Once a page's content is
+- **Page sections**: lazily populated by `ensureParsedPage()`. Once a page's content is
   fetched and parsed, the `PageInfo` entry in the cache is updated with `sections` and
   `description`.
-- **Search content** (`contentCache` in `search.ts`) — all page content is loaded in
+- **Search content** (`contentCache` in `search.ts`) - all page content is loaded in
   parallel on the first `searchDocs()` call and held in memory for subsequent searches.
 
 There is no cache invalidation. The server is designed to be short-lived (started per
@@ -369,11 +369,11 @@ AI session) or restarted when documentation changes.
 
 The rslib config (`rslib.config.ts`) produces a single ESM bundle:
 
-- **`format: 'esm'`** — the MCP SDK is ESM-only
-- **`bundle: true`** — single file output for fast `npx` cold start
-- **`target: 'node'`** — Node.js APIs only, no browser polyfills
-- **`banner.js: '#!/usr/bin/env node'`** — shebang for direct CLI execution
-- **`externals: [/^@modelcontextprotocol\//, /^node:/]`** — the MCP SDK is kept external
+- **`format: 'esm'`**: the MCP SDK is ESM-only
+- **`bundle: true`**: single file output for fast `npx` cold start
+- **`target: 'node'`**: Node.js APIs only, no browser polyfills
+- **`banner.js: '#!/usr/bin/env node'`**: shebang for direct CLI execution
+- **`externals: [/^@modelcontextprotocol\//, /^node:/]`**: the MCP SDK is kept external
   (installed as a dependency); Node.js built-ins are always external
 
 ---
@@ -440,7 +440,7 @@ server.registerTool(
   'my_new_geti_ui_tool',
   {
     title: 'Short title',
-    description: 'What the tool does — this is shown to the AI agent.',
+    description: 'What the tool does - this is shown to the AI agent.',
     inputSchema: {
       param: z.string().describe('Parameter description'),
     },
@@ -477,14 +477,14 @@ npm run mcp:build
 The page name must match an entry in `llms.txt`. Run `list_geti_ui_pages` to see all
 available names. Common issues:
 
-- Using a path with `.md` extension — the server strips it, but include it if unsure
-- Using a category-prefixed name like `"ui/Button"` — this works via suffix matching
-- Typos in the page name — matching is case-insensitive but not fuzzy
+- Using a path with `.md` extension - the server strips it, but include it if unsure
+- Using a category-prefixed name like `"ui/Button"` - this works via suffix matching
+- Typos in the page name - matching is case-insensitive but not fuzzy
 
 ### Server exits immediately
 
 The MCP server reads from stdin. If stdin is closed (e.g. running without piped input),
-the server exits. This is normal — it's designed to be started by an MCP client, not
+the server exits. This is normal - it's designed to be started by an MCP client, not
 run interactively.
 
 ### "doc_build does not exist" warning during build

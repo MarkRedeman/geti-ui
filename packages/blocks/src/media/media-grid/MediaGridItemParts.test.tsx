@@ -90,7 +90,7 @@ describe('MediaGridItemCheckbox', () => {
 });
 
 // ---------------------------------------------------------------------------
-// 2. MediaGridItemMenu — renders actions and calls onAction
+// 2. MediaGridItemMenu - renders actions and calls onAction
 // ---------------------------------------------------------------------------
 
 describe('MediaGridItemMenu', () => {
@@ -153,7 +153,7 @@ describe('MediaGridItemMenu', () => {
 });
 
 // ---------------------------------------------------------------------------
-// 3. MediaGridItemMenu — interaction does not bubble to parent click
+// 3. MediaGridItemMenu - interaction does not bubble to parent click
 // ---------------------------------------------------------------------------
 
 describe('MediaGridItemMenu propagation', () => {

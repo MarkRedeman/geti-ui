@@ -13,7 +13,7 @@ import { ListView } from '../ListView/ListView';
 
 /**
  * Renders ActionBar inside an ActionBarContainer with a minimal ListView.
- * ActionBar visibility is driven by selectedItemCount — a non-zero value
+ * ActionBar visibility is driven by selectedItemCount - a non-zero value
  * causes the bar to appear in the DOM.
  */
 const renderActionBar = (props: Partial<React.ComponentProps<typeof ActionBar>> = {}, selectedItemCount = 2) =>

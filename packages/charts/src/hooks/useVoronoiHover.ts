@@ -1,9 +1,9 @@
 /**
- * useVoronoiHover — manages nearest-point hover state for ScatterChart.
+ * useVoronoiHover - manages nearest-point hover state for ScatterChart.
  *
  * Returns ref callbacks + state needed to:
  *  1. Read actual rendered SVG circle positions from the DOM (single source of
- *     truth — avoids re-implementing Recharts' axis domain / tick logic).
+ *     truth - avoids re-implementing Recharts' axis domain / tick logic).
  *  2. Convert mouse pixel events to plot-area coordinates.
  *  3. Find the nearest scatter point via d3-delaunay Voronoi lookup.
  *  4. Expose an `activePoint` that the parent chart can use to show a tooltip.

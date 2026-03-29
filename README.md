@@ -6,15 +6,15 @@ It contains multiple React + TypeScript packages built primarily on Adobe React 
 
 ## Monorepo layout
 
--   `packages/ui` — core component library (`@geti-ui/ui`)
--   `packages/blocks` — composable application-level blocks (`@geti-ui/blocks`)
--   `packages/charts` — chart primitives/compositions (`@geti-ui/charts`)
--   `packages/smart-tools` — browser CV annotation tools (`@geti-ui/smart-tools`)
--   `packages/mcp` — MCP server exposing docs tools for agents (`@geti-ui/mcp`)
--   `documentation` — Rspress docs site (primary validation surface)
--   `.github/workflows` — CI/CD and deployment workflows
--   `.agents/skills` — AI agent skills and references
--   `reference-packages` — read-only upstream snapshots used as implementation reference
+-   `packages/ui`: core component library (`@geti-ui/ui`)
+-   `packages/blocks`: composable application-level blocks (`@geti-ui/blocks`)
+-   `packages/charts`: chart primitives/compositions (`@geti-ui/charts`)
+-   `packages/smart-tools`: browser CV annotation tools (`@geti-ui/smart-tools`)
+-   `packages/mcp`: MCP server exposing docs tools for agents (`@geti-ui/mcp`)
+-   `documentation`: Rspress docs site (primary validation surface)
+-   `.github/workflows`: CI/CD and deployment workflows
+-   `.agents/skills`: AI agent skills and references
+-   `reference-packages`: read-only upstream snapshots used as implementation reference
 
 ## Key capabilities
 
@@ -26,8 +26,7 @@ It contains multiple React + TypeScript packages built primarily on Adobe React 
     -   `@geti-ui/ui/icons`
     -   `@geti-ui/ui/assets/images`
     -   `@geti-ui/ui/assets/domains`
-    -   `@geti-ui/ui/assets/primary-tools`
--   AI integration via docs-generated skills endpoint and MCP server
+    -   `@geti-ui/ui/assets/primary-tools`:   AI integration via docs-generated skills endpoint and MCP server
 
 ## Requirements
 

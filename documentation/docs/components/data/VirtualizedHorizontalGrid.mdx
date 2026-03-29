@@ -66,7 +66,7 @@ export default function App() {
 - accessible `ListBox` semantics with `orientation="horizontal"`,
 - stable keying and text-value extraction via your provided formatters.
 
-You control all item rendering — size, thumbnail content, selection state — via `renderItem`.
+You control all item rendering - size, thumbnail content, selection state - via `renderItem`.
 
 ## Variants and states
 
@@ -77,13 +77,13 @@ The component does not have named visual variants. All visual variation is achie
 ### Content
 
 - `items`: typed array of items to render.
-- `renderItem(item)`: returns the React node for each grid cell — you own the size and layout.
+- `renderItem(item)`: returns the React node for each grid cell - you own the size and layout.
 - `idFormatter(item)`: extracts a unique string key per item.
 - `textValueFormatter(item)`: extracts accessible text for screen readers and type-to-select.
 
 ### Layout
 
-- `layoutOptions`: `HorizontalLayoutOptions` — controls `size` (item width in px) and `gap` (spacing between items).
+- `layoutOptions`: `HorizontalLayoutOptions` - controls `size` (item width in px) and `gap` (spacing between items).
 - `height`: Spectrum `DimensionValue` for the scroll container height. Defaults to `'100%'`.
 - `listBoxItemStyles`: optional inline styles applied to the `ListBoxItem` wrapper around each rendered item.
 
@@ -93,16 +93,16 @@ The `ListBox` uses `orientation="horizontal"`, so arrow keys scroll through item
 
 ## Related components
 
-- [`VirtualizedListLayout`](/components/data/VirtualizedListLayout) — use for vertical virtualized lists.
-- [`ListView`](/components/data/ListView) — use for vertical lists with built-in selection and row actions at manageable scale.
-- [`CardView`](/components/data/CardView) — use for a static, non-virtualized grid of card components.
+- [`VirtualizedListLayout`](/components/data/VirtualizedListLayout): use for vertical virtualized lists.
+- [`ListView`](/components/data/ListView): use for vertical lists with built-in selection and row actions at manageable scale.
+- [`CardView`](/components/data/CardView): use for a static, non-virtualized grid of card components.
 
 ## Example use cases
 
 <details>
   <summary>Typical use cases</summary>
 
-- Dataset image strip below an annotation canvas — scroll through hundreds of thumbnails.
+- Dataset image strip below an annotation canvas - scroll through hundreds of thumbnails.
 - Model training history preview showing generated samples from each epoch.
 - Horizontal media browser for selecting a reference image.
 

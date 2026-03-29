@@ -6,7 +6,7 @@ import { Button, ToastContainer, toast } from '@geti-ui/ui';
 
 # Toast
 
-`Toast` provides programmatic transient notifications. Call `toast.positive`, `toast.negative`, `toast.info`, or `toast.neutral` from anywhere in your app and the message appears in the `ToastContainer`. Use toasts for brief feedback on actions that have completed — saves, errors, uploads — not for blocking decisions.
+`Toast` provides programmatic transient notifications. Call `toast.positive`, `toast.negative`, `toast.info`, or `toast.neutral` from anywhere in your app and the message appears in the `ToastContainer`. Use toasts for brief feedback on actions that have completed - saves, errors, uploads, not for blocking decisions.
 
 ```tsx
 import { ToastContainer, toast } from '@geti-ui/ui';
@@ -155,18 +155,18 @@ toast.positive(message: string, options?: ToastOptions): () => void
 
 ### `ToastContainer`
 
-- `placement`: where the container sits — `'bottom'` is the Geti standard.
+- `placement`: where the container sits - `'bottom'` is the Geti standard.
 
 ### Accessibility
 
 - Toasts are announced as `role="alert"` by Spectrum.
-- Keep messages short and specific — toasts are read immediately by screen readers.
+- Keep messages short and specific - toasts are read immediately by screen readers.
 - Avoid using `toast` as the only feedback mechanism for destructive actions; pair with a confirmation dialog.
 
 ## Related components
 
-- [`InlineAlert`](/components/feedback/InlineAlert) — use for persistent in-page messages that must remain visible while the user acts.
-- [`AlertDialog`](/components/overlays/AlertDialog) — use when the user needs to confirm before an action proceeds.
+- [`InlineAlert`](/components/feedback/InlineAlert): use for persistent in-page messages that must remain visible while the user acts.
+- [`AlertDialog`](/components/overlays/AlertDialog): use when the user needs to confirm before an action proceeds.
 
 ## Example use cases
 

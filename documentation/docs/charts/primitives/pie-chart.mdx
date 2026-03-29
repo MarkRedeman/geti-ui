@@ -13,15 +13,15 @@ Key Recharts props used on the `Pie` primitive:
 | Prop | Type | Default | Description |
 |---|---|---|---|
 | `dataKey` | `string` | required | Key in each data object for the slice value |
-| `nameKey` | `string` | — | Key used for the slice name in tooltip/legend |
+| `nameKey` | `string` | - | Key used for the slice name in tooltip/legend |
 | `outerRadius` | `number \| string` | `'80%'` | Outer radius of the pie |
 | `paddingAngle` | `number` | `0` | Gap in degrees between slices |
 | `label` | `boolean \| object \| function` | `false` | Render slice labels |
-| `activeIndex` | `number \| number[]` | — | Index of the slice(s) to render as active (exploded) |
-| `activeShape` | `object \| function` | — | Shape config for the active slice (e.g. `{ outerRadius: 108 }`) |
+| `activeIndex` | `number \| number[]` | - | Index of the slice(s) to render as active (exploded) |
+| `activeShape` | `object \| function` | - | Shape config for the active slice (e.g. `{ outerRadius: 108 }`) |
 | `isAnimationActive` | `boolean` | `true` | Disable for static/SSR renders |
 
-## Variant — default
+## Variant - default
 
 ```tsx preview
 import { Cell, Pie, PieChart } from 'recharts';
@@ -51,7 +51,7 @@ export default function App() {
 }
 ```
 
-## Variant — labels + padding angle
+## Variant - labels + padding angle
 
 ```tsx preview
 import { Cell, Pie, PieChart } from 'recharts';
@@ -80,7 +80,7 @@ export default function App() {
 }
 ```
 
-## Variant — exploded slice
+## Variant - exploded slice
 
 ```tsx preview
 import { Cell, Pie, PieChart } from 'recharts';

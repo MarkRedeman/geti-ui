@@ -15,14 +15,14 @@ Key Recharts props used on the `Radar` and polar axis primitives:
 | Prop | Type | Default | Description |
 |---|---|---|---|
 | `dataKey` | `string` | required | Key in each data object to plot on the `Radar` |
-| `name` | `string` | — | Series label shown in tooltip and legend |
-| `stroke` | `string` | — | Outline color of the radar polygon |
-| `fill` | `string` | — | Fill color of the radar polygon; use `'none'` for outline-only |
+| `name` | `string` | - | Series label shown in tooltip and legend |
+| `stroke` | `string` | - | Outline color of the radar polygon |
+| `fill` | `string` | - | Fill color of the radar polygon; use `'none'` for outline-only |
 | `fillOpacity` | `number` | `0.5` | Opacity of the fill (0–1) |
 | `isAnimationActive` | `boolean` | `true` | Disable for static/SSR renders |
-| `domain` | `[min, max]` | — | Value range for `PolarRadiusAxis` (e.g. `[0, 1]` or `[0, 100]`) |
+| `domain` | `[min, max]` | - | Value range for `PolarRadiusAxis` (e.g. `[0, 1]` or `[0, 100]`) |
 
-## Variant — default (filled)
+## Variant - default (filled)
 
 ```tsx preview
 import { PolarAngleAxis, PolarGrid, PolarRadiusAxis, Radar, RadarChart } from 'recharts';
@@ -53,7 +53,7 @@ export default function App() {
 }
 ```
 
-## Variant — outlines only
+## Variant - outlines only
 
 ```tsx preview
 import { PolarAngleAxis, PolarGrid, PolarRadiusAxis, Radar, RadarChart } from 'recharts';
@@ -84,7 +84,7 @@ export default function App() {
 }
 ```
 
-## Variant — train / validation / test palette
+## Variant - train / validation / test palette
 
 ```tsx preview
 import { PolarAngleAxis, PolarGrid, PolarRadiusAxis, Radar, RadarChart } from 'recharts';

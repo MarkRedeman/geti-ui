@@ -10,17 +10,17 @@ title: Confidence histogram
 
 | Prop | Type | Default | Description |
 |---|---|---|---|
-| `data` | `{ binStart: number; binEnd: number; count: number }[]` | — | Array of histogram bins with start, end, and count |
+| `data` | `{ binStart: number; binEnd: number; count: number }[]` | - | Array of histogram bins with start, end, and count |
 | `height` | `number` | `300` | Chart height in pixels |
 | `showGrid` | `boolean` | `true` | Show background grid lines |
 | `showTooltip` | `boolean` | `true` | Show hover tooltip |
 | `animate` | `boolean` | `false` | Enable entry animation |
 | `showFrequency` | `boolean` | `false` | Normalize bars to relative frequency (0–1) instead of raw counts |
-| `threshold` | `number` | — | Draw a vertical reference line at this confidence value |
-| `xAxisProps` | `XAxisProps` | — | Extra props forwarded to the Recharts `XAxis` |
-| `yAxisProps` | `YAxisProps` | — | Extra props forwarded to the Recharts `YAxis` |
+| `threshold` | `number` | - | Draw a vertical reference line at this confidence value |
+| `xAxisProps` | `XAxisProps` | - | Extra props forwarded to the Recharts `XAxis` |
+| `yAxisProps` | `YAxisProps` | - | Extra props forwarded to the Recharts `YAxis` |
 
-## Variant — raw confidence counts
+## Variant - raw confidence counts
 
 ```tsx preview
 import { ConfidenceHistogram } from '@geti-ui/charts';
@@ -49,7 +49,7 @@ export default function App() {
 }
 ```
 
-## Variant — normalized frequency with threshold line
+## Variant - normalized frequency with threshold line
 
 ```tsx preview
 import { ConfidenceHistogram } from '@geti-ui/charts';

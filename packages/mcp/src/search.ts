@@ -41,8 +41,8 @@ async function ensureContentLoaded(): Promise<Map<string, { name: string; path: 
  * Returns pages with matching lines, ranked by number of matches (descending).
  * Each match includes the line number and the line content.
  *
- * @param query — Search string (case-insensitive substring match)
- * @param limit — Maximum number of pages to return (default: 10)
+ * @param query - Search string (case-insensitive substring match)
+ * @param limit - Maximum number of pages to return (default: 10)
  */
 export async function searchDocs(query: string, limit = 10): Promise<SearchResult[]> {
     if (!query.trim()) return [];

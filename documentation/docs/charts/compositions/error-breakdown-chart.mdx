@@ -10,8 +10,8 @@ title: Error breakdown chart
 
 | Prop | Type | Default | Description |
 |---|---|---|---|
-| `data` | `Record<string, unknown>[]` | — | Array of data objects, one per model/run |
-| `series` | `BarSeriesConfig[]` | — | Series definitions; each entry has `dataKey` and `name` for an error category |
+| `data` | `Record<string, unknown>[]` | - | Array of data objects, one per model/run |
+| `series` | `BarSeriesConfig[]` | - | Series definitions; each entry has `dataKey` and `name` for an error category |
 | `xAxisKey` | `string` | `'label'` | Key in each data object for the X (category) axis |
 | `height` | `number` | `300` | Chart height in pixels |
 | `stacked` | `boolean` | `true` | Stack error categories; set `false` for grouped bars |
@@ -19,10 +19,10 @@ title: Error breakdown chart
 | `showTooltip` | `boolean` | `true` | Show hover tooltip |
 | `showLegend` | `boolean` | `true` | Show legend below chart |
 | `animate` | `boolean` | `false` | Enable entry animation |
-| `xAxisProps` | `XAxisProps` | — | Extra props forwarded to the Recharts `XAxis` |
-| `yAxisProps` | `YAxisProps` | — | Extra props forwarded to the Recharts `YAxis` |
+| `xAxisProps` | `XAxisProps` | - | Extra props forwarded to the Recharts `XAxis` |
+| `yAxisProps` | `YAxisProps` | - | Extra props forwarded to the Recharts `YAxis` |
 
-## Variant — stacked breakdown by model
+## Variant - stacked breakdown by model
 
 ```tsx preview
 import { ErrorBreakdownChart } from '@geti-ui/charts';
@@ -51,7 +51,7 @@ export default function App() {
 }
 ```
 
-## Variant — grouped comparison by run
+## Variant - grouped comparison by run
 
 ```tsx preview
 import { ErrorBreakdownChart } from '@geti-ui/charts';

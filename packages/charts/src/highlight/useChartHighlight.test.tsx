@@ -44,7 +44,7 @@ describe('useChartHighlight', () => {
         expect(result.current.enabled).toBe(true);
     });
 
-    it('provider state is shared — mutations affect same instance', () => {
+    it('provider state is shared - mutations affect same instance', () => {
         // Render a single hook that calls useChartHighlight twice in the same provider tree
         const wrapper = ({ children }: { children: ReactNode }) => (
             <HighlightProvider enabled mode="single">

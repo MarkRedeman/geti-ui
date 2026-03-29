@@ -93,7 +93,7 @@ describe('LogsContent', () => {
     });
 
     // -----------------------------------------------------------------------
-    // 2. Search filtering — case-insensitive, covers message/module/function/text
+    // 2. Search filtering - case-insensitive, covers message/module/function/text
     // -----------------------------------------------------------------------
 
     describe('search filtering', () => {
@@ -299,7 +299,7 @@ describe('LogsContent', () => {
     });
 
     // -----------------------------------------------------------------------
-    // 8. Copy path — navigator.clipboard.writeText called with correct format
+    // 8. Copy path - navigator.clipboard.writeText called with correct format
     // -----------------------------------------------------------------------
 
     describe('copy to clipboard', () => {

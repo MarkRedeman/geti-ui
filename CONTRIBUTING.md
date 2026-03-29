@@ -11,8 +11,8 @@ Use the versions declared in the root `package.json` `engines` field.
 
 ## Repository layout
 
-- `packages/ui` — component library source (`@geti-ui/ui`)
-- `documentation` — docs site (Rspress)
+- `packages/ui`: component library source (`@geti-ui/ui`)
+- `documentation`: docs site (Rspress)
 
 ## Install
 

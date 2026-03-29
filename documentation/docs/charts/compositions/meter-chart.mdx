@@ -10,7 +10,7 @@ title: Meter chart
 
 | Prop | Type | Default | Description |
 |---|---|---|---|
-| `value` | `number` | — | Current value to display |
+| `value` | `number` | - | Current value to display |
 | `max` | `number` | `100` | Maximum value (defines the full arc) |
 | `color` | `string` | theme accent | Fill color of the active arc |
 | `trackColor` | `string` | theme track | Background track color |
@@ -19,11 +19,11 @@ title: Meter chart
 | `startAngle` | `number` | `180` | Start angle of the arc in degrees |
 | `endAngle` | `number` | `0` | End angle of the arc in degrees |
 | `showValue` | `boolean` | `true` | Display the numeric value in the center |
-| `valueFormatter` | `(value: number) => string` | — | Custom formatter for the center label |
+| `valueFormatter` | `(value: number) => string` | - | Custom formatter for the center label |
 | `animate` | `boolean` | `false` | Enable entry animation |
 | `height` | `number` | `300` | Chart height in pixels |
 
-## Variant — default
+## Variant - default
 
 ```tsx preview
 import { MeterChart } from '@geti-ui/charts';
@@ -33,7 +33,7 @@ export default function App() {
 }
 ```
 
-## Variant — custom max and formatter
+## Variant - custom max and formatter
 
 ```tsx preview
 import { MeterChart } from '@geti-ui/charts';
@@ -51,7 +51,7 @@ export default function App() {
 }
 ```
 
-## Variant — custom colors
+## Variant - custom colors
 
 ```tsx preview
 import { MeterChart } from '@geti-ui/charts';
@@ -69,7 +69,7 @@ export default function App() {
 }
 ```
 
-## Variant — train / validation / test palette
+## Variant - train / validation / test palette
 
 ```tsx preview
 import { MeterChart, getDatasetSubsetColor } from '@geti-ui/charts';

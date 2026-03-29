@@ -10,18 +10,18 @@ title: Treemap chart
 
 | Prop | Type | Default | Description |
 |---|---|---|---|
-| `data` | `TreemapNode[]` | — | Root node(s) containing `children` with `name` and `value` leaf objects |
+| `data` | `TreemapNode[]` | - | Root node(s) containing `children` with `name` and `value` leaf objects |
 | `dataKey` | `string` | `'value'` | Key used for sizing each tile |
 | `nameKey` | `string` | `'name'` | Key used for labelling each tile |
 | `colors` | `string[]` | theme colors | Fill colors cycled across top-level children |
 | `colorScale` | `ChartColorScaleInput` | `'theme'` | Named color scale preset or custom stops |
-| `fill` | `string` | — | Single fill color override for all tiles |
+| `fill` | `string` | - | Single fill color override for all tiles |
 | `height` | `number` | `300` | Chart height in pixels |
 | `showTooltip` | `boolean` | `true` | Show hover tooltip |
 | `animate` | `boolean` | `false` | Enable entry animation |
-| `tooltipProps` | `TooltipProps` | — | Extra props forwarded to the Recharts `Tooltip` |
+| `tooltipProps` | `TooltipProps` | - | Extra props forwarded to the Recharts `Tooltip` |
 
-## Variant — default
+## Variant - default
 
 ```tsx preview
 import { TreemapChart } from '@geti-ui/charts';
@@ -43,7 +43,7 @@ export default function App() {
 }
 ```
 
-## Variant — custom tile color + tooltip formatter
+## Variant - custom tile color + tooltip formatter
 
 ```tsx preview
 import { TreemapChart } from '@geti-ui/charts';
@@ -72,7 +72,7 @@ export default function App() {
 }
 ```
 
-## Variant — named color scale preset
+## Variant - named color scale preset
 
 ```tsx preview
 import { TreemapChart } from '@geti-ui/charts';
@@ -103,7 +103,7 @@ export default function App() {
 }
 ```
 
-## Variant — interactive load more leafs
+## Variant - interactive load more leafs
 
 ```tsx preview
 import * as React from 'react';

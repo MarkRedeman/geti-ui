@@ -10,20 +10,20 @@ title: Area chart
 
 | Prop | Type | Default | Description |
 |---|---|---|---|
-| `data` | `Record<string, unknown>[]` | — | Array of data objects for the chart |
-| `series` | `AreaSeriesConfig[]` | — | Series definitions; each entry has `dataKey`, `name`, `color?`, `stacked?`, `fade?` |
-| `xAxisKey` | `string` | — | Key in each data object for the X axis |
+| `data` | `Record<string, unknown>[]` | - | Array of data objects for the chart |
+| `series` | `AreaSeriesConfig[]` | - | Series definitions; each entry has `dataKey`, `name`, `color?`, `stacked?`, `fade?` |
+| `xAxisKey` | `string` | - | Key in each data object for the X axis |
 | `height` | `number` | `300` | Chart height in pixels |
 | `showGrid` | `boolean` | `true` | Show background grid lines |
 | `showTooltip` | `boolean` | `true` | Show hover tooltip |
 | `showLegend` | `boolean` | `false` | Show legend below chart |
 | `animate` | `boolean` | `false` | Enable entry animation |
-| `xScale` | `ScaleConfig` | — | X axis scale config (e.g. `{ scale: 'time' }`) |
-| `yScale` | `ScaleConfig` | — | Y axis scale config (e.g. `{ scale: 'log', domain: [1, 'auto'] }`) |
-| `xAxisProps` | `XAxisProps` | — | Extra props forwarded to the Recharts `XAxis` |
-| `yAxisProps` | `YAxisProps` | — | Extra props forwarded to the Recharts `YAxis` |
+| `xScale` | `ScaleConfig` | - | X axis scale config (e.g. `{ scale: 'time' }`) |
+| `yScale` | `ScaleConfig` | - | Y axis scale config (e.g. `{ scale: 'log', domain: [1, 'auto'] }`) |
+| `xAxisProps` | `XAxisProps` | - | Extra props forwarded to the Recharts `XAxis` |
+| `yAxisProps` | `YAxisProps` | - | Extra props forwarded to the Recharts `YAxis` |
 
-## Variant — `stacked` and `fade` off
+## Variant - `stacked` and `fade` off
 
 ```tsx preview
 import { AreaChart } from '@geti-ui/charts';
@@ -51,7 +51,7 @@ export default function App() {
 }
 ```
 
-## Variant — `stacked` and `fade` on
+## Variant - `stacked` and `fade` on
 
 ```tsx preview
 import { AreaChart } from '@geti-ui/charts';
@@ -81,7 +81,7 @@ export default function App() {
 
 `series[].fade` uses a vertical gradient fill (strong near the line, fading to transparent at the bottom), matching the custom-chart style.
 
-## Variant — chart-level booleans on (`showLegend`, `animate`)
+## Variant - chart-level booleans on (`showLegend`, `animate`)
 
 ```tsx preview
 import { AreaChart } from '@geti-ui/charts';
@@ -111,7 +111,7 @@ export default function App() {
 }
 ```
 
-## Variant — train / validation / test palette
+## Variant - train / validation / test palette
 
 ```tsx preview
 import { AreaChart, withDatasetSubsetPalette } from '@geti-ui/charts';
@@ -143,7 +143,7 @@ export default function App() {
 }
 ```
 
-## Variant — time-based X axis
+## Variant - time-based X axis
 
 ```tsx preview
 import { AreaChart } from '@geti-ui/charts';
@@ -175,7 +175,7 @@ export default function App() {
 }
 ```
 
-## Variant — log-scaled Y axis
+## Variant - log-scaled Y axis
 
 ```tsx preview
 import { AreaChart } from '@geti-ui/charts';
@@ -202,7 +202,7 @@ export default function App() {
 }
 ```
 
-## Variant — 7 data categories
+## Variant - 7 data categories
 
 ```tsx preview
 import { AreaChart } from '@geti-ui/charts';
@@ -237,7 +237,7 @@ export default function App() {
 }
 ```
 
-## Variant — 7 data categories (stacked)
+## Variant - 7 data categories (stacked)
 
 ```tsx preview
 import { AreaChart } from '@geti-ui/charts';

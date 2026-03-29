@@ -11,7 +11,7 @@ declare module '*.svg' {
 }
 
 // ---------------------------------------------------------------------------
-// @spectrum-icons/workflow — exhaustive module declarations
+// @spectrum-icons/workflow - exhaustive module declarations
 //
 // Each icon is its own deep-import (e.g. `@spectrum-icons/workflow/Delete`).
 // By listing every valid icon name explicitly instead of using a wildcard,

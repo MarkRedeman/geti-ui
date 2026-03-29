@@ -47,10 +47,10 @@ function wrap(node: React.ReactNode) {
 }
 
 // ---------------------------------------------------------------------------
-// LineChart — scale props
+// LineChart - scale props
 // ---------------------------------------------------------------------------
 
-describe('LineChart — axis scale', () => {
+describe('LineChart - axis scale', () => {
     it('renders with default (no scale props) without crash', () => {
         wrap(
             <LineChart
@@ -118,10 +118,10 @@ describe('LineChart — axis scale', () => {
 });
 
 // ---------------------------------------------------------------------------
-// AreaChart — scale props
+// AreaChart - scale props
 // ---------------------------------------------------------------------------
 
-describe('AreaChart — axis scale', () => {
+describe('AreaChart - axis scale', () => {
     it('renders with default (no scale props) without crash', () => {
         wrap(
             <AreaChart
@@ -177,10 +177,10 @@ describe('AreaChart — axis scale', () => {
 });
 
 // ---------------------------------------------------------------------------
-// BarChart — scale props
+// BarChart - scale props
 // ---------------------------------------------------------------------------
 
-describe('BarChart — axis scale', () => {
+describe('BarChart - axis scale', () => {
     it('renders with default (no scale props) without crash', () => {
         wrap(
             <BarChart
@@ -229,10 +229,10 @@ describe('BarChart — axis scale', () => {
 });
 
 // ---------------------------------------------------------------------------
-// ScatterChart — scale props
+// ScatterChart - scale props
 // ---------------------------------------------------------------------------
 
-describe('ScatterChart — axis scale', () => {
+describe('ScatterChart - axis scale', () => {
     it('renders with default (no scale props) without crash', () => {
         wrap(
             <ScatterChart

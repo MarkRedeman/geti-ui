@@ -4,7 +4,7 @@
 
 The `packages/` directory is the workspace root for all publishable packages in the `geti-ui` monorepo. Currently it contains exactly one package: `ui/` (published as `@geti-ui/ui`).
 
-Its role is purely structural — it provides the conventional monorepo boundary between workspace tooling (at the repo root) and the deliverable packages that consumers install.
+Its role is purely structural - it provides the conventional monorepo boundary between workspace tooling (at the repo root) and the deliverable packages that consumers install.
 
 ## Design
 

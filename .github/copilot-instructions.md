@@ -1,4 +1,4 @@
-# GitHub Copilot — PR Review Instructions
+# GitHub Copilot - PR Review Instructions
 
 This file configures how Copilot reviews pull requests in the `geti-ui` repository.
 
@@ -27,11 +27,11 @@ Follow these core principles:
 
 `geti-ui` is a React + TypeScript monorepo containing:
 
--   `@geti-ui/ui` — core design-system components (thin wrappers over Spectrum/RAC)
--   `@geti-ui/blocks` — composable application-level building blocks
--   `@geti-ui/charts` — chart components and compositions
--   `@geti-ui/smart-tools` — browser CV tooling
--   `@geti-ui/mcp` — MCP server exposing docs/search/discovery tools
+-   `@geti-ui/ui` - core design-system components (thin wrappers over Spectrum/RAC)
+-   `@geti-ui/blocks` - composable application-level building blocks
+-   `@geti-ui/charts` - chart components and compositions
+-   `@geti-ui/smart-tools` - browser CV tooling
+-   `@geti-ui/mcp` - MCP server exposing docs/search/discovery tools
 
 For `packages/ui`, thin-wrapper rules are strict and breaking the public API is high severity.
 For other packages, apply equivalent API stability and behavior correctness checks appropriate to
@@ -59,7 +59,7 @@ problem. Linting and formatting are enforced automatically by CI.
 
 ---
 
-## Priority 1 — Breaking changes to the public API (CRITICAL)
+## Priority 1 - Breaking changes to the public API (CRITICAL)
 
 These are the highest-severity findings. Flag any change that removes or alters the observable
 contract of an already-exported symbol.
@@ -84,7 +84,7 @@ contract of an already-exported symbol.
 
 ---
 
-## Priority 2 — Wrapper contract violations
+## Priority 2 - Wrapper contract violations
 
 Every component must remain a thin, transparent wrapper. Flag issues where a PR violates this
 contract.
@@ -95,10 +95,10 @@ contract.
     The correct pattern is `...rest` spread onto the underlying Spectrum component.
 
     ```tsx
-    // BAD — `id` is swallowed
+    // BAD - `id` is swallowed
     export const Button = ({ variant, id, ...rest }: ButtonProps) => <SpectrumButton {...rest} variant={variant} />;
 
-    // GOOD — every upstream prop is forwarded
+    // GOOD - every upstream prop is forwarded
     export const Button = ({ variant = 'accent', ...rest }: ButtonProps) => (
         <SpectrumButton {...rest} variant={variant} />
     );
@@ -111,13 +111,13 @@ contract.
 
 ---
 
-## Priority 3 — TypeScript correctness
+## Priority 3 - TypeScript correctness
 
 **Flag if a PR:**
 
 -   Introduces `any` (use `unknown` or a generic instead).
 -   Casts with `as` to silence a real type error rather than fixing the underlying mismatch.
--   Exports a component without exporting its corresponding `Props` type — both must be exported
+-   Exports a component without exporting its corresponding `Props` type - both must be exported
     from `index.ts` as a pair.
 -   Uses an `interface` for component props (we prefer `type` for consistency and to avoid
     unintentional declaration merging).
@@ -126,10 +126,10 @@ contract.
 -   Narrows a Spectrum/RAC prop type without using the upstream type as the base:
 
     ```tsx
-    // BAD — redefines what Spectrum already types
+    // BAD - redefines what Spectrum already types
     export type ButtonProps = { variant?: string; children: ReactNode };
 
-    // GOOD — extends and only overrides what differs
+    // GOOD - extends and only overrides what differs
     export type ButtonProps = Omit<SpectrumButtonProps, 'variant'> & {
         variant?: 'primary' | 'secondary' | 'accent';
     };
@@ -137,7 +137,7 @@ contract.
 
 ---
 
-## Priority 4 — Accessibility (A11y) regressions
+## Priority 4 - Accessibility (A11y) regressions
 
 Spectrum/RAC provide a high baseline for accessibility. Do not break it.
 
@@ -154,7 +154,7 @@ Spectrum/RAC provide a high baseline for accessibility. Do not break it.
 
 ---
 
-## Priority 5 — State and complexity creep
+## Priority 5 - State and complexity creep
 
 This library favours **small, local state**. Flag if a PR introduces unnecessary abstraction.
 
@@ -163,14 +163,14 @@ This library favours **small, local state**. Flag if a PR introduces unnecessary
 -   Introduces a React context, global store, or cross-component state for a problem that could
     be solved with local `useState` or by lifting state to the caller.
 -   Adds a `useEffect` that syncs derived state (compute it during render instead).
--   Accepts a callback prop and calls it based on internal state decisions — prefer exposing the
+-   Accepts a callback prop and calls it based on internal state decisions - prefer exposing the
     raw Spectrum event prop (`onChange`, `onPress`, etc.) and letting the caller decide.
 -   Adds an internal `useRef` to work around a prop that Spectrum already supports.
 -   Adds an abstraction prematurely where duplication would be clearer.
 
 ---
 
-## Priority 6 — Test quality
+## Priority 6 - Test quality
 
 **Flag if a PR:**
 
@@ -178,21 +178,21 @@ This library favours **small, local state**. Flag if a PR introduces unnecessary
     text (`getByRole`, `getByLabelText`, `getByText`).
 -   Tests implementation details (checks internal state variables or private functions) rather
     than observable behaviour.
--   Uses `UNSAFE_className` in a test assertion — this is a CSS escape hatch and not stable.
+-   Uses `UNSAFE_className` in a test assertion - this is a CSS escape hatch and not stable.
 -   Adds a new exported component without any accompanying unit test file.
 
 ---
 
 ## Do not flag
 
--   **Formatting differences** — Prettier handles this.
--   **Import order** — handled by the linter.
--   **Minor naming variations** — e.g. `handleClick` vs `onClick` for internal handlers.
--   **JSDoc completeness** — useful but not a correctness issue.
--   **Story coverage** — valuable, but not a blocker unless a story is factually incorrect.
--   **`UNSAFE_className` usage in component implementations** — this is the sanctioned CSS
+-   **Formatting differences** - Prettier handles this.
+-   **Import order** - handled by the linter.
+-   **Minor naming variations** - e.g. `handleClick` vs `onClick` for internal handlers.
+-   **JSDoc completeness** - useful but not a correctness issue.
+-   **Story coverage** - valuable, but not a blocker unless a story is factually incorrect.
+-   **`UNSAFE_className` usage in component implementations** - this is the sanctioned CSS
     override mechanism for Spectrum v3 wrappers.
--   **"Thin Wrappers"** — It is intentional that many components have very little logic; they are providing Geti-specific defaults and branding.
+-   **"Thin Wrappers"** - It is intentional that many components have very little logic; they are providing Geti-specific defaults and branding.
 
 ---
 
@@ -201,13 +201,13 @@ This library favours **small, local state**. Flag if a PR introduces unnecessary
 These are intentional conventions, not bugs:
 
 ```tsx
-// Thin passthrough — correct, do not suggest adding logic
+// Thin passthrough - correct, do not suggest adding logic
 export const Tooltip = (props: TooltipProps) => <SpectrumTooltip {...props} />;
 
-// Direct re-export of Spectrum sub-components — correct
+// Direct re-export of Spectrum sub-components - correct
 export const TableHeader = SpectrumTableHeader;
 
-// UNSAFE_className merge via clsx — correct and intentional
+// UNSAFE_className merge via clsx - correct and intentional
 export const ActionButton = ({ colorVariant, UNSAFE_className, ...rest }: ActionButtonProps) => (
     <SpectrumActionButton
         {...rest}
@@ -215,7 +215,7 @@ export const ActionButton = ({ colorVariant, UNSAFE_className, ...rest }: Action
     />
 );
 
-// Omit + re-narrow a Spectrum variant — correct
+// Omit + re-narrow a Spectrum variant - correct
 export type ButtonProps = Omit<SpectrumButtonProps, 'variant'> & {
     variant?: 'primary' | 'secondary' | 'accent';
 };

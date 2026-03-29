@@ -54,7 +54,7 @@ export interface SparklineProps {
 }
 
 /**
- * A compact sparkline chart — a single data series line with no axes, grid, or legend.
+ * A compact sparkline chart - a single data series line with no axes, grid, or legend.
  * Ideal for showing trends inline within tables, cards, or dashboards.
  *
  * @example

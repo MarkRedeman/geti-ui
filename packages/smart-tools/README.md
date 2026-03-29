@@ -4,7 +4,7 @@ Computer-vision runtime library for Intel Geti products.
 
 Provides OpenCV WASM-backed segmentation tools and ONNX AI models for use in browser and Node.js environments.
 
-> **Status:** Initial migration — package scaffold in progress.
+> **Status:** Initial migration - package scaffold in progress.
 > See [`plans/migrate-smart-tools.md`](../../plans/migrate-smart-tools.md) for the full migration plan.
 
 ---
@@ -24,7 +24,7 @@ It must be compiled locally or obtained from the release artifacts.
 
 ### Prerequisites
 
-- **Docker** — used to run a deterministic Dockerfile-based build
+- **Docker**: used to run a deterministic Dockerfile-based build
 
 ### Steps
 
@@ -59,7 +59,7 @@ The script will:
 ### Whitelist configuration
 
 `scripts/opencv_js.config.py` controls which OpenCV modules and functions are compiled into the binary.
-Edit this file to add or remove functions — only include what the smart-tools package actually uses to keep the output size small.
+Edit this file to add or remove functions - only include what the smart-tools package actually uses to keep the output size small.
 
 ### CI / release
 

@@ -32,7 +32,7 @@ Use `useGetiUIChartsTheme` to read an adapter theme object from currently availa
 
 `useGetiUIChartsTheme` performs a synchronous read of current CSS variables and returns a stable mapped theme object for the current mount.
 
-> **Note:** CSS variables are read once at component mount — the theme object does **not** update if the app's CSS variables change at runtime (e.g. switching between light and dark mode dynamically). For static dark-mode-only apps this is not an issue. If you need runtime theme switching, remount the `ChartsThemeProvider` subtree when the theme changes, or pass a manually-updated `theme` object.
+> **Note:** CSS variables are read once at component mount - the theme object does **not** update if the app's CSS variables change at runtime (e.g. switching between light and dark mode dynamically). For static dark-mode-only apps this is not an issue. If you need runtime theme switching, remount the `ChartsThemeProvider` subtree when the theme changes, or pass a manually-updated `theme` object.
 
 ```tsx preview
 import { getDatasetSubsetColor, useGetiUIChartsTheme } from '@geti-ui/charts';

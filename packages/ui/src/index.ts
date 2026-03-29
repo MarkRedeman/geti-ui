@@ -1,7 +1,7 @@
 export { ThemeProvider } from './theme/ThemeProvider';
 export type { ThemeProviderProps } from './theme/ThemeProvider';
 
-// Group 1 — UI (ui/)
+// Group 1 - UI (ui/)
 export { Button } from './components/ui/Button/Button';
 export type { ButtonProps } from './components/ui/Button/Button';
 
@@ -56,7 +56,7 @@ export type { ContentProps } from './components/ui/Content/Content';
 export { Footer } from './components/ui/Footer/Footer';
 export type { FooterProps } from './components/ui/Footer/Footer';
 
-// Group 2 — Form Controls (form/)
+// Group 2 - Form Controls (form/)
 export { FileTrigger } from './components/form/FileTrigger/FileTrigger';
 export type { FileTriggerProps } from './components/form/FileTrigger/FileTrigger';
 
@@ -101,7 +101,7 @@ export type { FormProps } from './components/form/Form/Form';
 export { DropZone } from './components/form/DropZone/DropZone';
 export type { DropZoneProps } from './components/form/DropZone/DropZone';
 
-// Group 3 — Form Pickers (form/pickers/, form/date-controls/, form/color-controls/)
+// Group 3 - Form Pickers (form/pickers/, form/date-controls/, form/color-controls/)
 export { Picker, Item as PickerItem } from './components/form/pickers/Picker/Picker';
 export type { PickerProps } from './components/form/pickers/Picker/Picker';
 
@@ -150,7 +150,7 @@ export type { DatePickerProps } from './components/form/date-controls/DatePicker
 export { DateRangePicker } from './components/form/date-controls/DateRangePicker/DateRangePicker';
 export type { DateRangePickerProps } from './components/form/date-controls/DateRangePicker/DateRangePicker';
 
-// Group 4 — Overlay & Popover (overlays/)
+// Group 4 - Overlay & Popover (overlays/)
 export { Tooltip } from './components/overlays/Tooltip/Tooltip';
 export type { TooltipProps } from './components/overlays/Tooltip/Tooltip';
 export { TooltipTrigger } from './components/overlays/Tooltip/TooltipTrigger';
@@ -179,7 +179,7 @@ export type { ContextualHelpProps } from './components/overlays/ContextualHelp/C
 export { FullscreenAction } from './components/overlays/FullscreenAction/FullscreenAction';
 export type { FullscreenActionProps } from './components/overlays/FullscreenAction/FullscreenAction';
 
-// Group 5 — Navigation (navigation/)
+// Group 5 - Navigation (navigation/)
 export { Link } from './components/navigation/Link/Link';
 export type { LinkProps } from './components/navigation/Link/Link';
 
@@ -210,7 +210,7 @@ export { MediaViewModes } from './components/navigation/MediaViewModes/MediaView
 export type { MediaViewModesProps } from './components/navigation/MediaViewModes/MediaViewModes';
 export { ViewModes } from './components/navigation/MediaViewModes/utils';
 
-// Group 6 — Status & Feedback (feedback/)
+// Group 6 - Status & Feedback (feedback/)
 export { ProgressBar } from './components/feedback/ProgressBar/ProgressBar';
 export type { ProgressBarProps } from './components/feedback/ProgressBar/ProgressBar';
 
@@ -244,7 +244,7 @@ export type { IllustratedMessageProps } from './components/feedback/IllustratedM
 export { IntelBrandedLoading } from './components/feedback/IntelBrandedLoading/IntelBrandedLoading';
 export type { IntelBrandedLoadingProps } from './components/feedback/IntelBrandedLoading/IntelBrandedLoading';
 
-// Group 7 — Data Display (data/)
+// Group 7 - Data Display (data/)
 export { TableView, TableHeader, TableBody, Column, Row, Cell } from './components/data/TableView/TableView';
 export type { TableViewProps } from './components/data/TableView/TableView';
 
@@ -283,7 +283,7 @@ export type { VirtualizedHorizontalGridProps } from './components/data/Virtualiz
 export { HorizontalLayout } from './components/data/VirtualizedHorizontalGrid/HorizontalLayout';
 export type { HorizontalLayoutOptions } from './components/data/VirtualizedHorizontalGrid/HorizontalLayout';
 
-// Group 8 — Layout & Structure (layouts/)
+// Group 8 - Layout & Structure (layouts/)
 export { Flex } from './components/layouts/Flex/Flex';
 export type { FlexComponentProps as FlexProps } from './components/layouts/Flex/Flex';
 

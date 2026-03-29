@@ -8,7 +8,7 @@ Our release pipeline uses **semantic-release** as the single source of truth for
 
 | Tool | Responsibility |
 | :--- | :--- |
-| **semantic-release** | Analyses conventional commits, determines version bumps, generates changelogs, publishes to npm, creates git tags, and creates GitHub Releases — all in one automated pipeline. |
+| **semantic-release** | Analyses conventional commits, determines version bumps, generates changelogs, publishes to npm, creates git tags, and creates GitHub Releases - all in one automated pipeline. |
 | **Husky + Commitlint** | Enforces Conventional Commits and automates local Git configuration. |
 | **Commit Template** | Provides interactive guidance and examples directly in the Git editor during `git commit`. |
 | **GitHub Actions** | Orchestrates CI (lint/test/build), Visual Regression, and the unified Release workflow. |
@@ -55,7 +55,7 @@ feat(button): add loading state
 fix(table): resolve overflow in narrow containers
 ```
 
-Semantic-release analyses these commit messages automatically to determine the version bump — no manual changeset files needed.
+Semantic-release analyses these commit messages automatically to determine the version bump - no manual changeset files needed.
 
 ### 2. PR Process
 
@@ -69,9 +69,9 @@ Semantic-release analyses these commit messages automatically to determine the v
 
 When a PR is merged into `main`, the unified `release.yml` workflow runs automatically:
 
-1.  **Check smart-tools changes** — detects whether `packages/smart-tools/` changed since the last release tag.
-2.  **Build OpenCV** (conditional) — only runs if smart-tools has changes. Uses the `opencv-build.yml` reusable workflow.
-3.  **Release** — builds all packages, runs quality gates (lint, type-check, tests), then runs semantic-release which:
+1.  **Check smart-tools changes** - detects whether `packages/smart-tools/` changed since the last release tag.
+2.  **Build OpenCV** (conditional) - only runs if smart-tools has changes. Uses the `opencv-build.yml` reusable workflow.
+3.  **Release** - builds all packages, runs quality gates (lint, type-check, tests), then runs semantic-release which:
     *   Analyses commits since the last tag to determine the bump level (patch/minor/major)
     *   Generates release notes
     *   Writes `CHANGELOG.md`
@@ -103,6 +103,6 @@ All packages share a single tag: `v{version}` (e.g., `v0.1.0`, `v1.0.0`).
 
 ## Configuration
 
-- **`release.config.mjs`** — semantic-release plugin chain and configuration (repo root)
-- **`scripts/publish-all.sh`** — sequential npm publish script for all 5 workspaces
-- **`.github/workflows/release.yml`** — unified 3-job release workflow
+- **`release.config.mjs`**: semantic-release plugin chain and configuration (repo root)
+- **`scripts/publish-all.sh`**: sequential npm publish script for all 5 workspaces
+- **`.github/workflows/release.yml`**: unified 3-job release workflow

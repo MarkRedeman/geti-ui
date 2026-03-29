@@ -30,7 +30,7 @@ export type ZoomToOptions = {
 };
 
 /**
- * Computed layout config — derived from container/target sizes and props.
+ * Computed layout config - derived from container/target sizes and props.
  * Changes on resize or target change, not on user interaction.
  */
 export type ZoomConfig = {
@@ -43,7 +43,7 @@ export type ZoomConfig = {
 };
 
 /**
- * User-driven transform state — changes on zoom/pan interactions.
+ * User-driven transform state - changes on zoom/pan interactions.
  */
 export type ZoomTransformState = {
     /** Current zoom scale */

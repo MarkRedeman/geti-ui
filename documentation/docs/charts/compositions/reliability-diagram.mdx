@@ -10,17 +10,17 @@ title: Reliability diagram
 
 | Prop | Type | Default | Description |
 |---|---|---|---|
-| `data` | `{ confidence: number; accuracy: number; samples?: number }[]` | — | Calibration bin data with mean confidence and observed accuracy |
+| `data` | `{ confidence: number; accuracy: number; samples?: number }[]` | - | Calibration bin data with mean confidence and observed accuracy |
 | `height` | `number` | `300` | Chart height in pixels |
 | `showGrid` | `boolean` | `true` | Show background grid lines |
 | `showTooltip` | `boolean` | `true` | Show hover tooltip |
 | `showLegend` | `boolean` | `true` | Show legend below chart |
 | `animate` | `boolean` | `false` | Enable entry animation |
 | `showPerfectCalibration` | `boolean` | `true` | Render the diagonal perfect-calibration reference line |
-| `xAxisProps` | `XAxisProps` | — | Extra props forwarded to the Recharts `XAxis` |
-| `yAxisProps` | `YAxisProps` | — | Extra props forwarded to the Recharts `YAxis` |
+| `xAxisProps` | `XAxisProps` | - | Extra props forwarded to the Recharts `XAxis` |
+| `yAxisProps` | `YAxisProps` | - | Extra props forwarded to the Recharts `YAxis` |
 
-## Variant — basic calibration curve
+## Variant - basic calibration curve
 
 ```tsx preview
 import { ReliabilityDiagram } from '@geti-ui/charts';
@@ -49,7 +49,7 @@ export default function App() {
 }
 ```
 
-## Variant — hide perfect calibration baseline
+## Variant - hide perfect calibration baseline
 
 ```tsx preview
 import { ReliabilityDiagram } from '@geti-ui/charts';

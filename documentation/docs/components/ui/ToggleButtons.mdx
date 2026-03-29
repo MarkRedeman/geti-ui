@@ -4,7 +4,7 @@ title: ToggleButtons
 
 # ToggleButtons
 
-ToggleButtons renders a group of mutually exclusive buttons — only one option is active at a time. Use it for view mode switching, filter selection, or any compact segmented control where a single choice must be made.
+ToggleButtons renders a group of mutually exclusive buttons - only one option is active at a time. Use it for view mode switching, filter selection, or any compact segmented control where a single choice must be made.
 
 ```tsx
 import { ToggleButtons } from '@geti-ui/ui';
@@ -86,16 +86,16 @@ export default function App() {
 
 ### Content
 
-- `options`: `T[]` — array of string or number values to display as buttons.
-- `getLabel`: `(option: T) => ReactNode` — optional mapper for custom labels or icons per option.
+- `options`: `T[]` - array of string or number values to display as buttons.
+- `getLabel`: `(option: T) => ReactNode` - optional mapper for custom labels or icons per option.
 
 ### Value
 
-- `selectedOption`: currently selected value (controlled — must be kept in state by the caller).
+- `selectedOption`: currently selected value (controlled - must be kept in state by the caller).
 
 ### Events
 
-- `onOptionChange`: `(option: T) => void` — called with the newly selected option.
+- `onOptionChange`: `(option: T) => void` - called with the newly selected option.
 
 ### Accessibility
 
@@ -105,9 +105,9 @@ export default function App() {
 
 ## Related components
 
-- [`ToggleButton`](/components/ui/ToggleButton) — use for a single persistent toggle (not a mutually exclusive group).
-- [`RadioGroup`](/components/form/RadioGroup) — use when options are part of a form submission or need a visible label.
-- [`Tabs`](/components/navigation/Tabs) — use when toggling between full content panels, not just a state value.
+- [`ToggleButton`](/components/ui/ToggleButton): use for a single persistent toggle (not a mutually exclusive group).
+- [`RadioGroup`](/components/form/RadioGroup): use when options are part of a form submission or need a visible label.
+- [`Tabs`](/components/navigation/Tabs): use when toggling between full content panels, not just a state value.
 
 ## Example use cases
 

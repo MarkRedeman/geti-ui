@@ -24,7 +24,7 @@ describe('Picker', () => {
 
     it('displays label', () => {
         renderPicker({ label: 'Choose' });
-        // Label text appears in both a visible span and a hidden select — use getAllByText
+        // Label text appears in both a visible span and a hidden select - use getAllByText
         expect(screen.getAllByText('Choose')[0]).toBeInTheDocument();
     });
 

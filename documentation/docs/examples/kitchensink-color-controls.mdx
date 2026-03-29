@@ -138,7 +138,7 @@ export default function App() {
   return (
     <Flex direction="column" gap="size-300">
       <div>
-        <SubLabel>ColorArea — 2-D saturation/brightness</SubLabel>
+        <SubLabel>ColorArea - 2-D saturation/brightness</SubLabel>
         <ColorArea
           defaultValue="hsb(220, 80%, 90%)"
           xChannel="saturation"
@@ -149,7 +149,7 @@ export default function App() {
       <Divider size="S" />
 
       <div>
-        <SubLabel>ColorSlider — single-channel sliders</SubLabel>
+        <SubLabel>ColorSlider - single-channel sliders</SubLabel>
         <Flex direction="column" gap="size-150">
           <ColorSlider defaultValue="hsl(0, 100%, 50%)" channel="hue" label="Hue" />
           <ColorSlider
@@ -164,7 +164,7 @@ export default function App() {
       <Divider size="S" />
 
       <div>
-        <SubLabel>ColorWheel — circular hue picker</SubLabel>
+        <SubLabel>ColorWheel - circular hue picker</SubLabel>
         <Flex direction="row" gap="size-300" alignItems="center">
           <ColorWheel defaultValue="hsl(220, 100%, 50%)" />
           <ColorWheel defaultValue="hsl(0, 80%, 50%)" isDisabled />
@@ -174,7 +174,7 @@ export default function App() {
       <Divider size="S" />
 
       <div>
-        <SubLabel>ColorField — hex input</SubLabel>
+        <SubLabel>ColorField - hex input</SubLabel>
         <Flex direction="column" gap="size-150">
           <ColorField label="Brand color" defaultValue="#0071e3" width="size-2400" />
           <ColorField
@@ -191,7 +191,7 @@ export default function App() {
       <Divider size="S" />
 
       <div>
-        <SubLabel>ColorSwatchPicker — preset swatches</SubLabel>
+        <SubLabel>ColorSwatchPicker - preset swatches</SubLabel>
         <ColorSwatchPicker aria-label="Label colors" defaultValue="#ff0000">
           <ColorSwatchPickerItem color="#ff0000" aria-label="Red" />
           <ColorSwatchPickerItem color="#ff8800" aria-label="Orange" />
@@ -207,7 +207,7 @@ export default function App() {
       <Divider size="S" />
 
       <div>
-        <SubLabel>ColorPickerDialog — full picker in a dialog</SubLabel>
+        <SubLabel>ColorPickerDialog - full picker in a dialog</SubLabel>
         <Flex direction="row" gap="size-200" wrap>
           <ColorPickerDialog label="Pick annotation color" color="#0071e3" />
           <ColorPickerDialog label="Background fill" color="#00cc44" />
@@ -217,7 +217,7 @@ export default function App() {
       <Divider size="S" />
 
       <div>
-        <SubLabel>ColorSwatch — inline at multiple sizes</SubLabel>
+        <SubLabel>ColorSwatch - inline at multiple sizes</SubLabel>
         <Flex direction="row" gap="size-150" alignItems="center" wrap>
           <ColorSwatch color="#ff0000" size="XS" aria-label="Red XS" />
           <ColorSwatch color="#ff8800" size="S" aria-label="Orange S" />

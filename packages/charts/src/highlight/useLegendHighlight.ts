@@ -4,7 +4,7 @@ import { extractLegendSeriesKey } from './legend';
 import type { useSeriesHighlight } from './useSeriesHighlight';
 
 export interface UseLegendHighlightOptions {
-    /** Master toggle — when false all legend handlers are pass-through only. @default true */
+    /** Master toggle - when false all legend handlers are pass-through only. @default true */
     enabled?: boolean;
     /** Wire up hover enter/leave to set/clear hovered state. @default true */
     legendHover?: boolean;

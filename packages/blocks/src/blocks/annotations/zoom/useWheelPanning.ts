@@ -22,7 +22,7 @@ export function useWheelPanning(setIsPanning: (value: boolean) => void) {
         },
         onPointerMove: (callback: (delta: Point) => void) => (event: PointerEvent<HTMLDivElement>) => {
             // Use lastPos ref (set on wheel-button pointerdown) instead of checking
-            // event.button — during pointermove, button is always 0.
+            // event.button - during pointermove, button is always 0.
             if (lastPos.current !== null) {
                 const dx = event.clientX - lastPos.current.x;
                 const dy = event.clientY - lastPos.current.y;

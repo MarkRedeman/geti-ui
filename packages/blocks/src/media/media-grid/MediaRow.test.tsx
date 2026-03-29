@@ -72,7 +72,7 @@ function renderMediaRow(props: Partial<React.ComponentProps<typeof MediaRow<Test
 }
 
 // ---------------------------------------------------------------------------
-// 1. Empty state — totalItems=0, isLoading=false
+// 1. Empty state - totalItems=0, isLoading=false
 // ---------------------------------------------------------------------------
 
 describe('empty state', () => {
@@ -123,7 +123,7 @@ describe('loading state suppresses empty state', () => {
 });
 
 // ---------------------------------------------------------------------------
-// 3. aria-label — default and custom override
+// 3. aria-label - default and custom override
 // ---------------------------------------------------------------------------
 
 describe('aria-label', () => {
@@ -150,7 +150,7 @@ describe('aria-label', () => {
 });
 
 // ---------------------------------------------------------------------------
-// 4. onItemPress — wired through onAction on the ListBox
+// 4. onItemPress - wired through onAction on the ListBox
 //
 // react-aria's Virtualizer does not render virtual items into the DOM in jsdom
 // (no real layout engine → clientHeight = 0 → visible window is empty).
@@ -162,7 +162,7 @@ describe('aria-label', () => {
 //
 // The safest observable route in jsdom is to verify that rendering items whose
 // `getItemAt` returns real data causes `onItemPress` to be invoked when the
-// ListBox's `onAction` fires — we do this by supplying a renderItem that
+// ListBox's `onAction` fires - we do this by supplying a renderItem that
 // captures the `onPress` callback from the render context and calling it
 // directly, which mirrors the real usage pattern.
 // ---------------------------------------------------------------------------
@@ -180,7 +180,7 @@ describe('onItemPress', () => {
             onItemPress,
             renderItem: (ctx) => {
                 // Capture the onPress callback from the render context so we
-                // can invoke it imperatively — this is the same path a real
+                // can invoke it imperatively - this is the same path a real
                 // MediaGridItem would take when the user clicks the thumbnail.
                 if (!ctx.isPlaceholder) {
                     capturedOnPress = ctx.onPress;

@@ -10,18 +10,18 @@ title: Line chart
 
 | Prop | Type | Default | Description |
 |---|---|---|---|
-| `data` | `Record<string, unknown>[]` | — | Array of data objects for the chart |
-| `series` | `LineSeriesConfig[]` | — | Series definitions; each entry has `dataKey`, `name`, `color?`, `curve?`, `dashed?` |
-| `xAxisKey` | `string` | — | Key in each data object for the X axis |
+| `data` | `Record<string, unknown>[]` | - | Array of data objects for the chart |
+| `series` | `LineSeriesConfig[]` | - | Series definitions; each entry has `dataKey`, `name`, `color?`, `curve?`, `dashed?` |
+| `xAxisKey` | `string` | - | Key in each data object for the X axis |
 | `height` | `number` | `300` | Chart height in pixels |
 | `showGrid` | `boolean` | `true` | Show background grid lines |
 | `showTooltip` | `boolean` | `true` | Show hover tooltip |
 | `showLegend` | `boolean` | `false` | Show legend below chart |
 | `animate` | `boolean` | `false` | Enable entry animation |
-| `xScale` | `ScaleConfig` | — | X axis scale config (e.g. `{ scale: 'time' }`) |
-| `yScale` | `ScaleConfig` | — | Y axis scale config (e.g. `{ scale: 'log', domain: [1, 'auto'] }`) |
-| `xAxisProps` | `XAxisProps` | — | Extra props forwarded to the Recharts `XAxis` |
-| `yAxisProps` | `YAxisProps` | — | Extra props forwarded to the Recharts `YAxis` |
+| `xScale` | `ScaleConfig` | - | X axis scale config (e.g. `{ scale: 'time' }`) |
+| `yScale` | `ScaleConfig` | - | Y axis scale config (e.g. `{ scale: 'log', domain: [1, 'auto'] }`) |
+| `xAxisProps` | `XAxisProps` | - | Extra props forwarded to the Recharts `XAxis` |
+| `yAxisProps` | `YAxisProps` | - | Extra props forwarded to the Recharts `YAxis` |
 
 ## Default (boolean props off)
 
@@ -51,7 +51,7 @@ export default function App() {
 }
 ```
 
-## Variant — `showLegend` on
+## Variant - `showLegend` on
 
 ```tsx preview
 import { LineChart } from '@geti-ui/charts';
@@ -80,7 +80,7 @@ export default function App() {
 }
 ```
 
-## Variant — `animate` on
+## Variant - `animate` on
 
 ```tsx preview
 import { LineChart } from '@geti-ui/charts';
@@ -107,7 +107,7 @@ export default function App() {
 }
 ```
 
-## Variant — interpolation: linear
+## Variant - interpolation: linear
 
 ```tsx preview
 import { LineChart } from '@geti-ui/charts';
@@ -133,7 +133,7 @@ export default function App() {
 }
 ```
 
-## Variant — interpolation: natural spline
+## Variant - interpolation: natural spline
 
 ```tsx preview
 import { LineChart } from '@geti-ui/charts';
@@ -159,7 +159,7 @@ export default function App() {
 }
 ```
 
-## Variant — interpolation: step
+## Variant - interpolation: step
 
 ```tsx preview
 import { LineChart } from '@geti-ui/charts';
@@ -185,7 +185,7 @@ export default function App() {
 }
 ```
 
-## Variant — train / validation / test palette
+## Variant - train / validation / test palette
 
 ```tsx preview
 import { LineChart, withDatasetSubsetPalette } from '@geti-ui/charts';
@@ -217,7 +217,7 @@ export default function App() {
 }
 ```
 
-## Variant — explicit per-series colors
+## Variant - explicit per-series colors
 
 ```tsx preview
 import { LineChart } from '@geti-ui/charts';
@@ -248,7 +248,7 @@ export default function App() {
 }
 ```
 
-## Variant — warm custom palette
+## Variant - warm custom palette
 
 ```tsx preview
 import { LineChart } from '@geti-ui/charts';
@@ -279,7 +279,7 @@ export default function App() {
 }
 ```
 
-## Variant — time-based X axis
+## Variant - time-based X axis
 
 ```tsx preview
 import { LineChart } from '@geti-ui/charts';
@@ -311,7 +311,7 @@ export default function App() {
 }
 ```
 
-## Variant — log-scaled Y axis
+## Variant - log-scaled Y axis
 
 ```tsx preview
 import { LineChart } from '@geti-ui/charts';
@@ -338,7 +338,7 @@ export default function App() {
 }
 ```
 
-## Variant — 7 data categories
+## Variant - 7 data categories
 
 ```tsx preview
 import { LineChart } from '@geti-ui/charts';
@@ -373,7 +373,7 @@ export default function App() {
 }
 ```
 
-## Variant — 7 data categories (cumulative / stacked-like)
+## Variant - 7 data categories (cumulative / stacked-like)
 
 Line charts do not support true stacking like area/bar charts. To achieve a stacked-like view, **you must precompute cumulative values in your own data layer**.
 

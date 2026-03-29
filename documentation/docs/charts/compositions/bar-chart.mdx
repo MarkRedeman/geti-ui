@@ -10,9 +10,9 @@ title: Bar chart
 
 | Prop | Type | Default | Description |
 |---|---|---|---|
-| `data` | `Record<string, unknown>[]` | — | Array of data objects for the chart |
-| `series` | `BarSeriesConfig[]` | — | Series definitions; each entry has `dataKey`, `name`, `color?` |
-| `xAxisKey` | `string` | — | Key in each data object for the X (category) axis |
+| `data` | `Record<string, unknown>[]` | - | Array of data objects for the chart |
+| `series` | `BarSeriesConfig[]` | - | Series definitions; each entry has `dataKey`, `name`, `color?` |
+| `xAxisKey` | `string` | - | Key in each data object for the X (category) axis |
 | `stacked` | `boolean` | `false` | Stack bars on top of each other |
 | `layout` | `'horizontal' \| 'vertical'` | `'horizontal'` | `'horizontal'` = vertical bars, `'vertical'` = horizontal bars |
 | `height` | `number` | `300` | Chart height in pixels |
@@ -20,12 +20,12 @@ title: Bar chart
 | `showTooltip` | `boolean` | `true` | Show hover tooltip |
 | `showLegend` | `boolean` | `false` | Show legend below chart |
 | `animate` | `boolean` | `false` | Enable entry animation |
-| `xScale` | `ScaleConfig` | — | X axis scale config |
-| `yScale` | `ScaleConfig` | — | Y axis scale config (e.g. `{ scale: 'log', domain: [1, 'auto'] }`) |
-| `xAxisProps` | `XAxisProps` | — | Extra props forwarded to the Recharts `XAxis` |
-| `yAxisProps` | `YAxisProps` | — | Extra props forwarded to the Recharts `YAxis` |
+| `xScale` | `ScaleConfig` | - | X axis scale config |
+| `yScale` | `ScaleConfig` | - | Y axis scale config (e.g. `{ scale: 'log', domain: [1, 'auto'] }`) |
+| `xAxisProps` | `XAxisProps` | - | Extra props forwarded to the Recharts `XAxis` |
+| `yAxisProps` | `YAxisProps` | - | Extra props forwarded to the Recharts `YAxis` |
 
-## Variant — `stacked` off (grouped)
+## Variant - `stacked` off (grouped)
 
 ```tsx preview
 import { BarChart } from '@geti-ui/charts';
@@ -53,7 +53,7 @@ export default function App() {
 }
 ```
 
-## Variant — `stacked` on
+## Variant - `stacked` on
 
 ```tsx preview
 import { BarChart } from '@geti-ui/charts';
@@ -81,7 +81,7 @@ export default function App() {
 }
 ```
 
-## Variant — `showLegend` and `animate` on
+## Variant - `showLegend` and `animate` on
 
 ```tsx preview
 import { BarChart } from '@geti-ui/charts';
@@ -111,7 +111,7 @@ export default function App() {
 }
 ```
 
-## Variant — train / validation / test palette
+## Variant - train / validation / test palette
 
 ```tsx preview
 import { BarChart, withDatasetSubsetPalette } from '@geti-ui/charts';
@@ -142,7 +142,7 @@ export default function App() {
 }
 ```
 
-## Variant — vertical bars (`layout="horizontal"`)
+## Variant - vertical bars (`layout="horizontal"`)
 
 ```tsx preview
 import { BarChart } from '@geti-ui/charts';
@@ -168,7 +168,7 @@ export default function App() {
 }
 ```
 
-## Variant — horizontal bars (`layout="vertical"`)
+## Variant - horizontal bars (`layout="vertical"`)
 
 ```tsx preview
 import { BarChart } from '@geti-ui/charts';
@@ -194,7 +194,7 @@ export default function App() {
 }
 ```
 
-## Variant — log scale on value axis
+## Variant - log scale on value axis
 
 ```tsx preview
 import { BarChart } from '@geti-ui/charts';
@@ -220,7 +220,7 @@ export default function App() {
 }
 ```
 
-## Variant — 7 data categories
+## Variant - 7 data categories
 
 ```tsx preview
 import { BarChart } from '@geti-ui/charts';
@@ -253,7 +253,7 @@ export default function App() {
 }
 ```
 
-## Variant — 7 data categories (stacked)
+## Variant - 7 data categories (stacked)
 
 ```tsx preview
 import { BarChart } from '@geti-ui/charts';

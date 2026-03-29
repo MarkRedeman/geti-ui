@@ -13,10 +13,10 @@ type TestItem = MediaGridIdentifiable & { label: string };
 // ---------------------------------------------------------------------------
 // Observer mocks
 //
-// ResizeObserver — completely passive so we never trigger React's
+// ResizeObserver - completely passive so we never trigger React's
 // layout-effect setState loop inside @react-aria/virtualizer's ScrollView.
 //
-// IntersectionObserver — capture callbacks so tests can trigger them manually.
+// IntersectionObserver - capture callbacks so tests can trigger them manually.
 // ---------------------------------------------------------------------------
 
 type IOCallback = (entries: IntersectionObserverEntry[]) => void;
@@ -137,7 +137,7 @@ describe('loading state suppresses empty state', () => {
     it('renders the grid scaffold when isLoading=true even with totalItems=0', () => {
         renderMediaGrid({ totalItems: 0, isLoading: true });
 
-        // The GridList (role="grid") must be present — the loading path renders
+        // The GridList (role="grid") must be present - the loading path renders
         // the grid frame, not the empty-state view.
         expect(screen.getByRole('grid')).toBeTruthy();
     });
@@ -186,7 +186,7 @@ describe('getItemAt calls', () => {
 });
 
 // ---------------------------------------------------------------------------
-// 4. Controlled selection — onSelectionChange receives expected Set content
+// 4. Controlled selection - onSelectionChange receives expected Set content
 //
 // react-aria's Virtualizer does not render list rows as DOM elements in jsdom
 // (no real layout engine means clientHeight stays 0 and the virtual window

@@ -81,14 +81,14 @@ export default function App() {
       name: 'Type',
       allowsSorting: true,
       renderCell: (ctx: MediaTableRenderContext<Media>) => (
-        <Text>{ctx.item?.kind ?? '—'}</Text>
+        <Text>{ctx.item?.kind ?? '-'}</Text>
       ),
     },
     {
       key: 'resolution',
       name: 'Resolution',
       renderCell: (ctx: MediaTableRenderContext<Media>) => (
-        <Text>{ctx.item ? `${ctx.item.width} × ${ctx.item.height}` : '—'}</Text>
+        <Text>{ctx.item ? `${ctx.item.width} × ${ctx.item.height}` : '-'}</Text>
       ),
     },
     {
@@ -96,7 +96,7 @@ export default function App() {
       name: 'Uploaded',
       allowsSorting: true,
       renderCell: (ctx: MediaTableRenderContext<Media>) => (
-        <Text>{ctx.item?.uploadDate ?? '—'}</Text>
+        <Text>{ctx.item?.uploadDate ?? '-'}</Text>
       ),
     },
   ];
@@ -264,7 +264,7 @@ export default function App() {
       name: 'Type',
       allowsSorting: true,
       renderCell: (ctx: MediaTableRenderContext<Media>) => (
-        <Text>{ctx.item?.kind ?? '—'}</Text>
+        <Text>{ctx.item?.kind ?? '-'}</Text>
       ),
     },
     {
@@ -272,7 +272,7 @@ export default function App() {
       name: 'Labels',
       allowsSorting: true,
       renderCell: (ctx: MediaTableRenderContext<Media>) => (
-        <Text>{ctx.item ? String(ctx.item.labelCount) : '—'}</Text>
+        <Text>{ctx.item ? String(ctx.item.labelCount) : '-'}</Text>
       ),
     },
     {
@@ -280,7 +280,7 @@ export default function App() {
       name: 'Uploaded',
       allowsSorting: true,
       renderCell: (ctx: MediaTableRenderContext<Media>) => (
-        <Text>{ctx.item?.uploadDate ?? '—'}</Text>
+        <Text>{ctx.item?.uploadDate ?? '-'}</Text>
       ),
     },
   ];

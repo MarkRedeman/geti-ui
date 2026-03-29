@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# publish-all.sh — Publish all @geti-ui workspace packages to npm.
+# publish-all.sh - Publish all @geti-ui workspace packages to npm.
 #
 # Called by semantic-release via @semantic-release/exec publishCmd.
 # Packages are published sequentially in dependency order:

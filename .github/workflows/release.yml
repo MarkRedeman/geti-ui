@@ -42,7 +42,7 @@ jobs:
           # Find the latest release tag (v*)
           LAST_TAG=$(git tag --list 'v*' --sort=-v:refname | head -n1 || true)
           if [ -z "$LAST_TAG" ]; then
-            echo "No previous tag found — treating as first release"
+            echo "No previous tag found - treating as first release"
             echo "needs_opencv=true" >> "$GITHUB_OUTPUT"
             exit 0
           fi

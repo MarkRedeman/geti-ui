@@ -6,7 +6,7 @@ import { Skeleton } from '@geti-ui/ui';
 
 # Skeleton
 
-`Skeleton` renders a shimmering placeholder in place of content that is still loading. Use it to preserve the visual structure of a layout before data arrives — preventing jarring layout shifts and reducing perceived wait time.
+`Skeleton` renders a shimmering placeholder in place of content that is still loading. Use it to preserve the visual structure of a layout before data arrives - preventing jarring layout shifts and reducing perceived wait time.
 
 ```tsx
 import { Skeleton } from '@geti-ui/ui';
@@ -16,7 +16,7 @@ import { Skeleton } from '@geti-ui/ui';
 
 ## Examples
 
-### Rectangle — text or card placeholder
+### Rectangle - text or card placeholder
 
 ```tsx preview
 import { Skeleton } from '@geti-ui/ui';
@@ -30,7 +30,7 @@ export default function App() {
 }
 ```
 
-### Circle — avatar or icon placeholder
+### Circle - avatar or icon placeholder
 
 ```tsx preview
 import { Skeleton } from '@geti-ui/ui';
@@ -86,11 +86,11 @@ export default function App() {
 
 ## Responsibility
 
-`Skeleton` is a Geti-authored component with no Spectrum equivalent. It renders a `<span>` with an inline shimmer animation applied via a CSS gradient. The shimmer animation (`shimmer 2s ease infinite`) must be defined in the page's stylesheet — it is included in Geti UI's global theme CSS.
+`Skeleton` is a Geti-authored component with no Spectrum equivalent. It renders a `<span>` with an inline shimmer animation applied via a CSS gradient. The shimmer animation (`shimmer 2s ease infinite`) must be defined in the page's stylesheet - it is included in Geti UI's global theme CSS.
 
 Key decisions:
 - Uses Spectrum dimension tokens for sizing when possible.
-- No JavaScript timer — purely CSS-animated.
+- No JavaScript timer - purely CSS-animated.
 - Does not auto-remove; you swap it out when your data arrives.
 
 ## Variants and states
@@ -99,7 +99,7 @@ Key decisions:
 |---|---|
 | default | Rectangle with rounded corners |
 | `isCircle` | `border-radius: 50%` |
-| `isAspectRatioOne` | Enforces `aspect-ratio: 1` — square |
+| `isAspectRatioOne` | Enforces `aspect-ratio: 1` - square |
 
 ## Props (deep dive)
 
@@ -124,16 +124,16 @@ Key decisions:
 
 ## Related components
 
-- [`Loading`](/components/feedback/Loading) — use when you cannot predict the shape of the loading content (spinner/overlay).
-- [`ProgressBar`](/components/feedback/ProgressBar) — use when progress towards completion can be quantified.
+- [`Loading`](/components/feedback/Loading): use when you cannot predict the shape of the loading content (spinner/overlay).
+- [`ProgressBar`](/components/feedback/ProgressBar): use when progress towards completion can be quantified.
 
 ## Example use cases
 
 <details>
   <summary>Typical use cases</summary>
 
-- Project grid while fetching project list — one `Skeleton` rectangle per card.
-- Annotation panel loading state — circle for the user avatar, lines for annotation text.
+- Project grid while fetching project list - one `Skeleton` rectangle per card.
+- Annotation panel loading state - circle for the user avatar, lines for annotation text.
 - Image thumbnail while the full image is being fetched.
 
 </details>

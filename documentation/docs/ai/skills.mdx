@@ -2,7 +2,7 @@
 
 Geti UI publishes a [skills discovery endpoint](https://docs.geti-ui.markredeman.nl/.well-known/skills/index.json) that lets AI agents install curated instruction sets for the Geti design system libraries.
 
-Skills follow the [`.well-known/skills/`](https://skills.md) convention — a lightweight standard for distributing AI agent skills over HTTP.
+Skills follow the [`.well-known/skills/`](https://skills.md) convention - a lightweight standard for distributing AI agent skills over HTTP.
 
 ## Install
 
@@ -58,7 +58,7 @@ npx skills add https://docs.geti-ui.markredeman.nl/.well-known/skills/geti-ui-sm
 
 **ID:** `geti-ui-blocks`
 
-Reusable application-level building blocks from `@geti-ui/blocks`. Covers opinionated, composable UI sections for logs, projects, models, media, annotations, and tabs — all built on `@geti-ui/ui` primitives.
+Reusable application-level building blocks from `@geti-ui/blocks`. Covers opinionated, composable UI sections for logs, projects, models, media, annotations, and tabs - all built on `@geti-ui/ui` primitives.
 
 ```bash
 npx skills add https://docs.geti-ui.markredeman.nl/.well-known/skills/geti-ui-blocks
@@ -91,7 +91,7 @@ The instructions teach the agent how to install the library, set up theming, use
 
 The skills endpoint is generated automatically at build time by an [Rspress plugin](/ai/skills#architecture). When the documentation site is built:
 
-1. The `@rspress/plugin-llms` plugin generates `llms.txt` — an index of all documentation pages
+1. The `@rspress/plugin-llms` plugin generates `llms.txt` - an index of all documentation pages
 2. The `skills-endpoint` plugin reads `llms.txt` and categorizes pages by path prefix
 3. It generates `.well-known/skills/index.json` (the registry) and individual skill descriptor files
 4. These are served as static files from the documentation site

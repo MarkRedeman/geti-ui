@@ -25,5 +25,5 @@ export type { ChartLegendProps as GetiLegendProps } from './ChartLegend';
 export { Sparkline } from './Sparkline';
 export type { SparklineProps, SparklineCurve } from './Sparkline';
 
-// Axis scale types — re-exported so primitives consumers can use them too
+// Axis scale types - re-exported so primitives consumers can use them too
 export type { AxisScaleType, AxisScaleConfig } from '../types/axisScale';

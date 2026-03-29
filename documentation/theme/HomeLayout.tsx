@@ -224,7 +224,7 @@ const sampleLogs: LogEntryData[] = [
         record: {
             time: { timestamp: 1710000000 },
             level: { name: 'INFO' },
-            message: 'Training job started — detection model v2.1',
+            message: 'Training job started - detection model v2.1',
         },
     },
     {
@@ -259,35 +259,35 @@ const sampleLogs: LogEntryData[] = [
         record: {
             time: { timestamp: 1710000120 },
             level: { name: 'SUCCESS' },
-            message: 'Epoch 1/50 complete — loss: 0.842, mAP: 0.312',
+            message: 'Epoch 1/50 complete - loss: 0.842, mAP: 0.312',
         },
     },
     {
         record: {
             time: { timestamp: 1710000240 },
             level: { name: 'INFO' },
-            message: 'Epoch 2/50 complete — loss: 0.614, mAP: 0.487',
+            message: 'Epoch 2/50 complete - loss: 0.614, mAP: 0.487',
         },
     },
     {
         record: {
             time: { timestamp: 1710000300 },
             level: { name: 'SUCCESS' },
-            message: 'Epoch 3/50 complete — loss: 0.483, mAP: 0.591',
+            message: 'Epoch 3/50 complete - loss: 0.483, mAP: 0.591',
         },
     },
     {
         record: {
             time: { timestamp: 1710000360 },
             level: { name: 'ERROR' },
-            message: 'CUDA out of memory — reducing batch size from 32 to 16',
+            message: 'CUDA out of memory - reducing batch size from 32 to 16',
         },
     },
     {
         record: {
             time: { timestamp: 1710000375 },
             level: { name: 'WARNING' },
-            message: 'Gradient overflow detected at layer backbone.stage4 — scaling adjusted',
+            message: 'Gradient overflow detected at layer backbone.stage4 - scaling adjusted',
         },
     },
     {
@@ -301,7 +301,7 @@ const sampleLogs: LogEntryData[] = [
         record: {
             time: { timestamp: 1710000480 },
             level: { name: 'SUCCESS' },
-            message: 'Epoch 4/50 complete — loss: 0.391, mAP: 0.654',
+            message: 'Epoch 4/50 complete - loss: 0.391, mAP: 0.654',
         },
     },
 ];
@@ -745,7 +745,7 @@ export const HomeLayout = (props: HomeLayoutProps) => {
                         </div>
                         <div className="geti-home-showcase__media">
                             <ChartsThemeProvider>
-                                {/* Sparklines — full-width row on top */}
+                                {/* Sparklines - full-width row on top */}
                                 <div className="geti-home-demo-panel">
                                     <div className="geti-home-sparkline-row">
                                         <div className="geti-home-sparkline-item">
@@ -1009,7 +1009,7 @@ export const HomeLayout = (props: HomeLayoutProps) => {
                                 <p className="geti-home-showcase__desc">
                                     Browser-native computer vision tools for low-latency image annotation. Includes
                                     Watershed, GrabCut, Intelligent Scissors, SSIM template matching, and RITM
-                                    interactive segmentation — powered by OpenCV WASM and ONNX Runtime. Our tools,
+                                    interactive segmentation - powered by OpenCV WASM and ONNX Runtime. Our tools,
                                     including Segment Anything, run entirely in the browser with zero server interaction
                                     required.
                                 </p>

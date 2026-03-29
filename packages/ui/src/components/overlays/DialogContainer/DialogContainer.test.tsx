@@ -70,7 +70,7 @@ describe('DialogContainer', () => {
         render(
             <Provider theme={defaultTheme}>
                 <DialogContainer onDismiss={() => {}}>
-                    {/* no child — dialog should not be present */}
+                    {/* no child - dialog should not be present */}
                     {null}
                 </DialogContainer>
             </Provider>

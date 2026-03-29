@@ -12,7 +12,7 @@ let indexLoaded = false;
  * Build the page index from `llms.txt`.
  *
  * Parses each `- [Name](path.md): Description` entry and caches a PageInfo stub.
- * Idempotent — returns cached results on subsequent calls.
+ * Idempotent - returns cached results on subsequent calls.
  */
 export async function buildPageIndex(): Promise<PageInfo[]> {
     if (indexLoaded) {
@@ -69,7 +69,7 @@ export async function resolvePageRef(pageName: string): Promise<PageInfo> {
     const normalizedExact = pageCache.get(normalized);
     if (normalizedExact) return normalizedExact;
 
-    // 3. Path suffix match — find a key that ends with the input
+    // 3. Path suffix match - find a key that ends with the input
     for (const [key, info] of pageCache) {
         if (key.endsWith(`/${normalized}`)) {
             return info;

@@ -6,7 +6,7 @@ import { Meter } from '@geti-ui/ui';
 
 # Meter
 
-`Meter` shows a visual representation of a quantity as a filled bar with a threshold-based colour. Use it to communicate levels — storage used, model accuracy, training progress — where the absolute value and threshold state both matter.
+`Meter` shows a visual representation of a quantity as a filled bar with a threshold-based colour. Use it to communicate levels - storage used, model accuracy, training progress - where the absolute value and threshold state both matter.
 
 ```tsx
 import { Meter } from '@geti-ui/ui';
@@ -96,7 +96,7 @@ export default function App() {
 ### Appearance
 
 - `variant`: `informative | positive | warning | critical`.
-- `size`: `S | L` — controls label and bar thickness.
+- `size`: `S | L` - controls label and bar thickness.
 
 ### Accessibility
 
@@ -105,16 +105,16 @@ export default function App() {
 
 ## Related components
 
-- [`ProgressBar`](/components/feedback/ProgressBar) — use when showing task completion progress rather than a level.
-- [`ProgressCircle`](/components/feedback/ProgressCircle) — use for circular indeterminate or determinate progress.
-- [`StatusLight`](/components/feedback/StatusLight) — use for a simple coloured dot status without a quantity.
+- [`ProgressBar`](/components/feedback/ProgressBar): use when showing task completion progress rather than a level.
+- [`ProgressCircle`](/components/feedback/ProgressCircle): use for circular indeterminate or determinate progress.
+- [`StatusLight`](/components/feedback/StatusLight): use for a simple coloured dot status without a quantity.
 
 ## Example use cases
 
 <details>
   <summary>Typical use cases</summary>
 
-- Dataset annotation completeness — positive when above 80 %, warning below, critical at 0 %.
+- Dataset annotation completeness - positive when above 80 %, warning below, critical at 0 %.
 - Model training progress when the epoch count is known.
 - Storage quota meter in a user settings panel.
 

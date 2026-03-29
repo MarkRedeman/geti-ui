@@ -1,4 +1,4 @@
-// @geti-ui/blocks — public API
+// @geti-ui/blocks - public API
 
 export { ManagedTab, OverflowableTabs } from './blocks/tabs';
 export type { ManagedTabProps, ManagedTabAction, OverflowableTabsProps } from './blocks/tabs';

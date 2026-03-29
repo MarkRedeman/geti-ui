@@ -77,7 +77,7 @@ if (!fs.existsSync(docBuild)) {
     }
 
     console.warn(`Warning: ${docBuild} does not exist. Run "npm run docs:build" first to generate documentation.`);
-    console.warn('Skipping doc bundling — the MCP server will not have bundled data.');
+    console.warn('Skipping doc bundling - the MCP server will not have bundled data.');
     process.exit(0);
 }
 

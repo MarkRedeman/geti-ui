@@ -1,4 +1,4 @@
-# AGENTS.md — Geti UI Design System
+# AGENTS.md - Geti UI Design System
 
 This file is for AI coding agents (Copilot, Claude, Cursor, etc.) working on this repository. It describes where things are, how the project works, and what conventions to follow.
 
@@ -8,11 +8,11 @@ This file is for AI coding agents (Copilot, Claude, Cursor, etc.) working on thi
 
 `geti-ui` is a frontend monorepo for Intel Geti products. It contains multiple React + TypeScript packages built on top of Adobe React Spectrum and react-aria-components:
 
--   `@geti-ui/ui` — core design-system components
--   `@geti-ui/blocks` — composable application-level building blocks
--   `@geti-ui/charts` — chart primitives and composed charts
--   `@geti-ui/smart-tools` — browser-based CV annotation tooling
--   `@geti-ui/mcp` — MCP server exposing docs/tools for AI agents
+-   `@geti-ui/ui` - core design-system components
+-   `@geti-ui/blocks` - composable application-level building blocks
+-   `@geti-ui/charts` - chart primitives and composed charts
+-   `@geti-ui/smart-tools` - browser-based CV annotation tooling
+-   `@geti-ui/mcp` - MCP server exposing docs/tools for AI agents
 
 ---
 
@@ -34,7 +34,7 @@ geti-ui/
 │   ├── charts/                # Charts package (@geti-ui/charts)
 │   ├── smart-tools/           # CV tools package (@geti-ui/smart-tools)
 │   └── mcp/                   # MCP server package (@geti-ui/mcp)
-├── reference-packages/        # READ ONLY — cloned from open-edge-platform/geti
+├── reference-packages/        # READ ONLY - cloned from open-edge-platform/geti
 │   ├── ui/                    # Reference component implementations
 │   └── config/                # Reference ESLint/TypeScript config
 ├── .github/
@@ -54,8 +54,8 @@ geti-ui/
 
 | Library                      | Purpose                                         | Docs                                                                |
 | ---------------------------- | ----------------------------------------------- | ------------------------------------------------------------------- |
-| `@adobe/react-spectrum` (v3) | Current base — pre-styled accessible components | https://react-spectrum.adobe.com/react-spectrum/                    |
-| `@react-spectrum/s2`         | Future base — Spectrum 2 design system          | https://react-spectrum.adobe.com/s2/                                |
+| `@adobe/react-spectrum` (v3) | Current base - pre-styled accessible components | https://react-spectrum.adobe.com/react-spectrum/                    |
+| `@react-spectrum/s2`         | Future base - Spectrum 2 design system          | https://react-spectrum.adobe.com/s2/                                |
 | `react-aria-components`      | Headless accessible primitives                  | https://react-spectrum.adobe.com/react-aria/                        |
 | `@spectrum-icons/workflow`   | Adobe workflow icon set                         | https://react-spectrum.adobe.com/react-spectrum/workflow-icons.html |
 
@@ -79,9 +79,9 @@ src/components/button/
 
 -   Extend from upstream Spectrum/aria prop types rather than redefining them
 -   Export the component's Props type explicitly
--   No `any` types — use generics or `unknown` when necessary
+-   No `any` types - use generics or `unknown` when necessary
 -   Prefer `type` for component props (consistency across codebase)
--   Use **relative imports** — no path aliases (e.g. `../button/Button`, not `@geti-ui/ui/button`)
+-   Use **relative imports** - no path aliases (e.g. `../button/Button`, not `@geti-ui/ui/button`)
 
 ```tsx
 // Good
@@ -99,7 +99,7 @@ export const Button = (props: ButtonProps) => { ... };
 -   Pass all upstream props through with spread (`...rest`)
 -   Only intercept props you are changing or adding
 -   Use `UNSAFE_className` for CSS overrides (not `UNSAFE_style`)
--   Never use `UNSAFE_className` in tests — rely on ARIA/semantic selectors
+-   Never use `UNSAFE_className` in tests - rely on ARIA/semantic selectors
 
 ```tsx
 // Good
@@ -132,7 +132,7 @@ export const Default: Story = {
 ### Tests
 
 -   Use `@testing-library/react` + `@testing-library/user-event`
--   Query by role, label, or text — never by class or test ID
+-   Query by role, label, or text - never by class or test ID
 -   Test: renders without crash, keyboard interactions, ARIA attributes, edge cases
 -   Accessibility: use `@axe-core/react` in integration tests where appropriate
 
@@ -157,7 +157,7 @@ test('calls onPress when clicked', async () => {
 -   Do not modify files in `reference-packages/`
 -   Do not import from `reference-packages/` in the new library
 -   Use them to understand existing component APIs and copy patterns as a starting point
--   They will not have their own `node_modules` installed — LSP errors there are expected
+-   They will not have their own `node_modules` installed - LSP errors there are expected
 
 ---
 
@@ -193,7 +193,7 @@ This library is designed to be used by both humans and AI agents.
 
 ### Available now
 
--   `AGENTS.md` (this file) — repository context for AI agents
+-   `AGENTS.md` (this file) - repository context for AI agents
 -   Docs-generated `llms.txt` and `llms-full.txt` in `documentation/doc_build/`
 -   Skills endpoint at `.well-known/skills/` generated by `documentation/plugins/skills-endpoint.ts`
     -   Current skills include UI, Charts, Smart Tools, Blocks, and Examples

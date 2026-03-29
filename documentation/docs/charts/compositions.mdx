@@ -4,7 +4,7 @@ title: Compositions
 
 # Chart Compositions
 
-Compositions are fully assembled chart components. Import and render them with data — no Recharts wiring required.
+Compositions are fully assembled chart components. Import and render them with data - no Recharts wiring required.
 
 ## Primitives vs compositions
 
@@ -13,7 +13,7 @@ Compositions are fully assembled chart components. Import and render them with d
 
 Use compositions by default. Switch to primitives for non-standard layouts.
 
-All composition charts support interactive series highlighting — see [Highlights](/charts/highlights).
+All composition charts support interactive series highlighting - see [Highlights](/charts/highlights).
 
 ```ts
 import { LineChart, AreaChart, BarChart, ScatterChart, PieChart, DonutChart, RadarChart, RadialBarChart, MeterChart, TrainingMetricsChart, RunComparisonChart, TreemapChart, Sparkline } from '@geti-ui/charts';
@@ -68,12 +68,12 @@ Renders one or more continuous data series as lines.
 | `xAxisKey` | `string` | `"name"` | Key for the x-axis values |
 | `series` | `SeriesConfig[]` | required | Each series: `{ dataKey, name?, color? }` |
 | `height` | `number` | `300` | Chart height in px |
-| `aria-label` | `string` | — | Accessible label for the chart |
+| `aria-label` | `string` | - | Accessible label for the chart |
 | `animate` | `boolean` | `false` | Opt-in per-chart animations |
-| `xScale` | `AxisScaleConfig` | — | Scale config for the X axis (type, domain, overflow) |
-| `yScale` | `AxisScaleConfig` | — | Scale config for the Y axis (type, domain, overflow) |
+| `xScale` | `AxisScaleConfig` | - | Scale config for the X axis (type, domain, overflow) |
+| `yScale` | `AxisScaleConfig` | - | Scale config for the Y axis (type, domain, overflow) |
 
-### Example — single series
+### Example - single series
 
 ```tsx preview
 import { LineChart } from '@geti-ui/charts';
@@ -100,7 +100,7 @@ export default function App() {
 }
 ```
 
-### Example — multiple series
+### Example - multiple series
 
 ```tsx preview
 import { LineChart } from '@geti-ui/charts';
@@ -130,7 +130,7 @@ export default function App() {
 }
 ```
 
-### Example — log scale (loss curve)
+### Example - log scale (loss curve)
 
 Use `yScale` to switch the Y axis to a logarithmic scale. This is ideal for loss curves that drop rapidly at first and then slow down.
 
@@ -180,12 +180,12 @@ Renders categorical data as vertical bars. Supports grouped and stacked layouts.
 | `stacked` | `boolean` | `false` | Stack bars when true |
 | `height` | `number` | `300` | Chart height in px |
 | `animate` | `boolean` | `false` | Opt-in per-chart animations |
-| `xScale` | `AxisScaleConfig` | — | Scale config for X axis (value axis when `layout="vertical"`) |
-| `yScale` | `AxisScaleConfig` | — | Scale config for Y axis (value axis when `layout="horizontal"`) |
+| `xScale` | `AxisScaleConfig` | - | Scale config for X axis (value axis when `layout="vertical"`) |
+| `yScale` | `AxisScaleConfig` | - | Scale config for Y axis (value axis when `layout="horizontal"`) |
 
 > **Stacking API note:** `BarChart` uses a top-level `stacked` prop that applies to all series simultaneously. `AreaChart` uses a per-series `stacked` field on each `SeriesConfig` entry, so individual series can be mixed between stacked and non-stacked in the same chart.
 
-### Example — grouped
+### Example - grouped
 
 ```tsx preview
 import { BarChart } from '@geti-ui/charts';
@@ -205,14 +205,14 @@ export default function App() {
          { dataKey: 'precision', name: 'Precision (%)' },
          { dataKey: 'recall', name: 'Recall (%)' },
        ]}
-      aria-label="Model comparison — precision vs recall"
+      aria-label="Model comparison - precision vs recall"
       height={260}
     />
   );
 }
 ```
 
-### Example — stacked
+### Example - stacked
 
 ```tsx preview
 import { BarChart } from '@geti-ui/charts';
@@ -241,7 +241,7 @@ export default function App() {
 }
 ```
 
-### Example — log scale on the value axis
+### Example - log scale on the value axis
 
 Log scale is useful for count data that spans orders of magnitude (e.g. class imbalance).
 
@@ -265,7 +265,7 @@ export default function App() {
       xAxisKey="label"
       series={[{ dataKey: 'count', name: 'Instances' }]}
       yScale={{ scale: 'log', domain: [1, 'auto'] }}
-      aria-label="Class imbalance — log scale"
+      aria-label="Class imbalance - log scale"
       height={260}
     />
   );
@@ -284,24 +284,24 @@ Visualises the relationship between two continuous variables.
 | Prop | Type | Default | Description |
 |---|---|---|---|
 | `series` | `SeriesConfig[]` | required | Series array with `name` and `data` |
-| `xAxisLabel` | `string` | — | X-axis label |
-| `yAxisLabel` | `string` | — | Y-axis label |
+| `xAxisLabel` | `string` | - | X-axis label |
+| `yAxisLabel` | `string` | - | Y-axis label |
 | `height` | `number` | `300` | Chart height in px |
 | `animate` | `boolean` | `false` | Opt-in per-chart animations |
 | `useVoronoi` | `boolean` | `true` | Enable Voronoi nearest-point hover (see below) |
 | `voronoiMaxDistance` | `number` | `80` | Max pixel distance for Voronoi tooltip activation |
-| `xScale` | `AxisScaleConfig` | — | Scale config for the X axis |
-| `yScale` | `AxisScaleConfig` | — | Scale config for the Y axis |
+| `xScale` | `AxisScaleConfig` | - | Scale config for the X axis |
+| `yScale` | `AxisScaleConfig` | - | Scale config for the Y axis |
 
 ### Voronoi hover
 
-By default `ScatterChart` uses **Voronoi-based hover** (powered by [d3-delaunay](https://github.com/d3/d3-delaunay)). Instead of requiring the cursor to land exactly on a small dot, the chart divides the plot area into regions — one per data point — using a Delaunay triangulation. Moving the cursor anywhere inside a region highlights the owning point and shows a tooltip.
+By default `ScatterChart` uses **Voronoi-based hover** (powered by [d3-delaunay](https://github.com/d3/d3-delaunay)). Instead of requiring the cursor to land exactly on a small dot, the chart divides the plot area into regions - one per data point - using a Delaunay triangulation. Moving the cursor anywhere inside a region highlights the owning point and shows a tooltip.
 
 Key behaviours:
 
-- **`useVoronoi={true}` (default)** — nearest-point lookup is active. Recharts' built-in cursor line is hidden; a custom active-dot ring and an absolutely-positioned HTML tooltip are rendered instead.
-- **`useVoronoi={false}`** — falls back to standard Recharts hover, where the cursor must intersect a dot to show the tooltip.
-- **`voronoiMaxDistance`** — clamps the lookup radius. Points farther than this many pixels from the cursor are ignored, so the tooltip disappears in truly empty areas of the chart. Raise this value for sparse data; lower it for very dense scatter plots.
+- **`useVoronoi={true}` (default)**: nearest-point lookup is active. Recharts' built-in cursor line is hidden; a custom active-dot ring and an absolutely-positioned HTML tooltip are rendered instead.
+- **`useVoronoi={false}`**: falls back to standard Recharts hover, where the cursor must intersect a dot to show the tooltip.
+- **`voronoiMaxDistance`**: clamps the lookup radius. Points farther than this many pixels from the cursor are ignored, so the tooltip disappears in truly empty areas of the chart. Raise this value for sparse data; lower it for very dense scatter plots.
 
 ### Example
 
@@ -324,14 +324,14 @@ export default function App() {
       series={[{ name: 'Per class', data: points }]}
       xAxisLabel="False positive rate"
       yAxisLabel="True positive rate"
-      aria-label="ROC scatter — per class"
+      aria-label="ROC scatter - per class"
       height={280}
     />
   );
 }
 ```
 
-### Example — Voronoi disabled (standard hover)
+### Example - Voronoi disabled (standard hover)
 
 ```tsx preview
 import { ScatterChart } from '@geti-ui/charts';
@@ -352,7 +352,7 @@ export default function App() {
       series={[{ name: 'Per class', data: points }]}
       xAxisLabel="False positive rate"
       yAxisLabel="True positive rate"
-      aria-label="ROC scatter — standard hover"
+      aria-label="ROC scatter - standard hover"
       height={280}
       useVoronoi={false}
     />
@@ -360,7 +360,7 @@ export default function App() {
 }
 ```
 
-### Example — log-log scatter (model size vs accuracy)
+### Example - log-log scatter (model size vs accuracy)
 
 Log scales on both axes are useful when comparing data that spans many orders of magnitude.
 

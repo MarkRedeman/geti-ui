@@ -23,12 +23,12 @@ title: Parallel coordinates
 | `hitAreaStrokeWidth` | `number` | auto | Width of the invisible interaction path when `wideHitArea` is enabled |
 | `tickCount` | `number` | `4` | Tick labels per axis |
 | `rowIdKey` | `string` | `'id'` | Field used as unique row id |
-| `getRowId` | `(row, index) => string` | — | Custom id resolver |
-| `onHoverRowChange` | `(row \| null, id \| null) => void` | — | Hover callback for linked UI (e.g. image preview) |
-| `onSelectRowChange` | `(row, id) => void` | — | Click callback for pinned/selected line |
-| `highlight` | `HighlightConfig` | — | Integrates with shared highlight system |
-| `selection` | `SelectionConfig` | — | Drag-selection mode (`bounding-box`, `column`, `row`) and overlay style |
-| `onSelectionChange` | `(selection \| null) => void` | — | Callback when drag selection completes/clears |
+| `getRowId` | `(row, index) => string` | - | Custom id resolver |
+| `onHoverRowChange` | `(row \| null, id \| null) => void` | - | Hover callback for linked UI (e.g. image preview) |
+| `onSelectRowChange` | `(row, id) => void` | - | Click callback for pinned/selected line |
+| `highlight` | `HighlightConfig` | - | Integrates with shared highlight system |
+| `selection` | `SelectionConfig` | - | Drag-selection mode (`bounding-box`, `column`, `row`) and overlay style |
+| `onSelectionChange` | `(selection \| null) => void` | - | Callback when drag selection completes/clears |
 | `filterBySelection` | `boolean` | `false` | If true, render only lines fully inside selected region |
 
 ## Example datasets
@@ -198,7 +198,7 @@ export default function App() {
 }
 ```
 
-### 3a) 4 PCA components, 1000 rows — turbo preset
+### 3a) 4 PCA components, 1000 rows - turbo preset
 
 ```tsx preview
 import { ParallelCoordinates } from '@geti-ui/charts';
@@ -237,7 +237,7 @@ export default function App() {
 }
 ```
 
-### 3b) 4 PCA components, 1000 rows — Tailwind-inspired cyan/blue/indigo
+### 3b) 4 PCA components, 1000 rows - Tailwind-inspired cyan/blue/indigo
 
 ```tsx preview
 import { ParallelCoordinates } from '@geti-ui/charts';
@@ -354,7 +354,7 @@ export default function App() {
 }
 ```
 
-### 5a) 10 PCA components, 1000 rows — magma preset
+### 5a) 10 PCA components, 1000 rows - magma preset
 
 ```tsx preview
 import { ParallelCoordinates } from '@geti-ui/charts';
@@ -392,7 +392,7 @@ export default function App() {
 }
 ```
 
-### 5b) 10 PCA components, 1000 rows — Tailwind-inspired emerald/teal + rose/fuchsia
+### 5b) 10 PCA components, 1000 rows - Tailwind-inspired emerald/teal + rose/fuchsia
 
 ```tsx preview
 import { ParallelCoordinates } from '@geti-ui/charts';
@@ -433,7 +433,7 @@ export default function App() {
 }
 ```
 
-## Variant — color by right-most axis + image hover callback
+## Variant - color by right-most axis + image hover callback
 
 ```tsx preview
 import { ParallelCoordinates } from '@geti-ui/charts';
@@ -478,7 +478,7 @@ export default function App() {
 }
 ```
 
-## Variant — color by right-most axis + image hover callback
+## Variant - color by right-most axis + image hover callback
 
 ```tsx preview
 import { useState } from 'react';
@@ -554,7 +554,7 @@ Related: [Highlights](/charts/highlights)
 
 Double-click inside the plot area to clear selection.
 
-### Selection example — user-controlled mode and filtering
+### Selection example - user-controlled mode and filtering
 
 ```tsx preview
 import { useMemo, useState } from 'react';

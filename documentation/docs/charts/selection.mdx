@@ -12,9 +12,9 @@ Chart selection is a reusable interaction layer for click-drag gestures. It is d
 
 ## Modes
 
-- `bounding-box` — free rectangular region
-- `column` — full-height vertical band (drag controls width)
-- `row` — full-width horizontal band (drag controls height)
+- `bounding-box`: free rectangular region
+- `column`: full-height vertical band (drag controls width)
+- `row`: full-width horizontal band (drag controls height)
 
 In `ParallelCoordinates`, all three modes use the same axis-aware filtering rule: rows are kept when their points fall inside the selected y-range for the selected axes.
 
@@ -26,8 +26,7 @@ From `@geti-ui/charts`:
 - `SelectionRect`
 - `SelectionConfig`
 - `useDragSelection`
-
-`SelectionConfig`:
+- `SelectionConfig`:
 
 ```ts
 type SelectionConfig = {

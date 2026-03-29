@@ -62,7 +62,7 @@ describe('VirtualizedListLayout', () => {
 
     it('renders item text for all provided items', () => {
         renderVirtualizedList();
-        // Virtualizer may limit what is rendered — check at least one item is visible
+        // Virtualizer may limit what is rendered - check at least one item is visible
         expect(screen.getByText('Apple')).toBeInTheDocument();
     });
 

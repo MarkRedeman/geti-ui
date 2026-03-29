@@ -10,18 +10,18 @@ title: Class distribution chart
 
 | Prop | Type | Default | Description |
 |---|---|---|---|
-| `data` | `{ className: string; count: number }[]` | — | Array of class name + sample count pairs |
+| `data` | `{ className: string; count: number }[]` | - | Array of class name + sample count pairs |
 | `height` | `number` | `300` | Chart height in pixels |
 | `sortDescending` | `boolean` | `true` | Sort bars from highest to lowest count |
-| `topN` | `number` | — | Limit to the top N classes by count |
+| `topN` | `number` | - | Limit to the top N classes by count |
 | `useLogScale` | `boolean` | `false` | Use logarithmic scale on the value axis |
 | `showGrid` | `boolean` | `true` | Show background grid lines |
 | `showTooltip` | `boolean` | `true` | Show hover tooltip |
 | `animate` | `boolean` | `false` | Enable entry animation |
-| `xAxisProps` | `XAxisProps` | — | Extra props forwarded to the Recharts `XAxis` |
-| `yAxisProps` | `YAxisProps` | — | Extra props forwarded to the Recharts `YAxis` |
+| `xAxisProps` | `XAxisProps` | - | Extra props forwarded to the Recharts `XAxis` |
+| `yAxisProps` | `YAxisProps` | - | Extra props forwarded to the Recharts `YAxis` |
 
-## Variant — sorted long-tail distribution
+## Variant - sorted long-tail distribution
 
 ```tsx preview
 import { ClassDistributionChart } from '@geti-ui/charts';
@@ -52,7 +52,7 @@ export default function App() {
 }
 ```
 
-## Variant — top 8 classes only
+## Variant - top 8 classes only
 
 ```tsx preview
 import { ClassDistributionChart } from '@geti-ui/charts';
@@ -84,7 +84,7 @@ export default function App() {
 }
 ```
 
-## Variant — log scale for extreme imbalance
+## Variant - log scale for extreme imbalance
 
 ```tsx preview
 import { ClassDistributionChart } from '@geti-ui/charts';

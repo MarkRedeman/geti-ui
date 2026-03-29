@@ -63,7 +63,7 @@ export function useSyncZoom({ container, target, zoomInMultiplier, zoomOutMultip
         });
 
         if (!userHasInteractedRef.current) {
-            // User hasn't zoomed/panned — apply fit-to-screen
+            // User hasn't zoomed/panned - apply fit-to-screen
             setTransform({
                 scale: roundedCoordinates.scale,
                 translate: { x: roundedCoordinates.x, y: roundedCoordinates.y },

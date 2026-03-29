@@ -90,7 +90,7 @@ describe('PressableElement', () => {
         renderPressableElement({ isTruncated: true, id: 'truncated-wrapper' });
         const wrapper = document.getElementById('truncated-wrapper');
         expect(wrapper).toBeInTheDocument();
-        // The truncation styles are applied inline — verify the key property
+        // The truncation styles are applied inline - verify the key property
         expect(wrapper).toHaveStyle({ overflow: 'hidden' });
     });
 

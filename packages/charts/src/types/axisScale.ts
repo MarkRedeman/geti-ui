@@ -4,18 +4,18 @@
  * These mirror the Recharts `ScaleType` with explicit documentation of when each
  * scale applies:
  *
- * - `'auto'`    — Recharts picks the scale based on data type (default Recharts behaviour).
- * - `'linear'`  — Evenly-spaced numeric ticks. Good for most continuous data. **(default for numeric axes)**
- * - `'log'`     — Logarithmic spacing. Ideal for data spanning many orders of magnitude.
+ * - `'auto'`    - Recharts picks the scale based on data type (default Recharts behaviour).
+ * - `'linear'`  - Evenly-spaced numeric ticks. Good for most continuous data. **(default for numeric axes)**
+ * - `'log'`     - Logarithmic spacing. Ideal for data spanning many orders of magnitude.
  *                 ⚠ Requires **all values to be > 0**; pass `domain={[min, 'auto']}` to avoid
  *                 zero-domain errors.
- * - `'pow'`     — Power / exponential scale. Values are raised to a fixed exponent.
- * - `'sqrt'`    — Square-root scale. A special case of `pow` with exponent 0.5.
- * - `'time'`    — Time-based scale for Date values on the axis.
- * - `'band'`    — Equal-width bands for categorical data (used internally by BarChart).
- * - `'point'`   — Point-based ordinal scale for categories.
- * - `'ordinal'` — Generic ordinal scale.
- * - `'quantile'`| `'quantize'` | `'threshold'` | `'sequential'` — Advanced D3 scales
+ * - `'pow'`     - Power / exponential scale. Values are raised to a fixed exponent.
+ * - `'sqrt'`    - Square-root scale. A special case of `pow` with exponent 0.5.
+ * - `'time'`    - Time-based scale for Date values on the axis.
+ * - `'band'`    - Equal-width bands for categorical data (used internally by BarChart).
+ * - `'point'`   - Point-based ordinal scale for categories.
+ * - `'ordinal'` - Generic ordinal scale.
+ * - `'quantile'`| `'quantize'` | `'threshold'` | `'sequential'` - Advanced D3 scales
  *                 forwarded to Recharts unchanged.
  */
 export type AxisScaleType =
@@ -37,7 +37,7 @@ export type AxisScaleType =
  * Convenience config block for a single axis scale, covering the most common
  * use-cases without exposing the full Recharts XAxisProps / YAxisProps surface.
  *
- * All fields are optional — omitting them preserves existing defaults.
+ * All fields are optional - omitting them preserves existing defaults.
  */
 export interface AxisScaleConfig {
     /**
@@ -50,7 +50,7 @@ export interface AxisScaleConfig {
      * `'dataMin'` / `'dataMax'`. Required when using `'log'` scale to avoid
      * a zero lower bound.
      *
-     * @example [1, 'auto']  // log scale — exclude zero
+     * @example [1, 'auto']  // log scale - exclude zero
      * @example [0, 100]     // fixed linear range
      */
     domain?: [number | string, number | string];

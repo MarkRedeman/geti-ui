@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 
 /**
  * Tracks whether the Ctrl key (or Meta on macOS) is currently held down.
- * Used to activate pan mode — Ctrl+drag pans the viewport.
+ * Used to activate pan mode - Ctrl+drag pans the viewport.
  *
  * Ctrl is used instead of Space to avoid conflicts with interactive elements
  * (text inputs, buttons) inside the zoom container.

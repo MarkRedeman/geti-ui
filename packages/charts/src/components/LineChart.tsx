@@ -115,7 +115,7 @@ export interface LineChartProps {
  * />
  * ```
  *
- * @example Log scale — useful for loss curves spanning orders of magnitude
+ * @example Log scale - useful for loss curves spanning orders of magnitude
  * ```tsx
  * <LineChart
  *   data={data}

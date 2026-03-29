@@ -22,7 +22,7 @@ export interface ScatterDataPoint {
     px: number;
     /**
      * Pixel Y coordinate used for Voronoi lookup and tooltip/overlay positioning.
-     * Container-relative — see `px` for details.
+     * Container-relative - see `px` for details.
      */
     py: number;
     /** The raw record from the data array. */

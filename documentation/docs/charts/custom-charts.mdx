@@ -25,7 +25,7 @@ Checklist:
    - `animate?: boolean` with default `false`
    - `aria-label` passthrough
    - expose extension props (`...AxisProps`, tooltip/legend/grid props) where relevant
-   - **Use `getAxisTickStyle`, `getAxisLineStyle`, `getAxisTickLineStyle` from `../utils/axisStyles`** for all axis styling — do not inline theme token reads
+   - **Use `getAxisTickStyle`, `getAxisLineStyle`, `getAxisTickLineStyle` from `../utils/axisStyles`** for all axis styling - do not inline theme token reads
 2. Export from `packages/charts/src/index.ts`
 3. Add docs pages:
    - `documentation/docs/charts/compositions/<name>-chart.mdx`
@@ -160,7 +160,7 @@ export default function App() {
 
 ## Log scale with primitives
 
-Pass `scale="log"` directly on `GetiYAxis` (or `GetiXAxis`) when building custom charts. Always set an explicit `domain` — Recharts log scale requires strictly positive values.
+Pass `scale="log"` directly on `GetiYAxis` (or `GetiXAxis`) when building custom charts. Always set an explicit `domain` - Recharts log scale requires strictly positive values.
 
 ```tsx preview
 import { ScatterChart, Scatter } from 'recharts';
@@ -172,7 +172,7 @@ import {
   GetiResponsiveContainer,
 } from '@geti-ui/charts/primitives';
 
-// Model size (MB) vs mAP — both axes span orders of magnitude
+// Model size (MB) vs mAP - both axes span orders of magnitude
 const models = [
   { size: 2,   map: 28.1, name: 'MobileNet-v3-S' },
   { size: 5,   map: 34.6, name: 'MobileNet-v3-L' },
@@ -194,14 +194,14 @@ export default function App() {
           scale="log"
           domain={[1, 'auto']}
           type="number"
-          label={{ value: 'Model size (MB) — log scale', position: 'insideBottom', offset: -10, fill: 'var(--spectrum-global-color-gray-400)', fontSize: 12 }}
+          label={{ value: 'Model size (MB) - log scale', position: 'insideBottom', offset: -10, fill: 'var(--spectrum-global-color-gray-400)', fontSize: 12 }}
         />
         <GetiYAxis
           dataKey="map"
           name="mAP"
           scale="log"
           domain={[20, 70]}
-          label={{ value: 'mAP — log scale', angle: -90, position: 'insideLeft', fill: 'var(--spectrum-global-color-gray-400)', fontSize: 12 }}
+          label={{ value: 'mAP - log scale', angle: -90, position: 'insideLeft', fill: 'var(--spectrum-global-color-gray-400)', fontSize: 12 }}
         />
         <GetiTooltip cursor={{ strokeDasharray: '3 3' }} />
         <Scatter
@@ -220,7 +220,7 @@ export default function App() {
 Custom charts use Recharts props directly. Pass `isAnimationActive={false}` (the library default) on every series element to keep animations off, or pass `isAnimationActive={true}` to opt in:
 
 ```tsx
-// Opt-in — animated line
+// Opt-in - animated line
 <Line dataKey="value" isAnimationActive />
 
 // Explicit off (matches library default)

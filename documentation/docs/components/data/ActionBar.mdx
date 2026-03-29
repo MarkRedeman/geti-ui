@@ -6,7 +6,7 @@ import { ActionBar, ActionBarContainer, ActionBarItem as Item, ListView, ListIte
 
 # ActionBar
 
-`ActionBar` provides a contextual toolbar that appears when one or more items in a list or table are selected. Use it to surface bulk operations — edit, delete, export — without cluttering the default view.
+`ActionBar` provides a contextual toolbar that appears when one or more items in a list or table are selected. Use it to surface bulk operations - edit, delete, export - without cluttering the default view.
 
 ```tsx
 import { ActionBar, ActionBarContainer } from '@geti-ui/ui';
@@ -51,7 +51,7 @@ export default function App() {
 
 `ActionBar` and `ActionBarContainer` are thin wrappers around React Spectrum's `ActionBar` and `ActionBarContainer`. They pass all props through unchanged. The container handles the layout relationship between the list and the action bar so that the bar appears correctly when items are selected.
 
-The selection count and clear callback are passed from your selection state — this component does not manage selection internally.
+The selection count and clear callback are passed from your selection state - this component does not manage selection internally.
 
 ## Variants and states
 
@@ -65,7 +65,7 @@ The selection count and clear callback are passed from your selection state — 
 
 ### ActionBar
 
-- `selectedItemCount`: number or `"all"` — drives visibility and the count label.
+- `selectedItemCount`: number or `"all"` - drives visibility and the count label.
 - `onAction`: called with the key of the triggered action item.
 - `onClearSelection`: called when the user clears the selection via the bar's close button.
 - `children`: `Item` elements, each with a `key` and optional icon + `Text`.
@@ -77,7 +77,7 @@ The selection count and clear callback are passed from your selection state — 
 
 ### Events
 
-- `onAction(key)`: dispatch the action to your handler — update state, show a dialog, or call an API.
+- `onAction(key)`: dispatch the action to your handler - update state, show a dialog, or call an API.
 - `onClearSelection`: reset your selection state.
 
 ### Accessibility
@@ -87,8 +87,8 @@ The selection count and clear callback are passed from your selection state — 
 
 ## Related components
 
-- [`ListView`](/components/data/ListView) — the primary list component to pair with `ActionBar`.
-- [`TableView`](/components/data/TableView) — use for tabular data with `ActionBar` for row-level bulk operations.
+- [`ListView`](/components/data/ListView): the primary list component to pair with `ActionBar`.
+- [`TableView`](/components/data/TableView): use for tabular data with `ActionBar` for row-level bulk operations.
 
 ## Example use cases
 

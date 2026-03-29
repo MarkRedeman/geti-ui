@@ -28,5 +28,5 @@ PhotoPlaceholder receives a `name` string prop
 ## Integration
 
 - **Internal**: `PhotoPlaceholder` (`components/ui/PhotoPlaceholder/`) uses `getDistinctColorBasedOnHash` to assign deterministic avatar background colours based on user name strings.
-- **Public API**: `getDistinctColorBasedOnHash`, `getRandomDistinctColor`, `DISTINCT_COLORS`, and `getHEXFormat` are **not** re-exported from `src/index.ts` — they are internal utilities. Consumers who need them must copy the logic or request a public export.
-- **Color picker**: `getHEXFormat` is a natural companion to the color picker components in `form/pickers/` — it normalises RGBA hex values that color inputs may produce.
+- **Public API**: `getDistinctColorBasedOnHash`, `getRandomDistinctColor`, `DISTINCT_COLORS`, and `getHEXFormat` are **not** re-exported from `src/index.ts` - they are internal utilities. Consumers who need them must copy the logic or request a public export.
+- **Color picker**: `getHEXFormat` is a natural companion to the color picker components in `form/pickers/` - it normalises RGBA hex values that color inputs may produce.

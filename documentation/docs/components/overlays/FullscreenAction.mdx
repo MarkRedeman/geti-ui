@@ -54,7 +54,7 @@ export default function App() {
 
 ## Responsibility
 
-`FullscreenAction` composes `DialogTrigger` (with `type="fullscreenTakeover"`), a quiet `ActionButton` showing a fullscreen icon, a `TooltipTrigger`, and a full `Dialog` layout. It also renders a close button with a fullscreen-exit icon at the top-right of the dialog. This component owns its own open/close state — no external state management is required.
+`FullscreenAction` composes `DialogTrigger` (with `type="fullscreenTakeover"`), a quiet `ActionButton` showing a fullscreen icon, a `TooltipTrigger`, and a full `Dialog` layout. It also renders a close button with a fullscreen-exit icon at the top-right of the dialog. This component owns its own open/close state - no external state management is required.
 
 The `actionButton` prop lets you inject an optional control (e.g. a download button or status label) into the dialog header, next to the close button. When `actionButton` is a function, it receives a `ref` pointing to the `Content` element so you can interact with the rendered content (e.g. to trigger a canvas export).
 
@@ -82,12 +82,12 @@ FullscreenAction has a single visual presentation (fullscreen takeover) and no v
 - The trigger button has an `aria-label` of `"Open in fullscreen {title}"` (or `"Open in fullscreen"` when `title` is not a string).
 - The close button has `aria-label="Close fullscreen"`.
 - Focus is trapped inside the fullscreen dialog while open.
-- `Escape` does not close a fullscreen takeover dialog by default — users must use the close button.
+- `Escape` does not close a fullscreen takeover dialog by default - users must use the close button.
 
 ## Related components
 
-- [`Dialog`](/components/overlays/Dialog) — use for standard-sized modal dialogs.
-- [`DialogTrigger` (React Spectrum) ↗](https://react-spectrum.adobe.com/react-spectrum/DialogTrigger.html) — use directly when you need a non-fullscreen overlay from a custom trigger.
+- [`Dialog`](/components/overlays/Dialog) - use for standard-sized modal dialogs.
+- [`DialogTrigger` (React Spectrum) ↗](https://react-spectrum.adobe.com/react-spectrum/DialogTrigger.html) - use directly when you need a non-fullscreen overlay from a custom trigger.
 
 ## Example use cases
 

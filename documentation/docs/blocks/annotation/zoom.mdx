@@ -10,7 +10,7 @@ An interactive pan-and-zoom viewport for 2D content such as images, videos, and 
 import { ZoomProvider, ZoomTransform, useZoom, useZoomActions } from '@geti-ui/blocks';
 ```
 
-## Basic usage — image with SVG overlays
+## Basic usage - image with SVG overlays
 
 Wrap your content in `ZoomProvider` and `ZoomTransform`. The `target` prop tells the viewport the natural dimensions of the content so it can compute fit-to-screen and pan boundaries.
 
@@ -92,7 +92,7 @@ function AnnotatedImage() {
         height={IMAGE_HEIGHT}
         style={{ gridRow: '1 / 2', gridColumn: '1 / 2', pointerEvents: 'none' }}
       >
-        {/* Scale-invariant bounding box — stroke stays 2px on screen */}
+        {/* Scale-invariant bounding box - stroke stays 2px on screen */}
         <rect
           x={100} y={80} width={250} height={180}
           fill="none"
@@ -327,8 +327,8 @@ fitToScreen();
 
 | Prop | Type | Default | Required | Description |
 | --- | --- | --- | --- | --- |
-| `target` | `Size` | — | Yes | Natural dimensions of the zoomable content. |
-| `children` | `ReactNode` | — | Yes | Content to render inside the viewport. |
+| `target` | `Size` | - | Yes | Natural dimensions of the zoomable content. |
+| `children` | `ReactNode` | - | Yes | Content to render inside the viewport. |
 | `interactive` | `boolean` | `true` | No | Whether zoom and pan interactions are enabled. Set to `false` for read-only display. |
 | `doubleClickMode` | `'fitToScreen' \| 'none'` | `'none'` | No | Action on double-click. `'fitToScreen'` resets to fit-to-screen with animation. |
 | `zoomInMultiplier` | `number` | `10` | No | Max zoom = initial fit-to-screen scale multiplied by this value. |

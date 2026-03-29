@@ -120,7 +120,7 @@ describe('OverflowableTabs', () => {
 
     describe('renderTab', () => {
         /**
-         * No overflow needed — all tabs are visible by default (maxVisibleTabs
+         * No overflow needed - all tabs are visible by default (maxVisibleTabs
          * starts at items.length when ResizeObserver hasn't fired).
          *
          * React Spectrum's TabList renders each tab twice internally (once in

@@ -18,7 +18,7 @@ import { InlineAlert } from '@geti-ui/ui';
 
 ## Examples
 
-### Neutral — general information
+### Neutral - general information
 
 ```tsx preview
 import { InlineAlert } from '@geti-ui/ui';
@@ -50,7 +50,7 @@ export default function App() {
 }
 ```
 
-### Positive — success confirmation
+### Positive - success confirmation
 
 ```tsx preview
 import { InlineAlert } from '@geti-ui/ui';
@@ -66,7 +66,7 @@ export default function App() {
 }
 ```
 
-### Notice — warning
+### Notice - warning
 
 ```tsx preview
 import { InlineAlert } from '@geti-ui/ui';
@@ -82,7 +82,7 @@ export default function App() {
 }
 ```
 
-### Negative — validation error
+### Negative - validation error
 
 ```tsx preview
 import { InlineAlert } from '@geti-ui/ui';
@@ -109,8 +109,8 @@ export default function App() {
 | `neutral` | Supplementary context with no urgency |
 | `info` | Informational message about system state |
 | `positive` | Confirmation that an action succeeded |
-| `notice` | Warning — something may go wrong |
-| `negative` | Error — something has gone wrong |
+| `notice` | Warning - something may go wrong |
+| `negative` | Error - something has gone wrong |
 
 ## Props (deep dive)
 
@@ -123,13 +123,13 @@ export default function App() {
 
 - The alert is rendered with `role="alert"` semantics by Spectrum so screen readers announce it.
 - Use specific, actionable heading text (`"Missing required field"`) over generic phrases (`"Error"`).
-- `InlineAlert` is static — it does not dismiss. For dismissible messages, use `Toast`.
+- `InlineAlert` is static - it does not dismiss. For dismissible messages, use `Toast`.
 
 ## Related components
 
-- [`Toast`](/components/feedback/Toast) — use for transient success/error notifications that auto-dismiss.
-- [`Badge`](/components/feedback/Badge) — use for compact status labels without a heading or body text.
-- [`StatusLight`](/components/feedback/StatusLight) — use for inline coloured dots in data rows.
+- [`Toast`](/components/feedback/Toast): use for transient success/error notifications that auto-dismiss.
+- [`Badge`](/components/feedback/Badge): use for compact status labels without a heading or body text.
+- [`StatusLight`](/components/feedback/StatusLight): use for inline coloured dots in data rows.
 
 ## Example use cases
 
