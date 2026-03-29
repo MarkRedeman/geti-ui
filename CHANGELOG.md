@@ -1,3 +1,10 @@
+## [1.0.3](https://github.com/MarkRedeman/geti-ui/compare/v1.0.2...v1.0.3) (2026-03-29)
+
+
+### Bug Fixes
+
+* **release:** align npm trusted publishing metadata ([b8c67ac](https://github.com/MarkRedeman/geti-ui/commit/b8c67ace1eaf11ba1a6f877ad838a44fc3480afc))
+
 ## [1.0.2](https://github.com/MarkRedeman/geti-ui/compare/v1.0.1...v1.0.2) (2026-03-29)
 
 
