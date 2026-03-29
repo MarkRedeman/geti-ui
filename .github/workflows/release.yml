@@ -141,6 +141,6 @@ jobs:
 
       # Run semantic-release
       - name: Semantic Release
-        run: npx semantic-release
+        run: unset NODE_AUTH_TOKEN; npx semantic-release
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

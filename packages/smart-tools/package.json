@@ -66,6 +66,11 @@
     "publishConfig": {
         "access": "public"
     },
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/MarkRedeman/geti-ui",
+        "directory": "packages/smart-tools"
+    },
     "license": "Apache-2.0",
     "homepage": "https://docs.geti-ui.markredeman.nl"
 }
