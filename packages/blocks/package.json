@@ -66,6 +66,11 @@
         "react-dom": "^19.2.4",
         "typescript": "^5.9.3"
     },
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/MarkRedeman/geti-ui",
+        "directory": "packages/blocks"
+    },
     "license": "Apache-2.0",
     "homepage": "https://docs.geti-ui.markredeman.nl"
 }

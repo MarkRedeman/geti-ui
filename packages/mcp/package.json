@@ -41,7 +41,7 @@
     "license": "Apache-2.0",
     "repository": {
         "type": "git",
-        "url": "https://github.com/open-edge-platform/geti-ui",
+        "url": "https://github.com/MarkRedeman/geti-ui",
         "directory": "packages/mcp"
     },
     "homepage": "https://docs.geti-ui.markredeman.nl"
