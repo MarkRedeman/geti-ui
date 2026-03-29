@@ -142,7 +142,8 @@ export function TrainingMetricsChart({
                     {metrics.map((metric, metricIndex) => {
                         const fallbackColor = theme.dataColors[metricIndex % theme.dataColors.length];
                         const trainColor = metric.trainColor ?? getDatasetSubsetColor('train') ?? fallbackColor;
-                        const validationColor = metric.validationColor ?? getDatasetSubsetColor('validation') ?? fallbackColor;
+                        const validationColor =
+                            metric.validationColor ?? getDatasetSubsetColor('validation') ?? fallbackColor;
                         const testColor = metric.testColor ?? getDatasetSubsetColor('test') ?? fallbackColor;
 
                         return [

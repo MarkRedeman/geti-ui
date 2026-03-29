@@ -97,16 +97,19 @@ export function RadarChart({
 
     const polarGridStroke = theme.typography.color;
 
-    const { onMouseEnter: handleLegendMouseEnter, onMouseLeave: handleLegendMouseLeave, onClick: handleLegendClick } =
-        useLegendHighlight(
-            highlightState,
-            {
-                enabled: highlightEnabled,
-                legendHover: interaction?.legendHover ?? true,
-                legendClick: interaction?.legendClick ?? false,
-            },
-            legendProps
-        );
+    const {
+        onMouseEnter: handleLegendMouseEnter,
+        onMouseLeave: handleLegendMouseLeave,
+        onClick: handleLegendClick,
+    } = useLegendHighlight(
+        highlightState,
+        {
+            enabled: highlightEnabled,
+            legendHover: interaction?.legendHover ?? true,
+            legendClick: interaction?.legendClick ?? false,
+        },
+        legendProps
+    );
 
     return (
         <div role="img" aria-label={ariaLabel} style={{ width, height }}>
@@ -140,7 +143,9 @@ export function RadarChart({
                                 strokeOpacity={highlightState.getOpacity(s.dataKey)}
                                 strokeWidth={2}
                                 fill={filled ? color : 'none'}
-                                fillOpacity={filled ? (s.fillOpacity ?? 0.25) * highlightState.getOpacity(s.dataKey) : 0}
+                                fillOpacity={
+                                    filled ? (s.fillOpacity ?? 0.25) * highlightState.getOpacity(s.dataKey) : 0
+                                }
                                 onMouseEnter={
                                     highlightEnabled && radarHoverEnabled
                                         ? () => highlightState.setHovered([s.dataKey])

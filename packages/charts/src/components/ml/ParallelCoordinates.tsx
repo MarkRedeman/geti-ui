@@ -4,11 +4,7 @@ import { useChartsTheme } from '../../hooks/useChartsTheme';
 import type { HighlightConfig } from '../../highlight';
 import { useChartHighlight } from '../../highlight';
 import { getAxisLineStyle, getAxisTickStyle } from '../../utils/axisStyles';
-import {
-    interpolateColorStops,
-    resolveChartColorScaleStops,
-    type ChartColorScaleInput,
-} from '../../utils/colorScales';
+import { interpolateColorStops, resolveChartColorScaleStops, type ChartColorScaleInput } from '../../utils/colorScales';
 import { useDragSelection, type SelectionConfig, type SelectionRect } from '../../selection';
 
 type SupportedColorMode = 'left' | 'right' | string;
@@ -262,9 +258,7 @@ export function ParallelCoordinates({
                 axisYs.push(y);
             }
 
-            const rowId = getRowId
-                ? getRowId(row, rowIndex)
-                : String(row[rowIdKey] ?? `row-${rowIndex}`);
+            const rowId = getRowId ? getRowId(row, rowIndex) : String(row[rowIdKey] ?? `row-${rowIndex}`);
 
             const colorValue = toFiniteNumber(row[colorAxis.dataKey]) ?? 0;
 
@@ -311,8 +305,7 @@ export function ParallelCoordinates({
 
     const resolvedTickCount = Math.max(2, Math.floor(tickCount));
     const resolvedWideHitArea = wideHitArea ?? data.length <= 700;
-    const resolvedHitAreaStrokeWidth =
-        hitAreaStrokeWidth ?? Math.max(4, Math.min(14, Math.round(strokeWidth * 5)));
+    const resolvedHitAreaStrokeWidth = hitAreaStrokeWidth ?? Math.max(4, Math.min(14, Math.round(strokeWidth * 5)));
 
     const handleLineMouseEnter = (line: PreparedLine) => {
         if (highlightEnabled) {
@@ -375,7 +368,9 @@ export function ParallelCoordinates({
                 ? selectedAxisIndices
                 : [
                       axisXPositions.reduce((bestIndex, x, index) => {
-                          const bestDistance = Math.abs(axisXPositions[bestIndex] - (effectiveSelectionRect.x0 + effectiveSelectionRect.x1) / 2);
+                          const bestDistance = Math.abs(
+                              axisXPositions[bestIndex] - (effectiveSelectionRect.x0 + effectiveSelectionRect.x1) / 2
+                          );
                           const distance = Math.abs(x - (effectiveSelectionRect.x0 + effectiveSelectionRect.x1) / 2);
                           return distance < bestDistance ? index : bestIndex;
                       }, 0),
@@ -405,226 +400,238 @@ export function ParallelCoordinates({
     return (
         <ChartContainer width={width} height={height} aria-label={ariaLabel}>
             <div ref={containerRef} style={{ width: '100%', height: '100%' }}>
-                <svg width="100%" height="100%" viewBox={`0 0 ${viewWidth} ${viewHeight}`} preserveAspectRatio="xMidYMid meet">
-                <defs>
-                    <linearGradient
-                        id={gradientId}
-                        x1={resolvedLegendLocation === 'left' || resolvedLegendLocation === 'right' ? '0%' : '0%'}
-                        y1={resolvedLegendLocation === 'left' || resolvedLegendLocation === 'right' ? '100%' : '0%'}
-                        x2={resolvedLegendLocation === 'left' || resolvedLegendLocation === 'right' ? '0%' : '100%'}
-                        y2={resolvedLegendLocation === 'left' || resolvedLegendLocation === 'right' ? '0%' : '0%'}
-                    >
-                        {resolvedGradientStops.map((stop, index) => (
-                            <stop
-                                key={`${gradientId}-stop-${index}`}
-                                offset={`${(index / (resolvedGradientStops.length - 1)) * 100}%`}
-                                stopColor={stop}
-                            />
-                        ))}
-                    </linearGradient>
-                </defs>
+                <svg
+                    width="100%"
+                    height="100%"
+                    viewBox={`0 0 ${viewWidth} ${viewHeight}`}
+                    preserveAspectRatio="xMidYMid meet"
+                >
+                    <defs>
+                        <linearGradient
+                            id={gradientId}
+                            x1={resolvedLegendLocation === 'left' || resolvedLegendLocation === 'right' ? '0%' : '0%'}
+                            y1={resolvedLegendLocation === 'left' || resolvedLegendLocation === 'right' ? '100%' : '0%'}
+                            x2={resolvedLegendLocation === 'left' || resolvedLegendLocation === 'right' ? '0%' : '100%'}
+                            y2={resolvedLegendLocation === 'left' || resolvedLegendLocation === 'right' ? '0%' : '0%'}
+                        >
+                            {resolvedGradientStops.map((stop, index) => (
+                                <stop
+                                    key={`${gradientId}-stop-${index}`}
+                                    offset={`${(index / (resolvedGradientStops.length - 1)) * 100}%`}
+                                    stopColor={stop}
+                                />
+                            ))}
+                        </linearGradient>
+                    </defs>
 
-                {axes.map((axis, axisIndex) => {
-                    const x = axisXPositions[axisIndex];
-                    const [dMin, dMax] = resolvedDomains[axisIndex];
+                    {axes.map((axis, axisIndex) => {
+                        const x = axisXPositions[axisIndex];
+                        const [dMin, dMax] = resolvedDomains[axisIndex];
 
-                    return (
-                        <g key={axis.dataKey}>
-                            <line
-                                x1={x}
-                                y1={mTop}
-                                x2={x}
-                                y2={mTop + innerHeight}
-                                stroke={axisLineStyle.stroke}
-                                strokeWidth={axisLineStyle.strokeWidth}
-                                opacity={0.95}
-                            />
+                        return (
+                            <g key={axis.dataKey}>
+                                <line
+                                    x1={x}
+                                    y1={mTop}
+                                    x2={x}
+                                    y2={mTop + innerHeight}
+                                    stroke={axisLineStyle.stroke}
+                                    strokeWidth={axisLineStyle.strokeWidth}
+                                    opacity={0.95}
+                                />
 
-                            <text
-                                x={x}
-                                y={mTop - 10}
-                                textAnchor="middle"
-                                fill={axisStyle.fill}
-                                fontFamily={axisStyle.fontFamily}
-                                fontSize={Math.max(14, axisStyle.fontSize + 2)}
-                                fontWeight={600}
-                            >
-                                {axis.label ?? axis.dataKey}
-                            </text>
+                                <text
+                                    x={x}
+                                    y={mTop - 10}
+                                    textAnchor="middle"
+                                    fill={axisStyle.fill}
+                                    fontFamily={axisStyle.fontFamily}
+                                    fontSize={Math.max(14, axisStyle.fontSize + 2)}
+                                    fontWeight={600}
+                                >
+                                    {axis.label ?? axis.dataKey}
+                                </text>
 
-                            {Array.from({ length: resolvedTickCount }).map((_, tickIndex) => {
-                                const t = tickIndex / (resolvedTickCount - 1);
-                                const y = mTop + t * innerHeight;
-                                const value = dMax - (dMax - dMin) * t;
+                                {Array.from({ length: resolvedTickCount }).map((_, tickIndex) => {
+                                    const t = tickIndex / (resolvedTickCount - 1);
+                                    const y = mTop + t * innerHeight;
+                                    const value = dMax - (dMax - dMin) * t;
 
-                                return (
-                                    <g key={`${axis.dataKey}-tick-${tickIndex}`}>
-                                        <line
-                                            x1={x - 4}
-                                            y1={y}
-                                            x2={x + 4}
-                                            y2={y}
-                                            stroke={theme.axis.tickColor}
-                                            strokeWidth={1}
-                                        />
-                                        <text
-                                            x={x + 8}
-                                            y={y + 4}
-                                            textAnchor="start"
-                                            fill={axisStyle.fill}
-                                            fontFamily={axisStyle.fontFamily}
-                                            fontSize={Math.max(12, axisStyle.fontSize + 1)}
-                                            opacity={0.85}
-                                        >
-                                            {formatTick(value)}
-                                        </text>
-                                    </g>
-                                );
-                            })}
-                        </g>
-                    );
-                })}
+                                    return (
+                                        <g key={`${axis.dataKey}-tick-${tickIndex}`}>
+                                            <line
+                                                x1={x - 4}
+                                                y1={y}
+                                                x2={x + 4}
+                                                y2={y}
+                                                stroke={theme.axis.tickColor}
+                                                strokeWidth={1}
+                                            />
+                                            <text
+                                                x={x + 8}
+                                                y={y + 4}
+                                                textAnchor="start"
+                                                fill={axisStyle.fill}
+                                                fontFamily={axisStyle.fontFamily}
+                                                fontSize={Math.max(12, axisStyle.fontSize + 1)}
+                                                opacity={0.85}
+                                            >
+                                                {formatTick(value)}
+                                            </text>
+                                        </g>
+                                    );
+                                })}
+                            </g>
+                        );
+                    })}
 
-                {renderedLines.map((line) => {
-                    const isActive = highlightState.activeKeys.includes(line.id);
-                    const opacity = highlightState.activeKeys.length === 0
-                        ? lineOpacity
-                        : isActive
-                            ? activeLineOpacity
-                            : lineOpacity * highlightState.getOpacity(line.id);
+                    {renderedLines.map((line) => {
+                        const isActive = highlightState.activeKeys.includes(line.id);
+                        const opacity =
+                            highlightState.activeKeys.length === 0
+                                ? lineOpacity
+                                : isActive
+                                  ? activeLineOpacity
+                                  : lineOpacity * highlightState.getOpacity(line.id);
 
-                    return (
-                        <g key={line.id}>
-                            <polyline
-                                points={line.points}
-                                fill="none"
-                                stroke={getLineColor(line.colorValue)}
-                                strokeWidth={strokeWidth}
-                                strokeOpacity={opacity}
-                                pointerEvents={resolvedWideHitArea ? 'none' : 'stroke'}
-                                onMouseEnter={
-                                    !resolvedWideHitArea && lineHoverEnabled
-                                        ? () => handleLineMouseEnter(line)
-                                        : undefined
-                                }
-                                onMouseLeave={!resolvedWideHitArea && lineHoverEnabled ? handleLineMouseLeave : undefined}
-                                onClick={!resolvedWideHitArea && highlightEnabled ? () => handleLineClick(line) : undefined}
-                            />
-                            {resolvedWideHitArea ? (
+                        return (
+                            <g key={line.id}>
                                 <polyline
                                     points={line.points}
                                     fill="none"
-                                    stroke="transparent"
-                                    strokeWidth={resolvedHitAreaStrokeWidth}
-                                    strokeOpacity={0}
-                                    pointerEvents="stroke"
-                                    onMouseEnter={lineHoverEnabled ? () => handleLineMouseEnter(line) : undefined}
-                                    onMouseLeave={lineHoverEnabled ? handleLineMouseLeave : undefined}
-                                    onClick={highlightEnabled ? () => handleLineClick(line) : undefined}
+                                    stroke={getLineColor(line.colorValue)}
+                                    strokeWidth={strokeWidth}
+                                    strokeOpacity={opacity}
+                                    pointerEvents={resolvedWideHitArea ? 'none' : 'stroke'}
+                                    onMouseEnter={
+                                        !resolvedWideHitArea && lineHoverEnabled
+                                            ? () => handleLineMouseEnter(line)
+                                            : undefined
+                                    }
+                                    onMouseLeave={
+                                        !resolvedWideHitArea && lineHoverEnabled ? handleLineMouseLeave : undefined
+                                    }
+                                    onClick={
+                                        !resolvedWideHitArea && highlightEnabled
+                                            ? () => handleLineClick(line)
+                                            : undefined
+                                    }
+                                />
+                                {resolvedWideHitArea ? (
+                                    <polyline
+                                        points={line.points}
+                                        fill="none"
+                                        stroke="transparent"
+                                        strokeWidth={resolvedHitAreaStrokeWidth}
+                                        strokeOpacity={0}
+                                        pointerEvents="stroke"
+                                        onMouseEnter={lineHoverEnabled ? () => handleLineMouseEnter(line) : undefined}
+                                        onMouseLeave={lineHoverEnabled ? handleLineMouseLeave : undefined}
+                                        onClick={highlightEnabled ? () => handleLineClick(line) : undefined}
+                                    />
+                                ) : null}
+                            </g>
+                        );
+                    })}
+
+                    {resolvedLegendLocation === 'bottom' || resolvedLegendLocation === 'top' ? (
+                        <g
+                            transform={`translate(${mLeft}, ${resolvedLegendLocation === 'top' ? Math.max(8, mTop - 38) : viewHeight - Math.max(16, mBottom - 18)})`}
+                        >
+                            <rect x={0} y={0} width={180} height={14} fill={`url(#${gradientId})`} rx={4} />
+                            <text
+                                x={0}
+                                y={34}
+                                fill={axisStyle.fill}
+                                fontFamily={axisStyle.fontFamily}
+                                fontSize={Math.max(12, axisStyle.fontSize + 1)}
+                            >
+                                {`${colorAxis.label ?? colorAxis.dataKey} (min ${formatTick(resolvedColorDomain[0])})`}
+                            </text>
+                            <text
+                                x={180}
+                                y={34}
+                                textAnchor="end"
+                                fill={axisStyle.fill}
+                                fontFamily={axisStyle.fontFamily}
+                                fontSize={Math.max(12, axisStyle.fontSize + 1)}
+                            >
+                                {`max ${formatTick(resolvedColorDomain[1])}`}
+                            </text>
+                        </g>
+                    ) : (
+                        <g
+                            transform={`translate(${resolvedLegendLocation === 'left' ? Math.max(10, mLeft - sideLegendGutter + 18) : viewWidth - mRight + 22}, ${mTop})`}
+                        >
+                            <rect x={0} y={0} width={14} height={innerHeight} fill={`url(#${gradientId})`} rx={4} />
+                            <text
+                                x={7}
+                                y={-10}
+                                textAnchor="middle"
+                                fill={axisStyle.fill}
+                                fontFamily={axisStyle.fontFamily}
+                                fontSize={Math.max(12, axisStyle.fontSize + 1)}
+                            >
+                                {`${colorAxis.label ?? colorAxis.dataKey}`}
+                            </text>
+                            <text
+                                x={22}
+                                y={10}
+                                textAnchor="start"
+                                fill={axisStyle.fill}
+                                fontFamily={axisStyle.fontFamily}
+                                fontSize={Math.max(11, axisStyle.fontSize)}
+                            >
+                                {`max ${formatTick(resolvedColorDomain[1])}`}
+                            </text>
+                            <text
+                                x={22}
+                                y={innerHeight}
+                                textAnchor="start"
+                                fill={axisStyle.fill}
+                                fontFamily={axisStyle.fontFamily}
+                                fontSize={Math.max(11, axisStyle.fontSize)}
+                            >
+                                {`min ${formatTick(resolvedColorDomain[0])}`}
+                            </text>
+                        </g>
+                    )}
+
+                    {selectionEnabled ? (
+                        <g>
+                            {effectiveSelectionRect ? (
+                                <rect
+                                    x={effectiveSelectionRect.x0}
+                                    y={effectiveSelectionRect.y0}
+                                    width={Math.max(0, effectiveSelectionRect.x1 - effectiveSelectionRect.x0)}
+                                    height={Math.max(0, effectiveSelectionRect.y1 - effectiveSelectionRect.y0)}
+                                    fill={selection?.overlayStyle?.fill ?? theme.dataColors[0]}
+                                    fillOpacity={selection?.overlayStyle?.fillOpacity ?? 0.14}
+                                    stroke={selection?.overlayStyle?.stroke ?? theme.dataColors[1]}
+                                    strokeWidth={selection?.overlayStyle?.strokeWidth ?? 1.5}
+                                    strokeDasharray="4 3"
+                                    pointerEvents="none"
                                 />
                             ) : null}
-                        </g>
-                    );
-                })}
-
-                {(resolvedLegendLocation === 'bottom' || resolvedLegendLocation === 'top') ? (
-                    <g
-                        transform={`translate(${mLeft}, ${resolvedLegendLocation === 'top' ? Math.max(8, mTop - 38) : viewHeight - Math.max(16, mBottom - 18)})`}
-                    >
-                        <rect x={0} y={0} width={180} height={14} fill={`url(#${gradientId})`} rx={4} />
-                        <text
-                            x={0}
-                            y={34}
-                            fill={axisStyle.fill}
-                            fontFamily={axisStyle.fontFamily}
-                            fontSize={Math.max(12, axisStyle.fontSize + 1)}
-                        >
-                            {`${colorAxis.label ?? colorAxis.dataKey} (min ${formatTick(resolvedColorDomain[0])})`}
-                        </text>
-                        <text
-                            x={180}
-                            y={34}
-                            textAnchor="end"
-                            fill={axisStyle.fill}
-                            fontFamily={axisStyle.fontFamily}
-                            fontSize={Math.max(12, axisStyle.fontSize + 1)}
-                        >
-                            {`max ${formatTick(resolvedColorDomain[1])}`}
-                        </text>
-                    </g>
-                ) : (
-                    <g
-                        transform={`translate(${resolvedLegendLocation === 'left' ? Math.max(10, mLeft - sideLegendGutter + 18) : viewWidth - mRight + 22}, ${mTop})`}
-                    >
-                        <rect x={0} y={0} width={14} height={innerHeight} fill={`url(#${gradientId})`} rx={4} />
-                        <text
-                            x={7}
-                            y={-10}
-                            textAnchor="middle"
-                            fill={axisStyle.fill}
-                            fontFamily={axisStyle.fontFamily}
-                            fontSize={Math.max(12, axisStyle.fontSize + 1)}
-                        >
-                            {`${colorAxis.label ?? colorAxis.dataKey}`}
-                        </text>
-                        <text
-                            x={22}
-                            y={10}
-                            textAnchor="start"
-                            fill={axisStyle.fill}
-                            fontFamily={axisStyle.fontFamily}
-                            fontSize={Math.max(11, axisStyle.fontSize)}
-                        >
-                            {`max ${formatTick(resolvedColorDomain[1])}`}
-                        </text>
-                        <text
-                            x={22}
-                            y={innerHeight}
-                            textAnchor="start"
-                            fill={axisStyle.fill}
-                            fontFamily={axisStyle.fontFamily}
-                            fontSize={Math.max(11, axisStyle.fontSize)}
-                        >
-                            {`min ${formatTick(resolvedColorDomain[0])}`}
-                        </text>
-                    </g>
-                )}
-
-                {selectionEnabled ? (
-                    <g>
-                        {effectiveSelectionRect ? (
                             <rect
-                                x={effectiveSelectionRect.x0}
-                                y={effectiveSelectionRect.y0}
-                                width={Math.max(0, effectiveSelectionRect.x1 - effectiveSelectionRect.x0)}
-                                height={Math.max(0, effectiveSelectionRect.y1 - effectiveSelectionRect.y0)}
-                                fill={selection?.overlayStyle?.fill ?? theme.dataColors[0]}
-                                fillOpacity={selection?.overlayStyle?.fillOpacity ?? 0.14}
-                                stroke={selection?.overlayStyle?.stroke ?? theme.dataColors[1]}
-                                strokeWidth={selection?.overlayStyle?.strokeWidth ?? 1.5}
-                                strokeDasharray="4 3"
-                                pointerEvents="none"
+                                x={selectionBounds.left}
+                                y={selectionBounds.top}
+                                width={selectionBounds.right - selectionBounds.left}
+                                height={selectionBounds.bottom - selectionBounds.top}
+                                fill="transparent"
+                                pointerEvents="all"
+                                cursor="crosshair"
+                                onPointerDown={onSelectionPointerDown}
+                                onPointerMove={onSelectionPointerMove}
+                                onPointerUp={onSelectionPointerUp}
+                                onPointerLeave={onSelectionPointerLeave}
+                                onDoubleClick={() => {
+                                    clearSelection();
+                                    onSelectionChange?.(null);
+                                }}
                             />
-                        ) : null}
-                        <rect
-                            x={selectionBounds.left}
-                            y={selectionBounds.top}
-                            width={selectionBounds.right - selectionBounds.left}
-                            height={selectionBounds.bottom - selectionBounds.top}
-                            fill="transparent"
-                            pointerEvents="all"
-                            cursor="crosshair"
-                            onPointerDown={onSelectionPointerDown}
-                            onPointerMove={onSelectionPointerMove}
-                            onPointerUp={onSelectionPointerUp}
-                            onPointerLeave={onSelectionPointerLeave}
-                            onDoubleClick={() => {
-                                clearSelection();
-                                onSelectionChange?.(null);
-                            }}
-                        />
-                    </g>
-                ) : null}
+                        </g>
+                    ) : null}
                 </svg>
             </div>
         </ChartContainer>

@@ -31,9 +31,6 @@ export interface ChartsThemeProviderProps {
  * ```
  */
 export function ChartsThemeProvider({ theme, children }: ChartsThemeProviderProps) {
-    const resolvedTheme = useMemo(
-        () => (theme ? mergeChartTheme(theme) : defaultGetiChartTheme),
-        [theme]
-    );
+    const resolvedTheme = useMemo(() => (theme ? mergeChartTheme(theme) : defaultGetiChartTheme), [theme]);
     return <ChartsThemeContext.Provider value={resolvedTheme}>{children}</ChartsThemeContext.Provider>;
 }

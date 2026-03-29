@@ -27,61 +27,31 @@ import { mergeChartTheme, type DeepPartial } from '../theming/chartTheme';
 export function useGetiUIChartsTheme(): DeepPartial<ChartTheme> {
     const style = getComputedStyle(document.documentElement);
 
-        const get = (varName: string, fallback: string): string => {
-            const val = style.getPropertyValue(varName).trim();
-            return val !== '' ? val : fallback;
-        };
+    const get = (varName: string, fallback: string): string => {
+        const val = style.getPropertyValue(varName).trim();
+        return val !== '' ? val : fallback;
+    };
 
     return mergeChartTheme({
-        backgroundColor: get(
-            '--spectrum-global-color-gray-100',
-            defaultGetiChartTheme.backgroundColor
-        ),
+        backgroundColor: get('--spectrum-global-color-gray-100', defaultGetiChartTheme.backgroundColor),
         typography: {
-            color: get(
-                '--spectrum-global-color-gray-700',
-                defaultGetiChartTheme.typography.color
-            ),
-            fontFamily: get(
-                '--spectrum-alias-body-text-font-family',
-                defaultGetiChartTheme.typography.fontFamily
-            ),
+            color: get('--spectrum-global-color-gray-700', defaultGetiChartTheme.typography.color),
+            fontFamily: get('--spectrum-alias-body-text-font-family', defaultGetiChartTheme.typography.fontFamily),
         },
         grid: {
-            stroke: get(
-                '--spectrum-global-color-gray-300',
-                defaultGetiChartTheme.grid.stroke
-            ),
+            stroke: get('--spectrum-global-color-gray-300', defaultGetiChartTheme.grid.stroke),
         },
         axis: {
-            lineColor: get(
-                '--spectrum-global-color-gray-400',
-                defaultGetiChartTheme.axis.lineColor
-            ),
-            tickColor: get(
-                '--spectrum-global-color-gray-400',
-                defaultGetiChartTheme.axis.tickColor
-            ),
+            lineColor: get('--spectrum-global-color-gray-400', defaultGetiChartTheme.axis.lineColor),
+            tickColor: get('--spectrum-global-color-gray-400', defaultGetiChartTheme.axis.tickColor),
         },
         tooltip: {
-            backgroundColor: get(
-                '--spectrum-global-color-gray-200',
-                defaultGetiChartTheme.tooltip.backgroundColor
-            ),
-            borderColor: get(
-                '--spectrum-global-color-gray-400',
-                defaultGetiChartTheme.tooltip.borderColor
-            ),
-            color: get(
-                '--spectrum-global-color-gray-800',
-                defaultGetiChartTheme.tooltip.color
-            ),
+            backgroundColor: get('--spectrum-global-color-gray-200', defaultGetiChartTheme.tooltip.backgroundColor),
+            borderColor: get('--spectrum-global-color-gray-400', defaultGetiChartTheme.tooltip.borderColor),
+            color: get('--spectrum-global-color-gray-800', defaultGetiChartTheme.tooltip.color),
         },
         legend: {
-            color: get(
-                '--spectrum-global-color-gray-700',
-                defaultGetiChartTheme.legend.color
-            ),
+            color: get('--spectrum-global-color-gray-700', defaultGetiChartTheme.legend.color),
         },
     });
 }

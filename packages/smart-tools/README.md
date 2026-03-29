@@ -19,8 +19,8 @@ npm install @geti-ui/smart-tools
 
 - OpenCV-backed tooling utilities and interfaces (`/opencv`, `/utils`, `/types`)
 - ONNX Runtime Web model wrappers for:
-  - RITM (`@geti-ui/smart-tools/ritm`)
-  - Segment Anything (`@geti-ui/smart-tools/segment-anything`)
+    - RITM (`@geti-ui/smart-tools/ritm`)
+    - Segment Anything (`@geti-ui/smart-tools/segment-anything`)
 - Shared geometry and domain helpers for annotation-style toolchains
 
 ## Quick start
@@ -99,8 +99,8 @@ This makes config changes traceable through artifact identity.
 
 ## Sub-packages
 
-| Subpath                              | Contents                            |
-| ------------------------------------ | ----------------------------------- |
+| Subpath                                 | Contents                            |
+| --------------------------------------- | ----------------------------------- |
 | `@geti-ui/smart-tools`                  | Main entry                          |
 | `@geti-ui/smart-tools/opencv`           | OpenCV type interfaces              |
 | `@geti-ui/smart-tools/utils`            | Geometry and tool utilities         |

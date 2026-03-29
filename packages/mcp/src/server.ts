@@ -212,10 +212,7 @@ export async function startServer(version: string): Promise<void> {
             description:
                 'Lists all block documentation pages with name, category, and description. Optionally filter by category (e.g. "media", "tabs", "annotation", "models", "projects").',
             inputSchema: {
-                category: z
-                    .string()
-                    .optional()
-                    .describe('Filter by category (e.g. "media", "tabs", "annotation")'),
+                category: z.string().optional().describe('Filter by category (e.g. "media", "tabs", "annotation")'),
             },
         },
         async ({ category }) => {

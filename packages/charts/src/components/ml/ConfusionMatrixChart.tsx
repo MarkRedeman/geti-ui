@@ -76,14 +76,8 @@ export function ConfusionMatrixChart({
 }: ConfusionMatrixChartProps) {
     const theme = useChartsTheme();
 
-    const size = useMemo(
-        () => Math.min(labels.length, matrix.length),
-        [labels.length, matrix.length]
-    );
-    const rows = useMemo(
-        () => matrix.slice(0, size).map((row) => row.slice(0, size)),
-        [matrix, size]
-    );
+    const size = useMemo(() => Math.min(labels.length, matrix.length), [labels.length, matrix.length]);
+    const rows = useMemo(() => matrix.slice(0, size).map((row) => row.slice(0, size)), [matrix, size]);
 
     const rgb = parseColorToRgb(theme.dataColors[0]) ?? { r: 76, g: 155, b: 232 };
 
@@ -168,11 +162,7 @@ export function ConfusionMatrixChart({
                         {row.map((value, colIndex) => {
                             const scaled = normalized[rowIndex]?.[colIndex] ?? 0;
                             const opacity = minOpacity + (maxOpacity - minOpacity) * scaled;
-                            const displayValue = formatValue(
-                                normalize === 'none' ? value : scaled,
-                                rowIndex,
-                                colIndex
-                            );
+                            const displayValue = formatValue(normalize === 'none' ? value : scaled, rowIndex, colIndex);
 
                             return (
                                 <div

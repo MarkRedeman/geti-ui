@@ -1,13 +1,5 @@
 import { useCallback, useMemo, useRef, useState } from 'react';
-import {
-    Column,
-    TableBody,
-    TableHeader,
-    TableView,
-    Text,
-    View,
-    type AriaSelection,
-} from '@geti-ui/ui';
+import { Column, TableBody, TableHeader, TableView, Text, View, type AriaSelection } from '@geti-ui/ui';
 import styles from './media-table.module.css';
 import {
     createMediaRenderContext,

@@ -1,9 +1,4 @@
-import {
-    PieChart as RechartsPieChart,
-    Pie,
-    Cell,
-    ResponsiveContainer,
-} from 'recharts';
+import { PieChart as RechartsPieChart, Pie, Cell, ResponsiveContainer } from 'recharts';
 import { useChartsTheme } from '../hooks/useChartsTheme';
 import type { HighlightConfig } from '../highlight';
 import { useSeriesHighlight } from '../highlight';
@@ -114,9 +109,7 @@ export function MeterChart({
                                 : undefined
                         }
                         onMouseLeave={
-                            highlightEnabled && segmentHoverEnabled
-                                ? () => highlightState.clearHover()
-                                : undefined
+                            highlightEnabled && segmentHoverEnabled ? () => highlightState.clearHover() : undefined
                         }
                         isAnimationActive={animate}
                     >

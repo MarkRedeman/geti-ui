@@ -34,11 +34,7 @@ describe('ML compositions', () => {
         ];
 
         const { rerender } = wrap(
-            <RunComparisonChart
-                data={data}
-                series={[{ dataKey: 'map', name: 'mAP' }]}
-                aria-label="run comparison"
-            />
+            <RunComparisonChart data={data} series={[{ dataKey: 'map', name: 'mAP' }]} aria-label="run comparison" />
         );
 
         expect(screen.getByRole('img', { name: 'run comparison' })).toBeTruthy();
@@ -166,7 +162,7 @@ describe('ML compositions', () => {
             {
                 target: screen.getByRole('img', { name: 'parallel coordinates selection' }),
                 coords: { x: 50, y: 50 },
-                keys: '[MouseLeft>]'
+                keys: '[MouseLeft>]',
             },
             {
                 target: screen.getByRole('img', { name: 'parallel coordinates selection' }),
@@ -174,7 +170,7 @@ describe('ML compositions', () => {
             },
             {
                 target: screen.getByRole('img', { name: 'parallel coordinates selection' }),
-                keys: '[/MouseLeft]'
+                keys: '[/MouseLeft]',
             },
         ]);
     });

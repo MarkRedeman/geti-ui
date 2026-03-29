@@ -115,7 +115,10 @@ export function EmbeddingDistanceDistribution({
                             labelFormatter={(label) => `Distance ${Number(label).toFixed(3)}`}
                             formatter={(value) => {
                                 const num = Number(value);
-                                return [showFrequency ? `${(num * 100).toFixed(2)}%` : num, showFrequency ? 'Frequency' : 'Count'];
+                                return [
+                                    showFrequency ? `${(num * 100).toFixed(2)}%` : num,
+                                    showFrequency ? 'Frequency' : 'Count',
+                                ];
                             }}
                             {...tooltipProps}
                         />

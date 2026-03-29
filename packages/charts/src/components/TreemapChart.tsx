@@ -1,7 +1,4 @@
-import {
-    Treemap,
-    ResponsiveContainer,
-} from 'recharts';
+import { Treemap, ResponsiveContainer } from 'recharts';
 import { useChartsTheme } from '../hooks/useChartsTheme';
 import type { HighlightConfig } from '../highlight';
 import { useSeriesHighlight } from '../highlight';
@@ -135,11 +132,7 @@ export function TreemapChart({
                                   ])
                             : undefined
                     }
-                    onMouseLeave={
-                        highlightEnabled && tileHoverEnabled
-                            ? () => highlightState.clearHover()
-                            : undefined
-                    }
+                    onMouseLeave={highlightEnabled && tileHoverEnabled ? () => highlightState.clearHover() : undefined}
                     isAnimationActive={animate}
                 >
                     {showTooltip && <ChartTooltip {...tooltipProps} />}

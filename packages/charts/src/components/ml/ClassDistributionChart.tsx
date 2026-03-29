@@ -107,7 +107,10 @@ export function ClassDistributionChart({
 
                     <Bar dataKey="count" name="Samples" isAnimationActive={animate}>
                         {chartData.map((entry, i) => (
-                            <Cell key={`${entry.className}-${i}`} fill={theme.dataColors[i % theme.dataColors.length]} />
+                            <Cell
+                                key={`${entry.className}-${i}`}
+                                fill={theme.dataColors[i % theme.dataColors.length]}
+                            />
                         ))}
                     </Bar>
                 </RechartsBarChart>

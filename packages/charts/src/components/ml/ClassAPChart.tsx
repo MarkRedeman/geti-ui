@@ -70,9 +70,7 @@ export function ClassAPChart({
     const theme = useChartsTheme();
     const axisStyle = getAxisTickStyle(theme);
 
-    const chartData = sortDescending
-        ? [...data].sort((a, b) => b.score - a.score)
-        : data;
+    const chartData = sortDescending ? [...data].sort((a, b) => b.score - a.score) : data;
 
     return (
         <div role="img" aria-label={ariaLabel} style={{ width, height }}>

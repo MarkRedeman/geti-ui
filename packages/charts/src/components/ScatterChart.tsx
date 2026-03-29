@@ -122,13 +122,7 @@ interface VoronoiTooltipProps {
     renderContent?: (activePoint: VoronoiActivePoint) => ReactNode;
 }
 
-function VoronoiTooltip({
-    activePoint,
-    theme,
-    offsetX = 12,
-    offsetY = -8,
-    renderContent,
-}: VoronoiTooltipProps) {
+function VoronoiTooltip({ activePoint, theme, offsetX = 12, offsetY = -8, renderContent }: VoronoiTooltipProps) {
     const { point } = activePoint;
     const tooltipRef = useRef<HTMLDivElement | null>(null);
     const [tooltipSize, setTooltipSize] = useState({ width: 0, height: 0 });
@@ -136,11 +130,7 @@ function VoronoiTooltip({
     useLayoutEffect(() => {
         if (!tooltipRef.current) return;
         const { width, height } = tooltipRef.current.getBoundingClientRect();
-        setTooltipSize((prev) =>
-            prev.width !== width || prev.height !== height
-                ? { width, height }
-                : prev
-        );
+        setTooltipSize((prev) => (prev.width !== width || prev.height !== height ? { width, height } : prev));
     }, [point.px, point.py, point.xValue, point.yValue, point.seriesName]);
 
     const PAD = 8;
@@ -409,16 +399,19 @@ export function ScatterChart({
         voronoiHighlightEnabled,
     ]);
 
-    const { onMouseEnter: handleLegendMouseEnter, onMouseLeave: handleLegendMouseLeave, onClick: handleLegendClick } =
-        useLegendHighlight(
-            highlightState,
-            {
-                enabled: highlightEnabled,
-                legendHover: interaction?.legendHover ?? true,
-                legendClick: interaction?.legendClick ?? false,
-            },
-            legendProps
-        );
+    const {
+        onMouseEnter: handleLegendMouseEnter,
+        onMouseLeave: handleLegendMouseLeave,
+        onClick: handleLegendClick,
+    } = useLegendHighlight(
+        highlightState,
+        {
+            enabled: highlightEnabled,
+            legendHover: interaction?.legendHover ?? true,
+            legendClick: interaction?.legendClick ?? false,
+        },
+        legendProps
+    );
 
     return (
         <div
@@ -523,9 +516,7 @@ export function ScatterChart({
             </ResponsiveContainer>
 
             {/* Voronoi active-point visual feedback layers */}
-            {useVoronoi && activePoint && (
-                <ActiveDotOverlay activePoint={activePoint} theme={theme} />
-            )}
+            {useVoronoi && activePoint && <ActiveDotOverlay activePoint={activePoint} theme={theme} />}
             {useVoronoi && showTooltip && activePoint && (
                 <VoronoiTooltip
                     activePoint={activePoint}

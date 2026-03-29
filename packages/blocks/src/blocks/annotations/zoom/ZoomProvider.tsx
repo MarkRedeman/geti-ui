@@ -50,7 +50,15 @@ export function useZoom(): ZoomTransformState & ZoomConfig {
     return { ...config, ...transform };
 }
 
-export function useZoomActions(): Omit<ZoomActions, 'setTransform' | 'setConfig' | 'setContainerSize' | 'markInteracted' | 'userHasInteractedRef' | 'triggerDiscreteAnimationRef'> {
+export function useZoomActions(): Omit<
+    ZoomActions,
+    | 'setTransform'
+    | 'setConfig'
+    | 'setContainerSize'
+    | 'markInteracted'
+    | 'userHasInteractedRef'
+    | 'triggerDiscreteAnimationRef'
+> {
     const context = useContext(ZoomActionsContext);
 
     if (!context) {
@@ -127,85 +135,83 @@ export function ZoomProvider({ children, target }: ZoomProviderProps) {
         });
     }, []);
 
-    const zoomBy = useCallback((step: number) => {
-        const currentConfig = configRef.current;
-        userHasInteractedRef.current = true;
-        triggerDiscreteAnimationRef.current?.();
+    const zoomBy = useCallback(
+        (step: number) => {
+            const currentConfig = configRef.current;
+            userHasInteractedRef.current = true;
+            triggerDiscreteAnimationRef.current?.();
 
-        setTransform((prev) => {
-            const ratioPerStep = Math.pow(currentConfig.maxScale / currentConfig.minScale, 1 / ZOOM_STEP_COUNT);
-            const newScale = clampBetween(
-                currentConfig.minScale,
-                prev.scale * Math.pow(ratioPerStep, step),
-                currentConfig.maxScale
-            );
-
-            const anchorX = containerSizeRef.current.width / 2;
-            const anchorY = containerSizeRef.current.height / 2;
-
-            const newState = getZoomTransform({
-                newScale,
-                minScale: currentConfig.minScale,
-                cursorX: anchorX,
-                cursorY: anchorY,
-                initialCoordinates: currentConfig.initialCoordinates,
-            })(prev);
-
-            if (target) {
-                newState.translate = clampTranslate(
-                    newState.translate,
-                    newState.scale,
-                    target,
-                    containerSizeRef.current
+            setTransform((prev) => {
+                const ratioPerStep = Math.pow(currentConfig.maxScale / currentConfig.minScale, 1 / ZOOM_STEP_COUNT);
+                const newScale = clampBetween(
+                    currentConfig.minScale,
+                    prev.scale * Math.pow(ratioPerStep, step),
+                    currentConfig.maxScale
                 );
-            }
 
-            return newState;
-        });
-    }, [target]);
+                const anchorX = containerSizeRef.current.width / 2;
+                const anchorY = containerSizeRef.current.height / 2;
 
-    const zoomTo = useCallback((viewport: Rect, options?: ZoomToOptions) => {
-        const currentConfig = configRef.current;
-        const padding = options?.padding ?? 0;
-        userHasInteractedRef.current = true;
-        triggerDiscreteAnimationRef.current?.();
+                const newState = getZoomTransform({
+                    newScale,
+                    minScale: currentConfig.minScale,
+                    cursorX: anchorX,
+                    cursorY: anchorY,
+                    initialCoordinates: currentConfig.initialCoordinates,
+                })(prev);
 
-        setTransform(() => {
-            const container = containerSizeRef.current;
+                if (target) {
+                    newState.translate = clampTranslate(
+                        newState.translate,
+                        newState.scale,
+                        target,
+                        containerSizeRef.current
+                    );
+                }
 
-            // Available viewport space after subtracting padding on both sides
-            const availableWidth = Math.max(container.width - 2 * padding, 1);
-            const availableHeight = Math.max(container.height - 2 * padding, 1);
+                return newState;
+            });
+        },
+        [target]
+    );
 
-            // Scale to fit the content-space rectangle into the available viewport space
-            const scaleToFit = Math.min(
-                availableWidth / viewport.width,
-                availableHeight / viewport.height
-            );
-            const clampedScale = clampBetween(currentConfig.minScale, scaleToFit, currentConfig.maxScale);
+    const zoomTo = useCallback(
+        (viewport: Rect, options?: ZoomToOptions) => {
+            const currentConfig = configRef.current;
+            const padding = options?.padding ?? 0;
+            userHasInteractedRef.current = true;
+            triggerDiscreteAnimationRef.current?.();
 
-            // Center of the target rectangle in content-space
-            const rectCenterX = viewport.x + viewport.width / 2;
-            const rectCenterY = viewport.y + viewport.height / 2;
+            setTransform(() => {
+                const container = containerSizeRef.current;
 
-            // Translate so the rect center maps to the viewport center
-            let newTranslate: Point = {
-                x: container.width / 2 - rectCenterX * clampedScale,
-                y: container.height / 2 - rectCenterY * clampedScale,
-            };
+                // Available viewport space after subtracting padding on both sides
+                const availableWidth = Math.max(container.width - 2 * padding, 1);
+                const availableHeight = Math.max(container.height - 2 * padding, 1);
 
-            if (target) {
-                newTranslate = clampTranslate(
-                    newTranslate,
-                    clampedScale,
-                    target,
-                    container
-                );
-            }
+                // Scale to fit the content-space rectangle into the available viewport space
+                const scaleToFit = Math.min(availableWidth / viewport.width, availableHeight / viewport.height);
+                const clampedScale = clampBetween(currentConfig.minScale, scaleToFit, currentConfig.maxScale);
 
-            return { scale: clampedScale, translate: newTranslate };
-        });
-    }, [target]);
+                // Center of the target rectangle in content-space
+                const rectCenterX = viewport.x + viewport.width / 2;
+                const rectCenterY = viewport.y + viewport.height / 2;
+
+                // Translate so the rect center maps to the viewport center
+                let newTranslate: Point = {
+                    x: container.width / 2 - rectCenterX * clampedScale,
+                    y: container.height / 2 - rectCenterY * clampedScale,
+                };
+
+                if (target) {
+                    newTranslate = clampTranslate(newTranslate, clampedScale, target, container);
+                }
+
+                return { scale: clampedScale, translate: newTranslate };
+            });
+        },
+        [target]
+    );
 
     const actions = useMemo<ZoomActions>(
         () => ({

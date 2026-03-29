@@ -108,10 +108,7 @@ export function LatencyPercentileChart({
 
                     {showTooltip && (
                         <ChartTooltip
-                            formatter={(value, name) => [
-                                `${Number(value).toFixed(2)} ${unit}`,
-                                String(name),
-                            ]}
+                            formatter={(value, name) => [`${Number(value).toFixed(2)} ${unit}`, String(name)]}
                             {...tooltipProps}
                         />
                     )}

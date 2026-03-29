@@ -75,9 +75,7 @@ describe('useWheelPanning', () => {
 
         act(() => {
             result.current.onPointerDown(createWheelPointerEvent({ clientX: 10, clientY: 10 }));
-            result.current.onPointerMove(onDelta)(
-                createWheelPointerEvent({ clientX: 20, clientY: 15 }),
-            );
+            result.current.onPointerMove(onDelta)(createWheelPointerEvent({ clientX: 20, clientY: 15 }));
         });
 
         expect(onDelta).toHaveBeenCalledWith({ x: 10, y: 5 });
@@ -95,9 +93,7 @@ describe('useWheelPanning', () => {
 
         // Move with button: 0 (this is what browsers actually report during pointermove)
         act(() => {
-            result.current.onPointerMove(onDelta)(
-                createLeftPointerEvent({ clientX: 25, clientY: 18 }),
-            );
+            result.current.onPointerMove(onDelta)(createLeftPointerEvent({ clientX: 25, clientY: 18 }));
         });
 
         expect(onDelta).toHaveBeenCalledWith({ x: 15, y: 8 });

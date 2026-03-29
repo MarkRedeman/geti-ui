@@ -93,12 +93,18 @@ export function ConfidenceVsIoUChart({
 
     const thresholdRows = [
         ...(typeof confidenceThreshold === 'number'
-            ? [{ confidence: confidenceThreshold, iou: 0 }, { confidence: confidenceThreshold, iou: 1 }]
+            ? [
+                  { confidence: confidenceThreshold, iou: 0 },
+                  { confidence: confidenceThreshold, iou: 1 },
+              ]
             : []),
     ];
     const iouThresholdRows = [
         ...(typeof iouThreshold === 'number'
-            ? [{ confidence: 0, iou: iouThreshold }, { confidence: 1, iou: iouThreshold }]
+            ? [
+                  { confidence: 0, iou: iouThreshold },
+                  { confidence: 1, iou: iouThreshold },
+              ]
             : []),
     ];
 

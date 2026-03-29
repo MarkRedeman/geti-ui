@@ -168,7 +168,10 @@ export function MediaRow<T extends MediaGridIdentifiable>({
         <View UNSAFE_className={rootClassName} UNSAFE_style={style}>
             <div className={styles.gridContainer} role="region" aria-label={ariaLabel} style={{ overflow: 'visible' }}>
                 <div className={styles.gridInner} style={{ height: itemSize + 24, overflow: 'visible' }}>
-                    <AriaVirtualizer layout={MediaRowHorizontalLayout} layoutOptions={{ size: itemSize, gap, overscan: 2 }}>
+                    <AriaVirtualizer
+                        layout={MediaRowHorizontalLayout}
+                        layoutOptions={{ size: itemSize, gap, overscan: 2 }}
+                    >
                         <AriaListBox
                             ref={listRef}
                             aria-label={ariaLabel}

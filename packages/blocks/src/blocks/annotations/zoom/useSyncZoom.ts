@@ -25,7 +25,13 @@ type UseSyncZoomOptions = {
  * updated without resetting the current transform. Otherwise, the viewport
  * is re-centered to fit the content.
  */
-export function useSyncZoom({ container, target, zoomInMultiplier, zoomOutMultiplier, fitPadding }: UseSyncZoomOptions) {
+export function useSyncZoom({
+    container,
+    target,
+    zoomInMultiplier,
+    zoomOutMultiplier,
+    fitPadding,
+}: UseSyncZoomOptions) {
     const { setConfig, setTransform, userHasInteractedRef } = useZoomInternal();
     const containerWidth = container.width;
     const containerHeight = container.height;

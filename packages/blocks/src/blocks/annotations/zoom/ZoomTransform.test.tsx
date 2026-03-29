@@ -7,7 +7,7 @@ import type { Rect, ZoomToOptions } from './types';
 
 function ZoomDisplay() {
     const { scale } = useZoom();
-    return <div data-testid='zoom-display'>{(scale * 100).toFixed(0)}%</div>;
+    return <div data-testid="zoom-display">{(scale * 100).toFixed(0)}%</div>;
 }
 
 function ZoomActionControls() {
@@ -15,19 +15,16 @@ function ZoomActionControls() {
 
     return (
         <div>
-            <button data-testid='zoom-in' onClick={() => zoomBy(1)}>
+            <button data-testid="zoom-in" onClick={() => zoomBy(1)}>
                 Zoom in
             </button>
-            <button data-testid='zoom-out' onClick={() => zoomBy(-1)}>
+            <button data-testid="zoom-out" onClick={() => zoomBy(-1)}>
                 Zoom out
             </button>
-            <button data-testid='fit' onClick={() => fitToScreen()}>
+            <button data-testid="fit" onClick={() => fitToScreen()}>
                 Fit
             </button>
-            <button
-                data-testid='zoom-to-small'
-                onClick={() => zoomTo({ x: 200, y: 200, width: 100, height: 100 })}
-            >
+            <button data-testid="zoom-to-small" onClick={() => zoomTo({ x: 200, y: 200, width: 100, height: 100 })}>
                 Zoom to
             </button>
         </div>
@@ -43,7 +40,7 @@ describe('ZoomTransform', () => {
                 <ZoomTransform target={contentSize}>
                     <span>Content</span>
                 </ZoomTransform>
-            </ZoomProvider>,
+            </ZoomProvider>
         );
 
         expect(screen.getByText('Content')).toBeDefined();
@@ -56,7 +53,7 @@ describe('ZoomTransform', () => {
         render(
             <ZoomProvider target={contentSize}>
                 <ZoomTransform target={contentSize}>Content</ZoomTransform>
-            </ZoomProvider>,
+            </ZoomProvider>
         );
 
         const transform = screen.getByTestId('zoom-transform');
@@ -75,7 +72,7 @@ describe('ZoomTransform', () => {
                 <ZoomTransform target={contentSize}>
                     <ZoomDisplay />
                 </ZoomTransform>
-            </ZoomProvider>,
+            </ZoomProvider>
         );
 
         // useContainerSize defaults to 100x100 in JSDOM (no ResizeObserver).
@@ -90,7 +87,7 @@ describe('ZoomTransform', () => {
         render(
             <ZoomProvider target={contentSize}>
                 <ZoomTransform target={contentSize}>Content</ZoomTransform>
-            </ZoomProvider>,
+            </ZoomProvider>
         );
 
         const wrapper = screen.getByTestId('zoom-transform').parentElement;
@@ -246,7 +243,7 @@ describe('ZoomTransform interactive prop', () => {
                 <ZoomTransform target={contentSize} interactive={false}>
                     <span>Static content</span>
                 </ZoomTransform>
-            </ZoomProvider>,
+            </ZoomProvider>
         );
 
         expect(screen.getByText('Static content')).toBeDefined();
@@ -261,7 +258,7 @@ describe('ZoomTransform interactive prop', () => {
                 <ZoomTransform target={contentSize} interactive={false}>
                     Content
                 </ZoomTransform>
-            </ZoomProvider>,
+            </ZoomProvider>
         );
 
         const wrapper = screen.getByTestId('zoom-transform').parentElement;
@@ -277,7 +274,7 @@ describe('ZoomTransform interactive prop', () => {
                 <ZoomTransform target={contentSize} interactive={false}>
                     Content
                 </ZoomTransform>
-            </ZoomProvider>,
+            </ZoomProvider>
         );
 
         const wrapper = screen.getByTestId('zoom-transform').parentElement;
@@ -293,7 +290,7 @@ describe('ZoomTransform interactive prop', () => {
                 <ZoomTransform target={contentSize} interactive={false}>
                     Content
                 </ZoomTransform>
-            </ZoomProvider>,
+            </ZoomProvider>
         );
 
         const transform = screen.getByTestId('zoom-transform');
@@ -313,10 +310,8 @@ describe('ZoomTransform doubleClickMode', () => {
 
         render(
             <ZoomProvider target={contentSize}>
-                <ZoomTransform target={contentSize}>
-                    Content
-                </ZoomTransform>
-            </ZoomProvider>,
+                <ZoomTransform target={contentSize}>Content</ZoomTransform>
+            </ZoomProvider>
         );
 
         const wrapper = screen.getByTestId('zoom-transform').parentElement!;
@@ -336,7 +331,7 @@ describe('ZoomTransform doubleClickMode', () => {
                 <ZoomTransform target={contentSize} doubleClickMode="fitToScreen">
                     Content
                 </ZoomTransform>
-            </ZoomProvider>,
+            </ZoomProvider>
         );
 
         expect(screen.getByTestId('zoom-transform')).toBeDefined();
@@ -350,7 +345,7 @@ describe('ZoomTransform doubleClickMode', () => {
                 <ZoomTransform target={contentSize} interactive={false} doubleClickMode="fitToScreen">
                     Content
                 </ZoomTransform>
-            </ZoomProvider>,
+            </ZoomProvider>
         );
 
         const wrapper = screen.getByTestId('zoom-transform').parentElement!;
@@ -370,13 +365,7 @@ describe('zoomTo (viewport rectangle)', () => {
      * In JSDOM, useContainerSize defaults to { width: 100, height: 100 },
      * so the container is 100×100 px.
      */
-    function ZoomToTrigger({
-        viewport,
-        options,
-    }: {
-        viewport: Rect;
-        options?: ZoomToOptions;
-    }) {
+    function ZoomToTrigger({ viewport, options }: { viewport: Rect; options?: ZoomToOptions }) {
         const { scale, translate } = useZoom();
         const { zoomTo } = useZoomActions();
 
@@ -409,7 +398,7 @@ describe('zoomTo (viewport rectangle)', () => {
                 <ZoomTransform target={contentSize}>
                     <ZoomToTrigger viewport={{ x: 200, y: 200, width: 100, height: 100 }} />
                 </ZoomTransform>
-            </ZoomProvider>,
+            </ZoomProvider>
         );
 
         act(() => {
@@ -442,7 +431,7 @@ describe('zoomTo (viewport rectangle)', () => {
                 <ZoomTransform target={contentSize}>
                     <ZoomToTrigger viewport={{ x: 0, y: 0, width: 400, height: 100 }} />
                 </ZoomTransform>
-            </ZoomProvider>,
+            </ZoomProvider>
         );
 
         act(() => {
@@ -471,12 +460,9 @@ describe('zoomTo (viewport rectangle)', () => {
         render(
             <ZoomProvider target={contentSize}>
                 <ZoomTransform target={contentSize}>
-                    <ZoomToTrigger
-                        viewport={{ x: 200, y: 200, width: 100, height: 100 }}
-                        options={{ padding: 10 }}
-                    />
+                    <ZoomToTrigger viewport={{ x: 200, y: 200, width: 100, height: 100 }} options={{ padding: 10 }} />
                 </ZoomTransform>
-            </ZoomProvider>,
+            </ZoomProvider>
         );
 
         act(() => {
@@ -505,7 +491,7 @@ describe('zoomTo (viewport rectangle)', () => {
                 <ZoomTransform target={contentSize}>
                     <ZoomToTrigger viewport={{ x: 250, y: 250, width: 1, height: 1 }} />
                 </ZoomTransform>
-            </ZoomProvider>,
+            </ZoomProvider>
         );
 
         act(() => {
@@ -530,7 +516,7 @@ describe('zoomTo (viewport rectangle)', () => {
                 <ZoomTransform target={contentSize}>
                     <ZoomToTrigger viewport={{ x: 0, y: 0, width: 5000, height: 5000 }} />
                 </ZoomTransform>
-            </ZoomProvider>,
+            </ZoomProvider>
         );
 
         act(() => {

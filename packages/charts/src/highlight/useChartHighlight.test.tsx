@@ -6,9 +6,7 @@ import { useChartHighlight } from './useChartHighlight';
 
 describe('useChartHighlight', () => {
     it('returns local state when no provider is present', () => {
-        const { result } = renderHook(() =>
-            useChartHighlight({ enabled: true, mode: 'single' })
-        );
+        const { result } = renderHook(() => useChartHighlight({ enabled: true, mode: 'single' }));
 
         act(() => {
             result.current.setHovered(['train']);
@@ -19,9 +17,7 @@ describe('useChartHighlight', () => {
     });
 
     it('returns full opacity when disabled and no provider', () => {
-        const { result } = renderHook(() =>
-            useChartHighlight({ enabled: false })
-        );
+        const { result } = renderHook(() => useChartHighlight({ enabled: false }));
 
         act(() => {
             result.current.setHovered(['train']);

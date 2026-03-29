@@ -3,13 +3,7 @@ import { describe, it, expect } from '@rstest/core';
 import { Sparkline } from './Sparkline';
 import { ChartsThemeProvider } from './ChartsThemeProvider';
 
-const sampleData = [
-    { value: 10 },
-    { value: 25 },
-    { value: 15 },
-    { value: 40 },
-    { value: 30 },
-];
+const sampleData = [{ value: 10 }, { value: 25 }, { value: 15 }, { value: 40 }, { value: 30 }];
 
 const renderSparkline = (props: Partial<React.ComponentProps<typeof Sparkline>> = {}) =>
     render(

@@ -5,16 +5,10 @@ import { useLegendHighlight } from './useLegendHighlight';
 
 describe('useLegendHighlight', () => {
     it('calls setHovered on mouse enter when legendHover is enabled', () => {
-        const { result: stateResult } = renderHook(() =>
-            useSeriesHighlight({ enabled: true, mode: 'single' })
-        );
+        const { result: stateResult } = renderHook(() => useSeriesHighlight({ enabled: true, mode: 'single' }));
 
         const { result } = renderHook(() =>
-            useLegendHighlight(
-                stateResult.current,
-                { enabled: true, legendHover: true, legendClick: false },
-                undefined
-            )
+            useLegendHighlight(stateResult.current, { enabled: true, legendHover: true, legendClick: false }, undefined)
         );
 
         act(() => {
@@ -25,16 +19,10 @@ describe('useLegendHighlight', () => {
     });
 
     it('calls clearHover on mouse leave when legendHover is enabled', () => {
-        const { result: stateResult } = renderHook(() =>
-            useSeriesHighlight({ enabled: true, mode: 'single' })
-        );
+        const { result: stateResult } = renderHook(() => useSeriesHighlight({ enabled: true, mode: 'single' }));
 
         const { result } = renderHook(() =>
-            useLegendHighlight(
-                stateResult.current,
-                { enabled: true, legendHover: true, legendClick: false },
-                undefined
-            )
+            useLegendHighlight(stateResult.current, { enabled: true, legendHover: true, legendClick: false }, undefined)
         );
 
         act(() => {
@@ -49,16 +37,10 @@ describe('useLegendHighlight', () => {
     });
 
     it('does NOT set hover when legendHover is disabled', () => {
-        const { result: stateResult } = renderHook(() =>
-            useSeriesHighlight({ enabled: true, mode: 'single' })
-        );
+        const { result: stateResult } = renderHook(() => useSeriesHighlight({ enabled: true, mode: 'single' }));
 
         const { result } = renderHook(() =>
-            useLegendHighlight(
-                stateResult.current,
-                { enabled: true, legendHover: false },
-                undefined
-            )
+            useLegendHighlight(stateResult.current, { enabled: true, legendHover: false }, undefined)
         );
 
         act(() => {
@@ -69,16 +51,10 @@ describe('useLegendHighlight', () => {
     });
 
     it('does NOT set hover when enabled is false', () => {
-        const { result: stateResult } = renderHook(() =>
-            useSeriesHighlight({ enabled: true, mode: 'single' })
-        );
+        const { result: stateResult } = renderHook(() => useSeriesHighlight({ enabled: true, mode: 'single' }));
 
         const { result } = renderHook(() =>
-            useLegendHighlight(
-                stateResult.current,
-                { enabled: false, legendHover: true },
-                undefined
-            )
+            useLegendHighlight(stateResult.current, { enabled: false, legendHover: true }, undefined)
         );
 
         act(() => {
@@ -89,16 +65,10 @@ describe('useLegendHighlight', () => {
     });
 
     it('calls togglePinnedKey on click when legendClick is enabled', () => {
-        const { result: stateResult } = renderHook(() =>
-            useSeriesHighlight({ enabled: true, mode: 'single' })
-        );
+        const { result: stateResult } = renderHook(() => useSeriesHighlight({ enabled: true, mode: 'single' }));
 
         const { result } = renderHook(() =>
-            useLegendHighlight(
-                stateResult.current,
-                { enabled: true, legendHover: false, legendClick: true },
-                undefined
-            )
+            useLegendHighlight(stateResult.current, { enabled: true, legendHover: false, legendClick: true }, undefined)
         );
 
         act(() => {
@@ -116,9 +86,7 @@ describe('useLegendHighlight', () => {
     });
 
     it('does NOT toggle pin on click when legendClick is disabled', () => {
-        const { result: stateResult } = renderHook(() =>
-            useSeriesHighlight({ enabled: true, mode: 'single' })
-        );
+        const { result: stateResult } = renderHook(() => useSeriesHighlight({ enabled: true, mode: 'single' }));
 
         const { result } = renderHook(() =>
             useLegendHighlight(
@@ -138,9 +106,7 @@ describe('useLegendHighlight', () => {
     it('chains passthrough onMouseEnter before highlight logic', () => {
         const calls: string[] = [];
 
-        const { result: stateResult } = renderHook(() =>
-            useSeriesHighlight({ enabled: true, mode: 'single' })
-        );
+        const { result: stateResult } = renderHook(() => useSeriesHighlight({ enabled: true, mode: 'single' }));
 
         const { result } = renderHook(() =>
             useLegendHighlight(
@@ -161,9 +127,7 @@ describe('useLegendHighlight', () => {
     it('chains passthrough onMouseLeave before highlight logic', () => {
         const calls: string[] = [];
 
-        const { result: stateResult } = renderHook(() =>
-            useSeriesHighlight({ enabled: true, mode: 'single' })
-        );
+        const { result: stateResult } = renderHook(() => useSeriesHighlight({ enabled: true, mode: 'single' }));
 
         const { result } = renderHook(() =>
             useLegendHighlight(
@@ -183,9 +147,7 @@ describe('useLegendHighlight', () => {
     it('chains passthrough onClick before highlight logic', () => {
         const calls: string[] = [];
 
-        const { result: stateResult } = renderHook(() =>
-            useSeriesHighlight({ enabled: true, mode: 'single' })
-        );
+        const { result: stateResult } = renderHook(() => useSeriesHighlight({ enabled: true, mode: 'single' }));
 
         const { result } = renderHook(() =>
             useLegendHighlight(
@@ -206,9 +168,7 @@ describe('useLegendHighlight', () => {
     it('still calls passthrough when highlight disabled', () => {
         const calls: string[] = [];
 
-        const { result: stateResult } = renderHook(() =>
-            useSeriesHighlight({ enabled: true, mode: 'single' })
-        );
+        const { result: stateResult } = renderHook(() => useSeriesHighlight({ enabled: true, mode: 'single' }));
 
         const { result } = renderHook(() =>
             useLegendHighlight(

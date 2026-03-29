@@ -1,10 +1,6 @@
-import {
-    ResponsiveContainer,
-    type ResponsiveContainerProps,
-} from 'recharts';
+import { ResponsiveContainer, type ResponsiveContainerProps } from 'recharts';
 
-export interface GetiResponsiveContainerProps
-    extends Omit<ResponsiveContainerProps, 'width' | 'minWidth'> {
+export interface GetiResponsiveContainerProps extends Omit<ResponsiveContainerProps, 'width' | 'minWidth'> {
     /** Minimum height for stable chart rendering. @default 120 */
     minHeight?: number;
     /**
@@ -22,12 +18,7 @@ export function GetiResponsiveContainer({
     ...rest
 }: GetiResponsiveContainerProps) {
     return (
-        <ResponsiveContainer
-            width="100%"
-            minWidth={minWidth}
-            height={height ?? minHeight}
-            {...rest}
-        >
+        <ResponsiveContainer width="100%" minWidth={minWidth} height={height ?? minHeight} {...rest}>
             {children}
         </ResponsiveContainer>
     );

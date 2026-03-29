@@ -21,7 +21,10 @@ describe('LineChart highlight', () => {
                         { dataKey: 'val', name: 'Validation' },
                     ]}
                     showLegend
-                    highlight={{ enabled: true, interaction: { lineHover: true, legendHover: true, legendClick: true } }}
+                    highlight={{
+                        enabled: true,
+                        interaction: { lineHover: true, legendHover: true, legendClick: true },
+                    }}
                     aria-label="line chart highlight"
                 />
             </ChartsThemeProvider>

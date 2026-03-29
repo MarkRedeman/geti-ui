@@ -57,7 +57,8 @@ function getColumns() {
         {
             key: 'kind',
             name: 'Kind',
-            renderCell: (ctx: MediaTableRenderContext<TestItem>) => (ctx.item ? ctx.item.kind ?? 'image' : 'Loading...'),
+            renderCell: (ctx: MediaTableRenderContext<TestItem>) =>
+                ctx.item ? (ctx.item.kind ?? 'image') : 'Loading...',
         },
     ];
 }
@@ -263,7 +264,10 @@ describe('onItemPress', () => {
         capturedOnPress!({ shiftKey: true });
 
         expect(onItemPress).toHaveBeenCalledOnce();
-        const [contextArg, eventArg] = onItemPress.mock.calls[0] as [MediaTableRenderContext<TestItem>, { shiftKey?: boolean }];
+        const [contextArg, eventArg] = onItemPress.mock.calls[0] as [
+            MediaTableRenderContext<TestItem>,
+            { shiftKey?: boolean },
+        ];
         expect(contextArg.item?.id).toBe('alpha');
         expect(contextArg.index).toBe(0);
         expect(contextArg.isPlaceholder).toBe(false);

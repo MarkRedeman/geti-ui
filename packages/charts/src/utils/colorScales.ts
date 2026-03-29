@@ -110,9 +110,7 @@ export function resolveChartColorScaleStops(
 }
 
 export function interpolateColorStops(stops: readonly string[], t: number): string {
-    const parsed = stops
-        .map((color) => parseColorToRgb(color))
-        .filter((value): value is RgbColor => value !== null);
+    const parsed = stops.map((color) => parseColorToRgb(color)).filter((value): value is RgbColor => value !== null);
 
     if (parsed.length === 0) {
         return 'rgb(120, 120, 120)';
