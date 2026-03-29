@@ -77,6 +77,34 @@ export default function App() {
 }
 ```
 
+### Link buttons
+
+```tsx preview
+import { Button, Flex } from '@geti-ui/ui';
+
+export default function App() {
+  return (
+    <Flex gap="size-200">
+      <Button href="/components/ui/ActionButton" variant="accent">
+        Internal docs page
+      </Button>
+
+      <Button href="https://docs.geti.intel.com" target="_blank" rel="noreferrer" variant="primary" style="outline">
+        External docs
+      </Button>
+
+      <Button href="mailto:support@geti.com" variant="secondary" style="outline">
+        Contact support
+      </Button>
+
+      <Button href="mailto:support@geti.com" variant="negative" style="outline">
+        Report bug
+      </Button>
+    </Flex>
+  );
+}
+```
+
 ## Responsibility
 
 `Button` is a Geti wrapper around React Spectrum `Button` with Geti-safe defaults and variant constraints.
@@ -110,7 +138,7 @@ What this wrapper does for consumers:
 
 - `children`: button label/content.
 - `elementType`: render as custom element (e.g. anchor).
-- `href`: navigation target when `elementType="a"`.
+- `href`: navigation target (renders as an anchor by default).
 
 ### Value / visual
 

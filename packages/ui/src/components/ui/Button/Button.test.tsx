@@ -37,4 +37,11 @@ describe('Button', () => {
         await userEvent.click(screen.getByRole('button', { name: 'Save' }));
         expect(onPress).not.toHaveBeenCalled();
     });
+
+    it('renders as link when href is provided', () => {
+        renderButton({ href: 'https://docs.example.com', children: 'Docs' });
+        const anchorButton = screen.getByRole('button', { name: 'Docs' });
+        expect(anchorButton.tagName).toBe('A');
+        expect(anchorButton.getAttribute('href')).toBe('https://docs.example.com');
+    });
 });
