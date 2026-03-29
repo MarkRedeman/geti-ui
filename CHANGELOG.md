@@ -1,3 +1,13 @@
+## [1.0.2](https://github.com/MarkRedeman/geti-ui/compare/v1.0.1...v1.0.2) (2026-03-29)
+
+
+### Bug Fixes
+
+* **ci:** resolve docs link check preview URL from deploy comment ([ebb63b9](https://github.com/MarkRedeman/geti-ui/commit/ebb63b941913fc5338e2ca9d1b83634f460dc398))
+* **docs:** generate skills endpoints compatible with npx skills ([ae44fd0](https://github.com/MarkRedeman/geti-ui/commit/ae44fd03041cee9fc5bafcd6c614318dcdea48a1))
+* set npm registry url ([90cf5c8](https://github.com/MarkRedeman/geti-ui/commit/90cf5c82e3b81e15c924c74849297fe049776728))
+* update hero stats ([6567461](https://github.com/MarkRedeman/geti-ui/commit/656746167a2911e6f5cf518fd0eabbce7daa1e5a))
+
 ## [1.0.1](https://github.com/MarkRedeman/geti-ui/compare/v1.0.0...v1.0.1) (2026-03-29)
 
 
