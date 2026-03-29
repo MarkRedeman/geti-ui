@@ -7,10 +7,10 @@ title: Installation
 Install the charts package:
 
 ```bash
-npm install @geti-ai/charts
+npm install @geti-ui/charts
 ```
 
-`@geti-ai/charts` is published separately from `@geti-ai/ui` to keep chart dependencies (Recharts, D3) optional for teams that don't need them.
+`@geti-ui/charts` is published separately from `@geti-ui/ui` to keep chart dependencies (Recharts, D3) optional for teams that don't need them.
 
 ## Peer dependencies
 
@@ -29,7 +29,7 @@ import {
   ScatterChart,
   Sparkline,
   ChartsThemeProvider,
-} from '@geti-ai/charts';
+} from '@geti-ui/charts';
 ```
 
 ## Provider setup
@@ -37,7 +37,7 @@ import {
 Wrap the portion of your app that renders charts once with `ChartsThemeProvider`:
 
 ```tsx
-import { ChartsThemeProvider } from '@geti-ai/charts';
+import { ChartsThemeProvider } from '@geti-ui/charts';
 
 export function App() {
   return (
@@ -48,11 +48,11 @@ export function App() {
 }
 ```
 
-If you are already using `ThemeProvider` from `@geti-ai/ui`, nest `ChartsThemeProvider` inside it:
+If you are already using `ThemeProvider` from `@geti-ui/ui`, nest `ChartsThemeProvider` inside it:
 
 ```tsx
-import { ThemeProvider } from '@geti-ai/ui';
-import { ChartsThemeProvider } from '@geti-ai/charts';
+import { ThemeProvider } from '@geti-ui/ui';
+import { ChartsThemeProvider } from '@geti-ui/charts';
 
 export function App() {
   return (

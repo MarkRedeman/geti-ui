@@ -14,17 +14,17 @@ Typical application flow:
 4. Your app handles action side effects (state updates, API calls, confirmation dialogs).
 
 ```tsx
-import { ManagedTab, type ManagedTabAction } from '@geti-ai/blocks';
+import { ManagedTab, type ManagedTabAction } from '@geti-ui/blocks';
 ```
 
 ## In-app dataset management example
 
 ```tsx preview
 import { useState } from 'react';
-import { ManagedTab, type ManagedTabAction } from '@geti-ai/blocks';
-import { ActionButton, TabItem, TabList, TabPanels, Tabs, Text, ThemeProvider, View } from '@geti-ai/ui';
-import { Add } from '@geti-ai/ui/icons';
-import { Icon } from '@geti-ai/ui';
+import { ManagedTab, type ManagedTabAction } from '@geti-ui/blocks';
+import { ActionButton, TabItem, TabList, TabPanels, Tabs, Text, ThemeProvider, View } from '@geti-ui/ui';
+import { Add } from '@geti-ui/ui/icons';
+import { Icon } from '@geti-ui/ui';
 
 type Dataset = {
   id: string;

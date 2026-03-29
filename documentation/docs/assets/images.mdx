@@ -9,8 +9,8 @@ import {
   NoTrainedModels, NoTests, FireWorks, BrokenBulb, ServiceUnavailableIcon,
   LinkExpiredImage, IntelLoading, LoginBackground, IntelAdminAppBackground,
   NoProjectsPlaceholder,
-} from '@geti-ai/ui/assets/images';
-import { ToastContainer, toast } from '@geti-ai/ui';
+} from '@geti-ui/ui/assets/images';
+import { ToastContainer, toast } from '@geti-ui/ui';
 
 export const CELL = {
   display: 'flex',
@@ -52,7 +52,7 @@ export const WEBP_GRID = {
 };
 
 export async function copyImageImport(exportName) {
-  const statement = `import { ${exportName} } from '@geti-ai/ui/assets/images';`;
+  const statement = `import { ${exportName} } from '@geti-ui/ui/assets/images';`;
   try {
     await navigator.clipboard.writeText(statement);
     toast.positive(`Copied import for ${exportName}`);
@@ -87,8 +87,8 @@ export function ClickableCell({ name, children }) {
 Illustration SVGs and background/loading webp images for common Geti UI states.
 
 ```tsx
-import { WorkInProgressIcon, NotFound, ConnectionLost } from '@geti-ai/ui/assets/images';
-import { LoginBackground, IntelLoading } from '@geti-ai/ui/assets/images';
+import { WorkInProgressIcon, NotFound, ConnectionLost } from '@geti-ui/ui/assets/images';
+import { LoginBackground, IntelLoading } from '@geti-ui/ui/assets/images';
 ```
 
 ## SVG illustrations
@@ -96,7 +96,7 @@ import { LoginBackground, IntelLoading } from '@geti-ai/ui/assets/images';
 These are inline SVG React components that accept `SVGProps<SVGSVGElement>`. Render them directly with `width` / `height` props:
 
 ```tsx
-import { WorkInProgressIcon, NotFound } from '@geti-ai/ui/assets/images';
+import { WorkInProgressIcon, NotFound } from '@geti-ui/ui/assets/images';
 
 <WorkInProgressIcon width={200} height={200} />
 <NotFound width={180} height={180} />
@@ -189,7 +189,7 @@ import { WorkInProgressIcon, NotFound } from '@geti-ai/ui/assets/images';
 These exports are URL strings — use them in `<img src={…}>` or CSS `background-image`. They are **not** React components.
 
 ```tsx
-import { LoginBackground, IntelLoading, IntelAdminAppBackground, NoProjectsPlaceholder } from '@geti-ai/ui/assets/images';
+import { LoginBackground, IntelLoading, IntelAdminAppBackground, NoProjectsPlaceholder } from '@geti-ui/ui/assets/images';
 
 // In JSX
 <img src={LoginBackground} alt="Login background" style={{ width: '100%' }} />

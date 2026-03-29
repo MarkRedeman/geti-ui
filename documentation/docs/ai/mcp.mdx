@@ -1,8 +1,8 @@
 # MCP Server
 
-`@geti-ai/mcp` is an MCP (Model Context Protocol) server that exposes the full Geti UI
+`@geti-ui/mcp` is an MCP (Model Context Protocol) server that exposes the full Geti UI
 documentation to AI coding agents. It ships with all documentation bundled, so
-`npx @geti-ai/mcp` works out of the box with zero configuration.
+`npx @geti-ui/mcp` works out of the box with zero configuration.
 
 ## What is MCP?
 
@@ -15,13 +15,13 @@ and usage examples without you needing to paste anything into the chat.
 ## Install
 
 ```bash
-npm install @geti-ai/mcp
+npm install @geti-ui/mcp
 ```
 
 Or run directly with `npx` (no install required):
 
 ```bash
-npx @geti-ai/mcp
+npx @geti-ui/mcp
 ```
 
 ## Configure your AI tool
@@ -35,7 +35,7 @@ Add to `.mcp.json` at the root of your project:
     "mcpServers": {
         "geti-ui": {
             "command": "npx",
-            "args": ["@geti-ai/mcp@latest"]
+            "args": ["@geti-ui/mcp@latest"]
         }
     }
 }
@@ -50,7 +50,7 @@ Add to `.vscode/mcp.json`:
     "servers": {
         "geti-ui": {
             "command": "npx",
-            "args": ["@geti-ai/mcp@latest"]
+            "args": ["@geti-ui/mcp@latest"]
         }
     }
 }
@@ -65,7 +65,7 @@ Add to `.cursor/mcp.json`:
     "mcpServers": {
         "geti-ui": {
             "command": "npx",
-            "args": ["@geti-ai/mcp@latest"]
+            "args": ["@geti-ui/mcp@latest"]
         }
     }
 }
@@ -80,7 +80,7 @@ Add to `~/.codeium/windsurf/mcp_config.json`:
     "mcpServers": {
         "geti-ui": {
             "command": "npx",
-            "args": ["@geti-ai/mcp@latest"]
+            "args": ["@geti-ui/mcp@latest"]
         }
     }
 }
@@ -137,7 +137,7 @@ The server reads bundled documentation by default. Override the content source w
 Point the server at your local docs build output:
 
 ```bash
-DOCS_DIR=./documentation/doc_build npx @geti-ai/mcp
+DOCS_DIR=./documentation/doc_build npx @geti-ui/mcp
 ```
 
 This is useful when authoring new documentation pages and testing them immediately
@@ -165,7 +165,7 @@ requests them.
               │  MCP (stdio)
               ▼
     ┌──────────────────┐
-    │  @geti-ai/mcp    │
+    │  @geti-ui/mcp    │
     │                  │
     │  7 tools         │
     └────────┬─────────┘

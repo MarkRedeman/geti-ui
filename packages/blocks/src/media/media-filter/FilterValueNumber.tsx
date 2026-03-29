@@ -1,4 +1,4 @@
-import { NumberField } from '@geti-ai/ui';
+import { NumberField } from '@geti-ui/ui';
 import type { FilterValueNumberProps } from './types';
 
 export function FilterValueNumber({ value, onChange, isDisabled, ariaLabel = 'Filter value' }: FilterValueNumberProps) {

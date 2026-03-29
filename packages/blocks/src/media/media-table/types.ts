@@ -1,4 +1,4 @@
-import type { Row } from '@geti-ai/ui';
+import type { Row } from '@geti-ui/ui';
 import type { CSSProperties, ReactNode } from 'react';
 import type {
     MediaGridIdentifiable,

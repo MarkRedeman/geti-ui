@@ -1,8 +1,8 @@
 /**
  * Semantic-release configuration for the geti-ui monorepo.
  *
- * All five packages (@geti-ai/ui, @geti-ai/blocks, @geti-ai/smart-tools,
- * @geti-ai/charts, @geti-ai/mcp) share a single version number. On every
+ * All five packages (@geti-ui/ui, @geti-ui/blocks, @geti-ui/smart-tools,
+ * @geti-ui/charts, @geti-ui/mcp) share a single version number. On every
  * push to `main`,
  * semantic-release analyses conventional commits since the last tag and:
  *

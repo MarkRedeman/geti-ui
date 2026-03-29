@@ -6,11 +6,11 @@ It contains multiple React + TypeScript packages built primarily on Adobe React 
 
 ## Monorepo layout
 
--   `packages/ui` — core component library (`@geti-ai/ui`)
--   `packages/blocks` — composable application-level blocks (`@geti-ai/blocks`)
--   `packages/charts` — chart primitives/compositions (`@geti-ai/charts`)
--   `packages/smart-tools` — browser CV annotation tools (`@geti-ai/smart-tools`)
--   `packages/mcp` — MCP server exposing docs tools for agents (`@geti-ai/mcp`)
+-   `packages/ui` — core component library (`@geti-ui/ui`)
+-   `packages/blocks` — composable application-level blocks (`@geti-ui/blocks`)
+-   `packages/charts` — chart primitives/compositions (`@geti-ui/charts`)
+-   `packages/smart-tools` — browser CV annotation tools (`@geti-ui/smart-tools`)
+-   `packages/mcp` — MCP server exposing docs tools for agents (`@geti-ui/mcp`)
 -   `documentation` — Rspress docs site (primary validation surface)
 -   `.github/workflows` — CI/CD and deployment workflows
 -   `.agents/skills` — AI agent skills and references
@@ -21,12 +21,12 @@ It contains multiple React + TypeScript packages built primarily on Adobe React 
 -   80+ accessible UI components across form, data, feedback, overlays, navigation, and layout categories
 -   Reusable app-level building blocks for logs, media, tabs, and project/model surfaces
 -   Charting and smart-tool packages for ML/data workflows
--   Geti theming via `ThemeProvider` + `@geti-ai/ui/styles.css`
+-   Geti theming via `ThemeProvider` + `@geti-ui/ui/styles.css`
 -   Tree-shakeable icons and assets via:
-    -   `@geti-ai/ui/icons`
-    -   `@geti-ai/ui/assets/images`
-    -   `@geti-ai/ui/assets/domains`
-    -   `@geti-ai/ui/assets/primary-tools`
+    -   `@geti-ui/ui/icons`
+    -   `@geti-ui/ui/assets/images`
+    -   `@geti-ui/ui/assets/domains`
+    -   `@geti-ui/ui/assets/primary-tools`
 -   AI integration via docs-generated skills endpoint and MCP server
 
 ## Requirements
@@ -41,7 +41,7 @@ npm install
 npm run docs:dev:with-ui
 ```
 
-This runs `@geti-ai/ui` in watch mode and the docs site together for fast local iteration.
+This runs `@geti-ui/ui` in watch mode and the docs site together for fast local iteration.
 
 ## Useful scripts
 
@@ -63,9 +63,9 @@ npm run docs:test:e2e
 ## Conventions
 
 -   Conventional Commits (`feat(...)`, `fix(...)`, `docs(...)`, etc.)
--   `@geti-ai/ui` components should be thin wrappers with strong prop pass-through behavior
--   `@geti-ai/blocks` components should prefer composition and application-oriented APIs
--   Form controls used in docs examples should come from `@geti-ai/ui`
+-   `@geti-ui/ui` components should be thin wrappers with strong prop pass-through behavior
+-   `@geti-ui/blocks` components should prefer composition and application-oriented APIs
+-   Form controls used in docs examples should come from `@geti-ui/ui`
 
 ## Further documentation
 

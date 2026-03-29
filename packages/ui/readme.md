@@ -2,7 +2,7 @@
 
 ## Responsibility
 
-`packages/ui/` is the `@geti-ai/ui` library package — the single publishable artifact of the monorepo. It contains the React + TypeScript component library, Playwright e2e tests, and all build tooling configuration.
+`packages/ui/` is the `@geti-ui/ui` library package — the single publishable artifact of the monorepo. It contains the React + TypeScript component library, Playwright e2e tests, and all build tooling configuration.
 
 Responsibilities:
 
@@ -14,7 +14,7 @@ Responsibilities:
 
 ## Design
 
-- **Package name**: `@geti-ai/ui` — consumers import from this single entry point.
+- **Package name**: `@geti-ui/ui` — consumers import from this single entry point.
 - **Dual-format output**: rslib emits both ESM (`dist/esm/`) and CJS (`dist/cjs/`) with `bundle: false` (file-per-module, tree-shakeable). Type declarations go to `dist/types/`.
 - **Peer dependencies**: `react` and `react-dom` ≥18 are peers; the library does not bundle them.
 - **Runtime dependencies**: `@adobe/react-spectrum`, `react-aria-components`, `@spectrum-icons/workflow`, `clsx`, and a few `@react-aria`/`@react-stately` internals. These are bundled into the output.
@@ -48,6 +48,6 @@ e2e/*.spec.ts → Playwright → running docs dev instance
 
 ## Integration
 
-- **Consumers** add `@geti-ai/ui` as a dependency and import components from `'@geti-ai/ui'`. They must wrap their app in `<ThemeProvider>`.
+- **Consumers** add `@geti-ui/ui` as a dependency and import components from `'@geti-ui/ui'`. They must wrap their app in `<ThemeProvider>`.
 - **Repo root scripts** delegate to this package via npm workspace scripts.
 - **CI** runs `npm run build`, `npm run test`, `npm run type-check`, and `npm run lint` against this package before publishing.

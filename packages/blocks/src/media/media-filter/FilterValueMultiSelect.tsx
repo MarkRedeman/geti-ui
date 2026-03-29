@@ -1,4 +1,4 @@
-import { Checkbox, CheckboxGroup } from '@geti-ai/ui';
+import { Checkbox, CheckboxGroup } from '@geti-ui/ui';
 import type { FilterValueMultiSelectProps } from './types';
 
 export function FilterValueMultiSelect({

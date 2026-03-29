@@ -2,14 +2,14 @@
 title: ProgressBar
 ---
 
-import { ProgressBar } from '@geti-ai/ui';
+import { ProgressBar } from '@geti-ui/ui';
 
 # ProgressBar
 
 `ProgressBar` shows task progress in a horizontal track. Use it when users need a quick percentage-style signal for long-running operations.
 
 ```tsx
-import { ProgressBar } from '@geti-ai/ui';
+import { ProgressBar } from '@geti-ui/ui';
 ```
 
 - [React Spectrum ProgressBar ↗](https://react-spectrum.adobe.com/react-spectrum/ProgressBar.html)
@@ -20,7 +20,7 @@ import { ProgressBar } from '@geti-ai/ui';
 ### Determinate progress
 
 ```tsx preview
-import { ProgressBar } from '@geti-ai/ui';
+import { ProgressBar } from '@geti-ui/ui';
 
 export default function App() {
   return <ProgressBar label="Uploading" value={45} />;
@@ -30,7 +30,7 @@ export default function App() {
 ### Indeterminate
 
 ```tsx preview
-import { ProgressBar } from '@geti-ai/ui';
+import { ProgressBar } from '@geti-ui/ui';
 
 export default function App() {
   return <ProgressBar label="Processing" isIndeterminate />;
@@ -40,7 +40,7 @@ export default function App() {
 ### Custom min/max
 
 ```tsx preview
-import { ProgressBar } from '@geti-ai/ui';
+import { ProgressBar } from '@geti-ui/ui';
 
 export default function App() {
   return <ProgressBar label="Batch" minValue={0} maxValue={20} value={8} />;
@@ -50,7 +50,7 @@ export default function App() {
 ## Responsibility
 
 `ProgressBar` is a pass-through wrapper around React Spectrum `ProgressBar`.
-It keeps the same behavior while standardizing imports through `@geti-ai/ui`.
+It keeps the same behavior while standardizing imports through `@geti-ui/ui`.
 
 ## Variants and states
 

@@ -1,4 +1,4 @@
-import { ActionMenu, ActionMenuItem, Checkbox, StatusLight, Text } from '@geti-ai/ui';
+import { ActionMenu, ActionMenuItem, Checkbox, StatusLight, Text } from '@geti-ui/ui';
 import type { MouseEvent, PointerEvent } from 'react';
 import styles from './MediaGridItem.module.css';
 import type {

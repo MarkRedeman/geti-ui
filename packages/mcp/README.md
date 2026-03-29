@@ -1,4 +1,4 @@
-# @geti-ai/mcp
+# @geti-ui/mcp
 
 MCP (Model Context Protocol) server for Geti UI documentation. Exposes component, chart, blocks, and smart-tools docs to AI coding agents via 8 MCP tools.
 
@@ -7,7 +7,7 @@ MCP (Model Context Protocol) server for Geti UI documentation. Exposes component
 ### Claude Code
 
 ```bash
-claude mcp add geti-ui -- npx @geti-ai/mcp@latest
+claude mcp add geti-ui -- npx @geti-ui/mcp@latest
 ```
 
 ### VS Code (Copilot)
@@ -20,7 +20,7 @@ Add to `.vscode/mcp.json`:
         "geti-ui": {
             "type": "stdio",
             "command": "npx",
-            "args": ["@geti-ai/mcp@latest"]
+            "args": ["@geti-ui/mcp@latest"]
         }
     }
 }
@@ -35,7 +35,7 @@ Add to `.cursor/mcp.json`:
     "mcpServers": {
         "geti-ui": {
             "command": "npx",
-            "args": ["@geti-ai/mcp@latest"]
+            "args": ["@geti-ui/mcp@latest"]
         }
     }
 }
@@ -50,7 +50,7 @@ Add to `~/.codeium/windsurf/mcp_config.json`:
     "mcpServers": {
         "geti-ui": {
             "command": "npx",
-            "args": ["@geti-ai/mcp@latest"]
+            "args": ["@geti-ui/mcp@latest"]
         }
     }
 }

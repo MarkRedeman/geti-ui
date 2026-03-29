@@ -1,7 +1,7 @@
 import { fireEvent, render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { describe, expect, it } from '@rstest/core';
-import { ThemeProvider } from '@geti-ai/ui';
+import { ThemeProvider } from '@geti-ui/ui';
 import { MediaGridItemCheckbox, MediaGridItemInfo, MediaGridItemMenu, MediaGridItemStatus } from './MediaGridItemParts';
 
 // ---------------------------------------------------------------------------

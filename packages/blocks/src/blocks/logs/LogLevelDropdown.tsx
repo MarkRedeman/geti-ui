@@ -1,5 +1,5 @@
-import { ActionButton, Dialog, DialogTrigger, Icon, Text, View } from '@geti-ai/ui';
-import { Filter } from '@geti-ai/ui/icons';
+import { ActionButton, Dialog, DialogTrigger, Icon, Text, View } from '@geti-ui/ui';
+import { Filter } from '@geti-ui/ui/icons';
 import { DEFAULT_LOG_LEVEL_COLORS } from './types';
 
 import styles from './log-viewer.module.css';

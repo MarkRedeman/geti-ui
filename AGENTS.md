@@ -8,11 +8,11 @@ This file is for AI coding agents (Copilot, Claude, Cursor, etc.) working on thi
 
 `geti-ui` is a frontend monorepo for Intel Geti products. It contains multiple React + TypeScript packages built on top of Adobe React Spectrum and react-aria-components:
 
--   `@geti-ai/ui` — core design-system components
--   `@geti-ai/blocks` — composable application-level building blocks
--   `@geti-ai/charts` — chart primitives and composed charts
--   `@geti-ai/smart-tools` — browser-based CV annotation tooling
--   `@geti-ai/mcp` — MCP server exposing docs/tools for AI agents
+-   `@geti-ui/ui` — core design-system components
+-   `@geti-ui/blocks` — composable application-level building blocks
+-   `@geti-ui/charts` — chart primitives and composed charts
+-   `@geti-ui/smart-tools` — browser-based CV annotation tooling
+-   `@geti-ui/mcp` — MCP server exposing docs/tools for AI agents
 
 ---
 
@@ -21,7 +21,7 @@ This file is for AI coding agents (Copilot, Claude, Cursor, etc.) working on thi
 ```
 geti-ui/
 ├── packages/
-│   ├── ui/                    # Core design-system package (@geti-ai/ui)
+│   ├── ui/                    # Core design-system package (@geti-ui/ui)
 │   │   ├── src/
 │   │   │   ├── components/    # One folder per component
 │   │   │   └── index.ts       # Public exports
@@ -30,10 +30,10 @@ geti-ui/
 │   │   ├── rslib.config.ts
 │   │   ├── rstest.config.ts
 │   │   └── package.json
-│   ├── blocks/                # App-level building blocks (@geti-ai/blocks)
-│   ├── charts/                # Charts package (@geti-ai/charts)
-│   ├── smart-tools/           # CV tools package (@geti-ai/smart-tools)
-│   └── mcp/                   # MCP server package (@geti-ai/mcp)
+│   ├── blocks/                # App-level building blocks (@geti-ui/blocks)
+│   ├── charts/                # Charts package (@geti-ui/charts)
+│   ├── smart-tools/           # CV tools package (@geti-ui/smart-tools)
+│   └── mcp/                   # MCP server package (@geti-ui/mcp)
 ├── reference-packages/        # READ ONLY — cloned from open-edge-platform/geti
 │   ├── ui/                    # Reference component implementations
 │   └── config/                # Reference ESLint/TypeScript config
@@ -81,7 +81,7 @@ src/components/button/
 -   Export the component's Props type explicitly
 -   No `any` types — use generics or `unknown` when necessary
 -   Prefer `type` for component props (consistency across codebase)
--   Use **relative imports** — no path aliases (e.g. `../button/Button`, not `@geti-ai/ui/button`)
+-   Use **relative imports** — no path aliases (e.g. `../button/Button`, not `@geti-ui/ui/button`)
 
 ```tsx
 // Good
@@ -152,7 +152,7 @@ test('calls onPress when clicked', async () => {
 
 ## Reference packages
 
-`reference-packages/` contains a snapshot of the existing `@geti-ai/ui` implementation from the main Geti repository. These files are **read-only reference material**:
+`reference-packages/` contains a snapshot of the existing `@geti-ui/ui` implementation from the main Geti repository. These files are **read-only reference material**:
 
 -   Do not modify files in `reference-packages/`
 -   Do not import from `reference-packages/` in the new library

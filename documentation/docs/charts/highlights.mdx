@@ -51,7 +51,7 @@ Clicking a legend item _pins_ the highlight on that series. Subsequent clicks on
 ### 1) LineChart
 
 ```tsx preview
-import { LineChart } from '@geti-ai/charts';
+import { LineChart } from '@geti-ui/charts';
 
 const data = [
   { epoch: 1, train: 1.42, val: 1.50, test: 1.55 },
@@ -83,7 +83,7 @@ export default function App() {
 ### 2) AreaChart
 
 ```tsx preview
-import { AreaChart } from '@geti-ai/charts';
+import { AreaChart } from '@geti-ui/charts';
 
 const data = [
   { epoch: 1, train: 0.82, val: 0.76 },
@@ -113,7 +113,7 @@ export default function App() {
 ### 3) BarChart
 
 ```tsx preview
-import { BarChart } from '@geti-ai/charts';
+import { BarChart } from '@geti-ui/charts';
 
 const data = [
   { cls: 'Car', train: 0.77, val: 0.73 },
@@ -143,7 +143,7 @@ export default function App() {
 ### 4) ScatterChart (model families + Voronoi)
 
 ```tsx preview
-import { ScatterChart } from '@geti-ai/charts';
+import { ScatterChart } from '@geti-ui/charts';
 
 const yolo = [
   { x: 3.2e6, y: 0.41, z: 8.1, model: 'YOLO-N' },
@@ -187,7 +187,7 @@ export default function App() {
 ### 5) PieChart
 
 ```tsx preview
-import { PieChart } from '@geti-ai/charts';
+import { PieChart } from '@geti-ui/charts';
 
 const data = [
   { name: 'Car', value: 4200 },
@@ -213,7 +213,7 @@ export default function App() {
 ### 6) DonutChart
 
 ```tsx preview
-import { DonutChart } from '@geti-ai/charts';
+import { DonutChart } from '@geti-ui/charts';
 
 const data = [
   { name: 'Train', value: 68 },
@@ -237,7 +237,7 @@ export default function App() {
 ### 7) RadarChart
 
 ```tsx preview
-import { RadarChart } from '@geti-ai/charts';
+import { RadarChart } from '@geti-ui/charts';
 
 const data = [
   { metric: 'Precision', train: 0.92, val: 0.88 },
@@ -267,7 +267,7 @@ export default function App() {
 ### 8) RadialBarChart
 
 ```tsx preview
-import { RadialBarChart } from '@geti-ai/charts';
+import { RadialBarChart } from '@geti-ui/charts';
 
 const data = [
   { name: 'Car', value: 82 },
@@ -292,7 +292,7 @@ export default function App() {
 ### 9) TreemapChart
 
 ```tsx preview
-import { TreemapChart } from '@geti-ai/charts';
+import { TreemapChart } from '@geti-ui/charts';
 
 const data = [
   { name: 'Car', value: 4200 },
@@ -317,7 +317,7 @@ export default function App() {
 ### 10) MeterChart
 
 ```tsx preview
-import { MeterChart } from '@geti-ai/charts';
+import { MeterChart } from '@geti-ui/charts';
 
 export default function App() {
   return (
@@ -340,7 +340,7 @@ These examples show every currently supported non-ML chart with highlights enabl
 For dashboards where multiple charts should share one highlight state, wrap them in `HighlightProvider`.
 
 ```tsx
-import { HighlightProvider, LineChart, BarChart } from '@geti-ai/charts';
+import { HighlightProvider, LineChart, BarChart } from '@geti-ui/charts';
 
 export default function App() {
   return (
@@ -385,7 +385,7 @@ import {
   GetiTooltip,
   GetiXAxis,
   GetiYAxis,
-} from '@geti-ai/charts/primitives';
+} from '@geti-ui/charts/primitives';
 
 const data = [
   { epoch: 1, train: 1.42, val: 1.50 },

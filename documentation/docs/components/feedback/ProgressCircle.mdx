@@ -2,14 +2,14 @@
 title: ProgressCircle
 ---
 
-import { ProgressCircle } from '@geti-ai/ui';
+import { ProgressCircle } from '@geti-ui/ui';
 
 # ProgressCircle
 
 `ProgressCircle` communicates progress with a circular indicator. Use it in compact spaces such as cards, tiles, and inline status regions where a horizontal bar is too wide.
 
 ```tsx
-import { ProgressCircle } from '@geti-ai/ui';
+import { ProgressCircle } from '@geti-ui/ui';
 ```
 
 - [React Spectrum ProgressCircle ↗](https://react-spectrum.adobe.com/react-spectrum/ProgressCircle.html)
@@ -20,7 +20,7 @@ import { ProgressCircle } from '@geti-ai/ui';
 ### Determinate
 
 ```tsx preview
-import { ProgressCircle } from '@geti-ai/ui';
+import { ProgressCircle } from '@geti-ui/ui';
 
 export default function App() {
   return <ProgressCircle aria-label="Training progress" value={64} />;
@@ -30,7 +30,7 @@ export default function App() {
 ### Indeterminate
 
 ```tsx preview
-import { ProgressCircle } from '@geti-ai/ui';
+import { ProgressCircle } from '@geti-ui/ui';
 
 export default function App() {
   return <ProgressCircle aria-label="Loading" isIndeterminate />;
@@ -40,7 +40,7 @@ export default function App() {
 ### Custom range
 
 ```tsx preview
-import { ProgressCircle } from '@geti-ai/ui';
+import { ProgressCircle } from '@geti-ui/ui';
 
 export default function App() {
   return <ProgressCircle aria-label="Epoch progress" minValue={0} maxValue={50} value={21} />;
@@ -50,7 +50,7 @@ export default function App() {
 ## Responsibility
 
 `ProgressCircle` is a thin wrapper around React Spectrum `ProgressCircle`.
-It preserves Spectrum behavior and accessibility while keeping imports consistent in `@geti-ai/ui`.
+It preserves Spectrum behavior and accessibility while keeping imports consistent in `@geti-ui/ui`.
 
 ## Variants and states
 

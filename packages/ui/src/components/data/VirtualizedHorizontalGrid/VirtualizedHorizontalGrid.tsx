@@ -25,7 +25,7 @@ export interface VirtualizedHorizontalGridProps<T> {
 /**
  * VirtualizedHorizontalGrid provides a horizontally scrolling virtualized grid.
  * It is commonly used for thumbnail carousels or horizontal media galleries.
- * @deprecated Use @geti-ai/blocks media components (MediaRow/MediaGrid) instead.
+ * @deprecated Use @geti-ui/blocks media components (MediaRow/MediaGrid) instead.
  */
 export const VirtualizedHorizontalGrid = <T,>({
     items,

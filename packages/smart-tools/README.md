@@ -1,4 +1,4 @@
-# @geti-ai/smart-tools
+# @geti-ui/smart-tools
 
 Computer-vision runtime library for Intel Geti products.
 
@@ -12,7 +12,7 @@ Provides OpenCV WASM-backed segmentation tools and ONNX AI models for use in bro
 ## Install
 
 ```bash
-npm install @geti-ai/smart-tools
+npm install @geti-ui/smart-tools
 ```
 
 ---
@@ -77,12 +77,12 @@ This makes config changes traceable through artifact identity.
 
 | Subpath                              | Contents                            |
 | ------------------------------------ | ----------------------------------- |
-| `@geti-ai/smart-tools`                  | Main entry                          |
-| `@geti-ai/smart-tools/opencv`           | OpenCV type interfaces              |
-| `@geti-ai/smart-tools/utils`            | Geometry and tool utilities         |
-| `@geti-ai/smart-tools/types`            | Shared domain types                 |
-| `@geti-ai/smart-tools/ritm`             | RITM interactive segmentation model |
-| `@geti-ai/smart-tools/segment-anything` | Segment Anything Model (SAM)        |
+| `@geti-ui/smart-tools`                  | Main entry                          |
+| `@geti-ui/smart-tools/opencv`           | OpenCV type interfaces              |
+| `@geti-ui/smart-tools/utils`            | Geometry and tool utilities         |
+| `@geti-ui/smart-tools/types`            | Shared domain types                 |
+| `@geti-ui/smart-tools/ritm`             | RITM interactive segmentation model |
+| `@geti-ui/smart-tools/segment-anything` | Segment Anything Model (SAM)        |
 
 ---
 
@@ -90,14 +90,14 @@ This makes config changes traceable through artifact identity.
 
 ```bash
 # Build
-npm run build --workspace=@geti-ai/smart-tools
+npm run build --workspace=@geti-ui/smart-tools
 
 # Tests
-npm run test --workspace=@geti-ai/smart-tools
+npm run test --workspace=@geti-ui/smart-tools
 
 # Type check
-npm run type-check --workspace=@geti-ai/smart-tools
+npm run type-check --workspace=@geti-ui/smart-tools
 
 # Lint
-npm run lint --workspace=@geti-ai/smart-tools
+npm run lint --workspace=@geti-ui/smart-tools
 ```

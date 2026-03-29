@@ -6,19 +6,19 @@ import { Tab, Tabs } from '@rspress/core/theme';
 
 # Logs block
 
-`@geti-ai/blocks` now provides composable, UI-only log viewer building blocks.
+`@geti-ui/blocks` now provides composable, UI-only log viewer building blocks.
 
 No API/SSE fetching is built in — these components only render and filter logs you pass in as props.
 
 ```tsx
-import { LogEntry, LogsContent, type LogEntryData } from '@geti-ai/blocks';
+import { LogEntry, LogsContent, type LogEntryData } from '@geti-ui/blocks';
 ```
 
 Use `LogsContent` to visualize application logs. This component allows users to search, filter, and copy logs. It also uses virtualized rendering to stay performant even when viewing thousands of log lines.
 
 ```tsx preview
-import { ThemeProvider } from '@geti-ai/ui';
-import { LogsContent, type LogEntryData } from '@geti-ai/blocks';
+import { ThemeProvider } from '@geti-ui/ui';
+import { LogsContent, type LogEntryData } from '@geti-ui/blocks';
 
 const levelCycle = [
   { name: 'TRACE', no: 5, icon: '🔍' },
@@ -63,7 +63,7 @@ export default function App() {
 
 ### Dialog integration
 
-Use `LogsContent` inside a `Dialog` opened by `DialogTrigger` from `@geti-ai/ui`.
+Use `LogsContent` inside a `Dialog` opened by `DialogTrigger` from `@geti-ui/ui`.
 
 This dialog example intentionally renders **10000 log lines** to demonstrate performance in an overlay context.
 
@@ -78,8 +78,8 @@ import {
   Footer,
   Heading,
   ThemeProvider,
-} from '@geti-ai/ui';
-import { LogsContent, type LogEntryData } from '@geti-ai/blocks';
+} from '@geti-ui/ui';
+import { LogsContent, type LogEntryData } from '@geti-ui/blocks';
 
 const levelCycle = [
   { name: 'TRACE', no: 5, icon: '🔍' },
@@ -146,8 +146,8 @@ export default function App() {
 Use this when logs are part of a dashboard card or split panel with a predictable size. A fixed height gives the virtualizer a stable viewport, improving scroll performance for large lists.
 
 ```tsx
-import { ThemeProvider } from '@geti-ai/ui';
-import { LogsContent, type LogEntryData } from '@geti-ai/blocks';
+import { ThemeProvider } from '@geti-ui/ui';
+import { LogsContent, type LogEntryData } from '@geti-ui/blocks';
 
 const logs: LogEntryData[] = Array.from({ length: 1200 }, (_, index) => ({
   record: {
@@ -177,8 +177,8 @@ export default function App() {
 Use this when logs share space with headers, toolbars, or side panels. The `minHeight: 0` rule lets the virtualized viewport shrink correctly so scrolling remains smooth.
 
 ```tsx 
-import { ThemeProvider } from '@geti-ai/ui';
-import { LogsContent, type LogEntryData } from '@geti-ai/blocks';
+import { ThemeProvider } from '@geti-ui/ui';
+import { LogsContent, type LogEntryData } from '@geti-ui/blocks';
 
 const logs: LogEntryData[] = Array.from({ length: 1200 }, (_, index) => ({
   record: {
@@ -221,8 +221,8 @@ import {
   Footer,
   Heading,
   ThemeProvider,
-} from '@geti-ai/ui';
-import { LogsContent, type LogEntryData } from '@geti-ai/blocks';
+} from '@geti-ui/ui';
+import { LogsContent, type LogEntryData } from '@geti-ui/blocks';
 
 const logs: LogEntryData[] = Array.from({ length: 1200 }, (_, index) => ({
   record: {
@@ -281,8 +281,8 @@ Standalone toolbar that combines search, level filtering, auto-scroll, and copy 
 
 ```tsx preview
 import { useState } from 'react';
-import { ThemeProvider } from '@geti-ai/ui';
-import { LogsFilters, DEFAULT_LOG_FILTERS, LOG_LEVELS, type LogFilters } from '@geti-ai/blocks';
+import { ThemeProvider } from '@geti-ui/ui';
+import { LogsFilters, DEFAULT_LOG_FILTERS, LOG_LEVELS, type LogFilters } from '@geti-ui/blocks';
 
 const totalCount = 1240;
 const filteredCount = 326;
@@ -319,8 +319,8 @@ Standalone level selector popover that can be used independently of `LogsContent
 
 ```tsx preview
 import { useState } from 'react';
-import { Flex, View, Text, ThemeProvider } from '@geti-ai/ui';
-import { LogLevelDropdown, type LogLevelName } from '@geti-ai/blocks';
+import { Flex, View, Text, ThemeProvider } from '@geti-ui/ui';
+import { LogLevelDropdown, type LogLevelName } from '@geti-ui/blocks';
 
 const allLevels: LogLevelName[] = ['TRACE', 'DEBUG', 'INFO', 'SUCCESS', 'WARNING', 'ERROR', 'CRITICAL'];
 
@@ -364,8 +364,8 @@ export default function App() {
 Small row renderer for a single log record.
 
 ```tsx preview
-import { ThemeProvider } from '@geti-ai/ui';
-import { LogEntry, type LogEntryData } from '@geti-ai/blocks';
+import { ThemeProvider } from '@geti-ui/ui';
+import { LogEntry, type LogEntryData } from '@geti-ui/blocks';
 
 const entry: LogEntryData = {
   text: '2026-03-13 13:39:32.175 | INFO ...',
@@ -391,8 +391,8 @@ export default function App() {
 ### `TRACE`
 
 ```tsx preview
-import { ThemeProvider } from '@geti-ai/ui';
-import { LogEntry, type LogEntryData } from '@geti-ai/blocks';
+import { ThemeProvider } from '@geti-ui/ui';
+import { LogEntry, type LogEntryData } from '@geti-ui/blocks';
 
 const entry: LogEntryData = {
   record: {
@@ -413,8 +413,8 @@ export default function App() {
 ### `DEBUG`
 
 ```tsx preview
-import { ThemeProvider } from '@geti-ai/ui';
-import { LogEntry, type LogEntryData } from '@geti-ai/blocks';
+import { ThemeProvider } from '@geti-ui/ui';
+import { LogEntry, type LogEntryData } from '@geti-ui/blocks';
 
 const entry: LogEntryData = {
   record: {
@@ -435,8 +435,8 @@ export default function App() {
 ### `INFO`
 
 ```tsx preview
-import { ThemeProvider } from '@geti-ai/ui';
-import { LogEntry, type LogEntryData } from '@geti-ai/blocks';
+import { ThemeProvider } from '@geti-ui/ui';
+import { LogEntry, type LogEntryData } from '@geti-ui/blocks';
 
 const entry: LogEntryData = {
   record: {
@@ -457,8 +457,8 @@ export default function App() {
 ### `SUCCESS`
 
 ```tsx preview
-import { ThemeProvider } from '@geti-ai/ui';
-import { LogEntry, type LogEntryData } from '@geti-ai/blocks';
+import { ThemeProvider } from '@geti-ui/ui';
+import { LogEntry, type LogEntryData } from '@geti-ui/blocks';
 
 const entry: LogEntryData = {
   record: {
@@ -479,8 +479,8 @@ export default function App() {
 ### `WARNING`
 
 ```tsx preview
-import { ThemeProvider } from '@geti-ai/ui';
-import { LogEntry, type LogEntryData } from '@geti-ai/blocks';
+import { ThemeProvider } from '@geti-ui/ui';
+import { LogEntry, type LogEntryData } from '@geti-ui/blocks';
 
 const entry: LogEntryData = {
   record: {
@@ -501,8 +501,8 @@ export default function App() {
 ### `ERROR`
 
 ```tsx preview
-import { ThemeProvider } from '@geti-ai/ui';
-import { LogEntry, type LogEntryData } from '@geti-ai/blocks';
+import { ThemeProvider } from '@geti-ui/ui';
+import { LogEntry, type LogEntryData } from '@geti-ui/blocks';
 
 const entry: LogEntryData = {
   record: {
@@ -523,8 +523,8 @@ export default function App() {
 ### `CRITICAL`
 
 ```tsx preview
-import { ThemeProvider } from '@geti-ai/ui';
-import { LogEntry, type LogEntryData } from '@geti-ai/blocks';
+import { ThemeProvider } from '@geti-ui/ui';
+import { LogEntry, type LogEntryData } from '@geti-ui/blocks';
 
 const entry: LogEntryData = {
   record: {
@@ -544,7 +544,7 @@ export default function App() {
 
 ## Example: streaming logs from Server-Sent Events
 
-`@geti-ai/blocks` is UI-only. Networking and streaming stay in your application layer.
+`@geti-ui/blocks` is UI-only. Networking and streaming stay in your application layer.
 
 If you already use TanStack Query, a good pattern is the same one used by the reference implementation: stream SSE events with `experimental_streamedQuery`, validate each payload, and render with `LogsContent`.
 
@@ -554,7 +554,7 @@ If you already use TanStack Query, a good pattern is the same one used by the re
 ```tsx
 import { useMemo } from 'react';
 import { queryOptions, experimental_streamedQuery as streamedQuery, useQuery } from '@tanstack/react-query';
-import { LogsContent, type LogEntryData } from '@geti-ai/blocks';
+import { LogsContent, type LogEntryData } from '@geti-ui/blocks';
 import { fetchSSE } from './fetch-sse';
 
 type RawLog = unknown;
@@ -681,4 +681,4 @@ export function fetchSSE<T = unknown>(url: string, options: FetchSSEOptions = {}
 </Tab>
 </Tabs>
 
-This keeps stream transport concerns outside `@geti-ai/blocks` while still giving you a high-performance UI for large, live log streams.
+This keeps stream transport concerns outside `@geti-ui/blocks` while still giving you a high-performance UI for large, live log streams.

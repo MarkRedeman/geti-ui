@@ -12,7 +12,7 @@ import {
     type RefObject,
 } from 'react';
 
-import { Picker, PickerItem, TabItem, TabList } from '@geti-ai/ui';
+import { Picker, PickerItem, TabItem, TabList } from '@geti-ui/ui';
 
 function useResizeObserver<T extends Element>(ref: RefObject<T | null>) {
     const [width, setWidth] = useState(0);

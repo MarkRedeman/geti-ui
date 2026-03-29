@@ -10,7 +10,7 @@ You are an expert Frontend Architect specializing in design systems and frontend
 
 ## Design Philosophy
 
-The `@geti-ai/ui` library consists of thin, high-quality wrappers around **Adobe React Spectrum (v3)** or **react-aria-components (RAC)**.
+The `@geti-ui/ui` library consists of thin, high-quality wrappers around **Adobe React Spectrum (v3)** or **react-aria-components (RAC)**.
 
 Follow these core principles:
 
@@ -27,11 +27,11 @@ Follow these core principles:
 
 `geti-ui` is a React + TypeScript monorepo containing:
 
--   `@geti-ai/ui` — core design-system components (thin wrappers over Spectrum/RAC)
--   `@geti-ai/blocks` — composable application-level building blocks
--   `@geti-ai/charts` — chart components and compositions
--   `@geti-ai/smart-tools` — browser CV tooling
--   `@geti-ai/mcp` — MCP server exposing docs/search/discovery tools
+-   `@geti-ui/ui` — core design-system components (thin wrappers over Spectrum/RAC)
+-   `@geti-ui/blocks` — composable application-level building blocks
+-   `@geti-ui/charts` — chart components and compositions
+-   `@geti-ui/smart-tools` — browser CV tooling
+-   `@geti-ui/mcp` — MCP server exposing docs/search/discovery tools
 
 For `packages/ui`, thin-wrapper rules are strict and breaking the public API is high severity.
 For other packages, apply equivalent API stability and behavior correctness checks appropriate to

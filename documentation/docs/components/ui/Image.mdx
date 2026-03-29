@@ -7,7 +7,7 @@ title: Image
 Image renders an accessible image with support for alt text, object-fit modes, and decorative image handling. Use it wherever you need an image that integrates with Spectrum layout props and Geti theming.
 
 ```tsx
-import { Image } from '@geti-ai/ui';
+import { Image } from '@geti-ui/ui';
 ```
 
 - [React Spectrum Image ↗](https://react-spectrum.adobe.com/react-spectrum/Image.html)
@@ -18,7 +18,7 @@ import { Image } from '@geti-ai/ui';
 ### Basic image
 
 ```tsx preview
-import { Image } from '@geti-ai/ui';
+import { Image } from '@geti-ui/ui';
 
 export default function App() {
   return <Image src="https://picsum.photos/200/120" alt="Sample landscape" />;
@@ -28,7 +28,7 @@ export default function App() {
 ### Fixed size with object-fit cover
 
 ```tsx preview
-import { Image } from '@geti-ai/ui';
+import { Image } from '@geti-ui/ui';
 
 export default function App() {
   return (
@@ -46,7 +46,7 @@ export default function App() {
 ### Decorative image (hidden from screen readers)
 
 ```tsx preview
-import { Image } from '@geti-ai/ui';
+import { Image } from '@geti-ui/ui';
 
 export default function App() {
   return <Image src="https://picsum.photos/200/120" alt="" />;
@@ -57,7 +57,7 @@ export default function App() {
 
 `Image` is a thin wrapper around React Spectrum's `Image` — all props pass through unchanged. It provides:
 
-- consistent `@geti-ai/ui` import path,
+- consistent `@geti-ui/ui` import path,
 - Spectrum style prop support (`width`, `height`, `padding`, etc.),
 - integration with Geti's `ThemeProvider` context.
 

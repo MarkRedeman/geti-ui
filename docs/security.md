@@ -72,7 +72,7 @@ Security checks are intended to be mandatory for all Pull Requests. The recommen
 
 ### Release security considerations
 
-`@geti-ai/smart-tools` uses a dedicated release workflow that builds OpenCV artifacts via Docker and caches build layers in GHCR.
+`@geti-ui/smart-tools` uses a dedicated release workflow that builds OpenCV artifacts via Docker and caches build layers in GHCR.
 
 Recommended controls:
 

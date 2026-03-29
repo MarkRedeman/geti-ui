@@ -23,7 +23,7 @@ title: Confusion matrix chart
 ## Variant — raw counts
 
 ```tsx preview
-import { ConfusionMatrixChart } from '@geti-ai/charts';
+import { ConfusionMatrixChart } from '@geti-ui/charts';
 
 const labels = ['Car', 'Person', 'Bicycle', 'Sign'];
 const matrix = [
@@ -49,7 +49,7 @@ export default function App() {
 ## Variant — row-normalized percentages
 
 ```tsx preview
-import { ConfusionMatrixChart } from '@geti-ai/charts';
+import { ConfusionMatrixChart } from '@geti-ui/charts';
 
 const labels = ['Car', 'Person', 'Bicycle', 'Sign'];
 const matrix = [
@@ -75,7 +75,7 @@ export default function App() {
 ## Variant — hide values, color-only density
 
 ```tsx preview
-import { ConfusionMatrixChart } from '@geti-ai/charts';
+import { ConfusionMatrixChart } from '@geti-ui/charts';
 
 const labels = ['Car', 'Person', 'Bicycle', 'Sign'];
 const matrix = [
@@ -104,7 +104,7 @@ export default function App() {
 ## Variant — 10 categories
 
 ```tsx preview
-import { ConfusionMatrixChart } from '@geti-ai/charts';
+import { ConfusionMatrixChart } from '@geti-ui/charts';
 
 const labels = [
   'Car',
@@ -143,7 +143,7 @@ export default function App() {
 ## Variant — 20 categories (scrollable container)
 
 ```tsx preview
-import { ConfusionMatrixChart } from '@geti-ai/charts';
+import { ConfusionMatrixChart } from '@geti-ui/charts';
 
 const labels = Array.from({ length: 20 }, (_, i) => `Class ${i + 1}`);
 
@@ -183,7 +183,7 @@ export default function App() {
 ## Variant — 100 categories (large, bi-directional scroll)
 
 ```tsx preview
-import { ConfusionMatrixChart } from '@geti-ai/charts';
+import { ConfusionMatrixChart } from '@geti-ui/charts';
 
 const labels = Array.from({ length: 100 }, (_, i) => `C${String(i + 1).padStart(3, '0')}`);
 

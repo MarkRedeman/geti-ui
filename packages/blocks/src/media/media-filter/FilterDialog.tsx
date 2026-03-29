@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useRef } from 'react';
-import { ActionButton, ButtonGroup, Content, Dialog, Flex, Heading, Icon, Text, View } from '@geti-ai/ui';
-import { Add } from '@geti-ai/ui/icons';
+import { ActionButton, ButtonGroup, Content, Dialog, Flex, Heading, Icon, Text, View } from '@geti-ui/ui';
+import { Add } from '@geti-ui/ui/icons';
 import { FilterRow } from './FilterRow';
 import { useFilterRulesDraft } from './useFilterRulesDraft';
 import { DEFAULT_FILTER_CONDITION, createEmptyRule, getValidRules } from './utils';

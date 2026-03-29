@@ -1,4 +1,4 @@
-import { Picker, PickerItem } from '@geti-ai/ui';
+import { Picker, PickerItem } from '@geti-ui/ui';
 import type { Key } from 'react';
 import type { FilterFieldSelectProps } from './types';
 

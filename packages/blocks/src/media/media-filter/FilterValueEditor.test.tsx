@@ -1,6 +1,6 @@
 import { render, screen } from '@testing-library/react';
 import { describe, expect, it } from '@rstest/core';
-import { ThemeProvider } from '@geti-ai/ui';
+import { ThemeProvider } from '@geti-ui/ui';
 import { FilterValueEditor } from './FilterValueEditor';
 import type { FilterFieldOption, FilterRule } from './types';
 

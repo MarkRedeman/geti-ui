@@ -1,7 +1,7 @@
 import { Layout as OriginalLayout } from '@rspress/core/theme-original';
-import { ThemeProvider } from '@geti-ai/ui';
-import '@geti-ai/blocks/styles.css';
-import '@geti-ai/ui/styles.css';
+import { ThemeProvider } from '@geti-ui/ui';
+import '@geti-ui/blocks/styles.css';
+import '@geti-ui/ui/styles.css';
 import './index.css';
 import { Tag } from './components/Tag';
 

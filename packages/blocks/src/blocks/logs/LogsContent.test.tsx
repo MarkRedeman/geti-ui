@@ -1,7 +1,7 @@
 import { render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { describe, it, expect, beforeEach, afterEach } from '@rstest/core';
-import { ThemeProvider } from '@geti-ai/ui';
+import { ThemeProvider } from '@geti-ui/ui';
 import { LogsContent } from './LogsContent';
 
 // ---------------------------------------------------------------------------

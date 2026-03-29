@@ -11,14 +11,14 @@ It wraps `MediaGridItem` and renders image content with `object-fit: cover`.
 Use it when your application needs a fast default item renderer and you only want to customize overlays/actions.
 
 ```tsx
-import { MediaGridThumbnailItem } from '@geti-ai/blocks';
+import { MediaGridThumbnailItem } from '@geti-ui/blocks';
 ```
 
 ## Basic
 
 ```tsx preview
-import { ThemeProvider } from '@geti-ai/ui';
-import { MediaGridThumbnailItem } from '@geti-ai/blocks';
+import { ThemeProvider } from '@geti-ui/ui';
+import { MediaGridThumbnailItem } from '@geti-ui/blocks';
 
 export default function App() {
   return (
@@ -55,13 +55,13 @@ export default function App() {
 
 ```tsx preview
 import { useState } from 'react';
-import { ThemeProvider } from '@geti-ai/ui';
+import { ThemeProvider } from '@geti-ui/ui';
 import {
   MediaGridItemCheckbox,
   MediaGridItemInfo,
   MediaGridItemMenu,
   MediaGridThumbnailItem,
-} from '@geti-ai/blocks';
+} from '@geti-ui/blocks';
 
 export default function App() {
   const [selected, setSelected] = useState(true);
@@ -103,8 +103,8 @@ export default function App() {
 ## Placeholder state
 
 ```tsx preview
-import { ThemeProvider } from '@geti-ai/ui';
-import { MediaGridThumbnailItem } from '@geti-ai/blocks';
+import { ThemeProvider } from '@geti-ui/ui';
+import { MediaGridThumbnailItem } from '@geti-ui/blocks';
 
 export default function App() {
   return (

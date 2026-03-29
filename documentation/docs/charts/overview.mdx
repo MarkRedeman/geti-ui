@@ -4,7 +4,7 @@ title: Overview
 
 # Charts Overview
 
-`@geti-ai/charts` provides Geti-themed chart components built on top of [Recharts](https://recharts.org). All components are dark-mode first and integrate with the Geti design token system.
+`@geti-ui/charts` provides Geti-themed chart components built on top of [Recharts](https://recharts.org). All components are dark-mode first and integrate with the Geti design token system.
 
 ## What's included
 
@@ -103,7 +103,7 @@ Charts fill their container width by default (`width="100%"`). Wrap in a sized c
 ## Quick example
 
 ```tsx preview
-import { LineChart } from '@geti-ai/charts';
+import { LineChart } from '@geti-ui/charts';
 
 const data = [
   { month: 'Jan', accuracy: 72 },
@@ -131,7 +131,7 @@ export default function App() {
 ## LineChart
 
 ```tsx preview
-import { LineChart } from '@geti-ai/charts';
+import { LineChart } from '@geti-ui/charts';
 
 const data = [
   { epoch: 1, train: 1.42, val: 1.50 },
@@ -161,7 +161,7 @@ export default function App() {
 ## BarChart
 
 ```tsx preview
-import { BarChart } from '@geti-ai/charts';
+import { BarChart } from '@geti-ui/charts';
 
 const data = [
   { model: 'MobileNet', precision: 84, recall: 80 },
@@ -188,7 +188,7 @@ export default function App() {
 ## AreaChart
 
 ```tsx preview
-import { AreaChart } from '@geti-ai/charts';
+import { AreaChart } from '@geti-ui/charts';
 
 const data = [
   { step: 1, train: 0.45, val: 0.41 },
@@ -218,7 +218,7 @@ export default function App() {
 ## ScatterChart
 
 ```tsx preview
-import { ScatterChart } from '@geti-ai/charts';
+import { ScatterChart } from '@geti-ui/charts';
 
 const points = [
   { x: 0.1, y: 0.85, name: 'cat' },
@@ -246,7 +246,7 @@ export default function App() {
 ## Sparkline
 
 ```tsx preview
-import { Sparkline } from '@geti-ai/charts';
+import { Sparkline } from '@geti-ui/charts';
 
 export default function App() {
   return (
@@ -285,7 +285,7 @@ import {
   GetiTooltip,
   GetiLegend,
   GetiResponsiveContainer,
-} from '@geti-ai/charts/primitives';
+} from '@geti-ui/charts/primitives';
 
 const data = [
   { t: '09:00', valA: 42, valB: 55 },

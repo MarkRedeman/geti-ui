@@ -12,7 +12,7 @@ import {
     AriaVirtualizer,
     Text,
     View,
-} from '@geti-ai/ui';
+} from '@geti-ui/ui';
 import styles from './media-grid.module.css';
 import type { MediaGridIdentifiable, MediaGridRenderContext, MediaGridSelection, MediaRowProps } from './types';
 import { createMediaRenderContext, useFocusOnSelect, useVirtualMediaItems } from './hooks';

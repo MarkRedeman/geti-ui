@@ -8,7 +8,7 @@ Charts expose reusable color-scale presets and interpolation utilities so compon
 
 ## Available presets
 
-`@geti-ai/charts` exports:
+`@geti-ui/charts` exports:
 
 - `chartColorScalePresets`
 - `distinctColorScale`
@@ -30,7 +30,7 @@ Named presets include:
 ## Example — use named presets in ParallelCoordinates
 
 ```tsx preview
-import { ParallelCoordinates } from '@geti-ai/charts';
+import { ParallelCoordinates } from '@geti-ui/charts';
 
 const rows = Array.from({ length: 20 }, (_, i) => ({
   id: `img-${i + 1}`,
@@ -65,7 +65,7 @@ export default function App() {
 ## Example — full hue spectrum
 
 ```tsx preview
-import { ParallelCoordinates } from '@geti-ai/charts';
+import { ParallelCoordinates } from '@geti-ui/charts';
 
 const rows = Array.from({ length: 16 }, (_, i) => ({
   id: `img-${i + 1}`,
@@ -97,9 +97,9 @@ export default function App() {
 }
 ```
 
-## Interop with `@geti-ai/ui` distinct colors
+## Interop with `@geti-ui/ui` distinct colors
 
-`@geti-ai/ui` defines `DISTINCT_COLORS` in `packages/ui/src/utils/distinct-colors.ts`. The charts package ships a matching `distinct` preset (`distinctColorScale`) so categorical color choices can stay consistent.
+`@geti-ui/ui` defines `DISTINCT_COLORS` in `packages/ui/src/utils/distinct-colors.ts`. The charts package ships a matching `distinct` preset (`distinctColorScale`) so categorical color choices can stay consistent.
 
 If you need direct usage from the UI package in app code, use the source utility in UI and pass it as custom stops:
 

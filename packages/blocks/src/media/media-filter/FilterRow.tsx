@@ -1,5 +1,5 @@
-import { ActionButton, Icon } from '@geti-ai/ui';
-import { Delete } from '@geti-ai/ui/icons';
+import { ActionButton, Icon } from '@geti-ui/ui';
+import { Delete } from '@geti-ui/ui/icons';
 import { FilterFieldSelect } from './FilterFieldSelect';
 import { FilterOperatorSelect } from './FilterOperatorSelect';
 import { FilterValueEditor } from './FilterValueEditor';

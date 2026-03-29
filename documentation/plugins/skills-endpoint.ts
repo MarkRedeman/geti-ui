@@ -38,18 +38,18 @@ const SKILLS: SkillDefinition[] = [
         id: 'geti-ui',
         name: 'Geti UI',
         description:
-            'Build accessible UIs with @geti-ai/ui — the component design system for Intel Geti products. ' +
+            'Build accessible UIs with @geti-ui/ui — the component design system for Intel Geti products. ' +
             'Provides 80+ React components built on Adobe React Spectrum, organized into categories: ' +
             'UI, Form Controls, Date Controls, Color Controls, Pickers, Data Display, ' +
             'Status & Feedback, Navigation, Overlays, and Layout & Structure.',
         instructions: `# Geti UI — Component Library
 
-Use \`@geti-ai/ui\` when building React UIs for Intel Geti products or any project that adopts the Geti design system.
+Use \`@geti-ui/ui\` when building React UIs for Intel Geti products or any project that adopts the Geti design system.
 
 ## Installation
 
 \`\`\`bash
-npm install @geti-ai/ui
+npm install @geti-ui/ui
 \`\`\`
 
 ## Setup
@@ -57,8 +57,8 @@ npm install @geti-ai/ui
 Wrap your application with \`ThemeProvider\` and import the stylesheet:
 
 \`\`\`tsx
-import { ThemeProvider } from '@geti-ai/ui';
-import '@geti-ai/ui/styles.css';
+import { ThemeProvider } from '@geti-ui/ui';
+import '@geti-ui/ui/styles.css';
 
 function App() {
   return (
@@ -71,9 +71,9 @@ function App() {
 
 ## Import patterns
 
-- Components: \`import { Button, TextField, Tabs } from '@geti-ai/ui';\`
-- Icons: \`import { AddIcon, DeleteIcon } from '@geti-ai/ui/icons';\`
-- Assets: \`import { SomeDomain } from '@geti-ai/ui/assets/domains';\`
+- Components: \`import { Button, TextField, Tabs } from '@geti-ui/ui';\`
+- Icons: \`import { AddIcon, DeleteIcon } from '@geti-ui/ui/icons';\`
+- Assets: \`import { SomeDomain } from '@geti-ui/ui/assets/domains';\`
 
 All exports are tree-shakeable named exports. Never use internal source paths.
 
@@ -108,16 +108,16 @@ The \`resources\` listed with this skill contain detailed documentation for ever
         id: 'geti-ui-charts',
         name: 'Geti UI Charts',
         description:
-            'Data visualization components from @geti-ai/charts — chart primitives, compositions, ' +
+            'Data visualization components from @geti-ui/charts — chart primitives, compositions, ' +
             'and machine learning-specific charts built on Recharts.',
         instructions: `# Geti UI Charts — Data Visualization
 
-Use \`@geti-ai/charts\` for data visualization in Geti products.
+Use \`@geti-ui/charts\` for data visualization in Geti products.
 
 ## Installation
 
 \`\`\`bash
-npm install @geti-ai/charts
+npm install @geti-ui/charts
 \`\`\`
 
 ## Architecture
@@ -130,13 +130,13 @@ The library has two layers:
 ## Import pattern
 
 \`\`\`tsx
-import { LineChart, BarChart } from '@geti-ai/charts';
-import { TrainingMetricsChart, ConfusionMatrixChart } from '@geti-ai/charts';
+import { LineChart, BarChart } from '@geti-ui/charts';
+import { TrainingMetricsChart, ConfusionMatrixChart } from '@geti-ui/charts';
 \`\`\`
 
 ## Theming
 
-Charts integrate with the Geti UI theme system. They must be rendered inside a \`ThemeProvider\` from \`@geti-ai/ui\`. Dataset colors and styling are controlled via theme tokens.
+Charts integrate with the Geti UI theme system. They must be rendered inside a \`ThemeProvider\` from \`@geti-ui/ui\`. Dataset colors and styling are controlled via theme tokens.
 
 ## Machine Learning charts
 
@@ -161,16 +161,16 @@ The \`resources\` listed with this skill contain detailed documentation for ever
         id: 'geti-ui-smart-tools',
         name: 'Geti UI Smart Tools',
         description:
-            'Browser-based computer vision annotation tools from @geti-ai/smart-tools — ' +
+            'Browser-based computer vision annotation tools from @geti-ui/smart-tools — ' +
             'OpenCV.js and ONNX runtime powered interactive segmentation and annotation.',
         instructions: `# Geti UI Smart Tools — Computer Vision Annotation
 
-Use \`@geti-ai/smart-tools\` for browser-based computer vision annotation tools in Geti products.
+Use \`@geti-ui/smart-tools\` for browser-based computer vision annotation tools in Geti products.
 
 ## Installation
 
 \`\`\`bash
-npm install @geti-ai/smart-tools
+npm install @geti-ui/smart-tools
 \`\`\`
 
 ## Prerequisites
@@ -208,16 +208,16 @@ The \`resources\` listed with this skill contain detailed documentation for each
         id: 'geti-ui-blocks',
         name: 'Geti UI Blocks',
         description:
-            'Reusable application-level building blocks from @geti-ai/blocks — ' +
+            'Reusable application-level building blocks from @geti-ui/blocks — ' +
             'opinionated, composable UI sections for logs, projects, models, media, annotations, and tabs.',
         instructions: `# Geti UI Blocks — Application Building Blocks
 
-Use \`@geti-ai/blocks\` for reusable application-level UI sections in Geti products. Blocks are higher-level than primitives — they are pre-composed from \`@geti-ai/ui\` components and encode opinionated Geti application patterns.
+Use \`@geti-ui/blocks\` for reusable application-level UI sections in Geti products. Blocks are higher-level than primitives — they are pre-composed from \`@geti-ui/ui\` components and encode opinionated Geti application patterns.
 
 ## Installation
 
 \`\`\`bash
-npm install @geti-ai/blocks @geti-ai/ui
+npm install @geti-ui/blocks @geti-ui/ui
 \`\`\`
 
 ## Setup
@@ -225,16 +225,16 @@ npm install @geti-ai/blocks @geti-ai/ui
 Blocks require both the UI and blocks stylesheets. Load them in your app entry:
 
 \`\`\`tsx
-import '@geti-ai/ui/styles.css';
-import '@geti-ai/blocks/styles.css';
+import '@geti-ui/ui/styles.css';
+import '@geti-ui/blocks/styles.css';
 \`\`\`
 
-Blocks must also be rendered inside a \`ThemeProvider\` from \`@geti-ai/ui\`:
+Blocks must also be rendered inside a \`ThemeProvider\` from \`@geti-ui/ui\`:
 
 \`\`\`tsx
-import { ThemeProvider } from '@geti-ai/ui';
-import '@geti-ai/ui/styles.css';
-import '@geti-ai/blocks/styles.css';
+import { ThemeProvider } from '@geti-ui/ui';
+import '@geti-ui/ui/styles.css';
+import '@geti-ui/blocks/styles.css';
 
 function App() {
   return (
@@ -248,7 +248,7 @@ function App() {
 ## Import pattern
 
 \`\`\`tsx
-import { LogsContent, OverflowableTabs } from '@geti-ai/blocks';
+import { LogsContent, OverflowableTabs } from '@geti-ui/blocks';
 \`\`\`
 
 All exports are named exports. Never use internal source paths.
@@ -266,7 +266,7 @@ All exports are named exports. Never use internal source paths.
 
 ## Key conventions
 
-- Blocks are built on \`@geti-ai/ui\` primitives — do not mix raw Adobe Spectrum components inside blocks.
+- Blocks are built on \`@geti-ui/ui\` primitives — do not mix raw Adobe Spectrum components inside blocks.
 - Each block accepts a strongly-typed props interface; extend it rather than re-implementing the pattern from scratch.
 - The library is dark-mode-first. Always render under \`ThemeProvider\`.
 - Use blocks when a pattern is too opinionated (application-specific data shapes, layout decisions) for a primitive component.
@@ -284,7 +284,7 @@ The \`resources\` listed with this skill contain detailed documentation for ever
             'Geti UI components into real application interfaces.',
         instructions: `# Geti UI Examples — Composition Patterns
 
-These examples demonstrate how to combine \`@geti-ai/ui\` and \`@geti-ai/charts\` components into real application interfaces. Use them as templates and reference patterns.
+These examples demonstrate how to combine \`@geti-ui/ui\` and \`@geti-ui/charts\` components into real application interfaces. Use them as templates and reference patterns.
 
 ## Kitchensinks
 

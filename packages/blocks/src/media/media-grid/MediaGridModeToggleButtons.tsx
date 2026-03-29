@@ -1,4 +1,4 @@
-import { ToggleButtons } from '@geti-ai/ui';
+import { ToggleButtons } from '@geti-ui/ui';
 import { useEffect } from 'react';
 import { DEFAULT_MEDIA_GRID_VIEW_MODES } from './types';
 import type { MediaGridModeToggleButtonsProps } from './types';

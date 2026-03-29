@@ -8,7 +8,7 @@ import {
     getDatasetSubsetColor,
     ConfusionMatrixChart,
     ParallelCoordinates,
-} from '@geti-ai/charts';
+} from '@geti-ui/charts';
 import {
     Button,
     TextField,
@@ -37,7 +37,7 @@ import {
     Column,
     Row,
     Cell,
-} from '@geti-ai/ui';
+} from '@geti-ui/ui';
 import {
     MediaGrid,
     MediaGridThumbnailItem,
@@ -45,8 +45,8 @@ import {
     LogsContent,
     ManagedTab,
     OverflowableTabs,
-} from '@geti-ai/blocks';
-import type { LogEntryData, ManagedTabAction } from '@geti-ai/blocks';
+} from '@geti-ui/blocks';
+import type { LogEntryData, ManagedTabAction } from '@geti-ui/blocks';
 import {
     Copy,
     Checkmark,
@@ -77,7 +77,7 @@ import {
     Deployments,
     ChevronLeft,
     ChevronRight,
-} from '@geti-ai/ui/icons';
+} from '@geti-ui/ui/icons';
 import {
     WorkInProgressIcon,
     NotFound,
@@ -85,7 +85,7 @@ import {
     MediaUpload,
     DeploymentImg,
     ConnectionLost,
-} from '@geti-ai/ui/assets/images';
+} from '@geti-ui/ui/assets/images';
 import {
     DetectionImg,
     SegmentationImg,
@@ -93,8 +93,8 @@ import {
     AnomalyDetectionImg,
     KeypointDetectionImg,
     DetectionRotatedImg,
-} from '@geti-ai/ui/assets/domains';
-import { Icon } from '@geti-ai/ui';
+} from '@geti-ui/ui/assets/domains';
+import { Icon } from '@geti-ui/ui';
 import { HomeFooter } from '@rspress/core/theme-original';
 import type { HomeLayoutProps } from '@rspress/core/theme-original';
 
@@ -574,17 +574,17 @@ export const HomeLayout = (props: HomeLayoutProps) => {
 
                 {beforeFeatures}
 
-                {/* ───────────────── Section 1: @geti-ai/ui ───────────────── */}
-                <section className="geti-home-showcase geti-home-showcase--stacked" aria-label="@geti-ai/ui">
+                {/* ───────────────── Section 1: @geti-ui/ui ───────────────── */}
+                <section className="geti-home-showcase geti-home-showcase--stacked" aria-label="@geti-ui/ui">
                     <div className="geti-home-showcase__inner">
                         <div className="geti-home-showcase__text">
                             <p className="geti-home-showcase__kicker">Core UI</p>
-                            <h2 className="geti-home-showcase__title">@geti-ai/ui</h2>
+                            <h2 className="geti-home-showcase__title">@geti-ui/ui</h2>
                             <p className="geti-home-showcase__desc">
                                 Accessible, themeable React components for interactive AI workflows. 90+ components
                                 built on Adobe React Spectrum and react-aria-components, with dark-mode-first styling.
                             </p>
-                            <InstallCommand command="npm install @geti-ai/ui" />
+                            <InstallCommand command="npm install @geti-ui/ui" />
                             <InstallCommand
                                 command="npx skills add https://docs.geti-ui.markredeman.nl/.well-known/skills/geti-ui"
                                 variant="subtle"
@@ -722,18 +722,18 @@ export const HomeLayout = (props: HomeLayoutProps) => {
                     </div>
                 </section>
 
-                {/* ───────────────── Section 2: @geti-ai/charts ───────────────── */}
-                <section className="geti-home-showcase geti-home-showcase--stacked" aria-label="@geti-ai/charts">
+                {/* ───────────────── Section 2: @geti-ui/charts ───────────────── */}
+                <section className="geti-home-showcase geti-home-showcase--stacked" aria-label="@geti-ui/charts">
                     <div className="geti-home-showcase__inner">
                         <div className="geti-home-showcase__text">
                             <p className="geti-home-showcase__kicker">Charts</p>
-                            <h2 className="geti-home-showcase__title">@geti-ai/charts</h2>
+                            <h2 className="geti-home-showcase__title">@geti-ui/charts</h2>
                             <p className="geti-home-showcase__desc">
                                 Recharts-based primitives and ML-focused compositions. Standard charts for dashboards,
                                 plus specialized visualizations for training metrics, confusion matrices,
                                 precision-recall curves, and more.
                             </p>
-                            <InstallCommand command="npm install @geti-ai/charts" />
+                            <InstallCommand command="npm install @geti-ui/charts" />
                             <InstallCommand
                                 command="npx skills add https://docs.geti-ui.markredeman.nl/.well-known/skills/geti-ui-charts"
                                 variant="subtle"
@@ -921,18 +921,18 @@ export const HomeLayout = (props: HomeLayoutProps) => {
                     </div>
                 </section>
 
-                {/* ───────────────── Section 3: @geti-ai/blocks ───────────────── */}
-                <section className="geti-home-showcase geti-home-showcase--stacked" aria-label="@geti-ai/blocks">
+                {/* ───────────────── Section 3: @geti-ui/blocks ───────────────── */}
+                <section className="geti-home-showcase geti-home-showcase--stacked" aria-label="@geti-ui/blocks">
                     <div className="geti-home-showcase__inner">
                         <div className="geti-home-showcase__text">
                             <p className="geti-home-showcase__kicker">Building blocks</p>
-                            <h2 className="geti-home-showcase__title">@geti-ai/blocks</h2>
+                            <h2 className="geti-home-showcase__title">@geti-ui/blocks</h2>
                             <p className="geti-home-showcase__desc">
-                                Reusable application-level building blocks composed from <code>@geti-ai/ui</code>{' '}
+                                Reusable application-level building blocks composed from <code>@geti-ui/ui</code>{' '}
                                 primitives. Media grids for dataset browsing, log viewers for training monitoring, and
                                 filter systems for data management.
                             </p>
-                            <InstallCommand command="npm install @geti-ai/blocks" />
+                            <InstallCommand command="npm install @geti-ui/blocks" />
                             <InstallCommand
                                 command="npx skills add https://docs.geti-ui.markredeman.nl/.well-known/skills/geti-ui-blocks"
                                 variant="subtle"
@@ -999,13 +999,13 @@ export const HomeLayout = (props: HomeLayoutProps) => {
                     </div>
                 </section>
 
-                {/* ───────────────── Section 4: @geti-ai/smart-tools ───────────────── */}
-                <section className="geti-home-showcase geti-home-showcase--stacked" aria-label="@geti-ai/smart-tools">
+                {/* ───────────────── Section 4: @geti-ui/smart-tools ───────────────── */}
+                <section className="geti-home-showcase geti-home-showcase--stacked" aria-label="@geti-ui/smart-tools">
                     <div className="geti-home-showcase__inner">
                         <div className="geti-home-smart-tools-header">
                             <div className="geti-home-showcase__text">
                                 <p className="geti-home-showcase__kicker">Annotation tooling</p>
-                                <h2 className="geti-home-showcase__title">@geti-ai/smart-tools</h2>
+                                <h2 className="geti-home-showcase__title">@geti-ui/smart-tools</h2>
                                 <p className="geti-home-showcase__desc">
                                     Browser-native computer vision tools for low-latency image annotation. Includes
                                     Watershed, GrabCut, Intelligent Scissors, SSIM template matching, and RITM
@@ -1013,7 +1013,7 @@ export const HomeLayout = (props: HomeLayoutProps) => {
                                     including Segment Anything, run entirely in the browser with zero server interaction
                                     required.
                                 </p>
-                                <InstallCommand command="npm install @geti-ai/smart-tools" />
+                                <InstallCommand command="npm install @geti-ui/smart-tools" />
                                 <div className="geti-home-showcase__meta">
                                     <Badge variant="info">7 annotation tools</Badge>
                                     <a className="geti-home-showcase__link" href="/smart-tools/installation">
@@ -1046,18 +1046,18 @@ export const HomeLayout = (props: HomeLayoutProps) => {
                     </div>
                 </section>
 
-                {/* ───────────────── Section 5: @geti-ai/mcp ───────────────── */}
-                <section className="geti-home-showcase geti-home-showcase--stacked" aria-label="@geti-ai/mcp">
+                {/* ───────────────── Section 5: @geti-ui/mcp ───────────────── */}
+                <section className="geti-home-showcase geti-home-showcase--stacked" aria-label="@geti-ui/mcp">
                     <div className="geti-home-showcase__inner">
                         <div className="geti-home-showcase__text">
                             <p className="geti-home-showcase__kicker">AI Integration</p>
-                            <h2 className="geti-home-showcase__title">@geti-ai/mcp</h2>
+                            <h2 className="geti-home-showcase__title">@geti-ui/mcp</h2>
                             <p className="geti-home-showcase__desc">
                                 An MCP server that exposes Geti UI documentation to AI coding agents. Integrates with
                                 Claude Code, Cursor, VS Code Copilot, and Windsurf. Provides 8 tools for searching docs,
                                 listing components, extracting props, and more.
                             </p>
-                            <InstallCommand command="npx @geti-ai/mcp" />
+                            <InstallCommand command="npx @geti-ui/mcp" />
                             <div className="geti-home-showcase__meta">
                                 <Badge variant="info">8 tools for AI agents</Badge>
                                 <a className="geti-home-showcase__link" href="/ai/overview">
@@ -1073,12 +1073,12 @@ export const HomeLayout = (props: HomeLayoutProps) => {
                     <div className="geti-home-showcase__inner">
                         <div className="geti-home-showcase__text">
                             <p className="geti-home-showcase__kicker">Iconography</p>
-                            <h2 className="geti-home-showcase__title">@geti-ai/ui/icons</h2>
+                            <h2 className="geti-home-showcase__title">@geti-ui/ui/icons</h2>
                             <p className="geti-home-showcase__desc">
                                 150+ workflow icons aligned with Geti semantics. Custom SVGs for AI/ML operations plus
                                 Adobe Spectrum workflow re-exports. Tree-shakeable imports keep bundles lean.
                             </p>
-                            <InstallCommand command="npm install @geti-ai/ui" />
+                            <InstallCommand command="npm install @geti-ui/ui" />
                             <a className="geti-home-showcase__link" href="/assets/icons">
                                 Browse all 150+ icons &rarr;
                             </a>
@@ -1103,12 +1103,12 @@ export const HomeLayout = (props: HomeLayoutProps) => {
                     <div className="geti-home-showcase__inner">
                         <div className="geti-home-showcase__text">
                             <p className="geti-home-showcase__kicker">Visual assets</p>
-                            <h2 className="geti-home-showcase__title">@geti-ai/ui/assets</h2>
+                            <h2 className="geti-home-showcase__title">@geti-ui/ui/assets</h2>
                             <p className="geti-home-showcase__desc">
                                 Production-ready SVG illustrations and domain thumbnails for empty states, onboarding,
                                 error pages, and contextual guidance. Inline SVG components and static WebP image URLs.
                             </p>
-                            <InstallCommand command="npm install @geti-ai/ui" />
+                            <InstallCommand command="npm install @geti-ui/ui" />
                             <a className="geti-home-showcase__link" href="/assets/images">
                                 View all assets &rarr;
                             </a>

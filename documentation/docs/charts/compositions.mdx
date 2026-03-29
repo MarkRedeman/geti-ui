@@ -16,7 +16,7 @@ Use compositions by default. Switch to primitives for non-standard layouts.
 All composition charts support interactive series highlighting — see [Highlights](/charts/highlights).
 
 ```ts
-import { LineChart, AreaChart, BarChart, ScatterChart, PieChart, DonutChart, RadarChart, RadialBarChart, MeterChart, TrainingMetricsChart, RunComparisonChart, TreemapChart, Sparkline } from '@geti-ai/charts';
+import { LineChart, AreaChart, BarChart, ScatterChart, PieChart, DonutChart, RadarChart, RadialBarChart, MeterChart, TrainingMetricsChart, RunComparisonChart, TreemapChart, Sparkline } from '@geti-ui/charts';
 ```
 
 ## Dedicated composition chart guides
@@ -76,7 +76,7 @@ Renders one or more continuous data series as lines.
 ### Example — single series
 
 ```tsx preview
-import { LineChart } from '@geti-ai/charts';
+import { LineChart } from '@geti-ui/charts';
 
 const data = [
   { epoch: 1, loss: 1.42 },
@@ -103,7 +103,7 @@ export default function App() {
 ### Example — multiple series
 
 ```tsx preview
-import { LineChart } from '@geti-ai/charts';
+import { LineChart } from '@geti-ui/charts';
 
 const data = [
   { epoch: 1, train: 1.42, val: 1.50 },
@@ -137,7 +137,7 @@ Use `yScale` to switch the Y axis to a logarithmic scale. This is ideal for loss
 > ⚠ **Log scale requires all values to be > 0.** Pass `domain: [minPositive, 'auto']` to prevent Recharts from including zero in the range.
 
 ```tsx preview
-import { LineChart } from '@geti-ai/charts';
+import { LineChart } from '@geti-ui/charts';
 
 const data = [
   { epoch: 1, loss: 2.31 },
@@ -188,7 +188,7 @@ Renders categorical data as vertical bars. Supports grouped and stacked layouts.
 ### Example — grouped
 
 ```tsx preview
-import { BarChart } from '@geti-ai/charts';
+import { BarChart } from '@geti-ui/charts';
 
 const data = [
   { model: 'MobileNet', precision: 84, recall: 80 },
@@ -215,7 +215,7 @@ export default function App() {
 ### Example — stacked
 
 ```tsx preview
-import { BarChart } from '@geti-ai/charts';
+import { BarChart } from '@geti-ui/charts';
 
 const data = [
   { label: 'Annotated', ok: 900, review: 60, rejected: 40 },
@@ -248,7 +248,7 @@ Log scale is useful for count data that spans orders of magnitude (e.g. class im
 > ⚠ All bar values must be > 0 when using log scale.
 
 ```tsx preview
-import { BarChart } from '@geti-ai/charts';
+import { BarChart } from '@geti-ui/charts';
 
 const data = [
   { label: 'Cat',     count: 1200 },
@@ -306,7 +306,7 @@ Key behaviours:
 ### Example
 
 ```tsx preview
-import { ScatterChart } from '@geti-ai/charts';
+import { ScatterChart } from '@geti-ui/charts';
 
 const points = [
   { x: 0.1, y: 0.85, name: 'cat' },
@@ -334,7 +334,7 @@ export default function App() {
 ### Example — Voronoi disabled (standard hover)
 
 ```tsx preview
-import { ScatterChart } from '@geti-ai/charts';
+import { ScatterChart } from '@geti-ui/charts';
 
 const points = [
   { x: 0.1, y: 0.85, name: 'cat' },
@@ -367,7 +367,7 @@ Log scales on both axes are useful when comparing data that spans many orders of
 > ⚠ Both axes require all values to be > 0.
 
 ```tsx preview
-import { ScatterChart } from '@geti-ai/charts';
+import { ScatterChart } from '@geti-ui/charts';
 
 const models = [
   { x: 3.4e6,  y: 72 },
@@ -412,7 +412,7 @@ A minimal inline chart with no axes, ticks, or legend. Designed for use inside t
 ### Example
 
 ```tsx preview
-import { Sparkline } from '@geti-ai/charts';
+import { Sparkline } from '@geti-ui/charts';
 
 export default function App() {
   return (

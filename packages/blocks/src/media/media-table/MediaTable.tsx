@@ -7,7 +7,7 @@ import {
     Text,
     View,
     type AriaSelection,
-} from '@geti-ai/ui';
+} from '@geti-ui/ui';
 import styles from './media-table.module.css';
 import {
     createMediaRenderContext,

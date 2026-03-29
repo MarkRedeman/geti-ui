@@ -17,11 +17,11 @@ Our release pipeline uses **semantic-release** as the single source of truth for
 
 All five packages share a single version number:
 
-- `@geti-ai/ui`
-- `@geti-ai/blocks`
-- `@geti-ai/smart-tools`
-- `@geti-ai/charts`
-- `@geti-ai/mcp`
+- `@geti-ui/ui`
+- `@geti-ui/blocks`
+- `@geti-ui/smart-tools`
+- `@geti-ui/charts`
+- `@geti-ui/mcp`
 
 When semantic-release determines a version bump, every package is updated to the same version and published together.
 

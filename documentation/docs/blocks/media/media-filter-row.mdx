@@ -19,15 +19,15 @@ This row supports common patterns:
 - custom value type via `renderValueEditor`
 
 ```tsx
-import { FilterRow } from '@geti-ai/blocks';
+import { FilterRow } from '@geti-ui/blocks';
 ```
 
 ## All supported filter value types
 
 ```tsx preview
 import { useState } from 'react';
-import { FilterRow, type FilterRule } from '@geti-ai/blocks';
-import { ThemeProvider, Text, TextField, View } from '@geti-ai/ui';
+import { FilterRow, type FilterRule } from '@geti-ui/blocks';
+import { ThemeProvider, Text, TextField, View } from '@geti-ui/ui';
 
 const fields = [
   {
@@ -146,8 +146,8 @@ export default function App() {
 
 ```tsx preview
 import { useState } from 'react';
-import { FilterRow, type FilterRule } from '@geti-ai/blocks';
-import { ThemeProvider, Text } from '@geti-ai/ui';
+import { FilterRow, type FilterRule } from '@geti-ui/blocks';
+import { ThemeProvider, Text } from '@geti-ui/ui';
 
 const fields = [{ key: 'MEDIA_NAME', label: 'Media name', valueType: 'text' as const }];
 const globalOperators = [{ key: 'CONTAINS', label: 'contains' }];
@@ -170,8 +170,8 @@ export default function App() {
 
 ```tsx preview
 import { useState } from 'react';
-import { FilterRow, type FilterRule } from '@geti-ai/blocks';
-import { ThemeProvider, Text } from '@geti-ai/ui';
+import { FilterRow, type FilterRule } from '@geti-ui/blocks';
+import { ThemeProvider, Text } from '@geti-ui/ui';
 
 const fields = [{ key: 'MEDIA_WIDTH', label: 'Width', valueType: 'number' as const }];
 const globalOperators = [
@@ -197,8 +197,8 @@ export default function App() {
 
 ```tsx preview
 import { useState } from 'react';
-import { FilterRow, type FilterRule } from '@geti-ai/blocks';
-import { ThemeProvider, Text } from '@geti-ai/ui';
+import { FilterRow, type FilterRule } from '@geti-ui/blocks';
+import { ThemeProvider, Text } from '@geti-ui/ui';
 
 const fields = [{ key: 'UPLOADED_AT', label: 'Uploaded date', valueType: 'date' as const }];
 const globalOperators = [
@@ -224,8 +224,8 @@ export default function App() {
 
 ```tsx preview
 import { useState } from 'react';
-import { FilterRow, type FilterRule } from '@geti-ai/blocks';
-import { ThemeProvider, Divider, Text } from '@geti-ai/ui';
+import { FilterRow, type FilterRule } from '@geti-ui/blocks';
+import { ThemeProvider, Divider, Text } from '@geti-ui/ui';
 
 const fields = [
   {
@@ -284,8 +284,8 @@ export default function App() {
 
 ```tsx preview
 import { useState } from 'react';
-import { FilterRow, type FilterRule } from '@geti-ai/blocks';
-import { ThemeProvider, ActionButton } from '@geti-ai/ui';
+import { FilterRow, type FilterRule } from '@geti-ui/blocks';
+import { ThemeProvider, ActionButton } from '@geti-ui/ui';
 
 const fields = [{ key: 'MEDIA_NAME', label: 'Media name', valueType: 'text' as const }];
 const globalOperators = [{ key: 'CONTAINS', label: 'contains' }];

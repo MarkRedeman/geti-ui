@@ -6,12 +6,12 @@ tag: Deprecated
 # VirtualizedListLayout
 
 > [!WARNING]
-> Deprecated: migrate to `@geti-ai/blocks` media primitives (`MediaGrid`, `MediaColumn`, `MediaRow`).
+> Deprecated: migrate to `@geti-ui/blocks` media primitives (`MediaGrid`, `MediaColumn`, `MediaRow`).
 
 `VirtualizedListLayout` renders a vertically scrolling list that only mounts the items currently in view.
 
 ```tsx
-import { VirtualizedListLayout } from '@geti-ai/ui';
+import { VirtualizedListLayout } from '@geti-ui/ui';
 ```
 
 - [Geti UI Theming](/components/theming)
@@ -21,7 +21,7 @@ import { VirtualizedListLayout } from '@geti-ai/ui';
 ### 1 000-item virtualized list
 
 ```tsx preview
-import { VirtualizedListLayout } from '@geti-ai/ui';
+import { VirtualizedListLayout } from '@geti-ui/ui';
 
 export default function App() {
   const items = Array.from({ length: 1000 }, (_, i) => ({

@@ -7,7 +7,7 @@ title: Calendar
 `Calendar` shows a full month grid and lets users select a single date. `RangeCalendar` extends this to allow selecting a start–end date range. Both are standalone components without a popover trigger — use them inline or compose them into custom overlays.
 
 ```tsx
-import { Calendar, RangeCalendar } from '@geti-ai/ui';
+import { Calendar, RangeCalendar } from '@geti-ui/ui';
 ```
 
 - [React Spectrum Calendar ↗](https://react-spectrum.adobe.com/react-spectrum/Calendar.html)
@@ -19,7 +19,7 @@ import { Calendar, RangeCalendar } from '@geti-ai/ui';
 ### Calendar — default
 
 ```tsx preview
-import { Calendar } from '@geti-ai/ui';
+import { Calendar } from '@geti-ui/ui';
 
 export default function App() {
   return <Calendar aria-label="Event date" />;
@@ -29,7 +29,7 @@ export default function App() {
 ### Calendar — multiple months
 
 ```tsx preview
-import { Calendar } from '@geti-ai/ui';
+import { Calendar } from '@geti-ui/ui';
 
 export default function App() {
   return <Calendar aria-label="Event date" visibleMonths={2} />;
@@ -39,7 +39,7 @@ export default function App() {
 ### Calendar — disabled
 
 ```tsx preview
-import { Calendar } from '@geti-ai/ui';
+import { Calendar } from '@geti-ui/ui';
 
 export default function App() {
   return <Calendar aria-label="Event date" isDisabled />;
@@ -49,7 +49,7 @@ export default function App() {
 ### RangeCalendar — default
 
 ```tsx preview
-import { RangeCalendar } from '@geti-ai/ui';
+import { RangeCalendar } from '@geti-ui/ui';
 
 export default function App() {
   return <RangeCalendar aria-label="Event range" />;
@@ -59,7 +59,7 @@ export default function App() {
 ### RangeCalendar — multiple months
 
 ```tsx preview
-import { RangeCalendar } from '@geti-ai/ui';
+import { RangeCalendar } from '@geti-ui/ui';
 
 export default function App() {
   return <RangeCalendar aria-label="Event range" visibleMonths={2} />;

@@ -1,4 +1,4 @@
-import { TextField } from '@geti-ai/ui';
+import { TextField } from '@geti-ui/ui';
 import type { FilterValueTextProps } from './types';
 
 export function FilterValueText({ value, onChange, isDisabled, ariaLabel = 'Filter value' }: FilterValueTextProps) {

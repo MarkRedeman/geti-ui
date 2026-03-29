@@ -3,9 +3,9 @@ import { startServer } from './server.js';
 const VERSION = '0.0.1';
 
 if (process.argv.includes('--help') || process.argv.includes('-h')) {
-    console.log('@geti-ai/mcp - Geti UI documentation MCP server');
+    console.log('@geti-ui/mcp - Geti UI documentation MCP server');
     console.log('');
-    console.log('Usage: npx @geti-ai/mcp');
+    console.log('Usage: npx @geti-ui/mcp');
     console.log('');
     console.log('Environment variables:');
     console.log('  DOCS_BASE_URL  Fetch docs from a remote URL instead of bundled data');

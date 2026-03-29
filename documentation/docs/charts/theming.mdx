@@ -4,14 +4,14 @@ title: Theming
 
 # Charts Theming
 
-`@geti-ai/charts` ships its own theme layer built on top of Geti design tokens. It integrates with `ThemeProvider` from `@geti-ai/ui` but can also be used standalone.
+`@geti-ui/charts` ships its own theme layer built on top of Geti design tokens. It integrates with `ThemeProvider` from `@geti-ui/ui` but can also be used standalone.
 
 ## `ChartsThemeProvider`
 
 Wrap the section of your app that renders charts:
 
 ```tsx
-import { ChartsThemeProvider } from '@geti-ai/charts';
+import { ChartsThemeProvider } from '@geti-ui/charts';
 
 export function Dashboard() {
   return (
@@ -22,7 +22,7 @@ export function Dashboard() {
 }
 ```
 
-`ChartsThemeProvider` provides a chart theme context consumed by all chart primitives and components. It does **not** require `ThemeProvider` from `@geti-ai/ui`, but should be nested inside it when both are present.
+`ChartsThemeProvider` provides a chart theme context consumed by all chart primitives and components. It does **not** require `ThemeProvider` from `@geti-ui/ui`, but should be nested inside it when both are present.
 
 For best React render performance, pass a stable `theme` object reference (e.g. from `useMemo`), especially in frequently re-rendering dashboards.
 
@@ -35,7 +35,7 @@ Use `useGetiUIChartsTheme` to read an adapter theme object from currently availa
 > **Note:** CSS variables are read once at component mount — the theme object does **not** update if the app's CSS variables change at runtime (e.g. switching between light and dark mode dynamically). For static dark-mode-only apps this is not an issue. If you need runtime theme switching, remount the `ChartsThemeProvider` subtree when the theme changes, or pass a manually-updated `theme` object.
 
 ```tsx preview
-import { getDatasetSubsetColor, useGetiUIChartsTheme } from '@geti-ai/charts';
+import { getDatasetSubsetColor, useGetiUIChartsTheme } from '@geti-ui/charts';
 
 export default function App() {
   const theme = useGetiUIChartsTheme();
@@ -92,8 +92,8 @@ Pass theme colours directly to Recharts elements:
 
 ```tsx preview
 import { Line, LineChart as RechartsLineChart } from 'recharts';
-import { GetiCartesianGrid, GetiXAxis, GetiYAxis, GetiTooltip, GetiResponsiveContainer } from '@geti-ai/charts/primitives';
-import { useGetiUIChartsTheme } from '@geti-ai/charts';
+import { GetiCartesianGrid, GetiXAxis, GetiYAxis, GetiTooltip, GetiResponsiveContainer } from '@geti-ui/charts/primitives';
+import { useGetiUIChartsTheme } from '@geti-ui/charts';
 
 const data = [
   { t: 0, a: 10, b: 20, c: 15 },
@@ -140,7 +140,7 @@ export default function App() {
 Use `ChartsThemeProvider` overrides to customize chart visuals in a scoped region:
 
 ```tsx
-import { ChartsThemeProvider, LineChart } from '@geti-ai/charts';
+import { ChartsThemeProvider, LineChart } from '@geti-ui/charts';
 
 export function MyDashboard() {
   return (

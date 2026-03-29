@@ -1,6 +1,6 @@
 # Installation
 
-This guide explains how to install and start using `@geti-ai/ui` in a React application.
+This guide explains how to install and start using `@geti-ui/ui` in a React application.
 
 ## Requirements
 
@@ -11,18 +11,18 @@ This guide explains how to install and start using `@geti-ai/ui` in a React appl
 ## Install the package
 
 ```bash
-npm install @geti-ai/ui
+npm install @geti-ui/ui
 ```
 
 ## Wrap your app with `ThemeProvider`
 
-`@geti-ai/ui` components require both:
+`@geti-ui/ui` components require both:
 
 1. the package stylesheet (design tokens + component styles), and
 2. `ThemeProvider` at app root.
 
 ```tsx
-import '@geti-ai/ui/styles.css';
+import '@geti-ui/ui/styles.css';
 ```
 
 Then wrap your app once at the root:
@@ -30,8 +30,8 @@ Then wrap your app once at the root:
 ```tsx
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import '@geti-ai/ui/styles.css';
-import { ThemeProvider } from '@geti-ai/ui';
+import '@geti-ui/ui/styles.css';
+import { ThemeProvider } from '@geti-ui/ui';
 import { App } from './App';
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
@@ -44,7 +44,7 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
 ## Use components
 
 ```tsx
-import { Button } from '@geti-ai/ui';
+import { Button } from '@geti-ui/ui';
 
 export function Example() {
   return <Button variant="accent">Click me</Button>;

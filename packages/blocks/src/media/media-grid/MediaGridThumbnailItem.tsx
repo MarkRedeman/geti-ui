@@ -1,4 +1,4 @@
-import { Image } from '@geti-ai/ui';
+import { Image } from '@geti-ui/ui';
 import { MediaGridItem } from './MediaGridItem';
 import styles from './MediaGridItem.module.css';
 import type { MediaGridThumbnailItemProps } from './types';

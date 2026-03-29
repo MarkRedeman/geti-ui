@@ -1,5 +1,5 @@
-import { ActionButton, Icon, Tag } from '@geti-ai/ui';
-import { BorderClose } from '@geti-ai/ui/icons';
+import { ActionButton, Icon, Tag } from '@geti-ui/ui';
+import { BorderClose } from '@geti-ui/ui/icons';
 import type { FilterChipProps } from './types';
 import styles from './FilterChip.module.css';
 

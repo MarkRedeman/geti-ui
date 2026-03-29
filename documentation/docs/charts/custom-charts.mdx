@@ -38,8 +38,8 @@ Checklist:
 5. Add dataset subset theming example to:
    - `documentation/docs/charts/theming/dataset-subsets.mdx`
 6. Verify:
-   - `npm run type-check --workspace=@geti-ai/charts`
-   - `npm run build --workspace=@geti-ai/charts`
+   - `npm run type-check --workspace=@geti-ui/charts`
+   - `npm run build --workspace=@geti-ui/charts`
 
 ## Building a custom area chart
 
@@ -52,7 +52,7 @@ import {
   GetiTooltip,
   GetiLegend,
   GetiResponsiveContainer,
-} from '@geti-ai/charts/primitives';
+} from '@geti-ui/charts/primitives';
 
 const data = [
   { day: 'Mon', images: 120, annotations: 98 },
@@ -116,7 +116,7 @@ import {
   GetiTooltip,
   GetiLegend,
   GetiResponsiveContainer,
-} from '@geti-ai/charts/primitives';
+} from '@geti-ui/charts/primitives';
 
 const data = [
   { week: 'W1', images: 200, accuracy: 71 },
@@ -170,7 +170,7 @@ import {
   GetiYAxis,
   GetiTooltip,
   GetiResponsiveContainer,
-} from '@geti-ai/charts/primitives';
+} from '@geti-ui/charts/primitives';
 
 // Model size (MB) vs mAP — both axes span orders of magnitude
 const models = [
@@ -235,7 +235,7 @@ These examples intentionally use primitives/custom composition patterns rather t
 
 ```tsx preview
 import { Line, LineChart as RechartsLineChart } from 'recharts';
-import { GetiCartesianGrid, GetiLegend, GetiResponsiveContainer, GetiTooltip, GetiXAxis, GetiYAxis } from '@geti-ai/charts/primitives';
+import { GetiCartesianGrid, GetiLegend, GetiResponsiveContainer, GetiTooltip, GetiXAxis, GetiYAxis } from '@geti-ui/charts/primitives';
 
 const data = [
   { epoch: 1, trainLoss: 1.42, valLoss: 1.53 },
@@ -264,7 +264,7 @@ export default function App() {
 ### Confusion matrix (custom grid)
 
 ```tsx preview
-import { GetiChartContainer } from '@geti-ai/charts/primitives';
+import { GetiChartContainer } from '@geti-ui/charts/primitives';
 
 const labels = ['Car', 'Person', 'Bike'];
 const matrix = [
@@ -303,7 +303,7 @@ import {
   GetiTooltip,
   GetiXAxis,
   GetiYAxis,
-} from '@geti-ai/charts/primitives';
+} from '@geti-ui/charts/primitives';
 
 const data = [
   { fpr: 0.0, tpr: 0.0 },

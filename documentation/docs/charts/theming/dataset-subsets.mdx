@@ -15,7 +15,7 @@ Default mapping:
 ## Basic usage
 
 ```tsx
-import { withDatasetSubsetPalette } from '@geti-ai/charts';
+import { withDatasetSubsetPalette } from '@geti-ui/charts';
 
 const series = withDatasetSubsetPalette([
   { dataKey: 'train', name: 'Training set' },
@@ -27,7 +27,7 @@ const series = withDatasetSubsetPalette([
 ## Override palette and aliases
 
 ```tsx
-import { withDatasetSubsetPalette } from '@geti-ai/charts';
+import { withDatasetSubsetPalette } from '@geti-ui/charts';
 
 const series = withDatasetSubsetPalette(
   [
@@ -55,7 +55,7 @@ const series = withDatasetSubsetPalette(
 For pie-like charts (single series), use `getDatasetSubsetColor` directly per slice:
 
 ```tsx preview
-import { PieChart, getDatasetSubsetColor } from '@geti-ai/charts';
+import { PieChart, getDatasetSubsetColor } from '@geti-ui/charts';
 
 const data = [
   { name: 'Train', value: 70 },
@@ -83,7 +83,7 @@ export default function App() {
 ## Line chart example
 
 ```tsx preview
-import { LineChart, withDatasetSubsetPalette } from '@geti-ai/charts';
+import { LineChart, withDatasetSubsetPalette } from '@geti-ui/charts';
 
 const data = [
   { epoch: 1, train: 1.42, val: 1.50, test: 1.55 },
@@ -115,7 +115,7 @@ export default function App() {
 ## Area chart example
 
 ```tsx preview
-import { AreaChart, withDatasetSubsetPalette } from '@geti-ai/charts';
+import { AreaChart, withDatasetSubsetPalette } from '@geti-ui/charts';
 
 const data = [
   { step: 1, train: 0.45, val: 0.41, test: 0.39 },
@@ -147,7 +147,7 @@ export default function App() {
 ## Bar chart example
 
 ```tsx preview
-import { BarChart, withDatasetSubsetPalette } from '@geti-ai/charts';
+import { BarChart, withDatasetSubsetPalette } from '@geti-ui/charts';
 
 const data = [
   { split: 'Fold A', train: 0.91, val: 0.85, test: 0.83 },
@@ -178,7 +178,7 @@ export default function App() {
 ## Scatter / bubble chart example
 
 ```tsx preview
-import { ScatterChart, withDatasetSubsetPalette } from '@geti-ai/charts';
+import { ScatterChart, withDatasetSubsetPalette } from '@geti-ui/charts';
 
 const train = [
   { x: 2.8e6, y: 0.47, z: 9.8 },
@@ -221,7 +221,7 @@ export default function App() {
 ## Sparkline example
 
 ```tsx preview
-import { Sparkline, getDatasetSubsetColor } from '@geti-ai/charts';
+import { Sparkline, getDatasetSubsetColor } from '@geti-ui/charts';
 
 export default function App() {
   return (
@@ -260,7 +260,7 @@ export default function App() {
 Use the same palette with donut-style charts by passing subset colors as the `colors` array.
 
 ```tsx preview
-import { DonutChart, getDatasetSubsetColor } from '@geti-ai/charts';
+import { DonutChart, getDatasetSubsetColor } from '@geti-ui/charts';
 
 const data = [
   { name: 'Train', value: 70 },
@@ -288,7 +288,7 @@ export default function App() {
 ## Radar chart example
 
 ```tsx preview
-import { RadarChart, withDatasetSubsetPalette } from '@geti-ai/charts';
+import { RadarChart, withDatasetSubsetPalette } from '@geti-ui/charts';
 
 const data = [
   { metric: 'mAP', train: 0.88, val: 0.82, test: 0.80 },
@@ -321,7 +321,7 @@ export default function App() {
 ## RadialBar chart example
 
 ```tsx preview
-import { RadialBarChart, getDatasetSubsetColor } from '@geti-ai/charts';
+import { RadialBarChart, getDatasetSubsetColor } from '@geti-ui/charts';
 
 const data = [
   { name: 'Train', value: 91 },
@@ -348,7 +348,7 @@ export default function App() {
 ## Meter chart example
 
 ```tsx preview
-import { MeterChart, getDatasetSubsetColor } from '@geti-ai/charts';
+import { MeterChart, getDatasetSubsetColor } from '@geti-ui/charts';
 
 export default function App() {
   return (
@@ -365,8 +365,8 @@ export default function App() {
 
 ```tsx preview
 import { Treemap, Tooltip } from 'recharts';
-import { GetiResponsiveContainer } from '@geti-ai/charts/primitives';
-import { getDatasetSubsetColor } from '@geti-ai/charts';
+import { GetiResponsiveContainer } from '@geti-ui/charts/primitives';
+import { getDatasetSubsetColor } from '@geti-ui/charts';
 
 const data = [
   {

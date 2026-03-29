@@ -1,4 +1,4 @@
-import { ActionButton, Flex, Text } from '@geti-ai/ui';
+import { ActionButton, Flex, Text } from '@geti-ui/ui';
 import { FilterChip } from './FilterChip';
 import { getDefaultRuleDescription, getDefaultRuleValueLabel, getFieldByKey } from './utils';
 import type { FilterChipsProps } from './types';

@@ -1,7 +1,7 @@
 import { render, screen, cleanup } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { afterEach, describe, expect, it } from '@rstest/core';
-import { ActionButton, TabItem, TabPanels, Tabs, ThemeProvider } from '@geti-ai/ui';
+import { ActionButton, TabItem, TabPanels, Tabs, ThemeProvider } from '@geti-ui/ui';
 import { OverflowableTabs } from './OverflowableTabs';
 
 type TabData = { id: string; label: string };

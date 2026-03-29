@@ -10,7 +10,7 @@ import {
     Flex,
     Text,
     View,
-} from '@geti-ai/ui';
+} from '@geti-ui/ui';
 import styles from './media-grid.module.css';
 import type { MediaGridIdentifiable, MediaGridProps, MediaGridRenderContext, MediaGridSelection } from './types';
 

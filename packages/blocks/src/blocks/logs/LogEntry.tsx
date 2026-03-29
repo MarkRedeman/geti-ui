@@ -1,4 +1,4 @@
-import { Text, Tooltip, TooltipTrigger, View, Flex } from '@geti-ai/ui';
+import { Text, Tooltip, TooltipTrigger, View, Flex } from '@geti-ui/ui';
 import { DEFAULT_LOG_LEVEL_COLORS, type LogEntryData } from './types';
 import styles from './log-viewer.module.css';
 

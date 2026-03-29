@@ -1,6 +1,6 @@
 import { render, screen } from '@testing-library/react';
 import { describe, expect, it } from '@rstest/core';
-import { ThemeProvider, DialogTrigger, ActionButton } from '@geti-ai/ui';
+import { ThemeProvider, DialogTrigger, ActionButton } from '@geti-ui/ui';
 import { FilterDialog } from './FilterDialog';
 import userEvent from '@testing-library/user-event';
 

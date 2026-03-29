@@ -34,7 +34,7 @@ title: Parallel coordinates
 ## Example datasets
 
 ```tsx preview
-import { ParallelCoordinates } from '@geti-ai/charts';
+import { ParallelCoordinates } from '@geti-ui/charts';
 
 function makePcaRows(rowCount: number, componentCount: number) {
   return Array.from({ length: rowCount }, (_, rowIndex) => {
@@ -85,7 +85,7 @@ export default function App() {
 ### 1) 4 PCA components, 10 rows
 
 ```tsx preview
-import { ParallelCoordinates } from '@geti-ai/charts';
+import { ParallelCoordinates } from '@geti-ui/charts';
 
 function makeRows(rowCount: number, componentCount: number) {
   return Array.from({ length: rowCount }, (_, rowIndex) => {
@@ -123,7 +123,7 @@ export default function App() {
 ### 2) 4 PCA components, 100 rows
 
 ```tsx preview
-import { ParallelCoordinates } from '@geti-ai/charts';
+import { ParallelCoordinates } from '@geti-ui/charts';
 
 function makeRows(rowCount: number, componentCount: number) {
   return Array.from({ length: rowCount }, (_, rowIndex) => {
@@ -162,7 +162,7 @@ export default function App() {
 ### 3) 4 PCA components, 1000 rows
 
 ```tsx preview
-import { ParallelCoordinates } from '@geti-ai/charts';
+import { ParallelCoordinates } from '@geti-ui/charts';
 
 function makeRows(rowCount: number, componentCount: number) {
   return Array.from({ length: rowCount }, (_, rowIndex) => {
@@ -201,7 +201,7 @@ export default function App() {
 ### 3a) 4 PCA components, 1000 rows — turbo preset
 
 ```tsx preview
-import { ParallelCoordinates } from '@geti-ai/charts';
+import { ParallelCoordinates } from '@geti-ui/charts';
 
 function makeRows(rowCount: number, componentCount: number) {
   return Array.from({ length: rowCount }, (_, rowIndex) => {
@@ -240,7 +240,7 @@ export default function App() {
 ### 3b) 4 PCA components, 1000 rows — Tailwind-inspired cyan/blue/indigo
 
 ```tsx preview
-import { ParallelCoordinates } from '@geti-ai/charts';
+import { ParallelCoordinates } from '@geti-ui/charts';
 
 function makeRows(rowCount: number, componentCount: number) {
   return Array.from({ length: rowCount }, (_, rowIndex) => {
@@ -282,7 +282,7 @@ export default function App() {
 ### 4) 10 PCA components, 10 rows
 
 ```tsx preview
-import { ParallelCoordinates } from '@geti-ai/charts';
+import { ParallelCoordinates } from '@geti-ui/charts';
 
 function makeRows(rowCount: number, componentCount: number) {
   return Array.from({ length: rowCount }, (_, rowIndex) => {
@@ -319,7 +319,7 @@ export default function App() {
 ### 5) 10 PCA components, 1000 rows
 
 ```tsx preview
-import { ParallelCoordinates } from '@geti-ai/charts';
+import { ParallelCoordinates } from '@geti-ui/charts';
 
 function makeRows(rowCount: number, componentCount: number) {
   return Array.from({ length: rowCount }, (_, rowIndex) => {
@@ -357,7 +357,7 @@ export default function App() {
 ### 5a) 10 PCA components, 1000 rows — magma preset
 
 ```tsx preview
-import { ParallelCoordinates } from '@geti-ai/charts';
+import { ParallelCoordinates } from '@geti-ui/charts';
 
 function makeRows(rowCount: number, componentCount: number) {
   return Array.from({ length: rowCount }, (_, rowIndex) => {
@@ -395,7 +395,7 @@ export default function App() {
 ### 5b) 10 PCA components, 1000 rows — Tailwind-inspired emerald/teal + rose/fuchsia
 
 ```tsx preview
-import { ParallelCoordinates } from '@geti-ai/charts';
+import { ParallelCoordinates } from '@geti-ui/charts';
 
 function makeRows(rowCount: number, componentCount: number) {
   return Array.from({ length: rowCount }, (_, rowIndex) => {
@@ -436,7 +436,7 @@ export default function App() {
 ## Variant — color by right-most axis + image hover callback
 
 ```tsx preview
-import { ParallelCoordinates } from '@geti-ai/charts';
+import { ParallelCoordinates } from '@geti-ui/charts';
 
 const pcaRows = [
   { id: 'img-001', pc1: -2.4, pc2: -1.1, pc3: 0.2, pc4: 0.7, pc5: 1.0, pc6: 0.5, pc7: 1.8, pc8: 2.2 },
@@ -482,7 +482,7 @@ export default function App() {
 
 ```tsx preview
 import { useState } from 'react';
-import { ParallelCoordinates } from '@geti-ai/charts';
+import { ParallelCoordinates } from '@geti-ui/charts';
 
 const pcaRows = [
   { id: 'img-001', pc1: -2.4, pc2: -1.1, pc3: 0.2, pc4: 0.7, pc5: 1.0, pc6: 0.5, pc7: 1.8, pc8: 2.2 },
@@ -558,9 +558,9 @@ Double-click inside the plot area to clear selection.
 
 ```tsx preview
 import { useMemo, useState } from 'react';
-import type { SelectionMode, SelectionRect } from '@geti-ai/charts';
-import { ParallelCoordinates } from '@geti-ai/charts';
-import { ToggleButtons } from '@geti-ai/ui';
+import type { SelectionMode, SelectionRect } from '@geti-ui/charts';
+import { ParallelCoordinates } from '@geti-ui/charts';
+import { ToggleButtons } from '@geti-ui/ui';
 
 function makeRows(rowCount: number, componentCount: number) {
   return Array.from({ length: rowCount }, (_, rowIndex) => {

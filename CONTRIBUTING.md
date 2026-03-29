@@ -1,6 +1,6 @@
 # Contributing to Geti UI
 
-This guide explains how to develop `@geti-ai/ui` components and validate changes in the documentation site with live reload.
+This guide explains how to develop `@geti-ui/ui` components and validate changes in the documentation site with live reload.
 
 ## Prerequisites
 
@@ -11,7 +11,7 @@ Use the versions declared in the root `package.json` `engines` field.
 
 ## Repository layout
 
-- `packages/ui` — component library source (`@geti-ai/ui`)
+- `packages/ui` — component library source (`@geti-ui/ui`)
 - `documentation` — docs site (Rspress)
 
 ## Install
@@ -30,7 +30,7 @@ For component work, run this from repo root:
 npm run docs:dev:with-ui
 ```
 
-This runs `@geti-ai/ui` in watch mode and the docs dev server together.
+This runs `@geti-ui/ui` in watch mode and the docs dev server together.
 
 Then open the local docs URL shown in terminal (typically `http://localhost:3000`).
 
@@ -41,7 +41,7 @@ If you prefer separate terminals, run:
 ### 1) Build library in watch mode
 
 ```bash
-npm run build:watch --workspace=@geti-ai/ui
+npm run build:watch --workspace=@geti-ui/ui
 ```
 
 ### 2) Run docs dev server (live reload)
@@ -77,12 +77,12 @@ npm run docs:build
 npm run docs:test:e2e
 ```
 
-`npm run docs:build` automatically builds `@geti-ai/ui` first via documentation's `prebuild` hook.
+`npm run docs:build` automatically builds `@geti-ui/ui` first via documentation's `prebuild` hook.
 
 ## Documentation authoring rules
 
 - Author component docs in `documentation/docs/components/**`.
-- Prefer explicit examples using `@geti-ai/ui` components.
+- Prefer explicit examples using `@geti-ui/ui` components.
 
 ## Commit format
 

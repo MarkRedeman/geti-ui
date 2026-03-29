@@ -1,29 +1,29 @@
 #!/usr/bin/env bash
-# publish-all.sh — Publish all @geti-ai workspace packages to npm.
+# publish-all.sh — Publish all @geti-ui workspace packages to npm.
 #
 # Called by semantic-release via @semantic-release/exec publishCmd.
 # Packages are published sequentially in dependency order:
-#   1. @geti-ai/ui          (no internal deps)
-#   2. @geti-ai/blocks      (depends on @geti-ai/ui)
-#   3. @geti-ai/smart-tools (no internal deps)
-#   4. @geti-ai/charts      (depends on @geti-ai/ui)
-#   5. @geti-ai/mcp         (no internal deps)
+#   1. @geti-ui/ui          (no internal deps)
+#   2. @geti-ui/blocks      (depends on @geti-ui/ui)
+#   3. @geti-ui/smart-tools (no internal deps)
+#   4. @geti-ui/charts      (depends on @geti-ui/ui)
+#   5. @geti-ui/mcp         (no internal deps)
 
 set -euo pipefail
 
-echo "Publishing @geti-ai/ui ..."
-npm publish --provenance --access public --workspace=@geti-ai/ui
+echo "Publishing @geti-ui/ui ..."
+npm publish --provenance --access public --workspace=@geti-ui/ui
 
-echo "Publishing @geti-ai/blocks ..."
-npm publish --provenance --access public --workspace=@geti-ai/blocks
+echo "Publishing @geti-ui/blocks ..."
+npm publish --provenance --access public --workspace=@geti-ui/blocks
 
-echo "Publishing @geti-ai/smart-tools ..."
-npm publish --provenance --access public --workspace=@geti-ai/smart-tools
+echo "Publishing @geti-ui/smart-tools ..."
+npm publish --provenance --access public --workspace=@geti-ui/smart-tools
 
-echo "Publishing @geti-ai/charts ..."
-npm publish --provenance --access public --workspace=@geti-ai/charts
+echo "Publishing @geti-ui/charts ..."
+npm publish --provenance --access public --workspace=@geti-ui/charts
 
-echo "Publishing @geti-ai/mcp ..."
-npm publish --provenance --access public --workspace=@geti-ai/mcp
+echo "Publishing @geti-ui/mcp ..."
+npm publish --provenance --access public --workspace=@geti-ui/mcp
 
 echo "All packages published successfully."

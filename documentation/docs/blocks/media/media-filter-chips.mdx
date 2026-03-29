@@ -7,15 +7,15 @@ title: Filter chips
 `FilterChips` renders active filter rules as removable chips.
 
 ```tsx
-import { FilterChips } from '@geti-ai/blocks';
+import { FilterChips } from '@geti-ui/blocks';
 ```
 
 ## Usage
 
 ```tsx preview
 import { useState } from 'react';
-import { FilterChips, type FilterRule } from '@geti-ai/blocks';
-import { Button, ThemeProvider } from '@geti-ai/ui';
+import { FilterChips, type FilterRule } from '@geti-ui/blocks';
+import { Button, ThemeProvider } from '@geti-ui/ui';
 
 const initialRules: FilterRule[] = [
   { id: 'r1', field: 'MEDIA_NAME', operator: 'CONTAINS', value: 'road' },
@@ -70,8 +70,8 @@ export default function App() {
 ## Date and numeric label formatting
 
 ```tsx preview
-import { FilterChips, type FilterRule } from '@geti-ai/blocks';
-import { ThemeProvider } from '@geti-ai/ui';
+import { FilterChips, type FilterRule } from '@geti-ui/blocks';
+import { ThemeProvider } from '@geti-ui/ui';
 
 const rules: FilterRule[] = [
   { id: 'r1', field: 'UPLOADED_AT', operator: 'AFTER', value: '2026-02-16' },
@@ -112,8 +112,8 @@ export default function App() {
 This example intentionally includes all baseline rule field/operator patterns used by the built-in smart label formatter.
 
 ```tsx preview
-import { FilterChips, type FilterRule } from '@geti-ai/blocks';
-import { ThemeProvider } from '@geti-ai/ui';
+import { FilterChips, type FilterRule } from '@geti-ui/blocks';
+import { ThemeProvider } from '@geti-ui/ui';
 
 const rules: FilterRule[] = [
   // Labels
@@ -173,8 +173,8 @@ export default function App() {
 Use `getRuleDescription` and `getRuleValueLabel` when you want custom chip grammar but still keep default composition.
 
 ```tsx preview
-import { FilterChips, type FilterRule } from '@geti-ai/blocks';
-import { ThemeProvider } from '@geti-ai/ui';
+import { FilterChips, type FilterRule } from '@geti-ui/blocks';
+import { ThemeProvider } from '@geti-ui/ui';
 
 const rules: FilterRule[] = [
   { id: 'r1', field: 'MEDIA_WIDTH', operator: 'GREATER_THAN', value: 1920 },
@@ -218,8 +218,8 @@ export default function App() {
 
 ```tsx preview
 import { useState } from 'react';
-import { FilterChips, type FilterRule } from '@geti-ai/blocks';
-import { Switch, ThemeProvider } from '@geti-ai/ui';
+import { FilterChips, type FilterRule } from '@geti-ui/blocks';
+import { Switch, ThemeProvider } from '@geti-ui/ui';
 
 const seed: FilterRule[] = [{ id: 'r1', field: 'MEDIA_NAME', operator: 'CONTAINS', value: 'night' }];
 

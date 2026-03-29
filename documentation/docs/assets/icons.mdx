@@ -3,8 +3,8 @@ title: Icons
 ---
 
 import { useState } from 'react';
-import { TooltipTrigger, Tooltip, ColorPickerDialog, Slider, ToastContainer, SearchField, toast } from '@geti-ai/ui';
-import * as Icons from '@geti-ai/ui/icons';
+import { TooltipTrigger, Tooltip, ColorPickerDialog, Slider, ToastContainer, SearchField, toast } from '@geti-ui/ui';
+import * as Icons from '@geti-ui/ui/icons';
 
 export const SVG_ICON_NAMES = [
   'Adjustments', 'AiIcon', 'AICPUIcon', 'Alert', 'AlertOutlined',
@@ -78,7 +78,7 @@ export function IconGrid({ names, iconColor, iconSize, isSpectrum = false }) {
             <button
               type="button"
               aria-label={name}
-              onClick={() => copyImport(name, '@geti-ai/ui/icons')}
+              onClick={() => copyImport(name, '@geti-ui/ui/icons')}
               style={{
                 display: 'flex',
                 flexDirection: 'column',
@@ -248,15 +248,15 @@ export function SearchableIconGrid() {
 The icons subpath exports every Geti custom SVG icon as a named React component, plus a curated set of Adobe Spectrum workflow icon re-exports.
 
 ```tsx
-import { Add, Delete, Filter, Gear } from '@geti-ai/ui/icons';
+import { Add, Delete, Filter, Gear } from '@geti-ui/ui/icons';
 ```
 
 ## Usage
 
-SVG icons from `@geti-ai/ui/icons` render as inline SVG via SVGR. They accept standard `SVGProps<SVGSVGElement>` props.
+SVG icons from `@geti-ui/ui/icons` render as inline SVG via SVGR. They accept standard `SVGProps<SVGSVGElement>` props.
 
 ```tsx
-import { Add, Delete, Search, Gear } from '@geti-ai/ui/icons';
+import { Add, Delete, Search, Gear } from '@geti-ui/ui/icons';
 
 // Basic usage — size via width/height
 <Add width={16} height={16} />
@@ -268,7 +268,7 @@ import { Add, Delete, Search, Gear } from '@geti-ai/ui/icons';
 Spectrum re-exports accept the Spectrum `size` prop (`'XS' | 'S' | 'M' | 'L' | 'XL' | 'XXL'`):
 
 ```tsx
-import { Checkmark, Calendar } from '@geti-ai/ui/icons';
+import { Checkmark, Calendar } from '@geti-ui/ui/icons';
 
 <Checkmark size="S" />
 <Calendar size="M" />
@@ -284,10 +284,10 @@ Hover any icon to see its export name. Use the filter box to search across both 
 
 ```ts
 // Named imports — tree-shaken at build time
-import { Add, Delete, Edit, Filter, Search, Gear } from '@geti-ai/ui/icons';
+import { Add, Delete, Edit, Filter, Search, Gear } from '@geti-ui/ui/icons';
 
 // Or via the full namespace (not recommended for production bundles)
-import * as Icons from '@geti-ai/ui/icons';
+import * as Icons from '@geti-ui/ui/icons';
 ```
 
 See `packages/ui/src/assets/icons/index.ts` for the authoritative full list.

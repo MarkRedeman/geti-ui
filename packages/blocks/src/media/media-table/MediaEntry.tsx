@@ -1,4 +1,4 @@
-import { Cell, Row } from '@geti-ai/ui';
+import { Cell, Row } from '@geti-ui/ui';
 import styles from './media-table.module.css';
 import type { MediaGridIdentifiable } from '../media-grid/types';
 import type { MediaEntryProps } from './types';

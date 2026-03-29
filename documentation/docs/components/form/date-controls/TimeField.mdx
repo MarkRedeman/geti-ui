@@ -7,7 +7,7 @@ title: TimeField
 `TimeField` is a segmented keyboard input for time-only values. Use it when users should type or step through hours/minutes/seconds without opening a calendar popover.
 
 ```tsx
-import { TimeField } from '@geti-ai/ui';
+import { TimeField } from '@geti-ui/ui';
 ```
 
 - [React Spectrum TimeField ↗](https://react-spectrum.adobe.com/react-spectrum/TimeField.html)
@@ -18,7 +18,7 @@ import { TimeField } from '@geti-ai/ui';
 ### Default
 
 ```tsx preview
-import { TimeField } from '@geti-ai/ui';
+import { TimeField } from '@geti-ui/ui';
 
 export default function App() {
   return <TimeField label="Start time" />;
@@ -28,7 +28,7 @@ export default function App() {
 ### 24-hour cycle
 
 ```tsx preview
-import { TimeField } from '@geti-ai/ui';
+import { TimeField } from '@geti-ui/ui';
 
 export default function App() {
   return <TimeField label="Shift time" hourCycle={24} />;
@@ -38,7 +38,7 @@ export default function App() {
 ### Invalid state
 
 ```tsx preview
-import { TimeField } from '@geti-ai/ui';
+import { TimeField } from '@geti-ui/ui';
 
 export default function App() {
   return (
@@ -54,7 +54,7 @@ export default function App() {
 ## Responsibility
 
 `TimeField` is a pass-through wrapper around React Spectrum `TimeField`.
-No default behavior is changed; the wrapper provides consistent `@geti-ai/ui` import usage.
+No default behavior is changed; the wrapper provides consistent `@geti-ui/ui` import usage.
 
 ## Variants and states
 

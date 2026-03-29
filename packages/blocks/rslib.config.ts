@@ -36,7 +36,7 @@ export default defineConfig({
                 /^react$/,
                 /^react-dom$/,
                 /^react\/jsx-runtime$/,
-                /^@geti-ai\/ui(?:\/.*)?$/,
+                /^@geti-ui\/ui(?:\/.*)?$/,
                 /^@react-aria(?:\/.*)?$/,
                 /^react-aria-components(?:\/.*)?$/,
             ],

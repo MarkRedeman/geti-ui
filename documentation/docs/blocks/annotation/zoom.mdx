@@ -7,7 +7,7 @@ title: Zoom
 An interactive pan-and-zoom viewport for 2D content such as images, videos, and annotation canvases. Supports scroll-wheel zoom, pinch-to-zoom, middle-mouse-button panning, `Ctrl`+drag panning, and programmatic zoom control.
 
 ```tsx
-import { ZoomProvider, ZoomTransform, useZoom, useZoomActions } from '@geti-ai/blocks';
+import { ZoomProvider, ZoomTransform, useZoom, useZoomActions } from '@geti-ui/blocks';
 ```
 
 ## Basic usage — image with SVG overlays
@@ -17,8 +17,8 @@ Wrap your content in `ZoomProvider` and `ZoomTransform`. The `target` prop tells
 Use the `--zoom-scale` CSS custom property exposed on the container to render scale-invariant SVG strokes that remain the same visual thickness regardless of zoom level.
 
 ```tsx preview
-import { ZoomProvider, ZoomTransform, useZoom, useZoomActions } from '@geti-ai/blocks';
-import { ThemeProvider, View, ActionButton, Text, Flex, Grid } from '@geti-ai/ui';
+import { ZoomProvider, ZoomTransform, useZoom, useZoomActions } from '@geti-ui/blocks';
+import { ThemeProvider, View, ActionButton, Text, Flex, Grid } from '@geti-ui/ui';
 
 const IMAGE_WIDTH = 800;
 const IMAGE_HEIGHT = 600;
@@ -146,8 +146,8 @@ Set `interactive={false}` to disable all zoom and pan gestures. This is useful f
 Each cell below uses a different image resolution and aspect ratio. The viewport automatically scales the content to fit.
 
 ```tsx preview
-import { ZoomProvider, ZoomTransform } from '@geti-ai/blocks';
-import { ThemeProvider, Grid } from '@geti-ai/ui';
+import { ZoomProvider, ZoomTransform } from '@geti-ui/blocks';
+import { ThemeProvider, Grid } from '@geti-ui/ui';
 
 const IMAGES = [
   { src: 'https://picsum.photos/800/600', width: 800, height: 600, label: '800 × 600 (4:3)' },

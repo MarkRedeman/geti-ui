@@ -20,8 +20,8 @@ For custom fields, provide `renderValueEditor` and return your own editor compon
 
 ```tsx preview
 import { useMemo, useState } from 'react';
-import { FilterValueEditor, type FilterFieldOption, type FilterRule } from '@geti-ai/blocks';
-import { Picker, PickerItem, Text, TextField, ThemeProvider } from '@geti-ai/ui';
+import { FilterValueEditor, type FilterFieldOption, type FilterRule } from '@geti-ui/blocks';
+import { Picker, PickerItem, Text, TextField, ThemeProvider } from '@geti-ui/ui';
 
 type ExampleKey =
   | 'no-field'
@@ -137,8 +137,8 @@ export default function App() {
 
 ```tsx preview
 import { useState } from 'react';
-import { FilterValueText } from '@geti-ai/blocks';
-import { ThemeProvider, Text } from '@geti-ai/ui';
+import { FilterValueText } from '@geti-ui/blocks';
+import { ThemeProvider, Text } from '@geti-ui/ui';
 
 export default function App() {
   const [value, setValue] = useState('road');
@@ -158,8 +158,8 @@ export default function App() {
 
 ```tsx preview
 import { useState } from 'react';
-import { FilterValueNumber } from '@geti-ai/blocks';
-import { ThemeProvider, Text } from '@geti-ai/ui';
+import { FilterValueNumber } from '@geti-ui/blocks';
+import { ThemeProvider, Text } from '@geti-ui/ui';
 
 export default function App() {
   const [value, setValue] = useState<number | null>(1920);
@@ -179,8 +179,8 @@ export default function App() {
 
 ```tsx preview
 import { useState } from 'react';
-import { FilterValueDate } from '@geti-ai/blocks';
-import { ThemeProvider, Text } from '@geti-ai/ui';
+import { FilterValueDate } from '@geti-ui/blocks';
+import { ThemeProvider, Text } from '@geti-ui/ui';
 
 export default function App() {
   const [value, setValue] = useState<string | null>('2026-03-01');
@@ -200,8 +200,8 @@ export default function App() {
 
 ```tsx preview
 import { useState } from 'react';
-import { FilterValueSingleSelect } from '@geti-ai/blocks';
-import { ThemeProvider, Text } from '@geti-ai/ui';
+import { FilterValueSingleSelect } from '@geti-ui/blocks';
+import { ThemeProvider, Text } from '@geti-ui/ui';
 
 const options = [
   { key: 'IMAGE', label: 'Image' },
@@ -227,8 +227,8 @@ export default function App() {
 
 ```tsx preview
 import { useState } from 'react';
-import { FilterValueMultiSelect } from '@geti-ai/blocks';
-import { ThemeProvider, Text } from '@geti-ai/ui';
+import { FilterValueMultiSelect } from '@geti-ui/blocks';
+import { ThemeProvider, Text } from '@geti-ui/ui';
 
 const options = [
   { key: 'car', label: 'Car' },

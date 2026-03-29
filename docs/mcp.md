@@ -1,6 +1,6 @@
 # MCP Server — Developer Guide
 
-This document covers how to develop, test, and debug the `@geti-ai/mcp` server. For
+This document covers how to develop, test, and debug the `@geti-ui/mcp` server. For
 end-user setup instructions (configuring Claude Code, VS Code, Cursor, etc.), see the
 [user-facing docs](../../../documentation/docs/mcp.mdx) or the
 [package README](../README.md).
@@ -223,7 +223,7 @@ Once the package is published, you can test the released version the same way:
   sleep 0.2
   echo '{"jsonrpc":"2.0","id":2,"method":"tools/call","params":{"name":"list_geti_ui_components","arguments":{}}}'
   sleep 2
-) | npx @geti-ai/mcp@latest
+) | npx @geti-ui/mcp@latest
 ```
 
 This uses the bundled documentation shipped with the npm package — no local build
@@ -381,7 +381,7 @@ The rslib config (`rslib.config.ts`) produces a single ESM bundle:
 ## Type checking
 
 ```bash
-npm run type-check --workspace=@geti-ai/mcp
+npm run type-check --workspace=@geti-ui/mcp
 ```
 
 This runs `tsc --noEmit` against the source files. Test files (`**/*.test.ts`) are
@@ -392,8 +392,8 @@ excluded from type checking via `tsconfig.json`.
 ## Linting
 
 ```bash
-npm run lint --workspace=@geti-ai/mcp       # Check
-npm run lint:fix --workspace=@geti-ai/mcp    # Auto-fix
+npm run lint --workspace=@geti-ui/mcp       # Check
+npm run lint:fix --workspace=@geti-ui/mcp    # Auto-fix
 ```
 
 Uses rslint with the configuration in `rslint.jsonc`. Also included in the root
@@ -404,8 +404,8 @@ Uses rslint with the configuration in `rslint.jsonc`. Also included in the root
 ## Formatting
 
 ```bash
-npm run format --workspace=@geti-ai/mcp        # Write formatted files
-npm run format:check --workspace=@geti-ai/mcp   # Check only (CI)
+npm run format --workspace=@geti-ui/mcp        # Write formatted files
+npm run format:check --workspace=@geti-ui/mcp   # Check only (CI)
 ```
 
 Uses prettier with the repo's `.prettierrc.json` config. The `.prettierignore` file in
@@ -416,8 +416,8 @@ Uses prettier with the repo's `.prettierrc.json` config. The `.prettierignore` f
 ## Unit tests
 
 ```bash
-npm run test --workspace=@geti-ai/mcp        # Run once
-npm run test:watch --workspace=@geti-ai/mcp   # Watch mode
+npm run test --workspace=@geti-ui/mcp        # Run once
+npm run test:watch --workspace=@geti-ui/mcp   # Watch mode
 ```
 
 Uses rstest (vitest-compatible). Tests are in `src/parser.test.ts` and

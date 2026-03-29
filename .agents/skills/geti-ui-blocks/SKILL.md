@@ -1,6 +1,6 @@
 ---
 name: geti-ui-blocks
-description: Build and document reusable application-level blocks from @geti-ai/blocks with repository conventions and docs-first validation.
+description: Build and document reusable application-level blocks from @geti-ui/blocks with repository conventions and docs-first validation.
 ---
 
 # Geti UI Blocks Skill
@@ -11,19 +11,19 @@ Use this skill when implementing or updating blocks in `packages/blocks`, or whe
 
 1. **Composition-first APIs**
 
-    - Blocks are higher-level compositions built from `@geti-ai/ui` primitives.
+    - Blocks are higher-level compositions built from `@geti-ui/ui` primitives.
     - Prefer explicit, typed composition contracts over highly generic abstractions.
 
 2. **Consumer-like imports in docs**
 
-    - Import from `@geti-ai/blocks` and `@geti-ai/ui`, never internal `src/**` paths.
+    - Import from `@geti-ui/blocks` and `@geti-ui/ui`, never internal `src/**` paths.
 
 3. **Theming and styles are required**
 
-    - Render examples under `ThemeProvider` from `@geti-ai/ui`.
+    - Render examples under `ThemeProvider` from `@geti-ui/ui`.
     - Ensure both stylesheets are present where needed:
-        - `@geti-ai/ui/styles.css`
-        - `@geti-ai/blocks/styles.css`
+        - `@geti-ui/ui/styles.css`
+        - `@geti-ui/blocks/styles.css`
 
 4. **Testing and behavior**
 
@@ -32,8 +32,8 @@ Use this skill when implementing or updating blocks in `packages/blocks`, or whe
 
 5. **Validation workflow**
     - Before finalizing changes, run:
-        - `npm run build --workspace=@geti-ai/blocks`
-        - `npm run test --workspace=@geti-ai/blocks`
+        - `npm run build --workspace=@geti-ui/blocks`
+        - `npm run test --workspace=@geti-ui/blocks`
         - `npm run docs:build`
 
 ## Authoring docs pages
@@ -44,9 +44,9 @@ Use this skill when implementing or updating blocks in `packages/blocks`, or whe
 
 ## Quick checklist
 
--   [ ] Uses public `@geti-ai/blocks` / `@geti-ai/ui` imports only
+-   [ ] Uses public `@geti-ui/blocks` / `@geti-ui/ui` imports only
 -   [ ] Works under docs runtime with `ThemeProvider`
--   [ ] Includes `@geti-ai/blocks/styles.css` when needed
--   [ ] `npm run build --workspace=@geti-ai/blocks` passes
--   [ ] `npm run test --workspace=@geti-ai/blocks` passes
+-   [ ] Includes `@geti-ui/blocks/styles.css` when needed
+-   [ ] `npm run build --workspace=@geti-ui/blocks` passes
+-   [ ] `npm run test --workspace=@geti-ui/blocks` passes
 -   [ ] `npm run docs:build` passes

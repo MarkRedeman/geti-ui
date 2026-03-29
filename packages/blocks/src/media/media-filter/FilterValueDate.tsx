@@ -1,4 +1,4 @@
-import { DatePicker } from '@geti-ai/ui';
+import { DatePicker } from '@geti-ui/ui';
 import { parseDate } from '@internationalized/date';
 import type { FilterValueDateProps } from './types';
 

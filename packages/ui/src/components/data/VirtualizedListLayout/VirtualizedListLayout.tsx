@@ -41,7 +41,7 @@ export interface VirtualizedListLayoutProps<T> {
 /**
  * VirtualizedListLayout provides a high-performance list for large datasets.
  * It uses windowing to only render the items currently in view.
- * @deprecated Use @geti-ai/blocks media components (MediaGrid/MediaColumn/MediaRow) instead.
+ * @deprecated Use @geti-ui/blocks media components (MediaGrid/MediaColumn/MediaRow) instead.
  */
 export const VirtualizedListLayout = <T,>({
     items,

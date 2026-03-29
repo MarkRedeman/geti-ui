@@ -9,15 +9,15 @@ title: Filter dialog
 You provide the trigger/popover wrapper (for example, with `DialogTrigger`).
 
 ```tsx
-import { FilterDialog } from '@geti-ai/blocks';
+import { FilterDialog } from '@geti-ui/blocks';
 ```
 
 ## Immediate apply example
 
 ```tsx preview
 import { useState } from 'react';
-import { FilterDialog, FilterTriggerButton, type FilterModel } from '@geti-ai/blocks';
-import { ThemeProvider, Text, DialogTrigger } from '@geti-ai/ui';
+import { FilterDialog, FilterTriggerButton, type FilterModel } from '@geti-ui/blocks';
+import { ThemeProvider, Text, DialogTrigger } from '@geti-ui/ui';
 
 const fields = [
   { key: 'MEDIA_NAME', label: 'Media name', valueType: 'text' },
@@ -77,8 +77,8 @@ Pass `totalMatches` to display a match count badge in the dialog header. Add `is
 
 ```tsx preview
 import { useState } from 'react';
-import { FilterDialog, FilterTriggerButton, type FilterModel } from '@geti-ai/blocks';
-import { ThemeProvider, Text, DialogTrigger } from '@geti-ai/ui';
+import { FilterDialog, FilterTriggerButton, type FilterModel } from '@geti-ui/blocks';
+import { ThemeProvider, Text, DialogTrigger } from '@geti-ui/ui';
 
 const fields = [
   { key: 'MEDIA_NAME', label: 'Media name', valueType: 'text' },

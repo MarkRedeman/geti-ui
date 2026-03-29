@@ -6,7 +6,7 @@ import { mergeChartTheme, type DeepPartial } from '../theming/chartTheme';
  * Optional adapter that reads Geti UI CSS custom properties from the document root
  * and maps them to a ChartTheme.
  *
- * This hook does NOT import `@geti-ai/ui` — it reads CSS variables from computed
+ * This hook does NOT import `@geti-ui/ui` — it reads CSS variables from computed
  * styles so it works as long as the Geti theme CSS is loaded in the page.
  *
  * Pass the returned theme to `ChartsThemeProvider` to synchronise chart colors

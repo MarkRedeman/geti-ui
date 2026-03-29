@@ -4,7 +4,7 @@ title: Media grid item parts
 
 # Media grid item parts
 
-`@geti-ai/blocks` provides small, styled building blocks for `MediaGridItem` overlays:
+`@geti-ui/blocks` provides small, styled building blocks for `MediaGridItem` overlays:
 
 - `MediaGridItemCheckbox`
 - `MediaGridItemMenu`
@@ -21,7 +21,7 @@ import {
   MediaGridItemMenu,
   MediaGridItemInfo,
   MediaGridItemStatus,
-} from '@geti-ai/blocks';
+} from '@geti-ui/blocks';
 ```
 
 ## `MediaGridItemCheckbox`
@@ -34,8 +34,8 @@ import {
 
 ```tsx preview
 import { useState } from 'react';
-import { ThemeProvider } from '@geti-ai/ui';
-import { MediaGridItemCheckbox } from '@geti-ai/blocks';
+import { ThemeProvider } from '@geti-ui/ui';
+import { MediaGridItemCheckbox } from '@geti-ui/blocks';
 
 export default function App() {
   const [selected, setSelected] = useState(true);
@@ -68,8 +68,8 @@ export default function App() {
 | `label` | `string` | Visible action label in the menu. |
 
 ```tsx preview
-import { ThemeProvider } from '@geti-ai/ui';
-import { MediaGridItemMenu } from '@geti-ai/blocks';
+import { ThemeProvider } from '@geti-ui/ui';
+import { MediaGridItemMenu } from '@geti-ui/blocks';
 
 export default function App() {
   return (
@@ -95,8 +95,8 @@ export default function App() {
 | `children` | `ReactNode` | Yes | Compact informational content (id, score, frame, etc.). |
 
 ```tsx preview
-import { ThemeProvider } from '@geti-ai/ui';
-import { MediaGridItemInfo } from '@geti-ai/blocks';
+import { ThemeProvider } from '@geti-ui/ui';
+import { MediaGridItemInfo } from '@geti-ui/blocks';
 
 export default function App() {
   return (
@@ -115,8 +115,8 @@ export default function App() {
 | `children` | `ReactNode` | Yes | Status label text. |
 
 ```tsx preview
-import { ThemeProvider, Flex } from '@geti-ai/ui';
-import { MediaGridItemStatus } from '@geti-ai/blocks';
+import { ThemeProvider, Flex } from '@geti-ui/ui';
+import { MediaGridItemStatus } from '@geti-ui/blocks';
 
 export default function App() {
   return (

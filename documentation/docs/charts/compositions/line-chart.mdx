@@ -26,7 +26,7 @@ title: Line chart
 ## Default (boolean props off)
 
 ```tsx preview
-import { LineChart } from '@geti-ai/charts';
+import { LineChart } from '@geti-ui/charts';
 
 const data = [
   { epoch: 1, train: 1.42, val: 1.50 },
@@ -54,7 +54,7 @@ export default function App() {
 ## Variant — `showLegend` on
 
 ```tsx preview
-import { LineChart } from '@geti-ai/charts';
+import { LineChart } from '@geti-ui/charts';
 
 const data = [
   { epoch: 1, train: 1.42, val: 1.50 },
@@ -83,7 +83,7 @@ export default function App() {
 ## Variant — `animate` on
 
 ```tsx preview
-import { LineChart } from '@geti-ai/charts';
+import { LineChart } from '@geti-ui/charts';
 
 const data = [
   { epoch: 1, loss: 1.42 },
@@ -110,7 +110,7 @@ export default function App() {
 ## Variant — interpolation: linear
 
 ```tsx preview
-import { LineChart } from '@geti-ai/charts';
+import { LineChart } from '@geti-ui/charts';
 
 const data = [
   { epoch: 1, value: 1.42 },
@@ -136,7 +136,7 @@ export default function App() {
 ## Variant — interpolation: natural spline
 
 ```tsx preview
-import { LineChart } from '@geti-ai/charts';
+import { LineChart } from '@geti-ui/charts';
 
 const data = [
   { epoch: 1, value: 1.42 },
@@ -162,7 +162,7 @@ export default function App() {
 ## Variant — interpolation: step
 
 ```tsx preview
-import { LineChart } from '@geti-ai/charts';
+import { LineChart } from '@geti-ui/charts';
 
 const data = [
   { epoch: 1, value: 1.42 },
@@ -188,7 +188,7 @@ export default function App() {
 ## Variant — train / validation / test palette
 
 ```tsx preview
-import { LineChart, withDatasetSubsetPalette } from '@geti-ai/charts';
+import { LineChart, withDatasetSubsetPalette } from '@geti-ui/charts';
 
 const data = [
   { epoch: 1, train: 1.42, val: 1.50, test: 1.55 },
@@ -220,7 +220,7 @@ export default function App() {
 ## Variant — explicit per-series colors
 
 ```tsx preview
-import { LineChart } from '@geti-ai/charts';
+import { LineChart } from '@geti-ui/charts';
 
 const data = [
   { epoch: 1, precision: 0.62, recall: 0.55, f1: 0.58 },
@@ -251,7 +251,7 @@ export default function App() {
 ## Variant — warm custom palette
 
 ```tsx preview
-import { LineChart } from '@geti-ai/charts';
+import { LineChart } from '@geti-ui/charts';
 
 const data = [
   { step: 1, small: 130, medium: 90, large: 52 },
@@ -282,7 +282,7 @@ export default function App() {
 ## Variant — time-based X axis
 
 ```tsx preview
-import { LineChart } from '@geti-ai/charts';
+import { LineChart } from '@geti-ui/charts';
 
 const data = [
   { ts: Date.parse('2026-01-01T00:00:00Z'), throughput: 22 },
@@ -314,7 +314,7 @@ export default function App() {
 ## Variant — log-scaled Y axis
 
 ```tsx preview
-import { LineChart } from '@geti-ai/charts';
+import { LineChart } from '@geti-ui/charts';
 
 const data = [
   { epoch: 1, loss: 1200 },
@@ -341,7 +341,7 @@ export default function App() {
 ## Variant — 7 data categories
 
 ```tsx preview
-import { LineChart } from '@geti-ai/charts';
+import { LineChart } from '@geti-ui/charts';
 
 const data = [
   { epoch: 1, car: 0.41, person: 0.52, bicycle: 0.33, bus: 0.45, truck: 0.38, dog: 0.49, cat: 0.47 },
@@ -378,7 +378,7 @@ export default function App() {
 Line charts do not support true stacking like area/bar charts. To achieve a stacked-like view, **you must precompute cumulative values in your own data layer**.
 
 ```tsx preview
-import { LineChart } from '@geti-ai/charts';
+import { LineChart } from '@geti-ui/charts';
 
 const raw = [
   { epoch: 1, car: 0.41, person: 0.52, bicycle: 0.33, bus: 0.45, truck: 0.38, dog: 0.49, cat: 0.47 },

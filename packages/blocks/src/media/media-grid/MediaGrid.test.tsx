@@ -1,6 +1,6 @@
 import { act, render, screen } from '@testing-library/react';
 import { afterEach, beforeEach, describe, expect, it } from '@rstest/core';
-import { ThemeProvider } from '@geti-ai/ui';
+import { ThemeProvider } from '@geti-ui/ui';
 import { MediaGrid } from './MediaGrid';
 import type { MediaGridIdentifiable, MediaGridRenderContext } from './types';
 

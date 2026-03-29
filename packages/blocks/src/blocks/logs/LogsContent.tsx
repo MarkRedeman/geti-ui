@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
-import { Flex, Text, View, VirtualizedListLayout } from '@geti-ai/ui';
+import { Flex, Text, View, VirtualizedListLayout } from '@geti-ui/ui';
 import { LogEntry } from './LogEntry';
 import { LogsFilters } from './LogsFilters';
 import { DEFAULT_LOG_FILTERS, DEFAULT_LOG_LEVEL_COLORS, type LogEntryData, type LogFilters } from './types';

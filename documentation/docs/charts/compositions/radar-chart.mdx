@@ -27,7 +27,7 @@ Use `radiusAxisProps={{ domain: [0, 1] }}` for normalized scores, and `radiusAxi
 ## Variant — default (filled)
 
 ```tsx preview
-import { RadarChart } from '@geti-ai/charts';
+import { RadarChart } from '@geti-ui/charts';
 
 const data = [
   { metric: 'mAP', train: 0.88, val: 0.82 },
@@ -57,7 +57,7 @@ export default function App() {
 ## Variant — outline only (`filled={false}`)
 
 ```tsx preview
-import { RadarChart } from '@geti-ai/charts';
+import { RadarChart } from '@geti-ui/charts';
 
 const data = [
   { metric: 'mAP', train: 0.88, val: 0.82 },
@@ -88,7 +88,7 @@ export default function App() {
 ## Variant — no legend + custom colors
 
 ```tsx preview
-import { RadarChart } from '@geti-ai/charts';
+import { RadarChart } from '@geti-ui/charts';
 
 const data = [
   { metric: 'Crop quality', yolo: 0.82, unet: 0.77, detr: 0.74 },
@@ -120,7 +120,7 @@ export default function App() {
 ## Variant — train / validation / test palette
 
 ```tsx preview
-import { RadarChart, withDatasetSubsetPalette } from '@geti-ai/charts';
+import { RadarChart, withDatasetSubsetPalette } from '@geti-ui/charts';
 
 const data = [
   { metric: 'mAP', train: 0.88, val: 0.82, test: 0.80 },

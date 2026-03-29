@@ -4,23 +4,23 @@ title: Installation
 
 # Blocks installation
 
-`@geti-ai/blocks` contains reusable **application-level** building blocks composed from `@geti-ai/ui` primitives.
+`@geti-ui/blocks` contains reusable **application-level** building blocks composed from `@geti-ui/ui` primitives.
 
 Use blocks for patterns like logs, project lists, and other workflows that are too opinionated for primitive UI components.
 
 ## Install
 
 ```bash
-npm install @geti-ai/blocks @geti-ai/ui
+npm install @geti-ui/blocks @geti-ui/ui
 ```
 
 ## Required styles
 
-`@geti-ai/blocks` ships component styles separately. Make sure you load both UI and blocks styles in your app entry/theme setup:
+`@geti-ui/blocks` ships component styles separately. Make sure you load both UI and blocks styles in your app entry/theme setup:
 
 ```tsx
-import '@geti-ai/ui/styles.css';
-import '@geti-ai/blocks/styles.css';
+import '@geti-ui/ui/styles.css';
+import '@geti-ui/blocks/styles.css';
 ```
 
 Without the blocks stylesheet, class names will be rendered but block-specific rules will not be applied.

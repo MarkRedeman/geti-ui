@@ -36,20 +36,20 @@ import {
   DEFAULT_MEDIA_GRID_VIEW_MODES,
   type MediaGridRenderContext,
   type MediaGridSelection,
-} from '@geti-ai/blocks';
+} from '@geti-ui/blocks';
 ```
 
 ## Basic usage
 
 ```tsx preview
 import { useMemo, useState } from 'react';
-import { ThemeProvider } from '@geti-ai/ui';
+import { ThemeProvider } from '@geti-ui/ui';
 import {
   MediaGrid,
   MediaGridThumbnailItem,
   type MediaGridRenderContext,
   type MediaGridSelection,
-} from '@geti-ai/blocks';
+} from '@geti-ui/blocks';
 
 type Media = {
   id: string;
@@ -195,14 +195,14 @@ Use `MediaGridModeToggleButtons` (optional helper) to drive your own mode state 
 
 ```tsx preview
 import { useMemo, useState } from 'react';
-import { ThemeProvider, Flex } from '@geti-ai/ui';
+import { ThemeProvider, Flex } from '@geti-ui/ui';
 import {
   MediaGrid,
   MediaGridModeToggleButtons,
   MediaGridThumbnailItem,
   DEFAULT_MEDIA_GRID_VIEW_MODES,
   type MediaGridRenderContext,
-} from '@geti-ai/blocks';
+} from '@geti-ui/blocks';
 
 type Media = { id: string; name: string; thumbnailUrl: string };
 
@@ -275,14 +275,14 @@ For controlled selection with custom controls (like checkboxes), update `selecte
 
 ```tsx preview
 import { useMemo, useState } from 'react';
-import { ThemeProvider, ActionMenu, ActionMenuItem as Item, Checkbox, Flex, Text, View } from '@geti-ai/ui';
+import { ThemeProvider, ActionMenu, ActionMenuItem as Item, Checkbox, Flex, Text, View } from '@geti-ui/ui';
 import {
   MediaGrid,
   MediaGridItem,
   MediaGridThumbnailItem,
   type MediaGridRenderContext,
   type MediaGridSelection,
-} from '@geti-ai/blocks';
+} from '@geti-ui/blocks';
 
 type Media = { id: string; name: string; thumbnailUrl: string; score: number };
 
@@ -406,7 +406,7 @@ It also includes mode toggles to quickly validate behavior across item sizes.
 
 ```tsx preview
 import { useMemo, useState } from 'react';
-import { ThemeProvider, Flex } from '@geti-ai/ui';
+import { ThemeProvider, Flex } from '@geti-ui/ui';
 import {
   MediaGrid,
   MediaGridModeToggleButtons,
@@ -414,7 +414,7 @@ import {
   DEFAULT_MEDIA_GRID_VIEW_MODES,
   type MediaGridRenderContext,
   type MediaGridSelection,
-} from '@geti-ai/blocks';
+} from '@geti-ui/blocks';
 
 type Media = {
   id: string;

@@ -1,7 +1,7 @@
 import { render, screen, within, cleanup, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { describe, expect, it, afterEach } from '@rstest/core';
-import { TabItem, TabList, TabPanels, Tabs, ThemeProvider } from '@geti-ai/ui';
+import { TabItem, TabList, TabPanels, Tabs, ThemeProvider } from '@geti-ui/ui';
 import { ManagedTab, type ManagedTabAction } from './ManagedTab';
 
 const actions: ManagedTabAction[] = [

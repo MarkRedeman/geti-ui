@@ -1,6 +1,6 @@
 import { render, screen } from '@testing-library/react';
 import { afterEach, beforeEach, describe, expect, it } from '@rstest/core';
-import { Cell, Row, ThemeProvider } from '@geti-ai/ui';
+import { Cell, Row, ThemeProvider } from '@geti-ui/ui';
 import { MediaTable } from './MediaTable';
 import type { MediaGridIdentifiable } from '../media-grid/types';
 import type { MediaEntryProps, MediaTableRenderContext } from './types';
