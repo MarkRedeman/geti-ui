@@ -1,6 +1,6 @@
 {
     "name": "@geti-ui/smart-tools",
-    "version": "1.0.6",
+    "version": "1.0.7",
     "description": "Geti smart tools utils and interfaces",
     "type": "module",
     "exports": {

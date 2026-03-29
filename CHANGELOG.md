@@ -1,3 +1,10 @@
+## [1.0.7](https://github.com/MarkRedeman/geti-ui/compare/v1.0.6...v1.0.7) (2026-03-29)
+
+
+### Bug Fixes
+
+* **release:** pin npm and remove temporary publish debug logs ([dfd32c8](https://github.com/MarkRedeman/geti-ui/commit/dfd32c852bc9c50df5da39165a129ee8c8574ffb))
+
 ## [1.0.6](https://github.com/MarkRedeman/geti-ui/compare/v1.0.5...v1.0.6) (2026-03-29)
 
 
