@@ -96,6 +96,9 @@ jobs:
 
       - run: npm ci
 
+      - name: Upgrade npm for trusted publishing
+        run: npm install -g npm@latest
+
       # Download OpenCV artifact if the opencv job ran
       - name: Download OpenCV artifact
         if: needs.opencv.result == 'success'

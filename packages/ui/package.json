@@ -104,11 +104,12 @@
         "typescript": "^5.9.3"
     },
     "publishConfig": {
-        "access": "public"
+        "access": "public",
+        "provenance": true
     },
     "repository": {
         "type": "git",
-        "url": "https://github.com/MarkRedeman/geti-ui",
+        "url": "git+https://github.com/MarkRedeman/geti-ui.git",
         "directory": "packages/ui"
     },
     "license": "Apache-2.0",
