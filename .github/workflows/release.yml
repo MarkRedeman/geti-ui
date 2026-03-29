@@ -95,7 +95,7 @@ jobs:
       # Download OpenCV artifact if the opencv job ran
       - name: Download OpenCV artifact
         if: needs.opencv.result == 'success'
-        uses: actions/download-artifact@70fc10c6e5e1ce46ad2ea6f2b72d43f7d47b13c3 # v8
+        uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8
         with:
           name: ${{ needs.opencv.outputs.artifact_name }}
           path: opencv-artifacts
