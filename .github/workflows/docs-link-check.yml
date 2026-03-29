@@ -3,14 +3,12 @@ name: Docs External Link Check
 on:
   pull_request:
     branches: [main]
-  push:
-    branches: [main]
 
 permissions: {}
 
 jobs:
   external-links:
-    name: External links (warning only)
+    name: External links (preview URL)
     runs-on: ubuntu-latest
     permissions:
       contents: read
@@ -20,6 +18,33 @@ jobs:
         with:
           persist-credentials: false
 
+      - name: Compute Cloudflare preview URL
+        id: preview
+        env:
+          PR_BRANCH: ${{ github.head_ref }}
+        run: |
+          set -euo pipefail
+          BRANCH_SLUG=$(printf '%s' "$PR_BRANCH" | tr '[:upper:]' '[:lower:]' | sed -E 's/[^a-z0-9]+/-/g; s/^-+//; s/-+$//')
+          PREVIEW_URL="https://${BRANCH_SLUG}.geti-ui-docs.pages.dev"
+          echo "url=${PREVIEW_URL}" >> "$GITHUB_OUTPUT"
+
+      - name: Wait for preview deployment
+        env:
+          PREVIEW_URL: ${{ steps.preview.outputs.url }}
+        run: |
+          set -euo pipefail
+          for i in {1..30}; do
+            STATUS=$(curl -s -o /dev/null -w "%{http_code}" "$PREVIEW_URL" || true)
+            if [ "$STATUS" = "200" ]; then
+              echo "Preview is available at $PREVIEW_URL"
+              exit 0
+            fi
+            echo "Waiting for preview ($PREVIEW_URL), attempt $i/30, status=$STATUS"
+            sleep 10
+          done
+          echo "Preview URL did not become available in time: $PREVIEW_URL"
+          exit 1
+
       - name: Lychee external links
         uses: lycheeverse/lychee-action@8646ba30535128ac92d33dfc9133794bfdd9b411 # v2.8.0
         with:
@@ -28,7 +53,7 @@ jobs:
             --no-progress
             --accept 200,206,301,302,303,307,308,403,429
             --config ./documentation/lychee.toml
-            './documentation/docs/**/*.mdx'
+            '${{ steps.preview.outputs.url }}'
 
       - name: Upload external link report
         if: always()
