@@ -1,7 +1,7 @@
 {
     "name": "@geti-ui/mcp",
     "version": "0.0.1",
-    "description": "MCP server for Geti UI documentation — exposes component, chart, and smart-tools docs to AI coding agents",
+    "description": "MCP server for Geti UI documentation: exposes component, chart, and smart-tools docs to AI coding agents",
     "type": "module",
     "bin": {
         "geti-ui-mcp": "./dist/index.js"

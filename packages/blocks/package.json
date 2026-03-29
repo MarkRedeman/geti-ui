@@ -1,7 +1,7 @@
 {
     "name": "@geti-ui/blocks",
     "version": "0.0.1",
-    "description": "Geti AI reusable application blocks",
+    "description": "Geti UI reusable application blocks",
     "type": "module",
     "exports": {
         ".": {
