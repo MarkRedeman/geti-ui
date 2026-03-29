@@ -96,8 +96,8 @@ jobs:
 
       - run: npm ci
 
-      - name: Upgrade npm for trusted publishing
-        run: npm install -g npm@latest
+      - name: Pin npm for trusted publishing
+        run: npm install -g npm@11.12.1
 
       # Download OpenCV artifact if the opencv job ran
       - name: Download OpenCV artifact
@@ -132,16 +132,15 @@ jobs:
       - name: Build MCP server
         run: npm run mcp:build
 
-      # Temporarily disable until semantic release is fixed
-      # # Quality gates
-      # - name: Lint
-      #   run: npm run lint
+      # Quality gates
+      - name: Lint
+        run: npm run lint
 
-      # - name: Type check
-      #   run: npm run type-check
+      - name: Type check
+        run: npm run type-check
 
-      # name: Unit tests
-      #   run: npm run test
+      - name: Unit tests
+        run: npm run test
 
       # Run semantic-release
       - name: Semantic Release
