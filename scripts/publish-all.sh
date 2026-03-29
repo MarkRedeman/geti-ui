@@ -23,6 +23,37 @@ echo "ACTIONS_ID_TOKEN_REQUEST_URL present: $([ -n "${ACTIONS_ID_TOKEN_REQUEST_U
 echo "ACTIONS_ID_TOKEN_REQUEST_TOKEN present: $([ -n "${ACTIONS_ID_TOKEN_REQUEST_TOKEN:-}" ] && echo yes || echo no)"
 echo "NODE_AUTH_TOKEN present: $([ -n "${NODE_AUTH_TOKEN:-}" ] && echo yes || echo no)"
 
+echo "npm whoami (non-fatal):"
+if npm whoami >/tmp/npm-whoami.out 2>/tmp/npm-whoami.err; then
+	cat /tmp/npm-whoami.out
+else
+	echo "whoami failed (expected with OIDC-only auth in some contexts):"
+	sed -E 's/(token=)[^[:space:]]+/\1***REDACTED***/g' /tmp/npm-whoami.err
+fi
+
+echo "npm config (sanitized):"
+npm config list --json | node -e '
+  const fs = require("node:fs");
+  const input = fs.readFileSync(0, "utf8");
+  const data = JSON.parse(input);
+  const mask = (obj) => {
+    if (Array.isArray(obj)) return obj.map(mask);
+    if (obj && typeof obj === "object") {
+      const out = {};
+      for (const [k, v] of Object.entries(obj)) {
+        if (/(token|auth|password|_auth|otp|secret|key)/i.test(k)) {
+          out[k] = "***REDACTED***";
+        } else {
+          out[k] = mask(v);
+        }
+      }
+      return out;
+    }
+    return obj;
+  };
+  process.stdout.write(JSON.stringify(mask(data), null, 2) + "\n");
+'
+
 if [ -n "${ACTIONS_ID_TOKEN_REQUEST_URL:-}" ] && [ -n "${ACTIONS_ID_TOKEN_REQUEST_TOKEN:-}" ]; then
 	echo "Requesting OIDC token for npm audience (debug claims only)..."
 	OIDC_URL="${ACTIONS_ID_TOKEN_REQUEST_URL}&audience=npm:registry.npmjs.org"
