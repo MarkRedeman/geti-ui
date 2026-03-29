@@ -27,5 +27,10 @@ export interface ButtonProps extends Omit<SpectrumButtonProps, 'variant'> {
  * Supports ref forwarding via `FocusableRef<HTMLElement>` (Spectrum's ref type).
  */
 export const Button = ({ variant = 'accent', UNSAFE_className, ...rest }: ButtonProps) => (
-    <SpectrumButton {...rest} variant={variant} UNSAFE_className={clsx(UNSAFE_className) || undefined} />
+    <SpectrumButton
+        {...rest}
+        elementType={rest.href !== undefined ? (rest.elementType ?? 'a') : rest.elementType}
+        variant={variant}
+        UNSAFE_className={clsx(UNSAFE_className) || undefined}
+    />
 );
