@@ -1,3 +1,11 @@
+## [1.1.1](https://github.com/MarkRedeman/geti-ui/compare/v1.1.0...v1.1.1) (2026-03-29)
+
+
+### Bug Fixes
+
+* don't reexport Overlay ([70d2193](https://github.com/MarkRedeman/geti-ui/commit/70d21935827b42f4f26eb80c4aab15d17b427eaa))
+* **ui:** support href buttons with Geti theme styles ([812a931](https://github.com/MarkRedeman/geti-ui/commit/812a931ec6056b1da5b51f1c12003428a7f96394))
+
 # [1.1.0](https://github.com/MarkRedeman/geti-ui/compare/v1.0.7...v1.1.0) (2026-03-29)
 
 
