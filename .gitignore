@@ -14,5 +14,6 @@ coverage
 .slim/
 plans/
 playwright-report/
+.husky
 
 references/
