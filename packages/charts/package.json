@@ -1,6 +1,6 @@
 {
     "name": "@geti-ui/charts",
-    "version": "0.0.1",
+    "version": "0.0.2",
     "description": "Geti UI charts component library built on Recharts",
     "type": "module",
     "exports": {
