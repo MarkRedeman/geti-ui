@@ -302,6 +302,10 @@ export type { WellProps } from './components/layouts/Well/Well';
 export { Card } from './components/layouts/Card/Card';
 export type { CardProps } from './components/layouts/Card/Card';
 
+// Legacy compatibility exports (previously available in @geti/ui)
+export { Item, Section, Header, Keyboard, minmax, repeat, ToastQueue } from '@adobe/react-spectrum';
+export type { Key } from '@adobe/react-spectrum';
+
 // Advanced primitives (for internal package composition)
 export {
     GridLayout as AriaGridLayout,
@@ -310,6 +314,8 @@ export {
     ListBox as AriaListBox,
     ListBoxItem as AriaListBoxItem,
     Virtualizer as AriaVirtualizer,
+    Virtualizer,
+    ListLayout,
     type Key as AriaKey,
     type Selection as AriaSelection,
 } from 'react-aria-components';
