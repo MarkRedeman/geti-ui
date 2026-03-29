@@ -1,3 +1,10 @@
+## [1.0.4](https://github.com/MarkRedeman/geti-ui/compare/v1.0.3...v1.0.4) (2026-03-29)
+
+
+### Bug Fixes
+
+* **release:** harden npm trusted publishing config ([6e9b13f](https://github.com/MarkRedeman/geti-ui/commit/6e9b13f8a43de5f2fe186192fec46afb55b59434))
+
 ## [1.0.3](https://github.com/MarkRedeman/geti-ui/compare/v1.0.2...v1.0.3) (2026-03-29)
 
 
