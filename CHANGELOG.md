@@ -1,3 +1,10 @@
+## [1.0.6](https://github.com/MarkRedeman/geti-ui/compare/v1.0.5...v1.0.6) (2026-03-29)
+
+
+### Bug Fixes
+
+* **release:** force publish script to use Node toolchain npm ([afd0e4b](https://github.com/MarkRedeman/geti-ui/commit/afd0e4bcfec13c32d8b93aa5bc0a08763e06024c))
+
 ## [1.0.5](https://github.com/MarkRedeman/geti-ui/compare/v1.0.4...v1.0.5) (2026-03-29)
 
 
