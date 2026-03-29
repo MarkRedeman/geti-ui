@@ -1,3 +1,10 @@
+## [1.0.1](https://github.com/MarkRedeman/geti-ui/compare/v1.0.0...v1.0.1) (2026-03-29)
+
+
+### Bug Fixes
+
+* **ci:** manually package Pages artifact to preserve dotfiles ([5bad4bb](https://github.com/MarkRedeman/geti-ui/commit/5bad4bb98a60b46df83e1ca72a0262c48fd1304c))
+
 # 1.0.0 (2026-03-29)
 
 
