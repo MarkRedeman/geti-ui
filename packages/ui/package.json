@@ -1,6 +1,6 @@
 {
     "name": "@geti-ui/ui",
-    "version": "1.0.7",
+    "version": "1.1.0",
     "description": "Geti UI component design system",
     "type": "module",
     "exports": {

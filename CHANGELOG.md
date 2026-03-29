@@ -1,3 +1,11 @@
+# [1.1.0](https://github.com/MarkRedeman/geti-ui/compare/v1.0.7...v1.1.0) (2026-03-29)
+
+
+### Features
+
+* **ui:** add legacy utility and primitive re-exports ([14a1c84](https://github.com/MarkRedeman/geti-ui/commit/14a1c8443efffb004ff10f36e2b17fdd3b6f5b37))
+* **ui:** export legacy spectrum primitives for compatibility ([6ed8ebf](https://github.com/MarkRedeman/geti-ui/commit/6ed8ebfe24e938282fef12fab76d25629f3f6a5c))
+
 ## [1.0.7](https://github.com/MarkRedeman/geti-ui/compare/v1.0.6...v1.0.7) (2026-03-29)
 
 
