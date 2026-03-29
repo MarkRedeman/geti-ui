@@ -14,14 +14,11 @@ jobs:
     deploy-preview:
         name: Deploy documentation preview
         runs-on: ubuntu-latest
+        timeout-minutes: 15
         permissions:
             contents: read # checkout source
-            pages: write # publish documentation artifact to Pages
-            id-token: write # authenticate OIDC for Pages deployment
+            deployments: write # Cloudflare GitHub Deployment status
             pull-requests: write # post/update PR preview comment
-        environment:
-            name: preview
-            url: ${{ steps.deploy.outputs.page_url }}
         steps:
             - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6
               with:
@@ -38,26 +35,38 @@ jobs:
             - name: Build documentation
               run: npm run docs:build
 
-            - name: Upload Pages artifact
-              uses: actions/upload-pages-artifact@7b1f4a764d45c48632c6b24a0339c27f5614fb0b # v4
-              with:
-                  path: documentation/doc_build
-
-            - name: Deploy to GitHub Pages
+            - name: Deploy to Cloudflare Pages
               id: deploy
-              uses: actions/deploy-pages@cd2ce8fcbc39b97be8ca5fce6e763baed58fa128 # v5
+              uses: cloudflare/wrangler-action@da0e0dfe58b7a431659754fdf3f186c529afbe65 # v3.14.1
+              with:
+                  apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+                  accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+                  command: pages deploy documentation/doc_build --project-name=geti-ui-docs --branch=${{ github.head_ref }}
+                  gitHubToken: ${{ secrets.GITHUB_TOKEN }}
 
             - name: Post or update PR preview comment
               uses: actions/github-script@ed597411d8f924073f98dfc5c65a23a2325f34cd # v8
               env:
-                  PAGE_URL: ${{ steps.deploy.outputs.page_url }}
+                  DEPLOYMENT_URL: ${{ steps.deploy.outputs.deployment-url }}
+                  ALIAS_URL: ${{ steps.deploy.outputs.pages-deployment-alias-url }}
                   COMMIT_SHA: ${{ github.sha }}
               with:
                   script: |
                       const marker = '<!-- deploy-preview-comment -->';
-                      const url = process.env.PAGE_URL;
+                      const deploymentUrl = process.env.DEPLOYMENT_URL;
+                      const aliasUrl = process.env.ALIAS_URL;
                       const sha = process.env.COMMIT_SHA;
-                      const body = `${marker}\n## Documentation Preview\n\n🚀 Deployed to: ${url}\n\nGenerated from commit \`${sha}\``;
+                      const body = [
+                        marker,
+                        '## Documentation Preview',
+                        '',
+                        `| | URL |`,
+                        `|---|---|`,
+                        `| **This commit** | ${deploymentUrl} |`,
+                        `| **Branch** | ${aliasUrl} |`,
+                        '',
+                        `Generated from commit \`${sha}\``,
+                      ].join('\n');
 
                       const { data: comments } = await github.rest.issues.listComments({
                         issue_number: context.issue.number,

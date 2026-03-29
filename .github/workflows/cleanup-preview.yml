@@ -1,0 +1,43 @@
+name: Cleanup Preview
+
+on:
+    pull_request:
+        types: [closed]
+        branches: [main]
+
+permissions: {}
+
+jobs:
+    cleanup:
+        name: Delete Cloudflare Pages preview deployments
+        runs-on: ubuntu-latest
+        timeout-minutes: 5
+        permissions:
+            deployments: write # clean up GitHub Deployment status
+        steps:
+            - name: Delete preview deployments for branch
+              env:
+                  CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+                  CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+                  BRANCH: ${{ github.head_ref }}
+              run: |
+                  echo "Cleaning up Cloudflare Pages deployments for branch: $BRANCH"
+
+                  DEPLOYMENT_IDS=$(curl -sf \
+                    "https://api.cloudflare.com/client/v4/accounts/$CLOUDFLARE_ACCOUNT_ID/pages/projects/geti-ui-docs/deployments" \
+                    -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" | \
+                    jq -r --arg branch "$BRANCH" '.result[] | select(.deployment_trigger.metadata.branch == $branch) | .id')
+
+                  if [ -z "$DEPLOYMENT_IDS" ]; then
+                    echo "No deployments found for branch: $BRANCH"
+                    exit 0
+                  fi
+
+                  for id in $DEPLOYMENT_IDS; do
+                    echo "Deleting deployment: $id"
+                    curl -sf -X DELETE \
+                      "https://api.cloudflare.com/client/v4/accounts/$CLOUDFLARE_ACCOUNT_ID/pages/projects/geti-ui-docs/deployments/$id" \
+                      -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" || echo "Warning: failed to delete deployment $id"
+                  done
+
+                  echo "Cleanup complete"
