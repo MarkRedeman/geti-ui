@@ -97,19 +97,11 @@ import {
 import { Icon } from '@geti-ui/ui';
 import { HomeFooter } from '@rspress/core/theme-original';
 import type { HomeLayoutProps } from '@rspress/core/theme-original';
+import { heroStats } from './hero-stats.generated';
 
 // ---------------------------------------------------------------------------
 // Sample data
 // ---------------------------------------------------------------------------
-
-const heroStats = [
-    { value: '116', label: 'Components', href: '/components/ui/Button' },
-    { value: '48', label: 'Charts', href: '/charts/overview' },
-    { value: '34', label: 'Blocks', href: '/blocks/installation' },
-    { value: '7', label: 'Smart Tools', href: '/smart-tools/installation' },
-    { value: '194', label: 'Assets', href: '/assets/icons' },
-    { value: '8', label: 'MCP Tools', href: '/ai/overview' },
-];
 
 const trainingTrend = [
     { step: 'S1', train: 0.42, val: 0.38, test: 0.35 },

@@ -6,8 +6,9 @@
   "scripts": {
     "predev": "npm run build --workspace=@geti-ui/ui && npm run build --workspace=@geti-ui/charts && npm run build --workspace=@geti-ui/blocks",
     "dev": "rspress dev",
-    "prebuild": "npm run build --workspace=@geti-ui/ui && npm run build --workspace=@geti-ui/charts && npm run build --workspace=@geti-ui/blocks",
+    "prebuild": "npm run build --workspace=@geti-ui/ui && npm run build --workspace=@geti-ui/charts && npm run build --workspace=@geti-ui/blocks && npm run count:hero-stats -- --write",
     "build": "rspress build",
+    "count:hero-stats": "node ./scripts/count-home-hero-stats.mjs",
     "pretest:e2e": "npm run build",
     "preview": "rspress preview",
     "check:coverage": "node ./scripts/check-docs-coverage.mjs",
