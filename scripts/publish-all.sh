@@ -11,10 +11,15 @@
 
 set -euo pipefail
 
+# Force npm binary from the active Node toolchain (avoids local node_modules/.bin/npm)
+NPM_BIN="${NPM_BIN:-$(dirname "$(command -v node)")/npm}"
+
 echo "--- Publish debug context ---"
 echo "node: $(node --version)"
-echo "npm: $(npm --version)"
-echo "registry: $(npm config get registry)"
+echo "bare npm resolves to: $(command -v npm)"
+echo "npm (forced): ${NPM_BIN}"
+echo "npm: $(${NPM_BIN} --version)"
+echo "registry: $(${NPM_BIN} config get registry)"
 echo "GITHUB_ACTIONS=${GITHUB_ACTIONS:-}"
 echo "GITHUB_REPOSITORY=${GITHUB_REPOSITORY:-}"
 echo "GITHUB_REF=${GITHUB_REF:-}"
@@ -24,7 +29,7 @@ echo "ACTIONS_ID_TOKEN_REQUEST_TOKEN present: $([ -n "${ACTIONS_ID_TOKEN_REQUEST
 echo "NODE_AUTH_TOKEN present: $([ -n "${NODE_AUTH_TOKEN:-}" ] && echo yes || echo no)"
 
 echo "npm whoami (non-fatal):"
-if npm whoami >/tmp/npm-whoami.out 2>/tmp/npm-whoami.err; then
+if "${NPM_BIN}" whoami >/tmp/npm-whoami.out 2>/tmp/npm-whoami.err; then
 	cat /tmp/npm-whoami.out
 else
 	echo "whoami failed (expected with OIDC-only auth in some contexts):"
@@ -32,7 +37,7 @@ else
 fi
 
 echo "npm config (sanitized):"
-npm config list --json | node -e '
+"${NPM_BIN}" config list --json | node -e '
   const fs = require("node:fs");
   const input = fs.readFileSync(0, "utf8");
   const data = JSON.parse(input);
@@ -80,18 +85,18 @@ fi
 echo "--- End publish debug context ---"
 
 echo "Publishing @geti-ui/ui ..."
-npm publish --provenance --access public --workspace=@geti-ui/ui
+"${NPM_BIN}" publish --provenance --access public --workspace=@geti-ui/ui
 
 echo "Publishing @geti-ui/blocks ..."
-npm publish --provenance --access public --workspace=@geti-ui/blocks
+"${NPM_BIN}" publish --provenance --access public --workspace=@geti-ui/blocks
 
 echo "Publishing @geti-ui/smart-tools ..."
-npm publish --provenance --access public --workspace=@geti-ui/smart-tools
+"${NPM_BIN}" publish --provenance --access public --workspace=@geti-ui/smart-tools
 
 echo "Publishing @geti-ui/charts ..."
-npm publish --provenance --access public --workspace=@geti-ui/charts
+"${NPM_BIN}" publish --provenance --access public --workspace=@geti-ui/charts
 
 echo "Publishing @geti-ui/mcp ..."
-npm publish --provenance --access public --workspace=@geti-ui/mcp
+"${NPM_BIN}" publish --provenance --access public --workspace=@geti-ui/mcp
 
 echo "All packages published successfully."
