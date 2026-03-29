@@ -27,7 +27,6 @@ jobs:
             --verbose
             --no-progress
             --accept 200,206,301,302,303,307,308,403,429
-            --exclude-mail
             --config ./documentation/lychee.toml
             './documentation/docs/**/*.mdx'
 
