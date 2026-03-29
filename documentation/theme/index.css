@@ -904,10 +904,24 @@ html {
 @media (max-width: 767px) {
     .geti-home-hero {
         padding: 2.5rem 0 3.25rem;
+        overflow-x: clip;
     }
 
     .geti-home-hero__inner {
+        width: 100%;
+        max-width: 100%;
+        box-sizing: border-box;
         padding: 0 1rem;
+    }
+
+    .geti-home-hero__panel,
+    .geti-home-hero__stats,
+    .geti-home-stat {
+        min-width: 0;
+    }
+
+    .geti-home-hero__stats {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
     }
 
     .geti-home-hero__actions {
@@ -917,6 +931,24 @@ html {
 
     .geti-home-btn {
         width: 100%;
+    }
+
+    .geti-home-install {
+        width: 100%;
+        max-width: 100%;
+        min-width: 0;
+    }
+
+    .geti-home-install-wrapper {
+        width: 100%;
+        min-width: 0;
+    }
+
+    .geti-home-install__code {
+        white-space: normal;
+        overflow-wrap: anywhere;
+        word-break: break-word;
+        min-width: 0;
     }
 
     .geti-home-showcase {
