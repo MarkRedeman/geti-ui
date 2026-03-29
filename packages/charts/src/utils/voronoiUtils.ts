@@ -86,11 +86,7 @@ export function buildVoronoiLookup(
  * @param domain - [min, max] of the data domain.
  * @param range  - [startPx, endPx] pixel range (note: Y range is typically [height, 0]).
  */
-export function linearProject(
-    value: number,
-    domain: [number, number],
-    range: [number, number]
-): number {
+export function linearProject(value: number, domain: [number, number], range: [number, number]): number {
     const [dMin, dMax] = domain;
     const [rStart, rEnd] = range;
     if (dMax === dMin) return (rStart + rEnd) / 2;

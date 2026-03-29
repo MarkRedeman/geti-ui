@@ -76,7 +76,9 @@ export function MediaEntry<T extends MediaGridIdentifiable>({
 
                 if (isAutoThumbnailColumn) {
                     const textValue =
-                        !context.item || context.isPlaceholder ? 'Loading thumbnail' : getDefaultThumbnailAlt(context.item);
+                        !context.item || context.isPlaceholder
+                            ? 'Loading thumbnail'
+                            : getDefaultThumbnailAlt(context.item);
 
                     return (
                         <Cell textValue={textValue}>

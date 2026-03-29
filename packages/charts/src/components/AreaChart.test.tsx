@@ -21,7 +21,10 @@ describe('AreaChart highlight', () => {
                         { dataKey: 'val', name: 'Validation', fade: true },
                     ]}
                     showLegend
-                    highlight={{ enabled: true, interaction: { lineHover: true, legendHover: true, legendClick: true } }}
+                    highlight={{
+                        enabled: true,
+                        interaction: { lineHover: true, legendHover: true, legendClick: true },
+                    }}
                     aria-label="area chart highlight"
                 />
             </ChartsThemeProvider>

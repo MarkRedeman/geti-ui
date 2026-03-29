@@ -9,11 +9,11 @@ Geti UI core design system package for React applications.
 - 80+ components across form, data, feedback, navigation, overlays, and layout
 - Theme integration via `ThemeProvider` and bundled stylesheet
 - Asset and icon subpath exports:
-  - `@geti-ui/ui/icons`
-  - `@geti-ui/ui/assets`
-  - `@geti-ui/ui/assets/images`
-  - `@geti-ui/ui/assets/domains`
-  - `@geti-ui/ui/assets/primary-tools`
+    - `@geti-ui/ui/icons`
+    - `@geti-ui/ui/assets`
+    - `@geti-ui/ui/assets/images`
+    - `@geti-ui/ui/assets/domains`
+    - `@geti-ui/ui/assets/primary-tools`
 
 ## Installation
 
@@ -28,11 +28,11 @@ import '@geti-ui/ui/styles.css';
 import { ThemeProvider, Button } from '@geti-ui/ui';
 
 export function App() {
-  return (
-    <ThemeProvider>
-      <Button variant="accent">Get started</Button>
-    </ThemeProvider>
-  );
+    return (
+        <ThemeProvider>
+            <Button variant="accent">Get started</Button>
+        </ThemeProvider>
+    );
 }
 ```
 

@@ -107,7 +107,10 @@ export function ConfidenceHistogram({
                         <ChartTooltip
                             formatter={(value) => {
                                 const num = Number(value);
-                                return [showFrequency ? `${(num * 100).toFixed(2)}%` : num, showFrequency ? 'Frequency' : 'Count'];
+                                return [
+                                    showFrequency ? `${(num * 100).toFixed(2)}%` : num,
+                                    showFrequency ? 'Frequency' : 'Count',
+                                ];
                             }}
                             labelFormatter={(label) => `Confidence ${Number(label).toFixed(2)}`}
                             {...tooltipProps}

@@ -6,7 +6,9 @@
     "bin": {
         "geti-ui-mcp": "./dist/index.js"
     },
-    "files": ["dist"],
+    "files": [
+        "dist"
+    ],
     "engines": {
         "node": ">=18"
     },

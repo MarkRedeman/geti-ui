@@ -141,12 +141,7 @@ export function BBoxSizeDistributionChart({
                                 fill={color}
                                 isAnimationActive={animate}
                                 shape={(props) => (
-                                    <circle
-                                        cx={props.cx}
-                                        cy={props.cy}
-                                        r={markerSize / 2}
-                                        fill={color}
-                                    />
+                                    <circle cx={props.cx} cy={props.cy} r={markerSize / 2} fill={color} />
                                 )}
                                 legendType="circle"
                             />

@@ -25,9 +25,5 @@ export interface HighlightProviderProps extends UseSeriesHighlightOptions {
 export function HighlightProvider({ children, ...options }: HighlightProviderProps) {
     const highlightState = useSeriesHighlight(options);
 
-    return (
-        <HighlightContext.Provider value={highlightState}>
-            {children}
-        </HighlightContext.Provider>
-    );
+    return <HighlightContext.Provider value={highlightState}>{children}</HighlightContext.Provider>;
 }

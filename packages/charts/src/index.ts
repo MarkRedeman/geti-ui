@@ -1,7 +1,16 @@
 // @geti-ui/charts - public API
 
 // Theming
-export type { ChartTheme, DataColorPalette, ColorValue, ChartTypography, ChartGridTokens, ChartAxisTokens, ChartTooltipTokens, ChartLegendTokens } from './theming/types';
+export type {
+    ChartTheme,
+    DataColorPalette,
+    ColorValue,
+    ChartTypography,
+    ChartGridTokens,
+    ChartAxisTokens,
+    ChartTooltipTokens,
+    ChartLegendTokens,
+} from './theming/types';
 export { defaultGetiChartTheme } from './theming/tokens';
 export { mergeChartTheme } from './theming/chartTheme';
 export type { DeepPartial } from './theming/chartTheme';
@@ -57,7 +66,12 @@ export {
 
 // Color scale utilities
 export type { ChartColorScalePreset, ChartColorScaleInput } from './utils/colorScales';
-export { chartColorScalePresets, distinctColorScale, resolveChartColorScaleStops, interpolateColorStops } from './utils/colorScales';
+export {
+    chartColorScalePresets,
+    distinctColorScale,
+    resolveChartColorScaleStops,
+    interpolateColorStops,
+} from './utils/colorScales';
 
 // Primitives
 export { ChartsThemeProvider, ChartsThemeContext } from './primitives/ChartsThemeProvider';
@@ -185,10 +199,7 @@ export type {
 } from './components/ml/BBoxSizeDistributionChart';
 
 export { ParallelCoordinates } from './components/ml/ParallelCoordinates';
-export type {
-    ParallelCoordinatesProps,
-    ParallelCoordinatesAxis,
-} from './components/ml/ParallelCoordinates';
+export type { ParallelCoordinatesProps, ParallelCoordinatesAxis } from './components/ml/ParallelCoordinates';
 
 export { TreemapChart } from './components/TreemapChart';
 export type { TreemapChartProps } from './components/TreemapChart';

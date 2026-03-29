@@ -152,16 +152,19 @@ export function AreaChart({
 
     const axisStyle = getAxisTickStyle(theme);
 
-    const { onMouseEnter: handleLegendMouseEnter, onMouseLeave: handleLegendMouseLeave, onClick: handleLegendClick } =
-        useLegendHighlight(
-            highlightState,
-            {
-                enabled: highlightEnabled,
-                legendHover: interaction?.legendHover ?? true,
-                legendClick: interaction?.legendClick ?? false,
-            },
-            legendProps
-        );
+    const {
+        onMouseEnter: handleLegendMouseEnter,
+        onMouseLeave: handleLegendMouseLeave,
+        onClick: handleLegendClick,
+    } = useLegendHighlight(
+        highlightState,
+        {
+            enabled: highlightEnabled,
+            legendHover: interaction?.legendHover ?? true,
+            legendClick: interaction?.legendClick ?? false,
+        },
+        legendProps
+    );
 
     // Determine if any series opts into stacking
     const hasStacked = series.some((s) => s.stacked);
@@ -233,7 +236,9 @@ export function AreaChart({
                                 strokeOpacity={highlightState.getOpacity(s.dataKey)}
                                 strokeWidth={s.strokeWidth ?? 2}
                                 fill={s.fade ? `url(#${gradientId})` : color}
-                                fillOpacity={(s.fade ? 1 : (s.fillOpacity ?? 0.15)) * highlightState.getOpacity(s.dataKey)}
+                                fillOpacity={
+                                    (s.fade ? 1 : (s.fillOpacity ?? 0.15)) * highlightState.getOpacity(s.dataKey)
+                                }
                                 stackId={hasStacked && s.stacked ? 'stack' : undefined}
                                 onMouseEnter={
                                     highlightEnabled && areaHoverEnabled
@@ -241,9 +246,7 @@ export function AreaChart({
                                         : undefined
                                 }
                                 onMouseLeave={
-                                    highlightEnabled && areaHoverEnabled
-                                        ? () => highlightState.clearHover()
-                                        : undefined
+                                    highlightEnabled && areaHoverEnabled ? () => highlightState.clearHover() : undefined
                                 }
                                 isAnimationActive={animate}
                             />

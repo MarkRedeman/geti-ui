@@ -71,9 +71,7 @@ function readPointsFromDOM(
 
     // Recharts v3 renders one `.recharts-scatter-symbol` node per data point.
     // These are direct `g` containers with transforms already applied.
-    const symbolNodes = Array.from(
-        containerEl.querySelectorAll<SVGGElement>('.recharts-scatter-symbol')
-    );
+    const symbolNodes = Array.from(containerEl.querySelectorAll<SVGGElement>('.recharts-scatter-symbol'));
 
     const points: ScatterDataPoint[] = [];
 

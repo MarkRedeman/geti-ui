@@ -1,9 +1,4 @@
-import {
-    RadialBarChart as RechartsRadialBarChart,
-    RadialBar,
-    PolarAngleAxis,
-    ResponsiveContainer,
-} from 'recharts';
+import { RadialBarChart as RechartsRadialBarChart, RadialBar, PolarAngleAxis, ResponsiveContainer } from 'recharts';
 import { useChartsTheme } from '../hooks/useChartsTheme';
 import type { HighlightConfig } from '../highlight';
 import { useLegendHighlight, useChartHighlight } from '../highlight';
@@ -94,16 +89,19 @@ export function RadialBarChart({
         fillOpacity: highlightState.getOpacity(getCategoryKey(row)),
     }));
 
-    const { onMouseEnter: handleLegendMouseEnter, onMouseLeave: handleLegendMouseLeave, onClick: handleLegendClick } =
-        useLegendHighlight(
-            highlightState,
-            {
-                enabled: highlightEnabled,
-                legendHover: interaction?.legendHover ?? true,
-                legendClick: interaction?.legendClick ?? false,
-            },
-            legendProps
-        );
+    const {
+        onMouseEnter: handleLegendMouseEnter,
+        onMouseLeave: handleLegendMouseLeave,
+        onClick: handleLegendClick,
+    } = useLegendHighlight(
+        highlightState,
+        {
+            enabled: highlightEnabled,
+            legendHover: interaction?.legendHover ?? true,
+            legendClick: interaction?.legendClick ?? false,
+        },
+        legendProps
+    );
 
     return (
         <div role="img" aria-label={ariaLabel} style={{ width, height }}>
@@ -119,21 +117,25 @@ export function RadialBarChart({
                     <RadialBar
                         dataKey={valueKey}
                         name={categoryKey}
-                        label={{ position: 'insideStart', fill: theme.typography.color, fontSize: theme.typography.fontSize }}
+                        label={{
+                            position: 'insideStart',
+                            fill: theme.typography.color,
+                            fontSize: theme.typography.fontSize,
+                        }}
                         background={track}
                         cornerRadius={cornerRadius}
                         onMouseEnter={
                             highlightEnabled && barHoverEnabled
                                 ? (entry) =>
                                       highlightState.setHovered([
-                                          getCategoryKey((entry as unknown as { payload?: Record<string, unknown> }).payload ?? {}),
+                                          getCategoryKey(
+                                              (entry as unknown as { payload?: Record<string, unknown> }).payload ?? {}
+                                          ),
                                       ])
                                 : undefined
                         }
                         onMouseLeave={
-                            highlightEnabled && barHoverEnabled
-                                ? () => highlightState.clearHover()
-                                : undefined
+                            highlightEnabled && barHoverEnabled ? () => highlightState.clearHover() : undefined
                         }
                         isAnimationActive={animate}
                     />

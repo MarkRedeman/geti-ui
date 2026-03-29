@@ -123,14 +123,7 @@ describe('LineChart - axis scale', () => {
 
 describe('AreaChart - axis scale', () => {
     it('renders with default (no scale props) without crash', () => {
-        wrap(
-            <AreaChart
-                data={linearData}
-                xAxisKey="x"
-                series={[{ dataKey: 'y' }]}
-                aria-label="area default"
-            />
-        );
+        wrap(<AreaChart data={linearData} xAxisKey="x" series={[{ dataKey: 'y' }]} aria-label="area default" />);
         expect(screen.getByRole('img', { name: 'area default' })).toBeInTheDocument();
     });
 
@@ -234,12 +227,7 @@ describe('BarChart - axis scale', () => {
 
 describe('ScatterChart - axis scale', () => {
     it('renders with default (no scale props) without crash', () => {
-        wrap(
-            <ScatterChart
-                series={[{ name: 'Series A', data: scatterPoints }]}
-                aria-label="scatter default"
-            />
-        );
+        wrap(<ScatterChart series={[{ name: 'Series A', data: scatterPoints }]} aria-label="scatter default" />);
         expect(screen.getByRole('img', { name: 'scatter default' })).toBeInTheDocument();
     });
 

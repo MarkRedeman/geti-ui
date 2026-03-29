@@ -16,7 +16,10 @@ describe('DonutChart highlight', () => {
                 <DonutChart
                     data={data}
                     showLegend
-                    highlight={{ enabled: true, interaction: { lineHover: true, legendHover: true, legendClick: true } }}
+                    highlight={{
+                        enabled: true,
+                        interaction: { lineHover: true, legendHover: true, legendClick: true },
+                    }}
                     aria-label="donut chart highlight"
                 />
             </ChartsThemeProvider>

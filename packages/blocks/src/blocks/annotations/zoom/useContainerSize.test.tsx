@@ -47,8 +47,8 @@ function SizeProbe() {
 
     return (
         <div>
-            <div ref={ref} data-testid='container' />
-            <div data-testid='size'>
+            <div ref={ref} data-testid="container" />
+            <div data-testid="size">
                 {size.width}x{size.height}
             </div>
         </div>

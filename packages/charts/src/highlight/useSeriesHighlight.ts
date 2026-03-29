@@ -49,9 +49,7 @@ export function useSeriesHighlight(options: UseSeriesHighlightOptions = {}) {
     const [hoveredKeys, setHoveredKeys] = useState<string[]>([]);
 
     const controlled = Array.isArray(highlightedKeys);
-    const pinnedKeys = controlled
-        ? limitKeys(highlightedKeys ?? [], mode, maxHighlighted)
-        : uncontrolledPinnedKeys;
+    const pinnedKeys = controlled ? limitKeys(highlightedKeys ?? [], mode, maxHighlighted) : uncontrolledPinnedKeys;
 
     const activeKeys = pinnedKeys.length > 0 ? pinnedKeys : hoveredKeys;
 
@@ -108,13 +106,14 @@ export function useSeriesHighlight(options: UseSeriesHighlightOptions = {}) {
                 return;
             }
 
-            const next = mode === 'single'
-                ? pinnedKeys[0] === key
-                    ? []
-                    : [key]
-                : pinnedKeys.includes(key)
-                    ? pinnedKeys.filter((k) => k !== key)
-                    : [...pinnedKeys, key];
+            const next =
+                mode === 'single'
+                    ? pinnedKeys[0] === key
+                        ? []
+                        : [key]
+                    : pinnedKeys.includes(key)
+                      ? pinnedKeys.filter((k) => k !== key)
+                      : [...pinnedKeys, key];
             setPinnedKeys(next, trigger);
         },
         [controlled, enabled, maxHighlighted, mode, onHighlightedKeysChange, pinnedKeys, setPinnedKeys]

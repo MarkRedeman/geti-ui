@@ -1,12 +1,6 @@
 import { describe, expect, it } from '@rstest/core';
 
-import {
-    clampBetween,
-    clampTranslate,
-    getCenterCoordinates,
-    getZoomTransform,
-    isWheelButton,
-} from './utils';
+import { clampBetween, clampTranslate, getCenterCoordinates, getZoomTransform, isWheelButton } from './utils';
 
 describe('clampBetween', () => {
     it('returns value when within range', () => {
@@ -93,7 +87,7 @@ describe('clampTranslate', () => {
             { x: -10000, y: -10000 },
             1,
             { width: 500, height: 500 },
-            { width: 500, height: 500 },
+            { width: 500, height: 500 }
         );
 
         // Should be clamped so at least 10% of content is visible
@@ -107,7 +101,7 @@ describe('clampTranslate', () => {
             { x: 10000, y: 10000 },
             1,
             { width: 500, height: 500 },
-            { width: 500, height: 500 },
+            { width: 500, height: 500 }
         );
 
         // max x = 500 - 500*1*0.1 = 450
@@ -116,12 +110,7 @@ describe('clampTranslate', () => {
     });
 
     it('does not clamp when translation is within bounds', () => {
-        const result = clampTranslate(
-            { x: 25, y: 25 },
-            0.9,
-            { width: 500, height: 500 },
-            { width: 500, height: 500 },
-        );
+        const result = clampTranslate({ x: 25, y: 25 }, 0.9, { width: 500, height: 500 }, { width: 500, height: 500 });
 
         expect(result.x).toBe(25);
         expect(result.y).toBe(25);

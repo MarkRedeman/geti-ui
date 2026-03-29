@@ -27,7 +27,7 @@ import '@geti-ui/ui/styles.css';
 import '@geti-ui/blocks/styles.css';
 
 export function App() {
-  return <ThemeProvider>{/* app */}</ThemeProvider>;
+    return <ThemeProvider>{/* app */}</ThemeProvider>;
 }
 ```
 

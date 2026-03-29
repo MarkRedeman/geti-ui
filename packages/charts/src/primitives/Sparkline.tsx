@@ -81,11 +81,7 @@ export function Sparkline({
     const showArea = area ?? filled ?? false;
 
     return (
-        <div
-            role="img"
-            aria-label={ariaLabel ?? 'Sparkline chart'}
-            style={{ width, height, display: 'inline-block' }}
-        >
+        <div role="img" aria-label={ariaLabel ?? 'Sparkline chart'} style={{ width, height, display: 'inline-block' }}>
             <ResponsiveContainer width="100%" height={height}>
                 <AreaChart data={data} margin={{ top: 2, right: 2, bottom: 2, left: 2 }}>
                     <Area

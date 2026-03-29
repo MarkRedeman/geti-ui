@@ -1,9 +1,4 @@
-import {
-    XAxis,
-    YAxis,
-    type XAxisProps,
-    type YAxisProps,
-} from 'recharts';
+import { XAxis, YAxis, type XAxisProps, type YAxisProps } from 'recharts';
 import { useChartsTheme } from '../hooks/useChartsTheme';
 import { getAxisLineStyle, getAxisTickLineStyle, getAxisTickStyle } from '../utils/axisStyles';
 

@@ -194,16 +194,19 @@ export function BarChart({
                   ...yAxisProps,
               };
 
-    const { onMouseEnter: handleLegendMouseEnter, onMouseLeave: handleLegendMouseLeave, onClick: handleLegendClick } =
-        useLegendHighlight(
-            highlightState,
-            {
-                enabled: highlightEnabled,
-                legendHover: interaction?.legendHover ?? true,
-                legendClick: interaction?.legendClick ?? false,
-            },
-            legendProps
-        );
+    const {
+        onMouseEnter: handleLegendMouseEnter,
+        onMouseLeave: handleLegendMouseLeave,
+        onClick: handleLegendClick,
+    } = useLegendHighlight(
+        highlightState,
+        {
+            enabled: highlightEnabled,
+            legendHover: interaction?.legendHover ?? true,
+            legendClick: interaction?.legendClick ?? false,
+        },
+        legendProps
+    );
 
     return (
         <div role="img" aria-label={ariaLabel} style={{ width, height }}>
@@ -257,9 +260,7 @@ export function BarChart({
                                         : undefined
                                 }
                                 onMouseLeave={
-                                    highlightEnabled && barHoverEnabled
-                                        ? () => highlightState.clearHover()
-                                        : undefined
+                                    highlightEnabled && barHoverEnabled ? () => highlightState.clearHover() : undefined
                                 }
                                 isAnimationActive={animate}
                             >

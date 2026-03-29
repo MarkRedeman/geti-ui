@@ -22,17 +22,17 @@ npm install @geti-ui/charts recharts
 import { ChartsThemeProvider, LineChart } from '@geti-ui/charts';
 
 const data = [
-  { epoch: 1, loss: 1.2 },
-  { epoch: 2, loss: 0.9 },
-  { epoch: 3, loss: 0.7 },
+    { epoch: 1, loss: 1.2 },
+    { epoch: 2, loss: 0.9 },
+    { epoch: 3, loss: 0.7 },
 ];
 
 export function App() {
-  return (
-    <ChartsThemeProvider>
-      <LineChart data={data} xAxisKey="epoch" series={[{ dataKey: 'loss', name: 'Loss' }]} />
-    </ChartsThemeProvider>
-  );
+    return (
+        <ChartsThemeProvider>
+            <LineChart data={data} xAxisKey="epoch" series={[{ dataKey: 'loss', name: 'Loss' }]} />
+        </ChartsThemeProvider>
+    );
 }
 ```
 

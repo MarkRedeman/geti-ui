@@ -9,9 +9,7 @@ describe('datasetSubsetPalette', () => {
     it('creates palette with defaults and overrides', () => {
         expect(createDatasetSubsetPalette()).toEqual(defaultDatasetSubsetPalette);
         expect(createDatasetSubsetPalette({ train: '#0f0' }).train).toBe('#0f0');
-        expect(createDatasetSubsetPalette({ train: '#0f0' }).validation).toBe(
-            defaultDatasetSubsetPalette.validation
-        );
+        expect(createDatasetSubsetPalette({ train: '#0f0' }).validation).toBe(defaultDatasetSubsetPalette.validation);
     });
 
     it('resolves colors by aliases', () => {

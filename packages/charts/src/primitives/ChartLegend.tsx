@@ -27,7 +27,12 @@ export interface ChartLegendProps extends Omit<LegendProps, 'ref'> {
  * </LineChart>
  * ```
  */
-export function ChartLegend({ verticalAlign = 'bottom', align = 'center', itemSorter = null, ...rest }: ChartLegendProps) {
+export function ChartLegend({
+    verticalAlign = 'bottom',
+    align = 'center',
+    itemSorter = null,
+    ...rest
+}: ChartLegendProps) {
     const theme = useChartsTheme();
 
     return (

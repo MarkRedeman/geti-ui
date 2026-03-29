@@ -92,9 +92,7 @@ export function ChartTooltip({ content, ...rest }: ChartTooltipProps) {
     const theme = useChartsTheme();
 
     const tooltipContent =
-        content !== undefined
-            ? content
-            : (props: ChartTooltipContentProps) => <DefaultTooltipContent {...props} />;
+        content !== undefined ? content : (props: ChartTooltipContentProps) => <DefaultTooltipContent {...props} />;
 
     return (
         <Tooltip

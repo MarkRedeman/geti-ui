@@ -121,7 +121,10 @@ export function ReliabilityDiagram({
 
                     {showPerfectCalibration && (
                         <ReferenceLine
-                            segment={[{ x: 0, y: 0 }, { x: 1, y: 1 }]}
+                            segment={[
+                                { x: 0, y: 0 },
+                                { x: 1, y: 1 },
+                            ]}
                             stroke={theme.axis.lineColor}
                             strokeDasharray="4 3"
                             label={{

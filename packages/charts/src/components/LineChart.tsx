@@ -159,16 +159,19 @@ export function LineChart({
 
     const axisStyle = getAxisTickStyle(theme);
 
-    const { onMouseEnter: handleLegendMouseEnter, onMouseLeave: handleLegendMouseLeave, onClick: handleLegendClick } =
-        useLegendHighlight(
-            highlightState,
-            {
-                enabled: highlightEnabled,
-                legendHover: interaction?.legendHover ?? true,
-                legendClick: interaction?.legendClick ?? false,
-            },
-            legendProps
-        );
+    const {
+        onMouseEnter: handleLegendMouseEnter,
+        onMouseLeave: handleLegendMouseLeave,
+        onClick: handleLegendClick,
+    } = useLegendHighlight(
+        highlightState,
+        {
+            enabled: highlightEnabled,
+            legendHover: interaction?.legendHover ?? true,
+            legendClick: interaction?.legendClick ?? false,
+        },
+        legendProps
+    );
 
     return (
         <div role="img" aria-label={ariaLabel} style={{ width, height }}>
@@ -226,9 +229,7 @@ export function LineChart({
                                         : undefined
                                 }
                                 onMouseLeave={
-                                    highlightEnabled && lineHoverEnabled
-                                        ? () => highlightState.clearHover()
-                                        : undefined
+                                    highlightEnabled && lineHoverEnabled ? () => highlightState.clearHover() : undefined
                                 }
                                 isAnimationActive={animate}
                             />

@@ -1,9 +1,4 @@
-import {
-    PieChart as RechartsPieChart,
-    Pie,
-    Cell,
-    ResponsiveContainer,
-} from 'recharts';
+import { PieChart as RechartsPieChart, Pie, Cell, ResponsiveContainer } from 'recharts';
 import { useChartsTheme } from '../hooks/useChartsTheme';
 import type { HighlightConfig } from '../highlight';
 import { useLegendHighlight, useChartHighlight } from '../highlight';
@@ -85,16 +80,19 @@ export function DonutChart({
         return typeof raw === 'string' ? raw : String(raw);
     };
 
-    const { onMouseEnter: handleLegendMouseEnter, onMouseLeave: handleLegendMouseLeave, onClick: handleLegendClick } =
-        useLegendHighlight(
-            highlightState,
-            {
-                enabled: highlightEnabled,
-                legendHover: interaction?.legendHover ?? true,
-                legendClick: interaction?.legendClick ?? false,
-            },
-            legendProps
-        );
+    const {
+        onMouseEnter: handleLegendMouseEnter,
+        onMouseLeave: handleLegendMouseLeave,
+        onClick: handleLegendClick,
+    } = useLegendHighlight(
+        highlightState,
+        {
+            enabled: highlightEnabled,
+            legendHover: interaction?.legendHover ?? true,
+            legendClick: interaction?.legendClick ?? false,
+        },
+        legendProps
+    );
 
     return (
         <div role="img" aria-label={ariaLabel} style={{ width, height }}>
@@ -113,14 +111,14 @@ export function DonutChart({
                             highlightEnabled && sliceHoverEnabled
                                 ? (entry) =>
                                       highlightState.setHovered([
-                                          getSliceKey((entry as unknown as { payload?: Record<string, unknown> }).payload ?? {}),
+                                          getSliceKey(
+                                              (entry as unknown as { payload?: Record<string, unknown> }).payload ?? {}
+                                          ),
                                       ])
                                 : undefined
                         }
                         onMouseLeave={
-                            highlightEnabled && sliceHoverEnabled
-                                ? () => highlightState.clearHover()
-                                : undefined
+                            highlightEnabled && sliceHoverEnabled ? () => highlightState.clearHover() : undefined
                         }
                         isAnimationActive={animate}
                     >
