@@ -318,7 +318,6 @@ export {
     useNumberFormatter,
 } from '@adobe/react-spectrum';
 export type { Key } from '@adobe/react-spectrum';
-export { Overlay } from '@react-spectrum/overlays';
 export {
     dimensionValue,
     dimensionValue as dimensionalValue,
