@@ -456,6 +456,10 @@ html {
     align-content: start;
 }
 
+.geti-home-showcase__media {
+    min-width: 0;
+}
+
 .geti-home-showcase__kicker {
     margin: 0;
     color: #6ee7d8;
@@ -708,12 +712,18 @@ html {
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 1.25rem;
+    min-width: 0;
+}
+
+.geti-home-ui-demos > .geti-home-demo-panel {
+    min-width: 0;
 }
 
 .geti-home-ui-toolbar {
     display: flex;
     align-items: center;
     padding: 0.75rem 1rem;
+    overflow-x: auto;
 }
 
 .geti-home-ui-toolbar__spacer {
@@ -904,19 +914,52 @@ html {
 @media (max-width: 767px) {
     .geti-home-hero {
         padding: 2.5rem 0 3.25rem;
+        overflow-x: clip;
     }
 
     .geti-home-hero__inner {
+        width: 100%;
+        max-width: 100%;
+        box-sizing: border-box;
         padding: 0 1rem;
+    }
+
+    .geti-home-hero__panel,
+    .geti-home-hero__stats,
+    .geti-home-stat {
+        min-width: 0;
+    }
+
+    .geti-home-hero__stats {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
     }
 
     .geti-home-hero__actions {
         display: grid;
         width: 100%;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
     }
 
     .geti-home-btn {
         width: 100%;
+    }
+
+    .geti-home-install {
+        width: 100%;
+        max-width: 100%;
+        min-width: 0;
+    }
+
+    .geti-home-install-wrapper {
+        width: 100%;
+        min-width: 0;
+    }
+
+    .geti-home-install__code {
+        white-space: normal;
+        overflow-wrap: anywhere;
+        word-break: break-word;
+        min-width: 0;
     }
 
     .geti-home-showcase {
@@ -961,6 +1004,12 @@ html {
     }
 
     .geti-home-ui-demos {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 320px) {
+    .geti-home-hero__actions {
         grid-template-columns: 1fr;
     }
 }
