@@ -76,7 +76,7 @@ function useDiscreteAnimationState(triggerDiscreteAnimationRef: ZoomInternalStat
     const [isAnimating, setIsAnimating] = useState(false);
     // Used to reset the animation window when multiple discrete actions happen
     // close together (e.g. repeated +/- clicks).
-    const animationTimerRef = useRef<ReturnType<typeof setTimeout>>();
+    const animationTimerRef = useRef<ReturnType<typeof setTimeout> | undefined>(undefined);
 
     useEffect(() => {
         // No animation requested.

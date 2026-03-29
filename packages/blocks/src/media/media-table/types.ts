@@ -1,4 +1,5 @@
-import type { CSSProperties, ReactElement, ReactNode } from 'react';
+import type { Row } from '@geti-ai/ui';
+import type { CSSProperties, ReactNode } from 'react';
 import type {
     MediaGridIdentifiable,
     MediaGridPressEvent,
@@ -63,7 +64,7 @@ export type MediaTableProps<T extends MediaGridIdentifiable> = {
     thumbnailColumnKey?: string;
     thumbnailColumnHeader?: string;
     hideThumbnailColumn?: boolean;
-    EntryComponent?: (props: MediaEntryProps<T>) => ReactElement;
+    EntryComponent?: (props: MediaEntryProps<T>) => ReturnType<typeof Row>;
 
     sortDescriptor?: MediaTableSortDescriptor;
     onSortChange?: (descriptor: MediaTableSortDescriptor) => void;

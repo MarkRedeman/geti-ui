@@ -36,6 +36,8 @@
         "@commitlint/cli": "^20.4.3",
         "@commitlint/config-conventional": "^20.4.3",
         "@rspack/binding-linux-x64-gnu": "^1.7.7",
+        "@types/react": "^19.2.2",
+        "@types/react-dom": "^19.2.2",
         "@semantic-release/changelog": "^6.0.3",
         "@semantic-release/exec": "^7.0.3",
         "@semantic-release/git": "^10.0.1",
