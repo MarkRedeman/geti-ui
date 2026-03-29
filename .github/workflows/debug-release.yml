@@ -1,0 +1,127 @@
+name: Debug release/trusted publishing
+
+on:
+  pull_request:
+    paths:
+      - '.github/workflows/debug-release.yml'
+      - '.github/workflows/release.yml'
+      - 'release.config.mjs'
+      - 'scripts/publish-all.sh'
+      - 'packages/*/package.json'
+  workflow_dispatch:
+    inputs:
+      package:
+        description: Package to inspect on npm
+        required: false
+        default: '@geti-ui/ui'
+
+permissions:
+  contents: read
+  id-token: write
+
+jobs:
+  debug:
+    name: OIDC + npm preflight debug
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+
+      - name: Setup Node
+        uses: actions/setup-node@53b83947a5a98c8d113130e565377fae1a50d02f # v6
+        with:
+          node-version: 24
+          registry-url: https://registry.npmjs.org
+
+      - name: Tooling versions
+        run: |
+          node --version
+          npm --version
+
+      - name: GitHub workflow identity (what npm matches)
+        run: |
+          echo "repository=${{ github.repository }}"
+          echo "repository_owner=${{ github.repository_owner }}"
+          echo "workflow=${{ github.workflow }}"
+          echo "workflow_ref=${{ github.workflow_ref }}"
+          echo "job=${{ github.job }}"
+          echo "ref=${{ github.ref }}"
+          echo "ref_name=${{ github.ref_name }}"
+          echo "event_name=${{ github.event_name }}"
+
+      - name: Decode GitHub OIDC token claims (safe subset)
+        env:
+          AUDIENCE: npm:registry.npmjs.org
+        run: |
+          set -euo pipefail
+          URL="${ACTIONS_ID_TOKEN_REQUEST_URL}&audience=${AUDIENCE}"
+          RESPONSE=$(curl -sSf -H "Authorization: bearer ${ACTIONS_ID_TOKEN_REQUEST_TOKEN}" "$URL")
+          TOKEN=$(node -e 'const r=JSON.parse(process.argv[1]); process.stdout.write(r.value || "")' "$RESPONSE")
+          if [ -z "$TOKEN" ]; then
+            echo "Failed to obtain OIDC token value"
+            exit 1
+          fi
+
+          node -e '
+            const token = process.argv[1];
+            const payloadB64 = token.split(".")[1];
+            const payload = JSON.parse(Buffer.from(payloadB64, "base64url").toString("utf8"));
+            const keys = [
+              "iss",
+              "aud",
+              "sub",
+              "repository",
+              "repository_owner",
+              "repository_owner_id",
+              "job_workflow_ref",
+              "workflow",
+              "workflow_ref",
+              "ref",
+              "ref_type",
+              "environment"
+            ];
+            const out = {};
+            for (const k of keys) out[k] = payload[k] ?? null;
+            console.log(JSON.stringify(out, null, 2));
+          ' "$TOKEN"
+
+      - name: Validate package metadata used by npm trusted publishing
+        run: |
+          node <<'NODE'
+          const fs = require('fs');
+          const paths = [
+            'packages/ui/package.json',
+            'packages/blocks/package.json',
+            'packages/charts/package.json',
+            'packages/smart-tools/package.json',
+            'packages/mcp/package.json'
+          ];
+
+          for (const path of paths) {
+            const pkg = JSON.parse(fs.readFileSync(path, 'utf8'));
+            const repo = typeof pkg.repository === 'string' ? pkg.repository : pkg.repository?.url;
+            console.log(`\n${pkg.name}`);
+            console.log(`  version: ${pkg.version}`);
+            console.log(`  publishConfig.access: ${pkg.publishConfig?.access ?? '(missing)'}`);
+            console.log(`  repository.url: ${repo ?? '(missing)'}`);
+          }
+          NODE
+
+      - name: npm registry checks (read-only)
+        env:
+          PACKAGE_TO_CHECK: ${{ inputs.package || '@geti-ui/ui' }}
+        run: |
+          set -euo pipefail
+          echo "Checking npm view for ${PACKAGE_TO_CHECK}"
+          npm view "${PACKAGE_TO_CHECK}" name version dist-tags --json || true
+
+      - name: Summary
+        run: |
+          echo "Use this run to compare exact values in npm Trusted Publisher settings:"
+          echo "- Organization/user"
+          echo "- Repository"
+          echo "- Workflow filename (release.yml)"
+          echo "- Environment (must match exactly or be empty in both places)"
