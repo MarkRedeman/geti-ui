@@ -12,18 +12,18 @@
 set -euo pipefail
 
 echo "Publishing @geti-ai/ui ..."
-npm publish --workspace=@geti-ai/ui
+npm publish --provenance --access public --workspace=@geti-ai/ui
 
 echo "Publishing @geti-ai/blocks ..."
-npm publish --workspace=@geti-ai/blocks
+npm publish --provenance --access public --workspace=@geti-ai/blocks
 
 echo "Publishing @geti-ai/smart-tools ..."
-npm publish --workspace=@geti-ai/smart-tools
+npm publish --provenance --access public --workspace=@geti-ai/smart-tools
 
 echo "Publishing @geti-ai/charts ..."
-npm publish --workspace=@geti-ai/charts
+npm publish --provenance --access public --workspace=@geti-ai/charts
 
 echo "Publishing @geti-ai/mcp ..."
-npm publish --workspace=@geti-ai/mcp
+npm publish --provenance --access public --workspace=@geti-ai/mcp
 
 echo "All packages published successfully."
