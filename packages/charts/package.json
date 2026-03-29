@@ -1,6 +1,6 @@
 {
     "name": "@geti-ui/charts",
-    "version": "0.0.2",
+    "version": "0.0.3",
     "description": "Geti UI charts component library built on Recharts",
     "type": "module",
     "exports": {
@@ -18,9 +18,7 @@
     "main": "./dist/cjs/index.js",
     "module": "./dist/esm/index.js",
     "types": "./dist/types/index.d.ts",
-    "files": [
-        "dist"
-    ],
+    "files": ["dist"],
     "scripts": {
         "dev": "rslib build --watch",
         "build": "rslib build",
@@ -63,5 +61,6 @@
     "publishConfig": {
         "access": "public"
     },
-    "license": "Apache-2.0"
+    "license": "Apache-2.0",
+    "homepage": "https://docs.geti-ui.markredeman.nl"
 }
