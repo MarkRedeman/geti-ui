@@ -1,0 +1,4 @@
+# Cloudflare Pages ignores — prevent large files from failing asset validation
+*.onnx
+*.bin
+*.wasm
