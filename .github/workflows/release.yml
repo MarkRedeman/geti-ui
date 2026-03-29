@@ -62,6 +62,9 @@ jobs:
     name: Build OpenCV artifact
     needs: [check-smart-tools]
     if: needs.check-smart-tools.outputs.needs_opencv == 'true'
+    permissions:
+      contents: read
+      packages: write # publish cache/artifact image tags to GHCR
     uses: ./.github/workflows/opencv-build.yml
     with:
       opencv_version: ${{ inputs.opencv_version || '4.9.0' }}
