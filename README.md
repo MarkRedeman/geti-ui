@@ -71,6 +71,7 @@ npm run docs:test:e2e
 -   Contributor guide: `CONTRIBUTING.md`
 -   Agent guidance: `AGENTS.md`
 -   Docs site entry: `documentation/docs/index.mdx`
+-   Documentation workspace guide: `documentation/README.md`
 
 ## License
 

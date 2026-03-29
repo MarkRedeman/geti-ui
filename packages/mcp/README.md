@@ -2,6 +2,12 @@
 
 MCP (Model Context Protocol) server for Geti UI documentation. Exposes component, chart, blocks, and smart-tools docs to AI coding agents via 8 MCP tools.
 
+## What this package includes
+
+- Stdio MCP server binary (`geti-ui-mcp`)
+- Bundled documentation dataset (`llms.txt`, `llms-full.txt`, markdown pages, skills artifacts)
+- Query tools for pages, search, component props, charts, and blocks
+
 ## Quick start
 
 ### Claude Code
@@ -68,6 +74,12 @@ Add to `~/.codeium/windsurf/mcp_config.json`:
 | `get_geti_ui_component_props` | Get structured prop info for a component     |
 | `list_geti_ui_charts`         | List chart components by type                |
 | `list_geti_ui_blocks`         | List block docs pages by category            |
+
+## Examples and docs
+
+- MCP docs page: `documentation/docs/ai/mcp.mdx`
+- AI docs overview: `documentation/docs/ai/overview.mdx`
+- Developer guide: `docs/mcp.md`
 
 ## Environment variables
 

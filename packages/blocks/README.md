@@ -1,8 +1,15 @@
 # @geti-ui/blocks
 
-Composable application-level building blocks for Intel Geti products.
+Composable application-level building blocks for Geti products.
 
-`@geti-ui/blocks` is built on top of `@geti-ui/ui` and provides higher-level, opinionated UI patterns (for example media filtering and media grid composition).
+`@geti-ui/blocks` builds on top of `@geti-ui/ui` primitives and provides opinionated product-level patterns such as media workflows, logs surfaces, and managed tabs.
+
+## What this package includes
+
+- Media building blocks: filtering, chips, dialog, grid, and table flows
+- Logs building blocks: list content, toolbar controls, level filtering
+- Tabs building blocks: managed and overflowable tab behaviors
+- Annotation-related blocks and utility surfaces used in product screens
 
 ## Installation
 
@@ -20,17 +27,33 @@ import '@geti-ui/ui/styles.css';
 import '@geti-ui/blocks/styles.css';
 
 export function App() {
-    return <ThemeProvider>{/* app */}</ThemeProvider>;
+  return <ThemeProvider>{/* app */}</ThemeProvider>;
 }
 ```
 
-## Usage
+## Quick start
 
 ```tsx
 import { MediaGrid, FilterDialog, FilterChips } from '@geti-ui/blocks';
+
+// Use with your own state/data source
 ```
 
-## Documentation
+## Examples and docs
 
-- Blocks docs: `documentation/docs/blocks/**`
-- Public docs site: https://docs.geti-ui.markredeman.nl/blocks/installation
+- Installation: `documentation/docs/blocks/installation.mdx`
+- Blocks docs root: `documentation/docs/blocks/`
+- Media overview example: `documentation/docs/blocks/media/media-overview.mdx`
+- Logs docs: `documentation/docs/blocks/logs.mdx`
+
+## Development
+
+From repository root:
+
+```bash
+npm run build --workspace=@geti-ui/blocks
+npm run test --workspace=@geti-ui/blocks
+npm run type-check --workspace=@geti-ui/blocks
+npm run lint --workspace=@geti-ui/blocks
+npm run format:check --workspace=@geti-ui/blocks
+```

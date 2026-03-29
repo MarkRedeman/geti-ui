@@ -1,8 +1,8 @@
 # @geti-ui/smart-tools
 
-Computer-vision runtime library for Intel Geti products.
+Computer-vision tooling package for Intel Geti products.
 
-Provides OpenCV WASM-backed segmentation tools and ONNX AI models for use in browser and Node.js environments.
+`@geti-ui/smart-tools` provides browser-oriented OpenCV and ONNX-based tool integrations used by annotation and segmentation workflows.
 
 > **Status:** Initial migration - package scaffold in progress.
 > See [`plans/migrate-smart-tools.md`](../../plans/migrate-smart-tools.md) for the full migration plan.
@@ -14,6 +14,30 @@ Provides OpenCV WASM-backed segmentation tools and ONNX AI models for use in bro
 ```bash
 npm install @geti-ui/smart-tools
 ```
+
+## What this package includes
+
+- OpenCV-backed tooling utilities and interfaces (`/opencv`, `/utils`, `/types`)
+- ONNX Runtime Web model wrappers for:
+  - RITM (`@geti-ui/smart-tools/ritm`)
+  - Segment Anything (`@geti-ui/smart-tools/segment-anything`)
+- Shared geometry and domain helpers for annotation-style toolchains
+
+## Quick start
+
+```ts
+import { buildGrabcutInstance } from '@geti-ui/smart-tools';
+import { buildRITMInstance, RITMModels } from '@geti-ui/smart-tools/ritm';
+import { buildSegmentAnythingInstance, SegmentAnythingModels } from '@geti-ui/smart-tools/segment-anything';
+```
+
+## Examples and docs
+
+- Installation: `documentation/docs/smart-tools/installation.mdx`
+- OpenCV docs: `documentation/docs/smart-tools/opencv.mdx`
+- GrabCut: `documentation/docs/smart-tools/grabcut.mdx`
+- RITM: `documentation/docs/smart-tools/ritm.mdx`
+- Segment Anything: `documentation/docs/smart-tools/segment-anything.mdx`
 
 ---
 
@@ -100,4 +124,7 @@ npm run type-check --workspace=@geti-ui/smart-tools
 
 # Lint
 npm run lint --workspace=@geti-ui/smart-tools
+
+# Format check
+npm run format:check --workspace=@geti-ui/smart-tools
 ```
