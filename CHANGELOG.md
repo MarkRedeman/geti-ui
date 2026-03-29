@@ -1,3 +1,10 @@
+## [1.0.5](https://github.com/MarkRedeman/geti-ui/compare/v1.0.4...v1.0.5) (2026-03-29)
+
+
+### Bug Fixes
+
+* **ci:** try to debug why publishing with trusted publisher is not working ([7fc2c94](https://github.com/MarkRedeman/geti-ui/commit/7fc2c94f6eef50eb481e5b26a03da6da481e4064))
+
 ## [1.0.4](https://github.com/MarkRedeman/geti-ui/compare/v1.0.3...v1.0.4) (2026-03-29)
 
 
