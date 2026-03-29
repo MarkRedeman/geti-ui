@@ -92,6 +92,7 @@ jobs:
         with:
           node-version: 24
           cache: npm
+          registry-url: 'https://registry.npmjs.org'
 
       - run: npm ci
 

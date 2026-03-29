@@ -15,7 +15,7 @@ export const heroStats: HeroStat[] = [
         "href": "/charts/overview"
     },
     {
-        "value": "27",
+        "value": "26",
         "label": "Blocks",
         "href": "/blocks/installation"
     },

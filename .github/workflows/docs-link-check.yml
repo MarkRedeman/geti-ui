@@ -12,21 +12,44 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       contents: read
+      issues: read # read PR comments to resolve deploy-preview branch URL
     continue-on-error: true
     steps:
       - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6
         with:
           persist-credentials: false
 
-      - name: Compute Cloudflare preview URL
+      - name: Resolve preview URL from deploy-preview comment
         id: preview
-        env:
-          PR_BRANCH: ${{ github.head_ref }}
-        run: |
-          set -euo pipefail
-          BRANCH_SLUG=$(printf '%s' "$PR_BRANCH" | tr '[:upper:]' '[:lower:]' | sed -E 's/[^a-z0-9]+/-/g; s/^-+//; s/-+$//')
-          PREVIEW_URL="https://${BRANCH_SLUG}.geti-ui-docs.pages.dev"
-          echo "url=${PREVIEW_URL}" >> "$GITHUB_OUTPUT"
+        uses: actions/github-script@ed597411d8f924073f98dfc5c65a23a2325f34cd # v8
+        with:
+          script: |
+            const marker = '<!-- deploy-preview-comment -->';
+            const branchUrlPattern = /\|\s*\*\*Branch\*\*\s*\|\s*(https?:\/\/[^\s|]+)\s*\|/;
+
+            for (let attempt = 1; attempt <= 30; attempt++) {
+              const { data: comments } = await github.rest.issues.listComments({
+                issue_number: context.issue.number,
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                per_page: 100,
+              });
+
+              const previewComment = comments.find((comment) => comment.body?.includes(marker));
+              const match = previewComment?.body?.match(branchUrlPattern);
+              const previewUrl = match?.[1];
+
+              if (previewUrl) {
+                core.info(`Found preview URL from deploy-preview comment: ${previewUrl}`);
+                core.setOutput('url', previewUrl);
+                return;
+              }
+
+              core.info(`Waiting for deploy-preview comment, attempt ${attempt}/30`);
+              await new Promise((resolve) => setTimeout(resolve, 10_000));
+            }
+
+            core.setFailed('Could not resolve preview URL from deploy-preview comment within timeout.');
 
       - name: Wait for preview deployment
         env:

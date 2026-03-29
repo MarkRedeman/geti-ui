@@ -421,45 +421,59 @@ export function pluginSkills(): RspressPlugin {
                 return;
             }
 
-            // 3. Create .well-known/skills/ directory
-            const wellKnownDir = join(outDir, '.well-known', 'skills');
-            await mkdir(wellKnownDir, { recursive: true });
+            // 3. Create .well-known/ directories used by skills discovery clients.
+            // `npx skills` prefers `agent-skills` and falls back to `skills`.
+            const skillsDir = join(outDir, '.well-known', 'skills');
+            const agentSkillsDir = join(outDir, '.well-known', 'agent-skills');
+            await Promise.all([mkdir(skillsDir, { recursive: true }), mkdir(agentSkillsDir, { recursive: true })]);
 
-            // 4. Generate index.json (skill registry)
+            // 4. Generate discovery index.json in both locations using the
+            // schema expected by `npx skills`.
             const index = {
                 skills: SKILLS.map((s) => ({
-                    id: s.id,
-                    name: s.name,
+                    name: s.id,
                     description: s.description,
-                    url: `${BASE_URL}/.well-known/skills/${s.id}`,
+                    files: ['SKILL.md'],
                 })),
             };
-            await writeFile(join(wellKnownDir, 'index.json'), JSON.stringify(index, null, 2));
+            await Promise.all([
+                writeFile(join(skillsDir, 'index.json'), JSON.stringify(index, null, 2)),
+                writeFile(join(agentSkillsDir, 'index.json'), JSON.stringify(index, null, 2)),
+            ]);
 
-            // 5. Generate each skill descriptor
+            // 5. Generate each skill markdown descriptor
             let totalResources = 0;
             for (const skill of SKILLS) {
                 const resources = pages
                     .filter((p) => skill.pathPrefixes.some((prefix) => p.path.startsWith(prefix)))
                     .map((p) => `${BASE_URL}/${p.path}`);
 
-                const descriptor = {
-                    name: skill.id,
-                    description: skill.description,
-                    instructions: skill.instructions,
-                    resources,
-                };
+                const resourcesSection =
+                    resources.length === 0
+                        ? ''
+                        : `\n\n## Resources\n\n${resources.map((resource) => `- ${resource}`).join('\n')}`;
 
-                await writeFile(join(wellKnownDir, skill.id), JSON.stringify(descriptor, null, 2));
+                const skillMarkdown = `---
+name: ${JSON.stringify(skill.id)}
+description: ${JSON.stringify(skill.description)}
+---
+
+${skill.instructions}${resourcesSection}
+`;
+
+                const skillDirs = [join(skillsDir, skill.id), join(agentSkillsDir, skill.id)];
+                await Promise.all(skillDirs.map((dir) => mkdir(dir, { recursive: true })));
+                await Promise.all(skillDirs.map((dir) => writeFile(join(dir, 'SKILL.md'), skillMarkdown)));
 
                 totalResources += resources.length;
             }
 
             console.log(
-                '[skills-endpoint] Generated %d skill descriptors with %d total resources → %s',
+                '[skills-endpoint] Generated %d skills with %d total resources → %s, %s',
                 SKILLS.length,
                 totalResources,
-                wellKnownDir
+                skillsDir,
+                agentSkillsDir
             );
         },
     };
