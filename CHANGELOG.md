@@ -1,3 +1,10 @@
+## [1.1.2](https://github.com/MarkRedeman/geti-ui/compare/v1.1.1...v1.1.2) (2026-03-30)
+
+
+### Bug Fixes
+
+* **theme:** restore Spectrum semantic color token overrides ([b40ee59](https://github.com/MarkRedeman/geti-ui/commit/b40ee593ee8974e6b5041252cb38579a2f287716))
+
 ## [1.1.1](https://github.com/MarkRedeman/geti-ui/compare/v1.1.0...v1.1.1) (2026-03-29)
 
 
