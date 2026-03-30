@@ -128,7 +128,7 @@ export const DEFAULT_ANNOTATION_STYLES: React.CSSProperties = {
     fill: 'var(--annotation-fill, currentColor)',
     stroke: 'var(--annotation-stroke, currentColor)',
     strokeLinecap: 'round',
-    strokeWidth: 'calc(1px / var(--zoom-scale, 1))',
+    strokeWidth: 'calc(var(--annotation-stroke-width, 2px) / var(--zoom-scale, 1))',
     strokeDashoffset: 0,
     strokeDasharray: '0',
     strokeOpacity: 'var(--annotation-border-opacity, 1)' as unknown as number,

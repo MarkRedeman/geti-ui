@@ -93,7 +93,7 @@ export function SelectableAnnotation({ children }: SelectableAnnotationProps) {
                     ? {
                           fillOpacity: 'var(--annotation-selected-fill-opacity, 0.7)' as unknown as number,
                           stroke: 'var(--annotation-selected-stroke, var(--energy-blue-light, #00c7fd))',
-                          strokeWidth: 'calc(2px / var(--zoom-scale, 1))',
+                          strokeWidth: 'calc(var(--annotation-selected-stroke-width, calc(var(--annotation-stroke-width, 2px) * 1.5)) / var(--zoom-scale, 1))',
                       }
                     : {}),
                 transitionProperty: 'fill-opacity',

@@ -245,9 +245,12 @@ The annotation renderer uses CSS custom properties for all visual styling. Overr
 | `--annotation-fill` | `currentColor` | Shape fill color |
 | `--annotation-fill-opacity` | `0.1` | Shape fill opacity |
 | `--annotation-stroke` | `currentColor` | Shape stroke color |
+| `--annotation-stroke-width` | `2px` | Shape stroke width (before zoom compensation) |
 | `--annotation-border-opacity` | `1` | Stroke opacity |
 | `--annotation-hover-fill` | `yellow` | Fill color when hovered |
+| `--annotation-hover-opacity` | `0.4` | Fill opacity when hovered |
 | `--annotation-selected-stroke` | `#00c7fd` | Stroke color when selected |
+| `--annotation-selected-stroke-width` | `--annotation-stroke-width * 1.5` | Stroke width when selected (before zoom compensation) |
 | `--annotation-selected-fill-opacity` | `0.7` | Fill opacity when selected |
 | `--annotation-prediction-fill` | `#34d399` | Fill color for prediction annotations |
 | `--zoom-scale` | `1` | Current zoom scale (set by `ZoomTransform`). Used in `calc()` for scale-invariant strokes. |
@@ -295,12 +298,14 @@ export default function App() {
   const [strokeColor, setStrokeColor] = useState('#ffffff');
   const [hoverFill, setHoverFill] = useState('#ffff00');
   const [fillOpacity, setFillOpacity] = useState(0.1);
+  const [hoverOpacity, setHoverOpacity] = useState(0.4);
 
   const customProperties = {
     '--annotation-fill': fillColor,
     '--annotation-stroke': strokeColor,
     '--annotation-fill-opacity': fillOpacity,
     '--annotation-hover-fill': hoverFill,
+    '--annotation-hover-opacity': hoverOpacity,
   };
 
   return (
@@ -323,6 +328,15 @@ export default function App() {
             label="Fill opacity"
             value={fillOpacity}
             onChange={setFillOpacity}
+            minValue={0}
+            maxValue={1}
+            step={0.05}
+            width="size-1600"
+          />
+          <Slider
+            label="Hover opacity"
+            value={hoverOpacity}
+            onChange={setHoverOpacity}
             minValue={0}
             maxValue={1}
             step={0.05}

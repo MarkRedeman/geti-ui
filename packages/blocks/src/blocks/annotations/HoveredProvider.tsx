@@ -74,9 +74,12 @@ export function HoverableAnnotation({ children }: HoverableAnnotationProps) {
             onPointerLeave={() => isHovered && setHoveredAnnotation(null)}
             style={{
                 fill: isHovered ? 'var(--annotation-hover-fill, yellow)' : undefined,
-                transitionProperty: 'fill-opacity',
+                fillOpacity: (isHovered
+                    ? 'var(--annotation-hover-opacity, 0.4)'
+                    : 'var(--annotation-fill-opacity, 0.1)') as unknown as number,
+                transitionProperty: 'fill, fill-opacity',
                 transitionTimingFunction: 'ease-in-out',
-                transitionDuration: '0.1s',
+                transitionDuration: '0.15s',
                 transitionDelay: isHovered ? '0s' : '0.25s',
             }}
         >
