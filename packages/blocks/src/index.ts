@@ -143,3 +143,42 @@ export type {
     ZoomToOptions,
     ZoomTransformState,
 } from './blocks/annotations/zoom';
+
+export {
+    Annotations,
+    AnnotationContext,
+    useAnnotation,
+    AnnotationShape,
+    HoveredProvider,
+    HoverableAnnotation,
+    useHoveredAnnotation,
+    useSetHoveredAnnotation,
+    useIsHovered,
+    SelectedProvider,
+    SelectableAnnotation,
+    useSelectedAnnotation,
+    useSetSelectedAnnotations,
+    MaskAnnotations,
+    PredictedAnnotation,
+    DEFAULT_ANNOTATION_STYLES,
+} from './blocks/annotations';
+
+export type {
+    AnnotationPoint,
+    BoundingBox,
+    OrientedBoundingBox,
+    CircleShape,
+    PolygonShape,
+    Shape,
+    ShapeType,
+    AnnotationLabel,
+    Annotation,
+    AnnotationsProps,
+    AnnotationShapeProps,
+    MaskAnnotationsProps,
+    HoveredProviderProps,
+    HoverableAnnotationProps,
+    SelectedProviderProps,
+    SelectableAnnotationProps,
+    PredictedAnnotationProps,
+} from './blocks/annotations';
