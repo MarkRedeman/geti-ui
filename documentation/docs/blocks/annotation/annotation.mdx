@@ -252,6 +252,101 @@ The annotation renderer uses CSS custom properties for all visual styling. Overr
 | `--annotation-prediction-fill` | `#34d399` | Fill color for prediction annotations |
 | `--zoom-scale` | `1` | Current zoom scale (set by `ZoomTransform`). Used in `calc()` for scale-invariant strokes. |
 
+### Interactive color controls
+
+Use `ColorPickerDialog` from `@geti-ui/ui` alongside annotations to let users change fill, stroke, and hover colors in real time. The pickers update CSS custom properties on the annotation container.
+
+```tsx preview
+import { useState } from 'react';
+import { Annotations } from '@geti-ui/blocks';
+import { ThemeProvider, View, Text, Flex, ColorPickerDialog, Slider } from '@geti-ui/ui';
+
+const W = 640;
+const H = 400;
+
+const annotations = [
+  {
+    id: 'bbox-1',
+    labels: [{ id: 'l1', name: 'Car', color: '#00ff88' }],
+    shape: { type: 'bounding-box', x: 40, y: 50, width: 200, height: 140 },
+  },
+  {
+    id: 'circle-1',
+    labels: [{ id: 'l2', name: 'Wheel', color: '#ff4444' }],
+    shape: { type: 'circle', cx: 400, cy: 200, r: 70 },
+  },
+  {
+    id: 'polygon-1',
+    labels: [{ id: 'l3', name: 'Road', color: '#4488ff' }],
+    shape: {
+      type: 'polygon',
+      points: [
+        { x: 200, y: 300 },
+        { x: 550, y: 280 },
+        { x: 580, y: 380 },
+        { x: 180, y: 390 },
+      ],
+    },
+  },
+];
+
+export default function App() {
+  const [fillColor, setFillColor] = useState('#ffffff');
+  const [strokeColor, setStrokeColor] = useState('#ffffff');
+  const [hoverFill, setHoverFill] = useState('#ffff00');
+  const [fillOpacity, setFillOpacity] = useState(0.1);
+
+  const customProperties = {
+    '--annotation-fill': fillColor,
+    '--annotation-stroke': strokeColor,
+    '--annotation-fill-opacity': fillOpacity,
+    '--annotation-hover-fill': hoverFill,
+  };
+
+  return (
+    <ThemeProvider>
+      <View UNSAFE_style={{ background: '#1a1a2e', padding: 16, borderRadius: 8 }}>
+        <Flex direction="row" gap="size-300" alignItems="end" wrap UNSAFE_style={{ marginBottom: 12 }}>
+          <Flex direction="column" gap="size-50">
+            <Text UNSAFE_style={{ color: '#aaa', fontSize: 11 }}>Fill</Text>
+            <ColorPickerDialog color={fillColor} onColorChange={setFillColor} label={fillColor} />
+          </Flex>
+          <Flex direction="column" gap="size-50">
+            <Text UNSAFE_style={{ color: '#aaa', fontSize: 11 }}>Stroke</Text>
+            <ColorPickerDialog color={strokeColor} onColorChange={setStrokeColor} label={strokeColor} />
+          </Flex>
+          <Flex direction="column" gap="size-50">
+            <Text UNSAFE_style={{ color: '#aaa', fontSize: 11 }}>Hover fill</Text>
+            <ColorPickerDialog color={hoverFill} onColorChange={setHoverFill} label={hoverFill} />
+          </Flex>
+          <Slider
+            label="Fill opacity"
+            value={fillOpacity}
+            onChange={setFillOpacity}
+            minValue={0}
+            maxValue={1}
+            step={0.05}
+            width="size-1600"
+          />
+        </Flex>
+        <div style={{ position: 'relative', width: W, height: H }}>
+          <img
+            src="https://picsum.photos/640/400"
+            width={W}
+            height={H}
+            alt="Sample"
+            style={{ display: 'block', position: 'absolute', top: 0, left: 0 }}
+          />
+          <div style={{ position: 'absolute', top: 0, left: 0, ...customProperties }}>
+            <Annotations annotations={annotations} width={W} height={H} />
+          </div>
+        </div>
+      </View>
+    </ThemeProvider>
+  );
+}
+```
+
 ## Props
 
 ### Annotations
