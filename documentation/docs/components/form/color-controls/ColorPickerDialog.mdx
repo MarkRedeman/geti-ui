@@ -4,7 +4,9 @@ title: ColorPickerDialog
 
 # ColorPickerDialog
 
-`ColorPickerDialog` is a self-contained color picker that opens in a dialog. It combines `ColorArea`, `ColorWheel`, `ColorSlider` (hue + alpha), `ColorField` (hex), and a `ColorSwatchPicker` preset palette into a single trigger-and-confirm workflow.
+`ColorPickerDialog` is a color picker that combines a swatch trigger with a popover containing a `ColorEditor` (color area, hue slider, and color fields) and a `ColorSwatchPicker` for quick preset selection.
+
+Built on top of React Spectrum's [`ColorPicker`](https://react-spectrum.adobe.com/v3/ColorPicker.html) and `ColorEditor`.
 
 ```tsx
 import { ColorPickerDialog } from '@geti-ui/ui';
@@ -38,6 +40,23 @@ export default function App() {
 }
 ```
 
+### Custom swatches
+
+```tsx preview
+import { ColorPickerDialog } from '@geti-ui/ui';
+
+export default function App() {
+  return (
+    <ColorPickerDialog
+      color="#5100FF"
+      label="Custom Palette"
+      swatches={['#A00', '#f80', '#080', '#08f', '#088', '#008']}
+      onColorChange={(hex) => console.log(hex)}
+    />
+  );
+}
+```
+
 ### No initial color (default fallback)
 
 ```tsx preview
@@ -52,49 +71,28 @@ export default function App() {
 
 ## Responsibility
 
-`ColorPickerDialog` is a Geti-native composite component. It manages its own internal color state (HSBA format) and exposes a simplified API:
+`ColorPickerDialog` is a thin wrapper around React Spectrum's `ColorPicker` with a `ColorEditor` and `ColorSwatchPicker`. It:
 
-- Accepts a `color` string prop (any CSS color) and converts it to HSBA internally.
-- On **Confirm**, calls `onColorChange` with the chosen color as a hex string.
-- On **Cancel**, discards changes.
-- Internally normalises to HSBA to avoid "Unknown color channel: alpha" errors when rendering the alpha `ColorSlider`.
+- Renders a swatch trigger button that opens a popover on click.
+- Displays a `ColorEditor` (with `hideAlphaChannel`) for full color editing via a color area, hue slider, and channel fields.
+- Shows a `ColorSwatchPicker` below the editor populated with `DISTINCT_COLORS` by default, or a custom set of swatches.
+- Accepts a `color` string prop (any CSS color) and calls `onColorChange` with a hex string on every change.
 - Falls back to red (`hsb(0, 100%, 100%)`) if an unparseable color string is provided.
 
-## Variants and states
+## Props
 
-| Feature | Prop | Notes |
-|---|---|---|
-| Controlled open | `isOpen` + `onOpenChange` | Optional external control of dialog visibility |
-| Label | `label` | Trigger button label and dialog aria-label (default: `"Pick Color"`) |
-| Initial color | `color` | Any CSS color string; defaults to red |
-
-## Props (deep dive)
-
-### Content
-
-- `label`: text shown on the trigger button and used as the dialog title hint. Defaults to `"Pick Color"`.
-
-### Value / state
-
-- `color`: any parseable CSS color string. Sets the starting color when the dialog opens.
-- `isOpen` / `onOpenChange`: optional controlled dialog open state.
-
-### Events
-
-- `onColorChange(hex: string)`: called with the chosen hex color when the user presses **Confirm**.
-
-### Accessibility
-
-- The trigger `ActionButton` uses `aria-label={label}`.
-- The `ColorSwatch` on the trigger is decorative (`aria-hidden`); the text label is visible to screen readers.
+| Prop | Type | Default | Description |
+|---|---|---|---|
+| `color` | `string` | `undefined` (red fallback) | Any CSS color string. Sets the initial color value. |
+| `onColorChange` | `(hex: string) => void` | — | Called with the chosen hex color on every change. |
+| `label` | `string` | `"Pick Color"` | Text shown on the trigger button. |
+| `swatches` | `string[]` | `DISTINCT_COLORS` | Array of hex color strings for preset swatches. |
 
 ## Related components
 
-- [`ColorArea`](/components/form/color-controls/ColorArea): the main two-dimensional surface inside this dialog.
-- [`ColorWheel`](/components/form/color-controls/ColorWheel): the hue ring inside this dialog.
-- [`ColorSlider`](/components/form/color-controls/ColorSlider): hue and alpha sliders inside this dialog.
-- [`ColorField`](/components/form/color-controls/ColorField): hex text input inside this dialog.
-- [`ColorSwatchPicker`](/components/form/color-controls/ColorSwatchPicker): preset palette inside this dialog.
+- [`ColorEditor`](https://react-spectrum.adobe.com/v3/ColorPicker.html#coloreditor): the built-in Spectrum color editing panel (color area + hue slider + fields).
+- [`ColorSwatchPicker`](/components/form/color-controls/ColorSwatchPicker): preset palette below the editor.
+- [`ColorSwatch`](/components/form/color-controls/ColorSwatch): individual color preview used in the trigger and swatches.
 
 ## Example use cases
 
