@@ -12,6 +12,11 @@ export interface ColorPickerDialogProps {
     /** A visible label for the color picker trigger. */
     label?: string;
     /**
+     * The size of the trigger color swatch.
+     * @default "M"
+     */
+    size?: 'XS' | 'S' | 'M' | 'L';
+    /**
      * An array of hex color strings to display as preset swatches.
      * Defaults to `DISTINCT_COLORS`.
      */
@@ -47,6 +52,7 @@ export const ColorPickerDialog = ({
     color: colorProp,
     onColorChange,
     label = 'Pick Color',
+    size,
     swatches = DISTINCT_COLORS,
 }: ColorPickerDialogProps) => {
     const handleChange = (c: Color) => {
@@ -54,7 +60,7 @@ export const ColorPickerDialog = ({
     };
 
     return (
-        <SpectrumColorPicker label={label} defaultValue={safeParseColor(colorProp)} onChange={handleChange}>
+        <SpectrumColorPicker label={label} size={size} defaultValue={safeParseColor(colorProp)} onChange={handleChange}>
             <Flex direction="column" gap="size-300">
                 <ColorEditor hideAlphaChannel />
                 <ColorSwatchPicker size="S" maxWidth="size-2400">

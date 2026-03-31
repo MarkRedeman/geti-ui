@@ -35,7 +35,7 @@ import { ColorPickerDialog } from '@geti-ui/ui';
 
 export default function App() {
   return (
-    <ColorPickerDialog color="#00ff00" label="Select Theme Color" onColorChange={(hex) => console.log(hex)} />
+    <ColorPickerDialog size="L" color="#00ff00" label="Select Theme Color" onColorChange={(hex) => console.log(hex)} />
   );
 }
 ```
@@ -48,6 +48,7 @@ import { ColorPickerDialog } from '@geti-ui/ui';
 export default function App() {
   return (
     <ColorPickerDialog
+      size="S"
       color="#5100FF"
       label="Custom Palette"
       swatches={['#A00', '#f80', '#080', '#08f', '#088', '#008']}
@@ -64,7 +65,7 @@ import { ColorPickerDialog } from '@geti-ui/ui';
 
 export default function App() {
   return (
-    <ColorPickerDialog label="Pick Color" onColorChange={(hex) => console.log(hex)} />
+    <ColorPickerDialog size="XS" label="Pick Color" onColorChange={(hex) => console.log(hex)} />
   );
 }
 ```
@@ -86,6 +87,7 @@ export default function App() {
 | `color` | `string` | `undefined` (red fallback) | Any CSS color string. Sets the initial color value. |
 | `onColorChange` | `(hex: string) => void` | — | Called with the chosen hex color on every change. |
 | `label` | `string` | `"Pick Color"` | Text shown on the trigger button. |
+| `size` | `'XS' \| 'S' \| 'M' \| 'L'` | `"M"` | Size of the trigger color swatch. |
 | `swatches` | `string[]` | `DISTINCT_COLORS` | Array of hex color strings for preset swatches. |
 
 ## Related components
