@@ -1,3 +1,15 @@
+# [1.3.0](https://github.com/MarkRedeman/geti-ui/compare/v1.2.0...v1.3.0) (2026-03-31)
+
+
+### Bug Fixes
+
+* **color-picker:** add aria-labels and forward rest props to Spectrum ColorPicker ([d693ba5](https://github.com/MarkRedeman/geti-ui/commit/d693ba58b4c0ba8ffe83f884d0828117e42d5c0b))
+
+
+### Features
+
+* **color-picker:** add configurable size prop for trigger swatch ([24aad7c](https://github.com/MarkRedeman/geti-ui/commit/24aad7ca871189f24c32b12accca7d94bccb638c))
+
 # [1.2.0](https://github.com/MarkRedeman/geti-ui/compare/v1.1.2...v1.2.0) (2026-03-31)
 
 
