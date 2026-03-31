@@ -1,21 +1,25 @@
-import { ColorPicker as SpectrumColorPicker, ColorEditor, parseColor, type Color } from '@adobe/react-spectrum';
+import {
+    ColorPicker as SpectrumColorPicker,
+    ColorEditor,
+    parseColor,
+    type Color,
+    type SpectrumColorPickerProps,
+} from '@adobe/react-spectrum';
 import { ColorSwatch } from '../color-swatch/ColorSwatch';
 import { ColorSwatchPicker } from '../color-swatch/ColorSwatchPicker';
 import { Flex } from '../../../layouts/Flex/Flex';
 import { DISTINCT_COLORS } from '../../../../utils/distinct-colors';
 
-export interface ColorPickerDialogProps {
+export interface ColorPickerDialogProps extends Omit<
+    SpectrumColorPickerProps,
+    'value' | 'defaultValue' | 'onChange' | 'label' | 'children'
+> {
     /** The current color value (any CSS color string). */
     color?: string;
     /** Callback called with a hex string when the color changes. */
     onColorChange?: (color: string) => void;
     /** A visible label for the color picker trigger. */
     label?: string;
-    /**
-     * The size of the trigger color swatch.
-     * @default "M"
-     */
-    size?: 'XS' | 'S' | 'M' | 'L';
     /**
      * An array of hex color strings to display as preset swatches.
      * Defaults to `DISTINCT_COLORS`.
@@ -52,20 +56,20 @@ export const ColorPickerDialog = ({
     color: colorProp,
     onColorChange,
     label = 'Pick Color',
-    size,
     swatches = DISTINCT_COLORS,
+    ...rest
 }: ColorPickerDialogProps) => {
     const handleChange = (c: Color) => {
         onColorChange?.(c.toString('hex'));
     };
 
     return (
-        <SpectrumColorPicker label={label} size={size} defaultValue={safeParseColor(colorProp)} onChange={handleChange}>
+        <SpectrumColorPicker label={label} defaultValue={safeParseColor(colorProp)} onChange={handleChange} {...rest}>
             <Flex direction="column" gap="size-300">
                 <ColorEditor hideAlphaChannel />
-                <ColorSwatchPicker size="S" maxWidth="size-2400">
+                <ColorSwatchPicker size="S" maxWidth="size-2400" aria-label="Color presets">
                     {swatches.map((hex) => (
-                        <ColorSwatch key={hex} color={hex} />
+                        <ColorSwatch key={hex} color={hex} aria-label={hex} />
                     ))}
                 </ColorSwatchPicker>
             </Flex>
