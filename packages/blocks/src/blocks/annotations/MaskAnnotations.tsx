@@ -22,7 +22,7 @@ export function MaskAnnotations({ annotations, children, width, height }: MaskAn
     return (
         <>
             <mask id={maskId}>
-                <rect x='0' y='0' width={width} height={height} style={{ fill: 'white', fillOpacity: 1.0 }} />
+                <rect x="0" y="0" width={width} height={height} style={{ fill: 'white', fillOpacity: 1.0 }} />
                 {annotations.map((annotation) => (
                     <g
                         key={annotation.id}

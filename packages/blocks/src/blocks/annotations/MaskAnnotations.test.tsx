@@ -24,10 +24,10 @@ describe('MaskAnnotations', () => {
             <HoveredProvider>
                 <svg>
                     <MaskAnnotations annotations={ANNOTATIONS} width={800} height={600}>
-                        <rect data-testid='child' />
+                        <rect data-testid="child" />
                     </MaskAnnotations>
                 </svg>
-            </HoveredProvider>,
+            </HoveredProvider>
         );
 
         const mask = container.querySelector('mask');
@@ -42,7 +42,7 @@ describe('MaskAnnotations', () => {
                         <text>children</text>
                     </MaskAnnotations>
                 </svg>
-            </HoveredProvider>,
+            </HoveredProvider>
         );
 
         const mask = container.querySelector('mask');
@@ -60,10 +60,10 @@ describe('MaskAnnotations', () => {
             <HoveredProvider>
                 <svg>
                     <MaskAnnotations annotations={ANNOTATIONS} width={800} height={600}>
-                        <text data-testid='child'>hello</text>
+                        <text data-testid="child">hello</text>
                     </MaskAnnotations>
                 </svg>
-            </HoveredProvider>,
+            </HoveredProvider>
         );
 
         const text = container.querySelector('[data-testid="child"]');

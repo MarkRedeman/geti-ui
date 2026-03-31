@@ -6,8 +6,19 @@ export { Annotations } from './Annotations';
 // Primitives
 export { AnnotationContext, useAnnotation } from './AnnotationProvider';
 export { AnnotationShape } from './AnnotationShape';
-export { HoveredProvider, HoverableAnnotation, useHoveredAnnotation, useSetHoveredAnnotation, useIsHovered } from './HoveredProvider';
-export { SelectedProvider, SelectableAnnotation, useSelectedAnnotation, useSetSelectedAnnotations } from './SelectedProvider';
+export {
+    HoveredProvider,
+    HoverableAnnotation,
+    useHoveredAnnotation,
+    useSetHoveredAnnotation,
+    useIsHovered,
+} from './HoveredProvider';
+export {
+    SelectedProvider,
+    SelectableAnnotation,
+    useSelectedAnnotation,
+    useSetSelectedAnnotations,
+} from './SelectedProvider';
 export { MaskAnnotations } from './MaskAnnotations';
 export { PredictedAnnotation } from './PredictedAnnotation';
 

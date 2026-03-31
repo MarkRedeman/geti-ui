@@ -22,9 +22,9 @@ describe('PredictedAnnotation', () => {
         const { container } = render(
             <svg>
                 <PredictedAnnotation annotation={USER_ANNOTATION}>
-                    <rect data-testid='shape' />
+                    <rect data-testid="shape" />
                 </PredictedAnnotation>
-            </svg>,
+            </svg>
         );
 
         const g = container.querySelector('g');
@@ -36,9 +36,9 @@ describe('PredictedAnnotation', () => {
         const { container } = render(
             <svg>
                 <PredictedAnnotation annotation={PREDICTION_ANNOTATION}>
-                    <rect data-testid='shape' />
+                    <rect data-testid="shape" />
                 </PredictedAnnotation>
-            </svg>,
+            </svg>
         );
 
         const g = container.querySelector('g');
@@ -51,10 +51,10 @@ describe('PredictedAnnotation', () => {
             <svg>
                 <AnnotationContext.Provider value={PREDICTION_ANNOTATION}>
                     <PredictedAnnotation>
-                        <rect data-testid='shape' />
+                        <rect data-testid="shape" />
                     </PredictedAnnotation>
                 </AnnotationContext.Provider>
-            </svg>,
+            </svg>
         );
 
         const g = container.querySelector('g');

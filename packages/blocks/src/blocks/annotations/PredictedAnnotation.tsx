@@ -11,7 +11,7 @@ function PredictionWrapper({ annotation, children }: { annotation: Annotation; c
     const isPrediction = annotation.labels.some((label) => label.isPrediction);
 
     const style: CSSProperties = isPrediction
-        ? { '--annotation-fill': 'var(--annotation-prediction-fill, #34d399)' } as CSSProperties
+        ? ({ '--annotation-fill': 'var(--annotation-prediction-fill, #34d399)' } as CSSProperties)
         : {};
 
     return <g style={style}>{children}</g>;

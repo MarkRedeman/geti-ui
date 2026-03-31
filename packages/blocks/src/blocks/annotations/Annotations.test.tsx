@@ -31,9 +31,7 @@ const SAMPLE_ANNOTATIONS: Annotation[] = [
 
 describe('Annotations', () => {
     it('renders an SVG element with the specified dimensions', () => {
-        const { container } = render(
-            <Annotations annotations={SAMPLE_ANNOTATIONS} width={800} height={600} />,
-        );
+        const { container } = render(<Annotations annotations={SAMPLE_ANNOTATIONS} width={800} height={600} />);
 
         const svg = container.querySelector('svg');
         expect(svg).toBeDefined();
@@ -42,9 +40,7 @@ describe('Annotations', () => {
     });
 
     it('renders shapes for each annotation', () => {
-        const { container } = render(
-            <Annotations annotations={SAMPLE_ANNOTATIONS} width={800} height={600} />,
-        );
+        const { container } = render(<Annotations annotations={SAMPLE_ANNOTATIONS} width={800} height={600} />);
 
         // The mask also renders shapes, so we look at all shapes in the SVG
         const rects = container.querySelectorAll('rect');
@@ -61,7 +57,7 @@ describe('Annotations', () => {
 
     it('renders without interactive behaviors when interactive=false', () => {
         const { container } = render(
-            <Annotations annotations={SAMPLE_ANNOTATIONS} width={800} height={600} interactive={false} />,
+            <Annotations annotations={SAMPLE_ANNOTATIONS} width={800} height={600} interactive={false} />
         );
 
         const svg = container.querySelector('svg');
@@ -73,9 +69,7 @@ describe('Annotations', () => {
     });
 
     it('renders with an empty annotations array', () => {
-        const { container } = render(
-            <Annotations annotations={[]} width={800} height={600} />,
-        );
+        const { container } = render(<Annotations annotations={[]} width={800} height={600} />);
 
         const svg = container.querySelector('svg');
         expect(svg).toBeDefined();

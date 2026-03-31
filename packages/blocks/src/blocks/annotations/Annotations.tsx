@@ -10,29 +10,17 @@ import { DEFAULT_ANNOTATION_STYLES } from './types';
 // Internal single-annotation renderer
 // ---------------------------------------------------------------------------
 
-function AnnotationItem({
-    annotation,
-    interactive,
-}: {
-    annotation: Annotation;
-    interactive: boolean;
-}) {
+function AnnotationItem({ annotation, interactive }: { annotation: Annotation; interactive: boolean }) {
     const shape = <AnnotationShape />;
 
     if (!interactive) {
-        return (
-            <AnnotationContext.Provider value={annotation}>
-                {shape}
-            </AnnotationContext.Provider>
-        );
+        return <AnnotationContext.Provider value={annotation}>{shape}</AnnotationContext.Provider>;
     }
 
     return (
         <AnnotationContext.Provider value={annotation}>
             <HoverableAnnotation>
-                <SelectableAnnotation>
-                    {shape}
-                </SelectableAnnotation>
+                <SelectableAnnotation>{shape}</SelectableAnnotation>
             </HoverableAnnotation>
         </AnnotationContext.Provider>
     );
@@ -64,20 +52,12 @@ export function Annotations({ annotations, width, height, interactive = true }: 
             {interactive ? (
                 <MaskAnnotations annotations={annotations} width={width} height={height}>
                     {annotations.map((annotation) => (
-                        <AnnotationItem
-                            key={annotation.id}
-                            annotation={annotation}
-                            interactive={interactive}
-                        />
+                        <AnnotationItem key={annotation.id} annotation={annotation} interactive={interactive} />
                     ))}
                 </MaskAnnotations>
             ) : (
                 annotations.map((annotation) => (
-                    <AnnotationItem
-                        key={annotation.id}
-                        annotation={annotation}
-                        interactive={false}
-                    />
+                    <AnnotationItem key={annotation.id} annotation={annotation} interactive={false} />
                 ))
             )}
         </svg>
@@ -89,9 +69,7 @@ export function Annotations({ annotations, width, height, interactive = true }: 
 
     return (
         <HoveredProvider>
-            <SelectedProvider>
-                {content}
-            </SelectedProvider>
+            <SelectedProvider>{content}</SelectedProvider>
         </HoveredProvider>
     );
 }

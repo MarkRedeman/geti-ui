@@ -23,8 +23,8 @@ function HoverDisplay() {
 
     return (
         <div>
-            <span data-testid='hovered-id'>{hoveredId ?? 'none'}</span>
-            <span data-testid='is-hovered'>{String(isHovered)}</span>
+            <span data-testid="hovered-id">{hoveredId ?? 'none'}</span>
+            <span data-testid="is-hovered">{String(isHovered)}</span>
         </div>
     );
 }
@@ -34,7 +34,7 @@ describe('HoveredProvider', () => {
         render(
             <HoveredProvider>
                 <HoverDisplay />
-            </HoveredProvider>,
+            </HoveredProvider>
         );
 
         expect(screen.getByTestId('hovered-id').textContent).toBe('none');
@@ -47,12 +47,12 @@ describe('HoveredProvider', () => {
                 <svg>
                     <AnnotationContext.Provider value={ANNOTATION_A}>
                         <HoverableAnnotation>
-                            <rect data-testid='shape-a' width={100} height={100} />
+                            <rect data-testid="shape-a" width={100} height={100} />
                         </HoverableAnnotation>
                     </AnnotationContext.Provider>
                 </svg>
                 <HoverDisplay />
-            </HoveredProvider>,
+            </HoveredProvider>
         );
 
         const shapeA = screen.getByTestId('shape-a');
@@ -69,12 +69,12 @@ describe('HoveredProvider', () => {
                 <svg>
                     <AnnotationContext.Provider value={ANNOTATION_A}>
                         <HoverableAnnotation>
-                            <rect data-testid='shape-a' width={100} height={100} />
+                            <rect data-testid="shape-a" width={100} height={100} />
                         </HoverableAnnotation>
                     </AnnotationContext.Provider>
                 </svg>
                 <HoverDisplay />
-            </HoveredProvider>,
+            </HoveredProvider>
         );
 
         const g = screen.getByTestId('shape-a').parentElement!;

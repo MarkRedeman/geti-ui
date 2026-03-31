@@ -21,7 +21,7 @@ function SelectionDisplay() {
     const selected = useSelectedAnnotation();
     const ids = Array.from(selected).sort().join(',');
 
-    return <span data-testid='selected-ids'>{ids || 'none'}</span>;
+    return <span data-testid="selected-ids">{ids || 'none'}</span>;
 }
 
 function renderSelectable() {
@@ -30,17 +30,17 @@ function renderSelectable() {
             <svg>
                 <AnnotationContext.Provider value={ANNOTATION_A}>
                     <SelectableAnnotation>
-                        <rect data-testid='shape-a' width={100} height={100} />
+                        <rect data-testid="shape-a" width={100} height={100} />
                     </SelectableAnnotation>
                 </AnnotationContext.Provider>
                 <AnnotationContext.Provider value={ANNOTATION_B}>
                     <SelectableAnnotation>
-                        <rect data-testid='shape-b' width={100} height={100} />
+                        <rect data-testid="shape-b" width={100} height={100} />
                     </SelectableAnnotation>
                 </AnnotationContext.Provider>
             </svg>
             <SelectionDisplay />
-        </SelectedProvider>,
+        </SelectedProvider>
     );
 }
 

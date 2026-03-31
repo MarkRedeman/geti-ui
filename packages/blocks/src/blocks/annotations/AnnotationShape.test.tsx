@@ -85,7 +85,7 @@ describe('AnnotationShape', () => {
         const { container } = renderWithSvg(
             <AnnotationContext.Provider value={RECT_ANNOTATION}>
                 <AnnotationShape />
-            </AnnotationContext.Provider>,
+            </AnnotationContext.Provider>
         );
 
         const rect = container.querySelector('rect');
