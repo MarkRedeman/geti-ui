@@ -1,6 +1,6 @@
 # Geti UI Design System
 
-`geti-ui` is the monorepo for Intel Geti frontend libraries and documentation.
+`geti-ui` is the monorepo for frontend libraries and documentation.
 
 It contains multiple React + TypeScript packages built primarily on Adobe React Spectrum and react-aria-components, with a dark-mode-first Geti theme.
 
