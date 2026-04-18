@@ -64,7 +64,7 @@ Results from all security scans (Zizmor, Trivy, Semgrep, Scorecard) are uploaded
 
 ### Branch Protection
 Security checks are intended to be mandatory for all Pull Requests. The recommended repository configuration requires:
-- Successful completion of the `Security scan` workflow before merge.
+- Successful completion of security jobs (at minimum `Zizmor workflow audit` and `Semgrep code scan`) before merge.
 - Passing `lint` and `type-check` checks.
 - Approval from a maintainer before merging.
 

@@ -5,8 +5,10 @@ Welcome to the Geti frontend package workspace.
 This repository currently contains:
 
 - `@geti-ui/ui`: React component design system for Intel Geti products.
+- `@geti-ui/blocks`: composable application-level building blocks built on top of `@geti-ui/ui`.
 - `@geti-ui/smart-tools`: browser/worker smart-tooling utilities (OpenCV/ONNX based).
 - `@geti-ui/charts`: composable chart primitives and ML-oriented chart compositions.
+- `@geti-ui/mcp`: MCP server that exposes docs/tools for AI agents.
 
 ---
 

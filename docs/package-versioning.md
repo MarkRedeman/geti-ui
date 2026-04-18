@@ -38,6 +38,9 @@ The following steps must be performed manually to activate the automated pipelin
     *   Go to `Settings > Actions > General` in your GitHub repo.
     *   Keep default workflow permissions at the minimum required by your repository policy.
     *   This repo grants write scopes at the **job level** only where release automation requires them.
+    *   Set workflow permissions to **Read and write permissions**.
+    *   Enable **Allow GitHub Actions to create and approve pull requests** (required by `release-please` to open/update the release PR).
+    *   If this repository belongs to an organization, ensure org-level Actions policy also allows this (org policy can override repo settings).
 3.  **Local Hooks**:
     *   Run `npm install` locally to activate the Husky hooks.
     *   Husky will automatically configure `git config --local commit.template .gitmessage` on post-install.
@@ -75,6 +78,14 @@ When a PR is merged into `main`, the unified `release.yml` workflow runs automat
 4.  **Check smart-tools changes** - detects whether `packages/smart-tools/` changed between previous release tag and the new release tag.
 5.  **Build OpenCV** (conditional) - only runs if smart-tools has changes. Uses the `opencv-build.yml` reusable workflow.
 6.  **Publish** - builds all packages/docs, runs quality gates (lint, type-check, tests), then publishes all five packages to npm (sequentially, in dependency order).
+
+### Common failure and fix
+
+If release fails with:
+
+`GitHub Actions is not permitted to create or approve pull requests.`
+
+then the GitHub Actions repository/org settings above are not fully enabled for PR creation.
 
 ### Tag format
 
