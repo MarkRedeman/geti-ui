@@ -1,0 +1,41 @@
+{
+    "$schema": "https://raw.githubusercontent.com/googleapis/release-please/main/schemas/config.json",
+    "release-type": "simple",
+    "include-v-in-tag": true,
+    "include-component-in-tag": false,
+    "separate-pull-requests": false,
+    "group-pull-request-title-pattern": "chore: release ${branch}",
+    "packages": {
+        ".": {
+            "component": "geti-ui",
+            "changelog-path": "CHANGELOG.md",
+            "extra-files": [
+                {
+                    "type": "json",
+                    "path": "packages/ui/package.json",
+                    "jsonpath": "$.version"
+                },
+                {
+                    "type": "json",
+                    "path": "packages/blocks/package.json",
+                    "jsonpath": "$.version"
+                },
+                {
+                    "type": "json",
+                    "path": "packages/smart-tools/package.json",
+                    "jsonpath": "$.version"
+                },
+                {
+                    "type": "json",
+                    "path": "packages/charts/package.json",
+                    "jsonpath": "$.version"
+                },
+                {
+                    "type": "json",
+                    "path": "packages/mcp/package.json",
+                    "jsonpath": "$.version"
+                }
+            ]
+        }
+    }
+}

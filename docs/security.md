@@ -72,11 +72,11 @@ Security checks are intended to be mandatory for all Pull Requests. The recommen
 
 ### Release security considerations
 
-`@geti-ui/smart-tools` uses a dedicated release workflow that builds OpenCV artifacts via Docker and caches build layers in GHCR.
+`@geti-ui/smart-tools` release artifacts are handled by the unified release workflow, which conditionally builds OpenCV artifacts via Docker and caches build layers in GHCR.
 
 Recommended controls:
 
 - Scope workflow permissions to least privilege (`contents`, `packages`, `pull-requests` only when required).
 - Keep OpenCV build definitions (`opencv-build.Dockerfile`, `opencv_js.config.py`) code-owner protected.
-- Periodically rotate and audit npm/GitHub credentials used by release workflows.
+- Prefer npm trusted publishing (OIDC) and periodically audit release workflow identities/secrets.
 - Prefer action pinning to commit SHAs for release and Docker-related workflows (automated via Renovate where applicable).

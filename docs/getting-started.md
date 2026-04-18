@@ -130,7 +130,7 @@ To ensure automated releases and clean changelogs, we strictly follow [Conventio
 - `feat(button): add loading state`
 - `fix(table): resolve overflow in narrow containers`
 ### Releases
-We use **semantic-release** for automated versioning. When your PR is merged to `main`, semantic-release analyses your conventional commit messages and automatically determines the version bump, publishes to npm, and creates a GitHub Release. No manual version management is needed - just write good commit messages.
+We use **release-please** for automated, PR-first versioning. When your PR is merged to `main`, release-please analyses conventional commit messages and opens/updates a release PR. When that release PR is merged, the workflow creates the git tag + GitHub Release and publishes to npm. No manual version management is needed - just write good commit messages.
 
 ---
 
