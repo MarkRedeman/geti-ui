@@ -86,7 +86,7 @@ jobs:
           echo "image_ref=${IMAGE_REF}" >> "$GITHUB_OUTPUT"
 
       - name: Build OpenCV artifact with registry cache
-        uses: docker/build-push-action@d08e5c354a6adb9ed34480a06d141179aa583294 # v7
+        uses: docker/build-push-action@bcafcacb16a39f128d818304e6c9c0c18556b85f # v7
         with:
           context: packages/smart-tools/scripts
           file: packages/smart-tools/scripts/opencv-build.Dockerfile
@@ -99,7 +99,7 @@ jobs:
           cache-to: type=registry,ref=${{ steps.meta.outputs.cache_ref }},mode=max
 
       - name: Publish OpenCV artifact image to GHCR
-        uses: docker/build-push-action@d08e5c354a6adb9ed34480a06d141179aa583294 # v7
+        uses: docker/build-push-action@bcafcacb16a39f128d818304e6c9c0c18556b85f # v7
         with:
           context: packages/smart-tools/scripts
           file: packages/smart-tools/scripts/opencv-build.Dockerfile
@@ -112,7 +112,7 @@ jobs:
           cache-from: type=registry,ref=${{ steps.meta.outputs.cache_ref }}
 
       - name: Upload OpenCV artifacts
-        uses: actions/upload-artifact@bbbca2ddaa5d8feaa63e36b76fdaad77386f024f # v7
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7
         with:
           name: ${{ steps.meta.outputs.artifact_name }}
           path: opencv-artifacts/artifacts
