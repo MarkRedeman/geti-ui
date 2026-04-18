@@ -18,6 +18,20 @@
 * **annotations:** add configurable stroke width and hover opacity CSS variables ([ae97025](https://github.com/MarkRedeman/geti-ui/commit/ae970255085217e73a06bc4e02cbbfda953a43f8))
 * **annotations:** add SVG annotation renderer block with hover, selection, and mask ([793108e](https://github.com/MarkRedeman/geti-ui/commit/793108e73545f420bf0bf9d6a25f90a29214c9dd))
 
+## [1.4.0](https://github.com/MarkRedeman/geti-ui/compare/v1.3.0...v1.4.0) (2026-04-18)
+
+
+### Features
+
+* **release:** switch to release-please PR-first flow ([ae32729](https://github.com/MarkRedeman/geti-ui/commit/ae32729e5b41ebc5d21ea74e82940779203f7bda))
+* **release:** switch to release-please PR-first flow ([151c67c](https://github.com/MarkRedeman/geti-ui/commit/151c67caa4c57ee0cf8f5b830ef539da123fe73e))
+
+
+### Bug Fixes
+
+* fix all zizmor warnings ([8ea4992](https://github.com/MarkRedeman/geti-ui/commit/8ea49929272aab8a8187e07b758095ebc95c4625))
+* **release:** keep workspace lockfile versions in sync ([d187fed](https://github.com/MarkRedeman/geti-ui/commit/d187fedebc6091a7717045faf560d55cc97cbb1b))
+
 ## [1.1.2](https://github.com/MarkRedeman/geti-ui/compare/v1.1.1...v1.1.2) (2026-03-30)
 
 
