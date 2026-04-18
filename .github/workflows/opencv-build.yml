@@ -34,6 +34,10 @@ on:
 
 permissions: {}
 
+concurrency:
+  group: opencv-build-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: false
+
 jobs:
   build:
     name: Build OpenCV artifact

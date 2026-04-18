@@ -6,6 +6,10 @@ on:
 
 permissions: {}
 
+concurrency:
+  group: docs-link-check-${{ github.event.pull_request.number }}
+  cancel-in-progress: true
+
 jobs:
   external-links:
     name: External links (preview URL)
