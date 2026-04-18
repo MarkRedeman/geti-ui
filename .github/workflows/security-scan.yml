@@ -16,6 +16,10 @@ on:
 
 permissions: {} # No permissions by default
 
+concurrency:
+  group: security-scan-${{ github.ref }}-${{ github.event_name }}
+  cancel-in-progress: false
+
 jobs:
   zizmor-scan:
     name: Zizmor workflow audit

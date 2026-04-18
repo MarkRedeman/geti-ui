@@ -14,6 +14,7 @@ jobs:
     deploy-preview:
         name: Deploy documentation preview
         runs-on: ubuntu-latest
+        environment: cloudflare-pages
         timeout-minutes: 15
         permissions:
             contents: read # checkout source

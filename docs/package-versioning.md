@@ -4,14 +4,15 @@ This document describes the automated packaging and release strategy for the pac
 
 ## Architecture Design
 
-Our release pipeline uses **semantic-release** as the single source of truth for versioning, changelogs, npm publishing, git tagging, and GitHub Release creation.
+Our release pipeline uses **release-please** for PR-first versioning/changelog management and a publish job for npm trusted publishing.
 
 | Tool | Responsibility |
 | :--- | :--- |
-| **semantic-release** | Analyses conventional commits, determines version bumps, generates changelogs, publishes to npm, creates git tags, and creates GitHub Releases - all in one automated pipeline. |
+| **release-please** | Analyses conventional commits, opens/updates a release PR, updates changelog + versions, and creates tags/GitHub Releases when the release PR is merged. |
+| **publish-all.sh** | Publishes all workspaces to npm in dependency order with provenance enabled. |
 | **Husky + Commitlint** | Enforces Conventional Commits and automates local Git configuration. |
 | **Commit Template** | Provides interactive guidance and examples directly in the Git editor during `git commit`. |
-| **GitHub Actions** | Orchestrates CI (lint/test/build), Visual Regression, and the unified Release workflow. |
+| **GitHub Actions** | Orchestrates CI (lint/test/build), OpenCV artifact build, release PR/tag/release creation, and npm publishing. |
 
 ### Shared version
 
@@ -23,7 +24,7 @@ All five packages share a single version number:
 - `@geti-ui/charts`
 - `@geti-ui/mcp`
 
-When semantic-release determines a version bump, every package is updated to the same version and published together.
+The release PR updates all package versions together, and the publish job releases all packages together.
 
 ---
 
@@ -31,9 +32,8 @@ When semantic-release determines a version bump, every package is updated to the
 
 The following steps must be performed manually to activate the automated pipeline:
 
-1.  **NPM Automation Token**:
-    *   Generate a "Granular Access Token" or "Automation" token on [npmjs.com](https://www.npmjs.com/).
-    *   Add it to your GitHub Repository Secrets as `NPM_TOKEN`.
+1.  **NPM Trusted Publishing**:
+    *   Configure npm trusted publisher for this repository and workflow (`.github/workflows/release.yml`).
 2.  **GitHub Action Permissions**:
     *   Go to `Settings > Actions > General` in your GitHub repo.
     *   Keep default workflow permissions at the minimum required by your repository policy.
@@ -55,7 +55,7 @@ feat(button): add loading state
 fix(table): resolve overflow in narrow containers
 ```
 
-Semantic-release analyses these commit messages automatically to determine the version bump - no manual changeset files needed.
+Release-please analyses these commit messages automatically to determine the next version bump.
 
 ### 2. PR Process
 
@@ -69,21 +69,16 @@ Semantic-release analyses these commit messages automatically to determine the v
 
 When a PR is merged into `main`, the unified `release.yml` workflow runs automatically:
 
-1.  **Check smart-tools changes** - detects whether `packages/smart-tools/` changed since the last release tag.
-2.  **Build OpenCV** (conditional) - only runs if smart-tools has changes. Uses the `opencv-build.yml` reusable workflow.
-3.  **Release** - builds all packages, runs quality gates (lint, type-check, tests), then runs semantic-release which:
-    *   Analyses commits since the last tag to determine the bump level (patch/minor/major)
-    *   Generates release notes
-    *   Writes `CHANGELOG.md`
-    *   Updates all five `package.json` versions
-    *   Publishes all five packages to npm (sequentially, in dependency order)
-    *   Commits the updated files back to `main` (with `[skip ci]`)
-    *   Creates a git tag (`v{version}`)
-    *   Creates a GitHub Release with the generated notes
+1.  **Release Please** - opens/updates a release PR with computed version bumps and `CHANGELOG.md`.
+2.  **Merge release PR** - this creates a signed merge commit through normal branch protection.
+3.  **Release Please on merge** - creates git tag (`v{version}`) and GitHub Release.
+4.  **Check smart-tools changes** - detects whether `packages/smart-tools/` changed between previous release tag and the new release tag.
+5.  **Build OpenCV** (conditional) - only runs if smart-tools has changes. Uses the `opencv-build.yml` reusable workflow.
+6.  **Publish** - builds all packages/docs, runs quality gates (lint, type-check, tests), then publishes all five packages to npm (sequentially, in dependency order).
 
 ### Tag format
 
-All packages share a single tag: `v{version}` (e.g., `v0.1.0`, `v1.0.0`).
+All packages share a single tag: `v{version}` (e.g., `v1.2.3`).
 
 ---
 
@@ -103,6 +98,7 @@ All packages share a single tag: `v{version}` (e.g., `v0.1.0`, `v1.0.0`).
 
 ## Configuration
 
-- **`release.config.mjs`**: semantic-release plugin chain and configuration (repo root)
+- **`release-please-config.json`**: release-please strategy + versioned files (repo root)
+- **`.release-please-manifest.json`**: tracked current release version in manifest mode
 - **`scripts/publish-all.sh`**: sequential npm publish script for all 5 workspaces
-- **`.github/workflows/release.yml`**: unified 3-job release workflow
+- **`.github/workflows/release.yml`**: unified release workflow (release PR/release + publish)

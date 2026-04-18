@@ -1,149 +1,176 @@
 name: Release
 
 on:
-  push:
-    branches: [main]
-  workflow_dispatch:
-    inputs:
-      opencv_version:
-        description: OpenCV version to use for release build
-        required: false
-        default: "4.9.0"
-      emsdk_version:
-        description: Emscripten image tag to use for OpenCV build
-        required: false
-        default: "3.1.25"
+    push:
+        branches: [main]
+    workflow_dispatch:
+        inputs:
+            opencv_version:
+                description: OpenCV version to use for release build
+                required: false
+                default: '4.9.0'
+            emsdk_version:
+                description: Emscripten image tag to use for OpenCV build
+                required: false
+                default: '3.1.25'
 
 concurrency:
-  group: release-${{ github.ref }}
-  cancel-in-progress: false
+    group: release-${{ github.ref }}
+    cancel-in-progress: false
 
 permissions: {}
 
 jobs:
-  # ── Job 1: Detect whether smart-tools changed since last tag ──────────
-  check-smart-tools:
-    name: Check smart-tools changes
-    runs-on: ubuntu-latest
-    permissions:
-      contents: read
-    outputs:
-      needs_opencv: ${{ steps.diff.outputs.needs_opencv }}
-    steps:
-      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6
+    # Job 1: Create/update release PRs and cut release tags/releases
+    release-please:
+        name: Release Please
+        runs-on: ubuntu-latest
+        permissions:
+            contents: write # create release tags and GitHub releases
+            pull-requests: write # create and update release PRs
+            issues: write # label and comment on release tracking issues
+        outputs:
+            releases_created: ${{ steps.release.outputs.releases_created }}
+            tag_name: ${{ steps.release.outputs.tag_name }}
+        steps:
+            - uses: googleapis/release-please-action@5c625bfb5d1ff62eadeeb3772007f7f66fdcf071 # v4.4.1
+              id: release
+              with:
+                  token: ${{ secrets.GITHUB_TOKEN }}
+                  config-file: release-please-config.json
+                  manifest-file: .release-please-manifest.json
+
+    # Job 2: Detect whether smart-tools changed in this release
+    check-smart-tools:
+        name: Check smart-tools changes
+        needs: [release-please]
+        if: needs.release-please.outputs.releases_created == 'true'
+        runs-on: ubuntu-latest
+        permissions:
+            contents: read
+        outputs:
+            needs_opencv: ${{ steps.diff.outputs.needs_opencv }}
+        steps:
+            - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6
+              with:
+                  fetch-depth: 0
+                  persist-credentials: false
+
+            - name: Detect changes in packages/smart-tools
+              id: diff
+              env:
+                  NEW_TAG: ${{ needs.release-please.outputs.tag_name }}
+              run: |
+                  set -euo pipefail
+                  if [ -z "${NEW_TAG}" ]; then
+                    echo "No release tag returned by release-please; skipping OpenCV build"
+                    echo "needs_opencv=false" >> "$GITHUB_OUTPUT"
+                    exit 0
+                  fi
+
+                  # Compare previous tag -> current release tag
+                  PREVIOUS_TAG=$(git tag --list 'v*' --sort=-v:refname | grep -vx "${NEW_TAG}" | head -n1 || true)
+
+                  if [ -z "$PREVIOUS_TAG" ]; then
+                    echo "No previous tag found before ${NEW_TAG} - treating as first release"
+                    echo "needs_opencv=true" >> "$GITHUB_OUTPUT"
+                    exit 0
+                  fi
+
+                  echo "Comparing smart-tools changes: ${PREVIOUS_TAG}..${NEW_TAG}"
+                  CHANGED=$(git diff --name-only "${PREVIOUS_TAG}".."${NEW_TAG}" -- packages/smart-tools/ || true)
+                  if [ -n "$CHANGED" ]; then
+                    echo "Smart-tools changes detected:"
+                    echo "$CHANGED"
+                    echo "needs_opencv=true" >> "$GITHUB_OUTPUT"
+                  else
+                    echo "No smart-tools changes in release range"
+                    echo "needs_opencv=false" >> "$GITHUB_OUTPUT"
+                  fi
+
+    # Job 3: Build OpenCV (only when smart-tools changed)
+    opencv:
+        name: Build OpenCV artifact
+        needs: [check-smart-tools]
+        if: needs.check-smart-tools.outputs.needs_opencv == 'true'
+        permissions:
+            contents: read
+            packages: write # publish cache/artifact image tags to GHCR
+        uses: ./.github/workflows/opencv-build.yml
         with:
-          fetch-depth: 0
-          persist-credentials: false
+            opencv_version: ${{ inputs.opencv_version || '4.9.0' }}
+            emsdk_version: ${{ inputs.emsdk_version || '3.1.25' }}
 
-      - name: Detect changes in packages/smart-tools
-        id: diff
-        run: |
-          set -euo pipefail
-          # Find the latest release tag (v*)
-          LAST_TAG=$(git tag --list 'v*' --sort=-v:refname | head -n1 || true)
-          if [ -z "$LAST_TAG" ]; then
-            echo "No previous tag found - treating as first release"
-            echo "needs_opencv=true" >> "$GITHUB_OUTPUT"
-            exit 0
-          fi
-          echo "Last tag: $LAST_TAG"
-          CHANGED=$(git diff --name-only "$LAST_TAG"..HEAD -- packages/smart-tools/ || true)
-          if [ -n "$CHANGED" ]; then
-            echo "Smart-tools changes detected:"
-            echo "$CHANGED"
-            echo "needs_opencv=true" >> "$GITHUB_OUTPUT"
-          else
-            echo "No smart-tools changes since $LAST_TAG"
-            echo "needs_opencv=false" >> "$GITHUB_OUTPUT"
-          fi
+    # Job 4: Build, test, and publish all packages
+    publish:
+        name: Publish all packages
+        needs: [release-please, check-smart-tools, opencv]
+        # Run even when opencv was skipped (i.e. no smart-tools changes)
+        if: needs.release-please.outputs.releases_created == 'true' && needs.check-smart-tools.result == 'success' && (needs.opencv.result == 'success' || needs.opencv.result == 'skipped')
+        runs-on: ubuntu-latest
+        permissions:
+            contents: read
+            id-token: write # npm trusted publishing (OIDC)
+        steps:
+            - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6
+              with:
+                  fetch-depth: 0
+                  persist-credentials: false
 
-  # ── Job 2: Build OpenCV (only when smart-tools changed) ──────────────
-  opencv:
-    name: Build OpenCV artifact
-    needs: [check-smart-tools]
-    if: needs.check-smart-tools.outputs.needs_opencv == 'true'
-    permissions:
-      contents: read
-      packages: write # publish cache/artifact image tags to GHCR
-    uses: ./.github/workflows/opencv-build.yml
-    with:
-      opencv_version: ${{ inputs.opencv_version || '4.9.0' }}
-      emsdk_version: ${{ inputs.emsdk_version || '3.1.25' }}
+            - uses: actions/setup-node@53b83947a5a98c8d113130e565377fae1a50d02f # v6
+              with:
+                  node-version: 24
+                  cache: npm
+                  registry-url: 'https://registry.npmjs.org'
 
-  # ── Job 3: Build, test, and release all packages ─────────────────────
-  release:
-    name: Release all packages
-    needs: [check-smart-tools, opencv]
-    # Run even when opencv was skipped (i.e. no smart-tools changes)
-    if: always() && needs.check-smart-tools.result == 'success' && (needs.opencv.result == 'success' || needs.opencv.result == 'skipped')
-    runs-on: ubuntu-latest
-    permissions:
-      contents: write       # push version commit + tags
-      issues: write         # semantic-release comments on issues
-      pull-requests: write  # semantic-release comments on PRs
-      id-token: write       # npm trusted publishing (OIDC)
-    steps:
-      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6
-        with:
-          fetch-depth: 0
-          persist-credentials: false
+            - run: npm ci
 
-      - uses: actions/setup-node@53b83947a5a98c8d113130e565377fae1a50d02f # v6
-        with:
-          node-version: 24
-          cache: npm
-          registry-url: 'https://registry.npmjs.org'
+            - name: Pin npm for trusted publishing
+              run: npm install -g npm@11.12.1
 
-      - run: npm ci
+            # Download OpenCV artifact if the opencv job ran
+            - name: Download OpenCV artifact
+              if: needs.opencv.result == 'success'
+              uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8
+              with:
+                  name: ${{ needs.opencv.outputs.artifact_name }}
+                  path: opencv-artifacts
 
-      - name: Pin npm for trusted publishing
-        run: npm install -g npm@11.12.1
+            - name: Place OpenCV artifact in source path
+              if: needs.opencv.result == 'success'
+              env:
+                  OPENCV_VERSION: ${{ needs.opencv.outputs.opencv_version }}
+              run: |
+                  set -euo pipefail
+                  OUT_DIR="packages/smart-tools/src/opencv/${OPENCV_VERSION}"
+                  mkdir -p "$OUT_DIR"
+                  cp opencv-artifacts/opencv.js "$OUT_DIR/opencv.js"
+                  if [ -f opencv-artifacts/opencv.wasm ]; then
+                    cp opencv-artifacts/opencv.wasm "$OUT_DIR/opencv.wasm"
+                  fi
 
-      # Download OpenCV artifact if the opencv job ran
-      - name: Download OpenCV artifact
-        if: needs.opencv.result == 'success'
-        uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8
-        with:
-          name: ${{ needs.opencv.outputs.artifact_name }}
-          path: opencv-artifacts
+            # Build all library packages (order: ui → smart-tools → charts)
+            - name: Build libraries
+              run: npm run build
 
-      - name: Place OpenCV artifact in source path
-        if: needs.opencv.result == 'success'
-        env:
-          OPENCV_VERSION: ${{ needs.opencv.outputs.opencv_version }}
-        run: |
-          set -euo pipefail
-          OUT_DIR="packages/smart-tools/src/opencv/${OPENCV_VERSION}"
-          mkdir -p "$OUT_DIR"
-          cp opencv-artifacts/opencv.js "$OUT_DIR/opencv.js"
-          if [ -f opencv-artifacts/opencv.wasm ]; then
-            cp opencv-artifacts/opencv.wasm "$OUT_DIR/opencv.wasm"
-          fi
+            # Build documentation (generates llms.txt + markdown for MCP bundling)
+            - name: Build documentation
+              run: npm run docs:build
 
-      # Build all library packages (order: ui → smart-tools → charts)
-      - name: Build libraries
-        run: npm run build
+            # Build MCP server (compiles source, then bundles doc_build/ into dist/data/)
+            - name: Build MCP server
+              run: npm run mcp:build
 
-      # Build documentation (generates llms.txt + markdown for MCP bundling)
-      - name: Build documentation
-        run: npm run docs:build
+            # Quality gates
+            - name: Lint
+              run: npm run lint
 
-      # Build MCP server (compiles source, then bundles doc_build/ into dist/data/)
-      - name: Build MCP server
-        run: npm run mcp:build
+            - name: Type check
+              run: npm run type-check
 
-      # Quality gates
-      - name: Lint
-        run: npm run lint
+            - name: Unit tests
+              run: npm run test
 
-      - name: Type check
-        run: npm run type-check
-
-      - name: Unit tests
-        run: npm run test
-
-      # Run semantic-release
-      - name: Semantic Release
-        run: unset NODE_AUTH_TOKEN; npx semantic-release
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+            # Publish all workspaces in dependency order
+            - name: Publish packages
+              run: unset NODE_AUTH_TOKEN; bash scripts/publish-all.sh

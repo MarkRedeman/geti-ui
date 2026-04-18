@@ -12,9 +12,14 @@ on:
 
 permissions: {}
 
+concurrency:
+  group: renovate-${{ github.ref }}
+  cancel-in-progress: false
+
 jobs:
   renovate:
     name: Run Renovate bot
+    environment: renovate
     permissions:
       contents: read
     runs-on: ubuntu-latest

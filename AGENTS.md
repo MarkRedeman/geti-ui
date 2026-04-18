@@ -6,7 +6,7 @@ This file is for AI coding agents (Copilot, Claude, Cursor, etc.) working on thi
 
 ## Repository purpose
 
-`geti-ui` is a frontend monorepo for Intel Geti products. It contains multiple React + TypeScript packages built on top of Adobe React Spectrum and react-aria-components:
+`geti-ui` is a frontend monorepo. It contains multiple React + TypeScript packages built on top of Adobe React Spectrum and react-aria-components:
 
 -   `@geti-ui/ui` - core design-system components
 -   `@geti-ui/blocks` - composable application-level building blocks

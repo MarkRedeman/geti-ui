@@ -7,10 +7,15 @@ on:
 
 permissions: {}
 
+concurrency:
+    group: cleanup-preview-${{ github.event.pull_request.number }}
+    cancel-in-progress: true
+
 jobs:
     cleanup:
         name: Delete Cloudflare Pages preview deployments
         runs-on: ubuntu-latest
+        environment: cloudflare-pages
         timeout-minutes: 5
         permissions:
             deployments: write # clean up GitHub Deployment status
