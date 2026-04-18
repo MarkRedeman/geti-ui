@@ -39,6 +39,22 @@ This repository is configured for npm trusted publishing (GitHub OIDC):
 3. Do not provide `NODE_AUTH_TOKEN` for the publish step.
 4. Keep publishing with provenance (`npm publish --provenance --access public`).
 
+### GitHub Actions permissions for release-please
+
+`release-please` must be able to create and update pull requests.
+
+In GitHub repository settings, enable:
+
+- `Settings` -> `Actions` -> `General`
+- Workflow permissions: `Read and write permissions`
+- `Allow GitHub Actions to create and approve pull requests`
+
+If this repository belongs to an organization, ensure the same policy is allowed at org level (org settings can override repo settings).
+
+If this is not enabled, the release workflow fails with an error like:
+
+`GitHub Actions is not permitted to create or approve pull requests.`
+
 ## Quick preflight checklist
 
 - [ ] Working tree is clean; only intended files are committed.
