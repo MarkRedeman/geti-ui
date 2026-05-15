@@ -1,6 +1,6 @@
-# syntax=docker/dockerfile:1.7
+# syntax=docker/dockerfile:1.24@sha256:87999aa3d42bdc6bea60565083ee17e86d1f3339802f543c0d03998580f9cb89
 
-ARG EMSCRIPTEN_IMAGE=emscripten/emsdk:3.1.25
+ARG EMSCRIPTEN_IMAGE=emscripten/emsdk:5.0.7@sha256:4e332f7343b6f66320bf72f7ecc01a3d9f3866721a13b0e5c7b96505d6ab148a
 FROM ${EMSCRIPTEN_IMAGE} AS builder
 
 ARG OPENCV_VERSION=4.9.0
