@@ -31,11 +31,11 @@
     "engines": {
         "node": ">=24.0.0"
     },
-    "packageManager": "npm@11.0.0",
+    "packageManager": "npm@11.14.1",
     "devDependencies": {
-        "@commitlint/cli": "^20.4.3",
-        "@commitlint/config-conventional": "^20.4.3",
-        "@rspack/binding-linux-x64-gnu": "^1.7.7",
+        "@commitlint/cli": "^21.0.0",
+        "@commitlint/config-conventional": "^21.0.0",
+        "@rspack/binding-linux-x64-gnu": "^2.0.0",
         "@types/react": "^19.2.2",
         "@types/react-dom": "^19.2.2",
         "concurrently": "^9.2.1",
