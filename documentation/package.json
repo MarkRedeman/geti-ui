@@ -17,7 +17,7 @@
     "test:e2e": "playwright test"
   },
   "dependencies": {
-    "@adobe/react-spectrum": "^3.46.2",
+    "@adobe/react-spectrum": "^3.47.1",
     "@geti-ui/blocks": "*",
     "@geti-ui/charts": "*",
     "@geti-ui/ui": "*",
