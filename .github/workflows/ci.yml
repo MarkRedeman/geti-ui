@@ -139,6 +139,7 @@ jobs:
     playwright:
         name: Playwright E2E (docs)
         runs-on: ubuntu-latest
+        timeout-minutes: 30
         needs: [docs, ci]
         permissions:
             contents: read
@@ -156,7 +157,8 @@ jobs:
               run: npm ci
 
             - name: Install Playwright browsers (docs)
-              run: npm exec --workspace=@geti-ui/documentation -- playwright install --with-deps chromium
+              run: npm exec --workspace=@geti-ui/documentation -- playwright install --only-shell chromium
+              timeout-minutes: 10
 
             - name: Run docs routes smoke test
               run: npm run docs:test:e2e
