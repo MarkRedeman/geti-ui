@@ -17,7 +17,7 @@
     "test:e2e": "playwright test"
   },
   "dependencies": {
-    "@adobe/react-spectrum": "^3.46.2",
+    "@adobe/react-spectrum": "^3.47.1",
     "@geti-ui/blocks": "*",
     "@geti-ui/charts": "*",
     "@geti-ui/ui": "*",
@@ -25,7 +25,7 @@
     "react-dom": "^19.2.4"
   },
   "devDependencies": {
-    "@playwright/test": "^1.58.2",
+    "@playwright/test": "^1.60.0",
     "@rspress/core": "^2.0.4",
     "@rspress/plugin-llms": "^2.0.4",
     "@rspress/plugin-preview": "^2.0.4",

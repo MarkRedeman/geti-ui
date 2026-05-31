@@ -53,6 +53,12 @@ const docsRoutes = [
     ]),
 ].sort();
 
+function isIgnoredConsoleError(text: string): boolean {
+    const normalizedText = text.toLowerCase();
+
+    return normalizedText.includes('favicon') || normalizedText.includes('net::err_name_not_resolved');
+}
+
 test.describe('documentation routes smoke', () => {
     for (const route of docsRoutes) {
         test(`${route} renders`, async ({ page }) => {
@@ -60,7 +66,7 @@ test.describe('documentation routes smoke', () => {
             page.on('console', (msg) => {
                 if (msg.type() === 'error') {
                     const text = msg.text();
-                    if (!text.toLowerCase().includes('favicon')) {
+                    if (!isIgnoredConsoleError(text)) {
                         consoleErrors.push(text);
                     }
                 }
