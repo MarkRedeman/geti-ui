@@ -15,7 +15,9 @@
         "forceConsistentCasingInFileNames": true,
         "noUnusedLocals": true,
         "noUnusedParameters": true,
-        "noFallthroughCasesInSwitch": true
+        "noFallthroughCasesInSwitch": true,
+        "rootDir": "./src",
+        "types": ["node"]
     },
     "include": ["src"],
     "exclude": ["node_modules", "dist", "**/*.test.ts"]

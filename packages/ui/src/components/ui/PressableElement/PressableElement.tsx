@@ -28,10 +28,10 @@ export const PressableElement = ({ id, children, isTruncated, onDoubleClick, ...
     const styles = isTruncated ? TruncatedTextStyles : {};
 
     // Manual omit for the div since we don't have lodash-es yet or want to keep it simple
-    const pressableProps: any = {};
+    const pressableProps: any = {}; // eslint-disable-line @typescript-eslint/no-explicit-any
     Object.keys(props).forEach((key) => {
         if (!propsToOmit.includes(key)) {
-            (pressableProps as any)[key] = (props as any)[key];
+            (pressableProps as any)[key] = (props as any)[key]; // eslint-disable-line @typescript-eslint/no-explicit-any
         }
     });
 
