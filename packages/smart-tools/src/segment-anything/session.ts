@@ -161,7 +161,9 @@ export class Session {
         // with "previous call to 'initWasm()' failed".
         const cpuOnly = this.executionProviders.length === 1 && this.executionProviders[0] === 'cpu';
         env.wasm.numThreads = cpuOnly ? 1 : this.params.numThreads;
-        env.wasm.wasmPaths = this.params.wasmRoot;
+        if (this.params.wasmRoot !== undefined) {
+            env.wasm.wasmPaths = this.params.wasmRoot;
+        }
         env.wasm.simd = true;
         // Suppress expected "some nodes not assigned to WebGPU EP" warnings —
         // ORT intentionally keeps shape-related ops on CPU for performance.

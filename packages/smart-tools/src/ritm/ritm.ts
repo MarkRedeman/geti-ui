@@ -18,7 +18,9 @@ class RITM {
     constructor(private CV: OpenCVTypes.cv) {}
 
     async load() {
-        env.wasm.wasmPaths = sessionParams.wasmRoot;
+        if (sessionParams.wasmRoot !== undefined) {
+            env.wasm.wasmPaths = sessionParams.wasmRoot;
+        }
 
         this.models = {
             main: await this.loadModel(RITMModels.main),
