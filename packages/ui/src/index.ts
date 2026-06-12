@@ -305,6 +305,8 @@ export type { CardProps } from './components/layouts/Card/Card';
 // Legacy compatibility exports (previously available in @geti/ui)
 export {
     ActionGroup,
+    ColorEditor,
+    ColorPicker,
     Item,
     Section,
     Header,
@@ -312,12 +314,14 @@ export {
     minmax,
     repeat,
     ToastQueue,
+    useDialogContainer,
     useFilter,
     useCollator,
     useDateFormatter,
     useNumberFormatter,
 } from '@adobe/react-spectrum';
-export type { Key } from '@adobe/react-spectrum';
+export type { Key, SpectrumSliderProps, SpectrumDropZoneProps, TextFieldRef } from '@adobe/react-spectrum';
+export type { ColorValue, DimensionValue, DOMRefValue, RangeValue, Selection } from '@react-types/shared';
 export {
     dimensionValue,
     dimensionValue as dimensionalValue,
@@ -330,13 +334,18 @@ export {
 export {
     Collection,
     DropIndicator,
+    DropZone as AriaDropZone,
+    GridLayout,
     GridLayout as AriaGridLayout,
     GridList as AriaGridList,
     GridListItem as AriaGridListItem,
     ListBox as AriaListBox,
+    ListBox as AriaComponentsListBox,
     ListBoxItem as AriaListBoxItem,
+    Pressable,
     Virtualizer as AriaVirtualizer,
     Virtualizer,
+    VisuallyHidden,
     ListLayout,
     useDragAndDrop,
     type Key as AriaKey,
@@ -347,6 +356,7 @@ export {
     Layout as AriaLayout,
     LayoutInfo as AriaLayoutInfo,
     Rect as AriaRect,
+    Size,
     Size as AriaSize,
     type InvalidationContext as AriaInvalidationContext,
 } from '@react-stately/virtualizer';

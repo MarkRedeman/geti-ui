@@ -153,6 +153,8 @@ export { ReactComponent as CheckboxSelected } from './checkbox-selected.svg';
 // @spectrum-icons/workflow re-exports
 export { default as Checkmark } from '@spectrum-icons/workflow/Checkmark';
 export { default as Calendar } from '@spectrum-icons/workflow/Calendar';
+export { default as Cross } from '@spectrum-icons/ui/CrossMedium';
+export { default as NotFound } from '@spectrum-icons/illustrations/NotFound';
 export { default as ChevronDoubleLeft } from '@spectrum-icons/workflow/ChevronDoubleLeft';
 export { default as ChevronDoubleRight } from '@spectrum-icons/workflow/ChevronDoubleRight';
 export { default as CheckmarkCircleOutline } from '@spectrum-icons/workflow/CheckmarkCircleOutline';

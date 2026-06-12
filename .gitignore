@@ -15,5 +15,6 @@ coverage
 plans/
 playwright-report/
 .husky
+documentation/test-results
 
 references/
