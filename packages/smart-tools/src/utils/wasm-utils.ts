@@ -1,7 +1,13 @@
 export interface SessionParameters {
     numThreads: number;
     executionProviders: string[];
-    wasmRoot: { wasm: string };
+    /**
+     * Location of the ONNX Runtime wasm binaries. Accepts the legacy string
+     * prefix and record-of-paths formats as well as the newer `{ wasm }` shape
+     * used by `onnxruntime-web` >= 1.24. Optional: when omitted, ORT resolves
+     * the binaries relative to its own bundle.
+     */
+    wasmRoot?: string | Record<string, string> | { wasm: string };
 }
 
 const wasmPaths = {

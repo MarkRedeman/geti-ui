@@ -13,7 +13,18 @@ type InteractiveAnnotationPoint = Point & { positive: boolean };
 export interface SegmentAnythingPrompt {
     points: InteractiveAnnotationPoint[] | undefined;
     boxes: Point[][] | undefined;
-    outputConfig: { type: ShapeType };
+    outputConfig?: { type: ShapeType };
+    /**
+     * @deprecated Use `outputConfig` instead. Retained (misspelled) for
+     * backward compatibility and used as a fallback when `outputConfig` is
+     * omitted.
+     */
+    ouputConfig?: { type: ShapeType };
+    /**
+     * @deprecated No longer used; the image is provided to the encoder. Kept
+     * optional for backward compatibility with existing callers.
+     */
+    image?: string | ArrayBuffer | undefined;
 }
 
 const argmax = (data: ArrayLike<number>, length: number): number => {
@@ -46,6 +57,10 @@ export class SegmentAnythingDecoder {
 
         const positivePoints = points.filter(({ positive }) => positive);
 
+        // Prefer `outputConfig`, fall back to the deprecated `ouputConfig`, and
+        // default to a polygon so `config.type` is always present downstream.
+        const outputConfig = input.outputConfig ?? input.ouputConfig;
+
         return new PostProcessor(this.cv).maskToAnnotationShape(
             pixels,
             {
@@ -55,7 +70,8 @@ export class SegmentAnythingDecoder {
                 originalHeight: encodingOutput.originalHeight + 1,
             },
             {
-                ...input.outputConfig,
+                ...outputConfig,
+                type: outputConfig?.type ?? 'polygon',
                 shapeFilter: (shape) => positivePoints.some((point) => isPointInShape(shape, point)),
             }
         );
