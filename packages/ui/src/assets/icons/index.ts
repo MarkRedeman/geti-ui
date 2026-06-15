@@ -150,7 +150,7 @@ export { ReactComponent as Squares } from './squares.svg';
 export { ReactComponent as SquareRotate } from './square-rotate.svg';
 export { ReactComponent as CheckboxSelected } from './checkbox-selected.svg';
 
-// @spectrum-icons/workflow re-exports
+// @spectrum-icons re-exports
 export { default as Checkmark } from '@spectrum-icons/workflow/Checkmark';
 export { default as Calendar } from '@spectrum-icons/workflow/Calendar';
 export { default as Cross } from '@spectrum-icons/ui/CrossMedium';
