@@ -23,6 +23,4 @@ export interface PopoverProps extends Omit<SpectrumDialogTriggerProps, 'type'> {
  * A popover component built on top of Spectrum's DialogTrigger with `type="popover"`.
  * Displays contextual floating content anchored to a trigger element.
  */
-export const Popover = ({ type = 'popover', triggerRef, ...rest }: PopoverProps) => (
-    <SpectrumDialogTrigger {...rest} type={type} targetRef={triggerRef ?? rest.targetRef} />
-);
+export const Popover = ({ type = 'popover', ...rest }: PopoverProps) => <SpectrumDialogTrigger {...rest} type={type} />;
