@@ -7,7 +7,6 @@
     "group-pull-request-title-pattern": "chore: release ${branch}",
     "packages": {
         ".": {
-            "component": "geti-ui",
             "changelog-path": "CHANGELOG.md",
             "extra-files": [
                 {

@@ -106,7 +106,7 @@ jobs:
         name: Publish all packages
         needs: [release-please, check-smart-tools, opencv]
         # Run even when opencv was skipped (i.e. no smart-tools changes)
-        if: needs.release-please.outputs.releases_created == 'true' && needs.check-smart-tools.result == 'success' && (needs.opencv.result == 'success' || needs.opencv.result == 'skipped')
+        if: always() && needs.release-please.outputs.releases_created == 'true' && needs.check-smart-tools.result == 'success' && (needs.opencv.result == 'success' || needs.opencv.result == 'skipped')
         runs-on: ubuntu-latest
         permissions:
             contents: read
