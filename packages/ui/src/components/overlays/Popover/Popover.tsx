@@ -1,5 +1,3 @@
-import type { RefObject } from 'react';
-
 import { DialogTrigger as SpectrumDialogTrigger, SpectrumDialogTriggerProps } from '@adobe/react-spectrum';
 
 /**
@@ -12,11 +10,6 @@ export interface PopoverProps extends Omit<SpectrumDialogTriggerProps, 'type'> {
      * @default 'popover'
      */
     type?: 'popover' | 'modal' | 'tray' | 'fullscreen' | 'fullscreenTakeover';
-    /**
-     * The ref of the element the Popover should visually attach itself to.
-     * Forwarded to Spectrum's `targetRef`. Defaults to the trigger element if not defined.
-     */
-    triggerRef?: RefObject<HTMLElement>;
 }
 
 /**
