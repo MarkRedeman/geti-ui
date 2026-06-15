@@ -25,7 +25,7 @@ export const heroStats: HeroStat[] = [
         "href": "/smart-tools/installation"
     },
     {
-        "value": "168",
+        "value": "170",
         "label": "Assets",
         "href": "/assets/icons"
     },

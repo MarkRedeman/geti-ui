@@ -73,6 +73,8 @@
         "@react-stately/color": "^3.10.1",
         "@react-stately/virtualizer": "^4.5.1",
         "@react-types/shared": "^3.35.0",
+        "@spectrum-icons/illustrations": "^3.7.1",
+        "@spectrum-icons/ui": "^3.7.1",
         "@spectrum-icons/workflow": "^4.3.1",
         "clsx": "^2.1.1",
         "react-aria-components": "^1.18.0"
