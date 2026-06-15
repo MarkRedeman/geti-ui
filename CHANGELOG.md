@@ -18,6 +18,28 @@
 * **annotations:** add configurable stroke width and hover opacity CSS variables ([ae97025](https://github.com/MarkRedeman/geti-ui/commit/ae970255085217e73a06bc4e02cbbfda953a43f8))
 * **annotations:** add SVG annotation renderer block with hover, selection, and mask ([793108e](https://github.com/MarkRedeman/geti-ui/commit/793108e73545f420bf0bf9d6a25f90a29214c9dd))
 
+## [1.4.0](https://github.com/MarkRedeman/geti-ui/compare/v1.3.0...v1.4.0) (2026-06-15)
+
+
+### Features
+
+* plan Spectrum and React Aria dependency updates ([18a303c](https://github.com/MarkRedeman/geti-ui/commit/18a303ceb1fd35b286e1b25662b72f4f39cf6df1))
+* **release:** switch to release-please PR-first flow ([ae32729](https://github.com/MarkRedeman/geti-ui/commit/ae32729e5b41ebc5d21ea74e82940779203f7bda))
+* **release:** switch to release-please PR-first flow ([151c67c](https://github.com/MarkRedeman/geti-ui/commit/151c67caa4c57ee0cf8f5b830ef539da123fe73e))
+* **ui:** re-export additional spectrum/react-aria symbols + Cross/NotFound icons ([7dac21d](https://github.com/MarkRedeman/geti-ui/commit/7dac21d83c5db1902310fe7f3787adf69f366144))
+* Update Spectrum and React Aria dependencies ([59b1412](https://github.com/MarkRedeman/geti-ui/commit/59b1412e0de0b214693ee855cd931dbec5b13538))
+* update to the latest react aria packages ([c529dc6](https://github.com/MarkRedeman/geti-ui/commit/c529dc6f3493531930af8ca81d75974bf4b7fd60))
+
+
+### Bug Fixes
+
+* Avoid hanging docs Playwright install ([9b8b271](https://github.com/MarkRedeman/geti-ui/commit/9b8b27138db54e8731ffc31a9fcefe5c7e53bba9))
+* **deps:** update all dependencies ([49dce36](https://github.com/MarkRedeman/geti-ui/commit/49dce3676721fb2a2a80cdc78f073a856e9c7721))
+* **deps:** update all dependencies ([c0e8a5e](https://github.com/MarkRedeman/geti-ui/commit/c0e8a5eecf1f6b1f50101406285cc4b9fe80762a))
+* fix all zizmor warnings ([8ea4992](https://github.com/MarkRedeman/geti-ui/commit/8ea49929272aab8a8187e07b758095ebc95c4625))
+* **release:** keep workspace lockfile versions in sync ([d187fed](https://github.com/MarkRedeman/geti-ui/commit/d187fedebc6091a7717045faf560d55cc97cbb1b))
+* Update Playwright for docs E2E install ([b6e6b85](https://github.com/MarkRedeman/geti-ui/commit/b6e6b85f3ea08a29453c6666596927e820b66d08))
+
 ## [1.1.2](https://github.com/MarkRedeman/geti-ui/compare/v1.1.1...v1.1.2) (2026-03-30)
 
 
