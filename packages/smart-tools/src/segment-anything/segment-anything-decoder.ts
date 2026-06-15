@@ -47,12 +47,17 @@ export class SegmentAnythingDecoder {
         const { masks, iouPredictions } = await this.runDecoder(points, boxes, encodingOutput);
 
         const [, , height, width] = masks.dims;
-        const maskIdx = argmax(iouPredictions.data as ArrayLike<number>, iouPredictions.dims[1]);
+        // With the `webgpu` EP, ORT returns GPU-backed tensors whose `.data` is
+        // unavailable until downloaded. Materialize CPU data via `getData()`
+        // before reading; on the CPU EP this resolves to the existing buffer.
+        const iouData = (await iouPredictions.getData()) as ArrayLike<number>;
+        const maskData = (await masks.getData()) as ArrayLike<number>;
+        const maskIdx = argmax(iouData, iouPredictions.dims[1]);
         const maskOffset = maskIdx * height * width;
 
         const pixels = new Uint8ClampedArray(height * width);
         for (let i = 0; i < pixels.length; i++) {
-            pixels[i] = Number(masks.data[maskOffset + i]) > 0 ? 255 : 0;
+            pixels[i] = Number(maskData[maskOffset + i]) > 0 ? 255 : 0;
         }
 
         const positivePoints = points.filter(({ positive }) => positive);

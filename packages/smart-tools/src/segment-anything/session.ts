@@ -49,7 +49,7 @@ export interface SessionInitOptions {
     executionProviders?: SessionParameters['executionProviders'];
     /**
      * Default timeout (ms) applied to every `run()` call unless overridden per-call.
-     * `0` or `undefined` disables the timeout.
+     * `0` disables the timeout; `undefined` uses the default.
      */
     runTimeoutMs?: number;
 }

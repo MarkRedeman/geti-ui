@@ -10,11 +10,23 @@ export interface SessionParameters {
     wasmRoot?: string | Record<string, string> | { wasm: string };
 }
 
-const wasmPaths = {
-    wasm: new URL(
-        '../../../node_modules/onnxruntime-web/dist/ort-wasm-simd-threaded.jsep.wasm',
-        import.meta.url
-    ).toString(),
+const ortDist = (file: string): string =>
+    new URL(`../../../node_modules/onnxruntime-web/dist/${file}`, import.meta.url).toString();
+
+// Map every wasm/mjs variant ORT may request to an explicit, bundler-fingerprinted
+// URL using the record-of-paths format (rather than a single `{ wasm }` override)
+// so ORT can pick the appropriate binary at runtime instead of always loading the
+// JSEP build:
+//   - `ort-wasm-simd-threaded.jsep.*` is the WebGPU+CPU (JSEP) build, selected when
+//     the `webgpu` EP is active in a cross-origin-isolated context.
+//   - `ort-wasm-simd-threaded.*` is the CPU-only build, selected when we drop
+//     `webgpu` (e.g. non-cross-origin-isolated contexts), avoiding the heavier
+//     JSEP/WebGPU machinery on the CPU fallback path.
+const wasmPaths: Record<string, string> = {
+    'ort-wasm-simd-threaded.jsep.wasm': ortDist('ort-wasm-simd-threaded.jsep.wasm'),
+    'ort-wasm-simd-threaded.jsep.mjs': ortDist('ort-wasm-simd-threaded.jsep.mjs'),
+    'ort-wasm-simd-threaded.wasm': ortDist('ort-wasm-simd-threaded.wasm'),
+    'ort-wasm-simd-threaded.mjs': ortDist('ort-wasm-simd-threaded.mjs'),
 };
 
 /**
