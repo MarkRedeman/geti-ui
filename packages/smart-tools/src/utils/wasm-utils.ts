@@ -1,33 +1,24 @@
+/**
+ * Paths/URLs ORT uses to locate its WebAssembly binaries. Mirrors the shapes
+ * accepted by `onnxruntime-web`'s `env.wasm.wasmPaths`: a string prefix/URL the
+ * artifacts are served under, a record mapping each artifact filename to an
+ * explicit URL, or the `{ wasm }` shape used by `onnxruntime-web` >= 1.24.
+ */
+export type OrtWasmPaths = string | Record<string, string> | { wasm: string };
+
 export interface SessionParameters {
     numThreads: number;
     executionProviders: string[];
     /**
-     * Location of the ONNX Runtime wasm binaries. Accepts the legacy string
-     * prefix and record-of-paths formats as well as the newer `{ wasm }` shape
-     * used by `onnxruntime-web` >= 1.24. Optional: when omitted, ORT resolves
-     * the binaries relative to its own bundle.
+     * Location of the ONNX Runtime wasm binaries. Resolved by the *consuming
+     * application* via {@link setOrtWasmPaths} — this library deliberately does
+     * not hardcode it, because where the `.wasm`/`.mjs` artifacts are bundled
+     * and served from is an app build concern, not a library one. When left
+     * unset, ORT resolves the binaries relative to its own bundle (or the
+     * default CDN), which is correct for most setups.
      */
-    wasmRoot?: string | Record<string, string> | { wasm: string };
+    wasmRoot?: OrtWasmPaths;
 }
-
-const ortDist = (file: string): string =>
-    new URL(`../../../node_modules/onnxruntime-web/dist/${file}`, import.meta.url).toString();
-
-// Map every wasm/mjs variant ORT may request to an explicit, bundler-fingerprinted
-// URL using the record-of-paths format (rather than a single `{ wasm }` override)
-// so ORT can pick the appropriate binary at runtime instead of always loading the
-// JSEP build:
-//   - `ort-wasm-simd-threaded.jsep.*` is the WebGPU+CPU (JSEP) build, selected when
-//     the `webgpu` EP is active in a cross-origin-isolated context.
-//   - `ort-wasm-simd-threaded.*` is the CPU-only build, selected when we drop
-//     `webgpu` (e.g. non-cross-origin-isolated contexts), avoiding the heavier
-//     JSEP/WebGPU machinery on the CPU fallback path.
-const wasmPaths: Record<string, string> = {
-    'ort-wasm-simd-threaded.jsep.wasm': ortDist('ort-wasm-simd-threaded.jsep.wasm'),
-    'ort-wasm-simd-threaded.jsep.mjs': ortDist('ort-wasm-simd-threaded.jsep.mjs'),
-    'ort-wasm-simd-threaded.wasm': ortDist('ort-wasm-simd-threaded.wasm'),
-    'ort-wasm-simd-threaded.mjs': ortDist('ort-wasm-simd-threaded.mjs'),
-};
 
 /**
  * The threaded JSEP wasm needs `SharedArrayBuffer`, which in turn needs
@@ -61,5 +52,29 @@ export const sessionParams: SessionParameters = {
     // can't spawn workers so ORT skips pthread_create entirely.
     numThreads: threaded ? 0 : 1,
     executionProviders: threaded ? ['webgpu', 'cpu'] : ['cpu'],
-    wasmRoot: wasmPaths,
+    // Resolved by the consuming app via `setOrtWasmPaths`. Left undefined so
+    // ORT loads its binaries relative to its own bundle by default.
+    wasmRoot: undefined,
+};
+
+/**
+ * Tell ONNX Runtime where to load its WebAssembly binaries from.
+ *
+ * The smart-tools package cannot know how the *consuming application* bundles
+ * or serves the `onnxruntime-web` `.wasm`/`.mjs` artifacts, so resolution is
+ * delegated to the app. Call this once during startup — before creating a
+ * `Session` or loading RITM — passing whatever ORT's `env.wasm.wasmPaths`
+ * accepts (see {@link OrtWasmPaths}). For example, when the app copies the ORT
+ * artifacts to a public folder:
+ *
+ * ```ts
+ * import { setOrtWasmPaths } from '@geti-ui/smart-tools';
+ * setOrtWasmPaths('/ort/'); // files served under https://app/ort/<name>.wasm
+ * ```
+ *
+ * Pass `undefined` to clear the override and let ORT resolve the binaries
+ * relative to its own bundle (or the default CDN).
+ */
+export const setOrtWasmPaths = (wasmRoot: OrtWasmPaths | undefined): void => {
+    sessionParams.wasmRoot = wasmRoot;
 };

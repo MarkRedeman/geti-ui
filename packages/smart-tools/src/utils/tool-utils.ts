@@ -38,7 +38,16 @@ export const loadSource = async (source: string, cacheKey = 'general'): Promise<
         return await self.fetch(source);
     }
 
-    const cache = await caches.open(cacheKey);
+    // `caches` can be exposed yet unusable — e.g. a non-secure (no-SSL)
+    // deployment where CacheStorage access throws a SecurityError. Treat any
+    // failure to obtain the cache as "no cache" and fetch directly.
+    let cache: Cache;
+    try {
+        cache = await caches.open(cacheKey);
+    } catch {
+        return await self.fetch(source);
+    }
+
     const match = await cache.match(source);
     if (match !== undefined) {
         return match;
@@ -48,9 +57,12 @@ export const loadSource = async (source: string, cacheKey = 'general'): Promise<
 
     // Fire-and-forget: awaiting cache.put can stall for tens of seconds on
     // WebKit / busy Chromium profiles, blocking the model load even though the
-    // bytes are already in hand. Failures (e.g. quota exceeded) are silently
-    // ignored — caching is a best-effort optimisation.
-    void cache.put(source, response.clone()).catch(() => undefined);
+    // bytes are already in hand. Failures (e.g. quota exceeded) reject
+    // asynchronously and are silently ignored — caching is a best-effort
+    // optimisation. The `.catch` keeps it from becoming an unhandled rejection.
+    void cache.put(source, response.clone()).catch(() => {
+        /* ignore — caching is best-effort */
+    });
 
     return response;
 };

@@ -31,6 +31,89 @@ import { buildRITMInstance, RITMModels } from '@geti-ui/smart-tools/ritm';
 import { buildSegmentAnythingInstance, SegmentAnythingModels } from '@geti-ui/smart-tools/segment-anything';
 ```
 
+## Configuring ONNX Runtime WebAssembly paths (required for RITM & SAM)
+
+RITM and Segment Anything run their models with [`onnxruntime-web`](https://www.npmjs.com/package/onnxruntime-web).
+ONNX Runtime ships its WebAssembly binaries as **separate files** that it fetches at
+runtime — they are **not** inlined into the JavaScript bundle. This package
+**cannot** know how your app bundles or serves those files, so you must:
+
+1. Copy the ORT artifacts into a folder your app serves, and
+2. Tell smart-tools where they live with `setOrtWasmPaths(...)`.
+
+If you skip this, model creation fails at runtime (ORT can't locate its `.wasm`
+binaries) — there is no working default for a bundled application.
+
+### Step 1 — Copy the ORT artifacts into a served folder
+
+`onnxruntime-web` (>= 1.24) may request any of these four files, depending on the
+execution provider it selects at runtime. **All four must be reachable** — you do
+**not** choose JSEP vs CPU yourself; ORT picks the right one:
+
+| File                               | Build               | Used when                                              |
+| ---------------------------------- | ------------------- | ------------------------------------------------------ |
+| `ort-wasm-simd-threaded.jsep.wasm` | WebGPU + CPU (JSEP) | `webgpu` EP active in a cross-origin-isolated context  |
+| `ort-wasm-simd-threaded.jsep.mjs`  | WebGPU + CPU (JSEP) | loader for the JSEP build                              |
+| `ort-wasm-simd-threaded.wasm`      | CPU-only            | CPU fallback (e.g. non-cross-origin-isolated contexts) |
+| `ort-wasm-simd-threaded.mjs`       | CPU-only            | loader for the CPU build                               |
+
+For **Rsbuild** (used by the Geti apps), copy them in `rsbuild.config.ts`:
+
+```ts
+import { defineConfig } from '@rsbuild/core';
+
+export default defineConfig({
+    output: {
+        copy: [
+            // Serve all ORT artifacts under /ort/<name>
+            { from: 'node_modules/onnxruntime-web/dist/*.wasm', to: 'ort/[name][ext]' },
+            { from: 'node_modules/onnxruntime-web/dist/*.mjs', to: 'ort/[name][ext]' },
+        ],
+    },
+});
+```
+
+### Step 2 — Point smart-tools at that folder (once, at startup)
+
+Call `setOrtWasmPaths` before creating a `Session`, building a SAM instance, or
+loading RITM. The argument is whatever ONNX Runtime's `env.wasm.wasmPaths`
+accepts — typically a URL prefix the four files are served under:
+
+```ts
+import { setOrtWasmPaths } from '@geti-ui/smart-tools';
+
+// Files served at https://<your-app>/ort/<name>.wasm — note the trailing slash
+setOrtWasmPaths('/ort/');
+```
+
+You can also pass a per-file record if you need explicit URLs (e.g. a CDN):
+
+```ts
+setOrtWasmPaths({
+    'ort-wasm-simd-threaded.jsep.wasm': 'https://cdn.example.com/ort/ort-wasm-simd-threaded.jsep.wasm',
+    'ort-wasm-simd-threaded.jsep.mjs': 'https://cdn.example.com/ort/ort-wasm-simd-threaded.jsep.mjs',
+    'ort-wasm-simd-threaded.wasm': 'https://cdn.example.com/ort/ort-wasm-simd-threaded.wasm',
+    'ort-wasm-simd-threaded.mjs': 'https://cdn.example.com/ort/ort-wasm-simd-threaded.mjs',
+});
+```
+
+Pass `undefined` to clear the override and let ORT resolve relative to its own
+bundle (the default CDN) — convenient for a quick prototype, but not recommended
+for production or offline/Tauri builds.
+
+### Step 3 (optional) — Enable WebGPU + multithreading
+
+The JSEP/WebGPU build and multithreaded CPU need `SharedArrayBuffer`, which
+requires a **cross-origin-isolated** context. Serve your app with these headers:
+
+```
+Cross-Origin-Opener-Policy: same-origin
+Cross-Origin-Embedder-Policy: require-corp
+```
+
+Without them (or in Tauri's WebView), smart-tools automatically falls back to
+single-threaded CPU — no extra configuration needed, just slower inference.
+
 ## Examples and docs
 
 - Installation: `documentation/docs/smart-tools/installation.mdx`
