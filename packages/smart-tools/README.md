@@ -193,6 +193,71 @@ This makes config changes traceable through artifact identity.
 
 ---
 
+## Consuming-app integration
+
+ONNX Runtime (SAM encoder/decoder + RITM intelligent scissors) runs **inside web
+workers**, and OpenCV is loaded as a WASM module. A host app must wire up four
+things:
+
+### 1. Tell ORT where its WASM lives — inside every ORT worker
+
+`setOrtWasmPaths()` mutates module-level state (`sessionParams.wasmRoot`). Each
+worker has its **own** module instance, so it must be called inside **each**
+worker that runs ORT (the SAM worker _and_ the intelligent-scissors/RITM
+worker), before building the instance:
+
+```ts
+import { setOrtWasmPaths } from '@geti/smart-tools';
+
+setOrtWasmPaths('/ort/'); // string prefix | Record<string,string> | { wasm }
+```
+
+`OrtWasmPaths` accepts a path prefix string, a per-file record, or `{ wasm }`.
+
+### 2. Serve the ORT WASM artifacts at that path
+
+Copy onnxruntime-web's binaries to the path you passed above. With rsbuild/rspack:
+
+```ts
+output: {
+  copy: [
+    {
+      from: 'node_modules/onnxruntime-web/dist/ort-wasm-simd-threaded*.{wasm,mjs}',
+      to: 'ort/[name][ext]',
+    },
+  ],
+}
+```
+
+### 3. Don't let the bundler parse `opencv.js`
+
+The Emscripten OpenCV build is huge and self-contained — parsing it breaks the
+build and balloons bundle size:
+
+```ts
+tools: {
+    rspack: {
+        module: {
+            noParse: /[\\/]opencv\.js$/;
+        }
+    }
+}
+```
+
+### 4. Cross-origin isolation + dev cache headers
+
+Threaded WASM needs `SharedArrayBuffer`, which requires cross-origin isolation:
+
+- `Cross-Origin-Opener-Policy: same-origin`
+- `Cross-Origin-Embedder-Policy: require-corp` (or `credentialless`)
+
+In dev, serve non-hashed worker async chunks with `Cache-Control: no-cache`
+(**not** `immutable`) — otherwise a cached worker requests a stale chunk name,
+falls back to the SPA HTML, and `importScripts` fails (SAM hangs ~10 s).
+
+> Without threaded support (`hasThreadedWasmSupport()` → false) the package
+> falls back to single-threaded CPU-only WASM automatically.
+
 ## Development
 
 ```bash

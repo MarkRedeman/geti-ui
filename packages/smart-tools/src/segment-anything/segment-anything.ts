@@ -69,12 +69,21 @@ export class SegmentAnythingModel {
 
     public async init(algorithm: 'SEGMENT_ANYTHING_DECODER' | 'SEGMENT_ANYTHING_ENCODER'): Promise<void> {
         if (!this.sessions.has('encoder') && algorithm === 'SEGMENT_ANYTHING_ENCODER') {
-            const encoderPath = this.modelPaths.get('encoder') ?? '';
+            const encoderPath = this.modelPaths.get('encoder');
+
+            if (encoderPath === undefined) {
+                throw new Error('Segment Anything encoder model path is not configured');
+            }
             this.sessions.set('encoder', await createSession(encoderPath));
         }
 
         if (!this.sessions.has('decoder') && algorithm === 'SEGMENT_ANYTHING_DECODER') {
-            const decoderPath = this.modelPaths.get('decoder') ?? '';
+            const decoderPath = this.modelPaths.get('decoder');
+
+            if (decoderPath === undefined) {
+                throw new Error('Segment Anything decoder model path is not configured');
+            }
+
             this.sessions.set('decoder', await createSession(decoderPath));
         }
     }
@@ -111,7 +120,12 @@ export class SegmentAnythingModel {
                 // for the rest of the page's lifetime. Replace the entry in
                 // the map with a fresh CPU-only Session so subsequent calls
                 // recover.
-                const replacement = await createCpuSession(this.modelPaths.get(sessionKey) ?? '');
+                const replacementPath = this.modelPaths.get(sessionKey);
+
+                if (replacementPath === undefined) {
+                    throw new Error(`Segment Anything ${sessionKey} model path is not configured`);
+                }
+                const replacement = await createCpuSession(replacementPath);
 
                 this.sessions.set(sessionKey, replacement);
 

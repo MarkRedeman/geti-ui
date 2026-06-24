@@ -4,7 +4,7 @@ import type { OpenCVTypes } from '../opencv/interfaces';
 import { OpenCVPreprocessor, OpenCVPreprocessorConfig } from './pre-processing';
 import { type Session } from './session';
 
-type cv = typeof OpenCVTypes;
+type cv = OpenCVTypes.cv;
 
 // A plain-object representation of ort.Tensor that survives structured-clone
 // (Comlink transfers between workers). ort.Tensor instances lose their class
