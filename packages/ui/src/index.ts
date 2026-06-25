@@ -276,6 +276,7 @@ export { Item as TreeViewItem } from './components/navigation/Menu/Item';
 /** @deprecated Use @geti-ui/blocks media components instead. */
 export { VirtualizedListLayout } from './components/data/VirtualizedListLayout/VirtualizedListLayout';
 export type { VirtualizedListLayoutProps } from './components/data/VirtualizedListLayout/VirtualizedListLayout';
+export type { ListLayoutOptions } from 'react-aria-components';
 
 /** @deprecated Use @geti-ui/blocks media components instead. */
 export { VirtualizedHorizontalGrid } from './components/data/VirtualizedHorizontalGrid/VirtualizedHorizontalGrid';
@@ -350,6 +351,7 @@ export {
     useDragAndDrop,
     type Key as AriaKey,
     type Selection as AriaSelection,
+    type GridLayoutOptions,
 } from 'react-aria-components';
 
 export {
