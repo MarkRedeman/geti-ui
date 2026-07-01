@@ -18,9 +18,9 @@ export class Session {
     public async init(modelPath: string) {
         env.wasm.numThreads = this.params.numThreads;
         env.wasm.simd = true;
-        if (this.params.wasmRoot !== undefined) {
-            env.wasm.wasmPaths = this.params.wasmRoot;
-        }
+        // Always assign, even when `undefined` — this lets `setOrtWasmPaths(undefined)`
+        // clear a previously configured override and revert ORT to its default resolution.
+        env.wasm.wasmPaths = this.params.wasmRoot;
 
         const modelData = await loadModel(modelPath);
 

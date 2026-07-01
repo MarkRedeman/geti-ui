@@ -18,9 +18,9 @@ class RITM {
     constructor(private CV: OpenCVTypes.cv) {}
 
     async load() {
-        if (sessionParams.wasmRoot !== undefined) {
-            env.wasm.wasmPaths = sessionParams.wasmRoot;
-        }
+        // Always assign, even when `undefined` — this lets `setOrtWasmPaths(undefined)`
+        // clear a previously configured override and revert ORT to its default resolution.
+        env.wasm.wasmPaths = sessionParams.wasmRoot;
 
         this.models = {
             main: await this.loadModel(RITMModels.main),

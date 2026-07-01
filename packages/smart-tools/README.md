@@ -41,7 +41,7 @@ concern, so it's delegated to the consuming application:
    serves static assets from (e.g. via Rsbuild's `output.copy`).
 2. Tell smart-tools where they live with `setOrtWasmPaths(...)`.
 
-If you skip this, model creation fails at runtime (ORT can't locate its `.wasm`/`.mjs` artifacts).
+If you skip this, ORT will try to resolve the artifacts relative to its own bundle (or the default CDN). Configure `setOrtWasmPaths(...)` when your app copies/serves the ORT `.wasm`/`.mjs` artifacts from a different URL (otherwise ORT may fail to locate them at runtime).
 
 Call `setOrtWasmPaths` before creating a `Session`, building a SAM instance, or loading RITM. The
 argument is whatever ONNX Runtime's `env.wasm.wasmPaths` accepts: a string prefix/URL, a record
@@ -71,7 +71,7 @@ Example Rsbuild copy config (`rsbuild.config.ts`):
 ```ts
 export default defineConfig({
     output: {
-        copy: [{ from: 'node_modules/onnxruntime-web/dist/*.wasm', to: 'ort/[name][ext]' }],
+        copy: [{ from: 'node_modules/onnxruntime-web/dist/*.{wasm,mjs}', to: 'ort/[name][ext]' }],
     },
 });
 ```
