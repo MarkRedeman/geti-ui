@@ -38,7 +38,7 @@ bundle or serve the ORT `.wasm`/`.mjs` artifacts itself — where they're hosted
 concern, so it's delegated to the consuming application:
 
 1. Copy the ORT wasm artifacts from `node_modules/onnxruntime-web/dist/` to wherever your app
-   serves static assets from (e.g. via a webpack `CopyPlugin` or Vite's `publicDir`).
+   serves static assets from (e.g. via Rsbuild's `output.copy`).
 2. Tell smart-tools where they live with `setOrtWasmPaths(...)`.
 
 If you skip this, model creation fails at runtime (ORT can't locate its `.wasm`/`.mjs` artifacts).
@@ -66,11 +66,13 @@ setOrtWasmPaths({
 Pass `undefined` to clear the override and let ORT resolve the binaries relative to its own bundle
 (or the default CDN).
 
-Example webpack copy config:
+Example Rsbuild copy config (`rsbuild.config.ts`):
 
-```js
-new CopyPlugin({
-    patterns: [{ from: 'node_modules/onnxruntime-web/dist/*.wasm', to: 'ort/[name][ext]' }],
+```ts
+export default defineConfig({
+    output: {
+        copy: [{ from: 'node_modules/onnxruntime-web/dist/*.wasm', to: 'ort/[name][ext]' }],
+    },
 });
 ```
 
