@@ -1,5 +1,4 @@
-import type { InferenceSession } from 'onnxruntime-common';
-import * as ort from 'onnxruntime-web';
+import { env, InferenceSession } from 'onnxruntime-web';
 
 import { loadSource } from '../utils/tool-utils';
 import { SessionParameters, sessionParams } from '../utils/wasm-utils';
@@ -17,9 +16,11 @@ export class Session {
     }
 
     public async init(modelPath: string) {
-        ort.env.wasm.numThreads = this.params.numThreads;
-        ort.env.wasm.wasmPaths = this.params.wasmRoot;
-        ort.env.wasm.simd = true;
+        env.wasm.numThreads = this.params.numThreads;
+        env.wasm.simd = true;
+        if (this.params.wasmRoot !== undefined) {
+            env.wasm.wasmPaths = this.params.wasmRoot;
+        }
 
         const modelData = await loadModel(modelPath);
 
@@ -27,7 +28,7 @@ export class Session {
             throw new Error(`Unable to load model from "${modelPath}"`);
         }
 
-        const session = await ort.InferenceSession.create(modelData, {
+        const session = await InferenceSession.create(modelData, {
             executionProviders: this.params.executionProviders,
             graphOptimizationLevel: 'all',
             executionMode: 'parallel',

@@ -46,4 +46,4 @@ export {
     getMatFromPoints,
 } from './tool-utils';
 export { OpenCVLoader } from './opencv-loader';
-export { sessionParams, type SessionParameters } from './wasm-utils';
+export { sessionParams, setOrtWasmPaths, type SessionParameters, type OrtWasmPaths } from './wasm-utils';
