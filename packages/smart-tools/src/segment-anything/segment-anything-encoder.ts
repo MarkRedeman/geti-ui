@@ -1,6 +1,6 @@
 import type { OpenCVTypes } from '../opencv/interfaces';
 import type * as Comlink from 'comlink';
-import * as ort from 'onnxruntime-common';
+import { Tensor } from 'onnxruntime-web';
 
 import { OpenCVPreprocessor, OpenCVPreprocessorConfig } from './pre-processing';
 import { type Session } from './session';
@@ -10,7 +10,7 @@ type cv = typeof OpenCVTypes;
 type ModelSession = Session | Comlink.Remote<Session>;
 
 export type EncodingOutput = {
-    encoderResult: ort.Tensor;
+    encoderResult: Tensor;
     originalWidth: number;
     originalHeight: number;
     newWidth: number;

@@ -31,6 +31,51 @@ import { buildRITMInstance, RITMModels } from '@geti-ui/smart-tools/ritm';
 import { buildSegmentAnythingInstance, SegmentAnythingModels } from '@geti-ui/smart-tools/segment-anything';
 ```
 
+## Configuring ONNX Runtime WASM binaries
+
+`@geti-ui/smart-tools` uses `onnxruntime-web` for RITM and Segment Anything. This package doesn't
+bundle or serve the ORT `.wasm`/`.mjs` artifacts itself — where they're hosted is an app build
+concern, so it's delegated to the consuming application:
+
+1. Copy the ORT wasm artifacts from `node_modules/onnxruntime-web/dist/` to wherever your app
+   serves static assets from (e.g. via Rsbuild's `output.copy`).
+2. Tell smart-tools where they live with `setOrtWasmPaths(...)`.
+
+If you skip this, ORT will try to resolve the artifacts relative to its own bundle (or the default CDN). Configure `setOrtWasmPaths(...)` when your app copies/serves the ORT `.wasm`/`.mjs` artifacts from a different URL (otherwise ORT may fail to locate them at runtime).
+
+Call `setOrtWasmPaths` before creating a `Session`, building a SAM instance, or loading RITM. The
+argument is whatever ONNX Runtime's `env.wasm.wasmPaths` accepts: a string prefix/URL, a record
+mapping each artifact filename to an explicit URL, or the `{ wasm }` shape used by
+`onnxruntime-web` >= 1.24.
+
+```ts
+import { setOrtWasmPaths } from '@geti-ui/smart-tools';
+
+// Files served at https://<your-app>/ort/<name>.wasm — note the trailing slash
+setOrtWasmPaths('/ort/');
+```
+
+```ts
+// Or point at explicit URLs per artifact (e.g. served from a CDN)
+setOrtWasmPaths({
+    'ort-wasm-simd-threaded.wasm': 'https://cdn.example.com/ort/ort-wasm-simd-threaded.wasm',
+    'ort-wasm-simd-threaded.mjs': 'https://cdn.example.com/ort/ort-wasm-simd-threaded.mjs',
+});
+```
+
+Pass `undefined` to clear the override and let ORT resolve the binaries relative to its own bundle
+(or the default CDN).
+
+Example Rsbuild copy config (`rsbuild.config.ts`):
+
+```ts
+export default defineConfig({
+    output: {
+        copy: [{ from: 'node_modules/onnxruntime-web/dist/*.{wasm,mjs}', to: 'ort/[name][ext]' }],
+    },
+});
+```
+
 ## Examples and docs
 
 - Installation: `documentation/docs/smart-tools/installation.mdx`
