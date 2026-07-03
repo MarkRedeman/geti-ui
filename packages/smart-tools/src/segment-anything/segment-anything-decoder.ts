@@ -8,7 +8,7 @@ import { PostProcessor } from './post-processing';
 import { EncodingOutput } from './segment-anything-encoder';
 import { type Session } from './session';
 
-type cv = OpenCVTypes;
+type cv = OpenCVTypes.cv;
 
 type InteractiveAnnotationPoint = Point & { positive: boolean };
 
@@ -31,7 +31,13 @@ export class SegmentAnythingDecoder {
             encodingOutput
         );
 
-        const maskIdx = this.getIndexOfMaskWithHighestConfidence(iouPredictions);
+        // With the `webgpu` EP, ORT returns GPU-backed tensors whose `.data` is
+        // unavailable until downloaded. Materialize CPU data via `getData()`
+        // before reading; on the CPU EP this resolves to the existing buffer.
+        const iouData = (await iouPredictions.getData()) as ArrayLike<number>;
+        const maskData = (await masks.getData()) as ArrayLike<number>;
+
+        const maskIdx = this.getIndexOfMaskWithHighestConfidence(iouData, iouPredictions.dims);
 
         const size = masks.dims[2] * masks.dims[3];
         const maskOffset = maskIdx * size;
@@ -39,7 +45,7 @@ export class SegmentAnythingDecoder {
 
         for (let y = 0; y < masks.dims[2]; y++) {
             for (let x = 0; x < masks.dims[3]; x++) {
-                const value = Number(masks.data[maskOffset + y * masks.dims[3] + x]);
+                const value = Number(maskData[maskOffset + y * masks.dims[3] + x]);
 
                 const idx = y * masks.dims[3] + x;
                 pixels[idx] = value > 0 ? 255 : 0;
@@ -64,11 +70,11 @@ export class SegmentAnythingDecoder {
         return results;
     }
 
-    private getIndexOfMaskWithHighestConfidence(iou_predictions: Tensor) {
+    private getIndexOfMaskWithHighestConfidence(iouData: ArrayLike<number>, dims: readonly number[]) {
         let predictionIdx = 0;
 
-        for (let p = 0; p < iou_predictions.dims[1]; p++) {
-            if (iou_predictions.data[p] > iou_predictions.data[predictionIdx]) {
+        for (let p = 0; p < dims[1]; p++) {
+            if (iouData[p] > iouData[predictionIdx]) {
                 predictionIdx = p;
             }
         }
@@ -116,7 +122,11 @@ export class SegmentAnythingDecoder {
 
         const ratio = 1024 / Math.max(originalHeight, originalWidth);
         const feeds: Record<string, Tensor> = {
-            image_embeddings: encoderResult,
+            // `encoderResult` is a `SerializableTensor` (plain object) rather than a real
+            // `ort.Tensor` — it may have crossed a Comlink/worker boundary via structured
+            // clone, which strips the Tensor's class identity. Reconstruct a real Tensor
+            // before feeding it to `session.run()`.
+            image_embeddings: new Tensor(encoderResult.type, encoderResult.data, encoderResult.dims),
             // TODO: reuse the low_res_masks output, also use existing polygons?
             mask_input: new Tensor(new Float32Array(256 * 256).fill(1), [1, 1, 256, 256]),
             has_mask_input: new Tensor(new Float32Array(1).fill(0), [1]),
