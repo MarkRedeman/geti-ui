@@ -90,8 +90,9 @@ export class PostProcessor {
                 return this.contourToRotatedRectangle(contour, scales);
             case 'circle':
                 return this.contourToCircle(contour, scales);
+            case 'pose':
             default:
-                throw new Error('Can not create keypoint using SAM');
+                throw new Error(`Unsupported shape type for SAM post-processing: "${config.type}"`);
         }
     }
 
@@ -144,7 +145,10 @@ export class PostProcessor {
             shapeType: 'circle',
             x: scaleX(x),
             y: scaleY(y),
-            r: Math.round(Math.max(scaleX(width), scaleY(height))),
+            // `width`/`height` are the full extents of the bounding rotated rect, so halve
+            // the largest one to get a radius — `Circle.r` is treated as a radius elsewhere
+            // (e.g. `pointInCircle`'s `distance < r`), not a diameter.
+            r: Math.round(Math.max(scaleX(width), scaleY(height)) / 2),
         };
     }
 
