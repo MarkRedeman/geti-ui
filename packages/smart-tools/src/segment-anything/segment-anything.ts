@@ -11,7 +11,7 @@ type cv = typeof OpenCVTypes;
 const isWebGpuFailure = (err: unknown): boolean => {
     // Errors whose message points at the WebGPU / JSEP backend. When we see one
     // the right recovery is to drop `webgpu` from the EP list and retry on CPU.
-    const WEBGPU_ERROR_PATTERN = /webgpu|jsep|wasm|initwasm|no available backend/i;
+    const WEBGPU_ERROR_PATTERN = /webgpu|jsep|no available backend/i;
     const message = err instanceof Error ? err.message : String(err ?? '');
 
     return WEBGPU_ERROR_PATTERN.test(message);
@@ -80,7 +80,7 @@ export class SegmentAnythingModel {
             if (!isWebGpuFailure(err)) throw err;
 
             const modelPath = this.modelPaths.get(sessionKey);
-            if (modelPath === undefined) {
+            if (!modelPath) {
                 throw new Error(`Segment Anything ${sessionKey} model path is not configured`);
             }
 
