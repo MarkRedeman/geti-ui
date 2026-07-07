@@ -8,9 +8,30 @@ import { Session } from './session';
 
 type cv = typeof OpenCVTypes;
 
+const isWebGpuFailure = (err: unknown): boolean => {
+    // Errors whose message points at the WebGPU / JSEP backend. When we see one
+    // the right recovery is to drop `webgpu` from the EP list and retry on CPU.
+    const WEBGPU_ERROR_PATTERN = /webgpu|jsep|wasm|initwasm|no available backend/i;
+    const message = err instanceof Error ? err.message : String(err ?? '');
+
+    return WEBGPU_ERROR_PATTERN.test(message);
+};
+
+/**
+    In case of session failure, we create a new fresh session instead
+    of attempting recovery.
+ */
+const createCpuSession = async (modelPath: string): Promise<Session> => {
+    const session = new Session();
+    await session.init(modelPath, { executionProviders: ['cpu'] });
+
+    return session;
+};
+
 const createSession = async (modelPath: string): Promise<Session> => {
     const session = new Session();
     await session.init(modelPath);
+
     return session;
 };
 
@@ -40,29 +61,49 @@ export class SegmentAnythingModel {
         }
     }
 
-    public async processEncoder(initialImageData: ImageData): Promise<EncodingOutput> {
-        const session = this.sessions.get('encoder');
-
+    /**
+        In case of webgpu failure or absence, we fallback to creating a new
+        cpu session.
+     */
+    private async runWithRecovery<T>(
+        sessionKey: 'encoder' | 'decoder',
+        op: (session: Session) => Promise<T>
+    ): Promise<T> {
+        const session = this.sessions.get(sessionKey);
         if (!session) {
-            throw Error('the encoder is absent in the sessions map');
+            throw Error(`the ${sessionKey} is absent in the sessions map`);
         }
 
-        const encoder = new SegmentAnythingEncoder(this.cv, this.preProcessorConfig, session);
+        try {
+            return await op(session);
+        } catch (err) {
+            if (!isWebGpuFailure(err)) throw err;
 
-        return await encoder.processEncoder(initialImageData);
+            const modelPath = this.modelPaths.get(sessionKey);
+            if (modelPath === undefined) {
+                throw new Error(`Segment Anything ${sessionKey} model path is not configured`);
+            }
+
+            const replacement = await createCpuSession(modelPath);
+            this.sessions.set(sessionKey, replacement);
+
+            return await op(replacement);
+        }
+    }
+
+    public async processEncoder(initialImageData: ImageData): Promise<EncodingOutput> {
+        return this.runWithRecovery('encoder', (session) =>
+            new SegmentAnythingEncoder(this.cv, this.preProcessorConfig, session).processEncoder(initialImageData)
+        );
     }
 
     public async processDecoder(
         encodingOutput: EncodingOutput,
         input: SegmentAnythingPrompt
     ): Promise<SegmentAnythingResult> {
-        const session = this.sessions.get('decoder');
-        if (!session) {
-            throw Error('the decoder is absent in the sessions map');
-        }
-
-        const decoder = new SegmentAnythingDecoder(this.cv, session);
-        const output = await decoder.process(encodingOutput, input);
+        const output = await this.runWithRecovery('decoder', (session) =>
+            new SegmentAnythingDecoder(this.cv, session).process(encodingOutput, input)
+        );
 
         if (output.shapes.length === 0) {
             return {
