@@ -14,14 +14,12 @@ for (const outputDir of outputDirs) {
     await mkdir(outputDir, { recursive: true });
 
     for (const modelDir of modelDirs) {
-        const folderName = path.basename(modelDir);
-        const parentName = path.basename(path.dirname(modelDir));
-        const destination = path.join(outputDir, parentName, folderName);
-
-        await mkdir(path.dirname(destination), { recursive: true });
-        await cp(modelDir, destination, {
+        // Flatten: copy each model dir's contents directly into outputDir so the
+        // .onnx files land beside the bundled chunk (dist/esm/segment-anything.js,
+        // dist/esm/ritm.js), matching `new URL('./x.onnx', import.meta.url)`.
+        await cp(modelDir, outputDir, {
             recursive: true,
-            filter: (source) => source.endsWith('.onnx') || !source.includes('.'),
+            filter: (source) => source.endsWith('.onnx') || !path.basename(source).includes('.'),
         });
     }
 }
