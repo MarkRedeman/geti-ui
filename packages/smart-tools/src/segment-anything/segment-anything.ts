@@ -11,7 +11,7 @@ type cv = typeof OpenCVTypes;
 const isWebGpuFailure = (err: unknown): boolean => {
     // Errors whose message points at the WebGPU / JSEP backend. When we see one
     // the right recovery is to drop `webgpu` from the EP list and retry on CPU.
-    const WEBGPU_ERROR_PATTERN = /webgpu|jsep|no available backend/i;
+    const WEBGPU_ERROR_PATTERN = /webgpu|jsep|no available backend|initwasm|pthread_create/i;
     const message = err instanceof Error ? err.message : String(err ?? '');
 
     return WEBGPU_ERROR_PATTERN.test(message);
@@ -30,9 +30,16 @@ const createCpuSession = async (modelPath: string): Promise<Session> => {
 
 const createSession = async (modelPath: string): Promise<Session> => {
     const session = new Session();
-    await session.init(modelPath);
 
-    return session;
+    try {
+        await session.init(modelPath);
+
+        return session;
+    } catch (err) {
+        if (!isWebGpuFailure(err)) throw err;
+
+        return await createCpuSession(modelPath);
+    }
 };
 
 export class SegmentAnythingModel {
