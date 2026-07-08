@@ -20,9 +20,44 @@ export interface SessionParameters {
     wasmRoot?: OrtWasmPaths;
 }
 
+/**
+ * ORT's WebGPU execution provider runs through the threaded JSEP wasm, which
+ * needs `SharedArrayBuffer` — and that is only available in cross-origin
+ * isolated contexts (COOP/COEP). Non-isolated tabs and embedded WebViews (e.g.
+ * Tauri's WKWebView/WebView2) don't satisfy that, so `pthread_create` fails
+ * when ORT spins up its worker pool. Worse, once `initWasm()` fails ORT caches
+ * the failure globally and even a pure-CPU session then rejects with "previous
+ * call to 'initWasm()' failed".
+ *
+ * Detect the capable environment up front so we only opt into `webgpu` (and
+ * multi-threaded wasm) where it can actually load, and pin everything else to
+ * a single-threaded CPU EP. This is the "prevent, not react" gate that keeps
+ * the reactive WebGPU→CPU recovery in `SegmentAnythingModel` as a rare backstop
+ * rather than the primary control flow.
+ */
+const hasThreadedWasmSupport = (): boolean => {
+    try {
+        return (
+            typeof SharedArrayBuffer !== 'undefined' &&
+            typeof globalThis !== 'undefined' &&
+            // `crossOriginIsolated` is the canonical signal; absent in non-isolated
+            // tabs and embedded WebViews.
+            (globalThis as { crossOriginIsolated?: boolean }).crossOriginIsolated === true
+        );
+    } catch {
+        return false;
+    }
+};
+
+const threaded = hasThreadedWasmSupport();
+
 export const sessionParams: SessionParameters = {
-    numThreads: 0,
-    executionProviders: ['cpu'],
+    // `0` lets ORT pick `navigator.hardwareConcurrency`. Force `1` when we can't
+    // spawn workers so ORT skips `pthread_create` entirely.
+    numThreads: threaded ? 0 : 1,
+    // WebGPU kernels require the threaded JSEP wasm; only request the `webgpu`
+    // EP where cross-origin isolation lets that wasm load, otherwise pin to CPU.
+    executionProviders: threaded ? ['webgpu', 'cpu'] : ['cpu'],
     // Resolved by the consuming app via `setOrtWasmPaths`. Left undefined so
     // ORT loads its binaries relative to its own bundle by default.
     wasmRoot: undefined,
