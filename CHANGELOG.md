@@ -18,6 +18,18 @@
 * **annotations:** add configurable stroke width and hover opacity CSS variables ([ae97025](https://github.com/MarkRedeman/geti-ui/commit/ae970255085217e73a06bc4e02cbbfda953a43f8))
 * **annotations:** add SVG annotation renderer block with hover, selection, and mask ([793108e](https://github.com/MarkRedeman/geti-ui/commit/793108e73545f420bf0bf9d6a25f90a29214c9dd))
 
+## [1.5.0](https://github.com/MarkRedeman/geti-ui/compare/v1.4.1...v1.5.0) (2026-07-08)
+
+
+### Features
+
+* **ui:** extend some props with ref ([62d4698](https://github.com/MarkRedeman/geti-ui/commit/62d469808c9c07ddc8a5b6d13b39d169668e60c2))
+* **ui:** extend some props with ref ([512d554](https://github.com/MarkRedeman/geti-ui/commit/512d554b8de1227d0bbe792d4118c1553607a9c7))
+* **ui:** Fixes data corruption and runtime errors on webgpu execution provider ([eed14c1](https://github.com/MarkRedeman/geti-ui/commit/eed14c1d41840ac2853a4c9ba0b116068185aaf9))
+* **ui:** Tolerate unavailable CacheStorage & fix naming/typos ([b8a68f0](https://github.com/MarkRedeman/geti-ui/commit/b8a68f06afae7fac501cd1531a2d2b2fd4a84a83))
+* **ui:** Update onnx, switch to named imports and expose new util ([fa6170b](https://github.com/MarkRedeman/geti-ui/commit/fa6170bd9569c047c87bb854e85ba751641d72b3))
+* **ui:** webgpu-&gt;cpu recovery plus thread detection ([893d21c](https://github.com/MarkRedeman/geti-ui/commit/893d21cf1824c70f67d4ce6824269c655adc6520))
+
 ## [1.4.1](https://github.com/MarkRedeman/geti-ui/compare/v1.4.0...v1.4.1) (2026-06-15)
 
 
