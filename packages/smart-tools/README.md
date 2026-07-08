@@ -76,6 +76,30 @@ export default defineConfig({
 });
 ```
 
+## Execution providers (WebGPU vs CPU)
+
+Segment Anything selects its ONNX Runtime execution providers automatically. WebGPU (via ORT's
+threaded JSEP wasm) is dramatically faster for the SAM encoder, but that wasm requires
+`SharedArrayBuffer`, which browsers only expose in **cross-origin-isolated** contexts.
+
+smart-tools detects this at startup:
+
+- In a cross-origin-isolated context, it requests `['webgpu', 'cpu']` with multi-threaded wasm.
+- Otherwise (non-isolated tabs, embedded WebViews such as Tauri) it pins to a single-threaded
+  `['cpu']` provider.
+
+To enable the WebGPU path, the consuming app must:
+
+1. Serve the app cross-origin isolated by sending these response headers on the document:
+    - `Cross-Origin-Opener-Policy: same-origin`
+    - `Cross-Origin-Embedder-Policy: require-corp`
+2. Ship the threaded JSEP wasm artifact (`ort-wasm-simd-threaded.jsep.wasm` / `.mjs`). The
+   `*.{wasm,mjs}` copy glob above already includes it.
+
+If either is missing, smart-tools falls back to CPU automatically — no configuration needed. As a
+final safety net, a runtime WebGPU/JSEP failure still triggers a one-time downgrade to a CPU-only
+session, so a broken GPU driver can't wedge the tool.
+
 ## Examples and docs
 
 - Installation: `documentation/docs/smart-tools/installation.mdx`
