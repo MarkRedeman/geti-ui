@@ -37,13 +37,19 @@ export interface SessionParameters {
  */
 const hasThreadedWasmSupport = (): boolean => {
     try {
-        return (
-            typeof SharedArrayBuffer !== 'undefined' &&
-            typeof globalThis !== 'undefined' &&
-            // `crossOriginIsolated` is the canonical signal; absent in non-isolated
-            // tabs and embedded WebViews.
-            (globalThis as { crossOriginIsolated?: boolean }).crossOriginIsolated === true
-        );
+        if (typeof globalThis === 'undefined') return false;
+        if (typeof SharedArrayBuffer === 'undefined') return false;
+        if ((globalThis as { crossOriginIsolated?: boolean }).crossOriginIsolated !== true) return false;
+        if (typeof WebAssembly === 'undefined' || typeof WebAssembly.Memory !== 'function') return false;
+
+        // Some runtimes expose COI/SAB but still don't support Wasm threads (shared memory).
+        const memory = new WebAssembly.Memory({
+            initial: 1,
+            maximum: 1,
+            shared: true,
+        } as unknown as WebAssembly.MemoryDescriptor);
+
+        return memory.buffer instanceof SharedArrayBuffer;
     } catch {
         return false;
     }

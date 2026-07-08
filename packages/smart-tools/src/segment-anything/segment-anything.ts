@@ -18,8 +18,8 @@ const isWebGpuFailure = (err: unknown): boolean => {
 };
 
 /**
-    In case of session failure, we create a new fresh session instead
-    of attempting recovery.
+    On a WebGPU/JSEP failure, create a fresh CPU-only session instead of trying
+    to reuse the broken one.
  */
 const createCpuSession = async (modelPath: string): Promise<Session> => {
     const session = new Session();
@@ -69,9 +69,9 @@ export class SegmentAnythingModel {
     }
 
     /**
-        In case of webgpu failure or absence, we fallback to creating a new
-        cpu session.
-     */
+        If a call fails due to WebGPU/JSEP initialization/runtime issues, downgrade
+        to a CPU-only session and retry once.
+    */
     private async runWithRecovery<T>(
         sessionKey: 'encoder' | 'decoder',
         op: (session: Session) => Promise<T>
