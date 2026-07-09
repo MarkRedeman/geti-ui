@@ -15,26 +15,24 @@ export default defineConfig({
     },
     lib: [
         {
-            format: 'esm',
+            format: 'cjs',
             bundle: true,
+            autoExternal: false,
             source: { entry: sharedEntry },
             output: {
-                distPath: {
-                    root: './dist/esm',
-                },
-                externals: [/opencv\.js/],
+                distPath: { root: './dist/cjs' },
+                externals: [/opencv\.js/, 'onnxruntime-web'],
             },
             dts: false,
         },
         {
-            format: 'cjs',
+            format: 'esm',
             bundle: true,
+            autoExternal: false,
             source: { entry: sharedEntry },
             output: {
-                distPath: {
-                    root: './dist/cjs',
-                },
-                externals: [/opencv\.js/],
+                distPath: { root: './dist/esm' },
+                externals: [/opencv\.js/, 'onnxruntime-web'],
             },
             dts: false,
         },
