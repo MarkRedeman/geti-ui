@@ -1,4 +1,5 @@
 import type { OpenCVTypes } from '../opencv/interfaces';
+import { getOpenCVSourceUrl } from './opencv-source-url';
 
 let opencv: OpenCVTypes | null = null;
 
@@ -15,7 +16,7 @@ export const OpenCVLoader = async (): Promise<OpenCVTypes> => {
     // source and evaluate it via the Function constructor instead, which runs in
     // non-strict/global scope, the same way a classic <script> or importScripts()
     // load would.
-    const url = new URL('../opencv/4.9.0/opencv.js', import.meta.url);
+    const url = getOpenCVSourceUrl();
     const response = await fetch(url);
 
     if (!response.ok) {

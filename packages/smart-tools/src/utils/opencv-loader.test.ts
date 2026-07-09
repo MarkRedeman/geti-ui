@@ -1,5 +1,13 @@
 import { afterEach, beforeEach, describe, expect, it, rstest } from '@rstest/core';
 
+// The real opencv.js binary is not committed (compiled via Docker, see README), so in
+// CI the `new URL('../opencv/4.9.0/opencv.js', import.meta.url)` asset can't be resolved
+// and the bundler emits a stub that throws at runtime. Mock the URL seam so the loader's
+// fetch path can be exercised without the asset being present in the module graph.
+rstest.mock('./opencv-source-url', () => ({
+    getOpenCVSourceUrl: () => new URL('https://opencv.test/opencv.js'),
+}));
+
 type MutableGlobal = typeof globalThis & { cv?: unknown; fetch: typeof fetch };
 
 const g = globalThis as MutableGlobal;
