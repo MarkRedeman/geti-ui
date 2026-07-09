@@ -18,6 +18,13 @@
 * **annotations:** add configurable stroke width and hover opacity CSS variables ([ae97025](https://github.com/MarkRedeman/geti-ui/commit/ae970255085217e73a06bc4e02cbbfda953a43f8))
 * **annotations:** add SVG annotation renderer block with hover, selection, and mask ([793108e](https://github.com/MarkRedeman/geti-ui/commit/793108e73545f420bf0bf9d6a25f90a29214c9dd))
 
+## [1.5.2](https://github.com/MarkRedeman/geti-ui/compare/v1.5.1...v1.5.2) (2026-07-09)
+
+
+### Bug Fixes
+
+* **smart-tools:** Fix plain import issue & opencv-loader ([a24ad79](https://github.com/MarkRedeman/geti-ui/commit/a24ad79bd5b9eed9ba4762239b252af7d0b9d915))
+
 ## [1.5.1](https://github.com/MarkRedeman/geti-ui/compare/v1.5.0...v1.5.1) (2026-07-08)
 
 
