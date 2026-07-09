@@ -16,7 +16,13 @@ export const OpenCVLoader = async (): Promise<OpenCVTypes> => {
     // non-strict/global scope, the same way a classic <script> or importScripts()
     // load would.
     const url = new URL('../opencv/4.9.0/opencv.js', import.meta.url);
-    const source = await fetch(url).then((response) => response.text());
+    const response = await fetch(url);
+
+    if (!response.ok) {
+        throw new Error(`Failed to fetch opencv.js: ${response.status} ${response.statusText} (${url.href})`);
+    }
+
+    const source = await response.text();
 
     // eslint-disable-next-line no-new-func -- intentional sloppy-mode eval, see comment above
     const run = new Function(source);
