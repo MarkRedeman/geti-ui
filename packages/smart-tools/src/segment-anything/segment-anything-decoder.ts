@@ -16,7 +16,7 @@ export interface SegmentAnythingPrompt {
     image: string | ArrayBuffer | undefined;
     points: InteractiveAnnotationPoint[] | undefined;
     boxes: Point[][] | undefined;
-    ouputConfig: { type: ShapeType };
+    outputConfig: { type: ShapeType };
 }
 
 export class SegmentAnythingDecoder {
@@ -64,7 +64,7 @@ export class SegmentAnythingDecoder {
         };
 
         const results = postProcessor.maskToAnnotationShape(pixels, sizes, {
-            ...(input.ouputConfig ?? { type: 'polygon' }),
+            ...(input.outputConfig ?? { type: 'polygon' }),
             shapeFilter: (shape) => positivePoints.some((point) => isPointInShape(shape, point)),
         });
         return results;
