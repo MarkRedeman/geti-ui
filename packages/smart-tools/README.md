@@ -88,7 +88,7 @@ Call `setOpenCVSourceUrl` once during startup, before using any OpenCV-backed to
 
 - a `URL` (recommended for cross-origin/CDN setups),
 - an absolute URL string (`https://...`), an app-origin absolute path (`/opencv/opencv.js`),
-  or a relative path string resolved against the smart-tools module URL.
+  or a relative path string resolved against your app's origin (falling back to the smart-tools module URL when `location` is unavailable).
 
 ```ts
 import { setOpenCVSourceUrl } from '@geti-ui/smart-tools';
