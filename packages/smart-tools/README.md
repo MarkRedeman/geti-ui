@@ -79,7 +79,7 @@ export default defineConfig({
 ## Configuring the OpenCV.js source
 
 `@geti-ui/smart-tools` uses a custom-compiled `opencv.js` build for GrabCut, Intelligent Scissors,
-Watershed, SSIM, and RITM. This package doesn't bundle or serve that binary itself — compile it
+Watershed, SSIM, RITM and Segment Anything. This package doesn't bundle or serve that binary itself — compile it
 (see ["Compiling the OpenCV WASM binary"](#compiling-the-opencv-wasm-binary-manual) below) and copy
 it into wherever your app serves static assets from, then tell smart-tools where it lives with
 `setOpenCVSourceUrl(...)`.

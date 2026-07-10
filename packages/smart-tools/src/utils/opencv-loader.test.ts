@@ -35,6 +35,27 @@ describe('OpenCVLoader', () => {
     afterEach(() => {
         g.fetch = originalFetch;
         delete g.cv;
+        // `doMock` isn't reset by `resetModules()` — restore the default stub so
+        // it doesn't leak into tests that run after the "not configured" case below.
+        rstest.doMock('./opencv-source-url', () => ({
+            getOpenCVSourceUrl: () => new URL('https://opencv.test/opencv.js'),
+        }));
+    });
+
+    it('propagates the "not configured" error from getOpenCVSourceUrl without fetching', async () => {
+        // `doMock` (unlike the hoisted `mock` above) applies only to the next
+        // fresh import, so it can override the module-level mock for this test.
+        rstest.doMock('./opencv-source-url', () => ({
+            getOpenCVSourceUrl: () => {
+                throw new Error('OpenCV.js source URL is not configured.');
+            },
+        }));
+        g.fetch = rstest.fn();
+
+        const OpenCVLoader = await loadFresh();
+
+        await expect(OpenCVLoader()).rejects.toThrow('OpenCV.js source URL is not configured');
+        expect(g.fetch).not.toHaveBeenCalled();
     });
 
     it('throws a descriptive error when the fetch response is not ok', async () => {

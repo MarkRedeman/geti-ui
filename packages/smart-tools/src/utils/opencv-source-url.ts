@@ -4,10 +4,15 @@ export type OpenCVSource = string | URL;
 // serve opencv.js itself (see README).
 let openCVSource: OpenCVSource | undefined;
 
+// Captured in a variable (rather than inlined into `new URL(x, import.meta.url)`
+// below) so bundlers don't statically analyze this as an asset reference — the
+// source is a runtime-configured value, not a module-relative asset.
+const moduleUrl = import.meta.url;
+
 /**
  * Tell smart-tools where to fetch the OpenCV.js binary from. Call this once
  * during startup, before using any OpenCV-backed tool (GrabCut, Intelligent
- * Scissors, Watershed, SSIM, RITM).
+ * Scissors, Watershed, SSIM, RITM, Segment Anything).
  *
  * ```ts
  * import { setOpenCVSourceUrl } from '@geti-ui/smart-tools';
@@ -24,9 +29,9 @@ export const getOpenCVSourceUrl = (): URL => {
             'OpenCV.js source URL is not configured. This package does not bundle or serve the ' +
                 'opencv.js binary itself — compile it (see the smart-tools README) and copy it into ' +
                 "your app's static assets, then call `setOpenCVSourceUrl(...)` before using any " +
-                'OpenCV-backed tool (GrabCut, Intelligent Scissors, Watershed, SSIM, RITM).'
+                'OpenCV-backed tool (GrabCut, Intelligent Scissors, Watershed, SSIM, RITM, Segment Anything).'
         );
     }
 
-    return openCVSource instanceof URL ? openCVSource : new URL(openCVSource, import.meta.url);
+    return openCVSource instanceof URL ? openCVSource : new URL(openCVSource, moduleUrl);
 };
