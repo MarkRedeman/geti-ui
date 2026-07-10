@@ -16,7 +16,7 @@ export interface SegmentAnythingPrompt {
     image: string | ArrayBuffer | undefined;
     points: InteractiveAnnotationPoint[] | undefined;
     boxes: Point[][] | undefined;
-    outputConfig: { type: ShapeType };
+    outputConfig?: { type: ShapeType };
 }
 
 export class SegmentAnythingDecoder {

@@ -33,5 +33,11 @@ export const getOpenCVSourceUrl = (): URL => {
         );
     }
 
-    return openCVSource instanceof URL ? openCVSource : new URL(openCVSource, moduleUrl);
+    if (openCVSource instanceof URL) return openCVSource;
+
+    if (openCVSource.startsWith('/')) {
+        return new URL(openCVSource, (globalThis as { location?: Location }).location?.origin ?? moduleUrl);
+    }
+
+    return new URL(openCVSource, moduleUrl);
 };

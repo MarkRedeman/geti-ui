@@ -84,9 +84,11 @@ Watershed, SSIM, RITM and Segment Anything. This package doesn't bundle or serve
 it into wherever your app serves static assets from, then tell smart-tools where it lives with
 `setOpenCVSourceUrl(...)`.
 
-Call `setOpenCVSourceUrl` once during startup, before using any OpenCV-backed tool. The argument is
-either a string (resolved relative to the smart-tools module URL, so an absolute path like
-`/opencv/opencv.js` is served from your app's origin) or a full `URL`.
+Call `setOpenCVSourceUrl` once during startup, before using any OpenCV-backed tool. The argument can be
+
+- a `URL` (recommended for cross-origin/CDN setups),
+- an absolute URL string (`https://...`), an app-origin absolute path (`/opencv/opencv.js`),
+  or a relative path string resolved against the smart-tools module URL.
 
 ```ts
 import { setOpenCVSourceUrl } from '@geti-ui/smart-tools';
