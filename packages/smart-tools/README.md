@@ -76,6 +76,38 @@ export default defineConfig({
 });
 ```
 
+## Configuring the OpenCV.js source
+
+`@geti-ui/smart-tools` uses a custom-compiled `opencv.js` build for GrabCut, Intelligent Scissors,
+Watershed, SSIM, and RITM. This package doesn't bundle or serve that binary itself — compile it
+(see ["Compiling the OpenCV WASM binary"](#compiling-the-opencv-wasm-binary-manual) below) and copy
+it into wherever your app serves static assets from, then tell smart-tools where it lives with
+`setOpenCVSourceUrl(...)`.
+
+Call `setOpenCVSourceUrl` once during startup, before using any OpenCV-backed tool. The argument is
+either a string (resolved relative to the smart-tools module URL, so an absolute path like
+`/opencv/opencv.js` is served from your app's origin) or a full `URL`.
+
+```ts
+import { setOpenCVSourceUrl } from '@geti-ui/smart-tools';
+
+// Served at https://<your-app>/opencv/opencv.js
+setOpenCVSourceUrl('/opencv/opencv.js');
+```
+
+If you skip this, any OpenCV-backed tool throws a descriptive error the first time it tries to load
+`opencv.js` — there is no default/CDN fallback, unlike ORT's wasm resolution.
+
+Example Rsbuild copy config (`rsbuild.config.ts`):
+
+```ts
+export default defineConfig({
+    output: {
+        copy: [{ from: 'src/opencv/opencv.js', to: 'opencv/[name][ext]' }],
+    },
+});
+```
+
 ## Execution providers (WebGPU vs CPU)
 
 Segment Anything selects its ONNX Runtime execution providers automatically. WebGPU (via ORT's
@@ -112,8 +144,10 @@ session, so a broken GPU driver can't wedge the tool.
 
 ## Compiling the OpenCV WASM binary (manual)
 
-The OpenCV JS binary (`src/opencv/4.9.0/opencv.js`) is **not** checked into the repository.
-It must be compiled locally or obtained from the release artifacts.
+The OpenCV JS binary is **not** checked into the repository and is not bundled/served by this
+package. It must be compiled locally or obtained from the release artifacts, then copied into your
+app and pointed at via `setOpenCVSourceUrl(...)` (see ["Configuring the OpenCV.js
+source"](#configuring-the-opencvjs-source) above).
 
 ### Prerequisites
 

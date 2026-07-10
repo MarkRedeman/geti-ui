@@ -25,6 +25,21 @@ This script:
 
 We compile only the APIs needed by Geti smart tools to reduce size and startup overhead.
 
+## Configuring the source URL
+
+`@geti-ui/smart-tools` does not bundle or serve the compiled `opencv.js` binary itself. Copy it
+into your app's static assets and point smart-tools at it before using any OpenCV-backed tool
+(GrabCut, Intelligent Scissors, Watershed, SSIM, RITM):
+
+```ts
+import { setOpenCVSourceUrl } from '@geti-ui/smart-tools';
+
+setOpenCVSourceUrl('/opencv/opencv.js');
+```
+
+If this isn't called, OpenCV-backed tools throw a descriptive error the first time they try to
+load `opencv.js` — there's no default/CDN fallback.
+
 ## Restrictions
 
 - Only allow-listed methods are available.
