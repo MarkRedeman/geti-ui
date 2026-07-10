@@ -16,7 +16,7 @@ describe('getOpenCVSourceUrl', () => {
         expect(() => getOpenCVSourceUrl()).toThrow('OpenCV.js source URL is not configured');
     });
 
-    it('resolves a leading-slash string to an absolute URL with that pathname', async () => {
+    it('resolves a leading-slash string against the app origin', async () => {
         const { getOpenCVSourceUrl, setOpenCVSourceUrl } = await loadFresh();
 
         setOpenCVSourceUrl('/opencv/opencv.js');
@@ -24,7 +24,15 @@ describe('getOpenCVSourceUrl', () => {
         const url = getOpenCVSourceUrl();
 
         expect(url).toBeInstanceOf(URL);
-        expect(url.pathname).toBe('/opencv/opencv.js');
+        expect(url.href).toBe(`${location.origin}/opencv/opencv.js`);
+    });
+
+    it('resolves a bare relative string against the app origin, not the module URL', async () => {
+        const { getOpenCVSourceUrl, setOpenCVSourceUrl } = await loadFresh();
+
+        setOpenCVSourceUrl('opencv/opencv.js');
+
+        expect(getOpenCVSourceUrl().href).toBe(`${location.origin}/opencv/opencv.js`);
     });
 
     it('passes through an absolute string unchanged', async () => {

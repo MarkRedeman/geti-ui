@@ -35,9 +35,15 @@ export const getOpenCVSourceUrl = (): URL => {
 
     if (openCVSource instanceof URL) return openCVSource;
 
-    if (openCVSource.startsWith('/')) {
-        return new URL(openCVSource, (globalThis as { location?: Location }).location?.origin ?? moduleUrl);
-    }
+    // Resolve string paths against the running app's origin (the document/worker
+    // `location`), NOT this module's chunk URL — the package may be served from a
+    // different origin (e.g. a CDN) than the app that hosts opencv.js, so a path
+    // like `/opencv/opencv.js` must land on the app. `origin` is preferred over
+    // `href` because in a blob-URL worker `href` is a `blob:` URL that a
+    // path-absolute (`/…`) reference can't resolve against. Fall back to the
+    // module URL only when there's no usable location (SSR/tests without a DOM).
+    const { location } = globalThis as { location?: { href?: string; origin?: string } };
+    const base = location?.origin && location.origin !== 'null' ? location.origin : (location?.href ?? moduleUrl);
 
-    return new URL(openCVSource, moduleUrl);
+    return new URL(openCVSource, base);
 };
