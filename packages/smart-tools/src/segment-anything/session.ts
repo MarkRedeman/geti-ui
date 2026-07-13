@@ -12,7 +12,7 @@ const loadModel = async (modelPath: string) => {
  * specifies one. Sized to bound a hung `ortSession.run()` (e.g. JSEP/WebGPU
  * stall, native deadlock) without false-firing on a legitimate slow SAM
  * encoder pass on a CPU EP, which can comfortably take 30–60 s on modest
- * hardware. Override via `init({ runTimeoutMs })` or `run({ timeoutMs })`;
+ * hardware. Override via `init({ runTimeoutMs })` or `run(input, { timeoutMs })`;
  * pass `0` to disable.
  */
 export const DEFAULT_RUN_TIMEOUT_MS = 5 * 60_000;
@@ -153,6 +153,10 @@ export class Session {
     }
 
     private async createOrtSession(): Promise<void> {
+        if (!this.modelData) {
+            throw new Error('createOrtSession() called before model bytes were loaded; call init() first.');
+        }
+
         // The threaded JSEP wasm needs SharedArrayBuffer / cross-origin
         // isolation. When we're running CPU-only (either by config or after
         // a WebGPU/JSEP downgrade) force single-threaded wasm so ORT skips
@@ -165,11 +169,8 @@ export class Session {
         // clear a previously configured override and revert ORT to its default resolution.
         env.wasm.wasmPaths = this.params.wasmRoot;
         env.wasm.simd = true;
-        // Suppress expected "some nodes not assigned to WebGPU EP" warnings —
-        // ORT intentionally keeps shape-related ops on CPU for performance.
-        env.logLevel = 'error';
 
-        this.ortSession = await InferenceSession.create(this.modelData as ArrayBuffer, {
+        this.ortSession = await InferenceSession.create(this.modelData, {
             executionProviders: this.executionProviders,
             graphOptimizationLevel: 'all',
             executionMode: 'parallel',
