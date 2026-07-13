@@ -122,7 +122,8 @@ export class SegmentAnythingModel {
     private async recoverSession(sessionKey: SessionKey, failedSession: Session, err: unknown): Promise<Session> {
         const current = this.sessions.get(sessionKey);
         if (current && current !== failedSession) {
-            return current;
+            if (isWebGpuFailure(err) || !failedSession.isHealthy) return current;
+            throw err;
         }
 
         const pending = this.recoveries.get(sessionKey);
@@ -133,7 +134,8 @@ export class SegmentAnythingModel {
         const recovery = (async () => {
             const latest = this.sessions.get(sessionKey);
             if (latest && latest !== failedSession) {
-                return latest;
+                if (isWebGpuFailure(err) || !failedSession.isHealthy) return latest;
+                throw err;
             }
 
             if (isWebGpuFailure(err)) {

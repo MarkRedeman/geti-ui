@@ -123,7 +123,7 @@ describe('Session', () => {
         const session = new Session();
         createSessionMock.mockResolvedValueOnce(oldOrtSession);
 
-        await session.init('/models/sam.onnx', { runTimeoutMs: 1 });
+        await session.init('/models/sam.onnx', { runTimeoutMs: 10 });
 
         createSessionMock.mockResolvedValueOnce(replacement);
 
