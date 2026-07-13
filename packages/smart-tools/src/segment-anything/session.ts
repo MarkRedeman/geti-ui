@@ -41,7 +41,7 @@ export class SessionPoisonedError extends Error {
     }
 }
 
-export interface SessionInitOptions {
+export type SessionInitOptions = {
     /**
      * Override the default execution providers (e.g. `['cpu']` to force CPU on
      * platforms where WebGPU is unavailable or broken).
@@ -52,12 +52,12 @@ export interface SessionInitOptions {
      * `0` disables the timeout. If omitted, DEFAULT_RUN_TIMEOUT_MS is used.
      */
     runTimeoutMs?: number;
-}
+};
 
-export interface SessionRunOptions {
+export type SessionRunOptions = {
     /** Per-call timeout (ms) overriding the session-level default. */
     timeoutMs?: number;
-}
+};
 
 export class Session {
     ortSession: InferenceSession | undefined;
@@ -77,6 +77,9 @@ export class Session {
     // sitting behind a poisoned/replaced session are rejected instead of
     // executing against a stale or corrupted ortSession.
     private generation = 0;
+    // Raw ORT run promises, which may remain in flight after the wrapper-level
+    // timeout has settled the serial queue.
+    private activeRuns = new Map<InferenceSession, Set<Promise<InferenceSession.OnnxValueMapType>>>();
 
     constructor() {
         this.params = sessionParams;
@@ -129,19 +132,11 @@ export class Session {
             this.runTimeoutMs = options.runTimeoutMs;
         }
 
-        // Best-effort release of the dead session — the WASM heap may already
-        // be corrupt, and a hung/deadlocked EP can mean release() itself never
-        // settles. Fire-and-forget so a stuck release() can't block reset()
-        // (and therefore recovery) forever.
         const previous = this.ortSession;
+        // Snapshot raw ORT calls before replacing the session. The queue tail
+        // can settle on our timeout while the underlying call is still running.
+        const previousRuns = previous ? [...(this.activeRuns.get(previous) ?? [])] : [];
         this.ortSession = undefined;
-        if (previous && typeof previous.release === 'function') {
-            Promise.resolve()
-                .then(() => previous.release())
-                .catch(() => {
-                    // ignore — session is going away anyway
-                });
-        }
 
         // Drop any chained-but-never-resolved tail (e.g. a hung run()) and
         // invalidate any run() calls that are already queued — they captured
@@ -150,6 +145,21 @@ export class Session {
         this.pending = Promise.resolve();
         this.generation++;
         this.poisoned = false;
+
+        // Best-effort release of the dead session — the WASM heap may already
+        // be corrupt, and a hung/deadlocked EP can mean release() itself never
+        // settles. Fire-and-forget (not awaited) so a stuck release() can't
+        // block reset() itself. Wait for the raw ORT calls, not the bounded
+        // wrapper queue, so release() can never race a timed-out call that is
+        // still using the old session. A permanently hung call intentionally
+        // leaves the old session unreleased because releasing it is unsafe.
+        if (previous && typeof previous.release === 'function') {
+            Promise.allSettled(previousRuns)
+                .then(() => previous.release())
+                .catch(() => {
+                    // ignore — session is going away anyway
+                });
+        }
 
         await this.createOrtSession();
     }
@@ -238,6 +248,18 @@ export class Session {
             this.poison();
             throw err;
         }
+
+        const sessionRuns = this.activeRuns.get(session) ?? new Set<Promise<InferenceSession.OnnxValueMapType>>();
+        sessionRuns.add(runPromise);
+        this.activeRuns.set(session, sessionRuns);
+
+        const removeActiveRun = () => {
+            sessionRuns.delete(runPromise);
+            if (sessionRuns.size === 0) {
+                this.activeRuns.delete(session);
+            }
+        };
+        void runPromise.then(removeActiveRun, removeActiveRun);
 
         if (!timeoutMs || timeoutMs <= 0) {
             return runPromise.catch((err) => {

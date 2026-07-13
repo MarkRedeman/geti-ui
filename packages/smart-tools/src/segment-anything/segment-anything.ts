@@ -7,6 +7,7 @@ import { EncodingOutput, SegmentAnythingEncoder } from './segment-anything-encod
 import { Session } from './session';
 
 type cv = typeof OpenCVTypes;
+type SessionKey = 'encoder' | 'decoder';
 
 const isWebGpuFailure = (err: unknown): boolean => {
     // Errors whose message points at the WebGPU / JSEP backend. When we see one
@@ -43,7 +44,9 @@ const createSession = async (modelPath: string): Promise<Session> => {
 };
 
 export class SegmentAnythingModel {
-    private sessions = new Map<string, Session>();
+    private sessions = new Map<SessionKey, Session>();
+    private initializations = new Map<SessionKey, Promise<void>>();
+    private recoveries = new Map<SessionKey, Promise<Session>>();
     private modelPaths: Map<string, string>;
     private preProcessorConfig: OpenCVPreprocessorConfig;
 
@@ -57,25 +60,51 @@ export class SegmentAnythingModel {
     }
 
     public async init(algorithm: 'SEGMENT_ANYTHING_DECODER' | 'SEGMENT_ANYTHING_ENCODER'): Promise<void> {
-        if (!this.sessions.has('encoder') && algorithm === 'SEGMENT_ANYTHING_ENCODER') {
-            const encoderPath = this.modelPaths.get('encoder') ?? '';
-            this.sessions.set('encoder', await createSession(encoderPath));
+        const sessionKey: SessionKey = algorithm === 'SEGMENT_ANYTHING_ENCODER' ? 'encoder' : 'decoder';
+        if (this.sessions.has(sessionKey)) return;
+
+        const pending = this.initializations.get(sessionKey);
+        if (pending) {
+            return await pending;
         }
 
-        if (!this.sessions.has('decoder') && algorithm === 'SEGMENT_ANYTHING_DECODER') {
-            const decoderPath = this.modelPaths.get('decoder') ?? '';
-            this.sessions.set('decoder', await createSession(decoderPath));
+        const initialization = (async () => {
+            const modelPath = this.modelPaths.get(sessionKey);
+            if (!modelPath) {
+                throw new Error(`Segment Anything ${sessionKey} model path is not configured`);
+            }
+
+            this.sessions.set(sessionKey, await createSession(modelPath));
+        })();
+        this.initializations.set(sessionKey, initialization);
+
+        try {
+            await initialization;
+        } finally {
+            if (this.initializations.get(sessionKey) === initialization) {
+                this.initializations.delete(sessionKey);
+            }
         }
     }
 
     /**
-        If a call fails due to WebGPU/JSEP initialization/runtime issues, downgrade
-        to a CPU-only session and retry once.
+        Recover from a failed call and retry once:
+        - WebGPU/JSEP initialization/runtime issues: downgrade to a fresh
+          CPU-only session.
+        - Any other failure that left the session unhealthy (poisoned by a raw
+          ORT error, a run timeout, or a queued SessionPoisonedError): reset()
+          the same session in place, keeping its current execution providers.
+
+        We key the second branch off `session.isHealthy` rather than the error
+        type because the *first* failing `run()` rethrows the raw ORT error
+        (not a SessionPoisonedError) while still poisoning the session — so an
+        error-type check would let that first failure escape unrecovered and
+        only self-heal on the following call. Checking health recovers every
+        poisoning cause within the same call, so a single unrecoverable run
+        never wedges SAM behind SessionPoisonedError and callers of the public
+        API don't need direct access to `Session.reset()`.
     */
-    private async runWithRecovery<T>(
-        sessionKey: 'encoder' | 'decoder',
-        op: (session: Session) => Promise<T>
-    ): Promise<T> {
+    private async runWithRecovery<T>(sessionKey: SessionKey, op: (session: Session) => Promise<T>): Promise<T> {
         const session = this.sessions.get(sessionKey);
         if (!session) {
             throw Error(`the ${sessionKey} is absent in the sessions map`);
@@ -84,17 +113,61 @@ export class SegmentAnythingModel {
         try {
             return await op(session);
         } catch (err) {
-            if (!isWebGpuFailure(err)) throw err;
+            const recovered = await this.recoverSession(sessionKey, session, err);
 
-            const modelPath = this.modelPaths.get(sessionKey);
-            if (!modelPath) {
-                throw new Error(`Segment Anything ${sessionKey} model path is not configured`);
+            return await op(recovered);
+        }
+    }
+
+    private async recoverSession(sessionKey: SessionKey, failedSession: Session, err: unknown): Promise<Session> {
+        const current = this.sessions.get(sessionKey);
+        if (current && current !== failedSession) {
+            return current;
+        }
+
+        const pending = this.recoveries.get(sessionKey);
+        if (pending) {
+            return await pending;
+        }
+
+        const recovery = (async () => {
+            const latest = this.sessions.get(sessionKey);
+            if (latest && latest !== failedSession) {
+                return latest;
             }
 
-            const replacement = await createCpuSession(modelPath);
-            this.sessions.set(sessionKey, replacement);
+            if (isWebGpuFailure(err)) {
+                const modelPath = this.modelPaths.get(sessionKey);
+                if (!modelPath) {
+                    throw new Error(`Segment Anything ${sessionKey} model path is not configured`);
+                }
 
-            return await op(replacement);
+                const replacement = await createCpuSession(modelPath);
+                this.sessions.set(sessionKey, replacement);
+
+                return replacement;
+            }
+
+            // Only retry when the failure actually corrupted the session; an
+            // unrelated error (e.g. OpenCV pre-processing) leaves it healthy
+            // and must propagate unchanged.
+            if (!failedSession.isHealthy) {
+                await failedSession.reset();
+                this.sessions.set(sessionKey, failedSession);
+
+                return failedSession;
+            }
+
+            throw err;
+        })();
+        this.recoveries.set(sessionKey, recovery);
+
+        try {
+            return await recovery;
+        } finally {
+            if (this.recoveries.get(sessionKey) === recovery) {
+                this.recoveries.delete(sessionKey);
+            }
         }
     }
 
