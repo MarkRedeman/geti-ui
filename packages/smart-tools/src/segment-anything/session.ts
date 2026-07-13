@@ -130,15 +130,15 @@ export class Session {
         }
 
         // Best-effort release of the dead session — the WASM heap may already
-        // be corrupt, so swallow any error from release().
+        // be corrupt, and a hung/deadlocked EP can mean release() itself never
+        // settles. Fire-and-forget so a stuck release() can't block reset()
+        // (and therefore recovery) forever.
         const previous = this.ortSession;
         this.ortSession = undefined;
         if (previous && typeof previous.release === 'function') {
-            try {
-                await previous.release();
-            } catch {
+            previous.release().catch(() => {
                 // ignore — session is going away anyway
-            }
+            });
         }
 
         // Drop any chained-but-never-resolved tail (e.g. a hung run()) and
@@ -230,7 +230,14 @@ export class Session {
         input: InferenceSession.OnnxValueMapType,
         timeoutMs: number | undefined
     ): Promise<InferenceSession.OnnxValueMapType> {
-        const runPromise = session.run(input);
+        let runPromise: Promise<InferenceSession.OnnxValueMapType>;
+
+        try {
+            runPromise = session.run(input);
+        } catch (err) {
+            this.poison();
+            throw err;
+        }
 
         if (!timeoutMs || timeoutMs <= 0) {
             return runPromise.catch((err) => {
