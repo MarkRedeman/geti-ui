@@ -266,7 +266,7 @@ export class Session {
                 // Any thrown error from ortSession.run() is treated as
                 // unrecoverable — JSEP failures leave the WASM heap in an
                 // inconsistent state and subsequent runs OOB or return garbage.
-                this.poison();
+                if (this.ortSession === session) this.poison();
                 throw err;
             });
         }
@@ -274,7 +274,7 @@ export class Session {
         let timer: ReturnType<typeof setTimeout> | undefined;
         const timeoutPromise = new Promise<never>((_, reject) => {
             timer = setTimeout(() => {
-                this.poison();
+                if (this.ortSession === session) this.poison();
                 reject(new SessionRunTimeoutError(timeoutMs));
             }, timeoutMs);
         });
@@ -286,7 +286,7 @@ export class Session {
             },
             (err) => {
                 if (timer !== undefined) clearTimeout(timer);
-                this.poison();
+                if (this.ortSession === session) this.poison();
                 throw err;
             }
         );
