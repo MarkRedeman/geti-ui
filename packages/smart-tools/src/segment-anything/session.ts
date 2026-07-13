@@ -136,9 +136,11 @@ export class Session {
         const previous = this.ortSession;
         this.ortSession = undefined;
         if (previous && typeof previous.release === 'function') {
-            previous.release().catch(() => {
-                // ignore — session is going away anyway
-            });
+            Promise.resolve()
+                .then(() => previous.release())
+                .catch(() => {
+                    // ignore — session is going away anyway
+                });
         }
 
         // Drop any chained-but-never-resolved tail (e.g. a hung run()) and
@@ -216,10 +218,8 @@ export class Session {
             return this.runOnce(currentSession, input, timeoutMs);
         });
 
-        // Always advance the queue, regardless of whether `next` resolves or
-        // rejects (incl. timeout). Without `.catch(...)` here a hung run()
-        // would leave every subsequent caller chained behind a never-settling
-        // promise.
+        // rejects (incl. timeout). `.catch(...)` prevents a rejection from
+        // breaking the chain; hangs are bounded by the timeout mechanism above.
         this.pending = next.catch(() => undefined);
 
         return next;
