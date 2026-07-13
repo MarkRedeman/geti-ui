@@ -59,13 +59,22 @@ export type SessionRunOptions = {
     timeoutMs?: number;
 };
 
+type QueuedRun = {
+    generation: number;
+    input: InferenceSession.OnnxValueMapType;
+    reject: (reason: unknown) => void;
+    resolve: (value: InferenceSession.OnnxValueMapType) => void;
+    timeoutMs: number | undefined;
+};
+
 export class Session {
     ortSession: InferenceSession | undefined;
     params: SessionParameters;
-    // Tail of the serial run() queue. onnxruntime-web doesn't support
-    // concurrent run() calls on the same session, so each run waits for
-    // the previous one. `unknown` lets us chain without type-juggling.
-    private pending: Promise<unknown> = Promise.resolve();
+    // onnxruntime-web doesn't support concurrent run() calls on one session.
+    // Explicit queued tasks let reset()/poison() reject waiters immediately,
+    // even when the currently executing ORT call never settles.
+    private queue: QueuedRun[] = [];
+    private runningGenerations = new Set<number>();
     // Cached model bytes so reset() can recreate the InferenceSession without
     // re-downloading. Kept until the Session is discarded.
     private modelData: ArrayBuffer | undefined;
@@ -138,13 +147,9 @@ export class Session {
         const previousRuns = previous ? [...(this.activeRuns.get(previous) ?? [])] : [];
         this.ortSession = undefined;
 
-        // Drop any chained-but-never-resolved tail (e.g. a hung run()) and
-        // invalidate any run() calls that are already queued — they captured
-        // the previous generation and must not execute against the new
-        // session.
-        this.pending = Promise.resolve();
         this.generation++;
         this.poisoned = false;
+        this.rejectQueuedRuns();
 
         // Best-effort release of the dead session — the WASM heap may already
         // be corrupt, and a hung/deadlocked EP can mean release() itself never
@@ -205,34 +210,47 @@ export class Session {
         }
 
         const timeoutMs = options?.timeoutMs ?? this.runTimeoutMs;
-        // Snapshot the session generation at enqueue time. If poisoning or a
-        // reset() bumps it before our turn arrives, we must refuse to run
-        // against the stale/corrupted (or now-replaced) ortSession.
         const enqueuedGeneration = this.generation;
 
-        // Wait for our turn but never propagate a previous failure to this call.
-        const waitForTurn = this.pending.catch(() => undefined);
-        const next = waitForTurn.then(() => {
-            // Re-validate just before invoking ortSession.run(): an earlier
-            // queued call may have poisoned the session, or reset() may have
-            // replaced it entirely while we were waiting.
-            if (this.poisoned || this.generation !== enqueuedGeneration) {
-                throw new SessionPoisonedError();
-            }
-
-            const currentSession = this.ortSession;
-            if (!currentSession) {
-                throw new SessionPoisonedError();
-            }
-
-            return this.runOnce(currentSession, input, timeoutMs);
+        const result = new Promise<InferenceSession.OnnxValueMapType>((resolve, reject) => {
+            this.queue.push({ generation: enqueuedGeneration, input, reject, resolve, timeoutMs });
         });
+        void this.drainQueue(enqueuedGeneration);
 
-        // rejects (incl. timeout). `.catch(...)` prevents a rejection from
-        // breaking the chain; hangs are bounded by the timeout mechanism above.
-        this.pending = next.catch(() => undefined);
+        return await result;
+    }
 
-        return next;
+    private async drainQueue(generation: number): Promise<void> {
+        if (this.runningGenerations.has(generation)) return;
+
+        const queuedRunIndex = this.queue.findIndex((queuedRun) => queuedRun.generation === generation);
+        if (queuedRunIndex === -1) return;
+
+        const [queuedRun] = this.queue.splice(queuedRunIndex, 1);
+        if (this.poisoned || this.generation !== generation || !this.ortSession) {
+            queuedRun.reject(new SessionPoisonedError());
+            void this.drainQueue(generation);
+            return;
+        }
+
+        const currentSession = this.ortSession;
+        this.runningGenerations.add(generation);
+
+        try {
+            queuedRun.resolve(await this.runOnce(currentSession, queuedRun.input, queuedRun.timeoutMs));
+        } catch (err) {
+            queuedRun.reject(err);
+        } finally {
+            this.runningGenerations.delete(generation);
+            void this.drainQueue(generation);
+        }
+    }
+
+    private rejectQueuedRuns(): void {
+        const queuedRuns = this.queue.splice(0);
+        for (const queuedRun of queuedRuns) {
+            queuedRun.reject(new SessionPoisonedError());
+        }
     }
 
     private runOnce(
@@ -299,6 +317,7 @@ export class Session {
         // one are rejected in their `then(...)` re-check instead of executing
         // against the now-corrupted session.
         this.generation++;
+        this.rejectQueuedRuns();
     }
 
     public inputNames(): readonly string[] {

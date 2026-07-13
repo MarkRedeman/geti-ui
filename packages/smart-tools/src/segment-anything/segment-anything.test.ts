@@ -170,7 +170,8 @@ describe('SegmentAnythingModel', () => {
             model.processEncoder({} as ImageData),
         ]);
 
-        expect(results[0]).toMatchObject({ status: 'rejected', reason: new Error('pre-processing failed') });
+        expect(results[0].status).toBe('rejected');
+        expect((results[0] as PromiseRejectedResult).reason).toMatchObject({ message: 'pre-processing failed' });
         expect(results[1]).toEqual({ status: 'fulfilled', value: {} });
 
         const sessions = await getSessionInstances();

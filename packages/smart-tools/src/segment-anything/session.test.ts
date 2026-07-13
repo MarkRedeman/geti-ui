@@ -110,6 +110,39 @@ describe('Session', () => {
         await expect(session.reset()).rejects.toThrow('Session.reset() called before init()');
     });
 
+    it('rejects queued calls on reset when the active run remains hung with timeouts disabled', async () => {
+        const hungOrtRun = deferred<InferenceSession.OnnxValueMapType>();
+        const oldOrtSession = {
+            release: rstest.fn(),
+            run: rstest.fn(() => hungOrtRun.promise),
+        } as unknown as InferenceSession;
+        const replacementOutput: InferenceSession.OnnxValueMapType = {};
+        const replacement = {
+            run: rstest.fn(async () => replacementOutput),
+        } as unknown as InferenceSession;
+        const session = new Session();
+        createSessionMock.mockResolvedValueOnce(oldOrtSession);
+        await session.init('/models/sam.onnx', { runTimeoutMs: 0 });
+
+        void session.run({});
+        const queuedCall = session.run({});
+        const queuedOutcome = queuedCall.then(
+            () => 'resolved',
+            (err) => err
+        );
+        await flushPromises();
+        expect(oldOrtSession.run).toHaveBeenCalledTimes(1);
+
+        createSessionMock.mockResolvedValueOnce(replacement);
+        await session.reset();
+
+        const outcome = await Promise.race([queuedOutcome, Promise.resolve('still pending')]);
+        expect(outcome).toBeInstanceOf(SessionPoisonedError);
+        expect(oldOrtSession.run).toHaveBeenCalledTimes(1);
+        await expect(session.run({})).resolves.toBe(replacementOutput);
+        expect(replacement.run).toHaveBeenCalledTimes(1);
+    });
+
     it('does not release a timed-out session until its underlying ORT run settles', async () => {
         const ortRun = deferred<InferenceSession.OnnxValueMapType>();
         const release = rstest.fn();
