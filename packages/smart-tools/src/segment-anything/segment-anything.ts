@@ -120,10 +120,14 @@ export class SegmentAnythingModel {
     }
 
     private async recoverSession(sessionKey: SessionKey, failedSession: Session, err: unknown): Promise<Session> {
+        const webGpuFailure = isWebGpuFailure(err);
+        if (!webGpuFailure && failedSession.isHealthy) {
+            throw err;
+        }
+
         const current = this.sessions.get(sessionKey);
         if (current && current !== failedSession) {
-            if (isWebGpuFailure(err) || !failedSession.isHealthy) return current;
-            throw err;
+            return current;
         }
 
         const pending = this.recoveries.get(sessionKey);
@@ -134,11 +138,10 @@ export class SegmentAnythingModel {
         const recovery = (async () => {
             const latest = this.sessions.get(sessionKey);
             if (latest && latest !== failedSession) {
-                if (isWebGpuFailure(err) || !failedSession.isHealthy) return latest;
-                throw err;
+                return latest;
             }
 
-            if (isWebGpuFailure(err)) {
+            if (webGpuFailure) {
                 const modelPath = this.modelPaths.get(sessionKey);
                 if (!modelPath) {
                     throw new Error(`Segment Anything ${sessionKey} model path is not configured`);

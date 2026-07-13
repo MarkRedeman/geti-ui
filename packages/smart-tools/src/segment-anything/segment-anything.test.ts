@@ -155,4 +155,27 @@ describe('SegmentAnythingModel', () => {
         expect(session.reset).not.toHaveBeenCalled();
         expect(await getSessionInstances()).toHaveLength(1);
     });
+
+    it('does not share an unrelated error with concurrent WebGPU recovery', async () => {
+        const model = createModel();
+        await model.init('SEGMENT_ANYTHING_ENCODER');
+
+        const [webGpuSession] = await getSessionInstances();
+        webGpuSession.run
+            .mockRejectedValueOnce(new Error('pre-processing failed'))
+            .mockRejectedValueOnce(new Error('WebGPU device lost'));
+
+        const results = await Promise.allSettled([
+            model.processEncoder({} as ImageData),
+            model.processEncoder({} as ImageData),
+        ]);
+
+        expect(results[0]).toMatchObject({ status: 'rejected', reason: new Error('pre-processing failed') });
+        expect(results[1]).toEqual({ status: 'fulfilled', value: {} });
+
+        const sessions = await getSessionInstances();
+        expect(sessions).toHaveLength(2);
+        expect(sessions[1].init).toHaveBeenCalledWith('/models/encoder.onnx', { executionProviders: ['cpu'] });
+        expect(sessions[1].run).toHaveBeenCalledTimes(1);
+    });
 });
