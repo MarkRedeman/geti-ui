@@ -15,6 +15,7 @@ rstest.mock('../utils/tool-utils', () => ({
 }));
 
 type CreateSessionMock = {
+    mock: { calls: [ArrayBuffer, unknown][] };
     mockReset: () => void;
     mockResolvedValueOnce: (session: InferenceSession) => void;
 };
@@ -110,6 +111,21 @@ describe('Session', () => {
         await expect(session.reset()).rejects.toThrow('Session.reset() called before init()');
     });
 
+    it('recreates the session from cached model data on reset', async () => {
+        const initial = { release: rstest.fn() } as unknown as InferenceSession;
+        const replacement = {} as InferenceSession;
+        const session = new Session();
+        createSessionMock.mockResolvedValueOnce(initial);
+        createSessionMock.mockResolvedValueOnce(replacement);
+
+        await session.init('/models/sam.onnx');
+        await session.reset();
+
+        expect(createSessionMock.mock.calls).toHaveLength(2);
+        expect(createSessionMock.mock.calls[1][0]).toBe(createSessionMock.mock.calls[0][0]);
+        expect(session.ortSession).toBe(replacement);
+    });
+
     it('rejects queued calls on reset when the active run remains hung with timeouts disabled', async () => {
         const hungOrtRun = deferred<InferenceSession.OnnxValueMapType>();
         const oldOrtSession = {
@@ -141,6 +157,32 @@ describe('Session', () => {
         expect(oldOrtSession.run).toHaveBeenCalledTimes(1);
         await expect(session.run({})).resolves.toBe(replacementOutput);
         expect(replacement.run).toHaveBeenCalledTimes(1);
+    });
+
+    it('does not let a stale runtime failure poison its replacement', async () => {
+        const oldOrtRun = deferred<InferenceSession.OnnxValueMapType>();
+        const oldOrtSession = {
+            release: rstest.fn(),
+            run: rstest.fn(() => oldOrtRun.promise),
+        } as unknown as InferenceSession;
+        const replacementOutput: InferenceSession.OnnxValueMapType = {};
+        const replacement = {
+            run: rstest.fn(async () => replacementOutput),
+        } as unknown as InferenceSession;
+        const session = new Session();
+        createSessionMock.mockResolvedValueOnce(oldOrtSession);
+        await session.init('/models/sam.onnx', { runTimeoutMs: 0 });
+
+        const oldCall = session.run({});
+        await flushPromises();
+
+        createSessionMock.mockResolvedValueOnce(replacement);
+        await session.reset();
+        oldOrtRun.reject(new Error('stale ORT failure'));
+
+        await expect(oldCall).rejects.toThrow('stale ORT failure');
+        expect(session.isHealthy).toBe(true);
+        await expect(session.run({})).resolves.toBe(replacementOutput);
     });
 
     it('does not release a timed-out session until its underlying ORT run settles', async () => {
