@@ -37,47 +37,50 @@ export class PostProcessor {
         const width = sizes.width;
         const height = sizes.height;
         const mat = this.CV.matFromArray(height, width, this.CV.CV_8U, pixels);
+        let contours: OpenCVTypes.MatVector | undefined;
+        let hierarchy: OpenCVTypes.Mat | undefined;
 
-        const contours = new this.CV.MatVector();
-        const hierarchy: OpenCVTypes.Mat = new this.CV.Mat();
+        try {
+            contours = new this.CV.MatVector();
+            hierarchy = new this.CV.Mat();
+            this.CV.findContours(mat, contours, hierarchy, this.CV.RETR_EXTERNAL, this.CV.CHAIN_APPROX_NONE);
 
-        this.CV.findContours(mat, contours, hierarchy, this.CV.RETR_EXTERNAL, this.CV.CHAIN_APPROX_NONE);
+            let maxContourIdx = 0;
+            let maxArea = -1;
 
-        let maxContourIdx = 0;
-        let maxArea = -1;
-
-        const shapes: Shape[] = [];
-        const areas: number[] = [];
-        const imageArea = sizes.originalWidth * sizes.originalHeight;
-        for (let idx = 0; idx < Number(contours.size()); idx++) {
-            const contour = contours.get(idx);
-            const optimizedContour = approximateShape(this.CV, contour);
-            const area = this.CV.contourArea(optimizedContour, false);
-
-            const shape = this.contourToShape(optimizedContour, config, scales);
-
-            // Get rid of results that might take up the whole image
-            const boundingBox = this.contourToRectangle(optimizedContour, scales);
-            if ((boundingBox.width * boundingBox.height) / imageArea < MAX_CONTOUR_AREA_RATIO) {
-                if (config.shapeFilter === undefined || config.shapeFilter(shape)) {
-                    shapes.push(shape);
-                    areas.push(area);
-                    if (area > maxArea) {
-                        maxArea = area;
-                        maxContourIdx = shapes.length - 1;
+            const shapes: Shape[] = [];
+            const areas: number[] = [];
+            const imageArea = sizes.originalWidth * sizes.originalHeight;
+            for (let idx = 0; idx < Number(contours.size()); idx++) {
+                const contour = contours.get(idx);
+                let optimizedContour: OpenCVTypes.Mat | undefined;
+                try {
+                    optimizedContour = approximateShape(this.CV, contour);
+                    const area = this.CV.contourArea(optimizedContour, false);
+                    const shape = this.contourToShape(optimizedContour, config, scales);
+                    const boundingBox = this.contourToRectangle(optimizedContour, scales);
+                    if ((boundingBox.width * boundingBox.height) / imageArea < MAX_CONTOUR_AREA_RATIO) {
+                        if (config.shapeFilter === undefined || config.shapeFilter(shape)) {
+                            shapes.push(shape);
+                            areas.push(area);
+                            if (area > maxArea) {
+                                maxArea = area;
+                                maxContourIdx = shapes.length - 1;
+                            }
+                        }
                     }
+                } finally {
+                    optimizedContour?.delete();
+                    contour?.delete();
                 }
             }
 
-            optimizedContour?.delete();
-            contour?.delete();
+            return { areas, maxContourIdx, shapes };
+        } finally {
+            contours?.delete();
+            hierarchy?.delete();
+            mat.delete();
         }
-
-        contours.delete();
-        hierarchy.delete();
-        mat.delete();
-
-        return { areas, maxContourIdx, shapes };
     }
 
     private contourToShape(contour: OpenCVTypes.Mat, config: PostProcessorConfig, scales: ScaleToSize): Shape {

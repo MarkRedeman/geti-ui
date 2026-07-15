@@ -1,6 +1,7 @@
 import { Tensor } from 'onnxruntime-web';
 
 import type { OpenCVTypes } from '../opencv/interfaces';
+import { SegmentAnythingValidationError } from './errors';
 
 interface PreprocessorResult {
     tensor: Tensor;
@@ -34,11 +35,14 @@ export class OpenCVPreprocessor {
     }
 
     public process(initialImageData: ImageData): PreprocessorResult {
+        this.validateImageData(initialImageData);
+        this.validateConfig();
         const imageCv = this.loadImage(initialImageData);
 
-        const preProcessedImage: OpenCVTypes.Mat = imageCv.clone();
+        let preProcessedImage: OpenCVTypes.Mat | null = null;
         let input: OpenCVTypes.Mat | null = null;
         try {
+            preProcessedImage = imageCv.clone();
             const { width, height, newWidth, newHeight } = this.resizeImage(preProcessedImage);
 
             // Apply color space transformations
@@ -55,6 +59,12 @@ export class OpenCVPreprocessor {
             // asynchronously (especially on the WebGPU EP), so we must copy the data into a
             // JS-owned Float32Array to avoid reading freed memory and hanging/garbage output.
             const data = new Float32Array(input.data32F);
+            const expectedLength = 3 * this.config.size * this.config.size;
+            if (data.length !== expectedLength) {
+                throw new SegmentAnythingValidationError(
+                    `Segment Anything input shape requires ${expectedLength} values, received ${data.length}`
+                );
+            }
             const tensor = new Tensor('float32', data, [1, 3, this.config.size, this.config.size]);
 
             return { tensor, width, height, newWidth, newHeight };
@@ -69,11 +79,15 @@ export class OpenCVPreprocessor {
         // TODO: check if it is faster / more appropriate if we traser this value
         // https://github.com/GoogleChromeLabs/comlink#comlinktransfervalue-transferables-and-comlinkproxyvalue
         const src = this.CV.matFromImageData(imageData);
-        // This is important as otherwise the matrix has too many channels
-        // and we don't want to convert the alpha channel to the ort tesnsor
-        this.CV.cvtColor(src, src, this.CV.COLOR_RGBA2RGB, 0);
-
-        return src;
+        try {
+            // This is important as otherwise the matrix has too many channels
+            // and we don't want to convert the alpha channel to the ort tesnsor
+            this.CV.cvtColor(src, src, this.CV.COLOR_RGBA2RGB, 0);
+            return src;
+        } catch (error) {
+            src.delete();
+            throw error;
+        }
     }
 
     private resizeImage(preProcessedImage: OpenCVTypes.Mat) {
@@ -85,7 +99,7 @@ export class OpenCVPreprocessor {
             if (!this.config.squareImage) {
                 if (preProcessedImage.cols > preProcessedImage.rows) {
                     const scale = this.config.size / preProcessedImage.cols;
-                    const h = Math.ceil(preProcessedImage.rows * scale);
+                    const h = Math.max(1, Math.ceil(preProcessedImage.rows * scale));
                     const w = this.config.size;
                     this.CV.resize(
                         preProcessedImage,
@@ -98,7 +112,7 @@ export class OpenCVPreprocessor {
                 } else {
                     const scale = this.config.size / preProcessedImage.rows;
                     const h = this.config.size;
-                    const w = Math.ceil(preProcessedImage.cols * scale);
+                    const w = Math.max(1, Math.ceil(preProcessedImage.cols * scale));
                     this.CV.resize(
                         preProcessedImage,
                         preProcessedImage,
@@ -142,6 +156,28 @@ export class OpenCVPreprocessor {
             newWidth,
             newHeight,
         };
+    }
+
+    private validateImageData(imageData: ImageData): void {
+        if (
+            !Number.isFinite(imageData.width) ||
+            !Number.isFinite(imageData.height) ||
+            imageData.width <= 0 ||
+            imageData.height <= 0
+        ) {
+            throw new SegmentAnythingValidationError('Segment Anything image dimensions must be positive and finite');
+        }
+    }
+
+    private validateConfig(): void {
+        if (!Number.isInteger(this.config.size) || this.config.size <= 0) {
+            throw new SegmentAnythingValidationError('Segment Anything input size must be a positive integer');
+        }
+        if (this.config.pad && (!Number.isInteger(this.config.padSize) || this.config.padSize < this.config.size)) {
+            throw new SegmentAnythingValidationError(
+                'Segment Anything padding size must be an integer greater than or equal to input size'
+            );
+        }
     }
 
     private processImage(dst: OpenCVTypes.Mat): void {

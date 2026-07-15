@@ -1,13 +1,11 @@
 import type { OpenCVTypes } from '../opencv/interfaces';
-import type * as Comlink from 'comlink';
 import { Tensor } from 'onnxruntime-web';
 
 import { OpenCVPreprocessor, OpenCVPreprocessorConfig } from './pre-processing';
-import { type Session } from './session';
+import { SegmentAnythingOutputError, SessionRunTimeoutError } from './errors';
+import { type ModelSession } from './session';
 
 type cv = OpenCVTypes.cv;
-
-type ModelSession = Session | Comlink.Remote<Session>;
 
 // A plain-object representation of ort.Tensor that survives structured-clone
 // (Comlink transfers between workers). ort.Tensor instances lose their class
@@ -40,30 +38,59 @@ export class SegmentAnythingEncoder {
 
     public async processEncoder(initialImageData: ImageData): Promise<EncodingOutput> {
         const result = this.preprocessor.process(initialImageData);
-        console.time('[SAM] Encoding');
-        const outputData = await this.session.run({ x: result.tensor });
-        console.timeEnd('[SAM] Encoding');
+        let timeout: SessionRunTimeoutError | undefined;
 
-        const outputNames = await this.session.outputNames();
-        const gpuTensor = outputData[outputNames[0]];
+        try {
+            return await this.session.run({ x: result.tensor }, async (outputData, outputNames) => {
+                try {
+                    const outputName = outputNames[0];
+                    if (!outputName) {
+                        throw new SegmentAnythingOutputError('Segment Anything encoder produced no output');
+                    }
 
-        const originalWidth = initialImageData.width;
-        const originalHeight = initialImageData.height;
-        const newWidth = result.newWidth;
-        const newHeight = result.newHeight;
+                    const outputTensor = outputData[outputName];
+                    if (!outputTensor) {
+                        throw new SegmentAnythingOutputError(`Segment Anything encoder missing '${outputName}' output`);
+                    }
 
-        return {
-            encoderResult: {
-                // `getData()` materializes GPU-backed tensor data (WebGPU EP) into a
-                // JS-owned Float32Array; on the CPU EP it resolves the existing buffer.
-                data: (await gpuTensor.getData()) as Float32Array,
-                dims: [...gpuTensor.dims],
-                type: gpuTensor.type as Tensor.Type,
-            },
-            originalWidth,
-            originalHeight,
-            newWidth,
-            newHeight,
-        };
+                    const data = await outputTensor.getData();
+                    if (!(data instanceof Float32Array)) {
+                        throw new SegmentAnythingOutputError(
+                            'Segment Anything encoder output must contain float32 data'
+                        );
+                    }
+
+                    return {
+                        encoderResult: {
+                            data: new Float32Array(data),
+                            dims: [...outputTensor.dims],
+                            type: outputTensor.type as Tensor.Type,
+                        },
+                        originalWidth: initialImageData.width,
+                        originalHeight: initialImageData.height,
+                        newWidth: result.newWidth,
+                        newHeight: result.newHeight,
+                    };
+                } finally {
+                    this.disposeTensors(outputData);
+                }
+            });
+        } catch (error) {
+            if (error instanceof SessionRunTimeoutError) timeout = error;
+            throw error;
+        } finally {
+            if (timeout) {
+                void timeout.waitUntilSafe.then(
+                    () => result.tensor.dispose(),
+                    () => result.tensor.dispose()
+                );
+            } else {
+                result.tensor.dispose();
+            }
+        }
+    }
+
+    private disposeTensors(outputData: Parameters<Parameters<ModelSession['run']>[1]>[0]): void {
+        for (const tensor of new Set(Object.values(outputData))) tensor.dispose();
     }
 }
