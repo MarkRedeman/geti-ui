@@ -65,6 +65,9 @@ export class Session {
     }
 
     public set ortSession(ortSession: InferenceSession | undefined) {
+        if (this.runtime?.ortSession === ortSession) return;
+
+        this.closeRuntime();
         this.runtime = ortSession ? this.createRuntime(ortSession) : undefined;
     }
 

@@ -105,6 +105,39 @@ describe('Session', () => {
         await expect(session.run({})).rejects.toBeInstanceOf(SessionPoisonedError);
     });
 
+    it('releases the previous runtime when ortSession is replaced', async () => {
+        const release = rstest.fn();
+        const replacement = {} as InferenceSession;
+        const session = createSessionWithOrt({ release } as unknown as InferenceSession);
+
+        session.ortSession = replacement;
+        await flushPromises();
+
+        expect(release).toHaveBeenCalledTimes(1);
+        expect(session.ortSession).toBe(replacement);
+        expect(session.isHealthy).toBe(true);
+    });
+
+    it('clears poisoned state when ortSession is replaced', async () => {
+        const initial = {
+            release: rstest.fn(),
+            run: rstest.fn().mockRejectedValue(new Error('ORT failed')),
+        } as unknown as InferenceSession;
+        const replacementOutput: InferenceSession.OnnxValueMapType = {};
+        const replacement = {
+            run: rstest.fn().mockResolvedValue(replacementOutput),
+        } as unknown as InferenceSession;
+        const session = createSessionWithOrt(initial);
+
+        await expect(session.run({}, { timeoutMs: 0 })).rejects.toThrow('ORT failed');
+        expect(session.isHealthy).toBe(false);
+
+        session.ortSession = replacement;
+
+        expect(session.isHealthy).toBe(true);
+        await expect(session.run({}, { timeoutMs: 0 })).resolves.toBe(replacementOutput);
+    });
+
     it('rejects reset before model data has been loaded', async () => {
         const session = new Session();
 
