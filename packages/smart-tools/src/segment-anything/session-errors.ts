@@ -7,7 +7,7 @@ export class SessionRunTimeoutError extends Error {
 
 export class SessionPoisonedError extends Error {
     constructor() {
-        super('Session is poisoned after a previous unrecoverable failure. Call Session.reset() to revive it.');
+        super('Session is not usable (poisoned or reset). Call Session.reset() to recreate it.');
         this.name = 'SessionPoisonedError';
     }
 }

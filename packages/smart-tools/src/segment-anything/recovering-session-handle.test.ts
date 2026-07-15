@@ -112,18 +112,19 @@ describe('RecoveringSessionHandle', () => {
         await expect(Promise.all([first, second])).resolves.toEqual([3, 4]);
     });
 
-    it('shares one CPU replacement between concurrent WebGPU failures', async () => {
+    it('shares one CPU reset between concurrent WebGPU failures', async () => {
         const webGpuSession = createFakeSession();
-        const cpuSession = createFakeSession();
-        const factory = rstest
-            .fn<(options?: SessionInitOptions) => Promise<Session>>()
-            .mockResolvedValueOnce(asSession(webGpuSession))
-            .mockResolvedValueOnce(asSession(cpuSession));
+        let cpuOnly = false;
+        webGpuSession.reset.mockImplementation(async () => {
+            cpuOnly = true;
+            webGpuSession.isHealthy = true;
+        });
+        const factory = rstest.fn(async () => asSession(webGpuSession));
         const handle = new RecoveringSessionHandle('/model.onnx', factory);
         await handle.init();
 
-        const operation = rstest.fn(async (session: Session) => {
-            if (session === asSession(webGpuSession)) throw new Error('WebGPU device lost');
+        const operation = rstest.fn(async () => {
+            if (!cpuOnly) throw new Error('WebGPU device lost');
             return 'cpu result';
         });
 
@@ -131,17 +132,19 @@ describe('RecoveringSessionHandle', () => {
             'cpu result',
             'cpu result',
         ]);
-        expect(factory).toHaveBeenCalledTimes(2);
-        expect(factory).toHaveBeenLastCalledWith({ executionProviders: ['cpu'] });
+        expect(factory).toHaveBeenCalledTimes(1);
+        expect(webGpuSession.reset).toHaveBeenCalledTimes(1);
+        expect(webGpuSession.reset).toHaveBeenCalledWith({ executionProviders: ['cpu'] });
     });
 
     it('does not share an unrelated healthy-session error with recovery', async () => {
         const webGpuSession = createFakeSession();
-        const cpuSession = createFakeSession();
-        const factory = rstest
-            .fn<(options?: SessionInitOptions) => Promise<Session>>()
-            .mockResolvedValueOnce(asSession(webGpuSession))
-            .mockResolvedValueOnce(asSession(cpuSession));
+        let cpuOnly = false;
+        webGpuSession.reset.mockImplementation(async () => {
+            cpuOnly = true;
+            webGpuSession.isHealthy = true;
+        });
+        const factory = rstest.fn(async () => asSession(webGpuSession));
         const handle = new RecoveringSessionHandle('/model.onnx', factory);
         await handle.init();
 
@@ -149,7 +152,7 @@ describe('RecoveringSessionHandle', () => {
         const operation = rstest.fn(async (session: Session) => {
             calls++;
             if (calls === 1) throw new Error('pre-processing failed');
-            if (session === asSession(webGpuSession)) throw new Error('WebGPU device lost');
+            if (!cpuOnly) throw new Error('WebGPU device lost');
             return 'cpu result';
         });
 
@@ -158,6 +161,7 @@ describe('RecoveringSessionHandle', () => {
         expect(results[0].status).toBe('rejected');
         expect((results[0] as PromiseRejectedResult).reason).toMatchObject({ message: 'pre-processing failed' });
         expect(results[1]).toEqual({ status: 'fulfilled', value: 'cpu result' });
-        expect(factory).toHaveBeenCalledTimes(2);
+        expect(factory).toHaveBeenCalledTimes(1);
+        expect(webGpuSession.reset).toHaveBeenCalledWith({ executionProviders: ['cpu'] });
     });
 });

@@ -113,6 +113,14 @@ describe('SegmentAnythingModel', () => {
         expect(sessions[1].init).toHaveBeenCalledWith('/models/decoder.onnx', options);
     });
 
+    it('reports an uninitialized encoder session handle', async () => {
+        const model = createModel();
+
+        await expect(model.processEncoder({} as ImageData)).rejects.toThrow(
+            'the encoder session handle is not initialized'
+        );
+    });
+
     it('shares one reset between concurrent failures on the same unhealthy session', async () => {
         const model = createModel();
         await model.init('SEGMENT_ANYTHING_ENCODER');
@@ -145,23 +153,25 @@ describe('SegmentAnythingModel', () => {
         expect(session.run).toHaveBeenCalledTimes(4);
     });
 
-    it('shares one CPU replacement between concurrent WebGPU failures', async () => {
+    it('shares one CPU reset between concurrent WebGPU failures', async () => {
         const model = createModel();
         await model.init('SEGMENT_ANYTHING_ENCODER');
 
         const [webGpuSession] = await getSessionInstances();
-        webGpuSession.run.mockRejectedValue(new Error('WebGPU device lost'));
+        webGpuSession.run
+            .mockRejectedValueOnce(new Error('WebGPU device lost'))
+            .mockRejectedValueOnce(new Error('WebGPU device lost'))
+            .mockResolvedValue({});
 
         await expect(
             Promise.all([model.processEncoder({} as ImageData), model.processEncoder({} as ImageData)])
         ).resolves.toEqual([{}, {}]);
 
         const sessions = await getSessionInstances();
-        expect(sessions).toHaveLength(2);
-        expect(webGpuSession.reset).not.toHaveBeenCalled();
-        expect(sessions[1].init).toHaveBeenCalledTimes(1);
-        expect(sessions[1].init).toHaveBeenCalledWith('/models/encoder.onnx', { executionProviders: ['cpu'] });
-        expect(sessions[1].run).toHaveBeenCalledTimes(2);
+        expect(sessions).toHaveLength(1);
+        expect(webGpuSession.reset).toHaveBeenCalledTimes(1);
+        expect(webGpuSession.reset).toHaveBeenCalledWith({ executionProviders: ['cpu'] });
+        expect(webGpuSession.run).toHaveBeenCalledTimes(4);
     });
 
     it('propagates an unrelated failure while the session remains healthy', async () => {
@@ -183,7 +193,8 @@ describe('SegmentAnythingModel', () => {
         const [webGpuSession] = await getSessionInstances();
         webGpuSession.run
             .mockRejectedValueOnce(new Error('pre-processing failed'))
-            .mockRejectedValueOnce(new Error('WebGPU device lost'));
+            .mockRejectedValueOnce(new Error('WebGPU device lost'))
+            .mockResolvedValueOnce({});
 
         const results = await Promise.allSettled([
             model.processEncoder({} as ImageData),
@@ -195,8 +206,8 @@ describe('SegmentAnythingModel', () => {
         expect(results[1]).toEqual({ status: 'fulfilled', value: {} });
 
         const sessions = await getSessionInstances();
-        expect(sessions).toHaveLength(2);
-        expect(sessions[1].init).toHaveBeenCalledWith('/models/encoder.onnx', { executionProviders: ['cpu'] });
-        expect(sessions[1].run).toHaveBeenCalledTimes(1);
+        expect(sessions).toHaveLength(1);
+        expect(webGpuSession.reset).toHaveBeenCalledWith({ executionProviders: ['cpu'] });
+        expect(webGpuSession.run).toHaveBeenCalledTimes(3);
     });
 });

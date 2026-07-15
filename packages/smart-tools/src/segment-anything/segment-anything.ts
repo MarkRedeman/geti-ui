@@ -77,7 +77,7 @@ export class SegmentAnythingModel {
     private getHandle(sessionKey: SessionKey): RecoveringSessionHandle {
         const handle = this.handles.get(sessionKey);
         if (!handle) {
-            throw Error(`the ${sessionKey} is absent in the sessions map`);
+            throw Error(`the ${sessionKey} session handle is not initialized`);
         }
 
         return handle;

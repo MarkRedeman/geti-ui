@@ -126,6 +126,46 @@ describe('Session', () => {
         expect(session.ortSession).toBe(replacement);
     });
 
+    it('reinitializes by releasing the previous runtime', async () => {
+        const release = rstest.fn();
+        const initial = { release } as unknown as InferenceSession;
+        const replacement = {} as InferenceSession;
+        const session = new Session();
+        createSessionMock.mockResolvedValueOnce(initial);
+        createSessionMock.mockResolvedValueOnce(replacement);
+
+        await session.init('/models/first.onnx');
+        await session.init('/models/second.onnx');
+        await flushPromises();
+
+        expect(release).toHaveBeenCalledTimes(1);
+        expect(session.ortSession).toBe(replacement);
+        expect(session.isHealthy).toBe(true);
+    });
+
+    it('clears poisoned state when reinitialized', async () => {
+        const initial = {
+            release: rstest.fn(),
+            run: rstest.fn().mockRejectedValue(new Error('ORT failed')),
+        } as unknown as InferenceSession;
+        const replacementOutput: InferenceSession.OnnxValueMapType = {};
+        const replacement = {
+            run: rstest.fn().mockResolvedValue(replacementOutput),
+        } as unknown as InferenceSession;
+        const session = new Session();
+        createSessionMock.mockResolvedValueOnce(initial);
+        createSessionMock.mockResolvedValueOnce(replacement);
+
+        await session.init('/models/first.onnx', { runTimeoutMs: 0 });
+        await expect(session.run({})).rejects.toThrow('ORT failed');
+        expect(session.isHealthy).toBe(false);
+
+        await session.init('/models/second.onnx', { runTimeoutMs: 0 });
+
+        expect(session.isHealthy).toBe(true);
+        await expect(session.run({})).resolves.toBe(replacementOutput);
+    });
+
     it('rejects queued calls on reset when the active run remains hung with timeouts disabled', async () => {
         const hungOrtRun = deferred<InferenceSession.OnnxValueMapType>();
         const oldOrtSession = {

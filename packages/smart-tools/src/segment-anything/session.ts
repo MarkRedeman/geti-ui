@@ -69,18 +69,18 @@ export class Session {
     }
 
     public async init(modelPath: string, options?: SessionInitOptions): Promise<void> {
-        this.executionProviders = options?.executionProviders ?? this.params.executionProviders;
-        // Default to a non-zero timeout so callers that omit `runTimeoutMs`
-        // are still protected from a hung run() blocking the serial queue.
-        // Explicit `0` disables the timeout.
-        this.runTimeoutMs = options?.runTimeoutMs ?? DEFAULT_RUN_TIMEOUT_MS;
-
         const modelData = await loadModel(modelPath);
 
         if (!modelData) {
             throw new Error(`Unable to load model from "${modelPath}"`);
         }
 
+        this.closeRuntime();
+        this.executionProviders = options?.executionProviders ?? this.params.executionProviders;
+        // Default to a non-zero timeout so callers that omit `runTimeoutMs`
+        // are still protected from a hung run() blocking the serial queue.
+        // Explicit `0` disables the timeout.
+        this.runTimeoutMs = options?.runTimeoutMs ?? DEFAULT_RUN_TIMEOUT_MS;
         this.modelData = modelData;
         await this.createOrtSession();
     }
@@ -106,12 +106,16 @@ export class Session {
             this.runTimeoutMs = options.runTimeoutMs;
         }
 
+        this.closeRuntime();
+
+        await this.createOrtSession();
+    }
+
+    private closeRuntime(): void {
         const previous = this.runtime;
         this.runtime = undefined;
         this.poisoned = false;
         previous?.close(new SessionPoisonedError());
-
-        await this.createOrtSession();
     }
 
     private async createOrtSession(): Promise<void> {

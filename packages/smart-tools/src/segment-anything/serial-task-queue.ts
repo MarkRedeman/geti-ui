@@ -5,7 +5,7 @@ type QueuedTask<T> = {
 };
 
 export class SerialTaskQueue<T> {
-    private closedError: unknown;
+    private closedError!: unknown;
     private closed = false;
     private queue: QueuedTask<T>[] = [];
     private running = false;

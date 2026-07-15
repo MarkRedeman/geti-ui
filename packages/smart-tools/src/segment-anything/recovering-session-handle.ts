@@ -64,7 +64,7 @@ export class RecoveringSessionHandle {
             this.session = options ? await this.createSession(options) : await this.createSession();
         } catch (error) {
             if (isCpuOnly(options) || !isWebGpuFailure(error)) throw error;
-            this.session = await this.createSession({ executionProviders: ['cpu'] });
+            this.session = await this.createSession({ ...(options ?? {}), executionProviders: ['cpu'] });
         }
     }
 
@@ -99,9 +99,9 @@ export class RecoveringSessionHandle {
         }
 
         if (webGpuFailure) {
-            const replacement = await this.createSession({ executionProviders: ['cpu'] });
-            this.session = replacement;
-            return replacement;
+            await failedSession.reset({ executionProviders: ['cpu'] });
+            this.session = failedSession;
+            return failedSession;
         }
 
         await failedSession.reset();
