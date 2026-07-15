@@ -54,6 +54,34 @@ describe('RecoveringSessionHandle', () => {
         expect(factory).toHaveBeenNthCalledWith(2, { executionProviders: ['cpu'] });
     });
 
+    it('shares explicitly CPU-only initialization between concurrent callers', async () => {
+        const session = createFakeSession();
+        const initialization = deferred<Session>();
+        const factory = rstest.fn(() => initialization.promise);
+        const handle = new RecoveringSessionHandle('/model.onnx', factory);
+        const options: SessionInitOptions = { executionProviders: ['cpu'] };
+
+        const first = handle.init(options);
+        const second = handle.init(options);
+
+        expect(factory).toHaveBeenCalledTimes(1);
+        expect(factory).toHaveBeenCalledWith(options);
+
+        initialization.resolve(asSession(session));
+        await Promise.all([first, second]);
+        expect(factory).toHaveBeenCalledTimes(1);
+    });
+
+    it('does not retry an explicitly CPU-only initialization failure', async () => {
+        const failure = new Error('initWasm failed');
+        const factory = rstest.fn<(options?: SessionInitOptions) => Promise<Session>>().mockRejectedValue(failure);
+        const handle = new RecoveringSessionHandle('/model.onnx', factory);
+
+        await expect(handle.init({ executionProviders: ['cpu'] })).rejects.toBe(failure);
+        expect(factory).toHaveBeenCalledTimes(1);
+        expect(factory).toHaveBeenCalledWith({ executionProviders: ['cpu'] });
+    });
+
     it('shares one reset between concurrent poisoned failures', async () => {
         const session = createFakeSession();
         const reset = deferred<void>();

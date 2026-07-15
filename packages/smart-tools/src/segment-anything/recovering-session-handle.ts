@@ -8,6 +8,9 @@ const isWebGpuFailure = (error: unknown): boolean => {
     return /webgpu|jsep|no available backend|initwasm|pthread_create/i.test(message);
 };
 
+const isCpuOnly = (options: SessionInitOptions | undefined): boolean =>
+    options?.executionProviders?.length === 1 && options.executionProviders[0] === 'cpu';
+
 export class RecoveringSessionHandle {
     private initialization: Promise<void> | undefined;
     private recovery: Promise<Session> | undefined;
@@ -26,11 +29,11 @@ export class RecoveringSessionHandle {
         }
     ) {}
 
-    public async init(): Promise<void> {
+    public async init(options?: SessionInitOptions): Promise<void> {
         if (this.session) return;
         if (this.initialization) return await this.initialization;
 
-        const initialization = this.initialize();
+        const initialization = this.initialize(options);
         this.initialization = initialization;
 
         try {
@@ -56,11 +59,11 @@ export class RecoveringSessionHandle {
         }
     }
 
-    private async initialize(): Promise<void> {
+    private async initialize(options?: SessionInitOptions): Promise<void> {
         try {
-            this.session = await this.createSession();
+            this.session = options ? await this.createSession(options) : await this.createSession();
         } catch (error) {
-            if (!isWebGpuFailure(error)) throw error;
+            if (isCpuOnly(options) || !isWebGpuFailure(error)) throw error;
             this.session = await this.createSession({ executionProviders: ['cpu'] });
         }
     }

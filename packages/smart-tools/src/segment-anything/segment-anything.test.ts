@@ -68,7 +68,10 @@ const getSessionInstances = async (): Promise<MockSession[]> => {
 const createModel = (): SegmentAnythingModel =>
     new SegmentAnythingModel(
         {} as typeof OpenCVTypes,
-        new Map([['encoder', '/models/encoder.onnx']]),
+        new Map([
+            ['encoder', '/models/encoder.onnx'],
+            ['decoder', '/models/decoder.onnx'],
+        ]),
         {} as OpenCVPreprocessorConfig
     );
 
@@ -91,6 +94,23 @@ describe('SegmentAnythingModel', () => {
         expect(sessions).toHaveLength(1);
         expect(sessions[0].init).toHaveBeenCalledTimes(1);
         expect(sessions[0].init).toHaveBeenCalledWith('/models/encoder.onnx');
+    });
+
+    it('initializes encoder and decoder directly with explicit CPU options', async () => {
+        const model = createModel();
+        const options = { executionProviders: ['cpu'] };
+
+        await Promise.all([
+            model.init('SEGMENT_ANYTHING_ENCODER', options),
+            model.init('SEGMENT_ANYTHING_DECODER', options),
+        ]);
+
+        const sessions = await getSessionInstances();
+        expect(sessions).toHaveLength(2);
+        expect(sessions[0].init).toHaveBeenCalledTimes(1);
+        expect(sessions[0].init).toHaveBeenCalledWith('/models/encoder.onnx', options);
+        expect(sessions[1].init).toHaveBeenCalledTimes(1);
+        expect(sessions[1].init).toHaveBeenCalledWith('/models/decoder.onnx', options);
     });
 
     it('shares one reset between concurrent failures on the same unhealthy session', async () => {

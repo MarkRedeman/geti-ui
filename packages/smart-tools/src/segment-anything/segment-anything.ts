@@ -5,9 +5,12 @@ import { OpenCVPreprocessorConfig } from './pre-processing';
 import { RecoveringSessionHandle } from './recovering-session-handle';
 import { SegmentAnythingDecoder, SegmentAnythingPrompt } from './segment-anything-decoder';
 import { EncodingOutput, SegmentAnythingEncoder } from './segment-anything-encoder';
+import type { SessionInitOptions } from './session';
 
 type cv = typeof OpenCVTypes;
 type SessionKey = 'encoder' | 'decoder';
+
+export type SegmentAnythingInitOptions = Pick<SessionInitOptions, 'executionProviders'>;
 
 export class SegmentAnythingModel {
     private handles = new Map<SessionKey, RecoveringSessionHandle>();
@@ -23,7 +26,10 @@ export class SegmentAnythingModel {
         this.preProcessorConfig = preProcessorConfig;
     }
 
-    public async init(algorithm: 'SEGMENT_ANYTHING_DECODER' | 'SEGMENT_ANYTHING_ENCODER'): Promise<void> {
+    public async init(
+        algorithm: 'SEGMENT_ANYTHING_DECODER' | 'SEGMENT_ANYTHING_ENCODER',
+        options?: SegmentAnythingInitOptions
+    ): Promise<void> {
         const sessionKey: SessionKey = algorithm === 'SEGMENT_ANYTHING_ENCODER' ? 'encoder' : 'decoder';
         let handle = this.handles.get(sessionKey);
         if (!handle) {
@@ -36,7 +42,7 @@ export class SegmentAnythingModel {
             this.handles.set(sessionKey, handle);
         }
 
-        await handle.init();
+        await handle.init(options);
     }
 
     public async processEncoder(initialImageData: ImageData): Promise<EncodingOutput> {

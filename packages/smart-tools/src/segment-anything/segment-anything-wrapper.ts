@@ -2,7 +2,7 @@ import type { OpenCVTypes } from '../opencv/interfaces';
 import { OpenCVLoader } from '../utils/opencv-loader';
 import { SegmentAnythingResult } from './interfaces';
 import { SegmentAnythingModels } from './models/models';
-import { SegmentAnythingModel } from './segment-anything';
+import { SegmentAnythingInitOptions, SegmentAnythingModel } from './segment-anything';
 import { SegmentAnythingPrompt } from './segment-anything-decoder';
 import { EncodingOutput } from './segment-anything-encoder';
 
@@ -32,8 +32,11 @@ class SegmentAnythingModelWrapper {
         this.model = new SegmentAnythingModel(this.CV, config.modelPaths, config.preProcessorConfig);
     }
 
-    public async init(algorithm: 'SEGMENT_ANYTHING_DECODER' | 'SEGMENT_ANYTHING_ENCODER'): Promise<void> {
-        await this.model.init(algorithm);
+    public async init(
+        algorithm: 'SEGMENT_ANYTHING_DECODER' | 'SEGMENT_ANYTHING_ENCODER',
+        options?: SegmentAnythingInitOptions
+    ): Promise<void> {
+        await this.model.init(algorithm, options);
     }
 
     public async processEncoder(initialImageData: ImageData): Promise<EncodingOutput> {
