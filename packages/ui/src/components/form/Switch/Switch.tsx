@@ -15,8 +15,7 @@ export const Switch = ({ UNSAFE_className, ...props }: SwitchProps) => {
     return (
         <SpectrumSwitch
             {...props}
-            UNSAFE_className={clsx(styles.switch, UNSAFE_className)}
-            data-emphasized={props.isEmphasized}
+            UNSAFE_className={clsx({ [styles.emphasizedSwitch]: props.isEmphasized }, UNSAFE_className, [])}
         />
     );
 };
