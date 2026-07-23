@@ -1,5 +1,5 @@
 import { Key, ReactNode } from 'react';
-import { Item, Menu, MenuTrigger, Tooltip, TooltipTrigger, ActionButton } from '@adobe/react-spectrum';
+import { Item, Menu, MenuTrigger, ActionButton } from '@adobe/react-spectrum';
 import List from '@spectrum-icons/workflow/ViewList';
 import { GridSmall, GridMedium, Grid as GridLarge } from '../../../assets/icons';
 import { ViewModes } from './utils';
@@ -39,12 +39,9 @@ export const MediaViewModes = ({ items = ITEMS, isDisabled = false, viewMode, se
 
     return (
         <MenuTrigger>
-            <TooltipTrigger placement="bottom">
-                <ActionButton isQuiet isDisabled={isDisabled} aria-label="View mode">
-                    {ICON_PER_MODE[viewMode]}
-                </ActionButton>
-                <Tooltip>View mode</Tooltip>
-            </TooltipTrigger>
+            <ActionButton isQuiet isDisabled={isDisabled} aria-label="View mode">
+                {ICON_PER_MODE[viewMode]}
+            </ActionButton>
             <Menu selectionMode="single" onAction={handleAction} selectedKeys={[viewMode]}>
                 {items.map((item: ViewModes) => (
                     <Item key={item} textValue={item}>
