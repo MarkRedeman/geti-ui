@@ -1,18 +1,16 @@
 import { Key, ReactNode } from 'react';
-import { Item, Menu, MenuTrigger, Tooltip, TooltipTrigger, ActionButton } from '@adobe/react-spectrum';
+import { Item, Menu, MenuTrigger, ActionButton } from '@adobe/react-spectrum';
 import List from '@spectrum-icons/workflow/ViewList';
-import GridSmall from '@spectrum-icons/workflow/ViewGrid';
-import GridMedium from '@spectrum-icons/workflow/ModernGridView';
-import GridLarge from '@spectrum-icons/workflow/ClassicGridView';
+import { GridSmall, GridMedium, Grid as GridLarge } from '../../../assets/icons';
 import { ViewModes } from './utils';
 
 const ITEMS = [ViewModes.LARGE, ViewModes.MEDIUM, ViewModes.SMALL, ViewModes.DETAILS];
 
 const ICON_PER_MODE: Record<ViewModes, ReactNode> = {
-    [ViewModes.DETAILS]: <List />,
-    [ViewModes.SMALL]: <GridSmall />,
-    [ViewModes.MEDIUM]: <GridMedium />,
-    [ViewModes.LARGE]: <GridLarge />,
+    [ViewModes.DETAILS]: <List fill={'#fff'} />,
+    [ViewModes.SMALL]: <GridSmall fill={'#fff'} />,
+    [ViewModes.MEDIUM]: <GridMedium fill={'#fff'} />,
+    [ViewModes.LARGE]: <GridLarge fill={'#fff'} />,
 };
 
 export interface MediaViewModesProps {
@@ -41,12 +39,9 @@ export const MediaViewModes = ({ items = ITEMS, isDisabled = false, viewMode, se
 
     return (
         <MenuTrigger>
-            <TooltipTrigger placement="bottom">
-                <ActionButton isQuiet isDisabled={isDisabled} aria-label="View mode">
-                    {ICON_PER_MODE[viewMode]}
-                </ActionButton>
-                <Tooltip>View mode</Tooltip>
-            </TooltipTrigger>
+            <ActionButton isQuiet isDisabled={isDisabled} aria-label="View mode">
+                {ICON_PER_MODE[viewMode]}
+            </ActionButton>
             <Menu selectionMode="single" onAction={handleAction} selectedKeys={[viewMode]}>
                 {items.map((item: ViewModes) => (
                     <Item key={item} textValue={item}>

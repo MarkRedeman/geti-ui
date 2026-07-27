@@ -4,5 +4,3 @@ export enum ViewModes {
     SMALL = 'Small thumbnails',
     DETAILS = 'Details',
 }
-
-export const INITIAL_VIEW_MODE = ViewModes.MEDIUM;
