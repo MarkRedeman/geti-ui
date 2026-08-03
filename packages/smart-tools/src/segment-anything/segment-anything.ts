@@ -2,48 +2,18 @@ import type { OpenCVTypes } from '../opencv/interfaces';
 
 import { SegmentAnythingResult } from './interfaces';
 import { OpenCVPreprocessorConfig } from './pre-processing';
+import { RecoveringSessionHandle } from './recovering-session-handle';
 import { SegmentAnythingDecoder, SegmentAnythingPrompt } from './segment-anything-decoder';
 import { EncodingOutput, SegmentAnythingEncoder } from './segment-anything-encoder';
-import { Session } from './session';
+import type { SessionInitOptions } from './session';
 
 type cv = typeof OpenCVTypes;
+type SessionKey = 'encoder' | 'decoder';
 
-const isWebGpuFailure = (err: unknown): boolean => {
-    // Errors whose message points at the WebGPU / JSEP backend. When we see one
-    // the right recovery is to drop `webgpu` from the EP list and retry on CPU.
-    const WEBGPU_ERROR_PATTERN = /webgpu|jsep|no available backend|initwasm|pthread_create/i;
-    const message = err instanceof Error ? err.message : String(err ?? '');
-
-    return WEBGPU_ERROR_PATTERN.test(message);
-};
-
-/**
-    On a WebGPU/JSEP failure, create a fresh CPU-only session instead of trying
-    to reuse the broken one.
- */
-const createCpuSession = async (modelPath: string): Promise<Session> => {
-    const session = new Session();
-    await session.init(modelPath, { executionProviders: ['cpu'] });
-
-    return session;
-};
-
-const createSession = async (modelPath: string): Promise<Session> => {
-    const session = new Session();
-
-    try {
-        await session.init(modelPath);
-
-        return session;
-    } catch (err) {
-        if (!isWebGpuFailure(err)) throw err;
-
-        return await createCpuSession(modelPath);
-    }
-};
+export type SegmentAnythingInitOptions = Pick<SessionInitOptions, 'executionProviders' | 'runTimeoutMs'>;
 
 export class SegmentAnythingModel {
-    private sessions = new Map<string, Session>();
+    private handles = new Map<SessionKey, RecoveringSessionHandle>();
     private modelPaths: Map<string, string>;
     private preProcessorConfig: OpenCVPreprocessorConfig;
 
@@ -56,50 +26,27 @@ export class SegmentAnythingModel {
         this.preProcessorConfig = preProcessorConfig;
     }
 
-    public async init(algorithm: 'SEGMENT_ANYTHING_DECODER' | 'SEGMENT_ANYTHING_ENCODER'): Promise<void> {
-        if (!this.sessions.has('encoder') && algorithm === 'SEGMENT_ANYTHING_ENCODER') {
-            const encoderPath = this.modelPaths.get('encoder') ?? '';
-            this.sessions.set('encoder', await createSession(encoderPath));
-        }
-
-        if (!this.sessions.has('decoder') && algorithm === 'SEGMENT_ANYTHING_DECODER') {
-            const decoderPath = this.modelPaths.get('decoder') ?? '';
-            this.sessions.set('decoder', await createSession(decoderPath));
-        }
-    }
-
-    /**
-        If a call fails due to WebGPU/JSEP initialization/runtime issues, downgrade
-        to a CPU-only session and retry once.
-    */
-    private async runWithRecovery<T>(
-        sessionKey: 'encoder' | 'decoder',
-        op: (session: Session) => Promise<T>
-    ): Promise<T> {
-        const session = this.sessions.get(sessionKey);
-        if (!session) {
-            throw Error(`the ${sessionKey} is absent in the sessions map`);
-        }
-
-        try {
-            return await op(session);
-        } catch (err) {
-            if (!isWebGpuFailure(err)) throw err;
-
+    public async init(
+        algorithm: 'SEGMENT_ANYTHING_DECODER' | 'SEGMENT_ANYTHING_ENCODER',
+        options?: SegmentAnythingInitOptions
+    ): Promise<void> {
+        const sessionKey: SessionKey = algorithm === 'SEGMENT_ANYTHING_ENCODER' ? 'encoder' : 'decoder';
+        let handle = this.handles.get(sessionKey);
+        if (!handle) {
             const modelPath = this.modelPaths.get(sessionKey);
             if (!modelPath) {
                 throw new Error(`Segment Anything ${sessionKey} model path is not configured`);
             }
 
-            const replacement = await createCpuSession(modelPath);
-            this.sessions.set(sessionKey, replacement);
-
-            return await op(replacement);
+            handle = new RecoveringSessionHandle(modelPath);
+            this.handles.set(sessionKey, handle);
         }
+
+        await handle.init(options);
     }
 
     public async processEncoder(initialImageData: ImageData): Promise<EncodingOutput> {
-        return this.runWithRecovery('encoder', (session) =>
+        return this.getHandle('encoder').execute((session) =>
             new SegmentAnythingEncoder(this.cv, this.preProcessorConfig, session).processEncoder(initialImageData)
         );
     }
@@ -108,7 +55,7 @@ export class SegmentAnythingModel {
         encodingOutput: EncodingOutput,
         input: SegmentAnythingPrompt
     ): Promise<SegmentAnythingResult> {
-        const output = await this.runWithRecovery('decoder', (session) =>
+        const output = await this.getHandle('decoder').execute((session) =>
             new SegmentAnythingDecoder(this.cv, session).process(encodingOutput, input)
         );
 
@@ -125,5 +72,14 @@ export class SegmentAnythingModel {
             maxContourIdx: output.maxContourIdx,
             shapes: [output.shapes[output.maxContourIdx]],
         };
+    }
+
+    private getHandle(sessionKey: SessionKey): RecoveringSessionHandle {
+        const handle = this.handles.get(sessionKey);
+        if (!handle) {
+            throw Error(`the ${sessionKey} session handle is not initialized`);
+        }
+
+        return handle;
     }
 }
