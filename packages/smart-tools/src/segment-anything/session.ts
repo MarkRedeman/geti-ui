@@ -13,13 +13,17 @@ const loadModel = async (modelPath: string) => {
 
 /**
  * Default per-call timeout (ms) applied when neither `init()` nor `run()`
- * specifies one. Sized to bound a hung `ortSession.run()` (e.g. JSEP/WebGPU
- * stall, native deadlock) without false-firing on a legitimate slow SAM
- * encoder pass on a CPU EP, which can comfortably take 30–60 s on modest
- * hardware. Override via `init({ runTimeoutMs })` or `run(input, { timeoutMs })`;
- * pass `0` to disable.
+ * specifies one. Bounds a hung `ortSession.run()` (e.g. JSEP/WebGPU stall,
+ * native deadlock) that would otherwise block the serial queue for every
+ * later call.
+ *
+ * Consuming apps almost always wrap SAM calls in their own timeout. This
+ * default must stay *below* that app-level budget, otherwise the app gives up
+ * first, abandons (but cannot cancel) the hung run, and the queue stays
+ * blocked until this timer finally fires. Set `runTimeoutMs` explicitly via
+ * `init()` to line it up with your own budget; pass `0` to disable.
  */
-export const DEFAULT_RUN_TIMEOUT_MS = 5 * 60_000;
+export const DEFAULT_RUN_TIMEOUT_MS = 30_000;
 
 export type SessionInitOptions = {
     /**
@@ -42,14 +46,15 @@ export type SessionRunOptions = {
 export class Session {
     params: SessionParameters;
     private modelData: ArrayBuffer | undefined;
-    private executionProviders: SessionParameters['executionProviders'];
+    private currentExecutionProviders: SessionParameters['executionProviders'];
     private runTimeoutMs: number | undefined;
+    private poisonCause: unknown;
     private poisoned = false;
     private runtime: OrtSessionRuntime | undefined;
 
     constructor() {
         this.params = sessionParams;
-        this.executionProviders = sessionParams.executionProviders;
+        this.currentExecutionProviders = sessionParams.executionProviders;
     }
 
     /**
@@ -60,15 +65,13 @@ export class Session {
         return !this.poisoned && this.runtime !== undefined;
     }
 
-    public get ortSession(): InferenceSession | undefined {
-        return this.runtime?.ortSession;
+    /** Execution providers the current ortSession was created with. */
+    public get executionProviders(): readonly string[] {
+        return this.currentExecutionProviders;
     }
 
-    public set ortSession(ortSession: InferenceSession | undefined) {
-        if (this.runtime?.ortSession === ortSession) return;
-
-        this.closeRuntime();
-        this.runtime = ortSession ? this.createRuntime(ortSession) : undefined;
+    public get ortSession(): InferenceSession | undefined {
+        return this.runtime?.ortSession;
     }
 
     public async init(modelPath: string, options?: SessionInitOptions): Promise<void> {
@@ -79,7 +82,7 @@ export class Session {
         }
 
         this.closeRuntime();
-        this.executionProviders = options?.executionProviders ?? this.params.executionProviders;
+        this.currentExecutionProviders = options?.executionProviders ?? this.params.executionProviders;
         // Default to a non-zero timeout so callers that omit `runTimeoutMs`
         // are still protected from a hung run() blocking the serial queue.
         // Explicit `0` disables the timeout.
@@ -103,7 +106,7 @@ export class Session {
         }
 
         if (options?.executionProviders) {
-            this.executionProviders = options.executionProviders;
+            this.currentExecutionProviders = options.executionProviders;
         }
         if (options?.runTimeoutMs !== undefined) {
             this.runTimeoutMs = options.runTimeoutMs;
@@ -118,6 +121,7 @@ export class Session {
         const previous = this.runtime;
         this.runtime = undefined;
         this.poisoned = false;
+        this.poisonCause = undefined;
         previous?.close(new SessionPoisonedError());
     }
 
@@ -132,7 +136,7 @@ export class Session {
         // pthread_create entirely — once `initWasm()` fails it stays failed
         // for the lifetime of the page and even pure-CPU sessions reject
         // with "previous call to 'initWasm()' failed".
-        const cpuOnly = this.executionProviders.length === 1 && this.executionProviders[0] === 'cpu';
+        const cpuOnly = this.currentExecutionProviders.length === 1 && this.currentExecutionProviders[0] === 'cpu';
         env.wasm.numThreads = cpuOnly ? 1 : this.params.numThreads;
         // Always assign, even when `undefined` — this lets `setOrtWasmPaths(undefined)`
         // clear a previously configured override and revert ORT to its default resolution.
@@ -140,7 +144,7 @@ export class Session {
         env.wasm.simd = true;
 
         const ortSession = await InferenceSession.create(this.modelData, {
-            executionProviders: this.executionProviders,
+            executionProviders: this.currentExecutionProviders,
             graphOptimizationLevel: 'all',
             executionMode: 'parallel',
             // 0=verbose, 1=info, 2=warning, 3=error, 4=fatal. Silences the
@@ -153,9 +157,9 @@ export class Session {
 
     private createRuntime(ortSession: InferenceSession): OrtSessionRuntime {
         let runtime: OrtSessionRuntime;
-        runtime = new OrtSessionRuntime(ortSession, () => {
+        runtime = new OrtSessionRuntime(ortSession, (error) => {
             if (this.runtime === runtime) {
-                this.poison();
+                this.poison(error);
             }
         });
 
@@ -171,16 +175,17 @@ export class Session {
             throw Error('the session is not initialized. Call `init()` method first.');
         }
         if (this.poisoned) {
-            throw new SessionPoisonedError();
+            throw new SessionPoisonedError({ cause: this.poisonCause });
         }
 
         return await runtime.run(input, options?.timeoutMs ?? this.runTimeoutMs);
     }
 
-    private poison(): void {
+    private poison(cause: unknown): void {
         if (this.poisoned) return;
         this.poisoned = true;
-        this.runtime?.close(new SessionPoisonedError());
+        this.poisonCause = cause;
+        this.runtime?.close(new SessionPoisonedError({ cause }));
     }
 
     public inputNames(): readonly string[] {

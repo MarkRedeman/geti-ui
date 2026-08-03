@@ -10,7 +10,7 @@ export class OrtSessionRuntime {
 
     constructor(
         public readonly ortSession: InferenceSession,
-        private onFailure: () => void
+        private onFailure: (error: unknown) => void
     ) {}
 
     public run(
@@ -49,7 +49,7 @@ export class OrtSessionRuntime {
         try {
             runPromise = this.ortSession.run(input);
         } catch (error) {
-            this.onFailure();
+            this.onFailure(error);
             throw error;
         }
 
@@ -61,7 +61,7 @@ export class OrtSessionRuntime {
 
         if (!timeoutMs || timeoutMs <= 0) {
             return runPromise.catch((error) => {
-                this.onFailure();
+                this.onFailure(error);
                 throw error;
             });
         }
@@ -80,7 +80,7 @@ export class OrtSessionRuntime {
             },
             (error) => {
                 if (timer !== undefined) clearTimeout(timer);
-                this.onFailure();
+                this.onFailure(error);
                 throw error;
             }
         );

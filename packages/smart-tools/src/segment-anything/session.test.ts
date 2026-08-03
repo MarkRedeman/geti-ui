@@ -38,9 +38,10 @@ const flushPromises = async (): Promise<void> => {
     await Promise.resolve();
 };
 
-const createSessionWithOrt = (ortSession: InferenceSession): Session => {
+const createSessionWithOrt = async (ortSession: InferenceSession): Promise<Session> => {
     const session = new Session();
-    session.ortSession = ortSession;
+    createSessionMock.mockResolvedValueOnce(ortSession);
+    await session.init('/models/sam.onnx', { runTimeoutMs: 0 });
 
     return session;
 };
@@ -55,7 +56,7 @@ describe('Session', () => {
         const secondOrtRun = deferred<InferenceSession.OnnxValueMapType>();
         let runCount = 0;
         const run = rstest.fn(() => (runCount++ === 0 ? firstOrtRun.promise : secondOrtRun.promise));
-        const session = createSessionWithOrt({ run } as unknown as InferenceSession);
+        const session = await createSessionWithOrt({ run } as unknown as InferenceSession);
 
         const firstCall = session.run({}, { timeoutMs: 0 });
         const secondCall = session.run({}, { timeoutMs: 0 });
@@ -78,7 +79,7 @@ describe('Session', () => {
     it('poisons the session after an ORT rejection and rejects already-queued calls', async () => {
         const ortRun = deferred<InferenceSession.OnnxValueMapType>();
         const run = rstest.fn(() => ortRun.promise);
-        const session = createSessionWithOrt({ run } as unknown as InferenceSession);
+        const session = await createSessionWithOrt({ run } as unknown as InferenceSession);
 
         const firstCall = session.run({}, { timeoutMs: 0 });
         const queuedCall = session.run({}, { timeoutMs: 0 });
@@ -97,45 +98,12 @@ describe('Session', () => {
         const run = rstest.fn(() => {
             throw new Error('synchronous ORT failure');
         });
-        const session = createSessionWithOrt({ run } as unknown as InferenceSession);
+        const session = await createSessionWithOrt({ run } as unknown as InferenceSession);
 
         await expect(session.run({})).rejects.toThrow('synchronous ORT failure');
 
         expect(session.isHealthy).toBe(false);
         await expect(session.run({})).rejects.toBeInstanceOf(SessionPoisonedError);
-    });
-
-    it('releases the previous runtime when ortSession is replaced', async () => {
-        const release = rstest.fn();
-        const replacement = {} as InferenceSession;
-        const session = createSessionWithOrt({ release } as unknown as InferenceSession);
-
-        session.ortSession = replacement;
-        await flushPromises();
-
-        expect(release).toHaveBeenCalledTimes(1);
-        expect(session.ortSession).toBe(replacement);
-        expect(session.isHealthy).toBe(true);
-    });
-
-    it('clears poisoned state when ortSession is replaced', async () => {
-        const initial = {
-            release: rstest.fn(),
-            run: rstest.fn().mockRejectedValue(new Error('ORT failed')),
-        } as unknown as InferenceSession;
-        const replacementOutput: InferenceSession.OnnxValueMapType = {};
-        const replacement = {
-            run: rstest.fn().mockResolvedValue(replacementOutput),
-        } as unknown as InferenceSession;
-        const session = createSessionWithOrt(initial);
-
-        await expect(session.run({}, { timeoutMs: 0 })).rejects.toThrow('ORT failed');
-        expect(session.isHealthy).toBe(false);
-
-        session.ortSession = replacement;
-
-        expect(session.isHealthy).toBe(true);
-        await expect(session.run({}, { timeoutMs: 0 })).resolves.toBe(replacementOutput);
     });
 
     it('rejects reset before model data has been loaded', async () => {
@@ -256,6 +224,33 @@ describe('Session', () => {
         await expect(oldCall).rejects.toThrow('stale ORT failure');
         expect(session.isHealthy).toBe(true);
         await expect(session.run({})).resolves.toBe(replacementOutput);
+    });
+
+    it('rejects queued calls with the timeout as cause once the active run times out', async () => {
+        const hungOrtRun = deferred<InferenceSession.OnnxValueMapType>();
+        const ortSession = {
+            release: rstest.fn(),
+            run: rstest.fn(() => hungOrtRun.promise),
+        } as unknown as InferenceSession;
+        const session = new Session();
+        createSessionMock.mockResolvedValueOnce(ortSession);
+        await session.init('/models/sam.onnx', { runTimeoutMs: 10 });
+
+        const activeCall = session.run({});
+        const queuedCall = session.run({});
+        await flushPromises();
+        expect(ortSession.run).toHaveBeenCalledTimes(1);
+
+        await expect(activeCall).rejects.toBeInstanceOf(SessionRunTimeoutError);
+
+        // The queued call must settle rather than wait behind the hung run.
+        const queuedError = await queuedCall.catch((error: unknown) => error);
+        expect(queuedError).toBeInstanceOf(SessionPoisonedError);
+        expect((queuedError as SessionPoisonedError).cause).toBeInstanceOf(SessionRunTimeoutError);
+        expect(ortSession.run).toHaveBeenCalledTimes(1);
+
+        const laterError = await session.run({}).catch((error: unknown) => error);
+        expect((laterError as SessionPoisonedError).cause).toBeInstanceOf(SessionRunTimeoutError);
     });
 
     it('does not release a timed-out session until its underlying ORT run settles', async () => {

@@ -40,9 +40,15 @@ export class SegmentAnythingEncoder {
 
     public async processEncoder(initialImageData: ImageData): Promise<EncodingOutput> {
         const result = this.preprocessor.process(initialImageData);
+        // `finally`, not a trailing `timeEnd`: a failed run is retried on a
+        // recovered session, and a still-open timer makes the retry warn.
         console.time('[SAM] Encoding');
-        const outputData = await this.session.run({ x: result.tensor });
-        console.timeEnd('[SAM] Encoding');
+        let outputData: Awaited<ReturnType<Session['run']>>;
+        try {
+            outputData = await this.session.run({ x: result.tensor });
+        } finally {
+            console.timeEnd('[SAM] Encoding');
+        }
 
         const outputNames = await this.session.outputNames();
         const gpuTensor = outputData[outputNames[0]];

@@ -2,8 +2,10 @@ import { describe, expect, it, rstest } from '@rstest/core';
 
 import { RecoveringSessionHandle } from './recovering-session-handle';
 import { Session, SessionInitOptions } from './session';
+import { SessionPoisonedError, SessionRunTimeoutError } from './session-errors';
 
 type FakeSession = {
+    executionProviders: readonly string[];
     isHealthy: boolean;
     reset: ReturnType<typeof rstest.fn>;
 };
@@ -17,7 +19,8 @@ const deferred = <T>() => {
     return { promise, resolve };
 };
 
-const createFakeSession = (): FakeSession => ({
+const createFakeSession = (executionProviders: readonly string[] = ['webgpu', 'cpu']): FakeSession => ({
+    executionProviders,
     isHealthy: true,
     reset: rstest.fn(async () => undefined),
 });
@@ -135,6 +138,76 @@ describe('RecoveringSessionHandle', () => {
         expect(factory).toHaveBeenCalledTimes(1);
         expect(webGpuSession.reset).toHaveBeenCalledTimes(1);
         expect(webGpuSession.reset).toHaveBeenCalledWith({ executionProviders: ['cpu'] });
+    });
+
+    it('downgrades a WebGPU session to CPU after a run timeout', async () => {
+        const session = createFakeSession(['webgpu', 'cpu']);
+        session.reset.mockImplementation(async (options?: SessionInitOptions) => {
+            session.executionProviders = options?.executionProviders ?? session.executionProviders;
+            session.isHealthy = true;
+        });
+        const handle = new RecoveringSessionHandle('/model.onnx', async () => asSession(session));
+        await handle.init();
+
+        let calls = 0;
+        const operation = rstest.fn(async () => {
+            calls++;
+            if (calls === 1) {
+                session.isHealthy = false;
+                throw new SessionRunTimeoutError(30_000);
+            }
+            return 'cpu result';
+        });
+
+        await expect(handle.execute(operation)).resolves.toBe('cpu result');
+        expect(session.reset).toHaveBeenCalledWith({ executionProviders: ['cpu'] });
+        expect(session.executionProviders).toEqual(['cpu']);
+    });
+
+    it('resets an already CPU-only session in place after a run timeout', async () => {
+        const session = createFakeSession(['cpu']);
+        session.reset.mockImplementation(async () => {
+            session.isHealthy = true;
+        });
+        const handle = new RecoveringSessionHandle('/model.onnx', async () => asSession(session));
+        await handle.init({ executionProviders: ['cpu'] });
+
+        let calls = 0;
+        const operation = rstest.fn(async () => {
+            calls++;
+            if (calls === 1) {
+                session.isHealthy = false;
+                throw new SessionRunTimeoutError(30_000);
+            }
+            return 'cpu result';
+        });
+
+        await expect(handle.execute(operation)).resolves.toBe('cpu result');
+        expect(session.reset).toHaveBeenCalledWith();
+    });
+
+    it('downgrades to CPU when the WebGPU failure is only reachable through the cause chain', async () => {
+        const session = createFakeSession(['webgpu', 'cpu']);
+        session.reset.mockImplementation(async (options?: SessionInitOptions) => {
+            session.executionProviders = options?.executionProviders ?? session.executionProviders;
+            session.isHealthy = true;
+        });
+        const handle = new RecoveringSessionHandle('/model.onnx', async () => asSession(session));
+        await handle.init();
+
+        let calls = 0;
+        // A queued call never sees the WebGPU error itself, only the poisoning it caused.
+        const operation = rstest.fn(async () => {
+            calls++;
+            if (calls === 1) {
+                session.isHealthy = false;
+                throw new SessionPoisonedError({ cause: new Error('WebGPU device lost') });
+            }
+            return 'cpu result';
+        });
+
+        await expect(handle.execute(operation)).resolves.toBe('cpu result');
+        expect(session.reset).toHaveBeenCalledWith({ executionProviders: ['cpu'] });
     });
 
     it('does not share an unrelated healthy-session error with recovery', async () => {

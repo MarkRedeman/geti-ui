@@ -10,7 +10,7 @@ import type { SessionInitOptions } from './session';
 type cv = typeof OpenCVTypes;
 type SessionKey = 'encoder' | 'decoder';
 
-export type SegmentAnythingInitOptions = Pick<SessionInitOptions, 'executionProviders'>;
+export type SegmentAnythingInitOptions = Pick<SessionInitOptions, 'executionProviders' | 'runTimeoutMs'>;
 
 export class SegmentAnythingModel {
     private handles = new Map<SessionKey, RecoveringSessionHandle>();

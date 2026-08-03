@@ -2,14 +2,38 @@ import { Session, SessionInitOptions } from './session';
 
 type SessionFactory = (options?: SessionInitOptions) => Promise<Session>;
 
-const isWebGpuFailure = (error: unknown): boolean => {
-    const message = error instanceof Error ? error.message : String(error ?? '');
+const MAX_CAUSE_DEPTH = 10;
 
-    return /webgpu|jsep|no available backend|initwasm|pthread_create/i.test(message);
+const WEB_GPU_FAILURE = /webgpu|jsep|no available backend|initwasm|pthread_create/i;
+
+// A poisoned session rejects its queued calls with `SessionPoisonedError`, which
+// carries the real failure as `cause`. Classifying only the outermost error would
+// therefore misread every concurrent call as an unrelated failure.
+const causeChain = (error: unknown): unknown[] => {
+    const chain: unknown[] = [];
+    let current: unknown = error;
+
+    while (current !== undefined && current !== null && chain.length < MAX_CAUSE_DEPTH) {
+        chain.push(current);
+        current = current instanceof Error ? (current as { cause?: unknown }).cause : undefined;
+    }
+
+    return chain;
 };
 
-const isCpuOnly = (options: SessionInitOptions | undefined): boolean =>
-    options?.executionProviders?.length === 1 && options.executionProviders[0] === 'cpu';
+const describeError = (error: unknown): string =>
+    error instanceof Error ? `${error.name} ${error.message}` : String(error);
+
+const isWebGpuFailure = (error: unknown): boolean =>
+    causeChain(error).some((entry) => WEB_GPU_FAILURE.test(describeError(entry)));
+
+const isRunTimeout = (error: unknown): boolean =>
+    causeChain(error).some((entry) => entry instanceof Error && entry.name === 'SessionRunTimeoutError');
+
+const isCpuOnlyProviders = (executionProviders: readonly string[] | undefined): boolean =>
+    executionProviders?.length === 1 && executionProviders[0] === 'cpu';
+
+const isCpuOnly = (options: SessionInitOptions | undefined): boolean => isCpuOnlyProviders(options?.executionProviders);
 
 export class RecoveringSessionHandle {
     private initialization: Promise<void> | undefined;
@@ -30,6 +54,8 @@ export class RecoveringSessionHandle {
     ) {}
 
     public async init(options?: SessionInitOptions): Promise<void> {
+        // Deliberately a no-op once initialized: callers that want different
+        // execution providers must go through recovery, not re-init.
         if (this.session) return;
         if (this.initialization) return await this.initialization;
 
@@ -69,8 +95,11 @@ export class RecoveringSessionHandle {
     }
 
     private async recover(failedSession: Session, error: unknown): Promise<Session> {
-        const webGpuFailure = isWebGpuFailure(error);
-        if (!webGpuFailure && failedSession.isHealthy) {
+        // A run timeout means the execution provider is wedged, not that the
+        // model is wrong — treat it like a WebGPU failure and downgrade, or the
+        // retry hangs on the same stalled EP for another full timeout.
+        const downgradeToCpu = isWebGpuFailure(error) || isRunTimeout(error);
+        if (!downgradeToCpu && failedSession.isHealthy) {
             throw error;
         }
 
@@ -81,7 +110,7 @@ export class RecoveringSessionHandle {
             return await this.recovery;
         }
 
-        const recovery = this.recoverOnce(failedSession, webGpuFailure);
+        const recovery = this.recoverOnce(failedSession, downgradeToCpu);
         this.recovery = recovery;
 
         try {
@@ -93,19 +122,19 @@ export class RecoveringSessionHandle {
         }
     }
 
-    private async recoverOnce(failedSession: Session, webGpuFailure: boolean): Promise<Session> {
+    private async recoverOnce(failedSession: Session, downgradeToCpu: boolean): Promise<Session> {
         if (this.session && this.session !== failedSession) {
             return this.session;
         }
 
-        if (webGpuFailure) {
+        if (downgradeToCpu && !isCpuOnlyProviders(failedSession.executionProviders)) {
             await failedSession.reset({ executionProviders: ['cpu'] });
-            this.session = failedSession;
-            return failedSession;
+        } else {
+            await failedSession.reset();
         }
 
-        await failedSession.reset();
         this.session = failedSession;
+
         return failedSession;
     }
 }
