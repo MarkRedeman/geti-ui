@@ -7,30 +7,28 @@ rstest.mock('onnxruntime-web', () => ({
     },
 }));
 
-// jsdom is never cross-origin isolated, so the real module would always report a
-// single-threaded CPU-only environment and mask the behaviour under test.
-rstest.mock('../utils/wasm-utils', () => ({
-    sessionParams: { numThreads: 4, executionProviders: ['webgpu', 'cpu'], wasmRoot: undefined },
-}));
-
 rstest.mock('../utils/tool-utils', () => ({
     loadSource: async () => ({ arrayBuffer: async () => new ArrayBuffer(8) }),
 }));
 
 import { env, InferenceSession } from 'onnxruntime-web';
 
-import { sessionParams } from '../utils/wasm-utils';
+import * as wasmUtils from '../utils/wasm-utils';
 import { Session } from './session';
 
 describe('Session', () => {
-    const defaults = { ...sessionParams };
+    let sessionParams: wasmUtils.SessionParameters;
 
     beforeEach(() => {
         env.wasm.numThreads = -1;
+        // jsdom is never cross-origin isolated, so the real module always reports a
+        // single-threaded CPU-only environment, masking the behaviour under test.
+        sessionParams = { numThreads: 4, executionProviders: ['webgpu', 'cpu'], wasmRoot: undefined };
+        rstest.spyOn(wasmUtils, 'sessionParams', 'get').mockReturnValue(sessionParams);
     });
 
     afterEach(() => {
-        Object.assign(sessionParams, defaults);
+        rstest.restoreAllMocks();
     });
 
     it('uses the configured thread count by default', async () => {
@@ -46,6 +44,12 @@ describe('Session', () => {
         await new Session().init('model.onnx', { executionProviders: ['cpu'] });
 
         expect(env.wasm.numThreads).toBe(4);
+    });
+
+    it('honours numThreads = 0 (let ORT auto-select) even for CPU-only sessions', async () => {
+        sessionParams.numThreads = 0;
+        await new Session().init('model.onnx', { executionProviders: ['cpu'] });
+        expect(env.wasm.numThreads).toBe(0);
     });
 
     it('lets the caller pin the thread count explicitly', async () => {
