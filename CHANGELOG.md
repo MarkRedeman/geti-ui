@@ -18,6 +18,15 @@
 * **annotations:** add configurable stroke width and hover opacity CSS variables ([ae97025](https://github.com/MarkRedeman/geti-ui/commit/ae970255085217e73a06bc4e02cbbfda953a43f8))
 * **annotations:** add SVG annotation renderer block with hover, selection, and mask ([793108e](https://github.com/MarkRedeman/geti-ui/commit/793108e73545f420bf0bf9d6a25f90a29214c9dd))
 
+## [1.5.4](https://github.com/MarkRedeman/geti-ui/compare/v1.5.3...v1.5.4) (2026-08-06)
+
+
+### Bug Fixes
+
+* emphasized colors for switch component ([93e36fe](https://github.com/MarkRedeman/geti-ui/commit/93e36fe1abf99953ace41c974dcd73d3005f0212))
+* **smart-tools:** Add fixes from https://github.com/open-edge-platform/geti/pull/7204 ([288beb7](https://github.com/MarkRedeman/geti-ui/commit/288beb7eff6ee654e1503308e8dae70de3cdd1b5))
+* **smart-tools:** Add SAM fixes ([aeef1ce](https://github.com/MarkRedeman/geti-ui/commit/aeef1ce11cad1348284037339bf0b0fe67a64382))
+
 ## [1.5.3](https://github.com/MarkRedeman/geti-ui/compare/v1.5.2...v1.5.3) (2026-07-10)
 
 
