@@ -9,23 +9,26 @@ const loadModel = async (modelPath: string) => {
 
 interface SessionInitOptions {
     executionProviders?: SessionParameters['executionProviders'];
+    numThreads?: SessionParameters['numThreads'];
 }
 
 export class Session {
     ortSession: InferenceSession | undefined;
     params: SessionParameters;
     private executionProviders: SessionParameters['executionProviders'];
+    private numThreads: SessionParameters['numThreads'];
 
     constructor() {
         this.params = sessionParams;
         this.executionProviders = sessionParams.executionProviders;
+        this.numThreads = sessionParams.numThreads;
     }
 
     public async init(modelPath: string, options?: SessionInitOptions): Promise<void> {
         this.executionProviders = options?.executionProviders ?? this.params.executionProviders;
+        this.numThreads = options?.numThreads ?? this.params.numThreads;
 
-        const cpuOnly = this.executionProviders.length === 1 && this.executionProviders[0] === 'cpu';
-        env.wasm.numThreads = cpuOnly ? 1 : this.params.numThreads;
+        env.wasm.numThreads = this.numThreads;
         env.wasm.simd = true;
         // Always assign, even when `undefined` — this lets `setOrtWasmPaths(undefined)`
         // clear a previously configured override and revert ORT to its default resolution.

@@ -23,7 +23,9 @@ const isWebGpuFailure = (err: unknown): boolean => {
  */
 const createCpuSession = async (modelPath: string): Promise<Session> => {
     const session = new Session();
-    await session.init(modelPath, { executionProviders: ['cpu'] });
+    // Single-threaded too: this fallback exists to escape a broken threaded/JSEP
+    // wasm runtime, so spawning pthreads again would likely hit the same failure.
+    await session.init(modelPath, { executionProviders: ['cpu'], numThreads: 1 });
 
     return session;
 };
