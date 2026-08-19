@@ -104,21 +104,30 @@ export const parseEncoding = (buffer: ArrayBuffer): EncodingOutput => {
         throw new InvalidEncodingError('Embedding payload is missing its "__metadata__" section.');
     }
 
+    const originalWidth = readSize(metadata, 'original_width');
+    const originalHeight = readSize(metadata, 'original_height');
     const newWidth = readSize(metadata, 'new_width');
     const newHeight = readSize(metadata, 'new_height');
 
-    // Catches the classic server/client mismatch of resizing the shortest side, or of
-    // padding to a square before resizing, both of which silently shift every prompt.
-    if (Math.max(newWidth, newHeight) !== SAM_INPUT_SIZE) {
+    // The server must repeat the client's aspect-preserving resize to a 1024px long side;
+    // a squash to 1024x1024 or a shortest-side resize silently shifts every prompt.
+    const scale = SAM_INPUT_SIZE / Math.max(originalWidth, originalHeight);
+    const isLandscape = originalWidth > originalHeight;
+    const expectedWidth = isLandscape ? SAM_INPUT_SIZE : Math.ceil(originalWidth * scale);
+    const expectedHeight = isLandscape ? Math.ceil(originalHeight * scale) : SAM_INPUT_SIZE;
+
+    // A pixel of slack, so a server that rounds where we ceil still passes.
+    if (Math.abs(newWidth - expectedWidth) > 1 || Math.abs(newHeight - expectedHeight) > 1) {
         throw new InvalidEncodingError(
-            `Expected the longest resized side to be ${SAM_INPUT_SIZE}px, got ${newWidth}x${newHeight}.`
+            `Expected ${originalWidth}x${originalHeight} to resize to about ` +
+                `${expectedWidth}x${expectedHeight}, got ${newWidth}x${newHeight}.`
         );
     }
 
     return {
         encoderResult: { data: new Float32Array(bytes), dims: [...EMBEDDING_DIMS], type: 'float32' },
-        originalWidth: readSize(metadata, 'original_width'),
-        originalHeight: readSize(metadata, 'original_height'),
+        originalWidth,
+        originalHeight,
         newWidth,
         newHeight,
     };

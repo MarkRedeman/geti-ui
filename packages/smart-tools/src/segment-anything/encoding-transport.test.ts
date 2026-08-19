@@ -110,7 +110,8 @@ describe('parseEncoding', () => {
     });
 
     it('requires the size metadata the decoder scales prompt coordinates with', () => {
-        const payload = buildValidPayload({ __metadata__: { original_width: '1600' } });
+        // `JSON.stringify` drops the key, leaving the rest of the metadata intact.
+        const payload = buildValidPayload({ __metadata__: { ...metadata, new_width: undefined } });
 
         expect(() => parseEncoding(payload)).toThrow(/new_width/);
     });
@@ -118,6 +119,12 @@ describe('parseEncoding', () => {
     it('rejects a resize that does not match the client preprocessing', () => {
         const payload = buildValidPayload({ __metadata__: { ...metadata, new_width: '576', new_height: '324' } });
 
-        expect(() => parseEncoding(payload)).toThrow(/longest resized side/);
+        expect(() => parseEncoding(payload)).toThrow(/resize/i);
+    });
+
+    it('rejects a square resize that ignores the original aspect ratio', () => {
+        const payload = buildValidPayload({ __metadata__: { ...metadata, new_height: '1024' } });
+
+        expect(() => parseEncoding(payload)).toThrow(/1024x576, got 1024x1024/);
     });
 });
