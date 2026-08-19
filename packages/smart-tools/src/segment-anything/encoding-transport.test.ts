@@ -7,7 +7,13 @@ const EMBEDDING_ELEMENTS = 1 * 256 * 64 * 64;
 type Header = Record<string, unknown>;
 
 const buildPayload = (header: Header, data: ArrayBuffer): ArrayBuffer => {
-    const headerBytes = new TextEncoder().encode(JSON.stringify(header));
+    const rawHeaderBytes = new TextEncoder().encode(JSON.stringify(header));
+    const padding = (8 - (rawHeaderBytes.byteLength % 8)) % 8;
+    const headerBytes = padding === 0 ? rawHeaderBytes : new Uint8Array(rawHeaderBytes.byteLength + padding);
+    if (padding !== 0) {
+        headerBytes.set(rawHeaderBytes, 0);
+        headerBytes.fill(0x20, rawHeaderBytes.byteLength);
+    }
     const buffer = new ArrayBuffer(8 + headerBytes.byteLength + data.byteLength);
 
     new DataView(buffer).setBigUint64(0, BigInt(headerBytes.byteLength), true);
