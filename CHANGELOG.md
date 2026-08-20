@@ -18,6 +18,14 @@
 * **annotations:** add configurable stroke width and hover opacity CSS variables ([ae97025](https://github.com/MarkRedeman/geti-ui/commit/ae970255085217e73a06bc4e02cbbfda953a43f8))
 * **annotations:** add SVG annotation renderer block with hover, selection, and mask ([793108e](https://github.com/MarkRedeman/geti-ui/commit/793108e73545f420bf0bf9d6a25f90a29214c9dd))
 
+## [1.6.0](https://github.com/MarkRedeman/geti-ui/compare/v1.5.4...v1.6.0) (2026-08-20)
+
+
+### Features
+
+* **smart-tools:** add parseEncoding for server-computed SAM embeddings ([2f654fd](https://github.com/MarkRedeman/geti-ui/commit/2f654fd75ab273a3443e35e04f5bef458a9bf533))
+* **smart-tools:** add parseEncoding for server-computed SAM embeddings ([855d2e2](https://github.com/MarkRedeman/geti-ui/commit/855d2e208009b3c2eabf1cd70531a2e1f7a0da31))
+
 ## [1.5.4](https://github.com/MarkRedeman/geti-ui/compare/v1.5.3...v1.5.4) (2026-08-06)
 
 
