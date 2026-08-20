@@ -3,6 +3,12 @@ import type { EncodingOutput } from './segment-anything-encoder';
 // The model always runs on a 1024x1024 canvas: the image is resized so its longest side is
 // 1024, then padded out to a square. So the embedding is the same size for every image.
 const SAM_INPUT_SIZE = 1024;
+
+// Ordered the way PyTorch and ONNX lay out image tensors: batch, channels, height, width.
+// The leading 1 is the batch: the model can encode several images at once, we always send one.
+// The rest is a 64x64 grid of 256 numbers - 64x64 because the encoder looks at the 1024x1024
+// canvas in 16x16 pixel patches, and 256 numbers to describe each patch. Every SAM 1 encoder
+// we support outputs exactly this.
 const EMBEDDING_DIMS = [1, 256, 64, 64];
 const EMBEDDING_BYTES = EMBEDDING_DIMS.reduce((total, dim) => total * dim, 1) * Float32Array.BYTES_PER_ELEMENT;
 const EMBEDDING_TENSOR_NAME = 'image_embeddings';
