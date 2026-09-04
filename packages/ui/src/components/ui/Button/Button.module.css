@@ -1,0 +1,4 @@
+.button {
+    padding-block-start: var(--spectrum-global-dimension-size-40);
+    padding-block-end: var(--spectrum-global-dimension-size-40);
+}
