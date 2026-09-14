@@ -2,6 +2,8 @@ import { Button as SpectrumButton, SpectrumButtonProps } from '@adobe/react-spec
 import { FocusableRef } from '@react-types/shared';
 import { clsx } from 'clsx';
 
+import classes from './Button.module.css';
+
 type VariantWithoutLegacy = Exclude<SpectrumButtonProps['variant'], 'cta' | 'overBackground'>;
 
 /**
@@ -31,6 +33,6 @@ export const Button = ({ variant = 'accent', UNSAFE_className, ...rest }: Button
         {...rest}
         elementType={rest.href !== undefined ? (rest.elementType ?? 'a') : rest.elementType}
         variant={variant}
-        UNSAFE_className={clsx(UNSAFE_className) || undefined}
+        UNSAFE_className={clsx(classes.button, UNSAFE_className) || undefined}
     />
 );
