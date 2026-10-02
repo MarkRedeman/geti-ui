@@ -51,7 +51,7 @@
     },
     "dependencies": {
         "@doodle3d/clipper-js": "~1.0.11",
-        "onnxruntime-web": "~1.27.0",
+        "onnxruntime-web": "~1.30.0",
         "polylabel": "~2.1.0"
     },
     "devDependencies": {
