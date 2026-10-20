@@ -17,7 +17,31 @@ export interface SegmentAnythingPrompt {
     points: InteractiveAnnotationPoint[] | undefined;
     boxes: Point[][] | undefined;
     outputConfig?: { type: ShapeType };
+    /**
+     * `lowResMask` of the previous result while refining the same object, e.g. after adding a point.
+     * SAM then adjusts its previous prediction instead of predicting from scratch.
+     */
+    previousMask?: Float32Array;
 }
+
+const LOW_RES_MASK_SIZE = 256;
+
+export const createMaskInputFeeds = (previousMask?: Float32Array): Record<'mask_input' | 'has_mask_input', Tensor> => ({
+    mask_input: new Tensor(previousMask ?? new Float32Array(LOW_RES_MASK_SIZE * LOW_RES_MASK_SIZE), [
+        1,
+        1,
+        LOW_RES_MASK_SIZE,
+        LOW_RES_MASK_SIZE,
+    ]),
+    has_mask_input: new Tensor(new Float32Array([previousMask === undefined ? 0 : 1]), [1]),
+});
+
+// Copies the low resolution mask at `index` out of the decoder's `[1, masks, height, width]` output
+export const getLowResMask = (data: ArrayLike<number>, dims: readonly number[], index: number): Float32Array => {
+    const size = dims[2] * dims[3];
+
+    return Float32Array.from({ length: size }, (_, offset) => Number(data[index * size + offset]));
+};
 
 export class SegmentAnythingDecoder {
     constructor(
@@ -26,8 +50,8 @@ export class SegmentAnythingDecoder {
     ) {}
 
     public async process(encodingOutput: EncodingOutput, input: SegmentAnythingPrompt): Promise<SegmentAnythingResult> {
-        const { masks, iouPredictions } = await this.processDecoder(
-            { boxes: input.boxes ?? [], points: input.points ?? [] },
+        const { masks, iouPredictions, lowResMasks } = await this.processDecoder(
+            { boxes: input.boxes ?? [], points: input.points ?? [], previousMask: input.previousMask },
             encodingOutput
         );
 
@@ -38,6 +62,7 @@ export class SegmentAnythingDecoder {
         const maskData = (await masks.getData()) as ArrayLike<number>;
 
         const maskIdx = this.getIndexOfMaskWithHighestConfidence(iouData, iouPredictions.dims);
+        const lowResMask = getLowResMask((await lowResMasks.getData()) as ArrayLike<number>, lowResMasks.dims, maskIdx);
 
         const size = masks.dims[2] * masks.dims[3];
         const maskOffset = maskIdx * size;
@@ -67,7 +92,8 @@ export class SegmentAnythingDecoder {
             ...(input.outputConfig ?? { type: 'polygon' }),
             shapeFilter: (shape) => positivePoints.some((point) => isPointInShape(shape, point)),
         });
-        return results;
+
+        return { ...results, lowResMask };
     }
 
     private getIndexOfMaskWithHighestConfidence(iouData: ArrayLike<number>, dims: readonly number[]) {
@@ -86,6 +112,7 @@ export class SegmentAnythingDecoder {
         prompt: {
             points: InteractiveAnnotationPoint[];
             boxes: Point[][];
+            previousMask?: Float32Array;
         },
         { encoderResult, originalWidth, originalHeight, newWidth, newHeight }: EncodingOutput
     ): Promise<{
@@ -127,9 +154,7 @@ export class SegmentAnythingDecoder {
             // clone, which strips the Tensor's class identity. Reconstruct a real Tensor
             // before feeding it to `session.run()`.
             image_embeddings: new Tensor(encoderResult.type, encoderResult.data, encoderResult.dims),
-            // TODO: reuse the low_res_masks output, also use existing polygons?
-            mask_input: new Tensor(new Float32Array(256 * 256).fill(1), [1, 1, 256, 256]),
-            has_mask_input: new Tensor(new Float32Array(1).fill(0), [1]),
+            ...createMaskInputFeeds(prompt.previousMask),
             orig_im_size: new Tensor(
                 new Float32Array([Math.round(originalHeight * ratio), Math.round(originalWidth * ratio)]),
                 [2]

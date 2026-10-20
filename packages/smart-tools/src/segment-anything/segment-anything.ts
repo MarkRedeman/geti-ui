@@ -119,6 +119,7 @@ export class SegmentAnythingModel {
                 areas: [],
                 maxContourIdx: 0,
                 shapes: [],
+                lowResMask: output.lowResMask,
             };
         }
 
@@ -126,6 +127,7 @@ export class SegmentAnythingModel {
             areas: [output.areas[output.maxContourIdx]],
             maxContourIdx: output.maxContourIdx,
             shapes: [output.shapes[output.maxContourIdx]],
+            lowResMask: output.lowResMask,
         };
     }
 }
