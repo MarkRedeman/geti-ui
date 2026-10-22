@@ -18,6 +18,23 @@
 * **annotations:** add configurable stroke width and hover opacity CSS variables ([ae97025](https://github.com/MarkRedeman/geti-ui/commit/ae970255085217e73a06bc4e02cbbfda953a43f8))
 * **annotations:** add SVG annotation renderer block with hover, selection, and mask ([793108e](https://github.com/MarkRedeman/geti-ui/commit/793108e73545f420bf0bf9d6a25f90a29214c9dd))
 
+## [1.7.0](https://github.com/MarkRedeman/geti-ui/compare/v1.6.0...v1.7.0) (2026-10-22)
+
+
+### Features
+
+* **smart-tools:** add test ([51ed02d](https://github.com/MarkRedeman/geti-ui/commit/51ed02d16fbc1afa33e32ce841d96aebe26f7442))
+* **smart-tools:** Expose SAM mask input ([a994a8c](https://github.com/MarkRedeman/geti-ui/commit/a994a8c229159fbafa5d933d5b2125df5101a0ad))
+* **smart-tools:** reuse SAM's previous mask when refining a prediction ([0291894](https://github.com/MarkRedeman/geti-ui/commit/02918946ee036d4878e1fd9ba7fe6072057cbbd9))
+
+
+### Bug Fixes
+
+* Button alignment ([89765cd](https://github.com/MarkRedeman/geti-ui/commit/89765cd39bdaf4a4a377e27dec1c25f4e4bc56f6))
+* Button alignment ([748b4ec](https://github.com/MarkRedeman/geti-ui/commit/748b4ec6055b45f5654c4e81f1bc0f4c056ec08d))
+* **ui:** npm audit fix ([8b05005](https://github.com/MarkRedeman/geti-ui/commit/8b05005b0f3b056c66b614bb39ccf2174b2d048e))
+* **ui:** npm audit fix ([c5e444e](https://github.com/MarkRedeman/geti-ui/commit/c5e444e3ba5ce4e7178266c5e3ddf3d512e11832))
+
 ## [1.6.0](https://github.com/MarkRedeman/geti-ui/compare/v1.5.4...v1.6.0) (2026-08-20)
 
 
