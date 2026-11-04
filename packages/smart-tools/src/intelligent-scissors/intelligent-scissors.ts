@@ -9,6 +9,7 @@ interface IntelligentScissorsMB {
     applyImage: (image: OpenCVTypes.Mat) => void;
     buildMap: (sourcePt: Point) => void;
     getContour: (targetPt: Point, contour: OpenCVTypes.Mat, backward?: boolean) => void;
+    delete: () => void;
 }
 
 const maxRoiSize = 600;
@@ -34,6 +35,7 @@ class IntelligentScissors {
     tool: IntelligentScissorsMB;
     hasInitialPoint: boolean;
     roiRect: OpenCVTypes.Rect | null;
+    private disposed = false;
 
     constructor(private CV: OpenCVTypes.cv) {
         this.roiRect = null;
@@ -48,6 +50,8 @@ class IntelligentScissors {
     }
 
     loadImage(imageData: ImageData) {
+        if (this.disposed) return;
+
         if (this.img) {
             this.cleanPoints();
             this.cleanImg();
@@ -98,8 +102,8 @@ class IntelligentScissors {
         roiSize: number
     ): { roiRect: OpenCVTypes.Rect | null; roiImg: OpenCVTypes.Mat } {
         if (src.cols > roiSize) {
-            const roiRect = this.getRoiRect(this.img, point, maxRoiSize);
-            const roiImg = this.cropArea(this.img, roiRect);
+            const roiRect = this.getRoiRect(src, point, maxRoiSize);
+            const roiImg = this.cropArea(src, roiRect);
 
             return { roiRect, roiImg };
         }
@@ -177,8 +181,12 @@ class IntelligentScissors {
     }
 
     dispose(): void {
+        if (this.disposed) return;
+        this.disposed = true;
+
         this.cleanPoints();
         this.cleanImg();
+        this.tool.delete();
     }
 
     terminate() {
