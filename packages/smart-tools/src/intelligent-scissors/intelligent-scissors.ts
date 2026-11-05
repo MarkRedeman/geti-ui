@@ -9,6 +9,7 @@ interface IntelligentScissorsMB {
     applyImage: (image: OpenCVTypes.Mat) => void;
     buildMap: (sourcePt: Point) => void;
     getContour: (targetPt: Point, contour: OpenCVTypes.Mat, backward?: boolean) => void;
+    delete: () => void;
 }
 
 const maxRoiSize = 600;
@@ -30,13 +31,15 @@ const isPointOutsideOfBounds = (limit: OpenCVTypes.Rect, point: OpenCVTypes.Poin
     point.x <= limit.x || point.x >= limit.width || point.y <= limit.y || point.y >= limit.height;
 
 class IntelligentScissors {
-    img: OpenCVTypes.Mat;
+    img: OpenCVTypes.Mat | null;
     tool: IntelligentScissorsMB;
     hasInitialPoint: boolean;
     roiRect: OpenCVTypes.Rect | null;
+    private disposed = false;
 
     constructor(private CV: OpenCVTypes.cv) {
         this.roiRect = null;
+        this.img = null;
         this.hasInitialPoint = false;
         this.tool = new this.CV.segmentation_IntelligentScissorsMB();
         this.tool.setGradientMagnitudeMaxLimit(GRADIENT_MAGNITUDE);
@@ -47,10 +50,18 @@ class IntelligentScissors {
     }
 
     loadImage(imageData: ImageData) {
+        if (this.disposed) return;
+
+        if (this.img) {
+            this.cleanPoints();
+            this.cleanImg();
+        }
         this.img = this.CV.matFromImageData(imageData) as OpenCVTypes.Mat;
     }
 
     buildMap(point: Point): void {
+        if (!this.img) return;
+
         this.hasInitialPoint = true;
 
         const { roiRect, roiImg } = this.getRoiAndCrop(this.img, point, maxRoiSize);
@@ -65,7 +76,7 @@ class IntelligentScissors {
     }
 
     calcPoints(point: Point): Point[] {
-        if (!this.hasInitialPoint) {
+        if (!this.hasInitialPoint || !this.img) {
             return [];
         }
 
@@ -91,8 +102,8 @@ class IntelligentScissors {
         roiSize: number
     ): { roiRect: OpenCVTypes.Rect | null; roiImg: OpenCVTypes.Mat } {
         if (src.cols > roiSize) {
-            const roiRect = this.getRoiRect(this.img, point, maxRoiSize);
-            const roiImg = this.cropArea(this.img, roiRect);
+            const roiRect = this.getRoiRect(src, point, maxRoiSize);
+            const roiImg = this.cropArea(src, roiRect);
 
             return { roiRect, roiImg };
         }
@@ -111,10 +122,7 @@ class IntelligentScissors {
     }
 
     cropArea(src: OpenCVTypes.Mat, rect: OpenCVTypes.Rect): OpenCVTypes.Mat {
-        let dst = new this.CV.Mat();
-        dst = src.roi(rect);
-
-        return dst;
+        return src.roi(rect);
     }
 
     formatContourToPoints(contour: OpenCVTypes.Mat, rectOffset: OpenCVTypes.Rect | null): Point[] {
@@ -168,10 +176,21 @@ class IntelligentScissors {
 
     cleanImg(): void {
         this.img?.delete();
+        this.img = null;
         this.roiRect = null;
     }
 
+    dispose(): void {
+        if (this.disposed) return;
+        this.disposed = true;
+
+        this.cleanPoints();
+        this.cleanImg();
+        this.tool.delete();
+    }
+
     terminate() {
+        this.dispose();
         self.close();
     }
 }
