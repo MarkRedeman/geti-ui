@@ -30,7 +30,7 @@
     },
     "devDependencies": {
         "@rslib/core": "^1.0.0",
-        "@rslint/core": "^0.9.0",
+        "@rslint/core": "^0.10.0",
         "@rstest/core": "^0.12.0",
         "prettier": "^3.8.1",
         "typescript": "^7.0.0"
