@@ -18,6 +18,15 @@
 * **annotations:** add configurable stroke width and hover opacity CSS variables ([ae97025](https://github.com/MarkRedeman/geti-ui/commit/ae970255085217e73a06bc4e02cbbfda953a43f8))
 * **annotations:** add SVG annotation renderer block with hover, selection, and mask ([793108e](https://github.com/MarkRedeman/geti-ui/commit/793108e73545f420bf0bf9d6a25f90a29214c9dd))
 
+## [1.7.1](https://github.com/MarkRedeman/geti-ui/compare/v1.7.0...v1.7.1) (2026-11-05)
+
+
+### Bug Fixes
+
+* cleanup tool, block loading img when disposed ([3ab8a48](https://github.com/MarkRedeman/geti-ui/commit/3ab8a48fcca777f0714e119984f56792f733fe44))
+* **inteligent-scissors:** Fix memory leaks in intelligent scissors ([fd3a1e8](https://github.com/MarkRedeman/geti-ui/commit/fd3a1e8205c1a89e7b7dc22117f2e8a69aa44d0b))
+* **inteligent-scissors:** Fix memory leaks in intelligent scissors ([3dcdda1](https://github.com/MarkRedeman/geti-ui/commit/3dcdda150518fc0eaced13c6d2b868194d8e223c))
+
 ## [1.7.0](https://github.com/MarkRedeman/geti-ui/compare/v1.6.0...v1.7.0) (2026-10-22)
 
 
